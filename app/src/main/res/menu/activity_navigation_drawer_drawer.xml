@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_changecluster"
+            android:icon="@mipmap/nav_clu_mnu"
+            android:title="Change Cluster" />
+        <item
+            android:id="@+id/nav_calls"
+            android:icon="@mipmap/calls"
+            android:title="Calls" />
+        <item
+            android:id="@+id/nav_create_presentation"
+            android:icon="@mipmap/nav_presentation"
+            android:title="Create Presentation" />
+        <item
+            android:id="@+id/nav_tour_plan"
+            android:icon="@mipmap/nav_tourplan"
+            android:title="Tour Plan" />
+        <item
+            android:id="@+id/nav_missed_date"
+            android:icon="@mipmap/nav_tourplan"
+            android:title="Missed Date Entry" />
+
+        <item
+            android:id="@+id/nav_leave_appln"
+            android:icon="@mipmap/nav_leaveappln"
+            android:title="Leave Application" />
+        <item
+            android:id="@+id/nav_approvals"
+            android:icon="@mipmap/nav_tourplan"
+            android:title="Approvals" />
+        <!--<item
+            android:id="@+id/nav_dr_profile"
+            android:icon="@mipmap/nav_reports"
+            android:title="Dr Profile"
+            />-->
+        <item
+            android:id="@+id/nav_reports"
+            android:icon="@mipmap/nav_reports"
+            android:title="Reports"
+            />
+        <item
+            android:id="@+id/nav_quiz"
+            android:icon="@mipmap/nav_reports"
+            android:title="Quiz"
+            />
+        <item
+            android:id="@+id/nav_geotagging"
+            android:icon="@mipmap/nav_reports"
+            android:title="Geo Tagging"
+            android:visible="false"  />
+        <item
+            android:id="@+id/nav_nearme"
+            android:icon="@mipmap/nav_reports"
+            android:title="Near Me" />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@mipmap/nav_logout"
+            android:title="Logout" />
+    </group>
+
+<!--    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Send" />
+        </menu>
+    </item>-->
+
+</menu>

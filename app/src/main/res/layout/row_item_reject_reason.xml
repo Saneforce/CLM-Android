@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/round_rect_white"
+        android:padding="5dp">
+        <TextView
+            android:layout_marginTop="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Are you sure, want to reject the tp ? "
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:id="@+id/title"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="78dp"
+            android:background="@drawable/bg_grey_white_sharp"
+            android:layout_below="@+id/title"
+            android:padding="10dp"
+            android:layout_marginTop="7dp"
+            android:id="@+id/lay_edt"
+            >
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Enter the reason here"
+                android:background="@null"
+                android:textColorHint="#9E9E9E"
+                android:textColor="#000"
+                android:textSize="13sp"
+                android:id="@+id/edt_feed"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lay_edt"
+            android:layout_marginTop="7dp">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="   Ok   "
+                android:id="@+id/btn_ok"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:id="@+id/btn_cancel"
+                android:layout_toRightOf="@+id/btn_ok"/>
+        </RelativeLayout>
+    </RelativeLayout>
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/pop_tick"
+        android:layout_centerHorizontal="true"/>
+</RelativeLayout>

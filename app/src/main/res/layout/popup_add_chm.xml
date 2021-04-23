@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#DDDADA">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#EB1717"
+        android:id="@+id/rlay_tool"
+
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Chemist"
+            android:padding="12dp"
+            android:id="@+id/txt_header"
+            android:textColor="#ffffff"
+            android:textSize="18sp"/>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/close_btn"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="8dp"
+            android:id="@+id/img_close"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlay_tool"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="8dp"
+        android:paddingBottom="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chemist Name"
+            android:layout_marginTop="15dp"
+            android:textColor="#000000"
+            android:id="@+id/txt_dr"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_white_grey"
+            android:padding="5dp"
+            android:layout_below="@+id/txt_dr"
+            android:layout_marginTop="5dp"
+            android:textColor="#000000"
+            android:id="@+id/edt_dr"
+            />
+
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address"
+            android:layout_marginTop="10dp"
+            android:textColor="#000000"
+            android:id="@+id/txt_addr"
+            android:layout_below="@+id/edt_dr"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/shape_white_grey"
+            android:layout_below="@+id/txt_addr"
+            android:id="@+id/edt_addr"
+            android:textColor="#000000"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edt_addr"
+            android:weightSum="2"
+            android:orientation="horizontal"
+            android:id="@+id/ll_btm_spin"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginRight="10dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Territory  * "
+                        android:layout_marginTop="15dp"
+                        android:textColor="#000000"
+                        android:id="@+id/txt_terr"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Select the Territory"
+                        android:textColorHint="#000000"
+                        android:layout_marginTop="10dp"
+                        android:textColor="#000000"
+                        android:id="@+id/txt_select_terr"
+                        android:padding="8dp"
+                        android:background="@drawable/shape_white_grey"
+                        android:layout_below="@+id/txt_terr"
+                        />
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_marginTop="22dp"
+                        android:src="@drawable/spin_down_arrow"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginRight="8dp"
+                        android:layout_below="@+id/txt_terr"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Headquater  *"
+                        android:layout_marginTop="10dp"
+                        android:textColor="#000000"
+                        android:id="@+id/txt_hq"
+                        android:visibility="gone"
+                        android:layout_below="@+id/txt_select_terr"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Select the Headquater"
+                        android:textColorHint="#000000"
+                        android:layout_marginTop="10dp"
+                        android:textColor="#000000"
+                        android:id="@+id/txt_select_mr"
+                        android:padding="8dp"
+                        android:background="@drawable/shape_white_grey"
+                        android:layout_below="@+id/txt_hq"
+                        android:visibility="gone"
+                        />
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_marginTop="22dp"
+                        android:src="@drawable/spin_down_arrow"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginRight="8dp"
+                        android:layout_below="@+id/txt_hq"
+                        android:id="@+id/img_dwn_arrow"
+                        android:visibility="gone"/>
+
+
+
+                </RelativeLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Phone"
+                        android:layout_marginTop="15dp"
+                        android:textColor="#000000"
+                        android:id="@+id/txt_phone"
+                        />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:textColor="#000000"
+                        android:id="@+id/edt_ph"
+                        android:padding="5dp"
+                        android:maxLength="10"
+                        android:background="@drawable/shape_white_grey"
+                        android:layout_below="@+id/txt_phone"
+                        android:inputType="number"
+                        />
+
+                </RelativeLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="130dp"
+            android:layout_height="40dp"
+            android:text="Save"
+            android:background="#0427A8"
+            android:layout_below="@+id/ll_btm_spin"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:textColor="#ffffff"
+            android:id="@+id/btn_save"
+
+            />
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

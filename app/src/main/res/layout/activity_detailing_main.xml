@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_detailing_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/appConfigurationBg">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/l1_detailing_creation"
+        android:layout_width="match_parent"
+        android:layout_height="73dp">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="97dp"
+            android:layout_height="73dp"
+            android:layout_alignParentRight="true"
+            android:background="#666666"
+            android:src="@mipmap/left_arrow" />
+
+        <TextView
+            android:id="@+id/tv_detsel_drNm"
+            android:layout_width="0dp"
+            android:layout_height="73dp"
+            android:layout_weight="1"
+            android:background="#ffffff"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="left|center"
+            android:paddingLeft="25dp"
+            android:text="SIVAKUMAR"
+            android:textAllCaps="true"
+            android:textColor="#ff1d25"
+            android:textSize="18sp"
+            android:typeface="serif" />
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/iv_reload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@mipmap/reload"
+            android:layout_margin="10dp" />
+</RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_rect_white"
+            android:gravity="end"
+            android:layout_marginRight="18dp"
+            android:id="@+id/rlay_spin"
+            android:padding="8dp"
+            android:visibility="visible"
+            >
+
+            <TextView
+                android:id="@+id/txt_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:fontFamily="@font/poppins_medium"
+                android:text=""
+                android:textAllCaps="true"
+                android:textColor="#ff1d25"
+                android:textSize="18sp"
+                android:typeface="serif" />
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/spin_down_arrow"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="6dp"
+                android:layout_toRightOf="@id/txt_spinner"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_download"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
+
+
+<!--    <fragment-->
+<!--        android:id="@+id/download_fragment"-->
+<!--        android:name="saneforce.sanclm.fragments.DownloadMasterData"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+
+<!--        />-->
+
+    <fragment
+        android:id="@+id/det_search_sel_fragment1"
+        android:name="saneforce.sanclm.fragments.Detailing_Selection_search_grid_selection"
+        android:layout_width="307dp"
+        android:layout_height="672dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="92dp"
+        android:background="@color/white" />
+
+    <fragment
+        android:id="@+id/frag1_search"
+        android:name="saneforce.sanclm.fragments.Presentation_search_grid_selection"
+        android:layout_width="307dp"
+        android:layout_height="672dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="92dp"
+        android:background="@color/white"
+        />
+
+
+    <fragment
+        android:id="@+id/det_rightview_fragment"
+        android:name="saneforce.sanclm.fragments.Detailing_right_grid_view"
+        android:layout_width="924dp"
+        android:layout_height="572dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/det_search_sel_fragment1"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="330dp"
+        android:background="@color/white" />
+
+    <fragment
+        android:id="@+id/presentation_right_fm"
+        android:name="saneforce.sanclm.fragments.Presentation_recycler_item"
+        android:layout_width="924dp"
+        android:layout_height="572dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/frag1_search"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="330dp"
+        android:background="@color/white" />
+
+    <RelativeLayout
+        android:layout_width="909dp"
+        android:layout_height="124dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:id="@+id/iv_startdet"
+            android:layout_width="79dp"
+            android:layout_height="65dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp"
+            android:src="@mipmap/btn_play"/>
+    </RelativeLayout>
+
+
+</RelativeLayout>

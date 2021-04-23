@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <dimen name="activity_horizontal_margin">16dp</dimen>
+        <dimen name="activity_vertical_margin">16dp</dimen>
+        <dimen name="nav_header_vertical_spacing">8dp</dimen>
+        <dimen name="nav_header_height">176dp</dimen>
+        <dimen name="fab_margin">16dp</dimen>
+        <dimen name="monthly_summaryheight">50dp</dimen>
+        <dimen name="monthly_summarywidth">712dp</dimen>
+        <dimen name="appbar_padding_top">8dp</dimen>
+
+        <!--homepage-->
+
+        <dimen name="toolbar_layout">60dp</dimen>
+        <dimen name="tool_today_call_w">340dp</dimen>
+        <dimen name="today_call_list">458dp</dimen>
+        <dimen name="today_call_mar_t">55dp</dimen>
+        <dimen name="mnth_call_prg_bar_h">177dp</dimen>
+        <dimen name="mnth_call_prg_bar_w">28dp</dimen>
+        <dimen name="mnth_call_tool_mar_l">8dp</dimen>
+        <dimen name="pie_chart_w">130dp</dimen>
+        <dimen name="pie_chart_h">128dp</dimen>
+        <dimen name="pb_bar_h">110dp</dimen>
+        <dimen name="pb_txt_sz">12sp</dimen>
+
+        <!--dcrcallselection-->
+        <dimen name="grid_row_item_w">290dp</dimen>
+        <dimen name="pre_Call_analysis_grap_h">250dp</dimen>
+        <dimen name="pre_Call_analysis_lay_m_t">44dp</dimen>
+        <dimen name="pre_Call_analysis_go_btn_m_t">470dp</dimen>
+        <dimen name="pre_Call_analysis_header_m_t">16dp</dimen>
+        <dimen name="pre_Call_analysis_dr_m_t">62dp</dimen>
+        <dimen name="pre_Call_analysis_dr_h">120dp</dimen>
+        <dimen name="pre_Call_analysis_grplay_m_t">190dp</dimen>
+        <dimen name="nav_img_siz_w">50dp</dimen>
+    <!--    <dimen name="tool_home_todaycall">140dp</dimen>
+
+        &lt;!&ndash;23dp&ndash;&gt;
+        <dimen name="m_t_precall_qu">13dp</dimen>
+        &lt;!&ndash;62dp&ndash;&gt;
+        <dimen name="m_t_precall_birth">50dp</dimen>
+        &lt;!&ndash;48dp&ndash;&gt;
+        <dimen name="m_b_precall_wedd">38dp</dimen>
+        &lt;!&ndash;223dp&ndash;&gt;
+        <dimen name="m_b_precall_val_set">200dp</dimen>
+        &lt;!&ndash;506dp&ndash;&gt;
+        <dimen name="m_b_precall_val_set_caterogy">450dp</dimen>
+        &lt;!&ndash;607dp&ndash;&gt;
+        <dimen name="m_b_precall_val_set_caterogy_val">550dp</dimen>-->
+
+
+        <dimen name="precall_header_txt_s">18sp</dimen>
+        <dimen name="precall_qua_col_val">180dp</dimen>
+        <dimen name="precall_detail_top">48dp</dimen>
+        <dimen name="precall_mar_top_field">8dp</dimen>
+        <!--<dimen name="precall_line_gr">399dp</dimen>
+        <dimen name="precall_line_gr_h">185dp</dimen>-->
+</resources>

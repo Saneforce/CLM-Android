@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:fab="http://schemas.android.com/apk/res-auto">
+
+   <!-- <fragment
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.MapsActivity"
+        />
+-->
+    <FrameLayout
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="350dp"
+        android:layout_height="200dp"
+        android:id="@+id/recycle"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp">
+
+    </androidx.recyclerview.widget.RecyclerView>
+    <ImageView
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/blue_icon_location"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:id="@+id/marker_loc"/>
+    <ImageView
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/icon_back_press"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/back_img"
+        android:background="@drawable/bg_transparent_map"/>
+
+
+  <com.github.clans.fab.FloatingActionMenu
+      android:id="@+id/fb_menu"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentEnd="true"
+      android:layout_marginRight="10dp"
+      android:layout_marginBottom="10dp"
+      android:layout_marginLeft="10dp"
+      android:layout_marginTop="25dp"
+      fab:menu_fab_size="normal"
+      fab:menu_showShadow="true"
+      fab:menu_shadowColor="#66000000"
+      fab:menu_shadowRadius="4dp"
+      fab:menu_shadowXOffset="1dp"
+      fab:menu_shadowYOffset="3dp"
+      fab:menu_colorNormal="#DA4336"
+      fab:menu_colorPressed="#E75043"
+      fab:menu_colorRipple="#99FFFFFF"
+      fab:menu_animationDelayPerItem="50"
+      fab:menu_icon="@drawable/sq_overlay_white"
+      fab:menu_buttonSpacing="0dp"
+      fab:menu_labels_margin="0dp"
+      fab:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
+      fab:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
+      fab:menu_labels_paddingTop="4dp"
+      fab:menu_labels_paddingRight="8dp"
+      fab:menu_labels_paddingBottom="4dp"
+      fab:menu_labels_paddingLeft="8dp"
+      fab:menu_labels_padding="8dp"
+      fab:menu_labels_textColor="#FFFFFF"
+      fab:menu_labels_textSize="14sp"
+      fab:menu_labels_cornerRadius="3dp"
+      fab:menu_labels_colorNormal="#333333"
+      fab:menu_labels_colorPressed="#444444"
+      fab:menu_labels_colorRipple="#66FFFFFF"
+      fab:menu_labels_showShadow="true"
+      fab:menu_labels_singleLine="false"
+      fab:menu_labels_ellipsize="none"
+      fab:menu_labels_maxLines="-1"
+      fab:menu_labels_position="left"
+      android:layout_below="@+id/rl_lay_tag"
+      fab:menu_openDirection="down"
+      fab:menu_backgroundColor="@android:color/transparent">
+
+   <com.github.clans.fab.FloatingActionButton
+       android:id="@+id/menu_item"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:src="@drawable/icon_ff"
+       fab:fab_size="mini"
+       fab:fab_label="Doctor" />
+   <com.github.clans.fab.FloatingActionButton
+       android:id="@+id/menu_item1"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:src="@drawable/icon_ff"
+       fab:fab_size="mini"
+       fab:fab_label="Chemist" />
+   <com.github.clans.fab.FloatingActionButton
+       android:id="@+id/menu_item2"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:src="@drawable/icon_ff"
+       fab:fab_size="mini"
+       fab:fab_label="Stockist" />
+   <com.github.clans.fab.FloatingActionButton
+       android:id="@+id/menu_item3"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:src="@drawable/icon_ff"
+       fab:fab_size="mini"
+       fab:fab_label="Unlisted Dr" />
+
+  </com.github.clans.fab.FloatingActionMenu>
+
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_toLeftOf="@+id/fb_menu"
+      android:background="@drawable/round_rect_light_grey"
+      android:padding="10dp"
+      android:text="Category "
+      android:layout_marginRight="-97dp"
+      android:layout_marginTop="45dp"
+      android:layout_below="@+id/rl_lay_tag"
+      android:textColor="#000000"
+      android:id="@+id/txt_cat"/>
+
+
+
+
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/rl_lay_tag">
+ <ImageView
+     android:layout_width="55dp"
+     android:layout_height="55dp"
+     android:layout_marginTop="10dp"
+     android:layout_marginRight="15dp"
+     android:src="@drawable/plus_red_icon"
+     android:id="@+id/switch_view"
+     android:layout_alignParentEnd="true"/>
+ <TextView
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:text="Tagging "
+     android:textColor="#000000"
+     android:padding="10dp"
+     android:layout_centerVertical="true"
+     android:background="@drawable/round_rect_light_grey"
+     android:layout_marginRight="10dp"
+     android:layout_toLeftOf="@+id/switch_view"
+     android:id="@+id/txt_tag"
+     />
+</RelativeLayout>
+
+
+
+    <!--<com.google.android.gms.maps.MapView
+        android:id="@+id/map_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+    </com.google.android.gms.maps.MapView>-->
+</RelativeLayout>

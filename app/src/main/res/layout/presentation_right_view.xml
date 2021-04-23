@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:drag="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/presn_rl_view"
+    tools:context="saneforce.sanclm.fragments.Presentation_right_grid_view">
+
+  <!--<com.github.andyken.draggablegridview.DraggableGridView
+      android:id="@+id/vgv"
+      android:layout_height="fill_parent"
+      android:layout_width="fill_parent"
+      android:layout_alignParentTop="true"
+      android:layout_alignParentLeft="true"
+      app:itemHeight="180dp"
+      app:itemWidth="300dp"
+      android:scrollbars="vertical"
+      app:colCount="3"/>-->
+
+  <com.animoto.android.views.DraggableGridView
+      android:id="@+id/vgv"
+      android:layout_height="fill_parent"
+      android:layout_width="fill_parent"
+      android:layout_alignParentTop="true"
+      android:layout_alignParentLeft="true"
+      drag:itemHeight="180dp"
+      drag:itemWidth="300dp"
+      drag:colCount="3">
+  </com.animoto.android.views.DraggableGridView>
+
+
+
+
+  <!--   <LinearLayout
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_margin="5dp"
+         android:orientation="vertical">-->
+
+
+
+<!--
+        <GridView
+            android:id="@+id/gv_presentation_creation"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:columnWidth="95dp"
+            android:layout_marginStart="15dp"
+            android:horizontalSpacing="10dp"
+            android:background="@color/white"
+            android:numColumns="3"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="10dp" />
+-->
+   <!-- </LinearLayout>-->
+
+</RelativeLayout>

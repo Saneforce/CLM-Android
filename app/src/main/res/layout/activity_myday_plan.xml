@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rl_mydayplan">
+
+<!--    <RelativeLayout
+        android:layout_width="676dp"
+        android:layout_height="622dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="288dp">-->
+
+
+    <LinearLayout
+        android:id="@+id/ll_mydayplan_head"
+        android:layout_width="676dp"
+        android:layout_height="56dp"
+        android:background="@drawable/shape_login_button"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:id="@+id/tv_todayplan"
+            android:layout_width="476dp"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/poppins_semibold"
+            android:gravity="center|left"
+            android:paddingLeft="15dp"
+            android:text="Today work plan"
+            android:textAllCaps="true"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            android:typeface="serif" />
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            app:srcCompat="@mipmap/close_btn" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="676dp"
+        android:layout_height="566dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ll_mydayplan_head"
+        android:background="@drawable/shape_user"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_mydaypln_worktype"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins"
+            android:gravity="center|left"
+            android:text="Work Type"
+            android:textAllCaps="true"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:typeface="serif" />
+
+        <TextView
+            android:id="@+id/et_mydaypln_worktype"
+            android:layout_width="609dp"
+            android:layout_height="57dp"
+            android:layout_alignStart="@+id/tv_mydaypln_worktype"
+            android:layout_below="@+id/tv_mydaypln_worktype"
+            android:background="@drawable/shape_mydayplan"
+            android:fontFamily="@font/poppins"
+            android:layout_marginEnd="15dp"
+            android:gravity="center|left"
+            android:hint="Select Field Work"
+            android:singleLine="true"
+            android:text="SELECT WORKTYPE"
+            android:textAllCaps="true"
+            android:textColor="#808080"
+            android:textColorHint="#808080"
+            android:textSize="14sp"
+            android:windowSoftInputMode="stateAlwaysHidden"></TextView>
+
+        <TextView
+            android:id="@+id/tv_mydaypln_HQ"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/et_mydaypln_worktype"
+            android:fontFamily="@font/poppins"
+            android:gravity="center|left"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:text="Head quater"
+            android:textAllCaps="true"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:typeface="serif" />
+
+        <TextView
+            android:id="@+id/et_mydaypln_HQ"
+            android:layout_width="609dp"
+            android:layout_height="57dp"
+            android:layout_alignStart="@+id/tv_mydaypln_worktype"
+            android:layout_below="@+id/tv_mydaypln_HQ"
+            android:background="@drawable/shape_mydayplan"
+            android:fontFamily="@font/poppins"
+            android:gravity="center|left"
+            android:hint="Select headquater"
+            android:layout_marginEnd="15dp"
+            android:singleLine="true"
+            android:text=""
+            android:textAllCaps="true"
+            android:textColor="#808080"
+            android:textColorHint="#808080"
+            android:textSize="14sp"
+            android:windowSoftInputMode="stateAlwaysHidden"></TextView>
+
+        <TextView
+            android:id="@+id/tv_mydaypln_cluster"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/et_mydaypln_HQ"
+            android:fontFamily="@font/poppins"
+            android:gravity="center|left"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:text="Cluster"
+            android:textAllCaps="true"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:typeface="serif" />
+
+        <TextView
+            android:id="@+id/et_mydaypln_cluster"
+            android:layout_width="609dp"
+            android:layout_height="57dp"
+            android:layout_alignStart="@+id/tv_mydaypln_worktype"
+            android:layout_below="@+id/tv_mydaypln_cluster"
+            android:background="@drawable/shape_mydayplan"
+            android:fontFamily="@font/poppins"
+            android:gravity="center|left"
+            android:hint="Select cluster"
+            android:layout_marginEnd="15dp"
+            android:singleLine="true"
+            android:text="SELECT CLUSTER"
+            android:textAllCaps="true"
+            android:textColor="#808080"
+            android:textColorHint="#808080"
+            android:textSize="14sp"
+            android:windowSoftInputMode="stateAlwaysHidden"></TextView>
+
+        <TextView
+            android:id="@+id/tv_remarks"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/et_mydaypln_cluster"
+            android:fontFamily="@font/poppins"
+            android:gravity="center|left"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:text="Remarks"
+            android:textAllCaps="true"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:typeface="serif" />
+
+
+        <EditText
+            android:id="@+id/et_mydaypln_remarks"
+            android:layout_width="609dp"
+            android:layout_height="98dp"
+            android:layout_alignStart="@+id/tv_mydaypln_worktype"
+            android:layout_below="@+id/tv_remarks"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/shape_mydayplan"
+            android:fontFamily="@font/poppins"
+            android:gravity="left"
+            android:inputType="textMultiLine"
+            android:maxLines="3"
+            android:minLines="2"
+            android:padding="10dp"
+            android:scrollbars="vertical"
+            android:textColor="#808080"
+            android:textColorHint="#808080"
+            android:textSize="14sp"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+
+        <Button
+            android:id="@+id/btn_mydaypln_go"
+            android:layout_width="178dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="35dp"
+            android:layout_marginStart="189dp"
+            android:fontFamily="@font/poppins"
+            android:visibility="visible"
+            android:text="GO"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+        <ListView
+            android:id="@+id/rv_worktypelist"
+            android:layout_width="609dp"
+            android:layout_height="222dp"
+            android:layout_marginEnd="15dp"
+            android:divider="#808080"
+            android:dividerHeight="0.2dp"
+            android:layout_alignStart="@+id/tv_mydaypln_worktype"
+            android:layout_below="@+id/et_mydaypln_worktype"
+            android:background="@drawable/recyclerview_shape"
+            android:visibility="invisible" />
+
+        <ListView
+            android:id="@+id/rv_clusterlist"
+            android:layout_width="609dp"
+            android:layout_height="222dp"
+            android:layout_marginEnd="15dp"
+            android:divider="#808080"
+            android:dividerHeight="0.2dp"
+            android:layout_alignStart="@+id/tv_mydaypln_cluster"
+            android:layout_below="@+id/et_mydaypln_cluster"
+            android:background="@drawable/recyclerview_shape"
+            android:visibility="invisible" />
+
+        <ListView
+            android:id="@+id/rv_hqlist"
+            android:layout_width="609dp"
+            android:layout_height="222dp"
+            android:layout_marginEnd="15dp"
+            android:divider="#808080"
+            android:dividerHeight="0.2dp"
+            android:layout_alignStart="@+id/tv_mydaypln_HQ"
+            android:layout_below="@+id/et_mydaypln_HQ"
+            android:background="@drawable/recyclerview_shape"
+            android:visibility="invisible" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:id="@+id/ll_anim"
+            android:visibility="invisible">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:id="@+id/pbar"
+                />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <!--    </RelativeLayout>-->
+</RelativeLayout>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="280dp"
+    android:layout_height="250dp"
+    android:background="@drawable/layout_background"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="40"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="7"
+            android:gravity="center">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SAN Digital Detailing"
+                    android:textColor="#000000"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:typeface="serif"
+                    android:id="@+id/txt_1"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="12dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Do you want Cancel this call without"
+                    android:textColor="#000000"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:typeface="serif"
+                    android:id="@+id/txt_2"
+                    android:layout_below="@+id/txt_1"
+                    android:layout_centerHorizontal="true"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Submit Call"
+                    android:textColor="#000000"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:typeface="serif"
+                    android:id="@+id/txt_3"
+                    android:layout_below="@+id/txt_2"
+                    android:layout_centerHorizontal="true"
+                    />
+            </RelativeLayout>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#c2bfbf"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="11"
+            android:gravity="center"
+            android:id="@+id/save">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save Draft"
+                android:textColor="#1c79c6"
+                android:textSize="14sp"
+                android:id="@+id/txt_save"
+                android:fontFamily="@font/poppins_medium"
+                android:typeface="serif"
+                />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#c2bfbf"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="11"
+            android:gravity="center"
+            android:id="@+id/ok">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ok"
+                android:textColor="#1c79c6"
+                android:textSize="14sp"
+                android:fontFamily="@font/poppins_medium"
+                android:typeface="serif"
+                />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#c2bfbf"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="11"
+            android:gravity="center"
+            android:id="@+id/cancel">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:textColor="#1c79c6"
+                android:textSize="14sp"
+                android:fontFamily="@font/poppins_medium"
+                android:typeface="serif"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

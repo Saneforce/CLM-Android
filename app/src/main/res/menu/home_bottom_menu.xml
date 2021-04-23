@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/btMyResource"
+        android:title="Target Vs Sales"
+
+        android:fontFamily="@font/poppins"/>
+    <item
+        android:id="@+id/btMyReports"
+        android:title="Reports"
+        android:visible="false"
+
+        android:fontFamily="@font/poppins"/>
+</menu>

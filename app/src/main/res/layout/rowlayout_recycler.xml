@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="#00000000">
+    <ImageView
+        android:id="@+id/mproduct_gridView_logo_image1"
+        android:layout_width="268dp"
+        android:layout_height="157dp"
+        android:background="#ffffff"
+        android:padding="2dp"
+        android:alpha="1.0"
+        android:scaleType="fitXY"
+        android:src="@mipmap/ic_launcher">
+    </ImageView>
+
+
+</LinearLayout>

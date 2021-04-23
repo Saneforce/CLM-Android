@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/appConfigurationBg">
+
+
+    <RelativeLayout
+        android:id="@+id/l1_presntation_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="73dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/appConfigurationBg">
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="       Cancel      "
+            android:layout_marginLeft="15dp"
+            android:background="#fc2b2b"
+            android:id="@+id/btn_cancel"
+            android:layout_centerVertical="true"
+            android:visibility="invisible"/>
+
+
+        <Button
+            android:id="@+id/btn_svPresentation"
+            android:layout_width="193dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="11dp"
+            android:background="@drawable/shape_presentation_ash"
+            android:text="@string/sv_prsn" />
+
+
+        <Button
+            android:id="@+id/btn_delPresentation"
+            android:layout_width="193dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="11dp"
+            android:visibility="gone"
+            android:background="@drawable/shape_presentation_ash"
+            android:text="@string/del_prsn" />
+
+<!--
+        <ImageView
+            android:id="@+id/iv_presentation_lists"
+            android:layout_width="53dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="239dp"
+            android:background="@color/appConfigurationBg"
+            android:src="@mipmap/reports"/>
+-->
+
+<!--
+        <EditText
+            android:id="@+id/et_presentation_name"
+            android:layout_width="334dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="319dp"
+            android:background="@drawable/shape_white"
+            android:fontFamily="@font/poppins_semibold"
+            android:hint="Name your presentation"
+            android:imeOptions="actionDone|actionGo|actionSend"
+            android:inputType="textPersonName"
+            android:keepScreenOn="true"
+            android:padding="8dp"
+            android:keyboardNavigationCluster="true"
+            android:textColor="@color/ash"
+            android:textColorHint="@color/ash_pecalltext"
+            android:textSize="16sp" />
+-->
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/btn_delete"
+            android:layout_centerVertical="true"
+            android:src="@drawable/home_del"
+            android:visibility="invisible"
+            android:layout_toStartOf="@+id/rr_lay_edt"/>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:id="@+id/rr_lay_edt"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/shape_white_grey"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="220dp"
+
+            >
+            <EditText
+                android:id="@+id/et_presentation_name"
+                android:layout_width="330dp"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:fontFamily="@font/poppins_semibold"
+                android:hint="Name your presentation"
+                android:layout_centerVertical="true"
+                android:imeOptions="actionDone|actionGo|actionSend"
+                android:inputType="textPersonName"
+                android:keepScreenOn="true"
+                android:padding="5dp"
+                android:keyboardNavigationCluster="true"
+                android:textColor="@color/ash"
+                android:textColorHint="@color/ash_pecalltext"
+                android:textSize="16sp" />
+            <!--
+
+            -->
+            <ImageView
+                android:id="@+id/iv_presentation_lists"
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/presen_menu"
+                android:padding="5dp"
+                android:layout_toRightOf="@+id/et_presentation_name"/>
+
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

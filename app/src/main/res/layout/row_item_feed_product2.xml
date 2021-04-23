@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="#ffffff">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="70"
+        android:orientation="horizontal"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="8dp"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="9.5">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Product Name"
+                android:textColor="#9e9c9c"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:fontFamily="@font/poppins_medium"
+                android:typeface="serif"
+                android:id="@+id/prd_nam"/>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="9"
+            android:orientation="horizontal"
+            android:gravity="start">
+            <RatingBar
+                android:id="@+id/rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:stepSize="1"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                android:theme="@style/RatingBar"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="9.5">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="17:10:24 17:10:32"
+                android:textColor="@color/ash_pecalltext"
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                android:fontFamily="@font/poppins_medium"
+                android:typeface="serif"
+                android:id="@+id/prd_time"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="10">
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/comment_feed"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:id="@+id/feed_icon"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="10.5">
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="33dp"
+                android:textColor="#000000"
+                android:background="@drawable/row_item_feed_edt_grey"
+                android:textSize="16sp"
+                android:singleLine="true"
+                android:ems="3"
+                android:layout_gravity="center"
+                android:fontFamily="@font/poppins_medium"
+                android:typeface="serif"
+                android:digits="1234567890."
+                android:paddingLeft="5dp"
+                android:inputType="number"
+                android:maxLength="6"
+                android:id="@+id/edt_sample"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="10.5"
+            android:layout_marginLeft="2dp">
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="33dp"
+                android:textColor="#000000"
+                android:background="@drawable/row_item_feed_edt_grey"
+                android:textSize="16sp"
+                android:singleLine="true"
+                android:ems="3"
+                android:layout_gravity="center"
+                android:fontFamily="@font/poppins_medium"
+                android:typeface="serif"
+                android:paddingLeft="5dp"
+                android:inputType="number"
+                android:maxLength="6"
+                android:digits="1234567890."
+                android:id="@+id/edt_pob"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="11"
+            android:gravity="end">
+            <Button
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:text="-"
+                android:textColor="#ffffff"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:background="#f91f1f"
+                android:layout_gravity="center"
+                android:layout_marginRight="8dp"
+                android:id="@+id/img_minus"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

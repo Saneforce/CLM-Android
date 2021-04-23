@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#fff">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_margin="5dp"
+        app:cardCornerRadius="2dp"
+        app:cardBackgroundColor="#D6D5D5"
+        >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#ffffff"
+            android:padding="10dp"
+            android:id="@+id/lay_view">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Session"
+                android:textColor="#E71616"
+                android:singleLine="true"
+                android:textSize="14sp"
+                android:id="@+id/txt_session"
+                android:fontFamily="@font/poppins"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_session"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/poppins"
+                android:singleLine="true"
+                android:text="Work Type"
+                android:textColor="#000"
+                android:id="@+id/txt_head_w"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_head_w"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="16dp"
+                android:fontFamily="@font/poppins"
+                android:singleLine="true"
+                android:text="Field Work"
+                android:textColor="#000"
+                android:textSize="14sp"
+                android:id="@+id/txt_wrk"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_wrk"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/poppins"
+                android:singleLine="true"
+                android:text="Headquater"
+                android:textColor="#000"
+                android:id="@+id/txt_head_h"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_head_h"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="16dp"
+                android:fontFamily="@font/poppins"
+                android:singleLine="true"
+                android:text="Prasannakumar"
+                android:textColor="#000"
+                android:textSize="14sp"
+                android:id="@+id/txt_hq"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_hq"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/poppins"
+                android:singleLine="true"
+                android:text="Cluster"
+                android:textColor="#000"
+                android:id="@+id/txt_head_c"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txt_head_c"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="16dp"
+                android:fontFamily="@font/poppins"
+                android:singleLine="true"
+                android:text="Kasagode"
+                android:textColor="#000"
+                android:textSize="14sp"
+                android:id="@+id/txt_cluster"
+                />
+
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

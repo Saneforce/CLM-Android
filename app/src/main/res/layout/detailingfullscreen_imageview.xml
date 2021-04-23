@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/ll_lay"
+    >
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/frame"
+       >
+        <androidx.viewpager.widget.ViewPager
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/viewPager"
+            android:background="@null"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/rll_overlay"
+            android:visibility="invisible">
+            <fragment
+                android:id="@+id/det_search_sel_fragment1"
+                android:name="saneforce.sanclm.fragments.Detailing_Selection_search_grid_selection"
+                android:layout_width="307dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/white"
+                android:layout_marginBottom="10dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="157dp"
+                android:layout_toRightOf="@+id/det_search_sel_fragment1"
+                android:nestedScrollingEnabled="false"
+                android:animateLayoutChanges="false"/>
+
+            <ImageView
+                android:id="@+id/btn_stopdetailing"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/stop" />
+
+
+
+        </RelativeLayout>
+
+
+
+
+    </FrameLayout>
+
+</LinearLayout>

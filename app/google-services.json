@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "696733427641",
+    "firebase_url": "https://sanclm-2020.firebaseio.com",
+    "project_id": "sanclm-2020",
+    "storage_bucket": "sanclm-2020.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:696733427641:android:1d8dfe4ade1805da17f868",
+        "android_client_info": {
+          "package_name": "saneforce.sanclm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "696733427641-uob4f98540ta4ur4jniiqehvd4vkmen8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "saneforce.sanclm",
+            "certificate_hash": "506394b51816a2b9acca0d59a465c8cf73e4e357"
+          }
+        },
+        {
+          "client_id": "696733427641-feba8519u16hb8mhp8504l86i0vbbpck.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQe14kV-8aZneHfyAMYDT5PKeG5eNKCEE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "696733427641-feba8519u16hb8mhp8504l86i0vbbpck.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

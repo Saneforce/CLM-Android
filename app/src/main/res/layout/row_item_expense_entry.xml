@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:background="#fff"
+    android:padding="5dp">
+    <androidx.cardview.widget.CardView
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        card_view:cardBackgroundColor="#E6E6E6"
+        card_view:cardCornerRadius="2dp"
+        android:layout_margin="5dp"
+        android:layout_marginTop="10dp"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:padding="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Expense Resource"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"
+                android:id="@+id/txt_resource"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Expense Resource"
+                android:textColor="@color/black"
+                android:layout_below="@+id/txt_resource"
+                android:textSize="14sp"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="25dp"
+                android:id="@+id/txt_resource_val"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#000"
+                android:layout_below="@+id/txt_resource_val"
+                android:layout_marginTop="15dp"
+                android:id="@+id/view_resource"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Enter the Amount"
+                android:textColor="@color/black"
+                android:layout_below="@+id/view_resource"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginTop="7dp"
+                android:id="@+id/txt_amt"
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="Enter the amount"
+                android:textColorHint="#9E9D9D"
+                android:id="@+id/edt_amt"
+                android:inputType="number"
+                android:textColor="#000"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="6dp"
+                android:layout_below="@+id/txt_amt"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#000"
+                android:layout_below="@+id/edt_amt"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"/>
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

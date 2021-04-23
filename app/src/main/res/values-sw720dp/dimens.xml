@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--homepage-->
+    <dimen name="toolbar_layout">73dp</dimen>
+    <dimen name="tool_today_call_w">395dp</dimen>
+    <dimen name="today_call_mar_t">95dp</dimen>
+    <dimen name="monthly_summarywidth">812dp</dimen>
+    <dimen name="today_call_list">478dp</dimen>
+    <dimen name="mnth_call_prg_bar_h">207dp</dimen>
+    <dimen name="mnth_call_prg_bar_w">30dp</dimen>
+    <dimen name="mnth_call_tool_mar_l">15dp</dimen>
+    <dimen name="pie_chart_w">190dp</dimen>
+    <dimen name="pie_chart_h">188dp</dimen>
+    <dimen name="pb_bar_h">190dp</dimen>
+    <dimen name="pb_txt_sz">13sp</dimen>
+
+<!--dcrcallselection-->
+    <dimen name="grid_row_item_w">400dp</dimen>
+    <dimen name="pre_Call_analysis_grap_h">320dp</dimen>
+    <dimen name="pre_Call_analysis_lay_m_t">74dp</dimen>
+    <dimen name="pre_Call_analysis_go_btn_m_t">610dp</dimen>
+    <dimen name="pre_Call_analysis_header_m_t">36dp</dimen>
+    <dimen name="pre_Call_analysis_dr_m_t">82dp</dimen>
+    <dimen name="pre_Call_analysis_dr_h">180dp</dimen>
+    <dimen name="pre_Call_analysis_grplay_m_t">280dp</dimen>
+
+
+    <dimen name="precall_header_txt_s">21sp</dimen>
+    <dimen name="precall_qua_col_val">223dp</dimen>
+
+    <dimen name="precall_detail_top">78dp</dimen>
+    <dimen name="precall_mar_top_field">25dp</dimen>
+    <!--<dimen name="precall_line_gr">399dp</dimen>
+    <dimen name="precall_line_gr_h">205dp</dimen>-->
+</resources>

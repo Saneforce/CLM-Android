@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_mydayplan_popup"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/shape_white">
+
+
+    <RelativeLayout
+        android:id="@+id/ll_mydayplan_popup"
+        android:layout_width="676dp"
+        android:layout_height="635dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/shape_white">
+
+
+        <RelativeLayout
+            android:id="@+id/rl_popup_title"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/shape_login_button">
+
+            <TextView
+                android:id="@+id/tv_todayplan_popup_head"
+                android:layout_width="476dp"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/poppins_semibold"
+                android:gravity="center|left"
+                android:paddingLeft="15dp"
+                android:text="Today work plan"
+                android:textAllCaps="true"
+                android:textColor="#ffffff"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                android:typeface="serif" />
+
+            <ImageView
+                android:id="@+id/iv_close_popup"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:padding="10dp"
+                app:srcCompat="@mipmap/close_btn" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignStart="@+id/ll_mydayplan_popup"
+            android:layout_below="@+id/rl_popup_title"
+            android:background="@color/appConfigurationBg"
+            tools:ignore="NotSibling">
+
+
+            <SearchView
+                android:layout_width="631dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="25dp"
+                android:clickable="true"
+                android:background="@drawable/shape_user"
+                android:searchIcon="@mipmap/search"
+                android:id="@+id/searchView"/>
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/searchView"
+                android:id="@+id/list_pop"
+                android:divider="#d7d5d5"
+                android:dividerHeight="1dp"
+                android:layout_marginTop="10dp">
+
+
+            </ListView>
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+</RelativeLayout>

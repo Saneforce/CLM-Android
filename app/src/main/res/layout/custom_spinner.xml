@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@android:id/text1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:gravity="center"
+        android:layout_alignParentLeft="true"
+        android:textSize="22sp"
+        android:layout_marginTop="3dp"
+        android:drawableRight="@drawable/spin_down_arrow"/>

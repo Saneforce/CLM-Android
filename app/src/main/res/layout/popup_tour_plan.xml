@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="650dp"
+    android:layout_height="wrap_content"
+    android:background="#c4c2c2"
+    android:layout_marginTop="12dp"
+    android:layout_marginBottom="12dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fl_list">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="50"
+        android:orientation="vertical"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="11.7"
+            android:background="#e61515">
+            <RelativeLayout
+                android:id="@+id/rl_popup_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_login_button">
+
+                <TextView
+                    android:id="@+id/tv_todayplan_popup_head"
+                    android:layout_width="476dp"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:gravity="center|left"
+                    android:paddingLeft="15dp"
+                    android:text="Tour Plan"
+                    android:textAllCaps="true"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp"
+                    android:textStyle="normal"
+                    android:typeface="serif"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_close_popup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:padding="10dp"
+                    app:srcCompat="@drawable/tool_close" />
+            </RelativeLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="8.5"
+            android:weightSum="20"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="6"
+                android:orientation="vertical"
+                android:weightSum="20">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="13"
+                    android:orientation="vertical"
+                    android:weightSum="10"
+                    android:id="@+id/wrk_typ_one">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="#666666"
+                            android:id="@+id/rl_show_wrk_list">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_semibold"
+                                android:padding="5dp"
+                                android:paddingLeft="15dp"
+                                android:text="Work Type"
+                                android:textAllCaps="false"
+                                android:textColor="#ffffff"
+                                android:textSize="16sp"
+                                android:textStyle="normal"
+                                android:typeface="serif" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentTop="true"
+                                android:padding="10dp"
+                                app:srcCompat="@drawable/spin_down_arrow" />
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5"
+                        android:background="#ffffff">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:gravity="center|left"
+                            android:paddingLeft="15dp"
+                            android:textAllCaps="true"
+                            android:textColor="#000000"
+                            android:textSize="18sp"
+                            android:textStyle="normal"
+                            android:typeface="serif"
+                            android:id="@+id/txt_wrktype"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="7"
+                    android:weightSum="10"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical"
+                    android:id="@+id/ll_hq">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="7.2">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="#666666"
+                            android:id="@+id/rr_show_hq_list">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_semibold"
+                                android:gravity="center|left"
+                                android:padding="5dp"
+                                android:paddingLeft="15dp"
+                                android:text="Headquaters"
+                                android:textAllCaps="false"
+                                android:textColor="#ffffff"
+                                android:textSize="16sp"
+                                android:textStyle="normal"
+                                android:typeface="serif" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentTop="true"
+                                android:padding="10dp"
+                                app:srcCompat="@drawable/spin_down_arrow" />
+                        </RelativeLayout>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2.8"
+                        android:id="@+id/ll_lay_list_hq">
+                        <ListView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:divider="#dad8d8"
+                            android:background="#ffffff"
+                            android:id="@+id/list_hq">
+
+                        </ListView>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="14"
+                android:layout_marginBottom="35dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#ffffff">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:gravity="center"
+                        android:paddingLeft="15dp"
+                        android:text="MAR-2019"
+                        android:textAllCaps="true"
+                        android:textColor="#ffffff"
+                        android:textSize="18sp"
+                        android:textStyle="normal"
+                        android:typeface="serif"
+                        android:background="#f21717"
+                        android:id="@+id/txt_cal_mnth"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:gravity="center"
+                        android:paddingLeft="15dp"
+                        android:text="14"
+                        android:textAllCaps="true"
+                        android:textColor="#000000"
+                        android:textSize="40sp"
+                        android:textStyle="normal"
+                        android:typeface="serif"
+                        android:layout_below="@+id/txt_cal_mnth"
+                        android:id="@+id/txt_date"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:gravity="center"
+                        android:paddingLeft="15dp"
+                        android:text="Thursday"
+                        android:textColor="#ff5918"
+                        android:textSize="15sp"
+                        android:textStyle="normal"
+                        android:typeface="serif"
+                        android:layout_below="@+id/txt_date"
+                        android:id="@+id/txt_day"
+                        />
+
+
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="9"
+            android:weightSum="10"
+            android:orientation="vertical"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:id="@+id/ll_cluster">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="8">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#666666"
+                    android:id="@+id/rl_cluster">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:gravity="center|left"
+                        android:padding="5dp"
+                        android:paddingLeft="15dp"
+                        android:text="Cluster"
+                        android:textAllCaps="false"
+                        android:textColor="#ffffff"
+                        android:textSize="16sp"
+                        android:textStyle="normal"
+                        android:typeface="serif" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:padding="10dp"
+                        app:srcCompat="@drawable/spin_down_arrow" />
+                </RelativeLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2">
+                <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="#dad8d8"
+                    android:background="#ffffff"
+                    android:id="@+id/list_cluster"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="9.8"
+            android:background="#ffffff"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:id="@+id/ll_edt_txt">
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:id="@+id/edt_txt"
+                android:textColor="#000000"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="11"
+            android:orientation="horizontal"
+            android:weightSum="10"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:orientation="vertical"
+                android:weightSum="10"
+                android:id="@+id/ll_btm_wrk">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#666666"
+                        android:id="@+id/btm_rr_work_type">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:gravity="center|left"
+                            android:padding="5dp"
+                            android:paddingLeft="15dp"
+                            android:text="Work Type II"
+                            android:textAllCaps="false"
+                            android:textColor="#ffffff"
+                            android:textSize="16sp"
+                            android:textStyle="normal"
+                            android:typeface="serif" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentTop="true"
+                            android:padding="10dp"
+                            app:srcCompat="@drawable/spin_down_arrow" />
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:background="#ffffff">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:gravity="center|left"
+                        android:paddingLeft="15dp"
+                        android:textAllCaps="true"
+                        android:textColor="#000000"
+                        android:textSize="18sp"
+                        android:textStyle="normal"
+                        android:typeface="serif"
+                        android:id="@+id/txt_btm_wrktype"/>
+
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:gravity="bottom"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="#020a3d"
+                    android:text="Save"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp"
+                    android:textStyle="normal"
+                    android:typeface="serif"
+                    android:id="@+id/save_btn"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/rl_list">
+            <ListView
+                android:id="@+id/rv_worktypelist"
+                android:layout_width="609dp"
+                android:layout_height="222dp"
+                android:layout_marginEnd="15dp"
+                android:divider="#808080"
+                android:dividerHeight="0.2dp"
+                android:background="@drawable/recyclerview_shape"
+                android:visibility="invisible"
+                android:layout_marginTop="395dp"
+                />
+
+        </RelativeLayout>
+
+    </FrameLayout>
+
+</LinearLayout>

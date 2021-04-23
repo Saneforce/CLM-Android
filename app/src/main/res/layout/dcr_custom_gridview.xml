@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="163dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/shape_white">
+
+
+    <RelativeLayout
+        android:id="@+id/rl_dcr_gv"
+        android:layout_width="wrap_content"
+        android:layout_height="163dp"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal">
+
+    <RelativeLayout
+        android:id="@+id/ll_dcr_gv"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:background="@drawable/shape_ash">
+
+        <TextView
+            android:id="@+id/tv_dcr_dr_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="15dp"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center|left"
+            android:text="SIVAKUMAR"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:id="@+id/lay_img_cap">
+
+            <ImageView
+                android:id="@+id/iv_dr_tdaycluster"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                app:srcCompat="@mipmap/whitesel_cluster" />
+            <ImageView
+                android:id="@+id/iv_dr_cluster"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                app:srcCompat="@mipmap/redsel_cluster" />
+        </RelativeLayout>
+
+
+
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="15dp"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center|left"
+            android:text="0/0"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:layout_toLeftOf="@+id/lay_img_cap"
+            android:layout_marginRight="3dp"
+            android:visibility="invisible"
+            />
+    </RelativeLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_detail"
+            android:layout_below="@+id/ll_dcr_gv"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            android:text="Detail"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/chkoptred"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="35dp"
+            android:layout_below="@+id/btn_detail"
+            android:visibility="gone"
+            android:id="@+id/img_tick"/>
+
+
+        <TextView
+            android:id="@+id/tv_dcr_drcluster"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="57dp"
+            android:gravity="center|left"
+            android:text="CHINCHWORD "
+            android:fontFamily="@font/poppins"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_dcr_speciality"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="45dp"
+            android:layout_marginStart="15dp"
+            android:gravity="center|left"
+            android:text="Speciality "
+            android:fontFamily="@font/poppins"
+            android:textColor="@color/black"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/tv_dcr_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="11dp"
+            android:layout_marginStart="15dp"
+            android:gravity="center|left"
+            android:text="Category "
+            android:fontFamily="@font/poppins"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#d9d7d7"
+    tools:context=".activities.ReportActivity">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:id="@+id/rl_tool">
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="92dp"
+            android:layout_height="74dp"
+            android:background="#666666"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/left_arrow" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red"
+            android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:text="REPORTS"
+            android:textSize="18sp"
+            android:fontFamily="@font/poppins_semibold"
+            android:layout_toRightOf="@+id/iv_back"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_tool"
+        android:orientation="horizontal"
+        android:gravity="start"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="15dp"
+        >
+
+        <GridView
+            android:id="@+id/grid_report"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:horizontalSpacing="24dp"
+            android:numColumns="4"
+            android:verticalSpacing="25dp"
+            android:layout_gravity="start"/>
+
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

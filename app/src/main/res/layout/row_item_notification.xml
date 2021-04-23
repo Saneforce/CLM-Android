@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="#000000"
+        android:id="@+id/txt_date"
+        android:layout_centerHorizontal="true"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10.00"
+        android:textColor="#000000"
+        android:id="@+id/txt_fromdate"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="20dp"
+        android:layout_below="@+id/txt_date"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="21.35"
+        android:textColor="#000000"
+        android:id="@+id/txt_usdate"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_below="@+id/txt_date"
+        />
+
+    <TextView
+        android:id="@+id/txtFrom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/orange_bubble"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        android:textColor="#ffffff"
+        android:layout_alignParentEnd="true"
+        android:textSize="20dp"
+        android:layout_below="@+id/txt_fromdate"
+        android:text="Howwwww are you bvbvvhhghghghjgjhgjhgjhgjhgjgjhg"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="10dp"
+
+        />
+
+    <TextView
+        android:id="@+id/txtUs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/left_bubble"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        android:textColor="#ffffff"
+        android:textSize="20dp"
+        android:layout_below="@+id/txt_usdate"
+        android:text="Howwwww are you er4reqwerq "
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="40dp"/>
+
+
+</RelativeLayout>

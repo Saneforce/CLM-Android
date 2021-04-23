@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="500dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/round_rect_white">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Password"
+        android:textColor="@color/red"
+        android:textSize="28sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"
+        android:id="@+id/wel"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000"
+        android:textSize="16sp"
+        android:layout_marginTop="20dp"
+        android:hint="Old password"
+        android:textColorHint="#787777"
+        android:background="@drawable/round_rect_light_grey"
+        android:id="@+id/opwd"
+        android:inputType="textPassword"
+        android:padding="8dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_below="@+id/wel"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000"
+        android:textSize="16sp"
+        android:layout_marginTop="10dp"
+        android:hint="New password"
+        android:padding="8dp"
+        android:inputType="textPassword"
+        android:background="@drawable/round_rect_light_grey"
+        android:id="@+id/npwd"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_below="@+id/opwd"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000"
+        android:textSize="16sp"
+        android:layout_marginTop="10dp"
+        android:hint="Confirm password"
+        android:inputType="textPassword"
+        android:padding="8dp"
+        android:background="@drawable/round_rect_light_grey"
+        android:id="@+id/cpwd"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_below="@+id/npwd"/>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cpwd"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:layout_marginTop="20dp"
+            android:id="@+id/btn_dwn"
+            android:padding="15dp"
+            android:textColor="#fff"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/map_red_shape"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Confirm"
+            android:textColor="#fff"
+            android:layout_toRightOf="@+id/btn_dwn"
+            android:layout_marginTop="20dp"
+            android:padding="15dp"
+            android:id="@+id/btn_start"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/map_blue_shape"
+            />
+    </RelativeLayout>
+
+</RelativeLayout>

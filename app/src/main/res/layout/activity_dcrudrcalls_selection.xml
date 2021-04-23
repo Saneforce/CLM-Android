@@ -1,0 +1,118 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/app_config"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/appConfigurationBg"
+    android:descendantFocusability="blocksDescendants">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/l1_app_config"
+        android:layout_width="match_parent"
+        android:layout_height="73dp"
+        android:background="#ffffff">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="97dp"
+            android:layout_height="73dp"
+            android:layout_alignParentRight="true"
+            android:background="#666666"
+            android:src="@mipmap/left_arrow" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="73dp"
+            android:layout_weight="1"
+            android:background="#ffffff"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="left|center"
+            android:paddingLeft="25dp"
+            android:text="UnListed Doctor Selection"
+            android:textAllCaps="true"
+            android:textColor="#ff1d25"
+            android:textSize="18dp"
+            android:id="@+id/txt_tool_header"
+            android:typeface="serif" />
+
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="73dp"
+            android:id="@+id/spinner"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"/>
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_dcr_drgrid_selection"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/l1_app_config"
+        android:visibility="gone"
+        >
+
+        <EditText
+            android:id="@+id/et_companyurl"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="17dp"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="31dp"
+            android:background="@drawable/shape_user"
+            android:drawableRight="@mipmap/search"
+            android:fontFamily="@font/poppins"
+            android:gravity="center|left"
+            android:hint="Search UNListed Doctor"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textColor="#5e5e5e"
+            android:cursorVisible="true"
+            android:textColorHint="#888888"
+            android:textSize="14sp"
+            android:windowSoftInputMode="stateAlwaysHidden">
+            <requestFocus />
+        </EditText>
+
+
+        <androidx.gridlayout.widget.GridLayout
+            android:id="@+id/gl_dr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="17dp"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="103dp"
+            android:layout_marginBottom="5dp">
+
+            <GridView
+                android:id="@+id/gridview_dcrselect"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:horizontalSpacing="24dp"
+                android:numColumns="3"
+                android:verticalSpacing="25dp"
+                />
+        </androidx.gridlayout.widget.GridLayout>
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/plus_red_icon"
+            android:layout_marginRight="60dp"
+            android:id="@+id/fab_btn"
+            android:layout_alignParentBottom="true"
+            />
+
+    </RelativeLayout>
+
+    <include
+        layout="@layout/activity_precall_analysis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="74dp" />
+</RelativeLayout>

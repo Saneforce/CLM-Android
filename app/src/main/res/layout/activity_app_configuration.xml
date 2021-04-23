@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/app_config"
+    android:background="@color/appConfigurationBg">
+
+    <LinearLayout
+        android:id="@+id/l1_app_config"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="#ffffff">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="97dp"
+            android:layout_height="73dp"
+            android:layout_alignParentRight="true"
+            android:background="#666666"
+            android:src="@mipmap/left_arrow" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#ffffff"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="left|center"
+            android:paddingLeft="25dp"
+            android:text="App Configuration"
+            android:textAllCaps="true"
+            android:textColor="#ff1d25"
+            android:textSize="18dp"
+            android:typeface="serif" />
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="#fff"
+            android:layout_marginRight="7dp"
+            android:id="@+id/pwd"
+            android:visibility="gone">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_medium"
+                android:background="@drawable/quiz_circle"
+                android:text="Change Password"
+                android:textColor="#000"
+                android:padding="8dp"
+                android:textSize="18dp"
+                android:typeface="serif" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="727dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/l1_app_config"
+        android:background="@color/appConfigurationBg">
+
+        <TextView
+            android:id="@+id/tv_url"
+            android:layout_width="match_parent"
+            android:layout_height="57dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins"
+            android:gravity="center|left"
+            android:paddingLeft="25dp"
+            android:text="Web URL ( eg: www.yoururl.com )"
+            android:textColor="#1a1a1a"
+            android:textSize="18dp"
+            android:typeface="serif" />
+
+        <EditText
+            android:id="@+id/et_companyurl"
+            android:layout_width="match_parent"
+            android:layout_height="57dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tv_url"
+            android:layout_marginEnd="29dp"
+            android:layout_marginStart="18dp"
+            android:background="@drawable/shape_user"
+            android:fontFamily="@font/poppins"
+            android:gravity="center|left"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:text=""
+            android:textColor="#5e5e5e"
+            android:textColorHint="#888888"
+            android:textSize="14dp"
+            android:windowSoftInputMode="stateAlwaysHidden">
+
+            <requestFocus />
+        </EditText>
+
+        <TextView
+            android:id="@+id/tv_companyId"
+            android:layout_width="match_parent"
+            android:layout_height="57dp"
+            android:layout_below="@+id/et_companyurl"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins"
+            android:gravity="center|left"
+            android:paddingLeft="25dp"
+            android:text="License Key"
+            android:textColor="#1a1a1a"
+            android:textSize="18dp"
+            android:typeface="serif" />
+
+        <EditText
+            android:id="@+id/et_companyId"
+            android:layout_width="match_parent"
+            android:layout_height="57dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tv_companyId"
+            android:layout_marginEnd="29dp"
+            android:layout_marginStart="18dp"
+            android:background="@drawable/shape_user"
+            android:fontFamily="@font/poppins"
+            android:gravity="center|left"
+            android:text=""
+            android:hint=""
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textColor="#5e5e5e"
+            android:textColorHint="#888888"
+            android:textSize="14dp">
+
+        </EditText>
+
+        <TextView
+            android:id="@+id/tv_deviceId"
+            android:layout_width="match_parent"
+            android:layout_height="57dp"
+            android:layout_below="@+id/et_companyId"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins"
+            android:gravity="center|left"
+            android:paddingLeft="25dp"
+            android:text="Your Device ID"
+            android:textColor="#1a1a1a"
+            android:textSize="18dp"
+            android:typeface="serif" />
+
+        <TextView
+            android:id="@+id/tv_device"
+            android:layout_width="match_parent"
+            android:layout_height="57dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tv_deviceId"
+            android:layout_marginEnd="29dp"
+            android:layout_marginStart="18dp"
+            android:background="@drawable/shape_user"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center|left"
+            android:paddingLeft="15dp"
+            android:text="78389-3e8922-2e2er2"
+            android:textColor="#ff1d25"
+            android:textSize="14dp">
+
+        </TextView>
+
+        <Button
+            android:id="@+id/btn_appconfig_close"
+            android:layout_width="178dp"
+            android:layout_height="33dp"
+            android:layout_alignEnd="@+id/et_companyurl"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="235dp"
+            android:background="#ff1d25"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:text="Close"
+            android:textColor="#ffffff"
+            android:textSize="12dp"
+            android:typeface="serif" />
+
+        <Button
+            android:id="@+id/btn_appconfig_Save"
+            android:layout_width="215dp"
+            android:layout_height="33dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/btn_appconfig_close"
+            android:layout_marginBottom="235dp"
+            android:layout_marginEnd="241dp"
+            android:background="#333333"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:text="Save Settings"
+            android:textColor="#ffffff"
+            android:textSize="12dp"
+            android:typeface="serif" />
+
+        <Button
+            android:id="@+id/btn_appconfig_clrdata"
+            android:layout_width="216dp"
+            android:layout_height="33dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/btn_appconfig_Save"
+            android:layout_marginEnd="492dp"
+            android:background="#333333"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:text="Clear Data"
+            android:textSize="12dp"
+            android:typeface="serif" />
+
+    </RelativeLayout>
+</RelativeLayout>

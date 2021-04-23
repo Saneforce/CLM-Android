@@ -1,0 +1,719 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_dcr_precall_analysis_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@+id/l1_app_config"
+    android:background="@color/appConfigurationBg"
+    android:visibility="gone"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="30"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="10"
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/tv_dcrsel_drname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="47dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="SIVAKUMAR"
+                    android:textColor="#1a1a1a"
+                    android:textSize="21sp" />
+
+                <Button
+                    android:id="@+id/btn_reselect"
+                    android:layout_width="155dp"
+                    android:layout_height="30dp"
+                    android:layout_alignBottom="@+id/tv_dcrsel_drname"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="35dp"
+                    android:background="@drawable/shape_ash"
+                    android:fontFamily="@font/poppins"
+                    android:text="Re - Select"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+                <Button
+                    android:id="@+id/btn_act"
+                    android:layout_width="155dp"
+                    android:layout_height="30dp"
+                    android:layout_alignBottom="@+id/tv_dcrsel_drname"
+                    android:layout_marginEnd="35dp"
+                    android:layout_toLeftOf="@+id/btn_reselect"
+                    android:background="@drawable/red"
+                    android:fontFamily="@font/poppins"
+                    android:text="Activity"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:visibility="gone"/>
+
+                <RelativeLayout
+                    android:id="@+id/rl_dcr_drDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginEnd="39dp"
+                    android:layout_marginStart="23dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_below="@+id/tv_dcrsel_drname"
+                    android:background="@drawable/shape_white"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:weightSum="30"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="9dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="9">
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                >
+                                <TextView
+                                    android:id="@+id/tv_drqualification"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_marginStart="43dp"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:lineSpacingExtra="1.6dp"
+                                    android:text="Qualification "
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_drDOB"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="9dp"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="Date Of Birth"
+                                    android:layout_marginStart="43dp"
+                                    android:layout_below="@+id/tv_drqualification"
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_drwedding"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/tv_drDOB"
+                                    android:layout_marginStart="43dp"
+                                    android:layout_marginTop="9dp"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="Wedding Date "
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_drmobile"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/tv_drwedding"
+                                    android:layout_marginStart="43dp"
+                                    android:layout_marginTop="9dp"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="Mobile "
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp" />
+
+
+                                <TextView
+                                    android:id="@+id/tv_drqual_set"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignTop="@+id/tv_drqualification"
+                                    android:layout_toRightOf="@+id/tv_drqualification"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="Mumbai"
+                                    android:layout_marginLeft="25dp"
+                                    android:textColor="@color/ash_pecalltext"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_drdob_set"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignStart="@+id/tv_drqual_set"
+                                    android:layout_alignTop="@+id/tv_drDOB"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="2018-5-5"
+                                    android:textColor="@color/ash_pecalltext"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_dr_wedding_set"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignStart="@+id/tv_drqual_set"
+                                    android:layout_alignTop="@+id/tv_drwedding"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="2018-5-2"
+                                    android:textColor="@color/ash_pecalltext"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_drmobile_set"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignBottom="@+id/tv_drmobile"
+                                    android:layout_alignStart="@+id/tv_drqual_set"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="+91 9548484 48484"
+                                    android:textColor="@color/ash_pecalltext"
+                                    android:textSize="14sp" />
+
+
+                            </RelativeLayout>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="10.5">
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                                <TextView
+                                    android:id="@+id/tv_drCategory"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="Category "
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_drspeciality"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/tv_drCategory"
+                                    android:layout_marginTop="9dp"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="Speciality "
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_drterritory"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/tv_drspeciality"
+                                    android:layout_marginTop="9dp"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="Territory "
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_drcat_set"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="+91 022 456456"
+                                    android:textColor="@color/ash_pecalltext"
+                                    android:textSize="14sp"
+                                    android:layout_marginLeft="25dp"
+                                    android:layout_alignTop="@+id/tv_drCategory"
+                                    android:layout_toRightOf="@+id/tv_drCategory"/>
+
+                                <TextView
+                                    android:id="@+id/tv_drspeciality_set"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignStart="@+id/tv_drcat_set"
+                                    android:layout_alignTop="@+id/tv_drspeciality"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="GP"
+                                    android:textColor="@color/ash_pecalltext"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_drterritry_set"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignTop="@+id/tv_drterritory"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="PALAKKAD"
+                                    android:layout_alignStart="@+id/tv_drcat_set"
+                                    android:textColor="@color/ash_pecalltext"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_drmail"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/tv_drterritory"
+                                    android:layout_marginTop="9dp"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="E Mail "
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_drmail_set"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignStart="@+id/tv_drcat_set"
+                                    android:layout_alignTop="@+id/tv_drmail"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="abcde@gmail.com"
+                                    android:textColor="@color/ash_pecalltext"
+                                    android:textSize="14sp" />
+
+                            </RelativeLayout>
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="10.5">
+                            <TextView
+                                android:id="@+id/tv_drAddr"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_medium"
+                                android:text="Address "
+                                android:textColor="@color/black"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/tv_draddr_set"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignTop="@+id/tv_drAddr"
+                                android:layout_marginLeft="25dp"
+                                android:fontFamily="@font/poppins_medium"
+                                android:text=""
+                                android:textColor="@color/ash_pecalltext"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_dcr_chmDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginEnd="39dp"
+                    android:layout_marginStart="23dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_below="@+id/tv_dcrsel_drname"
+                    android:background="@drawable/shape_white"
+                    android:visibility="visible">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="30"
+                        android:layout_marginTop="10dp">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="9">
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                                <TextView
+                                    android:id="@+id/tv_chmcontactPerson"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_marginStart="43dp"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:lineSpacingExtra="1.6dp"
+                                    android:text="Contact Person"
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp" />
+
+
+                                <TextView
+                                    android:id="@+id/tv_chmphone"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="43dp"
+                                    android:layout_below="@+id/tv_chmcontactPerson"
+                                    android:layout_marginTop="15dp"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="Phone"
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_chmmobile"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/tv_chmphone"
+                                    android:layout_marginTop="15dp"
+                                    android:layout_marginStart="43dp"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="Mobile "
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_chmcontactperson_set"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="25dp"
+                                    android:layout_alignTop="@+id/tv_chmcontactPerson"
+                                    android:layout_toRightOf="@+id/tv_chmcontactPerson"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="Mumbai"
+                                    android:textColor="@color/ash_pecalltext"
+                                    android:textSize="14sp" />
+
+
+                                <TextView
+                                    android:id="@+id/tv_chmPhone_set"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignStart="@+id/tv_chmcontactperson_set"
+                                    android:layout_alignTop="@+id/tv_chmphone"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="584985548"
+                                    android:textColor="@color/ash_pecalltext"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_chmmobile_set"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignTop="@+id/tv_chmmobile"
+                                    android:layout_alignStart="@+id/tv_chmcontactperson_set"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="+91 9548484 48484"
+                                    android:textColor="@color/ash_pecalltext"
+                                    android:textSize="14sp" />
+
+                            </RelativeLayout>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="10.5">
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                                <TextView
+                                    android:id="@+id/tv_chmfax"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="Fax"
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp" />
+
+
+                                <TextView
+                                    android:id="@+id/tv_chmemail"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/tv_chmfax"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="E-Mail "
+                                    android:layout_marginTop="15dp"
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_chmterritory"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@+id/tv_chmemail"
+                                    android:layout_marginTop="10dp"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="Territory"
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_chmfax_set"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="+91 022 456456"
+                                    android:layout_marginLeft="45dp"
+                                    android:layout_alignTop="@+id/tv_chmfax"
+                                    android:layout_toRightOf="@+id/tv_chmfax"
+                                    android:textColor="@color/ash_pecalltext"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_chmmail_set"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignTop="@+id/tv_chmemail"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="sascfa"
+                                    android:layout_alignStart="@+id/tv_chmfax_set"
+                                    android:textColor="@color/ash_pecalltext"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/tv_terri_set"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignTop="@+id/tv_chmterritory"
+                                    android:layout_alignStart="@+id/tv_chmfax_set"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:text="Palakad"
+                                    android:textColor="@color/ash_pecalltext"
+                                    android:textSize="14sp" />
+                            </RelativeLayout>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="10.5">
+                            <TextView
+                                android:id="@+id/tv_chmaddr"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_medium"
+                                android:text="Address "
+                                android:textColor="@color/black"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/tv_chmaddr_set"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_medium"
+                                android:text="chubuadua"
+                                android:textColor="@color/ash_pecalltext"
+                                android:textSize="14sp"
+                                android:layout_marginLeft="25dp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="6.5"
+            android:layout_marginTop="12dp">
+            <RelativeLayout
+                android:id="@+id/rl_dcr_drprecalls"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="39dp"
+                android:layout_marginStart="23dp"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/shape_white"
+                android:visibility="visible">
+                <TextView
+                    android:id="@+id/tv_precal_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="43dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Precall Analysis"
+                    android:textColor="#1a1a1a"
+                    android:textSize="21sp" />
+
+                <View
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginEnd="50dp"
+                    android:layout_marginStart="43dp"
+                    android:layout_below="@+id/tv_precal_heading"
+                    android:layout_marginTop="10dp"
+                    android:background="#42424242"
+                    android:divider="#42424242"
+                    android:dividerHeight="1dip" />
+
+                <TextView
+                    android:id="@+id/tv_lastvisitdtls_hdng"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/divider"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="43dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Last Visit Date:"
+                    android:textColor="#1a1a1a"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_pdts_promoted"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="43dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Products Promoted:"
+                    android:layout_below="@+id/tv_lastvisitdtls_hdng"
+                    android:textColor="#1a1a1a"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_inputs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_pdts_promoted"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="43dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Inputs:"
+                    android:textColor="#1a1a1a"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_feedback"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_inputs"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="43dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Feedback"
+                    android:textColor="#1a1a1a"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_remark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_feedback"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="43dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Remarks:"
+                    android:textColor="#1a1a1a"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_visit_date_set"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/tv_lastvisitdtls_hdng"
+                    android:layout_toRightOf="@+id/tv_lastvisitdtls_hdng"
+                    android:layout_marginLeft="37dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text=""
+                    android:textColor="@color/ash_pecalltext"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_pdtdetailed_set"
+                    android:layout_width="500dp"
+                    android:layout_height="45dp"
+                    android:layout_alignStart="@+id/tv_visit_date_set"
+                    android:layout_alignTop="@+id/tv_pdts_promoted"
+                    android:fontFamily="@font/poppins_medium"
+                    android:scrollbars="vertical"
+                    android:text=""
+                    android:textColor="@color/ash_pecalltext"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_gifts_set"
+                    android:layout_width="500dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/tv_visit_date_set"
+                    android:layout_alignTop="@+id/tv_inputs"
+                    android:fontFamily="@font/poppins_medium"
+                    android:scrollbars="vertical"
+                    android:text=""
+                    android:textColor="@color/ash_pecalltext"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_feedback_set"
+                    android:layout_width="500dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/tv_visit_date_set"
+                    android:layout_alignTop="@+id/tv_feedback"
+                    android:fontFamily="@font/poppins_medium"
+                    android:scrollbars="vertical"
+                    android:text=" "
+                    android:textColor="@color/ash_pecalltext"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_remark_set"
+                    android:layout_width="500dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/tv_visit_date_set"
+                    android:layout_alignTop="@+id/tv_remark"
+                    android:fontFamily="@font/poppins_medium"
+                    android:scrollbars="vertical"
+                    android:text=""
+                    android:textColor="@color/ash_pecalltext"
+                    android:textSize="14sp" />
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:layout_width="399dp"
+                    android:layout_height="200dp"
+                    android:layout_below="@+id/divider"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginBottom="28dp"
+                    android:id="@+id/chart"/>
+
+            </RelativeLayout>
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="13.5"
+            android:gravity="end"
+            android:layout_marginRight="32dp"
+            android:layout_marginTop="10dp">
+            <ImageButton
+                android:id="@+id/btn_skip"
+                android:layout_width="41dp"
+                android:layout_height="32dp"
+                android:background="@drawable/shape_white"
+                app:srcCompat="@drawable/btn_skip"
+                android:layout_marginRight="10dp"/>
+            <ImageButton
+                android:id="@+id/btn_go"
+                android:layout_width="41dp"
+                android:layout_height="32dp"
+                android:background="@drawable/shape_white"
+                app:srcCompat="@mipmap/btn_go" />
+
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

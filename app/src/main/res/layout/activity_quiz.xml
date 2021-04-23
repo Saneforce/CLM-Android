@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:id="@+id/lay_toolbar">
+        <ImageView
+            android:id="@+id/back_icon"
+            android:layout_width="97dp"
+            android:layout_height="73dp"
+            android:background="#666666"
+            android:src="@mipmap/left_arrow" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quiz"
+            android:textSize="20sp"
+            android:textColor="#E41C1C"
+            android:textStyle="bold"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_toRightOf="@+id/back_icon"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remaining Time - "
+            android:textSize="16sp"
+            android:textColor="#E41C1C"
+            android:id="@+id/txt_timer"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentEnd="true"/>
+
+
+    </RelativeLayout>
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_below="@+id/lay_toolbar"
+        android:layout_marginTop="25dp"
+        android:padding="5dp"
+        android:background="#DFDEDE"
+        android:id="@+id/card_count"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="8"
+            android:padding="7dp"
+            android:background="#fff"
+            android:orientation="horizontal">
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/scroll"
+                android:scrollbars="none"
+                >
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/scroll_lay"
+                    android:background="#fff"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+<!--
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="8dp"
+        android:padding="5dp"
+        android:text="     Next Question     "
+        android:textColor="#fff"
+        android:background="@drawable/nxt_ques_bg"
+        android:layout_below="@+id/card_count"
+        android:layout_alignParentEnd="true"/>
+-->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn1"
+        android:visibility="gone"
+        android:layout_below="@+id/card_count"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/sub_btn"
+        android:text="Submit"
+        android:layout_marginBottom="5dp"
+        android:textColor="#fff"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/nxt_ques_bg"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="5dp"
+        android:layout_below="@+id/card_count"
+        android:layout_marginTop="50dp"
+        android:padding="5dp"
+        app:cardCornerRadius="8dp"
+        android:layout_above="@+id/sub_btn"
+        android:background="#DFDEDE"
+        android:id="@+id/qu_lay">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#fff"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#787676"
+                android:layout_marginLeft="18dp"
+                android:text="Question 1 of 40"
+                android:id="@+id/no_of"
+                android:layout_above="@+id/txt_ques"
+                android:layout_marginBottom="8dp"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="18dp"
+                android:padding="5dp"
+                android:text="     Next Question     "
+                android:textColor="#fff"
+                android:background="@drawable/nxt_ques_bg"
+                android:layout_alignParentEnd="true"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="About how often did you feel tired out for no good reason?"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:layout_marginLeft="12dp"
+                android:layout_below="@+id/btn"
+                android:layout_marginTop="5dp"
+                android:id="@+id/txt_ques"
+                android:textColor="#000"
+                />
+            <!--03A9F4-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#03DAC5"
+                android:id="@+id/opt_header"
+                android:layout_marginTop="8dp"
+                android:padding="8dp"
+                android:layout_below="@+id/txt_ques">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Choose the one answer that mostly apply to you"
+                    android:padding="5dp"
+                    android:layout_marginLeft="8dp"
+                    android:textSize="13sp"
+                    android:textColor="#fff"/>
+            </RelativeLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/list"
+                android:padding="8dp"
+                android:layout_below="@+id/opt_header"/>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

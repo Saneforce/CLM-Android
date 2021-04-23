@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ExpenseActivity"
+    android:background="#D5D4D4">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:id="@+id/tool_lay"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/back_img"
+                android:layout_width="97dp"
+                android:layout_height="73dp"
+                android:background="#666666"
+                android:src="@mipmap/left_arrow" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/back_img"
+                android:textStyle="bold"
+                android:text="Expense List"
+                android:padding="13dp"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                android:layout_centerVertical="true"
+                android:id="@+id/txt_header"
+                android:textColor="@color/red"
+                android:fontFamily="@font/poppins_semibold"/>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/background_pinpoint">
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinner"
+                    android:padding="10dp"
+                    >
+
+                </Spinner>
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tool_lay"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        android:padding="6dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:background="@drawable/shape_white">
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/list_view"
+                android:layout_marginTop="5dp"></ListView>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
+            android:background="@drawable/round_rect_white"
+            android:layout_marginLeft="5dp"
+            >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="SUMMARY FOR JAN - 2019"
+                        android:textSize="18sp"
+                        android:layout_gravity="center"
+                        android:textColor="@color/red"
+                        android:id="@+id/txt_head"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Fare"
+                        android:textSize="16sp"
+                        android:layout_gravity="center"
+                        android:textColor="@color/black"
+                        android:layout_below="@+id/txt_head"
+                        android:layout_marginTop="15dp"
+                        android:id="@+id/txt_fare"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Allowance"
+                        android:textSize="16sp"
+                        android:layout_gravity="center"
+                        android:textColor="@color/black"
+                        android:layout_below="@+id/txt_fare"
+                        android:layout_marginTop="8dp"
+                        android:id="@+id/txt_allow"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="normal"
+                        android:text="2000.00"
+                        android:textSize="16sp"
+                        android:layout_gravity="center"
+                        android:textColor="@color/black"
+                        android:layout_below="@+id/txt_head"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="8dp"
+                        android:id="@+id/txt_fare_amt"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="normal"
+                        android:text="140.00"
+                        android:textSize="16sp"
+                        android:layout_gravity="center"
+                        android:textColor="@color/black"
+                        android:layout_below="@+id/txt_fare_amt"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="8dp"
+                        android:id="@+id/txt_allow_amt"
+                        />
+
+                    <View
+                        android:layout_width="60dp"
+                        android:layout_height="1dp"
+                        android:background="#DBDADA"
+                        android:layout_below="@+id/txt_allow_amt"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="18dp"
+                        android:id="@+id/line"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="2140.00"
+                        android:textSize="18sp"
+                        android:layout_gravity="center"
+                        android:textColor="@color/forest_green"
+                        android:layout_below="@+id/line"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="7dp"
+                        android:id="@+id/txt_final_amt"
+                        />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/map_red_shape"
+                        android:id="@+id/btn_addentry"
+                        android:text="      Expense Entry      "
+                        android:textColor="#fff"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"/>
+
+
+                </RelativeLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@+id/tool_lay"
+    android:layout_marginTop="50dp"
+    android:layout_marginLeft="65dp"
+    android:layout_marginRight="65dp"
+    android:visibility="gone"
+    android:id="@+id/entry_lay"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/shape_white_grey">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/red"
+        android:id="@+id/tool_entry">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="Expense Entry"
+            android:padding="10dp"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:id="@+id/txt_header_entry"
+            android:textColor="#fff"
+            android:fontFamily="@font/poppins_semibold"/>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@mipmap/close_btn"
+            android:id="@+id/close_img_entry"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            />
+    </RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose the date"
+        android:textStyle="bold"
+        android:textColor="@color/red"
+        android:fontFamily="@font/poppins"
+        android:textSize="16sp"
+        android:layout_centerHorizontal="true"
+        android:padding="8dp"
+        android:id="@+id/txt_date"
+        android:layout_below="@+id/tool_entry"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="5dp"
+        android:id="@+id/lay_submit"
+        android:background="#C4C2C2">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="                    Submit                  "
+
+            android:background="@drawable/map_blue_shape"
+            android:layout_centerVertical="true"
+            android:id="@+id/btn_submit"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            />
+
+    </RelativeLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="    Add Item    "
+        android:background="@drawable/map_red_shape"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/btn_add"
+        android:layout_above="@+id/lay_submit"
+        android:layout_marginBottom="5dp"
+        />
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/list_entry"
+        android:padding="5dp"
+        android:layout_below="@+id/txt_date"
+        android:layout_above="@+id/btn_add"> </ListView>
+</RelativeLayout>
+
+</RelativeLayout>

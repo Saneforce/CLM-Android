@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ApprovalActivity"
+    android:background="#DAD8D8"
+    android:id="@+id/main_lays"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:background="#fff"
+        android:id="@+id/lay_tool">
+        <ImageView
+            android:id="@+id/iv_dwnldmaster_back"
+            android:layout_width="97dp"
+            android:layout_height="73dp"
+            android:background="#666666"
+            android:src="@mipmap/left_arrow" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Activity"
+            android:textSize="18sp"
+            android:textColor="#D80808"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:layout_toRightOf="@+id/iv_dwnldmaster_back"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"/>
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/lay_tool"
+        android:weightSum="20"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="13"
+            android:layout_marginRight="2dp"
+            android:orientation="vertical"
+            android:background="@drawable/round_rect_white"
+            >
+            <SearchView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="2dp"
+                android:background="@drawable/round_rect_light_grey"
+                android:searchIcon="@drawable/search_brand"
+                android:clickable="true"
+                android:id="@+id/search_view"/>
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp"
+                android:dividerHeight="1dp"
+                android:layout_marginTop="4dp"
+                android:divider="@color/ash"
+                android:id="@+id/list_view"></ListView>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="7"
+            android:layout_marginLeft="2dp"
+            android:background="@drawable/round_rect_white"
+            android:orientation="vertical"
+            android:id="@+id/lin_view">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/rlay_view"
+                >
+                <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="5dp"
+                    android:id="@+id/list"
+                    android:dividerHeight="0dp"
+                    android:layout_above="@+id/rlay_btn"
+                    android:layout_marginBottom="3dp"></ListView>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:background="#D6D4D4"
+                    android:id="@+id/rlay_btn">
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/map_blue_shape"
+                        android:text="SAVE"
+                        android:layout_alignParentEnd="true"
+                        android:id="@+id/btn_save"
+
+                        />
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:id="@+id/ll_anim"
+        android:visibility="invisible">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:id="@+id/pbar"
+            />
+    </LinearLayout>
+
+</RelativeLayout>

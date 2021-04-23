@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/layout_background">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jointwork"
+            android:layout_marginTop="15dp"
+            android:textColor="#b1aeae"
+            android:fontFamily="@font/poppins_medium"
+            android:typeface="serif"
+            android:textSize="16sp"
+            android:id="@+id/txt_content"/>
+        <Button
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:text="-"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="#f91f1f"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="8dp"
+            android:id="@+id/img_minus"/>
+
+
+    </RelativeLayout>
+
+</LinearLayout>

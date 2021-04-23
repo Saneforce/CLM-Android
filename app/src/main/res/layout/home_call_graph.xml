@@ -1,0 +1,836 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="20"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="10"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:id="@+id/ll_monthly_summary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_homedashboard"
+                    android:layout_marginEnd="10dp">
+                    <TextView
+                        android:id="@+id/tv_monthly_summary_head"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:gravity="center|left"
+                        android:text="Monthly Call Average"
+                        android:textColor="#ffffff"
+                        android:textSize="18sp"
+                        android:textStyle="normal"
+                        android:typeface="serif"
+                        android:padding="11dp"/>
+                    <ImageButton
+                        android:id="@+id/iv_monthly_summary_reload"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:background="#666666"
+                        android:layout_alignParentTop="true"
+                        android:src="@mipmap/sync" />
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/rv_monthly_summary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/ll_monthly_summary"
+                    android:layout_below="@+id/ll_monthly_summary"
+                    android:background="#ffffff"
+                    android:padding="5dp"
+
+                    >
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:weightSum="12"
+                            android:orientation="horizontal"
+                            android:id="@+id/pb_llay">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:layout_marginLeft="25dp">
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#000000"
+                                        android:text="Jan-19"
+                                        android:id="@+id/jan_txt"
+                                        android:layout_alignParentBottom="true"
+                                        android:textSize="@dimen/pb_txt_sz"
+                                        />
+                                    <ProgressBar
+                                        android:id="@+id/pb_jan"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        style="@android:style/Widget.ProgressBar.Horizontal"
+                                        android:progressDrawable="@drawable/vertical_progressbar"
+                                        android:max="1"
+                                        android:progress="0"
+                                        android:layout_above="@+id/jan_txt"
+                                        />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#000000"
+                                        android:text="0"
+                                        android:layout_centerHorizontal="true"
+                                        android:id="@+id/txt_count_jan"
+                                        android:layout_alignBottom="@+id/pb_jan"
+                                        android:layout_marginBottom="10dp"
+                                        android:textSize="@dimen/pb_txt_sz"
+                                        />
+
+                                </RelativeLayout>
+
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginLeft="25dp"
+                                android:orientation="vertical">
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+                                    <TextView
+                                        android:id="@+id/feb_txt"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#000000"
+                                        android:text="Feb-19"
+                                        android:textSize="@dimen/pb_txt_sz"
+                                        android:layout_alignParentBottom="true"
+                                        />
+                                    <ProgressBar
+                                        android:id="@+id/pb_feb"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        style="@android:style/Widget.ProgressBar.Horizontal"
+                                        android:progressDrawable="@drawable/vertical_progressbar"
+                                        android:max="1"
+                                        android:progress="0"
+                                        android:layout_above="@+id/feb_txt"
+                                        />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#000000"
+                                        android:text="0"
+                                        android:id="@+id/txt_count_feb"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_alignBottom="@+id/pb_feb"
+                                        android:layout_marginBottom="10dp"
+                                        android:textSize="@dimen/pb_txt_sz"
+                                        />
+
+                                </RelativeLayout>
+
+
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:layout_marginLeft="25dp">
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+                                    <TextView
+                                        android:id="@+id/mar_txt"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#000000"
+                                        android:text="Mar-19"
+                                        android:textSize="@dimen/pb_txt_sz"
+                                        android:layout_alignParentBottom="true"
+                                        />
+
+                                    <ProgressBar
+                                        android:id="@+id/pb_mar"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        style="@android:style/Widget.ProgressBar.Horizontal"
+                                        android:progressDrawable="@drawable/vertical_progressbar"
+                                        android:max="1"
+                                        android:layout_weight="1"
+                                        android:progress="0"
+                                        android:layout_above="@+id/mar_txt"
+                                        />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#000000"
+                                        android:text="0"
+                                        android:id="@+id/txt_count_mar"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_alignBottom="@+id/pb_mar"
+                                        android:layout_marginBottom="10dp"
+                                        android:textSize="@dimen/pb_txt_sz"
+                                        />
+
+                                </RelativeLayout>
+
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:layout_marginLeft="25dp">
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:id="@+id/apr_txt"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#000000"
+                                        android:text="Apr-19"
+                                        android:textSize="@dimen/pb_txt_sz"
+                                        android:layout_alignParentBottom="true"
+                                        />
+
+                                    <ProgressBar
+                                        android:id="@+id/pb_apr"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        style="@android:style/Widget.ProgressBar.Horizontal"
+                                        android:progressDrawable="@drawable/vertical_progressbar"
+                                        android:max="1"
+                                        android:layout_above="@+id/apr_txt"
+
+                                        android:progress="0"
+                                        />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#000000"
+                                        android:text="0"
+                                        android:id="@+id/txt_count_apr"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_alignBottom="@+id/pb_apr"
+                                        android:layout_marginBottom="10dp"
+                                        android:textSize="@dimen/pb_txt_sz"
+                                        />
+
+                                </RelativeLayout>
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginLeft="25dp"
+                                android:orientation="vertical">
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+                                    <TextView
+                                        android:id="@+id/may_txt"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#000000"
+                                        android:text="May-19"
+                                        android:textSize="@dimen/pb_txt_sz"
+                                        android:layout_alignParentBottom="true"
+                                        />
+
+                                    <ProgressBar
+                                        android:id="@+id/pb_may"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        style="@android:style/Widget.ProgressBar.Horizontal"
+                                        android:progressDrawable="@drawable/vertical_progressbar"
+                                        android:max="1"
+                                        android:progress="0"
+                                        android:layout_above="@+id/may_txt"
+                                        />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#000000"
+                                        android:text="0"
+                                        android:id="@+id/txt_count_may"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_alignBottom="@+id/pb_may"
+                                        android:layout_marginBottom="10dp"
+                                        android:textSize="@dimen/pb_txt_sz"
+                                        />
+
+                                </RelativeLayout>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginLeft="25dp"
+                                android:orientation="vertical">
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+                                    <TextView
+                                        android:id="@+id/jun_txt"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#000000"
+                                        android:text="Jun-19"
+                                        android:textSize="@dimen/pb_txt_sz"
+                                        android:layout_alignParentBottom="true"
+                                        />
+
+                                    <ProgressBar
+                                        android:id="@+id/pb_jun"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        style="@android:style/Widget.ProgressBar.Horizontal"
+                                        android:progressDrawable="@drawable/vertical_progressbar"
+                                        android:max="1"
+                                        android:layout_above="@+id/jun_txt"
+                                        android:progress="0"
+                                        />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#000000"
+                                        android:text="0"
+                                        android:id="@+id/txt_count_jun"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_alignBottom="@+id/pb_jun"
+                                        android:layout_marginBottom="10dp"
+                                        android:textSize="@dimen/pb_txt_sz"
+                                        />
+
+                                </RelativeLayout>
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginLeft="25dp"
+                                android:orientation="vertical">
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+                                    <TextView
+                                        android:id="@+id/jul_txt"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#000000"
+                                        android:text="Jul-19"
+                                        android:textSize="@dimen/pb_txt_sz"
+                                        android:layout_alignParentBottom="true"
+                                        />
+
+                                    <ProgressBar
+                                        android:id="@+id/pb_jul"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        style="@android:style/Widget.ProgressBar.Horizontal"
+                                        android:progressDrawable="@drawable/vertical_progressbar"
+                                        android:max="1"
+                                        android:layout_above="@+id/jul_txt"
+                                        android:progress="0"
+                                        />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#000000"
+                                        android:text="0"
+                                        android:id="@+id/txt_count_jul"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_alignBottom="@+id/pb_jul"
+                                        android:layout_marginBottom="10dp"
+                                        android:textSize="@dimen/pb_txt_sz"
+                                        />
+
+                                </RelativeLayout>
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginLeft="25dp"
+                                android:orientation="vertical">
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+                                    <TextView
+                                        android:id="@+id/aug_txt"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#000000"
+                                        android:text="Aug-19"
+                                        android:textSize="@dimen/pb_txt_sz"
+                                        android:layout_alignParentBottom="true"
+                                        />
+
+                                    <ProgressBar
+                                        android:id="@+id/pb_aug"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        style="@android:style/Widget.ProgressBar.Horizontal"
+                                        android:progressDrawable="@drawable/vertical_progressbar"
+                                        android:max="1"
+                                        android:layout_above="@+id/aug_txt"
+                                        android:progress="0"
+                                        />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#000000"
+                                        android:text="0"
+                                        android:id="@+id/txt_count_aug"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_alignBottom="@+id/pb_aug"
+                                        android:layout_marginBottom="10dp"
+                                        android:textSize="@dimen/pb_txt_sz"
+                                        />
+
+                                </RelativeLayout>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginLeft="25dp"
+                                android:orientation="vertical">
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:id="@+id/sep_txt"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#000000"
+                                        android:text="Sep-19"
+                                        android:textSize="@dimen/pb_txt_sz"
+                                        android:layout_alignParentBottom="true"
+                                        />
+
+                                    <ProgressBar
+                                        android:id="@+id/pb_sep"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        style="@android:style/Widget.ProgressBar.Horizontal"
+                                        android:progressDrawable="@drawable/vertical_progressbar"
+                                        android:max="1"
+                                        android:layout_above="@+id/sep_txt"
+                                        android:progress="0"
+                                        />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#000000"
+                                        android:text="0"
+                                        android:id="@+id/txt_count_sep"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_alignBottom="@+id/pb_sep"
+                                        android:layout_marginBottom="10dp"
+                                        android:textSize="@dimen/pb_txt_sz"
+                                        />
+
+                                </RelativeLayout>
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginLeft="25dp"
+                                android:orientation="vertical">
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:id="@+id/oct_txt"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#000000"
+                                        android:text="Oct-19"
+                                        android:textSize="@dimen/pb_txt_sz"
+                                        android:layout_alignParentBottom="true"
+                                        />
+
+                                    <ProgressBar
+                                        android:id="@+id/pb_oct"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        style="@android:style/Widget.ProgressBar.Horizontal"
+                                        android:progressDrawable="@drawable/vertical_progressbar"
+                                        android:max="1"
+                                        android:layout_above="@+id/oct_txt"
+                                        android:progress="0"
+                                        />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#000000"
+                                        android:text="0"
+                                        android:id="@+id/txt_count_oct"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_alignBottom="@+id/pb_oct"
+                                        android:layout_marginBottom="10dp"
+                                        android:textSize="@dimen/pb_txt_sz"
+                                        />
+
+                                </RelativeLayout>
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginLeft="25dp"
+                                android:orientation="vertical">
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:id="@+id/nov_txt"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#000000"
+                                        android:text="Nov-19"
+                                        android:textSize="@dimen/pb_txt_sz"
+                                        android:layout_alignParentBottom="true"
+                                        />
+
+                                    <ProgressBar
+                                        android:id="@+id/pb_nov"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        style="@android:style/Widget.ProgressBar.Horizontal"
+                                        android:progressDrawable="@drawable/vertical_progressbar"
+                                        android:max="1"
+                                        android:layout_above="@+id/nov_txt"
+                                        android:progress="0"
+                                        />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#000000"
+                                        android:text="0"
+                                        android:id="@+id/txt_count_nov"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_alignBottom="@+id/pb_nov"
+                                        android:layout_marginBottom="10dp"
+                                        android:textSize="@dimen/pb_txt_sz"
+                                        />
+
+                                </RelativeLayout>
+
+
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginLeft="25dp"
+                                android:orientation="vertical">
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:id="@+id/dec_txt"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#000000"
+                                        android:text="Dec-19"
+                                        android:textSize="@dimen/pb_txt_sz"
+                                        android:layout_alignParentBottom="true"
+                                        />
+
+                                    <ProgressBar
+                                        android:id="@+id/pb_dec"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        style="@android:style/Widget.ProgressBar.Horizontal"
+                                        android:progressDrawable="@drawable/vertical_progressbar"
+                                        android:max="1"
+                                        android:layout_above="@+id/dec_txt"
+                                        android:progress="0"
+                                        />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#000000"
+                                        android:text="0"
+                                        android:id="@+id/txt_count_dec"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_alignBottom="@+id/pb_dec"
+                                        android:layout_marginBottom="10dp"
+                                        android:textSize="@dimen/pb_txt_sz"
+                                        />
+
+                                </RelativeLayout>
+
+
+                            </LinearLayout>
+
+
+
+
+                        </LinearLayout>
+                        <!--
+
+
+
+
+
+
+
+
+
+
+
+
+
+                         <ProgressBar
+                             android:id="@+id/pb_dec1"
+                             android:layout_width="wrap_content"
+                             android:layout_height="175dp"
+                             style="@android:style/Widget.ProgressBar.Horizontal"
+                             android:progressDrawable="@drawable/vertical_progressbar"
+                             android:max="1"
+                             android:progress="0"
+                             android:layout_toRightOf="@+id/pb_dec"
+                             android:layout_marginLeft="10dp"
+
+                             />
+                         <ProgressBar
+                             android:id="@+id/pb_dec2"
+                             android:layout_width="wrap_content"
+                             android:layout_height="175dp"
+                             style="@android:style/Widget.ProgressBar.Horizontal"
+                             android:progressDrawable="@drawable/vertical_progressbar"
+                             android:max="1"
+                             android:progress="0"
+                             android:layout_toRightOf="@+id/pb_dec1"
+                             android:layout_marginLeft="10dp"
+
+                             />
+     -->
+
+
+
+                    </RelativeLayout>
+
+                    <!-- <ProgressBar
+                         android:id="@+id/pb_jan"
+                         android:layout_width="32dp"
+                         android:layout_height="175dp"
+                         style="@android:style/Widget.ProgressBar.Horizontal"
+                         android:progressDrawable="@drawable/vertical_progressbar"
+                         android:max="1"
+                         android:progress="0"
+                         android:layout_marginLeft="10dp"
+                         />
+
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:textColor="#000000"
+                         android:text="Jan-19"
+                         android:id="@+id/jan_txt"
+                         android:layout_below="@+id/pb_jan"/>-->
+
+                    <!--
+
+                    -->
+
+                </RelativeLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="10"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:id="@+id/ll_call_visit_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignStart="@+id/rv_monthly_summary"
+                    android:layout_below="@+id/rv_monthly_summary"
+                    android:background="@drawable/shape_homedashboard"
+                    android:orientation="horizontal"
+                    android:layout_marginEnd="10dp"
+                    android:padding="11dp"
+                    android:layout_marginTop="10dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/tv_call_visit_details"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#666666"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:gravity="center|left"
+                        android:text="Current Month Call Visit Details"
+                        android:textColor="#ffffff"
+                        android:textSize="18sp"
+                        android:textStyle="normal"
+                        android:typeface="serif"
+                        />
+
+                    <ImageButton
+                        android:id="@+id/call_visit_detailsReload"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:background="#666666"
+                        android:padding="5dp"
+                        android:src="@mipmap/sync" />
+
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#ffffff"
+                    android:layout_alignStart="@+id/ll_call_visit_details"
+                    android:layout_below="@+id/ll_call_visit_details"
+                    android:id="@+id/chart_lay"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            >
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                                <com.github.mikephil.charting.charts.PieChart
+                                    android:id="@+id/pie"
+                                    android:layout_width="@dimen/pie_chart_w"
+                                    android:layout_height="@dimen/pie_chart_h"
+                                    android:layout_centerInParent="true"
+                                    android:layout_marginBottom="18dp"
+                                    >
+
+                                </com.github.mikephil.charting.charts.PieChart>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Categorywise Visit Details"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:textColor="#000000"
+                                    android:textSize="14sp"
+                                    android:typeface="serif"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_marginBottom="5dp"
+
+                                    />
+                            </RelativeLayout>
+                            <!-- -->
+
+
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <ProgressBar
+                                    android:id="@+id/pBar"
+                                    style="?android:attr/progressBarStyleHorizontal"
+                                    android:layout_width="@dimen/pie_chart_w"
+                                    android:layout_height="@dimen/pie_chart_h"
+                                    android:layout_centerInParent="true"
+                                    android:background="@drawable/progress_drawable"
+                                    android:indeterminate="false"
+                                    android:max="100"
+                                    android:progress="1"
+                                    android:layout_marginBottom="10dp"
+                                    android:progressDrawable="@drawable/progress_overlay" />
+
+                                <TextView
+                                    android:id="@+id/pbar_percentage"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0%"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_centerVertical="true"
+                                    android:textColor="#000000"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_medium"
+                                    android:layout_alignParentBottom="true"
+                                    android:text="Overall Visit Details"
+                                    android:textColor="#000000"
+                                    android:textSize="14sp"
+                                    android:layout_centerHorizontal="true"
+                                    android:typeface="serif"
+                                    />
+
+                            </RelativeLayout>
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

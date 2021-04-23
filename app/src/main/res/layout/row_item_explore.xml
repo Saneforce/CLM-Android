@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="350dp"
+    android:layout_height="200dp"
+    android:layout_centerHorizontal="true"
+    android:background="@drawable/shape_white_grey"
+    android:layout_marginBottom="10dp"
+    android:id="@+id/rl_popup"
+    android:clickable="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rl_inner_lay"
+        android:layout_marginBottom="8dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Doctor Name"
+            android:textColor="#DF2626"
+            android:textSize="16sp"
+            android:padding="15dp"
+            android:id="@+id/txt_dr"/>
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/feed_rat"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:id="@+id/info"
+            android:layout_marginRight="8dp"/>
+
+       <!-- -->
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:id="@+id/img_profile"
+            android:background="@drawable/iv_profile_icon"
+            android:layout_below="@+id/txt_dr"
+            android:layout_marginLeft="10dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address 1, Address 2, Address 3"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:padding="5dp"
+            android:singleLine="false"
+            android:layout_toRightOf="@+id/img_profile"
+            android:id="@+id/txt_add"
+            android:layout_below="@+id/txt_dr"/>
+
+        <!--<Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="         Find Route        "
+            android:textColor="#ffffff"
+            android:padding="15dp"
+            android:id="@+id/btn_route"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/map_red_shape"
+            android:layout_alignParentBottom="true"
+            />
+-->
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="       Add to Master      "
+            android:textColor="#ffffff"
+            android:id="@+id/btn_visit"
+            android:background="@drawable/map_blue_shape"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+
+            />
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>

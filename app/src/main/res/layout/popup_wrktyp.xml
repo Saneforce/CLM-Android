@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_white_grey"
+   android:padding="5dp">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#fff"
+        android:text="Alert"
+        android:textSize="16sp"
+        android:padding="10dp"
+        android:singleLine="false"
+        android:id="@+id/txt_title"
+        android:background="@drawable/grey_top_round_rect"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#000"
+        android:text="Already my day plan are submitted here"
+        android:textSize="16sp"
+        android:padding="10dp"
+        android:singleLine="false"
+        android:id="@+id/txt_msg"
+        android:layout_below="@+id/txt_title"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/txt_msg"
+        android:gravity="center"
+        android:layout_marginTop="20dp">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:id="@+id/btn_overwrite"
+            android:background="@drawable/map_blue_shape"
+            android:text="Overwrite"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_msg"
+            android:id="@+id/btn_half"
+            android:background="@drawable/map_red_shape"
+            android:text="Half day"
+            android:layout_marginLeft="20dp"
+            android:padding="5dp"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_msg"
+            android:id="@+id/btn_cancel"
+            android:background="@drawable/round_rect_light_grey"
+            android:text="Cancel"
+            android:textColor="#000"
+            android:padding="5dp"
+            android:layout_marginLeft="20dp"
+            />
+
+    </LinearLayout>
+
+
+</RelativeLayout>
