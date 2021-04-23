@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.facebook.fresco:animated-webp:1.11.0@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/96c14b16227c047e367aa21905807769/animated-webp-1.11.0/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/96c14b16227c047e367aa21905807769/animated-webp-1.11.0/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/96c14b16227c047e367aa21905807769/animated-webp-1.11.0/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a8eb370fb9b259cf0fb096a2b8a6e11a/jetified-animated-webp-1.11.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a8eb370fb9b259cf0fb096a2b8a6e11a/jetified-animated-webp-1.11.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a8eb370fb9b259cf0fb096a2b8a6e11a/jetified-animated-webp-1.11.0/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.facebook.fresco/animated-webp/1.11.0/e0d5517a179d895cde6014b59a8758b2a54ae4b8/animated-webp-1.11.0-javadoc.jar!/" />

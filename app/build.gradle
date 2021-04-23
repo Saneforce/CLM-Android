@@ -71,7 +71,6 @@ dependencies {
     // dexter runtime permissions
     implementation 'com.karumi:dexter:4.2.0'
     // ButterKnife view binding
-
     implementation 'com.jakewharton:butterknife:10.0.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
     implementation 'com.github.barteksc:android-pdf-viewer:3.0.0-beta.5'
@@ -82,16 +81,14 @@ dependencies {
     //noinspection GradleCompatible
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.commit451:PhotoView:1.2.4'
-    implementation 'id.zelory:compressor:2.1.0'
-    implementation 'androidx.multidex:multidex:2.0.0'
+    implementation 'id.zelory:compressor:2+'
+    implementation 'androidx.multidex:multidex:2.0.1'
     implementation('com.azoft.carousellayoutmanager:carousel:1.2.4') {
         exclude group: "com.android.support"
     }
     implementation 'androidx.vectordrawable:vectordrawable:1.0.0'
 
     implementation 'com.google.android.gms:play-services-location:15.0.1'
-
-
 
     implementation 'uk.co.chrisjenx:calligraphy:2.2.0'
     implementation 'com.sdsmdg.tastytoast:tastytoast:0.1.1'
