@@ -1191,7 +1191,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 mProgressDialog.setMessage("Loading...");
                 mProgressDialog.setCancelable(false);
                 mProgressDialog.show();
-                Call<JsonArray> call = apiService.getDataAsJArray(AppConfig.getInstance(Target_Vs_Secondary.this).getBaseurl(), QryParam);
+                Call<JsonArray> call = apiService.getDataAsJArray(QryParam);
                 call.enqueue(new Callback<JsonArray>() {
 
                     @Override
@@ -1544,7 +1544,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 mProgressDialog.setMessage("Loading...");
                 mProgressDialog.setCancelable(false);
                 mProgressDialog.show();
-                Call<JsonArray> call = apiService.getDataAsJArray(AppConfig.getInstance(Target_Vs_Secondary.this).getBaseurl(), QryParam);
+                Call<JsonArray> call = apiService.getDataAsJArray(QryParam);
                 call.enqueue(new Callback<JsonArray>() {
 
                     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -1654,7 +1654,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 mProgressDialog.setMessage("Loading...");
                 mProgressDialog.setCancelable(false);
                 mProgressDialog.show();
-                Call<JsonArray> call = apiService.getDataAsJArray(AppConfig.getInstance(Target_Vs_Secondary.this).getBaseurl(), QryParam);
+                Call<JsonArray> call = apiService.getDataAsJArray(QryParam);
                 final String finalTostrdate = tostrdate;
                 call.enqueue(new Callback<JsonArray>() {
 
@@ -1970,7 +1970,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 mProgressDialog.setMessage("Loading...");
                 mProgressDialog.setCancelable(false);
                 mProgressDialog.show();
-                Call<JsonArray> call = apiService.getDataAsJArray(AppConfig.getInstance(Target_Vs_Secondary.this).getBaseurl(), QryParam);
+                Call<JsonArray> call = apiService.getDataAsJArray(QryParam);
                 call.enqueue(new Callback<JsonArray>() {
 
                     @Override
@@ -3627,7 +3627,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 mProgressDialog.setMessage("Loading...");
                 mProgressDialog.setCancelable(false);
                 mProgressDialog.show();
-                Call<JsonArray> call = apiService.getDataAsJArray(AppConfig.getInstance(Target_Vs_Secondary.this).getBaseurl(), QryParam);
+                Call<JsonArray> call = apiService.getDataAsJArray( QryParam);
                 call.enqueue(new Callback<JsonArray>() {
 
                     @Override
@@ -4062,7 +4062,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 mProgressDialog.setMessage("Loading...");
                 mProgressDialog.setCancelable(false);
                 mProgressDialog.show();
-                Call<JsonArray> call = apiService.getDataAsJArray(AppConfig.getInstance(Target_Vs_Secondary.this).getBaseurl(), QryParam);
+                Call<JsonArray> call = apiService.getDataAsJArray( QryParam);
                 call.enqueue(new Callback<JsonArray>() {
 
                     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
