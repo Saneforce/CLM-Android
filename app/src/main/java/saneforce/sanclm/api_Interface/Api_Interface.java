@@ -447,8 +447,17 @@ public interface Api_Interface {
     @POST("db.php?axn=get/target_sales_secondary")
     Call<JsonArray> getTargetSecDataAsJArray(@QueryMap Map<String, String> params);
 
-   @POST("db.native.php?axn=get/product_sales_secondary")
+   @POST("db.php?axn=get/product_sales_secondary")
    Call<JsonArray> getsecDataAsJArray(@QueryMap Map<String, String> params);
+
+    @POST("db.php?axn=getdivision_speciality")
+    Call<JsonArray> getSpecialityDataAsJArray(@QueryMap Map<String, String> params);
+
+    @POST("db.php?")
+    Call<JsonArray> gethierarchyDataAsJArray(@QueryMap Map<String, String> params);
+
+    @POST("db.php?")
+    Call<JsonArray> getCategoryDataAsJArray(@QueryMap Map<String, String> params);
 
 
 }

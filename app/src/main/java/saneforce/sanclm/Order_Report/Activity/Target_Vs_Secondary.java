@@ -95,6 +95,7 @@ import saneforce.sanclm.Order_Report.modelclass.targetAll;
 import saneforce.sanclm.R;
 import saneforce.sanclm.User_login.CustomerMe;
 import saneforce.sanclm.activities.DashActivity;
+import saneforce.sanclm.activities.HomeDashBoard;
 import saneforce.sanclm.api_Interface.ApiClient;
 import saneforce.sanclm.api_Interface.ApiInterface;
 import saneforce.sanclm.api_Interface.Api_Interface;
@@ -243,6 +244,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
 
         mCommonSharedPreference=new CommonSharedPreference(this);
         sharedpreferencess = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
+        sf_name=mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_NAME);
         db_connPath = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DB_URL);
 
 
@@ -280,7 +282,9 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
         iv_draw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawer.openDrawer(Gravity.LEFT);
+
+                //drawer.openDrawer(Gravity.LEFT);
+                onBackPressed();
             }
         });
         imp_back = findViewById(R.id.back_btn_drpt);
@@ -292,7 +296,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
         filter_btn = findViewById(R.id.camp_filter);
         sqlLite1 = new sqlLite(Target_Vs_Secondary.this);
         slidemenu = ( DrawerLayout ) findViewById(R.id.drawer_layout);
-      //  secondary_card = ( CardView ) findViewById(R.id.seconday_crd);
+        //  secondary_card = ( CardView ) findViewById(R.id.seconday_crd);
         primary_card = ( CardView ) findViewById(R.id.prm);
         secondary_card = ( CardView ) findViewById(R.id.sec);
         mtd_card = ( CardView ) findViewById(R.id.mtd);
@@ -306,7 +310,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
         division_splitting = ( Spinner ) findViewById(R.id.divisionselection_ed);
         clear = ( Button ) findViewById(R.id.filter_clear_1);
         apply = ( Button ) findViewById(R.id.filter_submit_1);
-      //  secondary_sel = ( ImageView ) findViewById(R.id.second_check);
+        //  secondary_sel = ( ImageView ) findViewById(R.id.second_check);
         primary_sel = ( ImageView ) findViewById(R.id.primer_check);
         checklayout_date = ( LinearLayout ) findViewById(R.id.customcheck_layout);
         custom_datecheck = ( ImageView ) findViewById(R.id.custom_check);
@@ -339,7 +343,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
         sqlLite11 = new sqlLite(Target_Vs_Secondary.this);
         filter_btn1 = findViewById(R.id.camp_filter);
         slidemenu1 = (DrawerLayout) findViewById(R.id.drawer_layout);
-      //  secondary_card1 = (CardView)findViewById(R.id.seconday_crd);
+        //  secondary_card1 = (CardView)findViewById(R.id.seconday_crd);
         mtd_card1 = (CardView)findViewById(R.id.mtd);
         qtd_card1 = (CardView)findViewById(R.id.qtd);
         ytd_card1= (CardView)findViewById(R.id.ytd);
@@ -351,10 +355,10 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
 //        division_splitting1 = (Spinner) findViewById(R.id.divisionselection_ed);
         clear1 = (Button)findViewById(R.id.filter_clear_1);
         apply1= (Button)findViewById(R.id.filter_submit_1);
-      //  secondary_sel1 = (ImageView)findViewById(R.id.second_check);
+        //  secondary_sel1 = (ImageView)findViewById(R.id.second_check);
         checklayout_date1 = (LinearLayout)findViewById(R.id.customcheck_layout);
         custom_datecheck1 = (ImageView)findViewById(R.id.custom_check);
-     //   changecheck = (ImageView)findViewById(R.id.primary1_check);
+        //   changecheck = (ImageView)findViewById(R.id.primary1_check);
         profilename = (TextView)headerView.findViewById(R.id.profilename);
 
         prmtxt = (TextView)findViewById(R.id.prm_txt);
@@ -368,7 +372,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
         primevalue = new ArrayList<>();
         targetvalue = new ArrayList<>();
         growthvalue = new ArrayList<>();
-       archeivevalue = new ArrayList<>();
+        archeivevalue = new ArrayList<>();
 
         values1 = new ArrayList<PieEntry>();
 
@@ -379,10 +383,12 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
         barWidth = 0.3f;
         barSpace = 0.05f;
         groupSpace = 0.16f;
-        divisiondata();
+
+        //divisiondata();
+
         secondary_card.setCardBackgroundColor(Color.RED);
         sectxt.setTextColor(Color.WHITE);
-       // selected_data="secondary"
+        // selected_data="secondary"
         Log.d("selected_data",selected_data);
 
         imp_back_filter = findViewById(R.id.back_btn_filter);
@@ -602,8 +608,10 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
         });
 
 
-        MTDprimeproduct();
-        Orderproduct_PiechartMTD();
+        // MTDprimeproduct();
+        //Orderproduct_PiechartMTD();
+        Orderproduct_YTDprimary_l();
+        Orderproduct_PiechartYTD();
 
 //        MTDprimeproduct_admin();
 //        Orderproduct_AllchartMTD();
@@ -640,22 +648,22 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 else if (selected_data.equalsIgnoreCase("MTD")) {
 
 
-                        MTDprimeproduct();
-                        Orderproduct_PiechartMTD();
+                    MTDprimeproduct();
+                    Orderproduct_PiechartMTD();
 
 
                     //  primartext.setText("Primary");
                 } else if (selected_data.equalsIgnoreCase("QTD")) {
 
-                        Orderproduct_QTDprimary_1();
-                        Orderproduct_PiechartQTD();
+                    Orderproduct_QTDprimary_1();
+                    Orderproduct_PiechartQTD();
 
 
                 } else if (selected_data.equalsIgnoreCase("YTD")) {
 
 
-                        Orderproduct_YTDprimary_l();
-                        Orderproduct_PiechartYTD();
+                    Orderproduct_YTDprimary_l();
+                    Orderproduct_PiechartYTD();
 
 
                 }
@@ -665,8 +673,8 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                         Toast.makeText(Target_Vs_Secondary.this, "Please Fill From date and To date", Toast.LENGTH_SHORT).show();
                     } else {
 
-                            allproduct();
-                            Orderproduct_Piechart();
+                        allproduct();
+                        Orderproduct_Piechart();
 
 
                     }
@@ -1012,13 +1020,13 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
             Map<String, String> QryParam = new HashMap<>();
             QryParam.put("axn", "get/product_sales_secondary");
             // if (division_splitting.getVisibility() == View.VISIBLE) {
-            QryParam.put("divisionCode", divison_code1);
+            QryParam.put("divisionCode", div_Code);
 //            } else {
 //                QryParam.put("divisionCode", div_code);
 //            }
-            sfdata=toback.get(toback.size()-1);
-            QryParam.put("sfCode", toback.get(toback.size()-1));
-            QryParam.put("rSF", Shared_Common_Pref.getsfcodeFromSP(Target_Vs_Secondary.this));
+            // sfdata=toback.get(toback.size()-1);
+            QryParam.put("sfCode", sf_code);
+            QryParam.put("rSF", sf_code);
 //            QryParam.put("from_date", "2019-05-04");
 //            QryParam.put("to_date", "2020-06-04");
             fromdata=startDateStr;
@@ -1037,7 +1045,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 mProgressDialog.setMessage("Loading...");
                 mProgressDialog.setCancelable(false);
                 mProgressDialog.show();
-                Call<JsonArray> call = apiService.getDataAsJArray( QryParam);
+                Call<JsonArray> call = apiService.getsecDataAsJArray(QryParam);
                 call.enqueue(new Callback<JsonArray>() {
 
                     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -1048,7 +1056,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                         Log.d("orderrepor:Code", response.code() + " - " + response.toString());
                         if (response.code() == 200 || response.code() == 201) {
                             Log.d("orderrepor:Res", response.body().toString());
-                            parseJsonDataPieprimary(response.body().toString(),divison_code1,sfdata,fromdata,todata);
+                            parseJsonDataPieprimary(response.body().toString(),div_Code,sf_code,fromdata,todata);
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
                             Toast.makeText(Target_Vs_Secondary.this, "No records found", Toast.LENGTH_SHORT).show();
@@ -1166,8 +1174,9 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
 //            }
             Dcrdatas.startdate=startDateStr;
             Dcrdatas.enddate=endDateStr;
-            Dcrdatas.division_coderselected = divison_code1;
-            Dcrdatas.sfcode_selected = toback.get(toback.size()-1);
+            Dcrdatas.division_coderselected = div_Code;
+            //Dcrdatas.sfcode_selected = toback.get(toback.size()-1);
+            Dcrdatas.sfcode_selected = sf_code;
 
 
             Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
@@ -1175,12 +1184,12 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
             Map<String, String> QryParam = new HashMap<>();
             QryParam.put("axn", "get/target_sales_secondary");
             // if (division_splitting.getVisibility() == View.VISIBLE) {
-            QryParam.put("divisionCode", divison_code1);
+            QryParam.put("divisionCode", div_Code);
 //            } else {
 //                QryParam.put("divisionCode", div_code);
 //            }
-            QryParam.put("sfCode", toback.get(toback.size()-1));
-            QryParam.put("rSF", Shared_Common_Pref.getsfcodeFromSP(Target_Vs_Secondary.this));
+            QryParam.put("sfCode", sf_code);
+            QryParam.put("rSF", sf_code);
             QryParam.put("from_date", startDateStr);
             QryParam.put("to_date", endDateStr);
             Log.e("orderreport_detail", QryParam.toString());
@@ -1191,7 +1200,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 mProgressDialog.setMessage("Loading...");
                 mProgressDialog.setCancelable(false);
                 mProgressDialog.show();
-                Call<JsonArray> call = apiService.getDataAsJArray(QryParam);
+                Call<JsonArray> call = apiService.getTargetSecDataAsJArray( QryParam);
                 call.enqueue(new Callback<JsonArray>() {
 
                     @Override
@@ -1519,13 +1528,13 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
             Map<String, String> QryParam = new HashMap<>();
             QryParam.put("axn", "get/product_sales_secondary");
             // if (division_splitting.getVisibility() == View.VISIBLE) {
-            QryParam.put("divisionCode", divison_code1);
+            QryParam.put("divisionCode", div_Code);
 //            } else {
 //                QryParam.put("divisionCode", div_code);
 //            }
-            sfdata=toback.get(toback.size()-1);
-            QryParam.put("sfCode", toback.get(toback.size()-1));
-            QryParam.put("rSF", Shared_Common_Pref.getsfcodeFromSP(Target_Vs_Secondary.this));
+            //sfdata=toback.get(toback.size()-1);
+            QryParam.put("sfCode", sf_code);
+            QryParam.put("rSF", sf_code);
 //            QryParam.put("from_date", "2019-05-04");
 //            QryParam.put("to_date", "2020-06-04");
             fromdata=startDateStr;
@@ -1544,7 +1553,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 mProgressDialog.setMessage("Loading...");
                 mProgressDialog.setCancelable(false);
                 mProgressDialog.show();
-                Call<JsonArray> call = apiService.getDataAsJArray(QryParam);
+                Call<JsonArray> call = apiService.getsecDataAsJArray(QryParam);
                 call.enqueue(new Callback<JsonArray>() {
 
                     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -1555,7 +1564,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                         Log.d("orderrepor:Code", response.code() + " - " + response.toString());
                         if (response.code() == 200 || response.code() == 201) {
                             Log.d("orderrepor:Res", response.body().toString());
-                            parseJsonDataPieprimary(response.body().toString(),divison_code1,sfdata,fromdata,todata);
+                            parseJsonDataPieprimary(response.body().toString(),div_Code,sf_code,fromdata,todata);
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
                             Toast.makeText(Target_Vs_Secondary.this, "No records found", Toast.LENGTH_SHORT).show();
@@ -1624,25 +1633,29 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             tostrdate = df.format(c);
 
+
+
             Dcrdatas.startdate=startDateStr;
             Dcrdatas.enddate=tostrdate;
-            Dcrdatas.division_coderselected = divison_code1;
-            Dcrdatas.sfcode_selected = toback.get(toback.size()-1);
+            Dcrdatas.division_coderselected = div_Code;
+            // Dcrdatas.sfcode_selected = toback.get(toback.size()-1);
+            Dcrdatas.sfcode_selected = sf_code;
 
             Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
             Log.e(" order request", "order Detail request");
             Map<String, String> QryParam = new HashMap<>();
             QryParam.put("axn", "get/target_sales_secondary");
             // if (division_splitting.getVisibility() == View.VISIBLE) {
-            QryParam.put("divisionCode", divison_code1);
-//            } else {
-//                QryParam.put("divisionCode", div_code);
-//            }
-            QryParam.put("sfCode", toback.get(toback.size()-1));
-            QryParam.put("rSF", Shared_Common_Pref.getsfcodeFromSP(Target_Vs_Secondary.this));
+            QryParam.put("divisionCode", div_Code);
+
+//            QryParam.put("sfCode", toback.get(toback.size()-1));
+//            QryParam.put("rSF", Shared_Common_Pref.getsfcodeFromSP(Target_Vs_Secondary.this));
+
+            QryParam.put("sfCode", sf_code);
+            QryParam.put("rSF", sf_code);
             QryParam.put("from_date",startDateStr);
             //if (todate.getText().toString().equalsIgnoreCase("Till Date")) {
-                QryParam.put("to_date", tostrdate);
+            QryParam.put("to_date", tostrdate);
 //            } else {
 //                QryParam.put("to_date", todate.getText().toString());
 //            }
@@ -1654,7 +1667,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 mProgressDialog.setMessage("Loading...");
                 mProgressDialog.setCancelable(false);
                 mProgressDialog.show();
-                Call<JsonArray> call = apiService.getDataAsJArray(QryParam);
+                Call<JsonArray> call = apiService.getTargetSecDataAsJArray(QryParam);
                 final String finalTostrdate = tostrdate;
                 call.enqueue(new Callback<JsonArray>() {
 
@@ -1765,7 +1778,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                         Log.d("orderrepor:Code", response.code() + " - " + response.toString());
                         if (response.code() == 200 || response.code() == 201) {
                             Log.d("orderrepor:Res", response.body().toString());
-                            parseJsonDataPieprimary(response.body().toString(),divison_code1,sfdata,fromdata,todata);
+                            parseJsonDataPieprimary(response.body().toString(),div_Code,sf_code,fromdata,todata);
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
                             Toast.makeText(Target_Vs_Secondary.this, "No records found", Toast.LENGTH_SHORT).show();
@@ -1946,20 +1959,22 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
 
             Dcrdatas.startdate=fromstrdate;
             Dcrdatas.enddate=tostrdate;
-            Dcrdatas.division_coderselected = divison_code1;
-            Dcrdatas.sfcode_selected = toback.get(toback.size()-1);
+            Dcrdatas.division_coderselected = div_Code;
+            //  Dcrdatas.sfcode_selected = toback.get(toback.size()-1);
+            Dcrdatas.sfcode_selected =sf_code;
+
 
             Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
             Log.e(" order request", "order Detail request");
             Map<String, String> QryParam = new HashMap<>();
             QryParam.put("axn", "get/target_sales_secondary");
             // if (division_splitting.getVisibility() == View.VISIBLE) {
-            QryParam.put("divisionCode", divison_code1);
+            QryParam.put("divisionCode", div_Code);
 //            } else {
 //                QryParam.put("divisionCode", div_code);
 //            }
-            QryParam.put("sfCode",toback.get(toback.size()-1));
-            QryParam.put("rSF", Shared_Common_Pref.getsfcodeFromSP(Target_Vs_Secondary.this));
+            QryParam.put("sfCode",sf_code);
+            QryParam.put("rSF", sf_code);
             QryParam.put("from_date", fromstrdate);
             QryParam.put("to_date", tostrdate);
             Log.e("orderreport_detail", QryParam.toString());
@@ -1970,7 +1985,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 mProgressDialog.setMessage("Loading...");
                 mProgressDialog.setCancelable(false);
                 mProgressDialog.show();
-                Call<JsonArray> call = apiService.getDataAsJArray(QryParam);
+                Call<JsonArray> call = apiService.getTargetSecDataAsJArray(QryParam);
                 call.enqueue(new Callback<JsonArray>() {
 
                     @Override
@@ -2192,15 +2207,26 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                         }
 
                         ArrayList<Integer> colors = new ArrayList<>();
+//                        colors.add(Color.rgb(213, 0, 0));
+//                        colors.add(Color.rgb(24, 255, 255));
+//                        colors.add(Color.rgb(255, 195, 0));
+//                        colors.add(Color.rgb(0, 200, 83));
+//                        colors.add(Color.rgb(62, 39, 35));
+//                        colors.add(Color.rgb(255, 87, 51));
+//                        colors.add(Color.rgb(66, 165, 245));
+//                        colors.add(Color.rgb(124, 179, 66));
+//                        colors.add(Color.rgb(13, 71, 161));
+
                         colors.add(Color.rgb(213, 0, 0));
-                        colors.add(Color.rgb(24, 255, 255));
+                        colors.add(Color.rgb(66, 165, 245));
                         colors.add(Color.rgb(255, 195, 0));
                         colors.add(Color.rgb(0, 200, 83));
                         colors.add(Color.rgb(62, 39, 35));
                         colors.add(Color.rgb(255, 87, 51));
-                        colors.add(Color.rgb(66, 165, 245));
+                        colors.add(Color.rgb(31, 122, 122));
                         colors.add(Color.rgb(124, 179, 66));
                         colors.add(Color.rgb(13, 71, 161));
+                        colors.add(Color.rgb(51, 102, 0));
 
 
                         pieDataSet = new PieDataSet(values, "");
@@ -2511,84 +2537,84 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
 //            recyclerView.setItemAnimator(new DefaultItemAnimator());
 //            targetadt = new TargetAdapter_new(Target_Vs_Secondary.this, targetdetails, targetSdetails, todate, fromdate, Target_Vs_Secondary.this);
 //            recyclerView.setAdapter(targetadt);
-            pieChart.clear();
+        pieChart.clear();
 
 
-            if (selected_data.equalsIgnoreCase("MTD")) {
+        if (selected_data.equalsIgnoreCase("MTD")) {
 
-                if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
-                    if(toback.size()==1){
-                        MTDprimeproduct_admin();
-                        Orderproduct_AllchartMTD();
-                    }else{
-                        MTDprimeproduct();
-                        Orderproduct_PiechartMTD();
-                    }
-
+            if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
+                if(toback.size()==1){
+                    MTDprimeproduct_admin();
+                    Orderproduct_AllchartMTD();
                 }else{
                     MTDprimeproduct();
                     Orderproduct_PiechartMTD();
                 }
 
-                //  primartext.setText("Primary");
-            } else if (selected_data.equalsIgnoreCase("QTD")) {
-                if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
-                    if(toback.size()==1){
-                        QTDprimeproduct_admin_1();
-                        Orderproduct_PiechartQTD_admin();
-                    }else{
-                        Orderproduct_QTDprimary_1();
-                        Orderproduct_PiechartQTD();
-                    }
+            }else{
+                MTDprimeproduct();
+                Orderproduct_PiechartMTD();
+            }
 
+            //  primartext.setText("Primary");
+        } else if (selected_data.equalsIgnoreCase("QTD")) {
+            if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
+                if(toback.size()==1){
+                    QTDprimeproduct_admin_1();
+                    Orderproduct_PiechartQTD_admin();
                 }else{
                     Orderproduct_QTDprimary_1();
                     Orderproduct_PiechartQTD();
                 }
 
-            } else if (selected_data.equalsIgnoreCase("YTD")) {
+            }else{
+                Orderproduct_QTDprimary_1();
+                Orderproduct_PiechartQTD();
+            }
 
-                if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
-                    if(toback.size()==1){
-                        YTDALLproduct();
-                        Orderproduct_AllchartYTD();
-                    }else{
-                        Orderproduct_YTDprimary_l();
-                        Orderproduct_PiechartYTD();
-                    }
-                }
-                else{
+        } else if (selected_data.equalsIgnoreCase("YTD")) {
+
+            if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
+                if(toback.size()==1){
+                    YTDALLproduct();
+                    Orderproduct_AllchartYTD();
+                }else{
                     Orderproduct_YTDprimary_l();
                     Orderproduct_PiechartYTD();
                 }
-
             }
-            else if (selected_data.equalsIgnoreCase("Customdate")) {
-                if (fromdate_ed.getText().toString().equalsIgnoreCase("") || todate_ed.getText().toString().equalsIgnoreCase("")) {
-                    Toast.makeText(Target_Vs_Secondary.this, "Please Fill From date and To date", Toast.LENGTH_SHORT).show();
-                } else {
-                    if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
-                        if(toback.size()==1){
-                            allproduct_admin();
-                            Orderproduct_Piechartadmin();
-                        }else{
-                            allproduct();
-                            Orderproduct_Piechart();
-                        }
+            else{
+                Orderproduct_YTDprimary_l();
+                Orderproduct_PiechartYTD();
+            }
 
-                    }
-                    else{
+        }
+        else if (selected_data.equalsIgnoreCase("Customdate")) {
+            if (fromdate_ed.getText().toString().equalsIgnoreCase("") || todate_ed.getText().toString().equalsIgnoreCase("")) {
+                Toast.makeText(Target_Vs_Secondary.this, "Please Fill From date and To date", Toast.LENGTH_SHORT).show();
+            } else {
+                if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
+                    if(toback.size()==1){
+                        allproduct_admin();
+                        Orderproduct_Piechartadmin();
+                    }else{
                         allproduct();
                         Orderproduct_Piechart();
                     }
 
                 }
+                else{
+                    allproduct();
+                    Orderproduct_Piechart();
+                }
 
             }
 
+        }
+
 //            Orderproduct_MTDprimary1(selsfcode,division_code);
 //            Orderproduct_Piechart(selsfcode,division_code);
-       // }
+        // }
     }
 
     public void getsubdata1(String sf_name,String division_codee) {
@@ -2619,83 +2645,83 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
 //            recyclerView.setItemAnimator(new DefaultItemAnimator());
 //            targetadt = new TargetAdapter_new(Target_Vs_Secondary.this, targetdetails, targetSdetails, todate, fromdate, Target_Vs_Secondary.this);
 //            recyclerView.setAdapter(targetadt);
-            pieChart.clear();
+        pieChart.clear();
 
-            if (selected_data.equalsIgnoreCase("MTD")) {
+        if (selected_data.equalsIgnoreCase("MTD")) {
 
-                if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
-                    if(toback.size()==1){
-                        MTDprimeproduct_admin();
-                        Orderproduct_AllchartMTD();
-                    }else{
-                        MTDprimeproduct();
-                        Orderproduct_PiechartMTD();
-                    }
-
+            if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
+                if(toback.size()==1){
+                    MTDprimeproduct_admin();
+                    Orderproduct_AllchartMTD();
                 }else{
                     MTDprimeproduct();
                     Orderproduct_PiechartMTD();
                 }
 
-                //  primartext.setText("Primary");
-            } else if (selected_data.equalsIgnoreCase("QTD")) {
-                if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
-                    if(toback.size()==1){
-                        QTDprimeproduct_admin_1();
-                        Orderproduct_PiechartQTD_admin();
-                    }else{
-                        Orderproduct_QTDprimary_1();
-                        Orderproduct_PiechartQTD();
-                    }
+            }else{
+                MTDprimeproduct();
+                Orderproduct_PiechartMTD();
+            }
 
+            //  primartext.setText("Primary");
+        } else if (selected_data.equalsIgnoreCase("QTD")) {
+            if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
+                if(toback.size()==1){
+                    QTDprimeproduct_admin_1();
+                    Orderproduct_PiechartQTD_admin();
                 }else{
                     Orderproduct_QTDprimary_1();
                     Orderproduct_PiechartQTD();
                 }
 
-            } else if (selected_data.equalsIgnoreCase("YTD")) {
+            }else{
+                Orderproduct_QTDprimary_1();
+                Orderproduct_PiechartQTD();
+            }
 
-                if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
-                    if(toback.size()==1){
-                        YTDALLproduct();
-                        Orderproduct_AllchartYTD();
-                    }else{
-                        Orderproduct_YTDprimary_l();
-                        Orderproduct_PiechartYTD();
-                    }
-                }
-                else{
+        } else if (selected_data.equalsIgnoreCase("YTD")) {
+
+            if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
+                if(toback.size()==1){
+                    YTDALLproduct();
+                    Orderproduct_AllchartYTD();
+                }else{
                     Orderproduct_YTDprimary_l();
                     Orderproduct_PiechartYTD();
                 }
-
             }
-            else if (selected_data.equalsIgnoreCase("Customdate")) {
-                if (fromdate_ed.getText().toString().equalsIgnoreCase("") || todate_ed.getText().toString().equalsIgnoreCase("")) {
-                    Toast.makeText(Target_Vs_Secondary.this, "Please Fill From date and To date", Toast.LENGTH_SHORT).show();
-                } else {
-                    if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
-                        if(toback.size()==1){
-                            allproduct_admin();
-                            Orderproduct_Piechartadmin();
-                        }else{
-                            allproduct();
-                            Orderproduct_Piechart();
-                        }
+            else{
+                Orderproduct_YTDprimary_l();
+                Orderproduct_PiechartYTD();
+            }
 
-                    }
-                    else{
+        }
+        else if (selected_data.equalsIgnoreCase("Customdate")) {
+            if (fromdate_ed.getText().toString().equalsIgnoreCase("") || todate_ed.getText().toString().equalsIgnoreCase("")) {
+                Toast.makeText(Target_Vs_Secondary.this, "Please Fill From date and To date", Toast.LENGTH_SHORT).show();
+            } else {
+                if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
+                    if(toback.size()==1){
+                        allproduct_admin();
+                        Orderproduct_Piechartadmin();
+                    }else{
                         allproduct();
                         Orderproduct_Piechart();
                     }
 
                 }
+                else{
+                    allproduct();
+                    Orderproduct_Piechart();
+                }
 
             }
 
+        }
+
 //            Orderproduct_MTDprimary1_1(selsfcode,division_codes);
 //            Orderproduct_Piecharts(selsfcode,division_codes);
-       // }
+        // }
 
     }
 
@@ -2737,82 +2763,82 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
 //
 //        } else {
         pieChart.clear();
-            if (selected_data.equalsIgnoreCase("MTD")) {
+        if (selected_data.equalsIgnoreCase("MTD")) {
 
-                if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
-                    if(toback.size()==1){
-                        MTDprimeproduct_admin();
-                        Orderproduct_AllchartMTD();
-                    }else{
-                        MTDprimeproduct();
-                        Orderproduct_PiechartMTD();
-                    }
-
+            if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
+                if(toback.size()==1){
+                    MTDprimeproduct_admin();
+                    Orderproduct_AllchartMTD();
                 }else{
                     MTDprimeproduct();
                     Orderproduct_PiechartMTD();
                 }
-                toback.remove(toback.size() - 1);
 
-                //  primartext.setText("Primary");
-            } else if (selected_data.equalsIgnoreCase("QTD")) {
-                if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
-                    if(toback.size()==1){
-                        QTDprimeproduct_admin_1();
-                        Orderproduct_PiechartQTD_admin();
-                    }else{
-                        Orderproduct_QTDprimary_1();
-                        Orderproduct_PiechartQTD();
-                    }
+            }else{
+                MTDprimeproduct();
+                Orderproduct_PiechartMTD();
+            }
+            toback.remove(toback.size() - 1);
 
+            //  primartext.setText("Primary");
+        } else if (selected_data.equalsIgnoreCase("QTD")) {
+            if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
+                if(toback.size()==1){
+                    QTDprimeproduct_admin_1();
+                    Orderproduct_PiechartQTD_admin();
                 }else{
                     Orderproduct_QTDprimary_1();
                     Orderproduct_PiechartQTD();
                 }
-                toback.remove(toback.size() - 1);
 
-            } else if (selected_data.equalsIgnoreCase("YTD")) {
+            }else{
+                Orderproduct_QTDprimary_1();
+                Orderproduct_PiechartQTD();
+            }
+            toback.remove(toback.size() - 1);
 
-                if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
-                    if(toback.size()==1){
-                        YTDALLproduct();
-                        Orderproduct_AllchartYTD();
-                    }else{
-                        Orderproduct_YTDprimary_l();
-                        Orderproduct_PiechartYTD();
-                    }
-                }
-                else{
+        } else if (selected_data.equalsIgnoreCase("YTD")) {
+
+            if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
+                if(toback.size()==1){
+                    YTDALLproduct();
+                    Orderproduct_AllchartYTD();
+                }else{
                     Orderproduct_YTDprimary_l();
                     Orderproduct_PiechartYTD();
                 }
-                toback.remove(toback.size() - 1);
-
             }
-            else if (selected_data.equalsIgnoreCase("Customdate")) {
-                if (fromdate_ed.getText().toString().equalsIgnoreCase("") || todate_ed.getText().toString().equalsIgnoreCase("")) {
-                    Toast.makeText(Target_Vs_Secondary.this, "Please Fill From date and To date", Toast.LENGTH_SHORT).show();
-                } else {
-                    if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
-                        if(toback.size()==1){
-                            allproduct_admin();
-                            Orderproduct_Piechartadmin();
-                        }else{
-                            allproduct();
-                            Orderproduct_Piechart();
-                        }
+            else{
+                Orderproduct_YTDprimary_l();
+                Orderproduct_PiechartYTD();
+            }
+            toback.remove(toback.size() - 1);
 
-                    }
-                    else{
+        }
+        else if (selected_data.equalsIgnoreCase("Customdate")) {
+            if (fromdate_ed.getText().toString().equalsIgnoreCase("") || todate_ed.getText().toString().equalsIgnoreCase("")) {
+                Toast.makeText(Target_Vs_Secondary.this, "Please Fill From date and To date", Toast.LENGTH_SHORT).show();
+            } else {
+                if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
+                    if(toback.size()==1){
+                        allproduct_admin();
+                        Orderproduct_Piechartadmin();
+                    }else{
                         allproduct();
                         Orderproduct_Piechart();
                     }
 
                 }
+                else{
+                    allproduct();
+                    Orderproduct_Piechart();
+                }
 
-                toback.remove(toback.size() - 1);
             }
-       // }
+
+            toback.remove(toback.size() - 1);
+        }
+        // }
     }
 
     public void getbackdata() {
@@ -3149,7 +3175,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                         JSONObject jsonObject = js.getJSONObject(i);
                         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-                      //  TargetSecondary_class targetreport1 = new TargetSecondary_class(
+                        //  TargetSecondary_class targetreport1 = new TargetSecondary_class(
 //                                jsonObject.getString("sno"),
 //                                jsonObject.getString("sf_code"),
 //                                jsonObject.getString("sf_name"),
@@ -3158,13 +3184,13 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
 //                                jsonObject.getString("SF_Cat_Code"),
 //                                jsonObject.getString("sf_TP_Active_Flag"),
 //                                jsonObject.getString("SF_VacantBlock"),
-                                archeivevalue.add(jsonObject.getString("Sl_Achieve"));
-                                growthvalue.add(jsonObject.getString("Sl_growth"));
-                                primevalue.add(jsonObject.getString("Sl_Primary"));
-                                targetvalue.add(jsonObject.getString("Sl_Target"));
+                        archeivevalue.add(jsonObject.getString("Sl_Achieve"));
+                        growthvalue.add(jsonObject.getString("Sl_growth"));
+                        primevalue.add(jsonObject.getString("Sl_Primary"));
+                        targetvalue.add(jsonObject.getString("Sl_Target"));
 
-                      //  targetSdetails.add(targetreport1);
-                      //  targetadt.notifyDataSetChanged();
+                        //  targetSdetails.add(targetreport1);
+                        //  targetadt.notifyDataSetChanged();
 
                     }
 
@@ -3605,18 +3631,49 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+
+
+//            int CurrentYear = Calendar.getInstance().get(Calendar.YEAR);
+//            int CurrentMonth = (Calendar.getInstance().get(Calendar.MONTH)+1);
+//            String financiyalYearFrom="";
+//            String financiyalYearTo="";
+//            if (CurrentMonth<4) {
+//                financiyalYearFrom=(CurrentYear-1)+"-04-01";
+//                financiyalYearTo=(CurrentYear)+"-03-31";
+//            } else {
+//                financiyalYearFrom=(CurrentYear)+"-04-01";
+//                financiyalYearTo=(CurrentYear+1)+"-03-31";
+//            }
+//
+////            Date c = Calendar.getInstance().getTime();
+////            System.out.println("Current time => " + c);
+//
+//            SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd");
+//            SimpleDateFormat output11 = new SimpleDateFormat("MMM yyyy");
+//            String startDateStr1 = financiyalYearFrom;
+//            formattedDate1 = input.parse(financiyalYearFrom);
+//            fromdate.setText(output11.format(formattedDate1));
+//
+//            SimpleDateFormat input1 = new SimpleDateFormat("yyyy-MM-dd");
+//            SimpleDateFormat output1 = new SimpleDateFormat("MMM yyyy");
+//            tostrdate = financiyalYearTo;
+//            formattedDate2 = input1.parse(tostrdate);
+//            todate.setText(output1.format(formattedDate2));
+
             Dcrdatas.startdate = startDateStr;
             Dcrdatas.enddate = tostrdate;
-            Dcrdatas.division_coderselected = divison_code1;
-            Dcrdatas.sfcode_selected = toback.get(toback.size()-1);
+            Dcrdatas.division_coderselected = div_Code;
+            //Dcrdatas.sfcode_selected = toback.get(toback.size()-1);
+            Dcrdatas.sfcode_selected =sf_code;
+
 
             Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
             Log.e(" order request", "order Detail request");
             Map<String, String> QryParam = new HashMap<>();
             QryParam.put("axn", "get/target_sales_secondary");
-            QryParam.put("divisionCode", divison_code1);
-            QryParam.put("sfCode",toback.get(toback.size()-1));
-            QryParam.put("rSF", Shared_Common_Pref.getsfcodeFromSP(Target_Vs_Secondary.this));
+            QryParam.put("divisionCode", div_Code);
+            QryParam.put("sfCode",sf_code);
+            QryParam.put("rSF", sf_code);
             QryParam.put("from_date", startDateStr);
             QryParam.put("to_date", tostrdate);
             Log.e("orderreport_detail", QryParam.toString());
@@ -3627,7 +3684,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 mProgressDialog.setMessage("Loading...");
                 mProgressDialog.setCancelable(false);
                 mProgressDialog.show();
-                Call<JsonArray> call = apiService.getDataAsJArray( QryParam);
+                Call<JsonArray> call = apiService.getTargetSecDataAsJArray(QryParam);
                 call.enqueue(new Callback<JsonArray>() {
 
                     @Override
@@ -4042,14 +4099,43 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 e.printStackTrace();
             }
 
+
+
+//            int CurrentYear = Calendar.getInstance().get(Calendar.YEAR);
+//            int CurrentMonth = (Calendar.getInstance().get(Calendar.MONTH)+1);
+//            String financiyalYearFrom="";
+//            String financiyalYearTo="";
+//            if (CurrentMonth<4) {
+//                financiyalYearFrom=(CurrentYear-1)+"-04-01";
+//                financiyalYearTo=(CurrentYear)+"-03-31";
+//            } else {
+//                financiyalYearFrom=(CurrentYear)+"-04-01";
+//                financiyalYearTo=(CurrentYear+1)+"-03-31";
+//            }
+//
+////            Date c = Calendar.getInstance().getTime();
+////            System.out.println("Current time => " + c);
+//
+//            SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd");
+//            SimpleDateFormat output11 = new SimpleDateFormat("MMM yyyy");
+//            String startDateStr1 = financiyalYearFrom;
+//            formattedDate1 = input.parse(financiyalYearFrom);
+//            fromdate.setText(output11.format(formattedDate1));
+//
+//            SimpleDateFormat input1 = new SimpleDateFormat("yyyy-MM-dd");
+//            SimpleDateFormat output1 = new SimpleDateFormat("MMM yyyy");
+//            tostrdate = financiyalYearTo;
+//            formattedDate2 = input1.parse(tostrdate);
+//            todate.setText(output1.format(formattedDate2));
+
             Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
             Log.e(" order request", "order Detail request");
             Map<String, String> QryParam = new HashMap<>();
             QryParam.put("axn", "get/product_sales_secondary");
-            QryParam.put("divisionCode",divison_code1);
-            sfdata = toback.get(toback.size()-1);
-            QryParam.put("sfCode",toback.get(toback.size()-1));
-            QryParam.put("rSF", Shared_Common_Pref.getsfcodeFromSP(Target_Vs_Secondary.this));
+            QryParam.put("divisionCode",div_Code);
+            //sfdata = toback.get(toback.size()-1);
+            QryParam.put("sfCode",sf_code);
+            QryParam.put("rSF", sf_code);
             fromdata = startDateStr;
             todata = tostrdate;
             QryParam.put("from_date", startDateStr);
@@ -4062,7 +4148,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 mProgressDialog.setMessage("Loading...");
                 mProgressDialog.setCancelable(false);
                 mProgressDialog.show();
-                Call<JsonArray> call = apiService.getDataAsJArray( QryParam);
+                Call<JsonArray> call = apiService.getsecDataAsJArray(QryParam);
                 call.enqueue(new Callback<JsonArray>() {
 
                     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -4073,7 +4159,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                         Log.d("orderrepor:Code", response.code() + " - " + response.toString());
                         if (response.code() == 200 || response.code() == 201) {
                             Log.d("orderrepor:Res", response.body().toString());
-                            parseJsonData_adminchart(response.body().toString(),divison_code1,sfdata,fromdata,todata);
+                            parseJsonData_adminchart(response.body().toString(),div_Code,sf_code,fromdata,todata);
 //                            secondaryproduct_detail11(fromstrdate, tostrdate);
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
@@ -4300,16 +4386,26 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                         }
 
                         ArrayList<Integer> colors = new ArrayList<>();
+//                        colors.add(Color.rgb(213, 0, 0));
+//                        colors.add(Color.rgb(24, 255, 255));
+//                        colors.add(Color.rgb(255, 195, 0));
+//                        colors.add(Color.rgb(0, 200, 83));
+//                        colors.add(Color.rgb(62, 39, 35));
+//                        colors.add(Color.rgb(255, 87, 51));
+//                        colors.add(Color.rgb(66, 165, 245));
+//                        colors.add(Color.rgb(124, 179, 66));
+//                        colors.add(Color.rgb(13, 71, 161));
+
                         colors.add(Color.rgb(213, 0, 0));
-                        colors.add(Color.rgb(24, 255, 255));
+                        colors.add(Color.rgb(66, 165, 245));
                         colors.add(Color.rgb(255, 195, 0));
                         colors.add(Color.rgb(0, 200, 83));
                         colors.add(Color.rgb(62, 39, 35));
                         colors.add(Color.rgb(255, 87, 51));
-                        colors.add(Color.rgb(66, 165, 245));
+                        colors.add(Color.rgb(31, 122, 122));
                         colors.add(Color.rgb(124, 179, 66));
                         colors.add(Color.rgb(13, 71, 161));
-
+                        colors.add(Color.rgb(51, 102, 0));
 
                         pieDataSet = new PieDataSet(values, "");
                         pieData = new PieData(pieDataSet);
@@ -4389,75 +4485,28 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
     }
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();
+        Intent ii=new Intent(this, HomeDashBoard.class);
+        startActivity(ii);
     }
     private void Orderproduct_MTDsecondary(String fdate,String tdate) {
         try {
-            sqlLite sqlLite;
-            String curval = null;
-            List<CustomerMe> CustomerMeList;
-            sqlLite = new sqlLite(this);
-            String username = Shared_Common_Pref.getusernameFromSP(this);
-            Cursor cursor = sqlLite.getAllLoginData();
 
-            if (cursor.moveToFirst()) {
-                curval = cursor.getString(cursor.getColumnIndex("Log_Values"));
-            }
-            cursor.close();
-            Gson gson = new Gson();
-            Type type = new TypeToken<List<CustomerMe>>() {
-            }.getType();
-            CustomerMeList = gson.fromJson(curval, type);
-            Log.d("CustomerMeListDataSF11", CustomerMeList.get(0).getSFCode() + " " + CustomerMeList.get(0).getDivisionCode());
+            sf_code=mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_CODE);
+            div_Code=mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DIVISION);
 
-//            if (CustomerMeList.get(0).getDivisionCode().contains(",")) {
-//                div_code = CustomerMeList.get(0).getDivisionCode().substring(0, CustomerMeList.get(0).getDivisionCode().length() - 1);
-//            } else {
-//                div_code = CustomerMeList.get(0).getDivisionCode();
-//            }
             String fromstrdate = fdate;
             String tostrdate = tdate;
-//
-//            Calendar calendar = Calendar.getInstance();
-//            calendar.add(Calendar.MONTH, 0);
-//            calendar.set(Calendar.DATE, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
-//            Date monthFirstDay = calendar.getTime();
-//            calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
-//            Date monthLastDay = calendar.getTime();
-//
-//            SimpleDateFormat dfs = new SimpleDateFormat("yyyy-MM-dd");
-//            String startDateStr = dfs.format(monthFirstDay);
-//            String endDateStr = dfs.format(monthLastDay);
-//
-//            Log.e("DateFirstLast", startDateStr + " " + endDateStr);
-//
 
-//            SimpleDateFormat output = new SimpleDateFormat("MMM yyyy");
-//            try {
-//                formattedDate1 = dfs.parse(startDateStr);                 // parse input
-//                formattedDate2 = dfs.parse(endDateStr);
-//                fromdate.setText(output.format(formattedDate1));    // format output
-//                todate.setText("Till Date");
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
-//            Date c = Calendar.getInstance().getTime();
-//            System.out.println("Current time => " + c);
-//            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//            tostrdate = df.format(c);
-//            }
 
-            ApiInterface apiService = ApiClient.getClient(Target_Vs_Secondary.this).create(ApiInterface.class);
+            Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
             Log.e(" order request", "order Detail request");
             Map<String, String> QryParam = new HashMap<>();
             QryParam.put("axn", "get/target_sales_primary");
             //if(division_splitting.getVisibility() == View.VISIBLE){
-            QryParam.put("divisionCode", divison_code1);
-//            }else{
-//                QryParam.put("divisionCode", div_code);
-//            }
-            QryParam.put("sfCode", toback.get(toback.size()-1));
-            QryParam.put("rSF", Shared_Common_Pref.getsfcodeFromSP(Target_Vs_Secondary.this));
+            QryParam.put("divisionCode", div_Code);
+
+            QryParam.put("sfCode",sf_code);
+            QryParam.put("rSF", sf_code);
             QryParam.put("from_date", fromstrdate);
             // if(todate.getText().toString().equalsIgnoreCase("Till Date")){
             QryParam.put("to_date", tostrdate);
@@ -4472,7 +4521,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 mProgressDialog.setMessage("Loading...");
                 mProgressDialog.setCancelable(false);
                 mProgressDialog.show();
-                Call<JsonArray> call = apiService.getDataAsJArray(AppConfig.getInstance(Target_Vs_Secondary.this).getBaseurl(), QryParam);
+                Call<JsonArray> call = apiService.getTargetDataAsJArray(QryParam);
                 call.enqueue(new Callback<JsonArray>() {
 
                     @Override
@@ -4556,22 +4605,6 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
 
         Log.d("webdata",outputDateStr+"/*/"+outputDateyear+"**"+outputDateStr1+"**"+outputDateyear1);
 
-        sqlLite sqlLite;
-        String curval = null;
-        final List<CustomerMe> CustomerMeList;
-        sqlLite = new sqlLite(this);
-        String username = Shared_Common_Pref.getusernameFromSP(this);
-        Cursor cursor = sqlLite.getAllLoginData();
-
-        if (cursor.moveToFirst()) {
-            curval = cursor.getString(cursor.getColumnIndex("Log_Values"));
-        }
-        cursor.close();
-        Gson gson = new Gson();
-        Type type = new TypeToken<List<CustomerMe>>() {
-        }.getType();
-        CustomerMeList = gson.fromJson(curval, type);
-        Log.d("CustomerMeListDataSF11", CustomerMeList.get(0).getSFCode() + " " +username);
 
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -4591,7 +4624,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 oo.putExtra("Dcode",separateddoc[7]);
                 oo.putExtra("Brandcd",separateddoc[0]);
                 oo.putExtra("Brandname",label);
-                oo.putExtra("sfname",CustomerMeList.get(0).getSFName());
+                oo.putExtra("sfname",sf_name);
                 startActivity(oo);
             }
         });

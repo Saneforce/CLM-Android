@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
@@ -14,6 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:orientation="vertical">
 
             <LinearLayout
@@ -153,7 +155,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="9.49" />
+                                android:text="9.49"
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                         <LinearLayout
@@ -165,7 +168,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                               android:layout_gravity="center"
+                                android:layout_gravity="center"
                                 android:fontFamily="@font/poppins"
                                 android:text="Sec sal"
                                 android:textColor="@color/red"/>
@@ -174,8 +177,9 @@
                                 android:id="@+id/tv_sales"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                               android:layout_gravity="center"
-                                android:text="9.47" />
+                                android:layout_gravity="center"
+                                android:text="9.47"
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                         <LinearLayout
@@ -197,7 +201,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="80" />
+                                android:text="80"
+                                android:textColor="@color/black"/>
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -218,7 +223,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="80" />
+                                android:text="80"
+                                android:textColor="@color/black"/>
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -239,7 +245,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="80" />
+                                android:text="80"
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
 

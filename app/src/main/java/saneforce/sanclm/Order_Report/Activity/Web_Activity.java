@@ -17,16 +17,24 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import saneforce.sanclm.R;
 import saneforce.sanclm.api_Interface.AppConfig;
+import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
+import saneforce.sanclm.applicationCommonFiles.CommonUtils;
 
 
 public class Web_Activity extends AppCompatActivity {
     ImageView back;
     WebView dvalue;
-    String sfcode,fmonth,fyear,tmonth,tyear,divcode,Bcode,Bname,sfname;
+    String sfcode,fmonth,fyear,tmonth,tyear,divcode,Bcode,Bname,sfname,db_connPath,url;
+    CommonSharedPreference mCommonSharedPreference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_);
+
+        mCommonSharedPreference=new CommonSharedPreference(this);
+        db_connPath = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DB_URL);
+        url="http://sansfa.in";
 
         back=findViewById(R.id.back_btn_chepro);
         dvalue=findViewById(R.id.weburl);
@@ -39,7 +47,7 @@ public class Web_Activity extends AppCompatActivity {
         divcode=getIntent().getStringExtra("Dcode");
         Bcode=getIntent().getStringExtra("Brandcd");
         Bname=getIntent().getStringExtra("Brandname");
-       // sfname=getIntent().getStringExtra("sfname");
+        sfname=getIntent().getStringExtra("sfname");
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,7 +56,7 @@ public class Web_Activity extends AppCompatActivity {
             }
         });
 
-        Log.d("loaddata", AppConfig.getWeburl() +
+        Log.d("loaddata", db_connPath +
                 "/MasterFiles/AnalysisReports/rpt_Primary_Sale_StockistWise_Product.aspx?" +
                 "sf_code="+sfcode+
                 "&Frm_Month=" +fmonth+
@@ -62,11 +70,11 @@ public class Web_Activity extends AppCompatActivity {
                 "&selectedValue="+"5"+
                 "&Div_New="+"undefined");
 
-       // http://sansfa.in/MasterFiles/AnalysisReports/rpt_Primary_Sale_StockistWise_Product.aspx?sf_code=5,2,4,3,&Frm_Month=12&Frm_year=2020&To_year=2020&To_Month=12&div_Code=ALL&Brand_Code=40&Brand_Name=BIF%20GRP&sf_name=MANISH%20SHARMA%20-%20CSMO&selectedValue=5&Div_New=ALL
+        // http://sansfa.in/MasterFiles/AnalysisReports/rpt_Primary_Sale_StockistWise_Product.aspx?sf_code=5,2,4,3,&Frm_Month=12&Frm_year=2020&To_year=2020&To_Month=12&div_Code=ALL&Brand_Code=40&Brand_Name=BIF%20GRP&sf_name=MANISH%20SHARMA%20-%20CSMO&selectedValue=5&Div_New=ALL
 
 
 
-        webpage(AppConfig.getWeburl() +
+        webpage(url +
                 "/MasterFiles/AnalysisReports/rpt_Primary_Sale_StockistWise_Product.aspx?" +
                 "sf_code="+sfcode+
                 "&Frm_Month=" +fmonth+

@@ -120,7 +120,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/bg_reddot"
-            android:layout_margin="5dp"/>
+            android:layout_margin="5dp"
+            android:visibility="gone"/>
 
 
         <TextView
@@ -134,7 +135,8 @@
             android:textStyle="bold"
             android:text="Clear Filter"
             android:background="@color/red"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:visibility="gone"/>
     </LinearLayout>
 
     <LinearLayout
@@ -181,10 +183,20 @@
                 android:layout_margin="10dp"/>
 
 
+            <TextView
+                android:id="@+id/charttext"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textColor="@color/red"
+                android:visibility="gone"/>
+
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/piechart"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="400dp"
                 android:layout_gravity="center"
                 android:minHeight="300dp"
                 android:layout_margin="20dp"

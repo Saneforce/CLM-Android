@@ -2,17 +2,23 @@
   <library name="Gradle: com.facebook.fresco:fbcore:1.11.0@aar">
     <ANNOTATIONS>
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5f3f3f1f9e2cf4e4e1ed137ab8ba06bb/jetified-fbcore-1.11.0/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/Downloads/gradle-5.2.1/caches/transforms-2/files-2.1/4fcb5e70ef2890d8bb58fb646514f2aa/jetified-fbcore-1.11.0/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5f3f3f1f9e2cf4e4e1ed137ab8ba06bb/jetified-fbcore-1.11.0/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5f3f3f1f9e2cf4e4e1ed137ab8ba06bb/jetified-fbcore-1.11.0/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/5f3f3f1f9e2cf4e4e1ed137ab8ba06bb/jetified-fbcore-1.11.0/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/Downloads/gradle-5.2.1/caches/transforms-2/files-2.1/4fcb5e70ef2890d8bb58fb646514f2aa/jetified-fbcore-1.11.0/res" />
+      <root url="file://$USER_HOME$/Downloads/gradle-5.2.1/caches/transforms-2/files-2.1/4fcb5e70ef2890d8bb58fb646514f2aa/jetified-fbcore-1.11.0/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/Downloads/gradle-5.2.1/caches/transforms-2/files-2.1/4fcb5e70ef2890d8bb58fb646514f2aa/jetified-fbcore-1.11.0/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.facebook.fresco/fbcore/1.11.0/e0d5517a179d895cde6014b59a8758b2a54ae4b8/fbcore-1.11.0-javadoc.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/gradle-5.2.1/caches/modules-2/files-2.1/com.facebook.fresco/fbcore/1.11.0/e0d5517a179d895cde6014b59a8758b2a54ae4b8/fbcore-1.11.0-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.facebook.fresco/fbcore/1.11.0/38d76fd5585c6afba0ec0ad006c2597ec2d8a445/fbcore-1.11.0-sources.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/gradle-5.2.1/caches/modules-2/files-2.1/com.facebook.fresco/fbcore/1.11.0/38d76fd5585c6afba0ec0ad006c2597ec2d8a445/fbcore-1.11.0-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

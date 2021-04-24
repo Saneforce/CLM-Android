@@ -233,6 +233,17 @@
         <activity android:name=".Order_Report.Activity.Target_Vs_Secondary"
             android:screenOrientation="landscape"/>
 
+        <activity android:name=".Order_Report.Activity.Web_Activity"
+            android:screenOrientation="landscape"/>
+
+        <activity android:name=".Order_Report.Activity.Web_activity_secondary"
+            android:screenOrientation="landscape"/>
+
+        <activity android:name=".SFE_report.Activity.SFE_Activtity"
+            android:screenOrientation="landscape"/>
+
+        <activity android:name=".SFE_report.Activity.SFe_Activity"
+            android:screenOrientation="landscape"/>
 
         <activity android:name=".activities.DashActivity"
             android:screenOrientation="landscape"/>
