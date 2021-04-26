@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -98,7 +99,7 @@ public class SFe_Activity extends AppCompatActivity {
         ImageView ic_back,imp_back_filter,filter_btn;
         DrawerLayout slidemenu;
         TextView monthselection,yearselection,catogoryselection,specalityselection;
-        CardView Catgory_card,specality_card,speclcard;
+        CardView Catgory_card,specality_card,speclcard,month_card,year_card;
         TextView cattxt,spectxt,txtspin,backcat,catog,brandtxt;
         LinearLayout special_selection;
         String selected_data = "";
@@ -148,8 +149,11 @@ public class SFe_Activity extends AppCompatActivity {
             div_Code=mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DIVISION);
 
             ic_back=findViewById(R.id.back_btn);
-            monthselection=findViewById(R.id.select_month);
-            yearselection=findViewById(R.id.select_year);
+            monthselection=findViewById(R.id.select_months);
+            yearselection=findViewById(R.id.select_years);
+            month_card=findViewById(R.id.prm);
+            year_card=findViewById(R.id.sec);
+
             specality_card = ( CardView ) findViewById(R.id.ytd);
             Catgory_card = ( CardView ) findViewById(R.id.qtd);
             speclcard=( CardView ) findViewById(R.id.specl_class);
@@ -257,11 +261,13 @@ public class SFe_Activity extends AppCompatActivity {
                 }
             });
 
-            monthselection.setOnClickListener(new View.OnClickListener() {
+            month_card.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(SFe_Activity.this);
                     LayoutInflater factory = LayoutInflater.from(SFe_Activity.this);
+                   // ViewGroup viewGroup=findViewById(R.id.view_date);
                     final View vieww = factory.inflate(R.layout.customdialoglayout, null);
                     alertDialog.setView(vieww);
                     monthpicker=vieww.findViewById(R.id.picker_month);
@@ -294,12 +300,13 @@ public class SFe_Activity extends AppCompatActivity {
                 }
             });
 
-            yearselection.setOnClickListener(new View.OnClickListener() {
+            year_card.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (!monthselection.getText().toString().equals("")){
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(SFe_Activity.this);
                         LayoutInflater factory = LayoutInflater.from(SFe_Activity.this);
+                        //ViewGroup viewGroup=findViewById(R.id.view_date);
                         final View vieww = factory.inflate(R.layout.customdialoglayout, null);
                         alertDialog.setView(vieww);
                         monthpicker=vieww.findViewById(R.id.picker_month);
@@ -412,7 +419,7 @@ public class SFe_Activity extends AppCompatActivity {
                     } else {
                         Toast.makeText(SFe_Activity.this, "Please Select the options to filter", Toast.LENGTH_SHORT).show();
                     }
-                    slidemenu.closeDrawer(Gravity.RIGHT);
+                  slidemenu.closeDrawer(Gravity.RIGHT);
                 }
             });
 
@@ -452,23 +459,26 @@ public class SFe_Activity extends AppCompatActivity {
             cur_month.setText(fmtOut.format(date));
             return fmtOut.format(date);
         }
+
         public void catback(String divdata){
             String selsfcode="";
             Log.d("selsfcode", String.valueOf(toback.size()));
-            sqlLite sqlLite;
-            String curval = null;
-            List<CustomerMe> CustomerMeList;
-            sqlLite = new sqlLite(SFe_Activity.this);
-            Cursor cursor = sqlLite.getAllLoginData();
-            if (cursor.moveToFirst()) {
-                curval = cursor.getString(cursor.getColumnIndex("Log_Values"));
-            }
-            cursor.close();
-            Gson gson = new Gson();
-            Type type = new TypeToken<List<CustomerMe>>() {
-            }.getType();
-            CustomerMeList = gson.fromJson(curval, type);
-            String sfcode = CustomerMeList.get(0).getSFCode();
+
+//            sqlLite sqlLite;
+//            String curval = null;
+//            List<CustomerMe> CustomerMeList;
+//            sqlLite = new sqlLite(SFe_Activity.this);
+//            Cursor cursor = sqlLite.getAllLoginData();
+//            if (cursor.moveToFirst()) {
+//                curval = cursor.getString(cursor.getColumnIndex("Log_Values"));
+//            }
+//            cursor.close();
+//            Gson gson = new Gson();
+//            Type type = new TypeToken<List<CustomerMe>>() {
+//            }.getType();
+//            CustomerMeList = gson.fromJson(curval, type);
+
+            String sfcode = sf_code;
 
             if ((toback.size()) != 0) {
                 selsfcode = toback.get(toback.size() - 1);
@@ -493,6 +503,7 @@ public class SFe_Activity extends AppCompatActivity {
 
             }
         }
+
         public void getbackdatas(String codeit,String divsion) {
             String sfcode=codeit;
             String divcode=divsion;
@@ -751,33 +762,34 @@ public class SFe_Activity extends AppCompatActivity {
 
         public void specialitydata() {
             try {
-                sqlLite sqlLite;
-                String curval = null;
-                List<CustomerMe> CustomerMeList;
-                sqlLite = new sqlLite(SFe_Activity.this);
-                Cursor cursor = sqlLite.getAllLoginData();
-                if (cursor.moveToFirst()) {
-                    curval = cursor.getString(cursor.getColumnIndex("Log_Values"));
-                }
-                cursor.close();
-                Gson gson = new Gson();
-                Type type = new TypeToken<List<CustomerMe>>() {
-                }.getType();
-                CustomerMeList = gson.fromJson(curval, type);
-                listSelected.clear();
-                strspclid = "";
-                Log.d("CustomerMeListDataSF11", CustomerMeList.get(0).getSFCode() + " " + CustomerMeList.get(0).getDivisionCode());
-                if (CustomerMeList.get(0).getDivisionCode().contains(",")) {
-                    div_code = CustomerMeList.get(0).getDivisionCode().substring(0, CustomerMeList.get(0).getDivisionCode().length() - 1);
-                } else {
-                    div_code = CustomerMeList.get(0).getDivisionCode();
-                }
-                ApiInterface apiService = ApiClient.getClient(SFe_Activity.this).create(ApiInterface.class);
+//                sqlLite sqlLite;
+//                String curval = null;
+//                List<CustomerMe> CustomerMeList;
+//                sqlLite = new sqlLite(SFe_Activity.this);
+//                Cursor cursor = sqlLite.getAllLoginData();
+//                if (cursor.moveToFirst()) {
+//                    curval = cursor.getString(cursor.getColumnIndex("Log_Values"));
+//                }
+//                cursor.close();
+//                Gson gson = new Gson();
+//                Type type = new TypeToken<List<CustomerMe>>() {
+//                }.getType();
+//                CustomerMeList = gson.fromJson(curval, type);
+//                listSelected.clear();
+//                strspclid = "";
+//                Log.d("CustomerMeListDataSF11", CustomerMeList.get(0).getSFCode() + " " + CustomerMeList.get(0).getDivisionCode());
+//                if (CustomerMeList.get(0).getDivisionCode().contains(",")) {
+//                    div_code = CustomerMeList.get(0).getDivisionCode().substring(0, CustomerMeList.get(0).getDivisionCode().length() - 1);
+//                } else {
+//                    div_code = CustomerMeList.get(0).getDivisionCode();
+//                }
+
+                Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
                 Log.e("Missed report request", "Missed report Detail request");
                 Map<String, String> QryParam = new HashMap<>();
-                QryParam.put("axn", "getdivision_speciality");
-                QryParam.put("divisionCode", CustomerMeList.get(0).getDivisionCode());
-                QryParam.put("sfCode", CustomerMeList.get(0).getSFCode());
+               // QryParam.put("axn", "getdivision_speciality");
+                QryParam.put("divisionCode", div_Code);
+                QryParam.put("sfCode", sf_code);
                 QryParam.put("Ho_Id", "");
                 Log.e("mreport_detail", QryParam.toString());
                 try {
@@ -786,7 +798,7 @@ public class SFe_Activity extends AppCompatActivity {
                     mProgressDialog.setMessage("Loading...");
                     mProgressDialog.setCancelable(false);
                     mProgressDialog.show();
-                    Call<JsonArray> call = apiService.getDataAsJArray(AppConfig.getInstance(SFe_Activity.this).getBaseurl(), QryParam);
+                    Call<JsonArray> call = apiService.getdivSpecDataAsJArray(QryParam);
                     call.enqueue(new Callback<JsonArray>() {
 
                         @Override
@@ -1014,8 +1026,8 @@ public class SFe_Activity extends AppCompatActivity {
                 Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
                 Log.e(" caty request","cat Detail request");
                 Map<String, String> QryParam = new HashMap<>();
-                QryParam.put("axn", "get/hierarchy");
-                QryParam.put("divisionCode",div_Code);
+                //QryParam.put("axn", "get/hierarchy");
+                QryParam.put("divisionCode",div_Code +",");
                 QryParam.put("sfCode",sf_code);
                 QryParam.put("fmonth", fromstrdate);
                 QryParam.put("fyear", tostrdate);
@@ -1060,16 +1072,16 @@ public class SFe_Activity extends AppCompatActivity {
 //                Toast.makeText(SFe_Activity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
 //            }
         }
-        public void CategoryHq_details(String div_code,String sf_code) {
+        public void CategoryHq_details(String div_code,String Sf_code) {
             try {
                 String division="";
                 String sfcode="";
-                if (div_code.equals("") && sf_code.equals("")){
-                    division=CustomerMeList.get(0).getDivisionCode();
-                    sfcode=CustomerMeList.get(0).getSFCode();
+                if (div_code.equals("") && Sf_code.equals("")){
+                    division=div_Code;
+                    sfcode=sf_code;
                 }else {
                     division=div_code;
-                    sfcode=sf_code;
+                    sfcode=Sf_code;
                 }
 //            if (toback.contains("Admin")) {
                 if (!toback.contains(sfcode)) {
@@ -1080,29 +1092,6 @@ public class SFe_Activity extends AppCompatActivity {
 //                toback.add(sfcode);
 //            }
                 Log.d("toback",toback.toString());
-                sqlLite sqlLite;
-                String curval = null;
-                List<CustomerMe> CustomerMeList;
-                sqlLite = new sqlLite(SFe_Activity.this);
-                String username = Shared_Common_Pref.getusernameFromSP(SFe_Activity.this);
-                Cursor cursor = sqlLite.getAllLoginData();
-
-                if (cursor.moveToFirst()) {
-                    curval = cursor.getString(cursor.getColumnIndex("Log_Values"));
-                }
-                cursor.close();
-                Gson gson = new Gson();
-                Type type = new TypeToken<List<CustomerMe>>() {
-                }.getType();
-                CustomerMeList = gson.fromJson(curval, type);
-                Log.d("CustomerMeListDataSF11", CustomerMeList.get(0).getSFCode() + " " + CustomerMeList.get(0).getDivisionCode());
-
-
-                if (CustomerMeList.get(0).getDivisionCode().contains(",")) {
-                    div_code = CustomerMeList.get(0).getDivisionCode().substring(0, CustomerMeList.get(0).getDivisionCode().length() - 1);
-                } else {
-                    div_code = CustomerMeList.get(0).getDivisionCode();
-                }
 
                 String fromstrdate="";
                 String tostrdate="";
@@ -1122,10 +1111,10 @@ public class SFe_Activity extends AppCompatActivity {
                     tostrdate=Dcrdatas.select_year;
                 }
 
-                ApiInterface apiService = ApiClient.getClient(SFe_Activity.this).create(ApiInterface.class);
+                Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
                 Log.e(" caty request","cat Detail request");
                 Map<String, String> QryParam = new HashMap<>();
-                QryParam.put("axn", "get/hierarchy");
+                //QryParam.put("axn", "get/hierarchy");
                 QryParam.put("divisionCode", division);
                 QryParam.put("sfCode", sfcode);
                 QryParam.put("fmonth", fromstrdate);
@@ -1138,7 +1127,7 @@ public class SFe_Activity extends AppCompatActivity {
                     mProgressDialog.setMessage("Loading...");
                     mProgressDialog.setCancelable(false);
                     mProgressDialog.show();
-                    Call<JsonArray> call = apiService.getDataAsJArray(AppConfig.getInstance(SFe_Activity.this).getBaseurl(), QryParam);
+                    Call<JsonArray> call = apiService.gethierarchyDataAsJArray(QryParam);
                     call.enqueue(new Callback<JsonArray>() {
 
                         @Override
@@ -1177,31 +1166,11 @@ public class SFe_Activity extends AppCompatActivity {
                 Toast.makeText(SFe_Activity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
-        public void CategoryHq_backdetails(String div_code,String sf_code) {
+        public void CategoryHq_backdetails(String div_code,String Sf_code) {
             try {
                 String division=div_code;
-                String sfcode=sf_code;
-                sqlLite sqlLite;
-                String curval = null;
-                List<CustomerMe> CustomerMeList;
-                sqlLite = new sqlLite(SFe_Activity.this);
-                Cursor cursor = sqlLite.getAllLoginData();
+                String sfcode=Sf_code;
 
-                if (cursor.moveToFirst()) {
-                    curval = cursor.getString(cursor.getColumnIndex("Log_Values"));
-                }
-                cursor.close();
-                Gson gson = new Gson();
-                Type type = new TypeToken<List<CustomerMe>>() {
-                }.getType();
-                CustomerMeList = gson.fromJson(curval, type);
-                Log.d("CustomerMeListDataSF11", CustomerMeList.get(0).getSFCode() + " " + CustomerMeList.get(0).getDivisionCode());
-
-                if (CustomerMeList.get(0).getDivisionCode().contains(",")) {
-                    div_code = CustomerMeList.get(0).getDivisionCode().substring(0, CustomerMeList.get(0).getDivisionCode().length() - 1);
-                } else {
-                    div_code = CustomerMeList.get(0).getDivisionCode();
-                }
                 String fromstrdate="";
                 String tostrdate="";
                 DateFormat dateFormat1 = new SimpleDateFormat("M");
@@ -1220,10 +1189,10 @@ public class SFe_Activity extends AppCompatActivity {
                     tostrdate=Dcrdatas.select_year;
                 }
 
-                ApiInterface apiService = ApiClient.getClient(SFe_Activity.this).create(ApiInterface.class);
+                Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
                 Log.e(" caty request","cat Detail request");
                 Map<String, String> QryParam = new HashMap<>();
-                QryParam.put("axn", "get/hierarchy");
+                //QryParam.put("axn", "get/hierarchy");
                 QryParam.put("divisionCode", division);
                 QryParam.put("sfCode", sfcode);
                 QryParam.put("fmonth", fromstrdate);
@@ -1236,7 +1205,7 @@ public class SFe_Activity extends AppCompatActivity {
                     mProgressDialog.setMessage("Loading...");
                     mProgressDialog.setCancelable(false);
                     mProgressDialog.show();
-                    Call<JsonArray> call = apiService.getDataAsJArray(AppConfig.getInstance(SFe_Activity.this).getBaseurl(), QryParam);
+                    Call<JsonArray> call = apiService.gethierarchyDataAsJArray(QryParam);
                     call.enqueue(new Callback<JsonArray>() {
 
                         @Override
@@ -1268,31 +1237,6 @@ public class SFe_Activity extends AppCompatActivity {
         }
 
         private void Category_filterdetail() {
-//            try {
-//                sqlLite sqlLite;
-//                String curval = null;
-//                List<CustomerMe> CustomerMeList;
-//                sqlLite = new sqlLite(SFe_Activity.this);
-//                String username = Shared_Common_Pref.getusernameFromSP(SFe_Activity.this);
-//                Cursor cursor = sqlLite.getAllLoginData();
-//
-//                if (cursor.moveToFirst()) {
-//                    curval = cursor.getString(cursor.getColumnIndex("Log_Values"));
-//                }
-//                cursor.close();
-//                Gson gson = new Gson();
-//                Type type = new TypeToken<List<CustomerMe>>() {
-//                }.getType();
-//                CustomerMeList = gson.fromJson(curval, type);
-//                Log.d("CustomerMeListDataSF11", CustomerMeList.get(0).getSFCode() + " " + CustomerMeList.get(0).getDivisionCode());
-//
-//
-//                if (CustomerMeList.get(0).getDivisionCode().contains(",")) {
-//                    div_code = CustomerMeList.get(0).getDivisionCode().substring(0, CustomerMeList.get(0).getDivisionCode().length() - 1);
-//                } else {
-//                    div_code = CustomerMeList.get(0).getDivisionCode();
-//                }
-
                 String fromstrdate ="";
                 String tostrdate="";
                 DateFormat dateFormat1 = new SimpleDateFormat("M");
@@ -1314,8 +1258,8 @@ public class SFe_Activity extends AppCompatActivity {
                 Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
                 Log.e(" caty request","cat Detail request");
                 Map<String, String> QryParam = new HashMap<>();
-                QryParam.put("axn", "get/Category_sfe");
-                QryParam.put("divisionCode", div_Code);
+              //  QryParam.put("axn", "get/Category_sfe");
+                QryParam.put("divisionCode", div_Code.toString()+",");
                 QryParam.put("sfCode", sf_code);
                 QryParam.put("fmonth", fromstrdate);
                 QryParam.put("fyear", tostrdate);
@@ -1355,9 +1299,6 @@ public class SFe_Activity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-//            } catch (Exception e) {
-//                Toast.makeText(SFe_Activity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
         }
 
         private void parseJsonDataDetail(String ordrdcr) {
@@ -1818,41 +1759,41 @@ public class SFe_Activity extends AppCompatActivity {
             }
         }
 
-        public void getsubdataMR(String div_code,String sf_code) {
+        public void getsubdataMR(String div_code,String Sf_code) {
             try {
                 String division="";
                 String sfcode="";
-                if (div_code.equals("") && sf_code.equals("")){
-                    division=CustomerMeList.get(0).getDivisionCode();
-                    sfcode=CustomerMeList.get(0).getSFCode();
+                if (div_code.equals("") && Sf_code.equals("")){
+                    division=div_Code;
+                    sfcode=sf_code;
                 }else {
                     division=div_code;
-                    sfcode=sf_code;
+                    sfcode=Sf_code;
                 }
-                sqlLite sqlLite;
-                String curval = null;
-                chart.clear();
-                List<CustomerMe> CustomerMeList;
-                sqlLite = new sqlLite(SFe_Activity.this);
-                String username = Shared_Common_Pref.getusernameFromSP(SFe_Activity.this);
-                Cursor cursor = sqlLite.getAllLoginData();
-
-                if (cursor.moveToFirst()) {
-                    curval = cursor.getString(cursor.getColumnIndex("Log_Values"));
-                }
-                cursor.close();
-                Gson gson = new Gson();
-                Type type = new TypeToken<List<CustomerMe>>() {
-                }.getType();
-                CustomerMeList = gson.fromJson(curval, type);
-                Log.d("CustomerMeListDataSF11", CustomerMeList.get(0).getSFCode() + " " + CustomerMeList.get(0).getDivisionCode());
-
-
-                if (CustomerMeList.get(0).getDivisionCode().contains(",")) {
-                    div_code = CustomerMeList.get(0).getDivisionCode().substring(0, CustomerMeList.get(0).getDivisionCode().length() - 1);
-                } else {
-                    div_code = CustomerMeList.get(0).getDivisionCode();
-                }
+//                sqlLite sqlLite;
+//                String curval = null;
+//                chart.clear();
+//                List<CustomerMe> CustomerMeList;
+//                sqlLite = new sqlLite(SFe_Activity.this);
+//                String username = Shared_Common_Pref.getusernameFromSP(SFe_Activity.this);
+//                Cursor cursor = sqlLite.getAllLoginData();
+//
+//                if (cursor.moveToFirst()) {
+//                    curval = cursor.getString(cursor.getColumnIndex("Log_Values"));
+//                }
+//                cursor.close();
+//                Gson gson = new Gson();
+//                Type type = new TypeToken<List<CustomerMe>>() {
+//                }.getType();
+//                CustomerMeList = gson.fromJson(curval, type);
+//                Log.d("CustomerMeListDataSF11", CustomerMeList.get(0).getSFCode() + " " + CustomerMeList.get(0).getDivisionCode());
+//
+//
+//                if (CustomerMeList.get(0).getDivisionCode().contains(",")) {
+//                    div_code = CustomerMeList.get(0).getDivisionCode().substring(0, CustomerMeList.get(0).getDivisionCode().length() - 1);
+//                } else {
+//                    div_code = CustomerMeList.get(0).getDivisionCode();
+//                }
                 String fromstrdate="";
                 String tostrdate="";
                 DateFormat dateFormat1 = new SimpleDateFormat("M");
@@ -1871,10 +1812,10 @@ public class SFe_Activity extends AppCompatActivity {
                     tostrdate=Dcrdatas.select_year;
                 }
 
-                ApiInterface apiService = ApiClient.getClient(SFe_Activity.this).create(ApiInterface.class);
+                Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
                 Log.e(" caty request","cat Detail request");
                 Map<String, String> QryParam = new HashMap<>();
-                QryParam.put("axn", "get/Category_sfe");
+                //QryParam.put("axn", "get/Category_sfe");
                 QryParam.put("divisionCode", division);
                 QryParam.put("sfCode", sfcode);
                 QryParam.put("fmonth", fromstrdate);
@@ -1887,7 +1828,7 @@ public class SFe_Activity extends AppCompatActivity {
                     mProgressDialog.setMessage("Loading...");
                     mProgressDialog.setCancelable(false);
                     mProgressDialog.show();
-                    Call<JsonArray> call = apiService.getDataAsJArray(AppConfig.getInstance(SFe_Activity.this).getBaseurl(), QryParam);
+                    Call<JsonArray> call = apiService.getCategoryDataAsJArray(QryParam);
                     call.enqueue(new Callback<JsonArray>() {
 
                         @Override
@@ -1925,40 +1866,18 @@ public class SFe_Activity extends AppCompatActivity {
             }
         }
 
-        public void getsubdataMRspcial(String div_code,String sf_code) {
+        public void getsubdataMRspcial(String div_code,String Sf_code) {
             try {
                 String division="";
                 String sfcode="";
-                if (div_code.equals("") && sf_code.equals("")){
-                    division=CustomerMeList.get(0).getDivisionCode();
-                    sfcode=CustomerMeList.get(0).getSFCode();
+                if (div_code.equals("") && Sf_code.equals("")){
+                    division=div_Code;
+                    sfcode=sf_code;
                 }else {
                     division=div_code;
-                    sfcode=sf_code;
+                    sfcode=Sf_code;
                 }
-                sqlLite sqlLite;
-                String curval = null;
-                chart.clear();
-                List<CustomerMe> CustomerMeList;
-                sqlLite = new sqlLite(SFe_Activity.this);
-                String username = Shared_Common_Pref.getusernameFromSP(SFe_Activity.this);
-                Cursor cursor = sqlLite.getAllLoginData();
-                if (cursor.moveToFirst()) {
-                    curval = cursor.getString(cursor.getColumnIndex("Log_Values"));
-                }
-                cursor.close();
-                Gson gson = new Gson();
-                Type type = new TypeToken<List<CustomerMe>>() {
-                }.getType();
-                CustomerMeList = gson.fromJson(curval, type);
-                Log.d("CustomerMeListDataSF11", CustomerMeList.get(0).getSFCode() + " " + CustomerMeList.get(0).getDivisionCode());
 
-
-                if (CustomerMeList.get(0).getDivisionCode().contains(",")) {
-                    div_code = CustomerMeList.get(0).getDivisionCode().substring(0, CustomerMeList.get(0).getDivisionCode().length() - 1);
-                } else {
-                    div_code = CustomerMeList.get(0).getDivisionCode();
-                }
                 String fromstrdate="";
                 String tostrdate="";
                 DateFormat dateFormat1 = new SimpleDateFormat("M");
@@ -1977,10 +1896,10 @@ public class SFe_Activity extends AppCompatActivity {
                     tostrdate=Dcrdatas.select_year;
                 }
 
-                ApiInterface apiService = ApiClient.getClient(SFe_Activity.this).create(ApiInterface.class);
+                Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
                 Log.e(" caty request","cat Detail request");
                 Map<String, String> QryParam = new HashMap<>();
-                QryParam.put("axn", "get/speciality_sfe");
+              //  QryParam.put("axn", "get/speciality_sfe");
                 QryParam.put("divisionCode", division);
                 QryParam.put("sfCode", sfcode);
                 QryParam.put("fmonth", fromstrdate);
@@ -1995,7 +1914,7 @@ public class SFe_Activity extends AppCompatActivity {
                     mProgressDialog.setMessage("Loading...");
                     mProgressDialog.setCancelable(false);
                     mProgressDialog.show();
-                    Call<JsonArray> call = apiService.getDataAsJArray(AppConfig.getInstance(SFe_Activity.this).getBaseurl(), QryParam);
+                    Call<JsonArray> call = apiService.getSpecialityDataAsJArray(QryParam);
                     call.enqueue(new Callback<JsonArray>() {
 
                         @Override
@@ -2034,29 +1953,7 @@ public class SFe_Activity extends AppCompatActivity {
         }
         public void getsubspecialitydata() {
             try {
-                sqlLite sqlLite;
-                String curval = null;
-                chart.clear();
-                List<CustomerMe> CustomerMeList;
-                sqlLite = new sqlLite(SFe_Activity.this);
-                String username = Shared_Common_Pref.getusernameFromSP(SFe_Activity.this);
-                Cursor cursor = sqlLite.getAllLoginData();
-                if (cursor.moveToFirst()) {
-                    curval = cursor.getString(cursor.getColumnIndex("Log_Values"));
-                }
-                cursor.close();
-                Gson gson = new Gson();
-                Type type = new TypeToken<List<CustomerMe>>() {
-                }.getType();
-                CustomerMeList = gson.fromJson(curval, type);
-                Log.d("CustomerMeListDataSF11", CustomerMeList.get(0).getSFCode() + " " + CustomerMeList.get(0).getDivisionCode());
 
-
-                if (CustomerMeList.get(0).getDivisionCode().contains(",")) {
-                    div_code = CustomerMeList.get(0).getDivisionCode().substring(0, CustomerMeList.get(0).getDivisionCode().length() - 1);
-                } else {
-                    div_code = CustomerMeList.get(0).getDivisionCode();
-                }
                 String fromstrdate="";
                 String tostrdate="";
                 DateFormat dateFormat1 = new SimpleDateFormat("M");
@@ -2075,12 +1972,12 @@ public class SFe_Activity extends AppCompatActivity {
                     tostrdate=Dcrdatas.select_year;
                 }
 
-                ApiInterface apiService = ApiClient.getClient(SFe_Activity.this).create(ApiInterface.class);
+                Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
                 Log.e(" caty request","cat Detail request");
                 Map<String, String> QryParam = new HashMap<>();
-                QryParam.put("axn", "get/speciality_sfe");
-                QryParam.put("divisionCode", CustomerMeList.get(0).getDivisionCode());
-                QryParam.put("sfCode", CustomerMeList.get(0).getSFCode());
+                //QryParam.put("axn", "get/speciality_sfe");
+                QryParam.put("divisionCode", div_Code);
+                QryParam.put("sfCode", sf_code);
                 QryParam.put("fmonth", fromstrdate);
                 QryParam.put("fyear", tostrdate);
                 QryParam.put("spec_code", strspclid);
@@ -2093,7 +1990,7 @@ public class SFe_Activity extends AppCompatActivity {
                     mProgressDialog.setMessage("Loading...");
                     mProgressDialog.setCancelable(false);
                     mProgressDialog.show();
-                    Call<JsonArray> call = apiService.getDataAsJArray(AppConfig.getInstance(SFe_Activity.this).getBaseurl(), QryParam);
+                    Call<JsonArray> call = apiService.getSpecialityDataAsJArray(QryParam);
                     call.enqueue(new Callback<JsonArray>() {
 
                         @Override

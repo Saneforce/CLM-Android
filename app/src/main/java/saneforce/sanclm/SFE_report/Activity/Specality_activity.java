@@ -68,7 +68,7 @@ public class Specality_activity extends AppCompatActivity {
     ImageView ic_back, imp_back_filter,filter_btn;
     DrawerLayout slidemenu;
     TextView monthselection, yearselection, catogoryselection, specalityselection;
-    CardView Catgory_card, specality_card, speclcard;
+    CardView Catgory_card, specality_card, speclcard,month_card,year_card;
     TextView cattxt, spectxt;
     String selected_data = "";
     Dialog monthdialog;
@@ -83,8 +83,10 @@ public class Specality_activity extends AppCompatActivity {
         setContentView(R.layout.activity_specality_activity);
 
         ic_back = findViewById(R.id.back_btn);
-        monthselection = findViewById(R.id.select_month);
-        yearselection = findViewById(R.id.select_year);
+        monthselection = findViewById(R.id.select_months);
+        yearselection = findViewById(R.id.select_years);
+        month_card=findViewById(R.id.prm);
+        year_card=findViewById(R.id.sec);
         specality_card = ( CardView ) findViewById(R.id.ytd);
         Catgory_card = ( CardView ) findViewById(R.id.qtd);
         speclcard = ( CardView ) findViewById(R.id.specl_class);
@@ -146,7 +148,7 @@ public class Specality_activity extends AppCompatActivity {
             }
         });
 
-        monthselection.setOnClickListener(new View.OnClickListener() {
+        month_card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(Specality_activity.this);
@@ -182,7 +184,7 @@ public class Specality_activity extends AppCompatActivity {
             }
         });
 
-        yearselection.setOnClickListener(new View.OnClickListener() {
+        year_card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(Specality_activity.this);

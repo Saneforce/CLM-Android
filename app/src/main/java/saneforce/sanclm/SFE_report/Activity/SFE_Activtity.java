@@ -154,8 +154,8 @@ public class SFE_Activtity extends AppCompatActivity {
 
 
         ic_back=findViewById(R.id.back_btn);
-        monthselection=findViewById(R.id.select_month);
-        yearselection=findViewById(R.id.select_year);
+        monthselection=findViewById(R.id.select_months);
+        yearselection=findViewById(R.id.select_years);
         specality_card = ( CardView ) findViewById(R.id.ytd);
         Catgory_card = ( CardView ) findViewById(R.id.qtd);
         speclcard=(CardView ) findViewById(R.id.specl_class);
@@ -750,7 +750,7 @@ public class SFE_Activtity extends AppCompatActivity {
             Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
             Log.e("Missed report request", "Missed report Detail request");
             Map<String, String> QryParam = new HashMap<>();
-            QryParam.put("axn", "getdivision_speciality");
+           // QryParam.put("axn", "getdivision_speciality");
             QryParam.put("divisionCode", div_Code);
             QryParam.put("sfCode", "");
             QryParam.put("Ho_Id", sf_code);
@@ -761,7 +761,7 @@ public class SFE_Activtity extends AppCompatActivity {
                 mProgressDialog.setMessage("Loading...");
                 mProgressDialog.setCancelable(false);
                 mProgressDialog.show();
-                Call<JsonArray> call = apiService.getSpecialityDataAsJArray(QryParam);
+                Call<JsonArray> call = apiService.getdivSpecDataAsJArray(QryParam);
                 call.enqueue(new Callback<JsonArray>() {
 
                     @Override
@@ -1092,7 +1092,7 @@ public class SFE_Activtity extends AppCompatActivity {
             Log.e(" caty request","cat Detail request");
             Map<String, String> QryParam = new HashMap<>();
             QryParam.put("axn", "get/hierarchy");
-            QryParam.put("divisionCode", div_Code);
+            QryParam.put("divisionCode", div_Code+",");
             QryParam.put("sfCode", sf_code);
             QryParam.put("fmonth", fromstrdate);
             QryParam.put("fyear", tostrdate);

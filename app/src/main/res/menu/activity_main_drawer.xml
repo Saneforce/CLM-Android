@@ -13,14 +13,14 @@
             android:title="SFE" />
 
 
-        <item
-            android:id="@+id/logout"
-            android:fontFamily="@font/poppins"
-            android:title="Logout" />
+<!--        <item-->
+<!--            android:id="@+id/logout"-->
+<!--            android:fontFamily="@font/poppins"-->
+<!--            android:title="Logout" />-->
 
-        <item
-            android:id="@+id/apge"
-            android:fontFamily="@font/poppins"
-            android:title="" />
+<!--        <item-->
+<!--            android:id="@+id/apge"-->
+<!--            android:fontFamily="@font/poppins"-->
+<!--            android:title="" />-->
     </group>
 </menu>

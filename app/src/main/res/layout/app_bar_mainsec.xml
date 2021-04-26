@@ -25,7 +25,7 @@
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_gravity="right"
-                android:src="@drawable/backarrow"
+                android:src="@drawable/drawerslide"
                 android:visibility="visible" />
 
 
@@ -43,15 +43,26 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/camp_filter"
+                android:id="@+id/close_img"
                 android:layout_width="65dp"
                 android:layout_height="25dp"
                 android:layout_gravity="right"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_camfilter"
+                android:src="@drawable/cancel_icon"
                 android:layout_alignParentEnd="true"
                 android:visibility="visible"
                 android:layout_alignParentRight="true" />
+
+            <ImageView
+                android:id="@+id/camp_filter"
+                android:layout_width="65dp"
+                android:layout_height="25dp"
+                android:layout_toStartOf="@+id/close_img"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_camfilter"
+                android:visibility="visible"
+                />
+
         </RelativeLayout>
 
     </LinearLayout>

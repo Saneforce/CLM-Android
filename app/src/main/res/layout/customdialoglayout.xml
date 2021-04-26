@@ -1,7 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/view_date"
+android:background="@color/color_white"
+    >
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,7 +27,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
-            android:solidColor="@color/red"
+            android:solidColor="@color/grey_light"
+            android:theme="@style/Theme.NumberPicker"
             android:descendantFocusability="blocksDescendants"
             android:layout_marginRight="20dp">
 
@@ -34,7 +38,8 @@
             android:id="@+id/picker_year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:solidColor="@color/red"
+            android:solidColor="@color/grey_light"
+            android:theme="@style/Theme.NumberPicker"
             android:descendantFocusability="blocksDescendants">
 
         </NumberPicker>

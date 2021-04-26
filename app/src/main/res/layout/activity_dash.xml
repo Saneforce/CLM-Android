@@ -28,9 +28,9 @@
         android:background="@color/white"
         app:headerLayout="@layout/nav_header_main"
         app:itemIconTint="@drawable/drawar_item_select"
-        app:itemTextColor="@drawable/drawar_item_select"
+        app:itemTextColor="#808080"
         app:menu="@menu/activity_main_drawer"
-        android:visibility="gone">
+        android:visibility="visible">
     </com.google.android.material.navigation.NavigationView>
 
     <RelativeLayout

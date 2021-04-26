@@ -110,7 +110,7 @@ import java.util.Map;
 public class DashActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     NavigationView navigationView;
     SharedPreferences sharedpreferencess;
-    ImageView iv_draw, tfilter;
+    ImageView iv_draw, tfilter,close;
     TextView mTitle;
     RelativeLayout targetlayout, reportlayout,secondarylayout;
     public static final String Name = "nameKey";
@@ -224,6 +224,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
     ArrayList<String> piedata = new ArrayList<String>();
     int position;
 
+
     CommonSharedPreference mCommonSharedPreference;
     String sf_code,div_Code,db_connPath,sf_name;
 
@@ -236,6 +237,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
 //        Toolbar toolbar = ( Toolbar ) findViewById(R.id.ToolbarHome);
         mTitle = findViewById(R.id.toolbar_title);
         chrttxt=findViewById(R.id.charttext);
+        close=findViewById(R.id.close_img);
         View headerView = navigationView.getHeaderView(0);
         //  chart1=findViewById(R.id.barchart);
 //        targetlayout = findViewById(R.id.Target_activity);
@@ -244,10 +246,13 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
         tfilter = findViewById(R.id.camp_filter);
         Toolbar toolbar = ( Toolbar ) findViewById(R.id.toolbar);
 
+
         mCommonSharedPreference=new CommonSharedPreference(this);
         sharedpreferencess = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
         sf_name=mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_NAME);
         db_connPath = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DB_URL);
+        sf_code=mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_CODE);
+        div_Code=mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DIVISION);
 
         Log.d("path", "" + db_connPath);
 
@@ -285,8 +290,18 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onClick(View v) {
-                // drawer.openDrawer(Gravity.LEFT);
+                 drawer.openDrawer(Gravity.LEFT);
+
+            }
+
+        });
+
+        close.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
                 onBackPressed();
+
             }
 
         });
@@ -634,7 +649,9 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
         mtdtext.setTextColor(Color.WHITE);
         selected_data = "MTD";
 //        toback.clear();
-//        toback.add("Admin");
+ //       toback.add("Admin");
+
+        //toback.add(sf_code);
 
         apply.setOnClickListener(new View.OnClickListener() {
             @Override

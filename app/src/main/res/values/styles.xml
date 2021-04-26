@@ -49,5 +49,17 @@
         <item name="colorControlActivated">@color/colorAccent</item>
     </style>
 
+    <style name="check_box" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorControlNormal">@color/grey_light</item>
+        <item name="colorControlActivated">@color/red</item>
+    </style>
+
+    <style name="Theme.NumberPicker" parent="@android:style/Theme.Holo.NoActionBar.Fullscreen" >
+        <item name="android:textColorPrimary">#000000</item>
+    </style>
+
+    <style name="DialogCustom" parent="@android:style/Theme.Dialog">
+        <item name="android:background">#fff</item>
+    </style>
 
 </resources>

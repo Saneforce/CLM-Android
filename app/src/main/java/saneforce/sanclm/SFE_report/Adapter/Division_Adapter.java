@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import saneforce.sanclm.Common_Class.Dcrdatas;
 import saneforce.sanclm.R;
 import saneforce.sanclm.SFE_report.Activity.SFE_Activtity;
+import saneforce.sanclm.SFE_report.Activity.SFe_Activity;
 import saneforce.sanclm.SFE_report.ModelClass.hqclass;
 
 public class Division_Adapter extends RecyclerView.Adapter<Division_Adapter.MyviewHolder>{
@@ -69,15 +70,15 @@ public class Division_Adapter extends RecyclerView.Adapter<Division_Adapter.Myvi
 
                     if (Dcrdatas.select_data.equalsIgnoreCase("Category")){
 //                        if (sftype.equals("2")){
-                            ((SFE_Activtity) activity).getsubdataMR(catclass.get(getAdapterPosition()).getDivision_code(),catclass.get(getAdapterPosition()).getSf_Code());
-                            (( SFE_Activtity ) activity). CategoryHq_details(catclass.get(getAdapterPosition()).getDivision_code(),catclass.get(getAdapterPosition()).getSf_Code());
+                            ((SFe_Activity) activity).getsubdataMR(catclass.get(getAdapterPosition()).getDivision_code(),catclass.get(getAdapterPosition()).getSf_Code());
+                            ((SFe_Activity ) activity). CategoryHq_details(catclass.get(getAdapterPosition()).getDivision_code(),catclass.get(getAdapterPosition()).getSf_Code());
 //                        }else {
 //                            Toast.makeText(context,"No Reporting ",Toast.LENGTH_LONG).show();
 //                        }
                     }else if (Dcrdatas.select_data.equalsIgnoreCase("Speciality")){
 //                        if (sftype.equals("2")){
-                            (( SFE_Activtity ) activity).getsubdataMRspcial(catclass.get(getAdapterPosition()).getDivision_code(),catclass.get(getAdapterPosition()).getSf_Code());
-                            (( SFE_Activtity ) activity). CategoryHq_details(catclass.get(getAdapterPosition()).getDivision_code(),catclass.get(getAdapterPosition()).getSf_Code());
+                            (( SFe_Activity ) activity).getsubdataMRspcial(catclass.get(getAdapterPosition()).getDivision_code(),catclass.get(getAdapterPosition()).getSf_Code());
+                            (( SFe_Activity ) activity). CategoryHq_details(catclass.get(getAdapterPosition()).getDivision_code(),catclass.get(getAdapterPosition()).getSf_Code());
 //                        }else {
                             Toast.makeText(context,"No Reporting ",Toast.LENGTH_LONG).show();
 //                        }

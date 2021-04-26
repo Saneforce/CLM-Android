@@ -107,7 +107,7 @@ import saneforce.sanclm.applicationCommonFiles.CommonUtils;
 public class Target_Vs_Secondary extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     NavigationView navigationView;
     SharedPreferences sharedpreferencess;
-    ImageView iv_draw, tfilter;
+    ImageView iv_draw, tfilter,iv_close;
     TextView mTitle;
     RelativeLayout targetlayout, reportlayout,secondarylayout;
     public static final String Name = "nameKey";
@@ -231,6 +231,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
         setContentView(R.layout.salesxml);
         iv_draw = ( ImageView ) findViewById(R.id.drawericon);
         navigationView = ( NavigationView ) findViewById(R.id.nav_view);
+        iv_close=findViewById(R.id.close_img);
 //        Toolbar toolbar = ( Toolbar ) findViewById(R.id.ToolbarHome);
         mTitle = findViewById(R.id.toolbar_title);
         chrttxt=findViewById(R.id.charttext);
@@ -283,7 +284,13 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
             @Override
             public void onClick(View v) {
 
-                //drawer.openDrawer(Gravity.LEFT);
+                drawer.openDrawer(Gravity.LEFT);
+                onBackPressed();
+            }
+        });
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 onBackPressed();
             }
         });

@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:padding="5dp"
     android:orientation="vertical"
+    android:background="@color/color_white"
 
     >
 
@@ -13,10 +14,11 @@
         android:layout_height="wrap_content"
         android:text="Select the value"
         android:textStyle="bold"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/black"
         android:textSize="@dimen/tv_size"
         android:fontFamily="@font/poppins"
         android:layout_gravity="center"
+
         />
 
     <View
@@ -50,7 +52,10 @@
             android:layout_toRightOf="@+id/img_sear"
             android:fontFamily="@font/poppins"
             android:layout_weight="5"
+            android:textColorHint="@color/black"
+             android:backgroundTint="@color/grey_light"
             android:hint="Enter the value to search"
+            android:textColor="@color/black"
             />
 
     </LinearLayout>
@@ -65,7 +70,9 @@
             android:id="@+id/checkBox_mulcheck"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"/>
+            android:layout_marginLeft="3dp"
+            android:checked="false"
+            android:theme="@style/check_box"/>
         <TextView
             android:id="@+id/txtName_mulcheck"
             android:layout_width="match_parent"
@@ -73,7 +80,8 @@
             android:text="ALL"
             android:padding="5dp"
             android:layout_marginLeft="10dp"
-            android:textSize="@dimen/tv_size" />
+            android:textSize="@dimen/tv_size"
+            android:textColor="@color/black"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
@@ -85,7 +93,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:divider="@color/color_grey"
+        android:divider="@color/color_white"
         android:dividerHeight="2px">
     </androidx.recyclerview.widget.RecyclerView>
 
