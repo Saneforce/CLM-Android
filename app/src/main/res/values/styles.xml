@@ -16,6 +16,11 @@
 
     </style>
 
+    <style name="MyCheckBox" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">#6A6969</item>
+        <item name="colorControlActivated">#05c12b</item>
+    </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

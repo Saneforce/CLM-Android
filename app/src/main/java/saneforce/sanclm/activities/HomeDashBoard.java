@@ -2365,6 +2365,15 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
                         GpsNeed = jsonn.getString("GeoNeed");
 
+                        //availableAdudit Needed
+                        if(jsonn.has("AvailableAduitNeeded")) {
+                            mCommonSharedPreference.setValueToPreference("AvailableAduitNeeded", jsonn.getString("AvailableAduitNeeded"));
+                        }else {
+                            mCommonSharedPreference.setValueToPreference("AvailableAduitNeeded", "");
+                        }
+
+
+
                         Log.v("specFilter_json", mCommonSharedPreference.getValueFromPreference("specFilter"));
                         if (GpsNeed.equalsIgnoreCase("0") &&
                                 mCommonSharedPreference.getValueFromPreference("track_loc").equalsIgnoreCase("1")) {

@@ -275,6 +275,8 @@ public class BrandDetailing extends Fragment {
             @Override
             public void onClick(View view) {
 
+
+
                 if (drawer.isDrawerOpen(GravityCompat.END)) {
                     drawer.closeDrawer(GravityCompat.END);
                 }

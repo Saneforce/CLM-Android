@@ -41,6 +41,7 @@ import saneforce.sanclm.util.GridSelectionList;
 import saneforce.sanclm.util.PresentationRightUnselect;
 
 public class Presentation_recycler_item extends Fragment {
+
     RecyclerView recycler;
     DataBaseHandler dbh;
     DetailingTrackerPOJO mDetailingTrackerPOJO;

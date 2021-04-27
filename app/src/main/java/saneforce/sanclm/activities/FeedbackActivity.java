@@ -93,6 +93,7 @@ import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
 import static saneforce.sanclm.fragments.AppConfiguration.licenceKey;
 
 public class FeedbackActivity extends AppCompatActivity {
+    TextView availcheckbutton;
     FeedProductAdapter feedProductAdapter;
     FeedInputAdapter feedInputAdapter;
     FeedCallJoinAdapter feedCallJoinAdapter;
@@ -150,14 +151,14 @@ public class FeedbackActivity extends AppCompatActivity {
     TextView txt_sign;
     ImageView img_capture;
     Uri outputFileUri;
-    String currentPhotoPath;
+    String currentPhotoPath,AvailableAduitNeeded="";
     String nn = null;
 
 
     SharedPreferences sharedPreferences;
 
     ArrayList<StoreImageTypeUrl> arrayStore = new ArrayList<>();
-
+    LinearLayout addcalllayout,availLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,6 +193,8 @@ public class FeedbackActivity extends AppCompatActivity {
         ll_feed_prd = (LinearLayout) findViewById(R.id.ll_feed_prd);
         txt_sign = (TextView) findViewById(R.id.txt_sign);
         img_capture = findViewById(R.id.img_capture);
+        addcalllayout=findViewById(R.id.addcallLayout);
+        availLayout=findViewById(R.id.availLayout);
 
         mCommonSharedPreference = new CommonSharedPreference(FeedbackActivity.this);
         mCommonUtilsMethod = new CommonUtilsMethods(FeedbackActivity.this);
@@ -199,6 +202,16 @@ public class FeedbackActivity extends AppCompatActivity {
         SFCode = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_CODE);
         val_pob = mCommonSharedPreference.getValueFromPreference("feed_pob");
         SF_Type = mCommonSharedPreference.getValueFromPreference("sf_type");
+        AvailableAduitNeeded = mCommonSharedPreference.getValueFromPreference("AvailableAduitNeeded");
+
+        if(AvailableAduitNeeded.equals("1")&&feedOption.equals("chemist")){
+            availLayout.setVisibility(View.VISIBLE);
+            addcalllayout.setVisibility(View.GONE);
+        }else{
+            availLayout.setVisibility(View.GONE);
+            addcalllayout.setVisibility(View.VISIBLE);
+        }
+
         Log.v("toshow_sharepref", val_pob);
 
         if (mCommonSharedPreference.getValueFromPreference("addAct").equalsIgnoreCase("0"))

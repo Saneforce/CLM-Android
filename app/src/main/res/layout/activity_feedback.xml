@@ -438,13 +438,15 @@
 
 
             </LinearLayout>
+
+            //Availability
+
             <LinearLayout
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="5"
                 android:background="@drawable/layout_background"
-                android:layout_marginTop="8dp"
-                android:layout_marginLeft="5dp"
                 android:weightSum="10"
                 android:orientation="vertical">
                 <LinearLayout
@@ -458,7 +460,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Additional Calls"
+                            android:text="Jointwork"
                             android:layout_marginTop="15dp"
                             android:textColor="#000000"
                             android:fontFamily="@font/poppins_medium"
@@ -467,15 +469,15 @@
                         <Button
                             android:layout_width="35dp"
                             android:layout_height="35dp"
+                            android:background="#05c12b"
+                            android:text="+"
+                            android:textColor="#ffffff"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
                             android:layout_centerVertical="true"
                             android:layout_alignParentEnd="true"
                             android:layout_marginRight="15dp"
-                            android:id="@+id/call_plus"
-                            android:background="#05c12b"
-                            android:text="+"
-                            android:textStyle="bold"
-                            android:textColor="#ffffff"
-                            android:textSize="18sp"/>
+                            android:id="@+id/join_plus"/>
 
 
                     </RelativeLayout>
@@ -490,12 +492,11 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    >
+                    android:layout_weight="3">
                     <ListView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/listView_feed_call"
+                        android:id="@+id/listView_feed_join"
                         android:divider="#efeded"
                         android:dividerHeight="1dp"
                         android:layout_marginLeft="13dp"
@@ -503,9 +504,17 @@
 
                     </ListView>
 
+
                 </LinearLayout>
+
             </LinearLayout>
+
+
+
+
         </LinearLayout>
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -600,6 +609,7 @@
                 </LinearLayout>
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -609,10 +619,39 @@
                 android:layout_marginRight="15dp"
                 android:weightSum="10"
                 android:orientation="vertical">
+
+                //joint
+
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/availLayout"
+                    android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="3"
+                    android:layout_weight="5"
+                    android:background="@drawable/layout_background"
+                    android:weightSum="10"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/availcheckbtn"
+                        android:background="@drawable/rectangle_green"
+                        android:gravity="center"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="          Availability Check           "
+                        android:layout_marginTop="15dp"
+                        android:textColor="#fff"
+                        android:fontFamily="@font/poppins_medium"
+                        android:typeface="serif"
+                        android:textSize="20dp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/addcallLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
                     android:background="@drawable/layout_background"
                     android:weightSum="10"
                     android:orientation="vertical">
@@ -620,14 +659,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="7"
-                        android:layout_marginLeft="13dp">
+                        >
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Jointwork"
+                                android:text="Additional Calls"
                                 android:layout_marginTop="15dp"
                                 android:textColor="#000000"
                                 android:fontFamily="@font/poppins_medium"
@@ -636,15 +675,15 @@
                             <Button
                                 android:layout_width="35dp"
                                 android:layout_height="35dp"
-                                android:background="#05c12b"
-                                android:text="+"
-                                android:textColor="#ffffff"
-                                android:textSize="18sp"
-                                android:textStyle="bold"
                                 android:layout_centerVertical="true"
                                 android:layout_alignParentEnd="true"
                                 android:layout_marginRight="15dp"
-                                android:id="@+id/join_plus"/>
+                                android:id="@+id/call_plus"
+                                android:background="#05c12b"
+                                android:text="+"
+                                android:textStyle="bold"
+                                android:textColor="#ffffff"
+                                android:textSize="18sp"/>
 
 
                         </RelativeLayout>
@@ -659,11 +698,12 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="3">
+                        android:layout_weight="3"
+                        >
                         <ListView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:id="@+id/listView_feed_join"
+                            android:id="@+id/listView_feed_call"
                             android:divider="#efeded"
                             android:dividerHeight="1dp"
                             android:layout_marginLeft="13dp"
@@ -672,8 +712,8 @@
                         </ListView>
 
                     </LinearLayout>
-
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

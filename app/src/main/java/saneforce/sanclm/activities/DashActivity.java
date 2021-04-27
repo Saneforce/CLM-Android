@@ -3567,6 +3567,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
             QryParam.put("from_date", startDateStr);
             QryParam.put("to_date", tostrdate);
             Log.e("orderreport_detail", QryParam.toString());
+
             try {
 
                 final ProgressDialog mProgressDialog = new ProgressDialog(DashActivity.this);

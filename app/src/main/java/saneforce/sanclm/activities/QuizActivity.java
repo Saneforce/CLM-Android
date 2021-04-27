@@ -1,5 +1,6 @@
 package saneforce.sanclm.activities;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -499,6 +500,7 @@ public class QuizActivity extends AppCompatActivity {
                 txt.setTextColor(Color.parseColor("#000000"));
                 txt.setGravity(Gravity.CENTER);
                 ll.setOnClickListener(new View.OnClickListener() {
+                    @SuppressLint("ResourceType")
                     @Override
                     public void onClick(View view) {
                         Log.v("relativeLayout_id",ll.getId()+"");
