@@ -1025,7 +1025,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
             Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
             Log.e(" order request", "order Detail request");
             Map<String, String> QryParam = new HashMap<>();
-            QryParam.put("axn", "get/product_sales_secondary");
+            //QryParam.put("axn", "get/product_sales_secondary");
             // if (division_splitting.getVisibility() == View.VISIBLE) {
             QryParam.put("divisionCode", div_Code);
 //            } else {
@@ -1189,7 +1189,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
             Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
             Log.e(" order request", "order Detail request");
             Map<String, String> QryParam = new HashMap<>();
-            QryParam.put("axn", "get/target_sales_secondary");
+           // QryParam.put("axn", "get/target_sales_secondary");
             // if (division_splitting.getVisibility() == View.VISIBLE) {
             QryParam.put("divisionCode", div_Code);
 //            } else {
@@ -1533,7 +1533,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
             Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
             Log.e(" order request", "order Detail request");
             Map<String, String> QryParam = new HashMap<>();
-            QryParam.put("axn", "get/product_sales_secondary");
+           // QryParam.put("axn", "get/product_sales_secondary");
             // if (division_splitting.getVisibility() == View.VISIBLE) {
             QryParam.put("divisionCode", div_Code);
 //            } else {
@@ -1651,7 +1651,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
             Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
             Log.e(" order request", "order Detail request");
             Map<String, String> QryParam = new HashMap<>();
-            QryParam.put("axn", "get/target_sales_secondary");
+           // QryParam.put("axn", "get/target_sales_secondary");
             // if (division_splitting.getVisibility() == View.VISIBLE) {
             QryParam.put("divisionCode", div_Code);
 
@@ -1751,7 +1751,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
             Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
             Log.e(" order request", "order Detail request");
             Map<String, String> QryParam = new HashMap<>();
-            QryParam.put("axn", "get/product_sales_secondary");
+          //  QryParam.put("axn", "get/product_sales_secondary");
             // if (division_splitting.getVisibility() == View.VISIBLE) {
             QryParam.put("divisionCode", div_Code);
 //            } else {
@@ -1974,7 +1974,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
             Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
             Log.e(" order request", "order Detail request");
             Map<String, String> QryParam = new HashMap<>();
-            QryParam.put("axn", "get/target_sales_secondary");
+           // QryParam.put("axn", "get/target_sales_secondary");
             // if (division_splitting.getVisibility() == View.VISIBLE) {
             QryParam.put("divisionCode", div_Code);
 //            } else {
@@ -3677,7 +3677,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
             Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
             Log.e(" order request", "order Detail request");
             Map<String, String> QryParam = new HashMap<>();
-            QryParam.put("axn", "get/target_sales_secondary");
+            //QryParam.put("axn", "get/target_sales_secondary");
             QryParam.put("divisionCode", div_Code);
             QryParam.put("sfCode",sf_code);
             QryParam.put("rSF", sf_code);
@@ -4138,7 +4138,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
             Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
             Log.e(" order request", "order Detail request");
             Map<String, String> QryParam = new HashMap<>();
-            QryParam.put("axn", "get/product_sales_secondary");
+          //  QryParam.put("axn", "get/product_sales_secondary");
             QryParam.put("divisionCode",div_Code);
             //sfdata = toback.get(toback.size()-1);
             QryParam.put("sfCode",sf_code);
@@ -4508,7 +4508,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
             Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
             Log.e(" order request", "order Detail request");
             Map<String, String> QryParam = new HashMap<>();
-            QryParam.put("axn", "get/target_sales_primary");
+            //QryParam.put("axn", "get/target_sales_primary");
             //if(division_splitting.getVisibility() == View.VISIBLE){
             QryParam.put("divisionCode", div_Code);
 

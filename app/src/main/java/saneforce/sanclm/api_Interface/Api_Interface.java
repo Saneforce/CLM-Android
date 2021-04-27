@@ -441,14 +441,15 @@ public interface Api_Interface {
    @POST("db.php?axn=get/product_sales_primary")
     Call<JsonArray> getDataAsJArray(@QueryMap Map<String, String> params);
 
+    @POST("db.php?axn=get/product_sales_secondary")
+    Call<JsonArray> getsecDataAsJArray(@QueryMap Map<String, String> params);
+
     @POST("db.php?axn=get/target_sales_primary")
     Call<JsonArray> getTargetDataAsJArray(@QueryMap Map<String, String> params);
 
     @POST("db.php?axn=get/target_sales_secondary")
     Call<JsonArray> getTargetSecDataAsJArray(@QueryMap Map<String, String> params);
 
-   @POST("db.php?axn=get/product_sales_secondary")
-   Call<JsonArray> getsecDataAsJArray(@QueryMap Map<String, String> params);
 
     @POST("db.php?axn=getdivision_speciality")
     Call<JsonArray> getdivSpecDataAsJArray(@QueryMap Map<String, String> params);

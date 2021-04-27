@@ -630,7 +630,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
 //        CustomerMeList = gson.fromJson(curval, type);
 //        Log.d("username",CustomerMeList.get(0).getUsername());
 
-        //profilename.setText(CustomerMeList.get(0).getSFName());
+        profilename.setText(sf_name);
 
 //       MTDprimeproduct_admin();
 //        Orderproduct_AllchartMTD();
@@ -1232,7 +1232,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
             Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
             Log.e(" order request", "order Detail request");
             Map<String, String> QryParam = new HashMap<>();
-            QryParam.put("axn", "get/target_sales_primary");
+            //QryParam.put("axn", "get/target_sales_primary");
             // if (division_splitting.getVisibility() == View.VISIBLE) {
             QryParam.put("divisionCode", div_Code);
 //            } else {
@@ -1575,7 +1575,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
             Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
             Log.e(" order request", "order Detail request");
             Map<String, String> QryParam = new HashMap<>();
-            QryParam.put("axn", "get/product_sales_primary");
+           // QryParam.put("axn", "get/product_sales_primary");
             // if (division_splitting.getVisibility() == View.VISIBLE) {
             QryParam.put("divisionCode", div_Code);
 //            } else {
@@ -1715,7 +1715,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
             Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
             Log.e(" order request", "order Detail request");
             Map<String, String> QryParam = new HashMap<>();
-            QryParam.put("axn", "get/target_sales_primary");
+           // QryParam.put("axn", "get/target_sales_primary");
             // if (division_splitting.getVisibility() == View.VISIBLE) {
             QryParam.put("divisionCode", div_Code);
 
@@ -1823,7 +1823,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
 
             Log.e(" order request", "order Detail request");
             Map<String, String> QryParam = new HashMap<>();
-            QryParam.put("axn", "get/product_sales_primary");
+          //  QryParam.put("axn", "get/product_sales_primary");
             // if (division_splitting.getVisibility() == View.VISIBLE) {
             QryParam.put("divisionCode", div_Code);
 //            } else {
@@ -2057,7 +2057,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
             Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
             Log.e(" order request", "order Detail request");
             Map<String, String> QryParam = new HashMap<>();
-            QryParam.put("axn", "get/target_sales_primary");
+            //QryParam.put("axn", "get/target_sales_primary");
             // if (division_splitting.getVisibility() == View.VISIBLE) {
             QryParam.put("divisionCode", div_Code);
             QryParam.put("sfCode",sf_code);
@@ -2295,7 +2295,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                                 float soldPercentage = ( float ) (vuu * 100 / sum);
                                 PieEntry pieEntry = new PieEntry(soldPercentage, name);
                                 values.add(pieEntry);
-                                piedata.add(prod_code+"~"+Target_Val+"~"+Prev_Sale+"~"+pc+"~"+Division_Name+"~"+achie+"~"+Growth+"~"+div+"~"+sfdata+"~"+from+"~"+to);
+                                piedata.add(prod_code+"~"+Target_Val+"~"+vuu+"~"+pc+"~"+Division_Name+"~"+achie+"~"+Growth+"~"+div+"~"+sfdata+"~"+from+"~"+to);
                             }
                         }
 
@@ -2605,22 +2605,25 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
 
         String selsfcode = sf_name;
         String division_code = div_code;
-        toback.add(selsfcode);
-        sqlLite sqlLite;
-        String curval = null;
-        List<CustomerMe> CustomerMeList;
-        sqlLite = new sqlLite(DashActivity.this);
-        String username = Shared_Common_Pref.getusernameFromSP(DashActivity.this);
-        Cursor cursor = sqlLite.getAllLoginData();
 
-        if (cursor.moveToFirst()) {
-            curval = cursor.getString(cursor.getColumnIndex("Log_Values"));
-        }
-        cursor.close();
-        Gson gson = new Gson();
-        Type type = new TypeToken<List<CustomerMe>>() {
-        }.getType();
-        CustomerMeList = gson.fromJson(curval, type);
+       // toback.add(selsfcode);
+
+//        sqlLite sqlLite;
+//        String curval = null;
+//        List<CustomerMe> CustomerMeList;
+//        sqlLite = new sqlLite(DashActivity.this);
+//        String username = Shared_Common_Pref.getusernameFromSP(DashActivity.this);
+//        Cursor cursor = sqlLite.getAllLoginData();
+//
+//        if (cursor.moveToFirst()) {
+//            curval = cursor.getString(cursor.getColumnIndex("Log_Values"));
+//        }
+//        cursor.close();
+//        Gson gson = new Gson();
+//        Type type = new TypeToken<List<CustomerMe>>() {
+//        }.getType();
+//        CustomerMeList = gson.fromJson(curval, type);
+
 //        if (CustomerMeList.get(0).getSFCode().equalsIgnoreCase(selsfcode)) {
 //            pieChart.clear();
 //
@@ -2635,70 +2638,70 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
 
         if (selected_data.equalsIgnoreCase("MTD")) {
 
-            if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
-                if(toback.size()==1){
-                    MTDprimeproduct_admin();
-                    Orderproduct_AllchartMTD();
-                }else{
-                    MTDprimeproduct();
-                    Orderproduct_PiechartMTD();
-                }
-
-            }else{
+//            if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
+//                if(toback.size()==1){
+//                    MTDprimeproduct_admin();
+//                    Orderproduct_AllchartMTD();
+//                }else{
+//                    MTDprimeproduct();
+//                    Orderproduct_PiechartMTD();
+//                }
+//
+//            }else{
                 MTDprimeproduct();
                 Orderproduct_PiechartMTD();
-            }
+     //       }
 
             //  primartext.setText("Primary");
         } else if (selected_data.equalsIgnoreCase("QTD")) {
-            if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
-                if(toback.size()==1){
-                    QTDprimeproduct_admin_1();
-                    Orderproduct_PiechartQTD_admin();
-                }else{
-                    Orderproduct_QTDprimary_1();
-                    Orderproduct_PiechartQTD();
-                }
-
-            }else{
+//            if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
+//                if(toback.size()==1){
+//                    QTDprimeproduct_admin_1();
+//                    Orderproduct_PiechartQTD_admin();
+//                }else{
+//                    Orderproduct_QTDprimary_1();
+//                    Orderproduct_PiechartQTD();
+//                }
+//
+//            }else{
                 Orderproduct_QTDprimary_1();
                 Orderproduct_PiechartQTD();
-            }
+        //    }
 
         } else if (selected_data.equalsIgnoreCase("YTD")) {
 
-            if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
-                if(toback.size()==1){
-                    YTDALLproduct();
-                    Orderproduct_AllchartYTD();
-                }else{
-                    Orderproduct_YTDprimary_l();
-                    Orderproduct_PiechartYTD();
-                }
-            }
-            else{
+//            if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
+//                if(toback.size()==1){
+//                    YTDALLproduct();
+//                    Orderproduct_AllchartYTD();
+//                }else{
+//                    Orderproduct_YTDprimary_l();
+//                    Orderproduct_PiechartYTD();
+//                }
+//            }
+//            else{
                 Orderproduct_YTDprimary_l();
                 Orderproduct_PiechartYTD();
-            }
+         //   }
 
         }
         else if (selected_data.equalsIgnoreCase("Customdate")) {
             if (fromdate_ed.getText().toString().equalsIgnoreCase("") || todate_ed.getText().toString().equalsIgnoreCase("")) {
                 Toast.makeText(DashActivity.this, "Please Fill From date and To date", Toast.LENGTH_SHORT).show();
             } else {
-                if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
-                    if(toback.size()==1){
-                        allproduct_admin();
-                        Orderproduct_Piechartadmin();
-                    }else{
-                        allproduct();
-                        Orderproduct_Piechart();
-                    }
-                }
-                else{
+//                if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
+//                    if(toback.size()==1){
+//                        allproduct_admin();
+//                        Orderproduct_Piechartadmin();
+//                    }else{
+//                        allproduct();
+//                        Orderproduct_Piechart();
+//                    }
+//                }
+//                else{
                     allproduct();
                     Orderproduct_Piechart();
-                }
+          //      }
 
             }
 
@@ -3512,7 +3515,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
             Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
             Log.e(" order request", "order Detail request");
             Map<String, String> QryParam = new HashMap<>();
-            QryParam.put("axn", "get/target_sales_primary");
+            //QryParam.put("axn", "get/target_sales_primary");
             QryParam.put("divisionCode", div_Code);
             QryParam.put("sfCode",sf_code);
             QryParam.put("rSF", sf_code);
@@ -3937,7 +3940,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
             Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
             Log.e(" order request", "order Detail request");
             Map<String, String> QryParam = new HashMap<>();
-            QryParam.put("axn", "get/product_sales_primary");
+           // QryParam.put("axn", "get/product_sales_primary");
             QryParam.put("divisionCode",div_Code);
             QryParam.put("sfCode",sf_code);
             QryParam.put("rSF", sf_code);
@@ -4182,7 +4185,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                                 float soldPercentage = ( float ) (vuu * 100 / sum);
                                 PieEntry pieEntry = new PieEntry(soldPercentage,name);
                                 values.add(pieEntry);
-                                piedata.add(prod_code+"~"+Target_Val+"~"+Prev_Sale+"~"+pc+"~"+Division_Name+"~"+achie+"~"+Growth+"~"+div+"~"+sfdata+"~"+from+"~"+to);
+                                piedata.add(prod_code+"~"+Target_Val+"~"+vuu+"~"+pc+"~"+Division_Name+"~"+achie+"~"+Growth+"~"+div+"~"+sfdata+"~"+from+"~"+to);
                             }
                         }
 
@@ -4283,6 +4286,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
             }
         } catch (Exception e) {
             Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.e("Something went wrong  ", e.getMessage());
         }
     }
 
@@ -4299,7 +4303,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
             Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
             Log.e(" order request", "order Detail request");
             Map<String, String> QryParam = new HashMap<>();
-            QryParam.put("axn", "get/target_sales_secondary");
+            //QryParam.put("axn", "get/target_sales_secondary");
             //if(division_splitting.getVisibility() == View.VISIBLE){
             QryParam.put("divisionCode", div_Code);
 //            }else{
@@ -4322,7 +4326,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 mProgressDialog.setCancelable(false);
                 mProgressDialog.show();
                 //Call<JsonArray> call = apiService.getDataAsJArray(AppConfig.getInstance(DashActivity.this).getBaseurl(), QryParam);
-                Call<JsonArray> call = apiService.getTargetDataAsJArray(QryParam);
+                Call<JsonArray> call = apiService.getTargetSecDataAsJArray(QryParam);
                 call.enqueue(new Callback<JsonArray>() {
 
                     @Override

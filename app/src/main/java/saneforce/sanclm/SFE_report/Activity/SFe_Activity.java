@@ -788,7 +788,7 @@ public class SFe_Activity extends AppCompatActivity {
                 Log.e("Missed report request", "Missed report Detail request");
                 Map<String, String> QryParam = new HashMap<>();
                // QryParam.put("axn", "getdivision_speciality");
-                QryParam.put("divisionCode", div_Code);
+                QryParam.put("divisionCode", div_Code +"," );
                 QryParam.put("sfCode", sf_code);
                 QryParam.put("Ho_Id", "");
                 Log.e("mreport_detail", QryParam.toString());
@@ -1259,7 +1259,7 @@ public class SFe_Activity extends AppCompatActivity {
                 Log.e(" caty request","cat Detail request");
                 Map<String, String> QryParam = new HashMap<>();
               //  QryParam.put("axn", "get/Category_sfe");
-                QryParam.put("divisionCode", div_Code.toString()+",");
+                QryParam.put("divisionCode", div_Code +",");
                 QryParam.put("sfCode", sf_code);
                 QryParam.put("fmonth", fromstrdate);
                 QryParam.put("fyear", tostrdate);
@@ -1519,7 +1519,7 @@ public class SFe_Activity extends AppCompatActivity {
                         xAxis.setValueFormatter(new IndexAxisValueFormatter(xVals));
                         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 //                    xAxis.setLabelRotationAngle(270);
-                        xAxis.setTextSize(6f);
+                        xAxis.setTextSize(2f);
                         xAxis.setAxisLineWidth(1f);
                         xAxis.setGranularityEnabled(true);
                         xAxis.setGranularity(1f);
@@ -1976,7 +1976,7 @@ public class SFe_Activity extends AppCompatActivity {
                 Log.e(" caty request","cat Detail request");
                 Map<String, String> QryParam = new HashMap<>();
                 //QryParam.put("axn", "get/speciality_sfe");
-                QryParam.put("divisionCode", div_Code);
+                QryParam.put("divisionCode", div_Code +",");
                 QryParam.put("sfCode", sf_code);
                 QryParam.put("fmonth", fromstrdate);
                 QryParam.put("fyear", tostrdate);
