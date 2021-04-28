@@ -13,11 +13,14 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
@@ -1443,7 +1446,8 @@ public class DownloadMasters extends IntentService {
                     dbh.close();
                     edit.commit();
 
-                } catch (Exception e) {
+                } catch (JsonIOException | JSONException | IOException e) {
+                    Log.e("Errorexception",e.getMessage());
                 }
 
 

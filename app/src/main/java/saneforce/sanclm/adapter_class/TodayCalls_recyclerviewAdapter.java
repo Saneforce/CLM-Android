@@ -101,10 +101,12 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
                     holder.iv_edit.setVisibility(View.VISIBLE);
 
                     String value =mCommonSharedPreference.getValueFromPreference("showDelete");
+                    Log.v("delete_val",value);
 
                     if(value.equals("null")){
                         value ="0";
                     }
+
 
                     if(value.equalsIgnoreCase("0"))
                     holder.iv_del.setVisibility(View.VISIBLE);
