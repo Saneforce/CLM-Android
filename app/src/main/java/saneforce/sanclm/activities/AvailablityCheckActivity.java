@@ -12,11 +12,14 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -36,7 +39,8 @@ public class AvailablityCheckActivity extends AppCompatActivity {
      Cursor mCursor;
      ImageView backbtn;
      CommonSharedPreference mCommonSharedPreference;
-
+    AvailcheckAdapter adapter;
+ String availjson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +66,8 @@ public class AvailablityCheckActivity extends AppCompatActivity {
                 availcheck.setCode(mCursor.getString(2));
                 availcheck.setIsoos(false);
                 availcheck.setAvailis(false);
+                availcheck.setQuantity("0");
+
                 availchecks.add(availcheck);
             } while (mCursor.moveToNext());
         }
@@ -79,7 +85,15 @@ public class AvailablityCheckActivity extends AppCompatActivity {
         buttonsave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                availjson= String.valueOf(adapter.composeJSON());
+                mCommonSharedPreference.setValueToPreference("availjson",availjson);
+                Log.v("avail>>>",availjson);
+                Toast.makeText(AvailablityCheckActivity.this, ""+availjson, Toast.LENGTH_SHORT).show();
+
                 Intent i=new Intent(AvailablityCheckActivity.this, FeedbackActivity.class);
+                i.putExtra("availability", String.valueOf(adapter.composeJSON()));
+
+
                 if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("chm"))
                     i.putExtra("feedpage", "chemist");
                 else if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("stk")) {
@@ -88,6 +102,7 @@ public class AvailablityCheckActivity extends AppCompatActivity {
                     i.putExtra("feedpage", "undr");
                 } else
                     i.putExtra("feedpage", "dr");
+
                 startActivity(i);
                 finish();
             }
@@ -111,7 +126,7 @@ public class AvailablityCheckActivity extends AppCompatActivity {
         });
 
 
-        AvailcheckAdapter adapter=new AvailcheckAdapter(this,availchecks,false,false);
+         adapter=new AvailcheckAdapter(this,availchecks,false,false);
         LinearLayoutManager manager=new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL,false);
         availabilityRecyclerview.setLayoutManager(manager);
         availabilityRecyclerview.setAdapter(adapter);
@@ -138,6 +153,8 @@ public class AvailablityCheckActivity extends AppCompatActivity {
                             availcheck.setCode(mCursor.getString(2));
                             availcheck.setIsoos(false);
                             availcheck.setAvailis(true);
+                            availcheck.setQuantity("0");
+
                             availchecks.add(availcheck);
                         } while (mCursor.moveToNext());
                     }
@@ -167,6 +184,8 @@ public class AvailablityCheckActivity extends AppCompatActivity {
                             availcheck.setCode(mCursor.getString(2));
                             availcheck.setIsoos(false);
                             availcheck.setAvailis(false);
+                            availcheck.setQuantity("0");
+
                             availchecks.add(availcheck);
 
                         } while (mCursor.moveToNext());
@@ -203,6 +222,8 @@ public class AvailablityCheckActivity extends AppCompatActivity {
                             availcheck.setCode(mCursor.getString(2));
                             availcheck.setIsoos(true);
                             availcheck.setAvailis(false);
+                            availcheck.setQuantity("0");
+
                             availchecks.add(availcheck);
                         } while (mCursor.moveToNext());
                     }
@@ -232,6 +253,8 @@ public class AvailablityCheckActivity extends AppCompatActivity {
                             availcheck.setCode(mCursor.getString(2));
                             availcheck.setIsoos(false);
                             availcheck.setAvailis(false);
+                            availcheck.setQuantity("0");
+
                             availchecks.add(availcheck);
                         } while (mCursor.moveToNext());
                     }

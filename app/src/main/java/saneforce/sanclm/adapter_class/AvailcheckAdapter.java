@@ -3,6 +3,8 @@ package saneforce.sanclm.adapter_class;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +14,22 @@ import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import saneforce.sanclm.R;
 import saneforce.sanclm.activities.Model.Availcheck;
@@ -49,6 +60,7 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
+        holder.Reference = position;
 
 
         if(availchecks.get(position).isIsoos()==true){
@@ -86,6 +98,26 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
       holder.textView1.setText(mFilterresult.get(position).getCode());
       holder.textView2.setText(mFilterresult.get(position).getName());
       holder.checkBox.setChecked(availchecks.get(position).isAvailis()||availchecks.get(position).isIsoos());
+        holder.stock_et.setText(availchecks.get(position).getQuantity());
+
+        holder.stock_et.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                availchecks.get(holder.Reference).setQuantity(s.toString());
+
+
+            }
+        });
 
 
       holder.oos.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -95,7 +127,7 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
                   availchecks.get(position).setIsoos(true);
                   holder.oos.setBackgroundResource(R.drawable.rectangle_red);
                   holder.oos.setTextColor(Color.WHITE);
-                  holder.avail.setBackgroundResource(R.drawable.rectangle);
+                  holder.avail.setBackgroundResource(R.drawable.    rectangle);
                   holder.avail.setTextColor(Color.BLACK);
                   holder.stock_et.setEnabled(false);
                   holder.checkBox.setChecked(true);
@@ -151,6 +183,52 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
            });
 
 
+
+
+    }
+
+        public JSONArray sendData() {
+            JSONObject jsonObject=new JSONObject();
+            JSONArray jsonArray=new JSONArray();
+
+            try {
+                for(int i=0;i<mFilterresult.size();i++) {
+                    jsonObject.put("code", mFilterresult.get(i).getCode());
+                    jsonObject.put("name", mFilterresult.get(i).getName());
+                    jsonObject.put("oos", mFilterresult.get(i).isIsoos());
+                    jsonObject.put("avail", mFilterresult.get(i).isAvailis());
+                  jsonObject.put("quantity",mFilterresult.get(i).getQuantity());
+
+                    jsonArray.put(jsonObject);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Toast.makeText(context, ""+jsonObject.toString(), Toast.LENGTH_SHORT).show();
+            return jsonArray;
+
+        }
+    public String composeJSON() {
+        ArrayList<HashMap<String, String>> wordList;
+        wordList = new ArrayList<HashMap<String, String>>();
+        for (int i = 0; i < mFilterresult.size(); i++) {
+
+            HashMap<String, String> map = new HashMap<String, String>();
+            map.put("code", mFilterresult.get(i).getCode());
+            map.put("name", mFilterresult.get(i).getName());
+            map.put("oos", String.valueOf(mFilterresult.get(i).isIsoos()));
+            map.put("avail", String.valueOf(mFilterresult.get(i).isAvailis()));
+            map.put("quantity",mFilterresult.get(i).getQuantity());
+
+            wordList.add(map);
+
+        }
+
+        Gson gson = new GsonBuilder().create();
+        //Use GSON to serialize Array List to JSON
+        return gson.toJson(wordList);
+
     }
 
     @Override
@@ -197,6 +275,7 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
         CheckBox checkBox;
         View view;
         ToggleButton oos,avail;
+        int Reference;
 
 
         public Viewholder(@NonNull View itemView) {
@@ -212,5 +291,7 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
 
 
         }
+
     }
+
 }

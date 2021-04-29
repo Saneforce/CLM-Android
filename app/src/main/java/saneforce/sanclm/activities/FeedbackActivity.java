@@ -159,6 +159,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
     ArrayList<StoreImageTypeUrl> arrayStore = new ArrayList<>();
     LinearLayout addcalllayout,availLayout;
+    String availability="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,6 +170,8 @@ public class FeedbackActivity extends AppCompatActivity {
         Bundle extra = getIntent().getExtras();
         feedOption = extra.getString("feedpage", null);
         Log.v("options>>>>", feedOption);
+        availability=extra.getString("availability",null);
+        Log.v("avail>>>",availability);
 
         listView_feed_product = (ListView) findViewById(R.id.listView_feed_product);
         listView_feed_input = (ListView) findViewById(R.id.listView_feed_input);
@@ -195,6 +198,8 @@ public class FeedbackActivity extends AppCompatActivity {
         img_capture = findViewById(R.id.img_capture);
         addcalllayout=findViewById(R.id.addcallLayout);
         availLayout=findViewById(R.id.availLayout);
+        availcheckbutton=findViewById(R.id.availcheckbtn);
+
 
         mCommonSharedPreference = new CommonSharedPreference(FeedbackActivity.this);
         mCommonUtilsMethod = new CommonUtilsMethods(FeedbackActivity.this);
@@ -203,6 +208,7 @@ public class FeedbackActivity extends AppCompatActivity {
         val_pob = mCommonSharedPreference.getValueFromPreference("feed_pob");
         SF_Type = mCommonSharedPreference.getValueFromPreference("sf_type");
         AvailableAduitNeeded = mCommonSharedPreference.getValueFromPreference("AvailableAduitNeeded");
+        availability=mCommonSharedPreference.getValueFromPreference("availjson");
 
         if(AvailableAduitNeeded.equals("1")&&feedOption.equals("chemist")){
             availLayout.setVisibility(View.VISIBLE);
@@ -211,7 +217,13 @@ public class FeedbackActivity extends AppCompatActivity {
             availLayout.setVisibility(View.GONE);
             addcalllayout.setVisibility(View.VISIBLE);
         }
-
+        availcheckbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(FeedbackActivity.this,AvailablityCheckActivity.class);
+                startActivity(intent);
+            }
+        });
         Log.v("toshow_sharepref", val_pob);
 
         if (mCommonSharedPreference.getValueFromPreference("addAct").equalsIgnoreCase("0"))
@@ -1348,6 +1360,8 @@ public class FeedbackActivity extends AppCompatActivity {
             }
 
             jointObj.put("JWWrk", jsonArray);
+            jointObj.put("availabilty",availability);
+
             Log.v("joint_wrk_print", String.valueOf(jointObj));
 
             jsonArray = new JSONArray();

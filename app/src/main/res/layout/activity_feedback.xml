@@ -651,7 +651,7 @@
                     android:id="@+id/addcallLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="5"
+                    android:layout_weight="4"
                     android:background="@drawable/layout_background"
                     android:weightSum="10"
                     android:orientation="vertical">
@@ -664,6 +664,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
                             <TextView
+                                android:layout_marginLeft="10dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Additional Calls"
@@ -717,7 +718,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="7"
+                    android:layout_weight="6"
                     android:orientation="horizontal"
                     android:weightSum="3"
                     android:layout_marginLeft="15dp"

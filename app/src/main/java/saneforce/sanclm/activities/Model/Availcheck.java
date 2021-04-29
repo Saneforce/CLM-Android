@@ -19,7 +19,18 @@ public class Availcheck {
 
 
 
-    String name,code;
+    String name;
+    String code;
+
+    public String getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
+    }
+
+    String quantity;
     boolean availis;
 
     public boolean isAvailis() {
@@ -39,6 +50,7 @@ public class Availcheck {
     }
 
     boolean isoos;
+
 
 
 }
