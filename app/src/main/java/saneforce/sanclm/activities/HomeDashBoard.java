@@ -37,6 +37,7 @@ import android.provider.Settings;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
@@ -70,7 +71,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.SearchView;
+
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;

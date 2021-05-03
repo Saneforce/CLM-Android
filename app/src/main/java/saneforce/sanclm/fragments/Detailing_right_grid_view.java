@@ -55,6 +55,7 @@ public class Detailing_right_grid_view extends Fragment implements OnSelectGridV
     Cursor mCursor;
     static Context context;
     static String speccode, specName;
+    static String therapcode, therapName;
     static ArrayList<String> arr = new ArrayList<>();
     static ArrayList<String> code = new ArrayList<>();
     static SpecialityListener specialityListener;

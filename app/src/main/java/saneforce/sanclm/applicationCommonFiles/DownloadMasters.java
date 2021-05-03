@@ -529,7 +529,7 @@ public class DownloadMasters extends IntentService {
                     //  dbh.delete_All_tableDatas();
                     // List<Doctors> doctors = response.body();
 
-                    String hosname = "0", hoscode = "0";
+                    String hosname = "0", hoscode = "0",Hospcodes= "0";
                     JSONArray ja = new JSONArray(is.toString());
                     edit.putString("dr", String.valueOf(ja.length()));
                     Log.v("_printing_dr", String.valueOf(ja.length()));
@@ -561,10 +561,15 @@ public class DownloadMasters extends IntentService {
                             MProd = js.getString("MProd");
                         String max = js.getString("MaxGeoMap");
                         String tag = js.getString("GEOTagCnt");
+
+//                        if (js.has("HospCodes"))
+//                            Hospcodes = js.getString("HospCodes");
                         if (js.has("hospital_name"))
                             hosname = js.getString("hospital_name");
                         if (js.has("hospital_code"))
                             hoscode = js.getString("hospital_code");
+
+
 
                         long xx = dbh.insert_doctormaster(DrCode, DrName, DrDOB, DrDOW, DrTwnCd, DrTwnNm, DrCatNm, DrSpecNm, DrCatCd, DrSpecCd, SfCd, Latitude, Longitude, Addr, Drdesig, Dremail, Drmobile, Drphone,
                                 DrHosAddr, DrResAddr, DrMappProds, MProd, max, tag, hosname, hoscode);
@@ -575,8 +580,8 @@ public class DownloadMasters extends IntentService {
                     if (managerListLoading != null)
                         managerListLoading.ListLoading();
 
-                } catch (Exception e) {
-
+                } catch (JSONException | IOException e) {
+                    Log.e("Drjsonexception",e.getMessage());
                 }
             } else {
                 try {

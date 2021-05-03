@@ -1154,7 +1154,8 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
                 CommonUtils.TAG_DR_SPEC=mCursor.getString(8);
                 CommonUtils.TAG_DR_PRODCT_CODE=mCursor.getString(21);
                 DetailingTrackerPOJO.setmDoctorSpeciality(mCursor.getString(8));
-                DetailingTrackerPOJO.setmDoctorTheraptic(mCursor.getString(8));
+
+               // DetailingTrackerPOJO.setmDoctorTheraptic(mCursor.getString(8));
                 Log.v("doctor_spec_det",mCursor.getString(20)+" new_product "+mCursor.getString(21)+" drcode "+code);
 
             }

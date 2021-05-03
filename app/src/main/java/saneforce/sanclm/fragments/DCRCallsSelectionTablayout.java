@@ -88,7 +88,7 @@ public class DCRCallsSelectionTablayout  extends Fragment implements TabHost.OnT
             mTabHost.addTab(mTabHost.newTabSpec("1").setIndicator(getTabIndicator(mTabHost.getContext(), commonSharedPreference.getValueFromPreference("chmcap"), R.drawable.chem_tab)),DCRCHMCallsSelection.class, null);
             mTabHost.addTab(mTabHost.newTabSpec("2").setIndicator(getTabIndicator(mTabHost.getContext(),commonSharedPreference.getValueFromPreference("stkcap"), R.drawable.stockist_tab)),DCRSTKCallsSelection.class, null);
             mTabHost.addTab(mTabHost.newTabSpec("3").setIndicator(getTabIndicator(mTabHost.getContext(), commonSharedPreference.getValueFromPreference("ucap"), R.drawable.ul_dr_tab)),DCRUDRCallsSelection.class, null);
-            //mTabHost.addTab(mTabHost.newTabSpec("4").setIndicator(getTabIndicator(mTabHost.getContext(), commonSharedPreference.getValueFromPreference("cipcap"), R.drawable.ul_dr_tab)),DCRCIPCallsSelection.class, null);
+            mTabHost.addTab(mTabHost.newTabSpec("4").setIndicator(getTabIndicator(mTabHost.getContext(), commonSharedPreference.getValueFromPreference("cipcap"), R.drawable.ul_dr_tab)),DCRCIPCallsSelection.class, null);
 
           //  mTabHost.getTabWidget().getChildTabViewAt(mTabHost.getCurrentTab()).setBackgroundResource(bg_seltab);
 
