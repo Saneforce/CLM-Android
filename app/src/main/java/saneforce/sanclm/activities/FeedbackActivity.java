@@ -159,7 +159,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
     ArrayList<StoreImageTypeUrl> arrayStore = new ArrayList<>();
     LinearLayout addcalllayout,availLayout;
-    String availability="";
+    String availability=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,7 +171,10 @@ public class FeedbackActivity extends AppCompatActivity {
         feedOption = extra.getString("feedpage", null);
         Log.v("options>>>>", feedOption);
         availability=extra.getString("availability",null);
-        Log.v("avail>>>",availability);
+        if(availability!=null){
+            Log.v("avail>>>",availability);
+
+        }
 
         listView_feed_product = (ListView) findViewById(R.id.listView_feed_product);
         listView_feed_input = (ListView) findViewById(R.id.listView_feed_input);
@@ -249,7 +252,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
             call_plus.setEnabled(false);
             call_plus.getBackground().setAlpha(128);
-            btn_brand_audit.setVisibility(View.INVISIBLE);
+//            btn_brand_audit.setVisibility(View.INVISIBLE);
             // txt_name.setText(extra.getString("customer"));
             txt_name.setText(CommonUtils.TAG_CHEM_NAME);
             peopleType = "C";
@@ -630,16 +633,47 @@ public class FeedbackActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 jsonBrandValue = mCommonSharedPreference.getValueFromPreference("jsonarray");
-                if (TextUtils.isEmpty(jsonBrandValue)) {
-                    Intent i = new Intent(FeedbackActivity.this, BrandAuditActivity.class);
-                    startActivityForResult(i, 6);
-                } else {
-                    Log.v("total_json_val", jsonBrandValue);
-                    Intent i = new Intent(FeedbackActivity.this, BrandAuditActivity.class);
+
+
+                if(feedOption.equalsIgnoreCase("dr")){
+                    Intent i = new Intent(FeedbackActivity.this,BrandAuditActivity.class);
                     i.putExtra("json_val", jsonBrandValue);
                     i.putExtra("name", txt_name.getText().toString());
                     startActivityForResult(i, 6);
+                }else {
+                    Log.v("total_json_val", jsonBrandValue);
+                    Intent i = new Intent(FeedbackActivity.this,NewRCBentryActivity.class);
+                    i.putExtra("json_val", jsonBrandValue);
+                    i.putExtra("name", txt_name.getText().toString());
+                    startActivityForResult(i, 6);
+
                 }
+//                if (TextUtils.isEmpty(jsonBrandValue)&&feedOption.matches("chemist")) {
+//
+//
+//                    Intent i = new Intent(FeedbackActivity.this, NewRCBentryActivity.class);
+//                    startActivityForResult(i, 6);
+//                } else {
+//
+//
+//
+//                    Log.v("total_json_val", jsonBrandValue);
+//                    Intent i = new Intent(FeedbackActivity.this,NewRCBentryActivity.class);
+//                    i.putExtra("json_val", jsonBrandValue);
+//                    i.putExtra("name", txt_name.getText().toString());
+//                    startActivityForResult(i, 6);
+//                }
+//                if (TextUtils.isEmpty(jsonBrandValue)&& !feedOption.equals("chemist")) {
+//                    Intent i = new Intent(FeedbackActivity.this, BrandAuditActivity.class);
+//                    startActivityForResult(i, 6);
+//
+//                }else {
+//                    Log.v("total_json_val", jsonBrandValue);
+//                    Intent i = new Intent(FeedbackActivity.this, BrandAuditActivity.class);
+//                    i.putExtra("json_val", jsonBrandValue);
+//                    i.putExtra("name", txt_name.getText().toString());
+//                    startActivityForResult(i, 6);
+//                }
             }
         });
         bt_cancel.setOnClickListener(new View.OnClickListener() {

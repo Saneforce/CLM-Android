@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_mydayplan_popup"
+    android:layout_width="700dp"
+    android:layout_height="700dp"
+    android:orientation="vertical"
+    android:background="@drawable/shape_white">
+
+        <RelativeLayout
+            android:id="@+id/rl_popup_title"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:background="@drawable/shape_login_button">
+
+            <TextView
+                android:id="@+id/tv_todayplan_popup_head"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_semibold"
+                android:gravity="center|left"
+                android:paddingLeft="15dp"
+                android:text="Competitor feedback"
+                android:textAllCaps="true"
+                android:textColor="#ffffff"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                android:typeface="serif"
+                android:layout_centerVertical="true"
+                />
+
+            <ImageView
+                android:id="@+id/iv_close_popup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                app:srcCompat="@mipmap/close_btn" />
+        </RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="Template"
+        android:textColor="#000"
+        android:textSize="20dp"
+        android:layout_marginTop="40dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/rectangle"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_marginRight="20dp"
+            android:id="@+id/countrytext"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="15dp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:drawableRight="@drawable/spin_down_arrow"
+            android:gravity="center_vertical"
+            android:paddingRight="20dp"
+            android:singleLine="false"
+            android:text="Select Template"
+            android:paddingLeft="10dp"
+            android:textColor="#7E7C7C"
+           />
+        <Spinner
+            android:visibility="gone"
+            android:layout_marginLeft="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/country"
+
+            />
+    </LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/rectangle"
+        android:hint="Feedback"
+        android:textColorHint="#787575"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="50dp"
+        android:paddingLeft="10dp"
+        android:textSize="15dp"/>
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:srcCompat="@drawable/ic_baseline_photo_camera_24"
+        android:layout_gravity="center"
+        android:id="@+id/camerabtn"
+        android:layout_marginTop="50dp"/>
+    <Button
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle_red"
+        android:text="Save"
+        android:textAllCaps="false"
+        android:textColor="#fff"
+        android:textSize="20dp"
+        android:layout_gravity="right"
+        android:layout_marginRight="20dp"
+        android:id="@+id/savebtn"
+        android:layout_marginBottom="50dp"/>
+
+
+    </LinearLayout>
+
