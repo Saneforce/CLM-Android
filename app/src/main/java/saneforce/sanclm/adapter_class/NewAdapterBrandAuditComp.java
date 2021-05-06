@@ -3,6 +3,7 @@ package saneforce.sanclm.adapter_class;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -82,6 +83,7 @@ public class NewAdapterBrandAuditComp extends BaseAdapter {
         final EditText edt_qty=(EditText)view.findViewById(R.id.edt_qty);
         final LinearLayout ll_qty=(LinearLayout)view.findViewById(R.id.ll_qty);
         Button feedbackbtn=view.findViewById(R.id.feedbackbtn);
+
         feedbackbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -230,6 +232,8 @@ public class NewAdapterBrandAuditComp extends BaseAdapter {
 
         return view;
     }
+
+
 
     public void popUpAlert(final ArrayList<CompNameProduct> list, final String c, final int pos){
 
