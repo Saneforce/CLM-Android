@@ -131,6 +131,7 @@ public class ReportActivity extends AppCompatActivity {
                         reportdata.add(new LoadBitmap("Monthly Report","month"));
                         reportdata.add(new LoadBitmap("Visit Control","visit"));
                         reportdata.add(new LoadBitmap("Missed Reports","miss"));
+                        if(mCommonSharedPreference.getValueFromPreference("Target_sales").equalsIgnoreCase("1"))
                         reportdata.add(new LoadBitmap("Target Vs Sales","sales"));
                         JSONArray json=new JSONArray(is.toString());
                         for(int i=0;i<json.length();i++){

@@ -1704,7 +1704,12 @@ public class FeedbackActivity extends AppCompatActivity {
                         if (funStringValidation(jsonTim.getString("eTm")))
                             ETm = jsonTim.getString("eTm").substring((jsonTim.getString("eTm").indexOf(" ")) + 1);
                         Log.v("name_js_js", namee + " smqty " + js.getString("SmpQty"));
-                        listFeedPrd.add(new FeedbackProductDetail(js.getString("Name"), STm.trim() + " " + ETm.trim(), rat, feed, dt, qty, "", pob, gettingProductFB(js.getString("prdfeed"))));
+                        if(js.has("prdfeed")) {
+                            listFeedPrd.add(new FeedbackProductDetail(js.getString("Name"), STm.trim() + " " + ETm.trim(), rat, feed, dt, qty, "", pob, gettingProductFB(js.getString("prdfeed"))));
+                        }else
+                        {
+                            listFeedPrd.add(new FeedbackProductDetail(js.getString("Name"), STm.trim() + " " + ETm.trim(), rat, feed, dt, qty, "", pob, gettingProductFB("")));
+                        }
 
 
                         //Log.v("Product_extract22", namee);

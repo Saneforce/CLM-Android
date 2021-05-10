@@ -569,7 +569,7 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
                         _DCR_GV_Selection_adapter = new DCR_GV_Selection_adapter(getContext(),drList,"D");
                         gridView.setAdapter(_DCR_GV_Selection_adapter);
                         getHospital(1);
-                        progressDialog.dismiss();
+                        if(progressDialog!=null) progressDialog.dismiss();
                     }
 
                 });

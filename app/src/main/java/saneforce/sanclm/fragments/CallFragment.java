@@ -661,6 +661,12 @@ public class CallFragment extends Fragment {
                             else
                                 mCommonSharedPreference.setValueToPreference("theraptic", "");
 
+                            if(js.has("Target_sales")){
+                                mCommonSharedPreference.setValueToPreference("Target_sales", js.getString("Target_sales"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("Target_sales", "");
+
                         } catch (Exception e) {
                         }
                     }
