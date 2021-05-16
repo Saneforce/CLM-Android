@@ -1,5 +1,7 @@
 package saneforce.sanclm.activities;
 
+import org.json.JSONArray;
+
 public class CompNameProductNew {
 
     String  Ccode;
@@ -85,14 +87,14 @@ public class CompNameProductNew {
     String sw;
     String rx;
 
-    public String getFeedback() {
+    public JSONArray getFeedback() {
         return feedback;
     }
 
-    public void setFeedback(String feedback) {
+    public void setFeedback(JSONArray feedback) {
         this.feedback = feedback;
     }
 
-    String feedback;
+    JSONArray feedback;
 
 }

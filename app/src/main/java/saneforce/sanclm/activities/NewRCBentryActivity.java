@@ -490,7 +490,7 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
                 compNameProductNew.setPtr("");
                 compNameProductNew.setSw("");
                 compNameProductNew.setRx("");
-                compNameProductNew.setFeedback("");
+                compNameProductNew.setFeedback(new JSONArray());
                 listComp.add(compNameProductNew);
 //                listComp.add(new CompNameProduct(mCursor.getString(0), mCursor.getString(1), mCursor.getString(2), mCursor.getString(3)));
 
@@ -1107,26 +1107,19 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
                         @Override
                         public void onClick(View v) {
                            // feedbackdata();
-                            ArrayList<HashMap<String, String>> wordList;
-                            wordList = new ArrayList<HashMap<String, String>>();
-
-
-                            HashMap<String, String> map = new HashMap<String, String>();
+                            JSONArray wordList=new JSONArray();
+                            JSONObject map = new JSONObject();
                             for (int i = 0; i < list_prd1.size(); i++) {
-                                map.put("Templatecode", Fcode);
-                                map.put("feedback", editTextfeedback.getText().toString());
-                                map.put("image", String.valueOf(mArrayUri));
-
+                                try {
+                                    map.put("Templatecode", Fcode);
+                                    map.put("feedback", editTextfeedback.getText().toString());
+                                    map.put("image", String.valueOf(mArrayUri));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
-
-                            wordList.add(map);
-
-
-
-                            Gson gson = new GsonBuilder().create();
-                            //Use GSON to serialize Array List to JSON
-                             gson.toJson(wordList);
-                             list_prd1.get(i).setFeedback(String.valueOf(wordList));
+                            wordList.put(map);
+                            list_prd1.get(i).setFeedback(wordList);
 
                             dialog.dismiss();
                         }
@@ -1349,8 +1342,6 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
 
            }
 
-           Gson gson = new GsonBuilder().create();
-           //Use GSON to serialize Array List to JSON
            return jsonArray;
 
         }
@@ -1372,6 +1363,7 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
                     String orderBy = android.provider.MediaStore.Video.Media.DATE_TAKEN;
 
                     Uri mImageUri=data.getData();
+                    String ImageFileName=getImageFilePath(this,mImageUri);
 
                     Cursor cursor = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, filePathColumn, null, null, orderBy+ " DESC");
 
@@ -1462,5 +1454,17 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
         int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
         return cursor.getString(idx);
     }
+    public String getImageFilePath(Context context, Uri uri) {
 
+        Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
+        cursor.moveToFirst();
+        String image_id = cursor.getString(0);
+        image_id = image_id.substring(image_id.lastIndexOf(":") + 1);
+        cursor.close();
+        cursor = context.getContentResolver().query(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, null, MediaStore.Images.Media._ID + " = ? ", new String[]{image_id}, null);
+        cursor.moveToFirst();
+        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+        cursor.close();
+        return path.toString();
+    }
 }
