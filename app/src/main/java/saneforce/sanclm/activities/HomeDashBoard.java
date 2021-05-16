@@ -143,6 +143,8 @@ import saneforce.sanclm.applicationCommonFiles.LocationTrack;
 import saneforce.sanclm.fragments.AppConfiguration;
 import saneforce.sanclm.fragments.CallFragment;
 import saneforce.sanclm.fragments.DownloadMasterData;
+import saneforce.sanclm.fragments.NewCallFragment;
+import saneforce.sanclm.fragments.NewTrainingFragment;
 import saneforce.sanclm.fragments.TrainingFragment;
 import saneforce.sanclm.sqlite.DataBaseHandler;
 import saneforce.sanclm.util.DCRCallSelectionFilter;
@@ -2770,7 +2772,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     private void addTabs(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new CallFragment(), "");
-        adapter.addFrag(new TrainingFragment(), "");
+        adapter.addFrag(new NewTrainingFragment(), "");
         viewPager.setAdapter(adapter);
     }
 

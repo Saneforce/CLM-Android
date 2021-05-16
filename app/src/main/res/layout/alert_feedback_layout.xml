@@ -4,8 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rl_mydayplan_popup"
-    android:layout_width="700dp"
-    android:layout_height="700dp"
+    android:layout_width="500dp"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@drawable/shape_white">
 
@@ -47,7 +47,7 @@
         android:text="Template"
         android:textColor="#000"
         android:textSize="20dp"
-        android:layout_marginTop="40dp"/>
+        android:layout_marginTop="20dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -61,7 +61,7 @@
 
         <TextView
             android:layout_marginRight="20dp"
-            android:id="@+id/countrytext"
+            android:id="@+id/templatetext"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="15dp"
@@ -78,16 +78,20 @@
            />
         <Spinner
             android:visibility="gone"
-            android:layout_marginLeft="30dp"
+            android:layout_gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
-            android:id="@+id/country"
+            android:id="@+id/template"
 
             />
     </LinearLayout>
 
     <EditText
+        android:imeOptions="actionDone"
+        android:cursorVisible="false"
+        android:id="@+id/etfeedback"
+        android:selectAllOnFocus="false"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:background="@drawable/rectangle"
@@ -95,17 +99,23 @@
         android:textColorHint="#787575"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:paddingLeft="10dp"
+        android:textColor="#000"
         android:textSize="15dp"/>
 
     <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         app:srcCompat="@drawable/ic_baseline_photo_camera_24"
         android:layout_gravity="center"
         android:id="@+id/camerabtn"
-        android:layout_marginTop="50dp"/>
+        android:layout_marginTop="30dp"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/imagerecycle"/>
+
     <Button
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
@@ -118,7 +128,7 @@
         android:layout_gravity="right"
         android:layout_marginRight="20dp"
         android:id="@+id/savebtn"
-        android:layout_marginBottom="50dp"/>
+        android:layout_marginBottom="20dp"/>
 
 
     </LinearLayout>

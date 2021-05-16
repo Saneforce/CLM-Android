@@ -2,55 +2,90 @@ package saneforce.sanclm.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import saneforce.sanclm.R;
 import saneforce.sanclm.activities.Model.CompNameProduct;
+import saneforce.sanclm.activities.Model.Feedbacklist;
 import saneforce.sanclm.activities.Model.ModelBrandAuditList;
 import saneforce.sanclm.activities.Model.PopFeed;
 import saneforce.sanclm.activities.Model.SlideDetail;
-import saneforce.sanclm.adapter_class.AdapterBrandAuditComp;
 import saneforce.sanclm.adapter_class.AdapterBrandAuditList;
 import saneforce.sanclm.adapter_class.AdapterPopupSpinnerSelection;
 import saneforce.sanclm.adapter_class.FeedCallJoinAdapter;
-import saneforce.sanclm.adapter_class.NewAdapterBrandAuditComp;
+import saneforce.sanclm.adapter_class.GalleryAdapter;
 import saneforce.sanclm.adapter_class.PopupAdapter;
+import saneforce.sanclm.adapter_class.TemplateAdapter;
+import saneforce.sanclm.api_Interface.Api_Interface;
+import saneforce.sanclm.api_Interface.RetroClient;
 import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
+import saneforce.sanclm.applicationCommonFiles.CommonUtils;
+import saneforce.sanclm.applicationCommonFiles.CommonUtilsMethods;
 import saneforce.sanclm.sqlite.DataBaseHandler;
 import saneforce.sanclm.util.DataInterface;
 import saneforce.sanclm.util.UpdateUi;
 
 public class NewRCBentryActivity extends AppCompatActivity implements DataInterface {
+    private static  String compURL="http://sanclm.info/";
+   public static int PICK_IMAGE_MULTIPLE = 1;
+    public static final int REQUEST_IMAGE_CAPTURE = 2;
 
     ListView list_comp, listView_feed_call, listview_audit_list;
     ArrayList<String> list = new ArrayList<>();
-    ArrayList<CompNameProduct> listComp = new ArrayList<>();
+    ArrayList<CompNameProductNew> listComp = new ArrayList<CompNameProductNew>();
     ArrayList<CompNameProduct> full_list_prd = new ArrayList<>();
     ArrayList<PopFeed> chem_select_list = new ArrayList<>();
     ArrayList<SlideDetail> prd_list = new ArrayList<>();
@@ -59,7 +94,7 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
     ArrayList<ModelBrandAuditList> brandList = new ArrayList<>();
     ArrayList<ModelBrandAuditList> choosenBrandList = new ArrayList<>();
 
-    NewAdapterBrandAuditComp adapterBrandAuditComp;
+    AdapterBrandAuditComp2 adapterBrandAuditComp;
     Button chem_plus;
     ImageView iv_dwnldmaster_back;
     DataBaseHandler dbh;
@@ -69,12 +104,25 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
     RelativeLayout rl_search_brd;
     public static float prd_rate = 0;
     EditText edt_qty;
-    TextView edt_rate, edt_val, dr_name;
+    EditText edt_rate, edt_val,edt_sw,edt_rx;
+            TextView dr_name;
     Button btn_add_brd, btn_add_comp, save_btn;
     CommonSharedPreference mCommonSharedPreference;
     String prdEnterCode = null;
     String finalProduct = "ee";
     String competitorName,competitorBrand,competitorQnty;
+    JSONObject obj = new JSONObject();
+    String SF_Code="",db_connPath;
+    Api_Interface apiService;
+    String imageEncoded;
+    List<String> imagesEncodedList;
+   public static RecyclerView gvGallery;
+   public GalleryAdapter galleryAdapter;
+   public static ArrayList<Uri> mArrayUri = new ArrayList<Uri>();
+   static String Fcode;
+   public static JSONObject competitorjson;
+   public  static JSONArray competiorarray;
+   public static int GALLERY = 1, CAMERA = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +131,16 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
         dbh = new DataBaseHandler(this);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         mCommonSharedPreference = new CommonSharedPreference(this);
+        SF_Code = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_CODE);
+        db_connPath = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DB_URL);
+
+        apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
+        try {
+            obj.put("SF", SF_Code);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        NewcopList();
 
         list_comp = (ListView) findViewById(R.id.list_comp);
         listView_feed_call = (ListView) findViewById(R.id.listView_feed_call);
@@ -91,20 +149,22 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
         edt_search_brd = (TextView) findViewById(R.id.edt_search_brd);
         rl_search_brd = (RelativeLayout) findViewById(R.id.rl_search_brd);
         edt_qty = (EditText) findViewById(R.id.edt_qty);
-        edt_rate = (TextView) findViewById(R.id.edt_rate);
-        edt_val = (TextView) findViewById(R.id.edt_val);
+        edt_rate = findViewById(R.id.edt_rate);
+        edt_val =  findViewById(R.id.edt_val);
+        edt_sw=findViewById(R.id.edt_sw);
+        edt_rx=findViewById(R.id.edt_rx);
         dr_name = (TextView) findViewById(R.id.dr_name);
         btn_add_brd = (Button) findViewById(R.id.btn_add_brd);
         btn_add_comp = (Button) findViewById(R.id.btn_add_comp);
         save_btn = (Button) findViewById(R.id.save_btn);
         iv_dwnldmaster_back = (ImageView) findViewById(R.id.iv_dwnldmaster_back);
-
-        AdapterBrandAuditComp.bindListenerBrand(new UpdateUi() {
-            @Override
-            public void updatingui() {
-                commonFun();
-            }
-        });
+//
+//        AdapterBrandAuditComp2.bindListenerBrand(new UpdateUi() {
+//            @Override
+//            public void updatingui() {
+//                commonFun();
+//            }
+//        });
 
         Bundle extra=getIntent().getExtras();
         if(extra!=null){
@@ -211,17 +271,17 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String val = String.valueOf(editable);
-                int qtyVal = 0;
-                if (!TextUtils.isEmpty(val))
-                    qtyVal = Integer.parseInt(val);
-                if (!TextUtils.isEmpty(edt_qty.getText().toString())) {
-                    edt_rate.setText(String.valueOf(prd_rate));
-                    float cal = qtyVal;
-                    cal = cal * prd_rate;
-                    edt_val.setText(String.valueOf(cal));
+//                String val = String.valueOf(editable);
+//                int qtyVal = 0;
+//                if (!TextUtils.isEmpty(val))
+//                    qtyVal = Integer.parseInt(val);
+//                if (!TextUtils.isEmpty(edt_qty.getText().toString())) {
+//                    edt_rate.setText(String.valueOf(prd_rate));
+//                    float cal = qtyVal;
+//                    cal = cal * prd_rate;
+//                    edt_val.setText(String.valueOf(cal));
 
-                }
+               // }
             }
         });
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -278,31 +338,19 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
         rl_search_brd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 popUpAlert(prd_list);
             }
         });
-        dbh.open();
-        mCursor = dbh.select_comp_list();
 
-        if (mCursor.getCount() != 0) {
-            mCursor.moveToFirst();
-            do {
-                Log.v("comp_name_feed", mCursor.getString(0) + " comp_prd" + mCursor.getString(1));
-                listComp.add(new CompNameProduct(mCursor.getString(0), mCursor.getString(1), mCursor.getString(2), mCursor.getString(3)));
 
-            } while (mCursor.moveToNext());
-
-        }
-        mCursor.close();
-        dbh.close();
-        callCompAdapter();
 
         chem_plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 chem_list.clear();
                 dbh.open();
-                mCursor = dbh.select_chemist_list();
+                mCursor = dbh.select_doctor_listnew();
 
                 if (mCursor.getCount() != 0) {
                     mCursor.moveToFirst();
@@ -319,6 +367,8 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
 
 
     }
+
+
 
 
     public void popUpAlertFeed(final ArrayList<PopFeed> xx) {
@@ -404,6 +454,10 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
                 edt_qty.setText("");
                 dialog.dismiss();
                 commonFun();
+                listComp.clear();
+                newmethod(prdEnterCode);
+
+
             }
         });
 
@@ -414,6 +468,40 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
                 commonFun();
             }
         });
+
+    }
+
+    private void newmethod(String prdEnterCode) {
+        dbh.open();
+        mCursor = dbh.select_comp_list_new(prdEnterCode);
+
+        if (mCursor.getCount() != 0) {
+            mCursor.moveToFirst();
+            do {
+                Log.v("comp_name_feed", mCursor.getString(0) + " comp_prd" + mCursor.getString(1));
+
+                CompNameProductNew compNameProductNew=new CompNameProductNew();
+                compNameProductNew.setCcode(mCursor.getString(0));
+                compNameProductNew.setCName(mCursor.getString(1));
+                compNameProductNew.setPCode(mCursor.getString(2));
+                compNameProductNew.setPName(mCursor.getString(3));
+                compNameProductNew.setInvqty("");
+                compNameProductNew.setPtp("");
+                compNameProductNew.setPtr("");
+                compNameProductNew.setSw("");
+                compNameProductNew.setRx("");
+                compNameProductNew.setFeedback("");
+                listComp.add(compNameProductNew);
+//                listComp.add(new CompNameProduct(mCursor.getString(0), mCursor.getString(1), mCursor.getString(2), mCursor.getString(3)));
+
+            } while (mCursor.moveToNext());
+
+        }
+        mCursor.close();
+        dbh.close();
+        callCompAdapter();
+
+
 
     }
 
@@ -428,7 +516,7 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
         full_list_prd.add(new CompNameProduct("", "", false, "", "", "", "", "", ""));
 
 
-        adapterBrandAuditComp = new NewAdapterBrandAuditComp(full_list_prd, NewRCBentryActivity.this, listComp,this);
+        adapterBrandAuditComp = new AdapterBrandAuditComp2(NewRCBentryActivity.this, listComp);
         list_comp.setAdapter(adapterBrandAuditComp);
         // list_comp.setEmptyView(findViewById(R.id.list_comp));
         adapterBrandAuditComp.notifyDataSetChanged();
@@ -446,7 +534,7 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
 
     public void addSingleCompAdapter() {
         full_list_prd.add(new CompNameProduct("", "", false, "", "", "", "", "", ""));
-        adapterBrandAuditComp = new NewAdapterBrandAuditComp(full_list_prd, NewRCBentryActivity.this, listComp,this);
+        adapterBrandAuditComp = new AdapterBrandAuditComp2(NewRCBentryActivity.this, listComp);
         list_comp.setAdapter(adapterBrandAuditComp);
         adapterBrandAuditComp.notifyDataSetChanged();
     }
@@ -478,17 +566,21 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
                 chemObj.put("OPCode", ll.getCompPcode());
                 chemObj.put("OPName", ll.getComName());
                 chemObj.put("OPQty", ll.getQty());
-                chemObj.put("OPRate", ll.getRate());
-                chemObj.put("OPValue", ll.getVal());
+                chemObj.put("OPptp", ll.getRate());
+                chemObj.put("OPptr", ll.getVal());
+                chemObj.put("OPsw",ll.getSw());
+                chemObj.put("OPrx",ll.getRx());
                 Log.v("choosenBrandjson", String.valueOf(chemObj));
                 for (int i = 0; i < brandList.size(); i++) {
 
                     ModelBrandAuditList mm = brandList.get(i);
                     if (ll.getComName().equals(mm.getPrName())) {
                         jsonObject = new JSONObject();
+                        jsonObject.put("CSw",mm.getSw());
+                        jsonObject.put("CRx",mm.getRx());
                         jsonObject.put("CPQty", mm.getQty());
-                        jsonObject.put("CPRate", mm.getRate());
-                        jsonObject.put("CPValue", mm.getVal());
+                        jsonObject.put("CPptp", mm.getRate());
+                        jsonObject.put("CPptr", mm.getVal());
                         jsonObject.put("CompCode", mm.getCompCode());
                         jsonObject.put("CompName", mm.getComName());
                         jsonObject.put("CompPCode", mm.getCompPcode());
@@ -500,14 +592,16 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
                     }
                     MainchemArr.put(jsonObject);
                 }
-                chemObj.put("Competitors", MainchemArr);
-
+                chemObj.put("Competitors", adapterBrandAuditComp.composeJSON());
+//                chemObj.put("FeedbackData",adapterBrandAuditComp.feedbackdata());
                 chemArr.put(chemObj);
+
+
                 MainchemArr = new JSONArray();
             }
             Log.v("Printing_comp_prd", String.valueOf(chemArr));
-
             mCommonSharedPreference.setValueToPreference("jsonarray", String.valueOf(chemArr));
+
         } catch (Exception e) {
         }
     }
@@ -525,7 +619,7 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
                     JSONObject jobj1 = jarr.getJSONObject(j);
                     if (finalProduct.contains(jobj1.getString("CompName"))) {
                     } else
-                        brandList.add(new ModelBrandAuditList(jobj.getString("OPName"), jobj1.getString("CompName"), jobj1.getString("CompPName"), jobj1.getString("CPQty"), jobj1.getString("CPRate"), jobj1.getString("CPValue"), jobj1.getString("CompCode"), jobj1.getString("CompPCode")));
+                        brandList.add(new ModelBrandAuditList(jobj.getString("OPName"), jobj1.getString("CompName"), jobj1.getString("CompPName"), jobj1.getString("CPQty"), jobj1.getString("CPRate"), jobj1.getString("CPValue"),jobj1.getString("CSw"),jobj1.getString("CRx"),jobj1.getString("CompCode"), jobj1.getString("CompPCode")));
                     finalProduct += jobj1.getString("CompName");
 
                 }
@@ -539,7 +633,7 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
                 JSONObject jsonnn = new JSONObject();
                 jsonnn.put("Chemists", jchem);
                 //Log.v("model_brand_audi",jobj.getString("OPCode"));
-                choosenBrandList.add(new ModelBrandAuditList("", jobj.getString("OPName"), jobj.getString("OPQty"), jobj.getString("OPRate"), jobj.getString("OPValue"), "1", jsonnn.toString()));
+                choosenBrandList.add(new ModelBrandAuditList("", jobj.getString("OPName"), jobj.getString("OPQty"), jobj.getString("OPptp"), jobj.getString("OPptr"), jobj.getString("CSw"),jobj.getString("CRx"),"1", jsonnn.toString()));
 
             }
 
@@ -558,13 +652,12 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
     }
 
     public void addBrandValue() {
-        Log.v("Adapter_brandAudit", String.valueOf(AdapterBrandAuditComp.full_list_prd.size()));
-        for (int i = 0; i < AdapterBrandAuditComp.full_list_prd.size(); i++) {
-            CompNameProduct mm = AdapterBrandAuditComp.full_list_prd.get(i);
+        for (int i = 0; i < AdapterBrandAuditComp2.list_prd1.size(); i++) {
+            CompNameProductNew mm = AdapterBrandAuditComp2.list_prd1.get(i);
 
-            if (!TextUtils.isEmpty(mm.getCompName()) && !TextUtils.isEmpty(mm.getChoosenPrdName()) && !TextUtils.isEmpty(mm.getQty())) {
-                Log.v("CompanyName", mm.getCompName() + " edit_val " + edt_search_brd.getText().toString() + " chosenprd " + mm.getChoosenPrdName() + " compcod " + mm.getCompCode() + " pcode " + mm.getCompPCode());
-                brandList.add(new ModelBrandAuditList(edt_search_brd.getText().toString(), mm.getCompName(), mm.getChoosenPrdName(), mm.getQty(), mm.getRate(), mm.getValue(), mm.getCompCode(), mm.getCompPCode()));
+            if (!TextUtils.isEmpty(mm.getCName()) && !TextUtils.isEmpty(mm.getPName()) && !TextUtils.isEmpty(mm.getInvqty())) {
+                Log.v("CompanyName", mm.getCName()+ " edit_val " + edt_search_brd.getText().toString() + " chosenprd " + mm.getPName() + " compcod " + mm.getCcode() + " pcode " + mm.getPCode());
+                brandList.add(new ModelBrandAuditList(edt_search_brd.getText().toString(), mm.getCName(), mm.getPName(),"", "", "", "","",mm.getCcode(), mm.getPCode()));
             }
         }
         Log.v("brandsize",String.valueOf(brandList.size()));
@@ -588,22 +681,22 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        choosenBrandList.add(new ModelBrandAuditList("", edt_search_brd.getText().toString(), edt_qty.getText().toString(), edt_rate.getText().toString(), edt_val.getText().toString(), prdEnterCode, chemlist.toString()));
+        choosenBrandList.add(new ModelBrandAuditList("", edt_search_brd.getText().toString(), edt_qty.getText().toString(), edt_rate.getText().toString(), edt_val.getText().toString(),edt_sw.getText().toString(),edt_rx.getText().toString(), prdEnterCode, chemlist.toString()));
 
         Log.v("brandsize",String.valueOf(choosenBrandList.size()));
 
-        if(brandList.size()<1)
-        {
-            Toast.makeText(getApplicationContext(),"Select Competitor Details ",Toast.LENGTH_LONG).show();
-            return;
-        }  else {
+//        if(brandList.size()<1)
+//        {
+//            Toast.makeText(getApplicationContext(),"Select Competitor Details ",Toast.LENGTH_LONG).show();
+//            return;
+//        }  else {
             jsonSave();
 
             Intent i = new Intent(NewRCBentryActivity.this, FeedbackActivity.class);
             setResult(6, i);
 
             finish();
-        }
+      //  }
 
         edt_search_brd.setText("");
         edt_qty.setText("");
@@ -617,16 +710,15 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
     }
 
     public void addBrandValues() {
-        Log.v("Adapter_brandAudit", String.valueOf(AdapterBrandAuditComp.full_list_prd.size()));
-        for (int i = 0; i < AdapterBrandAuditComp.full_list_prd.size(); i++) {
-            CompNameProduct mm = AdapterBrandAuditComp.full_list_prd.get(i);
+        for (int i = 0; i < AdapterBrandAuditComp2. list_prd1.size(); i++) {
+            CompNameProductNew mm = AdapterBrandAuditComp2.list_prd1.get(i);
 
-            if (!TextUtils.isEmpty(mm.getCompName()) && !TextUtils.isEmpty(mm.getChoosenPrdName()) && !TextUtils.isEmpty(mm.getQty())) {
-                Log.v("CompanyName", mm.getCompName() + " edit_val " + edt_search_brd.getText().toString() + " chosenprd " + mm.getChoosenPrdName() + " compcod " + mm.getCompCode() + " pcode " + mm.getCompPCode());
-                brandList.add(new ModelBrandAuditList(edt_search_brd.getText().toString(), mm.getCompName(), mm.getChoosenPrdName(), mm.getQty(), mm.getRate(), mm.getValue(), mm.getCompCode(), mm.getCompPCode()));
+            if ( !TextUtils.isEmpty(mm.getInvqty())) {
+                Log.v("CompanyName", mm.getCName() + " edit_val " + edt_search_brd.getText().toString() + " chosenprd " + mm.getPName() + " compcod " + mm.getCcode() + " pcode " + mm.getPCode());
+                brandList.add(new ModelBrandAuditList(edt_search_brd.getText().toString(), mm.getCName(), mm.getPName(), mm.getInvqty(), mm.getPtp(), mm.getPtr(),mm.getSw(),mm.getRx(), mm.getCcode(), mm.getPCode()));
             }
         }
-        Log.v("brandsize",String.valueOf(brandList.size()));
+        Log.v("brandsize",String.valueOf(brandList));
 
         Log.v("last_select_array", String.valueOf(chem_select_list.size()));
         JSONArray arr = new JSONArray();
@@ -646,7 +738,7 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        choosenBrandList.add(new ModelBrandAuditList("", edt_search_brd.getText().toString(), edt_qty.getText().toString(), edt_rate.getText().toString(), edt_val.getText().toString(), prdEnterCode, chemlist.toString()));
+        choosenBrandList.add(new ModelBrandAuditList("", edt_search_brd.getText().toString(), edt_qty.getText().toString(), edt_rate.getText().toString(), edt_val.getText().toString(), edt_sw.getText().toString(),edt_rx.getText().toString(),prdEnterCode, chemlist.toString()));
 
         Log.v("brandsize",String.valueOf(choosenBrandList.size()));
 
@@ -682,12 +774,13 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
     }
 
 
+
     @Override
     public void competitordetails(String compName, String prodName, String qty) {
-
-        Log.v("compName",compName);
-        Log.v("prodName",prodName);
-        Log.v("compQty",qty);
+//
+//        Log.v("compName",compName);
+//        Log.v("prodName",prodName);
+//        Log.v("compQty",qty);
 
         competitorName=compName;
         competitorBrand=prodName;
@@ -696,4 +789,680 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
 
 
     }
+    public void NewcopList() {
+        Call<ResponseBody> chm = apiService.getNewcompetitors(String.valueOf(obj));
+        chm.enqueue(NewComplist);
+    }
+    public Callback<ResponseBody> NewComplist = new Callback<ResponseBody>() {
+        @Override
+        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            System.out.println("checkUser is sucessfuld :" + response.isSuccessful());
+            if (response.isSuccessful()) {
+
+                try {
+                    dbh.open();
+                    dbh.del_comp_new();
+                    InputStreamReader ip = null;
+                    StringBuilder is = new StringBuilder();
+                    String line = null;
+
+                    ip = new InputStreamReader(response.body().byteStream());
+                    BufferedReader bf = new BufferedReader(ip);
+
+                    while ((line = bf.readLine()) != null) {
+                        is.append(line);
+                    }
+                    //  dbh.delete_All_tableDatas();
+                    // List<Doctors> doctors = response.body();
+
+                    JSONArray ja = new JSONArray(is.toString());
+                    for (int i = 0; i < ja.length(); i++) {
+                        JSONObject js1 = ja.getJSONObject(i);
+
+                        JSONArray jsonArray = js1.getJSONArray("Cmpt");
+                        for (int j = 0; j < jsonArray.length(); j++) {
+                            JSONObject js = jsonArray.getJSONObject(j);
+                            String OProdCd=js1.getString("OProdCd");
+                            String compSlNo = js.getString("CCode");
+                            String compName = js.getString("CName");
+                            String compPrdSlNo= js.getString("PCode");
+                            String compPrdName = js.getString("PName");
+//                            listComp.add(new CompNameProductNew(compSlNo,compName,compPrdSlNo,compPrdName));
+
+                            dbh.NewinsertCompetitorTable(compSlNo, compName, compPrdSlNo, compPrdName,OProdCd);
+                            Log.v("printing_chompnew", compName);
+
+
+                        }
+                    }
+//                    adapterBrandAuditComp = new NewAdapterBrandAuditComp(NewRCBentryActivity.this, listComp);
+//                    list_comp.setAdapter(adapterBrandAuditComp);
+//                    // list_comp.setEmptyView(findViewById(R.id.list_comp));
+//                    adapterBrandAuditComp.notifyDataSetChanged();
+                    dbh.close();
+
+                } catch (Exception e) {
+                }
+            } else {
+                try {
+                    JSONObject jObjError = new JSONObject(response.toString());
+                } catch (Exception e) {
+                }
+            }
+        }
+
+        @Override
+        public void onFailure(Call<ResponseBody> call, Throwable t) {
+        }
+    };
+
+
+
+
+   public static class AdapterBrandAuditComp2 extends BaseAdapter {
+    public  static ArrayList<CompNameProductNew> list_prd1 = new ArrayList<>();
+        Activity context;
+        boolean detectPrdClick = false;
+        TextView txt_comp_name;
+        ArrayList<Feedbacklist> arraylist;
+        CommonUtilsMethods commonUtilsMethods;
+      UpdateUi updateUi;
+        DataInterface dataInterface;
+        Api_Interface apiService;
+        JSONObject obj = new JSONObject();
+        String Divcode = "", db_connPath;
+        CommonSharedPreference mCommonSharedPreference;
+        TemplateAdapter adapter;
+        Spinner spinner;
+        ArrayList<String> myList;
+       EditText editTextfeedback;
+        public AdapterBrandAuditComp2(Activity context, ArrayList<CompNameProductNew> list_prd1) {
+            this.context = context;
+            this.list_prd1 = list_prd1;
+            commonUtilsMethods = new CommonUtilsMethods(this.context);
+            arraylist = new ArrayList<>();
+            mCommonSharedPreference = new CommonSharedPreference(context);
+            Divcode = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DIVISION_CODE);
+            db_connPath = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DB_URL);
+            apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
+            try {
+                obj.put("DivCode", "2");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        private void NewcopList() {
+            Call<ResponseBody> chm = apiService.getFeedback(String.valueOf(obj));
+            chm.enqueue(Feedback);
+        }
+
+        public Callback<ResponseBody> Feedback = new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                System.out.println("checkUser is sucessfuld :" + response.isSuccessful());
+                if (response.isSuccessful()) {
+                    try {
+
+                        InputStreamReader ip = null;
+                        StringBuilder is = new StringBuilder();
+                        String line = null;
+
+                        ip = new InputStreamReader(response.body().byteStream());
+                        BufferedReader bf = new BufferedReader(ip);
+
+                        while ((line = bf.readLine()) != null) {
+                            is.append(line);
+                        }
+                        //  dbh.delete_All_tableDatas();
+                        // List<Doctors> doctors = response.body();
+
+                        JSONArray ja = new JSONArray(is.toString());
+                        for (int i = 0; i < ja.length(); i++) {
+                            JSONObject js1 = ja.getJSONObject(i);
+                            String code = js1.getString("Code");
+                            String message = js1.getString("Name");
+
+                            Feedbacklist feedbacklist = new Feedbacklist(code, message);
+                            arraylist.add(feedbacklist);
+
+
+                            adapter = new TemplateAdapter(context, arraylist);
+                            spinner.setAdapter(adapter);
+
+
+                        }
+//                    adapterBrandAuditComp = new NewAdapterBrandAuditComp(NewRCBentryActivity.this, listComp);
+//                    list_comp.setAdapter(adapterBrandAuditComp);
+//                    // list_comp.setEmptyView(findViewById(R.id.list_comp));
+//                    adapterBrandAuditComp.notifyDataSetChanged();
+
+                    } catch (Exception e) {
+                    }
+                } else {
+                    try {
+                        JSONObject jObjError = new JSONObject(response.toString());
+                    } catch (Exception e) {
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            }
+        };
+
+        @Override
+        public int getCount() {
+            return list_prd1.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return list_prd1.get(i);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+
+        @Override
+        public View getView(final int i, View view, ViewGroup viewGroup) {
+            view = LayoutInflater.from(context).inflate(R.layout.new_row_item_brand_audit_competor, viewGroup, false);
+            txt_comp_name = (TextView) view.findViewById(R.id.txt_comp_name);
+            final TextView txt_comp_brd_name = (TextView) view.findViewById(R.id.txt_comp_brd_name);
+
+            RelativeLayout comp_name_list = (RelativeLayout) view.findViewById(R.id.comp_name_list);
+            RelativeLayout comp_prd_list = (RelativeLayout) view.findViewById(R.id.comp_prd_list);
+            final LinearLayout ll_qty = (LinearLayout) view.findViewById(R.id.ll_qty);
+            EditText etqty = view.findViewById(R.id.edt_inqty);
+            EditText etptp = view.findViewById(R.id.etptp);
+            EditText etptr = view.findViewById(R.id.etptr);
+            EditText etsw = view.findViewById(R.id.etsw);
+            EditText etrx = view.findViewById(R.id.etrx);
+            etqty.setText(list_prd1.get(i).getInvqty());
+            etptp.setText(list_prd1.get(i).getPtp());
+            etptr.setText(list_prd1.get(i).getPtr());
+            etsw.setText(list_prd1.get(i).getSw());
+            etrx.setText(list_prd1.get(i).getRx());
+
+            etqty.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    list_prd1.get(i).setInvqty(etqty.getText().toString());
+
+                }
+            });
+            etptp.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    list_prd1.get(i).setPtp(etptp.getText().toString());
+
+                }
+            });
+            etptr.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    list_prd1.get(i).setPtr(etptr.getText().toString());
+
+                }
+            });
+            etsw.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    list_prd1.get(i).setSw(etsw.getText().toString());
+
+                }
+            });
+            etrx.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    list_prd1.get(i).setRx(etrx.getText().toString());
+
+                }
+            });
+
+            Button feedbackbtn = view.findViewById(R.id.feedbackbtn);
+
+
+            feedbackbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final Dialog dialog = new Dialog(context);
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                    dialog.setContentView(R.layout.alert_feedback_layout);
+                    dialog.setCanceledOnTouchOutside(false);
+                    dialog.show();
+
+                    Button savebtn = dialog.findViewById(R.id.savebtn);
+                    TextView feedbacktext = dialog.findViewById(R.id.templatetext);
+                    spinner = dialog.findViewById(R.id.template);
+                     editTextfeedback=dialog.findViewById(R.id.etfeedback);
+                    ImageView camerabtn = dialog.findViewById(R.id.camerabtn);
+                    gvGallery=dialog.findViewById(R.id.imagerecycle);
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            Fcode=arraylist.get(position).getCode();
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                    savebtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                           // feedbackdata();
+                            ArrayList<HashMap<String, String>> wordList;
+                            wordList = new ArrayList<HashMap<String, String>>();
+
+
+                            HashMap<String, String> map = new HashMap<String, String>();
+                            for (int i = 0; i < list_prd1.size(); i++) {
+                                map.put("Templatecode", Fcode);
+                                map.put("feedback", editTextfeedback.getText().toString());
+                                map.put("image", String.valueOf(mArrayUri));
+
+                            }
+
+                            wordList.add(map);
+
+
+
+                            Gson gson = new GsonBuilder().create();
+                            //Use GSON to serialize Array List to JSON
+                             gson.toJson(wordList);
+                             list_prd1.get(i).setFeedback(String.valueOf(wordList));
+
+                            dialog.dismiss();
+                        }
+                    });
+                    camerabtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            showPictureDialog();
+
+                        }
+                    });
+                    feedbacktext.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            arraylist.clear();
+                            NewcopList();
+                            feedbacktext.setVisibility(View.GONE);
+                            spinner.setVisibility(View.VISIBLE);
+                            spinner.performClick();
+
+
+                        }
+                    });
+
+
+                    ImageView closebtn = dialog.findViewById(R.id.iv_close_popup);
+                    closebtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            dialog.dismiss();
+                        }
+                    });
+                }
+            });
+
+            final CompNameProductNew mm = list_prd1.get(i);
+
+            txt_comp_name.setVisibility(View.VISIBLE);
+            txt_comp_name.setText(mm.getCName());
+
+
+            txt_comp_brd_name.setVisibility(View.VISIBLE);
+            txt_comp_brd_name.setText(mm.getPName());
+
+
+//        if(!TextUtils.isEmpty(mm.getCompName()))
+//        {
+//            if(!TextUtils.isEmpty(mm.getChoosenPrdName()))
+//            {
+//                if(!TextUtils.isEmpty(mm.getQty()))
+//                {
+//                    dataInterface.competitordetails(mm.getCompName(),mm.getChoosenPrdName(), mm.getQty());
+//                }
+//            }
+//        }
+
+//       dataInterface.competitordetails(mm.getCompName(),mm.getChoosenPrdName(), mm.getQty());
+//        comp_name_list.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(!TextUtils.isEmpty(mm.getCompName())){
+//                    mm.setChoosenPrdName("");
+//                }
+//                detectPrdClick=false;
+//                Log.v("arrayss_as_list","clicked_here");
+//                popUpAlert(list_prd,"n",i);
+//                notifyDataSetChanged();
+//            }
+//        });
+//        comp_prd_list.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                detectPrdClick=true;
+//                popUpAlert(list_prd,"y",i);
+//            }
+//        });
+
+
+
+/*
+        edt_qty.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
+                int result = actionId & EditorInfo.IME_MASK_ACTION;
+                switch(result) {
+                    case EditorInfo.IME_ACTION_DONE:
+                        // done stuff
+                        Log.v("action_done","are_clicked");
+                        if(!TextUtils.isEmpty(edt_qty.getText().toString())){
+
+                            float cal= Float.parseFloat(edt_qty.getText().toString());
+                            cal=cal*BrandAuditActivity.prd_rate;
+                            mm.setQty(edt_qty.getText().toString());
+                            mm.setRate(String.valueOf(BrandAuditActivity.prd_rate));
+                            mm.setValue(String.valueOf(cal));
+                            notifyDataSetChanged();
+
+                        }
+                        break;
+                    case EditorInfo.IME_ACTION_NEXT:
+                        // next stuff
+                        break;
+                }
+                return false;
+            }
+        });
+*/
+                competiorarray=new JSONArray();
+                competitorjson=new JSONObject();
+                try {
+                    competitorjson.put("Ccode", list_prd1.get(i).getCcode());
+                    competitorjson.put("CName", list_prd1.get(i).getCName());
+                    competitorjson.put("Pcode", list_prd1.get(i).getPCode());
+                    competitorjson.put("PName", list_prd1.get(i).getPName());
+                    competitorjson.put("qty", list_prd1.get(i).getInvqty());
+                    competitorjson.put("ptp", list_prd1.get(i).getPtp());
+                    competitorjson.put("ptr", list_prd1.get(i).getPtr());
+                    competitorjson.put("sw", list_prd1.get(i).getSw());
+                    competitorjson.put("rx", list_prd1.get(i).getRx());
+                    competitorjson.put("feedbackData", list_prd1.get(i).getFeedback());
+                    competiorarray.put(competitorjson);
+                    Log.v("competiors_pv", String.valueOf(competiorarray));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+
+            return view;
+        }
+
+       private void showPictureDialog() {
+           AlertDialog.Builder pictureDialog = new AlertDialog.Builder(context);
+           pictureDialog.setTitle("Select Action");
+           String[] pictureDialogItems = {
+                   "Select photo from gallery",
+                   "Capture photo from camera" };
+           pictureDialog.setItems(pictureDialogItems,
+                   new DialogInterface.OnClickListener() {
+                       @Override
+                       public void onClick(DialogInterface dialog, int which) {
+                           switch (which) {
+                               case 0:
+                                   choosePhotoFromGallary();
+                                   break;
+                               case 1:
+                                   takePhotoFromCamera();
+                                   break;
+                           }
+                       }
+                   });
+           pictureDialog.show();
+       }
+
+       private void takePhotoFromCamera() {
+           Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+           context.startActivityForResult(intent, CAMERA);
+       }
+
+       private void choosePhotoFromGallary() {
+           Intent intent = new Intent();
+           intent.setType("image/*");
+           intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+           intent.setAction(Intent.ACTION_GET_CONTENT);
+           context.startActivityForResult(Intent.createChooser(intent,"Select Picture"),GALLERY);
+       }
+
+
+       public String  feedbackdata() {
+           ArrayList<HashMap<String, String>> wordList;
+           wordList = new ArrayList<HashMap<String, String>>();
+
+
+               HashMap<String, String> map = new HashMap<String, String>();
+           for (int i = 0; i < list_prd1.size(); i++) {
+               map.put("Templatecode", Fcode);
+               map.put("feedback", editTextfeedback.getText().toString());
+               map.put("image", String.valueOf(mArrayUri));
+
+           }
+
+               wordList.add(map);
+
+
+
+           Gson gson = new GsonBuilder().create();
+           //Use GSON to serialize Array List to JSON
+           return gson.toJson(wordList);
+
+       }
+
+
+
+
+       public  JSONArray composeJSON() throws JSONException {
+           ArrayList<HashMap<String, String>> wordList;
+           wordList = new ArrayList<HashMap<String, String>>();
+
+
+//           HashMap<String, String> map = new HashMap<String, String>();
+           JSONObject map=new JSONObject();
+           JSONArray jsonArray=new JSONArray();
+           for (int i = 0; i < list_prd1.size(); i++) {
+
+               map.put("Ccode", list_prd1.get(i).getCcode());
+               map.put("CName", list_prd1.get(i).getCName());
+               map.put("Pcode", list_prd1.get(i).getPCode());
+               map.put("PName", list_prd1.get(i).getPName());
+               map.put("qty", list_prd1.get(i).getInvqty());
+               map.put("ptp", list_prd1.get(i).getPtp());
+               map.put("ptr", list_prd1.get(i).getPtr());
+               map.put("sw", list_prd1.get(i).getSw());
+               map.put("rx", list_prd1.get(i).getRx());
+               map.put("feedbackData", list_prd1.get(i).getFeedback());
+               jsonArray.put(map);
+
+
+           }
+
+           Gson gson = new GsonBuilder().create();
+           //Use GSON to serialize Array List to JSON
+           return jsonArray;
+
+        }
+
+
+
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
+            // When an Image is picked
+            if (requestCode == GALLERY && resultCode == RESULT_OK
+                    && null != data) {
+                // Get the Image from data
+
+                String[] filePathColumn = { MediaStore.Images.Media.DATA };
+                imagesEncodedList = new ArrayList<String>();
+                if(data.getData()!=null){
+                    String orderBy = android.provider.MediaStore.Video.Media.DATE_TAKEN;
+
+                    Uri mImageUri=data.getData();
+
+                    Cursor cursor = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, filePathColumn, null, null, orderBy+ " DESC");
+
+                    // Move to first row
+                    cursor.moveToFirst();
+
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    imageEncoded  = cursor.getString(columnIndex);
+                    cursor.close();
+
+                    ArrayList<String> mArrayUri = new ArrayList<String>();
+                    String realpath=getRealPathFromURI(mImageUri);
+                    mArrayUri.add(realpath);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+                    gvGallery.setLayoutManager(layoutManager);
+                    galleryAdapter = new GalleryAdapter(getApplicationContext(),mArrayUri);
+                    gvGallery.setAdapter(galleryAdapter);
+
+
+                } else{
+
+                    if (data.getClipData() != null) {
+
+                        ClipData mClipData = data.getClipData();
+                        for (int i = 0; i < mClipData.getItemCount(); i++) {
+
+                            ClipData.Item item = mClipData.getItemAt(i);
+                            Uri uri = item.getUri();
+                            ArrayList<String> mArrayUri = new ArrayList<String>();
+                            String realpath=getRealPathFromURI(uri);
+                            mArrayUri.add(realpath);                            // Get the cursor
+                            Cursor cursor = getContentResolver().query(uri, filePathColumn, null, null, null);
+                            // Move to first row
+                            cursor.moveToFirst();
+
+                            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                            imageEncoded  = cursor.getString(columnIndex);
+                            imagesEncodedList.add(imageEncoded);
+                            cursor.close();
+
+                            LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+                            gvGallery.setLayoutManager(layoutManager);
+                            galleryAdapter = new GalleryAdapter(getApplicationContext(),mArrayUri);
+                            gvGallery.setAdapter(galleryAdapter);
+                            ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) gvGallery
+                                    .getLayoutParams();
+
+                        }
+                        Log.v("LOG_TAG", "Selected Images" + mArrayUri.size());
+                    }
+                }
+            } else if(requestCode ==CAMERA){
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+                // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
+                Uri tempUri = getImageUri(getApplicationContext(), imageBitmap);
+                String picturePath = getRealPathFromURI(tempUri);
+                ArrayList<String> mArrayUri = new ArrayList<String>();
+                mArrayUri.add(picturePath);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+                gvGallery.setLayoutManager(layoutManager);
+                galleryAdapter = new GalleryAdapter(getApplicationContext(),mArrayUri);
+                gvGallery.setAdapter(galleryAdapter);
+                ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) gvGallery
+                        .getLayoutParams();
+            }
+            else {
+                Toast.makeText(this, "You haven't picked Image",
+                        Toast.LENGTH_LONG).show();
+            }
+        } catch (Exception e) {
+            Log.v("cameraerror",e.toString());
+            Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG)
+                    .show();
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, null, null);
+        return Uri.parse(path);
+    }
+
+    public String getRealPathFromURI(Uri uri) {
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+        cursor.moveToFirst();
+        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+        return cursor.getString(idx);
+    }
+
 }

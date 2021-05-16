@@ -8,8 +8,8 @@ import saneforce.sanclm.sqlite.DataBaseHandler.*;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
 
-    public static final int DATABASE_VERSION = 12;
-    public static final String DATABASE_NAME = "Edetailing.db";
+    public static final int DATABASE_VERSION = 14;
+    public static final String DATABASE_NAME = "eeEdetailing.db";
     private static final String TEXT_TYPE = " TEXT";
     private static final String COMMA_SEP = ",";
 
@@ -79,6 +79,14 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             TableEntry.COLUMN_COMPETITOR_PRODUCT_CODE + TEXT_TYPE+ COMMA_SEP +
             TableEntry.COLUMN_COMPETITOR_PRODUCT_NAME + TEXT_TYPE +")";
 
+    /*COMPETITOR Master*/
+    private static final String SQL_CREATE_COMPETITOR_MASTER_NEW ="CREATE TABLE IF NOT EXISTS " +
+            TableEntry.TABLE_COMPETITOR_MASTER_NEW + " ("+
+            TableEntry.COLUMN_COMPETITOR_CODE+ TEXT_TYPE + COMMA_SEP +
+            TableEntry.COLUMN_COMPETITOR_NAME + TEXT_TYPE+ COMMA_SEP +
+            TableEntry.COLUMN_COMPETITOR_PRODUCT_CODE + TEXT_TYPE+ COMMA_SEP +
+            TableEntry.COLUMN_COMPETITOR_PRODUCT_NAME + TEXT_TYPE +COMMA_SEP+
+            TableEntry.COLUMN_PRODUCT_BRAND_CODE+TEXT_TYPE+")";
 
     /*DOCTOR MASTER */
     private static final String SQL_CREATE_DOCTOR_DETAILS = "CREATE TABLE IF NOT EXISTS "+
@@ -413,6 +421,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL(SQL_CREATE_HQ_DETAILS);
         db.execSQL(SQL_CREATE_TABLE_WORK_TYPE_MASTER);
         db.execSQL(SQL_CREATE_COMPETITOR_MASTER);
+        db.execSQL(SQL_CREATE_COMPETITOR_MASTER_NEW);
+
         db.execSQL(SQL_CREATE_DOCTOR_DETAILS);
         db.execSQL(SQL_CREATE_UNLISTED_DR_MASTERS);
         db.execSQL(SQL_CREATE_CHEMIST_DETAILS);

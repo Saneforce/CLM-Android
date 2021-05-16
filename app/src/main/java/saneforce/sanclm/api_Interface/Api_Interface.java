@@ -202,6 +202,14 @@ public interface Api_Interface {
     Call<List<CompetitorsList>> getcompetitors(@Field("data") String sf);
 
     @FormUrlEncoded
+    @POST("db.php?axn=get/mapcompdet")
+    Call<ResponseBody>getNewcompetitors(@Field("data") String sf);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=get/rcpafedbktmpl")
+    Call<ResponseBody>getFeedback(@Field("data") String div);
+
+    @FormUrlEncoded
     @POST("db.php?axn=get/catvst")
     Call<ResponseBody> gettCatVst(@Field ("data") String sfc);
 
@@ -449,6 +457,7 @@ public interface Api_Interface {
 
    @POST("db.native.php?axn=get/product_sales_secondary")
    Call<JsonArray> getsecDataAsJArray(@QueryMap Map<String, String> params);
+
 
 
 }

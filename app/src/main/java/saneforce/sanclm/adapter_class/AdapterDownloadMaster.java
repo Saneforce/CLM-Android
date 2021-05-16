@@ -274,7 +274,13 @@ public class AdapterDownloadMaster extends BaseAdapter {
                         share_value = "hos";
                         txt_count.setText("(0)");
                         break;
+
+                    case 23:
+                        dwnloadMasterData.NewcopList();
+                        share_value = "Newcomp";
+                        break;
                 }
+
 
                 new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                     @Override

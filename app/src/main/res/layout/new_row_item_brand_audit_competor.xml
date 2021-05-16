@@ -33,11 +33,11 @@
                     android:typeface="serif"
                     android:textSize="14sp"
                     android:layout_centerVertical="true"
-                    android:visibility="invisible"
                     android:id="@+id/txt_comp_name"
                     android:paddingLeft="5dp"
                     />
                 <ImageView
+                    android:visibility="gone"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/search_brand"
@@ -80,18 +80,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Brand Audit List"
                     android:layout_marginTop="15dp"
                     android:textColor="#000000"
                     android:fontFamily="@font/poppins_medium"
                     android:typeface="serif"
                     android:textSize="14sp"
                     android:layout_centerVertical="true"
-                    android:visibility="invisible"
                     android:id="@+id/txt_comp_brd_name"
                     android:paddingLeft="5dp"
                     />
                 <ImageView
+                    android:visibility="gone"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/search_brand"
@@ -126,10 +125,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@null"
-                android:id="@+id/edt_qty"
+                android:id="@+id/edt_inqty"
                 android:textSize="14sp"
                 android:textColor="#000000"
-                android:imeOptions="actionDone"
                 android:singleLine="true"
                 android:paddingLeft="5dp"
                 android:inputType="number"
@@ -148,16 +146,16 @@
             android:id="@+id/ll_rate"
             >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+            <EditText
+                android:background="@null"
+                android:singleLine="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:textColor="#000000"
                 android:fontFamily="@font/poppins_medium"
                 android:typeface="serif"
                 android:textSize="14sp"
-                android:layout_centerVertical="true"
-                android:id="@+id/txt_rate"
+                android:id="@+id/etptp"
                 android:paddingLeft="5dp"
                 />
 
@@ -170,16 +168,16 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+            <EditText
+                android:background="@null"
+                android:singleLine="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:textColor="#000000"
                 android:fontFamily="@font/poppins_medium"
                 android:typeface="serif"
                 android:textSize="14sp"
-                android:layout_centerVertical="true"
-                android:id="@+id/txt_value1"
+                android:id="@+id/etptr"
                 android:paddingLeft="5dp"
                 />
 
@@ -193,16 +191,16 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                <EditText
+                    android:background="@null"
+                    android:singleLine="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:textColor="#000000"
                     android:fontFamily="@font/poppins_medium"
                     android:typeface="serif"
                     android:textSize="14sp"
-                    android:layout_centerVertical="true"
-                    android:id="@+id/txt_value2"
+                    android:id="@+id/etsw"
                     android:paddingLeft="5dp"
                     />
 
@@ -216,16 +214,16 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                <EditText
+                    android:background="@null"
+                    android:singleLine="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:textColor="#000000"
                     android:fontFamily="@font/poppins_medium"
                     android:typeface="serif"
                     android:textSize="14sp"
-                    android:layout_centerVertical="true"
-                    android:id="@+id/txt_value"
+                    android:id="@+id/etrx"
                     android:paddingLeft="5dp"
                     />
 

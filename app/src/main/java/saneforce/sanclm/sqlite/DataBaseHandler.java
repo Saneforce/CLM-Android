@@ -9,8 +9,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 import android.util.Log;
 
-import saneforce.sanclm.applicationCommonFiles.CommonUtils;
-
 public class DataBaseHandler {
 
     private DatabaseHelper dbHelper;
@@ -106,6 +104,7 @@ public class DataBaseHandler {
             public static final String COLUMN_COMPETITOR_PRODUCT_CODE = "compet_pdtcode";//2
             public static final String COLUMN_COMPETITOR_PRODUCT_NAME = "compet_pdtname";//3
 
+           public static final String TABLE_COMPETITOR_MASTER_NEW= "NewCompetitor_Master";
 
 
         /*DOCTOR MASTER DETAILS*/
@@ -753,7 +752,17 @@ public class DataBaseHandler {
         Log.v("divcoe",cmpprdname);
         return db.insert(TableEntry.TABLE_COMPETITOR_MASTER,null,values);
     }
+    public long NewinsertCompetitorTable(String cmpcode,String cmpname,String cmpprdcode,String cmpprdname,String OProdCd) {
 
+        ContentValues values=new ContentValues();
+        values.put(TableEntry.COLUMN_COMPETITOR_CODE,cmpcode);
+        values.put(TableEntry.COLUMN_COMPETITOR_NAME,cmpname);
+        values.put(TableEntry.COLUMN_COMPETITOR_PRODUCT_CODE,cmpprdcode);
+        values.put(TableEntry.COLUMN_COMPETITOR_PRODUCT_NAME,cmpprdname);
+        values.put(TableEntry.COLUMN_PRODUCT_BRAND_CODE,OProdCd);
+        return db.insert(TableEntry.TABLE_COMPETITOR_MASTER_NEW,null,values);
+
+    }
     public long insertJson(String value,String name,String time,String code,String type,String commonCode){
         ContentValues values=new ContentValues();
         values.put(TableEntry.TOTAL_VALUE,value);
@@ -938,6 +947,10 @@ public class DataBaseHandler {
     public void del_comp(){
         db.execSQL("delete from " + TableEntry.TABLE_COMPETITOR_MASTER +"  ");
     }
+    public void del_comp_new(){
+        db.execSQL("delete from " + TableEntry.TABLE_COMPETITOR_MASTER_NEW +"  ");
+    }
+
     public void del_brand(){
         db.execSQL("delete from " + TableEntry.TABLE_BRAND +"  ");
     }
@@ -1011,6 +1024,8 @@ public class DataBaseHandler {
             db.execSQL("delete from " + TableEntry.TABLE_TOUR_PLAN+"  ");
             db.execSQL("delete from " + TableEntry.TABLE_SCRIB+"  ");
             db.execSQL("delete from " + TableEntry.TABLE_FEEDBACK +"  ");
+            db.execSQL("delete from " + TableEntry.TABLE_COMPETITOR_MASTER_NEW +"  ");
+
         }
 
         public void deleteFeed(){
@@ -1112,6 +1127,10 @@ public class DataBaseHandler {
     public Cursor select_comp_list(){
         return db.rawQuery(" SELECT "+ TableEntry.COLUMN_COMPETITOR_NAME+","+TableEntry.COLUMN_COMPETITOR_PRODUCT_NAME+","+TableEntry.COLUMN_COMPETITOR_CODE+","+TableEntry.COLUMN_COMPETITOR_PRODUCT_CODE+" FROM "+TableEntry.TABLE_COMPETITOR_MASTER,null);
     }
+    public Cursor select_comp_list_new(String prdEnterCode){
+        return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_COMPETITOR_MASTER_NEW+" WHERE "+TableEntry.COLUMN_PRODUCT_BRAND_CODE+" = '"+prdEnterCode+"' ",null);
+//                + TableEntry.COLUMN_COMPETITOR_NAME+","+TableEntry.COLUMN_COMPETITOR_PRODUCT_NAME+","+TableEntry.COLUMN_COMPETITOR_CODE+","+TableEntry.COLUMN_COMPETITOR_PRODUCT_CODE,null);
+    }
     public Cursor select_joint_list(){
         return db.rawQuery(" SELECT "+ TableEntry.COLUMN_SFNAME+","+TableEntry.COLUMN_SF_CODE+" FROM "+TableEntry.TABLE_JOINWORK_USER_DETAILS,null);
     }
@@ -1134,7 +1153,9 @@ public class DataBaseHandler {
     public Cursor select_chemist_list(){
         return db.rawQuery(" SELECT "+ TableEntry.COLUMN_CHEMIST_NAME+","+ TableEntry.COLUMN_CHEMIST_CODE+" FROM "+TableEntry.TABLE_CHEMIST_MASTER_DETAILS,null);
     }
-
+    public Cursor select_doctor_listnew(){
+        return db.rawQuery(" SELECT "+ TableEntry.COLUMN_DOCTOR_NAME+","+ TableEntry.COLUMN_DOCTOR_CODE+" FROM "+TableEntry.TABLE_DOCTOR_MASTER_DETAILS,null);
+    }
     public Cursor select_precall_graph_list(String code){
         return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_PRE_CALL_GRAPH+ " WHERE "+TableEntry.COLUMN_CODE+" = '"+code+"' " ,null);
     }
