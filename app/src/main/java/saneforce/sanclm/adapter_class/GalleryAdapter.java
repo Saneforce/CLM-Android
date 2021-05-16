@@ -18,9 +18,9 @@ import saneforce.sanclm.R;
 public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHolder> {
 
     private Context ctx;
-    ArrayList<String> mArrayUri;
+    ArrayList<Uri> mArrayUri;
 
-    public GalleryAdapter(Context ctx, ArrayList<String> mArrayUri) {
+    public GalleryAdapter(Context ctx, ArrayList<Uri> mArrayUri) {
 
         this.ctx = ctx;
         this.mArrayUri = mArrayUri;
@@ -37,7 +37,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.image.setImageURI(Uri.parse(mArrayUri.get(position)));
+        holder.image.setImageURI(mArrayUri.get(position));
 
 
     }

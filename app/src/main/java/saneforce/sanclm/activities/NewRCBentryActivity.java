@@ -1382,9 +1382,8 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
                     imageEncoded  = cursor.getString(columnIndex);
                     cursor.close();
 
-                    ArrayList<String> mArrayUri = new ArrayList<String>();
-                    String realpath=getRealPathFromURI(mImageUri);
-                    mArrayUri.add(realpath);
+                    ArrayList<Uri> mArrayUri = new ArrayList<Uri>();
+                    mArrayUri.add(mImageUri);
                     LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
                     gvGallery.setLayoutManager(layoutManager);
                     galleryAdapter = new GalleryAdapter(getApplicationContext(),mArrayUri);
@@ -1400,9 +1399,8 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
 
                             ClipData.Item item = mClipData.getItemAt(i);
                             Uri uri = item.getUri();
-                            ArrayList<String> mArrayUri = new ArrayList<String>();
-                            String realpath=getRealPathFromURI(uri);
-                            mArrayUri.add(realpath);                            // Get the cursor
+                            mArrayUri.add(uri);
+                            // Get the cursor
                             Cursor cursor = getContentResolver().query(uri, filePathColumn, null, null, null);
                             // Move to first row
                             cursor.moveToFirst();
@@ -1430,8 +1428,8 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
                 // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
                 Uri tempUri = getImageUri(getApplicationContext(), imageBitmap);
                 String picturePath = getRealPathFromURI(tempUri);
-                ArrayList<String> mArrayUri = new ArrayList<String>();
-                mArrayUri.add(picturePath);
+                ArrayList<Uri> mArrayUri = new ArrayList<Uri>();
+                mArrayUri.add(Uri.parse(picturePath));
                 LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
                 gvGallery.setLayoutManager(layoutManager);
                 galleryAdapter = new GalleryAdapter(getApplicationContext(),mArrayUri);
