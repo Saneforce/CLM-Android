@@ -106,12 +106,13 @@ public class DCR_GV_Selection_adapter extends BaseAdapter implements Filterable{
 //            if(row_pos.getMax().equalsIgnoreCase("null"))
 //                row_pos.setMax("0");*/
 
-           if(type.equals("D"))
-           {
-               mViewHolder.tv_count.setText(row_pos.getTag()+"/"+row_pos.getMax());
-           }else{
-               mViewHolder.tv_count.setText("");
-           }
+        mViewHolder.tv_count.setText(row_pos.getTag()+"/"+row_pos.getMax());
+//           if(type.equals("D"))
+//           {
+//               mViewHolder.tv_count.setText(row_pos.getTag()+"/"+row_pos.getMax());
+//           }else{
+//               mViewHolder.tv_count.setText("");
+//           }
 
 
 

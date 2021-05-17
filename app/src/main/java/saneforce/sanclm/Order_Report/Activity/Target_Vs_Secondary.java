@@ -171,6 +171,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
     String divison_code = "";
     TextView mtdtext, qtdtext, ytdtext,chrttxt;
     String selected_data = "";
+    String selected_data_1 = "";
 
     ImageView imp_back1, filter_btn1,imp_back_filter1,secondary_sel1,custom_datecheck1,changecheck;
     CardView secondary_card1,mtd_card1,qtd_card1,ytd_card1;
@@ -224,6 +225,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
     //CardView secondary_card,primary_card;
     CommonSharedPreference mCommonSharedPreference;
     String sf_code,div_Code,sf_name,db_connPath;
+    String from_dt,selectdat="",fromdt="",todt="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -339,6 +341,15 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
         todate.setVisibility(View.VISIBLE);
         Dcrdatas.till_date = todate.getText().toString();
         Dcrdatas.date_todetails = todate.getText().toString();
+
+
+        selectdat=getIntent().getStringExtra("selected");
+//        Log.d("santhosh",selectdat);
+        if (selectdat.equals("Customdate")){
+            fromdt=getIntent().getStringExtra("from");
+            todt=getIntent().getStringExtra("to");
+            Log.d("santhosh",fromdt+"--"+todt);
+        }
 
         ///////////////////secondary-------------------
         imp_back1 = findViewById(R.id.back_btn_drpt);
@@ -486,7 +497,17 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 sectxt.setTextColor(Color.WHITE);
                 primary_card.setCardBackgroundColor(Color.WHITE);
                 prmtxt.setTextColor(Color.RED);
-                selected_data="secondary";
+                selected_data_1="secondary";
+                mtd_card.setCardBackgroundColor(Color.WHITE);
+                mtdtext.setTextColor(Color.RED);
+                qtd_card.setCardBackgroundColor(Color.WHITE);
+                qtdtext.setTextColor(Color.RED);
+                ytd_card.setCardBackgroundColor(Color.WHITE);
+                ytdtext.setTextColor(Color.RED);
+                fromdate_ed.setText("");
+                todate_ed.setText("");
+                custom_datecheck.setImageResource(R.drawable.checkbox);
+                custom_datecheck.setTag("uncheck");
             }
         });
 
@@ -497,9 +518,13 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 sectxt.setTextColor(Color.RED);
                 primary_card.setCardBackgroundColor(Color.RED);
                 prmtxt.setTextColor(Color.WHITE);
-                selected_data="primary";
-                mtd_card.setCardBackgroundColor(Color.RED);
-                mtdtext.setTextColor(Color.WHITE);
+                selected_data_1="primary";
+                mtd_card.setCardBackgroundColor(Color.WHITE);
+                mtdtext.setTextColor(Color.RED);
+                qtd_card.setCardBackgroundColor(Color.WHITE);
+                qtdtext.setTextColor(Color.RED);
+                ytd_card.setCardBackgroundColor(Color.WHITE);
+                ytdtext.setTextColor(Color.RED);
                 fromdate_ed.setText("");
                 todate_ed.setText("");
                 custom_datecheck.setImageResource(R.drawable.checkbox);
@@ -639,7 +664,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 {
                     selected_data="Customdate";
                 }
-                if (selected_data.equalsIgnoreCase("primary")) {
+                if (selected_data_1.equalsIgnoreCase("primary")) {
 //                    getFragmentManager().beginTransaction().replace(R.id.DCRMain_Frame, new Target_Vs_Secondary()).commit();
                     Intent oo = new Intent(Target_Vs_Secondary.this, DashActivity.class);
                     startActivity(oo);

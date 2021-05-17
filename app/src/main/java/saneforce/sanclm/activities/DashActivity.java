@@ -169,6 +169,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
     String divison_code = "";
     TextView mtdtext, qtdtext, ytdtext,chrttxt;
     String selected_data = "";
+    String selected_data_1 = "";
 
 
 
@@ -485,13 +486,19 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 sectxt.setTextColor(Color.WHITE);
                 primary_card.setCardBackgroundColor(Color.WHITE);
                 prmtxt.setTextColor(Color.RED);
-                selected_data="secondary";
-                mtd_card.setCardBackgroundColor(Color.RED);
-                mtdtext.setTextColor(Color.WHITE);
+                selected_data_1="secondary";
+//                mtd_card.setCardBackgroundColor(Color.RED);
+//                mtdtext.setTextColor(Color.WHITE);
                 fromdate_ed.setText("");
                 todate_ed.setText("");
                 custom_datecheck.setImageResource(R.drawable.checkbox);
                 custom_datecheck.setTag("uncheck");
+                mtd_card.setCardBackgroundColor(Color.WHITE);
+                mtdtext.setTextColor(Color.RED);
+                qtd_card.setCardBackgroundColor(Color.WHITE);
+                qtdtext.setTextColor(Color.RED);
+                ytd_card.setCardBackgroundColor(Color.WHITE);
+                ytdtext.setTextColor(Color.RED);
 
             }
         });
@@ -503,7 +510,17 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 sectxt.setTextColor(Color.RED);
                 primary_card.setCardBackgroundColor(Color.RED);
                 prmtxt.setTextColor(Color.WHITE);
-                selected_data="primary";
+                selected_data_1="primary";
+                fromdate_ed.setText("");
+                todate_ed.setText("");
+                custom_datecheck.setImageResource(R.drawable.checkbox);
+                custom_datecheck.setTag("uncheck");
+                mtd_card.setCardBackgroundColor(Color.WHITE);
+                mtdtext.setTextColor(Color.RED);
+                qtd_card.setCardBackgroundColor(Color.WHITE);
+                qtdtext.setTextColor(Color.RED);
+                ytd_card.setCardBackgroundColor(Color.WHITE);
+                ytdtext.setTextColor(Color.RED);
             }
         });
 
@@ -661,12 +678,18 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 if((!fromdate_ed.getText().toString().equalsIgnoreCase(""))&& !todate_ed.getText().toString().equalsIgnoreCase("")) {
                     selected_data="Customdate";
                 }
-                if (selected_data.equalsIgnoreCase("secondary")) {
-
+                if (selected_data_1.equalsIgnoreCase("secondary")) {
                     Intent oo = new Intent(DashActivity.this, Target_Vs_Secondary.class);
+                    if (selected_data.equals("Customdate")){
+                        oo.putExtra("selected",selected_data);
+                        oo.putExtra("from",fromdate_ed.getText().toString());
+                        oo.putExtra("to",todate_ed.getText().toString());
+                    }else {
+                        oo.putExtra("selected",selected_data);
+                    }
                     startActivity(oo);
+                    slidemenu.closeDrawer(Gravity.RIGHT);
                 }
-
                 else if (selected_data.equalsIgnoreCase("MTD")) {
 
 //                    if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
@@ -1123,7 +1146,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+             Log.e("Something went wrong  ", e.getMessage());
         }
     }
 
@@ -1282,7 +1305,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+             Log.e("Something went wrong  ", e.getMessage());
         }
     }
     public void QTDprimeproduct_admin(){
@@ -1395,7 +1418,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+             Log.e("Something went wrong  ", e.getMessage());
         }
     }
     public void Orderproduct_PiechartQTD_admin(){
@@ -1507,7 +1530,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+             Log.e("Something went wrong  ", e.getMessage());
         }
     }
 
@@ -1630,7 +1653,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+             Log.e("Something went wrong  ", e.getMessage());
         }
     }
 
@@ -1772,7 +1795,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+             Log.e("Something went wrong  ", e.getMessage());
         }
     }
 
@@ -1877,7 +1900,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+             Log.e("Something went wrong  ", e.getMessage());
         }
     }
     public  void Orderproduct_Piechartadmin(){
@@ -1993,7 +2016,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+             Log.e("Something went wrong  ", e.getMessage());
         }
     }
 
@@ -2106,7 +2129,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+             Log.e("Something went wrong  ", e.getMessage());
         }
     }
 
@@ -2219,7 +2242,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+             Log.e("Something went wrong  ", e.getMessage());
         }
     }
 
@@ -2389,7 +2412,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(DashActivity.this, "No records found", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+             Log.e("Something went wrong  ", e.getMessage());
         }
     }
 
@@ -2444,7 +2467,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(DashActivity.this, "No records found", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-           Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.e("Something went wrong  ", e.getMessage());
         }
     }
 
@@ -2543,7 +2566,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+             Log.e("Something went wrong  ", e.getMessage());
         }
     }
 
@@ -2597,7 +2620,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(DashActivity.this, "No records found", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+             Log.e("Something went wrong  ", e.getMessage());
         }
     }
 
@@ -3109,7 +3132,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+             Log.e("Something went wrong  ", e.getMessage());
         }
     }
 
@@ -3235,7 +3258,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+             Log.e("Something went wrong  ", e.getMessage());
         }
     }
 
@@ -3282,7 +3305,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(DashActivity.this, "No records found", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+             Log.e("Something went wrong  ", e.getMessage());
         }
     }
 
@@ -3400,7 +3423,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+             Log.e("Something went wrong  ", e.getMessage());
         }
     }
 
@@ -3560,7 +3583,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            //Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            // Log.e("Something went wrong  ", e.getMessage());
         }
     }
 
@@ -3673,7 +3696,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+             Log.e("Something went wrong  ", e.getMessage());
         }
     }
 
@@ -3717,7 +3740,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(DashActivity.this, "No records found", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+             Log.e("Something went wrong  ", e.getMessage());
         }
     }
 
@@ -3837,7 +3860,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+             Log.e("Something went wrong  ", e.getMessage());
         }
     }
     public void Orderproduct_PiechartYTD(){
@@ -3987,7 +4010,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+             Log.e("Something went wrong  ", e.getMessage());
         }
 
     }
@@ -4109,7 +4132,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+             Log.e("Something went wrong  ", e.getMessage());
         }
     }
 
@@ -4285,7 +4308,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 //Toast.makeText(MainActivity.this, "No records found", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+           // Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
             Log.e("Something went wrong  ", e.getMessage());
         }
     }
@@ -4355,7 +4378,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+             Log.e("Something went wrong  ", e.getMessage());
         }
     }
 

@@ -30,9 +30,12 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.LargeValueFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -136,6 +139,11 @@ public class SFe_Activity extends AppCompatActivity {
         int k=0;
         CommonSharedPreference mCommonSharedPreference;
         String sf_code,div_Code,db_connPath,sf_name;
+        String fromdata = "";
+        String todata = "";
+        String finaldiv="";
+        String finalSfcode="";
+        ArrayList<String> tosfname = new ArrayList<>();
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -204,6 +212,10 @@ public class SFe_Activity extends AppCompatActivity {
             toback.clear();
             toback.add(sf_code);
             Log.d("toback",toback.toString());
+
+            tosfname.clear();
+            tosfname.add(sf_name);
+            Log.d("tosfname",tosfname.toString());
 
             final Calendar c = Calendar.getInstance();
             final int y = c.get(Calendar.YEAR);
@@ -381,8 +393,11 @@ public class SFe_Activity extends AppCompatActivity {
                     Dcrdatas.select_data=selected_data;
                     Log.d("rateess",selected_data+"----"+Dcrdatas.select_data);
 
+
+
                     if (selected_data.equalsIgnoreCase("Category")) {
                         catog.setText("Category");
+                        cur_month.setText(monthselection.getText().toString());
                         if (monthselection.getText().toString().equals("") && yearselection.getText().toString().equals("")){
                             Intent oo = new Intent(SFe_Activity.this, SFe_Activity.class);
                             startActivity(oo);
@@ -421,6 +436,7 @@ public class SFe_Activity extends AppCompatActivity {
                     }
                   slidemenu.closeDrawer(Gravity.RIGHT);
                 }
+
             });
 
             backcat.setOnClickListener(new View.OnClickListener() {
@@ -536,6 +552,7 @@ public class SFe_Activity extends AppCompatActivity {
 
             if (!(toback.size() ==0)){
                 toback.remove(toback.size() - 1);
+                tosfname.remove(tosfname.size() -1);
             }
 
         }
@@ -1237,8 +1254,8 @@ public class SFe_Activity extends AppCompatActivity {
         }
 
         private void Category_filterdetail() {
-                String fromstrdate ="";
-                String tostrdate="";
+                 String fromstrdate ="";
+                 String tostrdate="";
                 DateFormat dateFormat1 = new SimpleDateFormat("M");
                 Date date1 = new Date();
                 Log.d("Month1",dateFormat1.format(date1));
@@ -1261,6 +1278,8 @@ public class SFe_Activity extends AppCompatActivity {
               //  QryParam.put("axn", "get/Category_sfe");
                 QryParam.put("divisionCode", div_Code +",");
                 QryParam.put("sfCode", sf_code);
+                fromdata=fromstrdate;
+                todata=tostrdate;
                 QryParam.put("fmonth", fromstrdate);
                 QryParam.put("fyear", tostrdate);
                 Log.e("catreport_detail", QryParam.toString());
@@ -1281,7 +1300,8 @@ public class SFe_Activity extends AppCompatActivity {
                             Log.d("orderrepor:Code", response.code() + " - " + response.toString());
                             if (response.code() == 200 || response.code() == 201) {
                                 Log.d("orderrepor:Res", response.body().toString());
-                                parseJsonDataorderDetail(response.body().toString());
+                                //parseJsonDataorderDetail(response.body().toString());
+                                parseJsonDataorderDetail(response.body().toString(),div_Code,sf_code,fromdata,todata);
                             } else {
 //                            Log.d("expense:Res", "1112222233333444");
                                 Toast.makeText(SFe_Activity.this, "No records found", Toast.LENGTH_SHORT).show();
@@ -1335,222 +1355,506 @@ public class SFe_Activity extends AppCompatActivity {
         }
 
 
-        private void parseJsonDataorderDetail(String ordrdcr) {
-            String date = "";
-            String jsw="";
+//        private void parseJsonDataorderDetail(String ordrdcr) {
+//            String date = "";
+//            String jsw="";
+//            try {
+//                try {
+//                    JSONArray js = new JSONArray(ordrdcr);
+//                    Log.e("jsonarray",js.toString());
+//                    if (js.length() > 0) {
+//                        catyclass.clear();
+//                        chart.clear();
+//                        for (int i = 0; i < js.length(); i++) {
+//                            JSONObject jsonObject = js.getJSONObject(i);
+//                            Categoryclass categoryclass = new Categoryclass();
+//                            categoryclass.setDivision_code(jsonObject.optString("Division_code"));
+//                            categoryclass.setNo_of_visit(jsonObject.optString("No_of_visit"));
+//                            categoryclass.setCat_Name(jsonObject.optString("Cat_Name"));
+//                            categoryclass.setVst_1(jsonObject.getDouble("1_Vst"));
+//                            categoryclass.setVst_2(jsonObject.getDouble("2_Vst"));
+//                            categoryclass.setVst_3(jsonObject.getDouble("3_Vst"));
+//                            catyclass.add(categoryclass);
+//                        }
+//
+//
+//                        Log.d("sum12", String.valueOf(catyclass.size()));
+//
+//                        int groupCount = catyclass.size();
+//                        Log.d("groupCount", String.valueOf(groupCount));
+//                        ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
+//                        ArrayList<BarEntry> yVals2 = new ArrayList<BarEntry>();
+//                        ArrayList<BarEntry> yVals3 = new ArrayList<BarEntry>();
+//                        ArrayList<BarEntry> yVals4 = new ArrayList<BarEntry>();
+//
+////                    for (int k=0;k<catyclass.size();k++) {
+//                        yVals1.add(new BarEntry(1, Float.parseFloat(String.valueOf(catyclass.get(0).getVst_1()))));
+//                        yVals2.add(new BarEntry(2, 0));
+//                        yVals3.add(new BarEntry(3,  0));
+//
+//                        yVals1.add(new BarEntry(1, Float.parseFloat(String.valueOf(catyclass.get(1).getVst_1()))));
+//                        yVals2.add(new BarEntry(2, Float.parseFloat(String.valueOf(catyclass.get(1).getVst_2()))));
+//                        yVals3.add(new BarEntry(3, 0));
+//
+//                        yVals1.add(new BarEntry(1, Float.parseFloat(String.valueOf(catyclass.get(2).getVst_1()))));
+//                        yVals2.add(new BarEntry(2, Float.parseFloat(String.valueOf(catyclass.get(2).getVst_2()))));
+//                        yVals3.add(new BarEntry(3, Float.parseFloat(String.valueOf(catyclass.get(2).getVst_3()))));
+//
+//
+////                    }
+//
+//                        ArrayList xVals = new ArrayList();
+//                        for (int n = 0; n < catyclass.size(); n++){
+//                            xVals.add(catyclass.get(n).getCat_Name());
+//                        }
+//
+//                        BarDataSet set1, set2,set3,set4;
+//                        set1 = new BarDataSet(yVals1, "1-visit");
+//                        set1.setColor(Color.BLUE);
+//                        set2 = new BarDataSet(yVals2, "2-visit");
+//                        set2.setColor(Color.GREEN);
+//                        set3 = new BarDataSet(yVals3, "3-visit");
+//                        set3.setColor(Color.CYAN);
+//                        set4 = new BarDataSet(yVals4, "");
+//                        set4.setColor(Color.CYAN);
+//
+//                        BarData data = new BarData(set1, set2,set3,set4);
+//                        data.setValueFormatter(new LargeValueFormatter());
+//                        chart.setData(data);
+//                        chart.getBarData().setBarWidth(barWidth);
+//                        chart.getXAxis().setAxisMinimum(0);
+//                        chart.getXAxis().setAxisMaximum(0 + chart.getBarData().getGroupWidth(groupSpace, barSpace) * groupCount);
+//                        chart.groupBars(0, groupSpace, barSpace);
+//                        chart.getData().setHighlightEnabled(false);
+//                        chart.animateY(2000);
+//                        chart.setDescription(null);
+//                        chart.setPinchZoom(true);
+//                        chart.setScaleEnabled(false);
+//                        chart.setDrawBarShadow(false);
+//                        chart.setDrawGridBackground(false);
+////                    chart.moveViewToX(10);
+//                        chart.setFitBars(true);
+////                    chart.setVisibleXRangeMinimum(yVals1.size());
+////                    chart.setVisibleXRangeMinimum(yVals2.size());
+////                    chart.setVisibleXRangeMinimum(yVals3.size());
+//
+//                        chart.invalidate();
+//
+//                        Legend l = chart.getLegend();
+//                        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+//                        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+//                        l.setOrientation(Legend.LegendOrientation.VERTICAL);
+//                        l.setDrawInside(true);
+//                        l.setYOffset(0f);
+//                        l.setXOffset(0f);
+//                        l.setYEntrySpace(0f);
+//                        l.setTextSize(8f);
+//                        //X-axis
+//                        XAxis xAxis = chart.getXAxis();
+//                        xAxis.setGranularity(1f);
+//                        xAxis.setCenterAxisLabels(true);
+//                        xAxis.setDrawGridLines(false);
+//                        xAxis.setLabelCount(xVals.size());
+//                        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+//                        xAxis.setValueFormatter(new IndexAxisValueFormatter(xVals));
+////                    xAxis.setSpaceMin(data.getBarWidth() / 2f);
+////                    xAxis.setSpaceMax(data.getBarWidth() / 2f);
+//                        xAxis.setTextColor(Color.BLACK);
+////                    xAxis.setTextSize(12);
+//                        xAxis.setAxisLineColor(Color.WHITE);
+//                        //Y-axis
+//                        chart.getAxisRight().setEnabled(false);
+//                        YAxis leftAxis = chart.getAxisLeft();
+//                        leftAxis.setValueFormatter(new LargeValueFormatter());
+//                        leftAxis.setDrawGridLines(true);
+//                        leftAxis.setSpaceTop(25f);
+//                        leftAxis.setAxisMinimum(0f);
+//                    } else {
+//                        Toast.makeText(SFe_Activity.this, "No Records found", Toast.LENGTH_SHORT).show();
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                    Toast.makeText(SFe_Activity.this, "No records found", Toast.LENGTH_SHORT).show();
+//                }
+//            } catch (Exception e) {
+//                Toast.makeText(SFe_Activity.this , "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        }
+//
+//        private void parseJsonDataspecialDetail(String ordrdcr) {
+//            String date = "";
+//            String jsw="";
+//            try {
+//                try {
+//                    JSONArray js = new JSONArray(ordrdcr);
+//                    Log.e("jsonarray",js.toString());
+//                    if (js.length() > 0) {
+//                        spclclass.clear();
+//                        chart.clear();
+//                        for (int i = 0; i < js.length(); i++) {
+//                            JSONObject jsonObject = js.getJSONObject(i);
+//                            specialityclass specialityclass = new specialityclass();
+//                            specialityclass.setDoc_Special_Code(jsonObject.optString("Doc_Special_Code"));
+//                            specialityclass.setSpec_Name(jsonObject.optString("Spec_Name"));
+//                            specialityclass.setCnt(jsonObject.optInt("cnt"));
+//                            specialityclass.setAvrg(jsonObject.optString("Avrg"));
+//                            spclclass.add(specialityclass);
+//                        }
+//
+//                        Log.d("sum12", String.valueOf(spclclass.size()));
+//                        int groupCount = spclclass.size()+2;
+//                        Log.d("groupCount", String.valueOf(groupCount));
+//
+//                        ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
+//                        for (int k=0;k<spclclass.size();k++) {
+//                            yVals1.add(new BarEntry(k,spclclass.get(k).getCnt()+1));
+//                        }
+//
+//                        ArrayList xVals = new ArrayList();
+//                        xVals.clear();
+//                        for (int n = 0; n < spclclass.size(); n++) {
+//                            String spp=spclclass.get(n).getSpec_Name();
+//                            String formattedString = spclclass.get(n).getSpec_Name().replaceAll("\\(.*?\\)","").trim();
+//                            Log.d("form",formattedString);
+//                            xVals.add(formattedString);
+//                        }
+//                        Log.d("xval", String.valueOf(xVals));
+//
+////                    https://www.semicolonworld.com/question/1329/how-to-show-labels-on-right-and-values-to-left-side-in-horizontalbarchart
+//
+//                        BarDataSet bardataset = new BarDataSet(yVals1, "");
+//                        BarData data = new BarData();
+//                        data.addDataSet(bardataset);
+//                        data.setBarWidth(1);
+//                        bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
+//
+//                        chart.setData(data);
+//                        chart.setDescription(null);
+//                        chart.setFitBars(true);
+//                        chart.setDragXEnabled(true);
+//                        chart.animateY(2000);
+//                        chart.setDrawValueAboveBar(true);
+//                        chart.setDragEnabled(true);
+//
+//                        XAxis xAxis = chart.getXAxis();
+//                        xAxis.setValueFormatter(new IndexAxisValueFormatter(xVals));
+//                        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+////                    xAxis.setLabelRotationAngle(270);
+//                        xAxis.setTextSize(2f);
+//                        xAxis.setAxisLineWidth(1f);
+//                        xAxis.setGranularityEnabled(true);
+//                        xAxis.setGranularity(1f);
+//                        xAxis.setDrawLabels(true);
+//                        xAxis.setLabelCount(yVals1.size());
+//                        xAxis.setAxisMinimum(0f);
+//                        xAxis.setAxisMaximum(yVals1.size());
+//                        xAxis.setSpaceMin(0.5f);
+//                        xAxis.setSpaceMax(0.5f);
+//
+//
+//                        Legend l = chart.getLegend();
+//                        l.setEnabled(false);
+//
+//                        YAxis leftAxis = chart.getAxisLeft();
+//                        leftAxis.setSpaceTop(1f);
+//                        leftAxis.setGranularity(1f);
+//                        chart.invalidate();
+//
+//                    } else {
+//                        Toast.makeText(SFe_Activity.this, "No Records found", Toast.LENGTH_SHORT).show();
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                    Toast.makeText(SFe_Activity.this, "No records found", Toast.LENGTH_SHORT).show();
+//                }
+//            } catch (Exception e) {
+//                Toast.makeText(SFe_Activity.this , "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        }
+
+    private void parseJsonDataorderDetail(String ordrdcr,String div,String sf,String frm,String to) {
+        String date = "";
+        String jsw="";
+        try {
             try {
-                try {
-                    JSONArray js = new JSONArray(ordrdcr);
-                    Log.e("jsonarray",js.toString());
-                    if (js.length() > 0) {
-                        catyclass.clear();
-                        chart.clear();
-                        for (int i = 0; i < js.length(); i++) {
-                            JSONObject jsonObject = js.getJSONObject(i);
-                            Categoryclass categoryclass = new Categoryclass();
-                            categoryclass.setDivision_code(jsonObject.optString("Division_code"));
-                            categoryclass.setNo_of_visit(jsonObject.optString("No_of_visit"));
-                            categoryclass.setCat_Name(jsonObject.optString("Cat_Name"));
-                            categoryclass.setVst_1(jsonObject.getDouble("1_Vst"));
-                            categoryclass.setVst_2(jsonObject.getDouble("2_Vst"));
-                            categoryclass.setVst_3(jsonObject.getDouble("3_Vst"));
-                            catyclass.add(categoryclass);
-                        }
+                JSONArray js = new JSONArray(ordrdcr);
+                Log.e("jsonarray",js.toString());
+                if (js.length() > 0) {
+                    catyclass.clear();
+                    chart.clear();
+                    for (int i = 0; i < js.length(); i++) {
+                        JSONObject jsonObject = js.getJSONObject(i);
+                        Categoryclass categoryclass = new Categoryclass();
+                        categoryclass.setDivision_code(jsonObject.optString("Division_code"));
+                        categoryclass.setNo_of_visit(jsonObject.optString("No_of_visit"));
+                        categoryclass.setCat_Name(jsonObject.optString("Cat_Name"));
+                        categoryclass.setTot_drs(jsonObject.getString("Tot_drs"));
+                        categoryclass.setVst_1(jsonObject.getDouble("1_Vst"));
+                        categoryclass.setVst_Avg1(jsonObject.getDouble("1Vst_Avg"));
+                        categoryclass.setVst_2(jsonObject.getDouble("2_Vst"));
+                        categoryclass.setVst_Avg2(jsonObject.getDouble("2Vst_Avg"));
+                        categoryclass.setVst_3(jsonObject.getDouble("3_Vst"));
+                        categoryclass.setVst_Avg3(jsonObject.getDouble("3Vst_Avg"));
+                        categoryclass.setDoc_Cat_Code(jsonObject.getString("Doc_Cat_Code"));
+                        catyclass.add(categoryclass);
+                    }
 
 
-                        Log.d("sum12", String.valueOf(catyclass.size()));
+                    Log.d("sum12", String.valueOf(catyclass.size()));
 
-                        int groupCount = catyclass.size();
-                        Log.d("groupCount", String.valueOf(groupCount));
-                        ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
-                        ArrayList<BarEntry> yVals2 = new ArrayList<BarEntry>();
-                        ArrayList<BarEntry> yVals3 = new ArrayList<BarEntry>();
-                        ArrayList<BarEntry> yVals4 = new ArrayList<BarEntry>();
+                    int groupCount = catyclass.size();
+                    Log.d("groupCount", String.valueOf(groupCount));
+                    ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
+                    ArrayList<BarEntry> yVals2 = new ArrayList<BarEntry>();
+                    ArrayList<BarEntry> yVals3 = new ArrayList<BarEntry>();
+                    ArrayList<BarEntry> yVals4 = new ArrayList<BarEntry>();
+
+                    yVals1.clear();
+                    yVals2.clear();
+                    yVals3.clear();
+                    yVals4.clear();
 
 //                    for (int k=0;k<catyclass.size();k++) {
-                        yVals1.add(new BarEntry(1, Float.parseFloat(String.valueOf(catyclass.get(0).getVst_1()))));
-                        yVals2.add(new BarEntry(2, 0));
-                        yVals3.add(new BarEntry(3,  0));
+                    yVals1.add(new BarEntry(1, Float.parseFloat(String.valueOf(catyclass.get(0).getVst_1()))));
+                    yVals2.add(new BarEntry(2, 0));
+                    yVals3.add(new BarEntry(3,  0));
 
-                        yVals1.add(new BarEntry(1, Float.parseFloat(String.valueOf(catyclass.get(1).getVst_1()))));
-                        yVals2.add(new BarEntry(2, Float.parseFloat(String.valueOf(catyclass.get(1).getVst_2()))));
-                        yVals3.add(new BarEntry(3, 0));
+                    yVals1.add(new BarEntry(1, Float.parseFloat(String.valueOf(catyclass.get(1).getVst_1()))));
+                    yVals2.add(new BarEntry(2, Float.parseFloat(String.valueOf(catyclass.get(1).getVst_2()))));
+                    yVals3.add(new BarEntry(3, 0));
 
-                        yVals1.add(new BarEntry(1, Float.parseFloat(String.valueOf(catyclass.get(2).getVst_1()))));
-                        yVals2.add(new BarEntry(2, Float.parseFloat(String.valueOf(catyclass.get(2).getVst_2()))));
-                        yVals3.add(new BarEntry(3, Float.parseFloat(String.valueOf(catyclass.get(2).getVst_3()))));
+                    yVals1.add(new BarEntry(1, Float.parseFloat(String.valueOf(catyclass.get(2).getVst_1()))));
+                    yVals2.add(new BarEntry(2, Float.parseFloat(String.valueOf(catyclass.get(2).getVst_2()))));
+                    yVals3.add(new BarEntry(3, Float.parseFloat(String.valueOf(catyclass.get(2).getVst_3()))));
 
 
 //                    }
 
-                        ArrayList xVals = new ArrayList();
-                        for (int n = 0; n < catyclass.size(); n++){
-                            xVals.add(catyclass.get(n).getCat_Name());
-                        }
+                    ArrayList xVals = new ArrayList();
+                    ArrayList<String> bardata = new ArrayList<>();
+                    bardata.clear();
+                    for (int n = 0; n < catyclass.size(); n++){
+                        xVals.add(catyclass.get(n).getCat_Name());
+                        bardata.add(catyclass.get(n).getCat_Name()+"~"+catyclass.get(n).getTot_drs()+"~"+catyclass.get(n).getVst_Avg1()+"~"+catyclass.get(n).getVst_Avg2()+"~"+catyclass.get(n).getVst_Avg3()+"~"+catyclass.get(n).getDoc_Cat_Code()+"~"+div+"~"+sf+"~"+frm+"~"+to+"~"+catyclass.get(n).getNo_of_visit());
+                    }
+                    Log.d("bardara",bardata.toString());
 
-                        BarDataSet set1, set2,set3,set4;
-                        set1 = new BarDataSet(yVals1, "1-visit");
-                        set1.setColor(Color.BLUE);
-                        set2 = new BarDataSet(yVals2, "2-visit");
-                        set2.setColor(Color.GREEN);
-                        set3 = new BarDataSet(yVals3, "3-visit");
-                        set3.setColor(Color.CYAN);
-                        set4 = new BarDataSet(yVals4, "");
-                        set4.setColor(Color.CYAN);
+                    BarDataSet set1, set2,set3,set4;
+                    set1 = new BarDataSet(yVals1, "1-visit");
+                    set1.setColor(Color.BLUE);
+                    set2 = new BarDataSet(yVals2, "2-visit");
+                    set2.setColor(Color.GREEN);
+                    set3 = new BarDataSet(yVals3, "3-visit");
+                    set3.setColor(Color.CYAN);
+                    set4 = new BarDataSet(yVals4, "");
+                    set4.setColor(Color.CYAN);
 
-                        BarData data = new BarData(set1, set2,set3,set4);
-                        data.setValueFormatter(new LargeValueFormatter());
-                        chart.setData(data);
-                        chart.getBarData().setBarWidth(barWidth);
-                        chart.getXAxis().setAxisMinimum(0);
-                        chart.getXAxis().setAxisMaximum(0 + chart.getBarData().getGroupWidth(groupSpace, barSpace) * groupCount);
-                        chart.groupBars(0, groupSpace, barSpace);
-                        chart.getData().setHighlightEnabled(false);
-                        chart.animateY(2000);
-                        chart.setDescription(null);
-                        chart.setPinchZoom(true);
-                        chart.setScaleEnabled(false);
-                        chart.setDrawBarShadow(false);
-                        chart.setDrawGridBackground(false);
+                    BarData data = new BarData(set1, set2,set3,set4);
+                    data.setValueFormatter(new LargeValueFormatter());
+                    chart.setData(data);
+                    chart.getBarData().setBarWidth(barWidth);
+                    chart.getXAxis().setAxisMinimum(0);
+                    chart.getXAxis().setAxisMaximum(0 + chart.getBarData().getGroupWidth(groupSpace, barSpace) * groupCount);
+                    chart.groupBars(0, groupSpace, barSpace);
+                    chart.getData().setHighlightEnabled(true);
+                    chart.animateY(2000);
+                    chart.setDescription(null);
+                    chart.setPinchZoom(true);
+                    chart.setScaleEnabled(false);
+                    chart.setDrawBarShadow(false);
+                    chart.setDrawGridBackground(false);
+                    chart.setTouchEnabled(true);
 //                    chart.moveViewToX(10);
-                        chart.setFitBars(true);
+                    chart.setFitBars(true);
 //                    chart.setVisibleXRangeMinimum(yVals1.size());
 //                    chart.setVisibleXRangeMinimum(yVals2.size());
 //                    chart.setVisibleXRangeMinimum(yVals3.size());
-                        chart.invalidate();
+                    chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+                        @Override
+                        public void onValueSelected(Entry e, Highlight h) {
+                            if (e == null) {
+                                return;
+                            }
+                            Log.d("barchart","selected");
+                            for (int i=0;i < yVals1.size(); i++) {
+                                if (yVals1.get(i).getX() == e.getX() || yVals2.get(i).getX() == e.getX() || yVals3.get(i).getX() == e.getX()) {
+                                    showchartdetails(bardata, e.getX(), e.getY(), i);
+                                }
+                            }
+                            Log.d("bardd",e.getX()+"--"+e.getY());
+                        }
 
-                        Legend l = chart.getLegend();
-                        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-                        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-                        l.setOrientation(Legend.LegendOrientation.VERTICAL);
-                        l.setDrawInside(true);
-                        l.setYOffset(0f);
-                        l.setXOffset(0f);
-                        l.setYEntrySpace(0f);
-                        l.setTextSize(8f);
-                        //X-axis
-                        XAxis xAxis = chart.getXAxis();
-                        xAxis.setGranularity(1f);
-                        xAxis.setCenterAxisLabels(true);
-                        xAxis.setDrawGridLines(false);
-                        xAxis.setLabelCount(xVals.size());
-                        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-                        xAxis.setValueFormatter(new IndexAxisValueFormatter(xVals));
+                        @Override
+                        public void onNothingSelected() {
+
+                        }
+                    });
+                    chart.invalidate();
+
+                    Legend l = chart.getLegend();
+                    l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+                    l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+                    l.setOrientation(Legend.LegendOrientation.VERTICAL);
+                    l.setDrawInside(true);
+                    l.setYOffset(0f);
+                    l.setXOffset(0f);
+                    l.setYEntrySpace(0f);
+                    l.setTextSize(8f);
+                    //X-axis
+                    XAxis xAxis = chart.getXAxis();
+                    xAxis.setGranularity(1f);
+                    xAxis.setCenterAxisLabels(true);
+                    xAxis.setDrawGridLines(false);
+                    xAxis.setLabelCount(xVals.size());
+                    xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                    xAxis.setValueFormatter(new IndexAxisValueFormatter(xVals));
 //                    xAxis.setSpaceMin(data.getBarWidth() / 2f);
 //                    xAxis.setSpaceMax(data.getBarWidth() / 2f);
-                        xAxis.setTextColor(Color.BLACK);
+                    xAxis.setTextColor(Color.BLACK);
 //                    xAxis.setTextSize(12);
-                        xAxis.setAxisLineColor(Color.WHITE);
-                        //Y-axis
-                        chart.getAxisRight().setEnabled(false);
-                        YAxis leftAxis = chart.getAxisLeft();
-                        leftAxis.setValueFormatter(new LargeValueFormatter());
-                        leftAxis.setDrawGridLines(true);
-                        leftAxis.setSpaceTop(25f);
-                        leftAxis.setAxisMinimum(0f);
-                    } else {
-                        Toast.makeText(SFe_Activity.this, "No Records found", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(SFe_Activity.this, "No records found", Toast.LENGTH_SHORT).show();
-                }
-            } catch (Exception e) {
-                Toast.makeText(SFe_Activity.this , "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }
+                    xAxis.setAxisLineColor(Color.WHITE);
+                    //Y-axis
+                    chart.getAxisRight().setEnabled(false);
+                    YAxis leftAxis = chart.getAxisLeft();
+                    leftAxis.setValueFormatter(new LargeValueFormatter());
+                    leftAxis.setDrawGridLines(true);
+                    leftAxis.setSpaceTop(25f);
+                    leftAxis.setAxisMinimum(0f);
 
-        private void parseJsonDataspecialDetail(String ordrdcr) {
-            String date = "";
-            String jsw="";
+
+                } else {
+                    Toast.makeText(SFe_Activity.this, "No Records found", Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Toast.makeText(SFe_Activity.this, "No records found", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(SFe_Activity.this , "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void parseJsonDataspecialDetail(String ordrdcr,String div,String sf,String frm,String to) {
+        String date = "";
+        String jsw="";
+        try {
             try {
-                try {
-                    JSONArray js = new JSONArray(ordrdcr);
-                    Log.e("jsonarray",js.toString());
-                    if (js.length() > 0) {
-                        spclclass.clear();
-                        chart.clear();
-                        for (int i = 0; i < js.length(); i++) {
-                            JSONObject jsonObject = js.getJSONObject(i);
-                            specialityclass specialityclass = new specialityclass();
-                            specialityclass.setDoc_Special_Code(jsonObject.optString("Doc_Special_Code"));
-                            specialityclass.setSpec_Name(jsonObject.optString("Spec_Name"));
-                            specialityclass.setCnt(jsonObject.optInt("cnt"));
-                            specialityclass.setAvrg(jsonObject.optString("Avrg"));
-                            spclclass.add(specialityclass);
-                        }
+                JSONArray js = new JSONArray(ordrdcr);
+                Log.e("jsonarray",js.toString());
+                if (js.length() > 0) {
+                    spclclass.clear();
+                    chart.clear();
 
-                        Log.d("sum12", String.valueOf(spclclass.size()));
-                        int groupCount = spclclass.size()+2;
-                        Log.d("groupCount", String.valueOf(groupCount));
-
-                        ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
-                        for (int k=0;k<spclclass.size();k++) {
-                            yVals1.add(new BarEntry(k,spclclass.get(k).getCnt()+1));
-                        }
-
-                        ArrayList xVals = new ArrayList();
-                        xVals.clear();
-                        for (int n = 0; n < spclclass.size(); n++) {
-                            String spp=spclclass.get(n).getSpec_Name();
-                            String formattedString = spclclass.get(n).getSpec_Name().replaceAll("\\(.*?\\)","").trim();
-                            Log.d("form",formattedString);
-                            xVals.add(formattedString);
-                        }
-                        Log.d("xval", String.valueOf(xVals));
-
-//                    https://www.semicolonworld.com/question/1329/how-to-show-labels-on-right-and-values-to-left-side-in-horizontalbarchart
-
-                        BarDataSet bardataset = new BarDataSet(yVals1, "");
-                        BarData data = new BarData();
-                        data.addDataSet(bardataset);
-                        data.setBarWidth(1);
-                        bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
-
-                        chart.setData(data);
-                        chart.setDescription(null);
-                        chart.setFitBars(true);
-                        chart.setDragXEnabled(true);
-                        chart.animateY(2000);
-                        chart.setDrawValueAboveBar(true);
-                        chart.setDragEnabled(true);
-
-                        XAxis xAxis = chart.getXAxis();
-                        xAxis.setValueFormatter(new IndexAxisValueFormatter(xVals));
-                        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-//                    xAxis.setLabelRotationAngle(270);
-                        xAxis.setTextSize(2f);
-                        xAxis.setAxisLineWidth(1f);
-                        xAxis.setGranularityEnabled(true);
-                        xAxis.setGranularity(1f);
-                        xAxis.setDrawLabels(true);
-                        xAxis.setLabelCount(yVals1.size());
-                        xAxis.setAxisMinimum(0f);
-                        xAxis.setAxisMaximum(yVals1.size());
-                        xAxis.setSpaceMin(0.5f);
-                        xAxis.setSpaceMax(0.5f);
-
-
-                        Legend l = chart.getLegend();
-                        l.setEnabled(false);
-
-                        YAxis leftAxis = chart.getAxisLeft();
-                        leftAxis.setSpaceTop(1f);
-                        leftAxis.setGranularity(1f);
-                        chart.invalidate();
-
-                    } else {
-                        Toast.makeText(SFe_Activity.this, "No Records found", Toast.LENGTH_SHORT).show();
+                    for (int i = 0; i < js.length(); i++) {
+                        JSONObject jsonObject = js.getJSONObject(i);
+                        specialityclass specialityclass = new specialityclass();
+                        specialityclass.setDoc_Special_Code(jsonObject.optString("Doc_Special_Code"));
+                        specialityclass.setSpec_Name(jsonObject.optString("Spec_Name"));
+                        specialityclass.setCnt(jsonObject.optInt("cnt"));
+                        specialityclass.setAvrg(jsonObject.optString("Avrg"));
+                        specialityclass.setTot_drs(jsonObject.optString("Totdrs"));
+                        spclclass.add(specialityclass);
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(SFe_Activity.this, "No records found", Toast.LENGTH_SHORT).show();
-                }
-            } catch (Exception e) {
-                Toast.makeText(SFe_Activity.this , "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }
 
+                    Log.d("sum12", String.valueOf(spclclass.size()));
+
+                    ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
+                    ArrayList<String> bardata = new ArrayList<>();
+                    bardata.clear();
+                    yVals1.clear();
+
+                    for (int k=0;k<spclclass.size();k++) {
+                        int cnt =spclclass.get(k).getCnt();
+                        yVals1.add(new BarEntry(k,cnt));
+                        bardata.add(spclclass.get(k).getSpec_Name()+"~"+spclclass.get(k).getDoc_Special_Code()+"~"+spclclass.get(k).getAvrg()+"~"+spclclass.get(k).getTot_drs()+"~"+spclclass.get(k).getCnt()+"~"+div+"~"+sf+"~"+frm+"~"+to);
+                    }
+
+                    Log.d("bardata",bardata.toString());
+
+                    ArrayList xVals = new ArrayList();
+                    xVals.clear();
+                    for (int n = 0; n < spclclass.size(); n++) {
+                        String spp=spclclass.get(n).getSpec_Name();
+                        String formattedString = spclclass.get(n).getSpec_Name().replaceAll("\\(.*?\\)","").trim();
+                        Log.d("form",formattedString);
+                        xVals.add(formattedString);
+                    }
+                    Log.d("xval", String.valueOf(xVals));
+
+
+                    BarDataSet bardataset = new BarDataSet(yVals1, "");
+                    BarData data = new BarData();
+                    data.addDataSet(bardataset);
+                    data.setBarWidth(0.9f);
+                    bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
+
+                    chart.setData(data);
+                    chart.setDescription(null);
+                    chart.setFitBars(true);
+                    chart.setDragXEnabled(true);
+                    chart.animateY(2000);
+                    chart.setDrawValueAboveBar(true);
+                    chart.setDragEnabled(true);
+                    chart.setHighlightFullBarEnabled(false);
+                    chart.setDrawGridBackground(false);
+
+                    XAxis xAxis = chart.getXAxis();
+                    xAxis.setValueFormatter(new IndexAxisValueFormatter(xVals));
+                    xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+//                    xAxis.setLabelRotationAngle(270);
+                    xAxis.setTextSize(6f);
+                    xAxis.setAxisLineWidth(1f);
+                    xAxis.setGranularityEnabled(true);
+                    xAxis.setGranularity(1f);
+                    xAxis.setDrawLabels(true);
+                    xAxis.setLabelCount(yVals1.size());
+                    xAxis.setAxisMinimum(-1f);
+                    xAxis.setAxisMaximum(yVals1.size());
+//                    xAxis.setSpaceMin(50f);
+//                    xAxis.setSpaceMax(50f);
+                    xAxis.setDrawGridLines(false);
+
+                    Legend l = chart.getLegend();
+                    l.setEnabled(false);
+
+                    YAxis leftAxis = chart.getAxisLeft();
+                    leftAxis.setSpaceTop(15f);
+                    leftAxis.setGranularity(1f);
+                    leftAxis.setDrawGridLines(true);
+
+                    chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+                        @Override
+                        public void onValueSelected(Entry e, Highlight h) {
+                            if (e == null) {
+                                return;
+                            }
+                            Log.d("barchart","selected");
+                            for (int i=0;i < yVals1.size(); i++) {
+                                if (yVals1.get(i).getX() == e.getX()) {
+                                    showchartdetailsspcl(bardata, e.getX(), e.getY(), i);
+                                }
+                            }
+                            Log.d("bardd",e.getX()+"--"+e.getY());
+                        }
+
+                        @Override
+                        public void onNothingSelected() {
+
+                        }
+                    });
+                    chart.invalidate();
+
+                } else {
+                    Toast.makeText(SFe_Activity.this, "No Records found", Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Toast.makeText(SFe_Activity.this, "No records found", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(SFe_Activity.this , "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
         @Override
         public void onBackPressed() {
 //        super.onBackPressed();
@@ -1626,7 +1930,8 @@ public class SFe_Activity extends AppCompatActivity {
                             Log.d("orderrepor:Code", response.code() + " - " + response.toString());
                             if (response.code() == 200 || response.code() == 201) {
                                 Log.d("orderrepor:Res", response.body().toString());
-                                parseJsonDataorderDetail(response.body().toString());
+                             //   parseJsonDataorderDetail(response.body().toString());
+                                parseJsonDataorderDetail(response.body().toString(),division,sf_code,fromdata,todata);
                                 linear_bottom.setVisibility(View.VISIBLE);
                                 formatDate1(Dcrdatas.select_month);
                                 if (selected_data.equalsIgnoreCase("Category")){
@@ -1729,7 +2034,8 @@ public class SFe_Activity extends AppCompatActivity {
                             Log.d("orderrepor:Code", response.code() + " - " + response.toString());
                             if (response.code() == 200 || response.code() == 201) {
                                 Log.d("orderrepor:Res", response.body().toString());
-                                parseJsonDataspecialDetail(response.body().toString());
+                               // parseJsonDataspecialDetail(response.body().toString());
+                                parseJsonDataspecialDetail(response.body().toString(),division,sf_code,fromdata,todata);
                                 linear_bottom.setVisibility(View.VISIBLE);
                                 formatDate1(Dcrdatas.select_month);
                                 if (selected_data.equalsIgnoreCase("Category")){
@@ -1762,7 +2068,7 @@ public class SFe_Activity extends AppCompatActivity {
         public void getsubdataMR(String div_code,String Sf_code) {
             try {
                 String division="";
-                String sfcode="";
+                 String sfcode="";
                 if (div_code.equals("") && Sf_code.equals("")){
                     division=div_Code;
                     sfcode=sf_code;
@@ -1816,8 +2122,12 @@ public class SFe_Activity extends AppCompatActivity {
                 Log.e(" caty request","cat Detail request");
                 Map<String, String> QryParam = new HashMap<>();
                 //QryParam.put("axn", "get/Category_sfe");
+                finaldiv=division;
+                finalSfcode=sfcode;
                 QryParam.put("divisionCode", division);
                 QryParam.put("sfCode", sfcode);
+                fromdata=fromstrdate;
+                todata=tostrdate;
                 QryParam.put("fmonth", fromstrdate);
                 QryParam.put("fyear", tostrdate);
                 Log.e("catreport_detail", QryParam.toString());
@@ -1838,7 +2148,8 @@ public class SFe_Activity extends AppCompatActivity {
                             Log.d("orderrepor:Code", response.code() + " - " + response.toString());
                             if (response.code() == 200 || response.code() == 201) {
                                 Log.d("orderrepor:Res", response.body().toString());
-                                parseJsonDataorderDetail(response.body().toString());
+                                //parseJsonDataorderDetail(response.body().toString());
+                                parseJsonDataorderDetail(response.body().toString(),finaldiv,finalSfcode, fromdata,todata);
                                 formatDate1(Dcrdatas.select_month);
                                 if (selected_data.equalsIgnoreCase("Category")){
                                     brandtxt.setText("Category Wise");
@@ -1900,6 +2211,11 @@ public class SFe_Activity extends AppCompatActivity {
                 Log.e(" caty request","cat Detail request");
                 Map<String, String> QryParam = new HashMap<>();
               //  QryParam.put("axn", "get/speciality_sfe");
+                finaldiv=division;
+                finalSfcode=sfcode;
+                fromdata=fromstrdate;
+                todata=tostrdate;
+
                 QryParam.put("divisionCode", division);
                 QryParam.put("sfCode", sfcode);
                 QryParam.put("fmonth", fromstrdate);
@@ -1924,7 +2240,8 @@ public class SFe_Activity extends AppCompatActivity {
                             Log.d("orderrepor:Code", response.code() + " - " + response.toString());
                             if (response.code() == 200 || response.code() == 201) {
                                 Log.d("orderrepor:Res", response.body().toString());
-                                parseJsonDataspecialDetail(response.body().toString());
+                               // parseJsonDataspecialDetail(response.body().toString());
+                                parseJsonDataspecialDetail(response.body().toString(),finaldiv,finalSfcode,fromdata,todata);
                                 formatDate1(Dcrdatas.select_month);
                                 if (selected_data.equalsIgnoreCase("Category")){
                                     brandtxt.setText("Category Wise");
@@ -1975,6 +2292,8 @@ public class SFe_Activity extends AppCompatActivity {
                 Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
                 Log.e(" caty request","cat Detail request");
                 Map<String, String> QryParam = new HashMap<>();
+                fromdata=fromstrdate;
+                todata=tostrdate;
                 //QryParam.put("axn", "get/speciality_sfe");
                 QryParam.put("divisionCode", div_Code +",");
                 QryParam.put("sfCode", sf_code);
@@ -2000,7 +2319,8 @@ public class SFe_Activity extends AppCompatActivity {
                             Log.d("orderrepor:Code", response.code() + " - " + response.toString());
                             if (response.code() == 200 || response.code() == 201) {
                                 Log.d("orderrepor:Res", response.body().toString());
-                                parseJsonDataspecialDetail(response.body().toString());
+                                //parseJsonDataspecialDetail(response.body().toString());
+                                parseJsonDataspecialDetail(response.body().toString(),div_Code,sf_code,fromdata,todata);
                                 formatDate1(Dcrdatas.select_month);
                                 if (selected_data.equalsIgnoreCase("Category")){
                                     brandtxt.setText("Category Wise");
@@ -2027,5 +2347,150 @@ public class SFe_Activity extends AppCompatActivity {
                 Toast.makeText(SFe_Activity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
+
+
+    public void showchartdetails(ArrayList<String> bardata, float x, float y, int n){
+
+        Log.d("details",x+"-"+y+"-"+n);
+        android.app.AlertDialog.Builder dialogBuilder = new android.app.AlertDialog.Builder(SFe_Activity.this);
+        LayoutInflater inflater = SFe_Activity.this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_category, null);
+        dialogBuilder.setView(dialogView);
+        TextView prdname = dialogView.findViewById(R.id.cat_name);
+        TextView prdtarget = dialogView.findViewById(R.id.missdr);
+        TextView prdcnt = dialogView.findViewById(R.id.totdr);
+        TextView prdarcheive = dialogView.findViewById(R.id.tv_avg);
+        TextView infobut = dialogView.findViewById(R.id.info_but);
+        TextView ok =dialogView.findViewById(R.id.okbut);
+        final android.app.AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.setCancelable(false);
+//        Log.d("position", String.valueOf(position));
+        String[] separateddoc =bardata.get(n).split("~");
+        prdname.setText(separateddoc[0]);
+//        prdtarget.setText(separateddoc[1]);
+        prdcnt.setText(separateddoc[1]);
+        if (prdname.getText().toString().equalsIgnoreCase("SV")) {
+            prdarcheive.setText(separateddoc[2]+"(in %)");
+        }else if (prdname.getText().toString().equalsIgnoreCase("RV")){
+            prdarcheive.setText(separateddoc[3]+"(in %)");
+        }else if (prdname.getText().toString().equalsIgnoreCase("TV")){
+            prdarcheive.setText(separateddoc[4]+"(in %)");
+        }
+
+//        Log.d("webdata",separateddoc[7]+"/*/"+separateddoc[8]+"**"+separateddoc[9]+"**"+separateddoc[10]);
+
+//        DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+//        DateFormat outputFormat = new SimpleDateFormat("MM");
+//        DateFormat outputyear = new SimpleDateFormat("yyyy");
+////        String inputDateStr=separateddoc[9];
+////        String inputDateStr1=separateddoc[10];
+//
+//        Date date = null;
+//        Date date1 = null;
+//        try {
+//            date = inputFormat.parse(inputDateStr);
+//            date1 = inputFormat.parse(inputDateStr1);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        String outputDateStr = outputFormat.format(date);
+//        String outputDateyear = outputyear.format(date);
+//
+//        String outputDateStr1 = outputFormat.format(date1);
+//        String outputDateyear1 = outputyear.format(date1);
+//
+//        Log.d("webdata",outputDateStr+"/*/"+outputDateyear+"**"+outputDateStr1+"**"+outputDateyear1);
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.cancel();
+            }
+        });
+        infobut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent oo = new Intent(SFe_Activity.this, Web_activity_cat.class);
+                oo.putExtra("sfcode",separateddoc[7]);
+                oo.putExtra("fmon",separateddoc[8]);
+                oo.putExtra("fyear",separateddoc[9]);
+                oo.putExtra("Division_code",separateddoc[6]);
+                oo.putExtra("Doc_Cat_Code",separateddoc[5]);
+                oo.putExtra("Brand_Name",separateddoc[0]);
+                //oo.putExtra("sfname",sf_name);
+                oo.putExtra("sfname",tosfname.get(tosfname.size()-1));
+                oo.putExtra("visit",separateddoc[10]);
+                startActivity(oo);
+            }
+        });
+        alertDialog.show();
+    }
+
+    public void showchartdetailsspcl(ArrayList<String> bardata, float x, float y, int n){
+
+        android.app.AlertDialog.Builder dialogBuilder = new android.app.AlertDialog.Builder(SFe_Activity.this);
+        LayoutInflater inflater = SFe_Activity.this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_spcl, null);
+        dialogBuilder.setView(dialogView);
+        TextView prdname = dialogView.findViewById(R.id.cat_name);
+        TextView prdtarget = dialogView.findViewById(R.id.missdr);
+        TextView prdcnt = dialogView.findViewById(R.id.totdr);
+        TextView prdarcheive = dialogView.findViewById(R.id.tv_avg);
+        TextView infobut = dialogView.findViewById(R.id.info_but);
+        TextView ok =dialogView.findViewById(R.id.okbut);
+        final android.app.AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.setCancelable(false);
+        String[] separateddoc =bardata.get(n).split("~");
+        prdname.setText(separateddoc[0]);
+        prdtarget.setText(separateddoc[3]);
+        prdcnt.setText(separateddoc[4]);
+        prdarcheive.setText(separateddoc[2]+" %");
+
+//        DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+//        DateFormat outputFormat = new SimpleDateFormat("MM");
+//        DateFormat outputyear = new SimpleDateFormat("yyyy");
+//        String inputDateStr=separateddoc[9];
+//        String inputDateStr1=separateddoc[10];
+//
+//        Date date = null;
+//        Date date1 = null;
+//        try {
+//            date = inputFormat.parse(inputDateStr);
+//            date1 = inputFormat.parse(inputDateStr1);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        String outputDateStr = outputFormat.format(date);
+//        String outputDateyear = outputyear.format(date);
+//
+//        String outputDateStr1 = outputFormat.format(date1);
+//        String outputDateyear1 = outputyear.format(date1);
+//
+//        Log.d("webdata",outputDateStr+"/*/"+outputDateyear+"**"+outputDateStr1+"**"+outputDateyear1);
+
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.cancel();
+            }
+        });
+        infobut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent oo = new Intent(SFe_Activity.this, web_activity_spcl.class);
+                oo.putExtra("sfcode",separateddoc[6]);
+                oo.putExtra("fmon",separateddoc[7]);
+                oo.putExtra("fyear",separateddoc[8]);
+                oo.putExtra("sfname",tosfname.get(tosfname.size()-1));
+                //oo.putExtra("sfname",sf_name);
+                oo.putExtra("division",separateddoc[5]);
+                oo.putExtra("brandcd",separateddoc[1]);
+                oo.putExtra("brandnm",separateddoc[0]);
+                startActivity(oo);
+            }
+        });
+        alertDialog.show();
+    }
     }
 

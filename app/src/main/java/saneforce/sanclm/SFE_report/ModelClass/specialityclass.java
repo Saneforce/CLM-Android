@@ -3,7 +3,7 @@ package saneforce.sanclm.SFE_report.ModelClass;
 public class specialityclass {
     String Doc_Special_Code,
             Spec_Name,
-            Avrg;
+            Avrg,tot_drs;
     int cnt;
 
     public specialityclass(){
@@ -40,5 +40,13 @@ public class specialityclass {
 
     public void setAvrg(String avrg) {
         Avrg = avrg;
+    }
+
+    public void setTot_drs(String tot_drs) {
+        this.tot_drs = tot_drs;
+    }
+
+    public String getTot_drs() {
+        return tot_drs;
     }
 }

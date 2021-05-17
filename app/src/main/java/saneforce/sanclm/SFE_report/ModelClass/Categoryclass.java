@@ -14,6 +14,7 @@ public class Categoryclass {
     Double Vst_4;
     Double Vst_Avg4;
     String tot_drs;
+    String Doc_Cat_Code;
 
     public Categoryclass(){
 
@@ -108,5 +109,13 @@ public class Categoryclass {
     }
     public void setTot_drs(String tot_drs) {
         this.tot_drs = tot_drs;
+    }
+
+    public String getDoc_Cat_Code() {
+        return Doc_Cat_Code;
+    }
+
+    public void setDoc_Cat_Code(String doc_Cat_Code) {
+        Doc_Cat_Code = doc_Cat_Code;
     }
 }

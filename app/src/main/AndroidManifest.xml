@@ -239,6 +239,13 @@
         <activity android:name=".Order_Report.Activity.Web_activity_secondary"
             android:screenOrientation="landscape"/>
 
+
+        <activity android:name=".SFE_report.Activity.Web_activity_cat"
+            android:screenOrientation="landscape"/>
+
+        <activity android:name=".SFE_report.Activity.web_activity_spcl"
+            android:screenOrientation="landscape"/>
+
         <activity android:name=".SFE_report.Activity.SFE_Activtity"
             android:screenOrientation="landscape"/>
 
