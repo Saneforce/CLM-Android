@@ -7,6 +7,16 @@ public class CompNameProductNew {
     String  Ccode;
     String CName;
 
+    public String getFmessage() {
+        return Fmessage;
+    }
+
+    public void setFmessage(String fmessage) {
+        Fmessage = fmessage;
+    }
+
+    String Fmessage;
+
     public String getCcode() {
         return Ccode;
     }

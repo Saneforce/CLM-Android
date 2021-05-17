@@ -127,11 +127,12 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
                   availchecks.get(position).setIsoos(true);
                   holder.oos.setBackgroundResource(R.drawable.rectangle_red);
                   holder.oos.setTextColor(Color.WHITE);
-                  holder.avail.setBackgroundResource(R.drawable.    rectangle);
+                  holder.avail.setBackgroundResource(R.drawable.rectangle);
                   holder.avail.setTextColor(Color.BLACK);
                   holder.stock_et.setEnabled(false);
                   holder.checkBox.setChecked(true);
-
+                  holder.view.setVisibility(View.GONE);
+                  holder.textView2.setTextColor(Color.parseColor("#3F51B5"));
 
               }else {
                   availchecks.get(position).setIsoos(false);
@@ -139,7 +140,8 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
                   holder.oos.setTextColor(Color.BLACK);
                   holder.stock_et.setEnabled(true);
                   holder.checkBox.setChecked(false);
-
+                  holder.view.setVisibility(View.GONE);
+                  holder.textView2.setTextColor(Color.parseColor("#3F51B5"));
               }
           }
       });
@@ -154,33 +156,36 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
                     holder.oos.setTextColor(Color.BLACK);
                     holder.stock_et.setEnabled(true);
                     holder.checkBox.setChecked(true);
-
+                    holder.view.setVisibility(View.VISIBLE);
+                    holder.textView2.setTextColor(Color.parseColor("#228B22"));
 
                 }else {
                     availchecks.get(position).setAvailis(false);
                     holder.avail.setBackgroundResource(R.drawable.rectangle);
                     holder.avail.setTextColor(Color.BLACK);
                     holder.checkBox.setChecked(false);
+                    holder.view.setVisibility(View.GONE);
+                    holder.textView2.setTextColor(Color.parseColor("#3F51B5"));
 
                 }
             }
         });
 
-           holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-               @Override
-               public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                   if(buttonView.isChecked()){
-                       holder.view.setVisibility(View.VISIBLE);
-                       holder.textView2.setTextColor(Color.parseColor("#05c12b"));
-
-
-                   }else{
-                       holder.view.setVisibility(View.GONE);
-                       holder.textView2.setTextColor(Color.parseColor("#05c12b"));
-
-                   }
-               }
-           });
+//           holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//               @Override
+//               public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                   if(buttonView.isChecked()){
+//                       holder.view.setVisibility(View.VISIBLE);
+//                       holder.textView2.setTextColor(Color.parseColor("#05c12b"));
+//
+//
+//                   }else{
+//                       holder.view.setVisibility(View.GONE);
+//                       holder.textView2.setTextColor(Color.parseColor("#05c12b"));
+//
+//                   }
+//               }
+//           });
 
 
 
