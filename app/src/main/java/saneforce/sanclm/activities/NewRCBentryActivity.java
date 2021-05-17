@@ -119,7 +119,9 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
    public static RecyclerView gvGallery;
    public GalleryAdapter galleryAdapter;
    public static ArrayList<Uri> mArrayUri = new ArrayList<Uri>();
-   static String Fcode;
+    public static   ArrayList<String>imagelist=new ArrayList<>();
+
+    static String Fcode;
    public static JSONObject competitorjson;
    public  static JSONArray competiorarray;
    public static int GALLERY = 1, CAMERA = 2;
@@ -592,7 +594,10 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
                     }
                     MainchemArr.put(jsonObject);
                 }
-                chemObj.put("Competitors", adapterBrandAuditComp.composeJSON());
+
+
+
+                chemObj.put("Competitors", this.composeJSON());
 //                chemObj.put("FeedbackData",adapterBrandAuditComp.feedbackdata());
                 chemArr.put(chemObj);
 
@@ -604,6 +609,35 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
 
         } catch (Exception e) {
         }
+
+    }
+    public  JSONArray composeJSON() throws JSONException {
+        ArrayList<HashMap<String, String>> wordList;
+        wordList = new ArrayList<HashMap<String, String>>();
+
+
+//           HashMap<String, String> map = new HashMap<String, String>();
+        JSONObject map=new JSONObject();
+        JSONArray jsonArray=new JSONArray();
+        for (int i = 0; i < listComp.size(); i++) {
+
+            map.put("Ccode",  listComp.get(i).getCcode());
+            map.put("CName",  listComp.get(i).getCName());
+            map.put("Pcode",  listComp.get(i).getPCode());
+            map.put("PName",  listComp.get(i).getPName());
+            map.put("qty",  listComp.get(i).getInvqty());
+            map.put("ptp",  listComp.get(i).getPtp());
+            map.put("ptr",  listComp.get(i).getPtr());
+            map.put("sw",  listComp.get(i).getSw());
+            map.put("rx",  listComp.get(i).getRx());
+            map.put("feedbackData",  listComp.get(i).getFeedback());
+
+
+        }
+
+        jsonArray.put(map);
+        return jsonArray;
+
     }
 
     public void jsonExtraction(String jsonVal) {
@@ -1080,6 +1114,7 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
             feedbackbtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    imagelist.clear();
                     final Dialog dialog = new Dialog(context);
                     dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                     dialog.setContentView(R.layout.alert_feedback_layout);
@@ -1113,7 +1148,8 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
                                 try {
                                     map.put("Templatecode", Fcode);
                                     map.put("feedback", editTextfeedback.getText().toString());
-                                    map.put("image", String.valueOf(mArrayUri));
+                                    map.put("image", imagelist);
+
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -1167,90 +1203,6 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
             txt_comp_brd_name.setText(mm.getPName());
 
 
-//        if(!TextUtils.isEmpty(mm.getCompName()))
-//        {
-//            if(!TextUtils.isEmpty(mm.getChoosenPrdName()))
-//            {
-//                if(!TextUtils.isEmpty(mm.getQty()))
-//                {
-//                    dataInterface.competitordetails(mm.getCompName(),mm.getChoosenPrdName(), mm.getQty());
-//                }
-//            }
-//        }
-
-//       dataInterface.competitordetails(mm.getCompName(),mm.getChoosenPrdName(), mm.getQty());
-//        comp_name_list.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if(!TextUtils.isEmpty(mm.getCompName())){
-//                    mm.setChoosenPrdName("");
-//                }
-//                detectPrdClick=false;
-//                Log.v("arrayss_as_list","clicked_here");
-//                popUpAlert(list_prd,"n",i);
-//                notifyDataSetChanged();
-//            }
-//        });
-//        comp_prd_list.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                detectPrdClick=true;
-//                popUpAlert(list_prd,"y",i);
-//            }
-//        });
-
-
-
-/*
-        edt_qty.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
-                int result = actionId & EditorInfo.IME_MASK_ACTION;
-                switch(result) {
-                    case EditorInfo.IME_ACTION_DONE:
-                        // done stuff
-                        Log.v("action_done","are_clicked");
-                        if(!TextUtils.isEmpty(edt_qty.getText().toString())){
-
-                            float cal= Float.parseFloat(edt_qty.getText().toString());
-                            cal=cal*BrandAuditActivity.prd_rate;
-                            mm.setQty(edt_qty.getText().toString());
-                            mm.setRate(String.valueOf(BrandAuditActivity.prd_rate));
-                            mm.setValue(String.valueOf(cal));
-                            notifyDataSetChanged();
-
-                        }
-                        break;
-                    case EditorInfo.IME_ACTION_NEXT:
-                        // next stuff
-                        break;
-                }
-                return false;
-            }
-        });
-*/
-                competiorarray=new JSONArray();
-                competitorjson=new JSONObject();
-                try {
-                    competitorjson.put("Ccode", list_prd1.get(i).getCcode());
-                    competitorjson.put("CName", list_prd1.get(i).getCName());
-                    competitorjson.put("Pcode", list_prd1.get(i).getPCode());
-                    competitorjson.put("PName", list_prd1.get(i).getPName());
-                    competitorjson.put("qty", list_prd1.get(i).getInvqty());
-                    competitorjson.put("ptp", list_prd1.get(i).getPtp());
-                    competitorjson.put("ptr", list_prd1.get(i).getPtr());
-                    competitorjson.put("sw", list_prd1.get(i).getSw());
-                    competitorjson.put("rx", list_prd1.get(i).getRx());
-                    competitorjson.put("feedbackData", list_prd1.get(i).getFeedback());
-                    competiorarray.put(competitorjson);
-                    Log.v("competiors_pv", String.valueOf(competiorarray));
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-
             return view;
         }
 
@@ -1291,60 +1243,30 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
        }
 
 
-       public String  feedbackdata() {
-           ArrayList<HashMap<String, String>> wordList;
-           wordList = new ArrayList<HashMap<String, String>>();
+//       public String  feedbackdata() {
+//           ArrayList<HashMap<String, String>> wordList;
+//           wordList = new ArrayList<HashMap<String, String>>();
+//
+//
+//               HashMap<String, String> map = new HashMap<String, String>();
+//           for (int i = 0; i < list_prd1.size(); i++) {
+//               map.put("Templatecode", Fcode);
+//               map.put("feedback", editTextfeedback.getText().toString());
+//               map.put("image", String.valueOf(mArrayUri));
+//
+//           }
+//
+//               wordList.add(map);
+//
+//
+//
+//           Gson gson = new GsonBuilder().create();
+//           //Use GSON to serialize Array List to JSON
+//           return gson.toJson(wordList);
+//
+//       }
 
 
-               HashMap<String, String> map = new HashMap<String, String>();
-           for (int i = 0; i < list_prd1.size(); i++) {
-               map.put("Templatecode", Fcode);
-               map.put("feedback", editTextfeedback.getText().toString());
-               map.put("image", String.valueOf(mArrayUri));
-
-           }
-
-               wordList.add(map);
-
-
-
-           Gson gson = new GsonBuilder().create();
-           //Use GSON to serialize Array List to JSON
-           return gson.toJson(wordList);
-
-       }
-
-
-
-
-       public  JSONArray composeJSON() throws JSONException {
-           ArrayList<HashMap<String, String>> wordList;
-           wordList = new ArrayList<HashMap<String, String>>();
-
-
-//           HashMap<String, String> map = new HashMap<String, String>();
-           JSONObject map=new JSONObject();
-           JSONArray jsonArray=new JSONArray();
-           for (int i = 0; i < list_prd1.size(); i++) {
-
-               map.put("Ccode", list_prd1.get(i).getCcode());
-               map.put("CName", list_prd1.get(i).getCName());
-               map.put("Pcode", list_prd1.get(i).getPCode());
-               map.put("PName", list_prd1.get(i).getPName());
-               map.put("qty", list_prd1.get(i).getInvqty());
-               map.put("ptp", list_prd1.get(i).getPtp());
-               map.put("ptr", list_prd1.get(i).getPtr());
-               map.put("sw", list_prd1.get(i).getSw());
-               map.put("rx", list_prd1.get(i).getRx());
-               map.put("feedbackData", list_prd1.get(i).getFeedback());
-               jsonArray.put(map);
-
-
-           }
-
-           return jsonArray;
-
-        }
 
 
 
@@ -1375,10 +1297,11 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
                     cursor.close();
 
                     ArrayList<Uri> mArrayUri = new ArrayList<Uri>();
+                    imagelist.add(ImageFileName);
                     mArrayUri.add(mImageUri);
                     LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
                     gvGallery.setLayoutManager(layoutManager);
-                    galleryAdapter = new GalleryAdapter(getApplicationContext(),mArrayUri);
+                    galleryAdapter = new GalleryAdapter(getApplicationContext(),imagelist);
                     gvGallery.setAdapter(galleryAdapter);
 
 
@@ -1392,6 +1315,9 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
                             ClipData.Item item = mClipData.getItemAt(i);
                             Uri uri = item.getUri();
                             mArrayUri.add(uri);
+
+                            String ImageFileName=getImageFilePath(this,uri);
+
                             // Get the cursor
                             Cursor cursor = getContentResolver().query(uri, filePathColumn, null, null, null);
                             // Move to first row
@@ -1401,10 +1327,10 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
                             imageEncoded  = cursor.getString(columnIndex);
                             imagesEncodedList.add(imageEncoded);
                             cursor.close();
-
+                            imagelist.add(ImageFileName);
                             LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
                             gvGallery.setLayoutManager(layoutManager);
-                            galleryAdapter = new GalleryAdapter(getApplicationContext(),mArrayUri);
+                            galleryAdapter = new GalleryAdapter(getApplicationContext(),imagelist);
                             gvGallery.setAdapter(galleryAdapter);
                             ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) gvGallery
                                     .getLayoutParams();
@@ -1422,9 +1348,13 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
                 String picturePath = getRealPathFromURI(tempUri);
                 ArrayList<Uri> mArrayUri = new ArrayList<Uri>();
                 mArrayUri.add(Uri.parse(picturePath));
+                String ImageFileName=getImageFilePath(this,tempUri);
+
+                imagelist.add(ImageFileName);
+
                 LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
                 gvGallery.setLayoutManager(layoutManager);
-                galleryAdapter = new GalleryAdapter(getApplicationContext(),mArrayUri);
+                galleryAdapter = new GalleryAdapter(getApplicationContext(),imagelist);
                 gvGallery.setAdapter(galleryAdapter);
                 ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) gvGallery
                         .getLayoutParams();

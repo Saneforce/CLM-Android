@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 import saneforce.sanclm.R;
@@ -18,12 +20,13 @@ import saneforce.sanclm.R;
 public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHolder> {
 
     private Context ctx;
-    ArrayList<Uri> mArrayUri;
+    ArrayList<String>imagelist=new ArrayList<>();
 
-    public GalleryAdapter(Context ctx, ArrayList<Uri> mArrayUri) {
+    public GalleryAdapter(Context ctx, ArrayList<String>imagelist)
+ {
 
         this.ctx = ctx;
-        this.mArrayUri = mArrayUri;
+        this.imagelist = imagelist;
     }
 
 
@@ -37,7 +40,9 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.image.setImageURI(mArrayUri.get(position));
+        Glide.with(ctx)
+                .load(imagelist.get(position))
+                .into(holder.image);
 
 
     }
@@ -49,7 +54,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return mArrayUri.size();
+        return imagelist.size();
     }
 
 

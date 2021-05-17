@@ -88,22 +88,12 @@ public class AvailablityCheckActivity extends AppCompatActivity {
                 availjson= String.valueOf(adapter.composeJSON());
                 mCommonSharedPreference.setValueToPreference("availjson",availjson);
                 Log.v("avail>>>",availjson);
-                Toast.makeText(AvailablityCheckActivity.this, ""+availjson, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(AvailablityCheckActivity.this, ""+availjson, Toast.LENGTH_SHORT).show();
 
                 Intent i=new Intent(AvailablityCheckActivity.this, FeedbackActivity.class);
                 i.putExtra("availability", String.valueOf(adapter.composeJSON()));
 
-
-                if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("chm"))
-                    i.putExtra("feedpage", "chemist");
-                else if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("stk")) {
-                    i.putExtra("feedpage", "stock");
-                } else if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("undr")) {
-                    i.putExtra("feedpage", "undr");
-                } else
-                    i.putExtra("feedpage", "dr");
-
-                startActivity(i);
+                setResult(6, i);
                 finish();
             }
         });
@@ -111,16 +101,9 @@ public class AvailablityCheckActivity extends AppCompatActivity {
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(AvailablityCheckActivity.this, FeedbackActivity.class);
-                if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("chm"))
-                    i.putExtra("feedpage", "chemist");
-                else if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("stk")) {
-                    i.putExtra("feedpage", "stock");
-                } else if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("undr")) {
-                    i.putExtra("feedpage", "undr");
-                } else
-                    i.putExtra("feedpage", "dr");
-                startActivity(i);
+                Intent i = new Intent(AvailablityCheckActivity.this, FeedbackActivity.class);
+
+                setResult(6, i);
                 finish();
             }
         });
