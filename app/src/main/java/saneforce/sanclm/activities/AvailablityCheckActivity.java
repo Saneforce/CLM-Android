@@ -43,7 +43,7 @@ public class AvailablityCheckActivity extends AppCompatActivity {
      CommonSharedPreference mCommonSharedPreference;
      AvailcheckAdapter adapter;
      String availjson;
-
+    String yy="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,18 +59,7 @@ public class AvailablityCheckActivity extends AppCompatActivity {
         availabilityRecyclerview=findViewById(R.id.availabilty_recyclerview);
         buttonsave=findViewById(R.id.savebtn);
         backbtn=findViewById(R.id.iv_dwnldmaster_back);
-
-        Bundle extra = getIntent().getExtras();
-        if (extra != null) {
-            String yy = extra.getString("availjson");
-
-            jsonExtraction(yy);
-            Log.v("availjson",yy);
-
-
-        }
-
-        db=new DataBaseHandler(this);
+        db = new DataBaseHandler(this);
 
         db.open();
         mCursor = db.select_product_content_master();
@@ -81,7 +70,7 @@ public class AvailablityCheckActivity extends AppCompatActivity {
                 Log.v("product_name_feed", mCursor.getString(0));
 
 //                availchecks.add(new Availcheck(mCursor.getString(0), mCursor.getString(2),false,false));
-                Availcheck availcheck=new Availcheck();
+                Availcheck availcheck = new Availcheck();
                 availcheck.setName(mCursor.getString(0));
                 availcheck.setCode(mCursor.getString(2));
                 availcheck.setIsoos(false);
@@ -93,6 +82,17 @@ public class AvailablityCheckActivity extends AppCompatActivity {
         }
         mCursor.close();
         db.close();
+
+        Bundle extra = getIntent().getExtras();
+        if (extra != null) {
+            yy = extra.getString("availjson");
+
+            jsonExtraction(yy);
+            Log.v("availjson",yy);
+
+
+        }
+
 
 
 
