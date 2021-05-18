@@ -1,12 +1,23 @@
 package saneforce.sanclm.activities.Model;
 
+import org.json.JSONArray;
+
 public class ModelBrandAuditList {
     String prName;
     String comName;
     String comPrdName;
     String qty,rate,val,compCode,compPcode,sw,rx;
     String jsonChem;
-    String feedback;
+
+    public JSONArray getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(JSONArray feedback) {
+        this.feedback = feedback;
+    }
+
+    JSONArray feedback;
 
 
 
@@ -26,15 +37,9 @@ public class ModelBrandAuditList {
         this.rx = rx;
     }
 
-    public String getFeedback() {
-        return feedback;
-    }
 
-    public void setFeedback(String feedback) {
-        this.feedback = feedback;
-    }
 
-    public ModelBrandAuditList(String prName, String comName, String comPrdName, String qty, String rate, String val, String sw, String rx, String compCode, String compPcode, String feedback) {
+    public ModelBrandAuditList(String prName, String comName, String comPrdName, String qty, String rate, String val, String sw, String rx, String compCode, String compPcode,JSONArray feedback) {
 
         this.prName = prName;
         this.comName = comName;

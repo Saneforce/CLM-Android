@@ -6,6 +6,19 @@ public class CompNameProductNew {
 
     String  Ccode;
     String CName;
+    String PCode;
+    String PName;
+    String invqty;
+
+
+
+
+    String ptp;
+    String ptr;
+    String sw;
+    String rx;
+    JSONArray feedback;
+    String Fmessage;
 
     public String getFmessage() {
         return Fmessage;
@@ -15,7 +28,6 @@ public class CompNameProductNew {
         Fmessage = fmessage;
     }
 
-    String Fmessage;
 
     public String getCcode() {
         return Ccode;
@@ -77,6 +89,7 @@ public class CompNameProductNew {
         return sw;
     }
 
+
     public void setSw(String sw) {
         this.sw = sw;
     }
@@ -89,13 +102,7 @@ public class CompNameProductNew {
         this.rx = rx;
     }
 
-    String PCode;
-    String PName;
-    String invqty;
-    String ptp;
-    String ptr;
-    String sw;
-    String rx;
+
 
     public JSONArray getFeedback() {
         return feedback;
@@ -105,6 +112,5 @@ public class CompNameProductNew {
         this.feedback = feedback;
     }
 
-    JSONArray feedback;
 
 }

@@ -111,8 +111,9 @@ public class BrandAuditActivity extends AppCompatActivity implements DataInterfa
             String yy=extra.getString("json_val");
             dr_name.setText(extra.getString("name"));
             jsonExtraction(yy);
+
             Log.e("Doc_Name",extra.getString("name"));
-            Log.v("extract_it_print","ing_inside"+yy);
+            Log.v(".","ing_inside"+yy);
 
         }
 

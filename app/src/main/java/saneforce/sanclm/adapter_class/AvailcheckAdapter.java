@@ -195,49 +195,28 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
 
     }
 
-        public JSONArray sendData() {
-            JSONObject jsonObject=new JSONObject();
-            JSONArray jsonArray=new JSONArray();
 
-            try {
-                for(int i=0;i<mFilterresult.size();i++) {
-                    jsonObject.put("code", mFilterresult.get(i).getCode());
-                    jsonObject.put("name", mFilterresult.get(i).getName());
-                    jsonObject.put("oos", mFilterresult.get(i).isIsoos());
-                    jsonObject.put("avail", mFilterresult.get(i).isAvailis());
-                  jsonObject.put("quantity",mFilterresult.get(i).getQuantity());
-
-                    jsonArray.put(jsonObject);
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            Toast.makeText(context, ""+jsonObject.toString(), Toast.LENGTH_SHORT).show();
-            return jsonArray;
-
-        }
-    public String composeJSON() {
-        ArrayList<HashMap<String, String>> wordList;
-        wordList = new ArrayList<HashMap<String, String>>();
-        for (int i = 0; i < mFilterresult.size(); i++) {
-
-            HashMap<String, String> map = new HashMap<String, String>();
-            map.put("code", mFilterresult.get(i).getCode());
-            map.put("name", mFilterresult.get(i).getName());
-            map.put("oos", String.valueOf(mFilterresult.get(i).isIsoos()));
-            map.put("avail", String.valueOf(mFilterresult.get(i).isAvailis()));
-            map.put("quantity",mFilterresult.get(i).getQuantity());
-
-            wordList.add(map);
-
-        }
-
-        Gson gson = new GsonBuilder().create();
-        //Use GSON to serialize Array List to JSON
-        return gson.toJson(wordList);
-
-    }
+//    public String composeJSON() {
+//        ArrayList<HashMap<String, String>> wordList;
+//        wordList = new ArrayList<HashMap<String, String>>();
+//        for (int i = 0; i < mFilterresult.size(); i++) {
+//
+//            HashMap<String, String> map = new HashMap<String, String>();
+//            map.put("code", mFilterresult.get(i).getCode());
+//            map.put("name", mFilterresult.get(i).getName());
+//            map.put("oos", String.valueOf(mFilterresult.get(i).isIsoos()));
+//            map.put("avail", String.valueOf(mFilterresult.get(i).isAvailis()));
+//            map.put("quantity",mFilterresult.get(i).getQuantity());
+//
+//            wordList.add(map);
+//
+//        }
+//
+//        Gson gson = new GsonBuilder().create();
+//        //Use GSON to serialize Array List to JSON
+//        return gson.toJson(wordList);
+//
+//    }
 
     @Override
     public int getItemCount() {

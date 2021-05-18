@@ -149,7 +149,6 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
             e.printStackTrace();
         }
         NewcopList();
-
         list_comp = (ListView) findViewById(R.id.list_comp);
         listView_feed_call = (ListView) findViewById(R.id.listView_feed_call);
         listview_audit_list = (ListView) findViewById(R.id.listview_audit_list);
@@ -181,6 +180,7 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
             jsonExtraction(yy);
             Log.e("Doc_Name", extra.getString("name"));
             Log.v("extract_it_print", "ing_inside" + yy);
+            Log.e("json_val", extra.getString("json_val"));
 
         }
 
@@ -620,17 +620,20 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
 
         try {
             JSONArray jsonArray = new JSONArray(jsonVal);
-            Log.v("json_array_turn", String.valueOf(jsonArray.length()));
+            Log.v("json_array_turn", String.valueOf(jsonArray));
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jobj = jsonArray.getJSONObject(i);
                 JSONArray jarr = jobj.getJSONArray("Competitors");
 
                 for (int j = 0; j < jarr.length(); j++) {
                     JSONObject jobj1 = jarr.getJSONObject(j);
-                    if (finalProduct.contains(jobj1.getString("CompName"))) {
-                    } else
-                        brandList.add(new ModelBrandAuditList(jobj.getString("OPName"), jobj1.getString("CompName"), jobj1.getString("CompPName"), jobj1.getString("CPQty"), jobj1.getString("CPRate"), jobj1.getString("CPValue"), jobj1.getString("CSw"), jobj1.getString("CRx"), jobj1.getString("CompCode"), jobj1.getString("CompPCode"),jobj.getString("feedback")));
+                    brandList.add(new ModelBrandAuditList(jobj.getString("OPName"), jobj1.getString("CompName"), jobj1.getString("CompPName"), jobj1.getString("CPQty"), jobj1.getString("CPptp"), jobj1.getString("CPptr"), jobj1.getString("CSw"), jobj1.getString("CRx"), jobj1.getString("CompCode"), jobj1.getString("CompPCode"),jobj1.getJSONArray("feedback")));
                     finalProduct += jobj1.getString("CompName");
+
+//                    if (finalProduct.contains(jobj1.getString("CompName"))) {
+//                    } else
+//                        brandList.add(new ModelBrandAuditList(jobj.getString("OPName"), jobj1.getString("CompName"), jobj1.getString("CompPName"), jobj1.getString("CPQty"), jobj1.getString("CPptp"), jobj1.getString("CPptr"), jobj1.getString("CSw"), jobj1.getString("CRx"), jobj1.getString("CompCode"), jobj1.getString("CompPCode"),jobj1.getJSONArray("feedback")));
+//                    finalProduct += jobj1.getString("CompName");
 
                 }
 
@@ -667,7 +670,7 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
 
             if (!TextUtils.isEmpty(mm.getCName()) && !TextUtils.isEmpty(mm.getPName()) && !TextUtils.isEmpty(mm.getInvqty())) {
                 Log.v("CompanyName", mm.getCName() + " edit_val " + edt_search_brd.getText().toString() + " chosenprd " + mm.getPName() + " compcod " + mm.getCcode() + " pcode " + mm.getPCode());
-                brandList.add(new ModelBrandAuditList(edt_search_brd.getText().toString(), mm.getCName(), mm.getPName(), mm.getInvqty(), mm.getPtp(), mm.getPtr(), mm.getSw(), mm.getRx(), mm.getCcode(), mm.getPCode(),String.valueOf(mm.getFeedback())));
+                brandList.add(new ModelBrandAuditList(edt_search_brd.getText().toString(), mm.getCName(), mm.getPName(), mm.getInvqty(), mm.getPtp(), mm.getPtr(), mm.getSw(), mm.getRx(), mm.getCcode(), mm.getPCode(),mm.getFeedback()));
             }
         }
         Log.v("brandsize", String.valueOf(brandList.size()));
@@ -728,7 +731,7 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
 
             if (!TextUtils.isEmpty(mm.getInvqty())) {
                 Log.v("CompanyName", mm.getCName() + " edit_val " + edt_search_brd.getText().toString() + " chosenprd " + mm.getPName() + " compcod " + mm.getCcode() + " pcode " + mm.getPCode());
-                brandList.add(new ModelBrandAuditList(edt_search_brd.getText().toString(), mm.getCName(), mm.getPName(), mm.getInvqty(), mm.getPtp(), mm.getPtr(), mm.getSw(), mm.getRx(), mm.getCcode(), mm.getPCode(),String.valueOf(mm.getFeedback())));
+                brandList.add(new ModelBrandAuditList(edt_search_brd.getText().toString(), mm.getCName(), mm.getPName(), mm.getInvqty(), mm.getPtp(), mm.getPtr(), mm.getSw(), mm.getRx(), mm.getCcode(), mm.getPCode(),mm.getFeedback()));
             }
         }
         Log.v("brandsize", String.valueOf(brandList));

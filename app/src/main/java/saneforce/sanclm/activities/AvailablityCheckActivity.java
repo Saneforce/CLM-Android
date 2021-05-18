@@ -19,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -39,19 +41,37 @@ public class AvailablityCheckActivity extends AppCompatActivity {
      Cursor mCursor;
      ImageView backbtn;
      CommonSharedPreference mCommonSharedPreference;
-    AvailcheckAdapter adapter;
- String availjson;
+     AvailcheckAdapter adapter;
+     String availjson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_availablity_check);
+
         mCommonSharedPreference = new CommonSharedPreference(this);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-        db=new DataBaseHandler(this);
         availchecks=new ArrayList<>();
         availchecks.clear();
+        etSearchview=findViewById(R.id.et_search);
+        alloosText=findViewById(R.id.alloos);
+        allavailText=findViewById(R.id.allavail);
+        availabilityRecyclerview=findViewById(R.id.availabilty_recyclerview);
+        buttonsave=findViewById(R.id.savebtn);
+        backbtn=findViewById(R.id.iv_dwnldmaster_back);
+
+        Bundle extra = getIntent().getExtras();
+        if (extra != null) {
+            String yy = extra.getString("availjson");
+
+            jsonExtraction(yy);
+            Log.v("availjson",yy);
+
+
+        }
+
+        db=new DataBaseHandler(this);
+
         db.open();
         mCursor = db.select_product_content_master();
 
@@ -75,23 +95,37 @@ public class AvailablityCheckActivity extends AppCompatActivity {
         db.close();
 
 
-        etSearchview=findViewById(R.id.et_search);
-        alloosText=findViewById(R.id.alloos);
-        allavailText=findViewById(R.id.allavail);
-        availabilityRecyclerview=findViewById(R.id.availabilty_recyclerview);
-        buttonsave=findViewById(R.id.savebtn);
-        backbtn=findViewById(R.id.iv_dwnldmaster_back);
+
 
         buttonsave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                availjson= String.valueOf(adapter.composeJSON());
-                mCommonSharedPreference.setValueToPreference("availjson",availjson);
-                Log.v("avail>>>",availjson);
+
+                JSONObject jsonObject=new JSONObject();
+                JSONArray jsonArray=new JSONArray();
+                JSONObject jsonObject1=new JSONObject();
+
+                try {
+                    for(int i=0;i<availchecks.size();i++) {
+                        Availcheck availcheck=availchecks.get(i);
+                        jsonObject.put("code",availcheck.getCode());
+                        jsonObject.put("name", availcheck.getName());
+                        jsonObject.put("oos", availcheck.isIsoos());
+                        jsonObject.put("avail",availcheck.isAvailis());
+                        jsonObject.put("quantity",availcheck.getQuantity());
+
+                        jsonArray.put(jsonObject);
+                    }
+                    jsonObject1.put("availability",jsonArray);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                mCommonSharedPreference.setValueToPreference("availjson", String.valueOf(jsonObject1));
+                Log.v("avail>>>",String.valueOf(jsonArray));
 //                Toast.makeText(AvailablityCheckActivity.this, ""+availjson, Toast.LENGTH_SHORT).show();
 
                 Intent i=new Intent(AvailablityCheckActivity.this, FeedbackActivity.class);
-                i.putExtra("availability", String.valueOf(adapter.composeJSON()));
 
                 setResult(6, i);
                 finish();
@@ -271,6 +305,46 @@ public class AvailablityCheckActivity extends AppCompatActivity {
 
             }
         });
+
+
+    }
+
+    private void jsonExtraction(String yy) {
+        String quantity,name,oos = null,avail = null,code;
+        try {
+            JSONArray jsonArray = new JSONArray(yy);
+            for (int i = 0; i < jsonArray.length(); i++) {
+
+                JSONObject jsonObject1=jsonArray.getJSONObject(i);
+                JSONArray jsonArray1=jsonObject1.getJSONArray("availability");
+                for (int j = 0; j < jsonArray1.length(); j++) {
+                    JSONObject jsonObject=jsonArray.getJSONObject(j);
+
+                    quantity = jsonObject.getString("quantity");
+                    name = jsonObject.getString("name");
+                    oos = jsonObject.getString("oos");
+                    avail = jsonObject.getString("avail");
+                    code = jsonObject.getString("code");
+                    Availcheck availcheck = new Availcheck();
+                    availcheck.setName(name);
+                    availcheck.setCode(code);
+                    availcheck.setIsoos(Boolean.parseBoolean(oos));
+                    availcheck.setAvailis(Boolean.parseBoolean(avail));
+                    availcheck.setQuantity(quantity);
+
+                    availchecks.add(availcheck);
+                }
+            }
+            AvailcheckAdapter adapter=new AvailcheckAdapter(AvailablityCheckActivity.this,availchecks,Boolean.parseBoolean(avail),Boolean.parseBoolean(oos));
+            LinearLayoutManager manager=new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL,false);
+            availabilityRecyclerview.setLayoutManager(manager);
+            availabilityRecyclerview.setAdapter(adapter);
+            availabilityRecyclerview.setHasFixedSize(true);
+            adapter.notifyDataSetChanged();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
 
     }

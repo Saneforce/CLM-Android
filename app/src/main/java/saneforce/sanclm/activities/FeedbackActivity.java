@@ -170,11 +170,11 @@ public class FeedbackActivity extends AppCompatActivity {
         Bundle extra = getIntent().getExtras();
         feedOption = extra.getString("feedpage", null);
         Log.v("options>>>>", feedOption);
-        availability=extra.getString("availability",null);
-        if(availability!=null){
-            Log.v("avail>>>",availability);
-
-        }
+//        availability=extra.getString("availability",null);
+//        if(availability!=null){
+//            Log.v("avail>>>",availability);
+//
+//        }
 
         listView_feed_product = (ListView) findViewById(R.id.listView_feed_product);
         listView_feed_input = (ListView) findViewById(R.id.listView_feed_input);
@@ -224,6 +224,7 @@ public class FeedbackActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(FeedbackActivity.this,AvailablityCheckActivity.class);
+                intent.putExtra("availjson",availability);
                 startActivity(intent);
             }
         });
