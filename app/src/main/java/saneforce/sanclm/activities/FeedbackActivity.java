@@ -2017,6 +2017,7 @@ public class FeedbackActivity extends AppCompatActivity {
                         startActivity(i);
                     } else {
                         progressDialog.dismiss();
+
                         if (js.has("Msg")) {
                             Toast toast = Toast.makeText(FeedbackActivity.this, js.getString("Msg"), Toast.LENGTH_SHORT);
                             toast.setGravity(Gravity.CENTER, 0, 0);

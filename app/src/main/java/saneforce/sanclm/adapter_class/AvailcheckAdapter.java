@@ -70,7 +70,7 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
             holder.avail.setTextColor(Color.BLACK);
             holder.stock_et.setEnabled(false);
             holder.stock_et.setText("0");
-            holder.view.setVisibility(View.VISIBLE);
+            holder.view.setVisibility(View.GONE);
             holder.textView2.setTextColor(Color.parseColor("#F10505"));
 
 

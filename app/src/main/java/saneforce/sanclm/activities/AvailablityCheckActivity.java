@@ -65,10 +65,13 @@ public class AvailablityCheckActivity extends AppCompatActivity {
         Bundle extra = getIntent().getExtras();
         if (extra != null) {
             yy = extra.getString("availjson");
-
             jsonExtraction(yy);
+
             Log.v("availjson",yy);
 
+        }
+
+        if(availchecks.size()>0){
 
         }else {
             db.open();
@@ -99,32 +102,38 @@ public class AvailablityCheckActivity extends AppCompatActivity {
 
 
 
+
+
+
+
         buttonsave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                JSONObject jsonObject=new JSONObject();
-                JSONArray jsonArray=new JSONArray();
-                JSONObject jsonObject1=new JSONObject();
-
                 try {
-                    for(int i=0;i<availchecks.size();i++) {
-                        Availcheck availcheck=availchecks.get(i);
-                        jsonObject.put("code",availcheck.getCode());
-                        jsonObject.put("name", availcheck.getName());
-                        jsonObject.put("oos", availcheck.isIsoos());
-                        jsonObject.put("avail",availcheck.isAvailis());
-                        jsonObject.put("quantity",availcheck.getQuantity());
 
+                    JSONObject jsonObject=null;
+                    JSONObject jsonObject1=new JSONObject();
+
+                    JSONArray jsonArray=new JSONArray();
+
+                    for(int i=0;i<availchecks.size();i++) {
+                        jsonObject=new JSONObject();
+                        jsonObject.put("code",availchecks.get(i).getCode());
+                        jsonObject.put("name",availchecks.get(i).getName());
+                        jsonObject.put("oos", availchecks.get(i).isIsoos());
+                        jsonObject.put("avail",availchecks.get(i).isAvailis());
+                        jsonObject.put("quantity",availchecks.get(i).getQuantity());
                         jsonArray.put(jsonObject);
+
                     }
                     jsonObject1.put("availability",jsonArray);
-
+                    mCommonSharedPreference.setValueToPreference("availjson", String.valueOf(jsonObject1));
+                    Log.v("avail>>>",String.valueOf(jsonObject1));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                mCommonSharedPreference.setValueToPreference("availjson", String.valueOf(jsonObject1));
-                Log.v("avail>>>",String.valueOf(jsonArray));
+
 //                Toast.makeText(AvailablityCheckActivity.this, ""+availjson, Toast.LENGTH_SHORT).show();
 
                 Intent i=new Intent(AvailablityCheckActivity.this, FeedbackActivity.class);
@@ -314,13 +323,11 @@ public class AvailablityCheckActivity extends AppCompatActivity {
     private void jsonExtraction(String yy) {
         String quantity,name,oos = null,avail = null,code;
         try {
-            JSONArray jsonArray = new JSONArray(yy);
-            for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject obj = new JSONObject(yy);
 
-                JSONObject jsonObject1=jsonArray.getJSONObject(i);
-                JSONArray jsonArray1=jsonObject1.getJSONArray("availability");
+                JSONArray jsonArray1=obj.getJSONArray("availability");
                 for (int j = 0; j < jsonArray1.length(); j++) {
-                    JSONObject jsonObject=jsonArray.getJSONObject(j);
+                    JSONObject jsonObject=jsonArray1.getJSONObject(j);
 
                     quantity = jsonObject.getString("quantity");
                     name = jsonObject.getString("name");
@@ -336,7 +343,7 @@ public class AvailablityCheckActivity extends AppCompatActivity {
 
                     availchecks.add(availcheck);
                 }
-            }
+
             AvailcheckAdapter adapter=new AvailcheckAdapter(AvailablityCheckActivity.this,availchecks,Boolean.parseBoolean(avail),Boolean.parseBoolean(oos));
             LinearLayoutManager manager=new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL,false);
             availabilityRecyclerview.setLayoutManager(manager);
