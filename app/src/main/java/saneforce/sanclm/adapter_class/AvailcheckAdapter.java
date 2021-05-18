@@ -69,8 +69,10 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
             holder.avail.setBackgroundResource(R.drawable.rectangle);
             holder.avail.setTextColor(Color.BLACK);
             holder.stock_et.setEnabled(false);
+            holder.stock_et.setText("0");
             holder.view.setVisibility(View.VISIBLE);
-            holder.textView2.setTextColor(Color.parseColor("#228B22"));
+            holder.textView2.setTextColor(Color.parseColor("#F10505"));
+
 
         }else {
             holder.oos.setBackgroundResource(R.drawable.rectangle);
@@ -130,9 +132,10 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
                   holder.avail.setBackgroundResource(R.drawable.rectangle);
                   holder.avail.setTextColor(Color.BLACK);
                   holder.stock_et.setEnabled(false);
+                  holder.stock_et.setText("0");
                   holder.checkBox.setChecked(true);
                   holder.view.setVisibility(View.GONE);
-                  holder.textView2.setTextColor(Color.parseColor("#3F51B5"));
+                  holder.textView2.setTextColor(Color.parseColor("#F10505"));
 
               }else {
                   availchecks.get(position).setIsoos(false);

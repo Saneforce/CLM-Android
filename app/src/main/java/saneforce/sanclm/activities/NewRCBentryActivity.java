@@ -712,6 +712,9 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
         edt_qty.setText("");
         edt_rate.setText("");
         edt_val.setText("");
+        edt_sw.setText("");
+       edt_rx.setText("");
+
         callCompAdapter();
 
         AdapterBrandAuditList2 adp = new AdapterBrandAuditList2(NewRCBentryActivity.this, brandList);
@@ -756,6 +759,9 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
         edt_qty.setText("");
         edt_rate.setText("");
         edt_val.setText("");
+        edt_rx.setText("");
+        edt_sw.setText("");
+        listComp.clear();
         callCompAdapter();
 
         AdapterBrandAuditList2 adp = new AdapterBrandAuditList2(NewRCBentryActivity.this, brandList);

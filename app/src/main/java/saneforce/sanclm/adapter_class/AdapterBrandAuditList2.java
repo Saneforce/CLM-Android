@@ -60,8 +60,8 @@ public class AdapterBrandAuditList2 extends BaseAdapter {
             txt_qty.setText("Inv.Qty : " + mm.getQty());
             txt_rate.setText("PTP : " + mm.getRate());
             txt_value.setText("PTR : " + mm.getVal());
-            txt_value.setText("Avg.S/w : " + mm.getSw());
-            txt_value.setText("Rx : " + mm.getRx());
+            txt_sw.setText("Avg.S/w : " + mm.getSw());
+             txt_rx.setText("Rx : " + mm.getRx());
             prName=mm.getPrName();
         }
         else{
@@ -72,8 +72,8 @@ public class AdapterBrandAuditList2 extends BaseAdapter {
             txt_qty.setText("Inv.Qty : " + mm.getQty());
             txt_rate.setText("PTP : " + mm.getRate());
             txt_value.setText("PTR : " + mm.getVal());
-            txt_value.setText("Avg.S/w : " + mm.getSw());
-            txt_value.setText("Rx : " + mm.getRx());
+            txt_sw.setText("Avg.S/w : " + mm.getSw());
+            txt_rx.setText("Rx : " + mm.getRx());
 
         }
 
