@@ -215,6 +215,7 @@ public class FeedbackActivity extends AppCompatActivity {
         RcpaNeeded="1";
         availability=mCommonSharedPreference.getValueFromPreference("availjson");
 
+
         if(AvailableAduitNeeded.equals("1")&&feedOption.equals("chemist")){
             availLayout.setVisibility(View.VISIBLE);
             addcalllayout.setVisibility(View.GONE);
@@ -1981,6 +1982,7 @@ public class FeedbackActivity extends AppCompatActivity {
             query = apiService.finalSubmit(val);
         } else {
             Log.v("signature_pic", signPath);
+            Log.v("datasave",val);
             HashMap<String, RequestBody> values = field(val);
             MultipartBody.Part fileNeed = convertimg("SignImg", signPath);
             query = apiService.uploadData(values, fileNeed);
