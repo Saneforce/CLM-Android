@@ -2373,8 +2373,12 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                         }else {
                             mCommonSharedPreference.setValueToPreference("AvailableAduitNeeded", "");
                         }
-
-
+                        //Rcpa Needed
+                        if(jsonn.has("RcpaNeeded")) {
+                            mCommonSharedPreference.setValueToPreference("RcpaNeeded", jsonn.getString("RcpaNeeded"));
+                        }else {
+                            mCommonSharedPreference.setValueToPreference("RcpaNeeded", "");
+                        }
 
                         Log.v("specFilter_json", mCommonSharedPreference.getValueFromPreference("specFilter"));
                         if (GpsNeed.equalsIgnoreCase("0") &&

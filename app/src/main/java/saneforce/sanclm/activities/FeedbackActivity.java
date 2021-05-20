@@ -151,7 +151,7 @@ public class FeedbackActivity extends AppCompatActivity {
     TextView txt_sign;
     ImageView img_capture;
     Uri outputFileUri;
-    String currentPhotoPath,AvailableAduitNeeded="";
+    String currentPhotoPath,AvailableAduitNeeded="",RcpaNeeded="";
     String nn = null;
 
 
@@ -211,6 +211,8 @@ public class FeedbackActivity extends AppCompatActivity {
         val_pob = mCommonSharedPreference.getValueFromPreference("feed_pob");
         SF_Type = mCommonSharedPreference.getValueFromPreference("sf_type");
         AvailableAduitNeeded = mCommonSharedPreference.getValueFromPreference("AvailableAduitNeeded");
+//      RcpaNeeded= mCommonSharedPreference.getValueFromPreference("RcpaNeeded");
+        RcpaNeeded="1";
         availability=mCommonSharedPreference.getValueFromPreference("availjson");
 
         if(AvailableAduitNeeded.equals("1")&&feedOption.equals("chemist")){
@@ -219,6 +221,11 @@ public class FeedbackActivity extends AppCompatActivity {
         }else{
             availLayout.setVisibility(View.GONE);
             addcalllayout.setVisibility(View.VISIBLE);
+        }
+        if(RcpaNeeded.equals("1")&&feedOption.equals("dr")){
+            btn_brand_audit.setVisibility(View.GONE);
+        }else {
+            btn_brand_audit.setVisibility(View.VISIBLE);
         }
         availcheckbutton.setOnClickListener(new View.OnClickListener() {
             @Override

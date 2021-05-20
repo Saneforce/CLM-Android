@@ -113,7 +113,7 @@ public class BrandAuditActivity extends AppCompatActivity implements DataInterfa
             jsonExtraction(yy);
 
             Log.e("Doc_Name",extra.getString("name"));
-            Log.v(".","ing_inside"+yy);
+            Log.v("jsonvalue","ing_inside"+yy);
 
         }
 

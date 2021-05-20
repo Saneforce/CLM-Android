@@ -39,7 +39,7 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
     ArrayList<Availcheck>availchecks;
     ArrayList<Availcheck>mFilterresult;
     boolean isavailall;
- boolean isoos;
+    boolean isoos;
 
     public AvailcheckAdapter(Activity context, ArrayList<Availcheck> availchecks1, boolean isAvailAll, boolean isoos) {
         this.context = context;
@@ -64,6 +64,7 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
 
 
         if(availchecks.get(position).isIsoos()==true){
+
             holder.oos.setBackgroundResource(R.drawable.rectangle_red);
             holder.oos.setTextColor(Color.WHITE);
             holder.avail.setBackgroundResource(R.drawable.rectangle);
@@ -72,24 +73,17 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
             holder.stock_et.setText("0");
             holder.view.setVisibility(View.GONE);
             holder.textView2.setTextColor(Color.parseColor("#F10505"));
-
-
-        }else {
-            holder.oos.setBackgroundResource(R.drawable.rectangle);
-            holder.oos.setTextColor(Color.BLACK);
-            holder.view.setVisibility(View.GONE);
-            holder.textView2.setTextColor(Color.parseColor("#3F51B5"));
-
         }
 
-        if(availchecks.get(position).isAvailis()==true){
+        else  if(availchecks.get(position).isAvailis()==true){
             holder.avail.setBackgroundResource(R.drawable.rectangle_green);
             holder.avail.setTextColor(Color.WHITE);
             holder.oos.setBackgroundResource(R.drawable.rectangle);
             holder.oos.setTextColor(Color.BLACK);
             holder.view.setVisibility(View.VISIBLE);
             holder.textView2.setTextColor(Color.parseColor("#228B22"));
-        }else{
+        }
+        else{
             holder.avail.setBackgroundResource(R.drawable.rectangle);
             holder.avail.setTextColor(Color.BLACK);
             holder.view.setVisibility(View.GONE);

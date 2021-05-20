@@ -12,12 +12,14 @@ import java.util.ArrayList;
 
 import saneforce.sanclm.R;
 import saneforce.sanclm.activities.Model.ModelBrandAuditList;
+import saneforce.sanclm.util.UpdateUi;
 
 public class AdapterBrandAuditList2 extends BaseAdapter {
 
     Context context;
     ArrayList<ModelBrandAuditList> list=new ArrayList<>();
     String prName;
+    static UpdateUi updateUi;
 
     public AdapterBrandAuditList2(Context context, ArrayList<ModelBrandAuditList> list) {
         this.context = context;
@@ -79,5 +81,8 @@ public class AdapterBrandAuditList2 extends BaseAdapter {
 
 
         return view;
+    }
+    public static void bindListenerBrand(UpdateUi up){
+        updateUi=up;
     }
 }
