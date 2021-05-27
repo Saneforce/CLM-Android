@@ -87,6 +87,7 @@
                     android:textColor="#000" />
 
                 <EditText
+                    android:inputType="number"
                     android:id="@+id/etstock"
                     android:singleLine="true"
                     android:selectAllOnFocus="true"

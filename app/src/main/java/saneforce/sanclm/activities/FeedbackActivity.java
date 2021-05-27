@@ -159,7 +159,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
     ArrayList<StoreImageTypeUrl> arrayStore = new ArrayList<>();
     LinearLayout addcalllayout,availLayout;
-    String availability=null;
+   String availability=null,custype="0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,12 +169,10 @@ public class FeedbackActivity extends AppCompatActivity {
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         Bundle extra = getIntent().getExtras();
         feedOption = extra.getString("feedpage", null);
-        Log.v("options>>>>", feedOption);
-//        availability=extra.getString("availability",null);
-//        if(availability!=null){
-//            Log.v("avail>>>",availability);
-//
-//        }
+        custype=extra.getString("custype",null);
+//        Log.v("options>>>>", custype);
+
+
 
         listView_feed_product = (ListView) findViewById(R.id.listView_feed_product);
         listView_feed_input = (ListView) findViewById(R.id.listView_feed_input);
@@ -214,20 +212,37 @@ public class FeedbackActivity extends AppCompatActivity {
 //      RcpaNeeded= mCommonSharedPreference.getValueFromPreference("RcpaNeeded");
         RcpaNeeded="1";
         availability=mCommonSharedPreference.getValueFromPreference("availjson");
+            Log.v("avail>>>1",availability);
+        btn_brand_audit.setVisibility(View.VISIBLE);
+
 
 
         if(AvailableAduitNeeded.equals("1")&&feedOption.equals("chemist")){
             availLayout.setVisibility(View.VISIBLE);
             addcalllayout.setVisibility(View.GONE);
-        }else{
+            btn_brand_audit.setVisibility(View.VISIBLE);
+
+        }else if(AvailableAduitNeeded.equals("1")&&feedOption.equals("edit")&&custype.equals("2")) {
+            availLayout.setVisibility(View.VISIBLE);
+            btn_brand_audit.setVisibility(View.VISIBLE);
+            addcalllayout.setVisibility(View.GONE);
+
+        }
+
+       else  if(RcpaNeeded.equals("1")&&feedOption.equals("dr")){
+            btn_brand_audit.setVisibility(View.GONE);
+
+        }else if(RcpaNeeded.equals("1")&&feedOption.equals("edit")&&custype.equals("1")) {
+            btn_brand_audit.setVisibility(View.GONE);
+        }
+
+        else{
             availLayout.setVisibility(View.GONE);
             addcalllayout.setVisibility(View.VISIBLE);
-        }
-        if(RcpaNeeded.equals("1")&&feedOption.equals("dr")){
-            btn_brand_audit.setVisibility(View.GONE);
-        }else {
             btn_brand_audit.setVisibility(View.VISIBLE);
+
         }
+
         availcheckbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -688,6 +703,7 @@ public class FeedbackActivity extends AppCompatActivity {
         bt_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 dbFunctionToSave();
                 if (mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true")) {
                     mCommonSharedPreference.setValueToPreference("miss_select", "1");
@@ -725,6 +741,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
                     Intent i = new Intent(FeedbackActivity.this, DCRCallSelectionActivity.class);
                     startActivity(i);
+
                 } else {
                     popUpAlert();
                 }
@@ -1097,6 +1114,8 @@ public class FeedbackActivity extends AppCompatActivity {
                 mCommonSharedPreference.setValueToPreference("jsonarray", "");
                 mCommonSharedPreference.setValueToPreference("slide_feed", "[]");
                 mCommonSharedPreference.setValueToPreferenceFeed("timeCount", 0);
+                mCommonSharedPreference.setValueToPreference("availjson", "");
+
                 Intent i = new Intent(FeedbackActivity.this, HomeDashBoard.class);
                 startActivity(i);
             }
@@ -1384,6 +1403,8 @@ public class FeedbackActivity extends AppCompatActivity {
         dbh.open();
         JSONArray jsonArray = new JSONArray();
         JSONObject jointObj = new JSONObject();
+
+
         Log.v("printing_colid", colId + " jw " + mCommonSharedPreference.getValueFromPreference("visit"));
         try {
             for (int i = 0; i < joint_array.size(); i++) {
@@ -1403,7 +1424,8 @@ public class FeedbackActivity extends AppCompatActivity {
             }
 
             jointObj.put("JWWrk", jsonArray);
-            jointObj.put("availabilty",availability);
+
+
 
             Log.v("joint_wrk_print", String.valueOf(jointObj));
 
@@ -1699,6 +1721,18 @@ public class FeedbackActivity extends AppCompatActivity {
             } catch (Exception e) {
                 jointObj.put("RCPAEntry", jsonArray1);
             }
+
+            String availjson = mCommonSharedPreference.getValueFromPreference("availjson");
+            JSONObject jsonArrayavail = null;
+            Log.v("json_avail", availjson);
+            try {
+                jsonArrayavail = new JSONObject(availjson);
+                jointObj.put("AvailabilityAudit", jsonArrayavail);
+            } catch (Exception e) {
+                jointObj.put("AvailabilityAudit", jsonArrayavail);
+            }
+
+
             Log.v("joint_wrk_print66", String.valueOf(jointObj));
             jointObj.put("sign_path", signPath);
             jointObj.put("filepath", filePath);
@@ -2024,6 +2058,8 @@ public class FeedbackActivity extends AppCompatActivity {
                         mCommonSharedPreference.setValueToPreference("detno", "");
                         Intent i = new Intent(FeedbackActivity.this, HomeDashBoard.class);
                         startActivity(i);
+                        mCommonSharedPreference.setValueToPreference("availjson", "");
+
                     } else {
                         progressDialog.dismiss();
 

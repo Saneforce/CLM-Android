@@ -44,6 +44,8 @@ public class AvailablityCheckActivity extends AppCompatActivity {
      AvailcheckAdapter adapter;
      String availjson;
     String yy="";
+    JSONObject jsonObject1=new JSONObject();
+String availability="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,19 +63,22 @@ public class AvailablityCheckActivity extends AppCompatActivity {
         backbtn=findViewById(R.id.iv_dwnldmaster_back);
         db = new DataBaseHandler(this);
 
+        availability=mCommonSharedPreference.getValueFromPreference("availjson");
+        if(!availability.isEmpty()){
+            jsonExtraction(availability);
+
+        }
 
         Bundle extra = getIntent().getExtras();
         if (extra != null) {
             yy = extra.getString("availjson");
-            jsonExtraction(yy);
 
             Log.v("availjson",yy);
 
         }
+        if(availchecks.size()==0){
 
-        if(availchecks.size()>0){
 
-        }else {
             db.open();
             mCursor = db.select_product_content_master();
 
@@ -113,7 +118,6 @@ public class AvailablityCheckActivity extends AppCompatActivity {
                 try {
 
                     JSONObject jsonObject=null;
-                    JSONObject jsonObject1=new JSONObject();
 
                     JSONArray jsonArray=new JSONArray();
 
@@ -137,6 +141,7 @@ public class AvailablityCheckActivity extends AppCompatActivity {
 //                Toast.makeText(AvailablityCheckActivity.this, ""+availjson, Toast.LENGTH_SHORT).show();
 
                 Intent i=new Intent(AvailablityCheckActivity.this, FeedbackActivity.class);
+                i.putExtra("availjson",String.valueOf(jsonObject1));
 
                 setResult(6, i);
                 finish();
@@ -147,7 +152,7 @@ public class AvailablityCheckActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(AvailablityCheckActivity.this, FeedbackActivity.class);
-
+                i.putExtra("availjson",String.valueOf(jsonObject1));
                 setResult(6, i);
                 finish();
             }

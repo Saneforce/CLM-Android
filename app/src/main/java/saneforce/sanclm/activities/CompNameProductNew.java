@@ -2,6 +2,8 @@ package saneforce.sanclm.activities;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
+
 public class CompNameProductNew {
 
     String  Ccode;
@@ -19,6 +21,17 @@ public class CompNameProductNew {
     String rx;
     JSONArray feedback;
     String Fmessage;
+    ArrayList<String> image;
+
+
+    public ArrayList<String> getImage() {
+        return image;
+    }
+
+    public void setImage(ArrayList<String> image) {
+        this.image = image;
+    }
+
 
     public String getFmessage() {
         return Fmessage;

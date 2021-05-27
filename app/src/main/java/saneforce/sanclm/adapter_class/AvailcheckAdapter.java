@@ -121,6 +121,7 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
           public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
               if(isChecked){
                   availchecks.get(position).setIsoos(true);
+                  availchecks.get(position).setAvailis(false);
                   holder.oos.setBackgroundResource(R.drawable.rectangle_red);
                   holder.oos.setTextColor(Color.WHITE);
                   holder.avail.setBackgroundResource(R.drawable.rectangle);
@@ -133,6 +134,7 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
 
               }else {
                   availchecks.get(position).setIsoos(false);
+                  availchecks.get(position).setAvailis(false);
                   holder.oos.setBackgroundResource(R.drawable.rectangle);
                   holder.oos.setTextColor(Color.BLACK);
                   holder.stock_et.setEnabled(true);
@@ -147,6 +149,7 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     availchecks.get(position).setAvailis(true);
+                    availchecks.get(position).setIsoos(false);
                     holder.avail.setBackgroundResource(R.drawable.rectangle_green);
                     holder.avail.setTextColor(Color.WHITE);
                     holder.oos.setBackgroundResource(R.drawable.rectangle);
@@ -158,6 +161,7 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
 
                 }else {
                     availchecks.get(position).setAvailis(false);
+                    availchecks.get(position).setIsoos(false);
                     holder.avail.setBackgroundResource(R.drawable.rectangle);
                     holder.avail.setTextColor(Color.BLACK);
                     holder.checkBox.setChecked(false);

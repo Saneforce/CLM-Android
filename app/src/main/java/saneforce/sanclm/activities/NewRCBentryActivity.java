@@ -120,7 +120,7 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
     String imageEncoded;
     List<String> imagesEncodedList;
     public static RecyclerView gvGallery;
-    public GalleryAdapter galleryAdapter;
+    public static GalleryAdapter galleryAdapter;
     public static ArrayList<Uri> mArrayUri = new ArrayList<Uri>();
     public static ArrayList<String> imagelist ;
 
@@ -165,6 +165,9 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
         btn_add_comp = (Button) findViewById(R.id.btn_add_comp);
         save_btn = (Button) findViewById(R.id.save_btn);
         iv_dwnldmaster_back = (ImageView) findViewById(R.id.iv_dwnldmaster_back);
+
+
+
 //
         AdapterBrandAuditComp2.bindListenerBrand(new UpdateUi() {
             @Override
@@ -177,7 +180,7 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
         if (extra != null) {
             String yy = extra.getString("json_val");
             dr_name.setText(extra.getString("name"));
-            jsonExtractionnew(yy);
+           jsonExtractionnew(yy);
             jsonExtraction(yy);
             Log.e("Doc_Name", extra.getString("name"));
             Log.v("extract_it_print", "ing_inside" + yy);
@@ -222,14 +225,18 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
         save_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(brandList.size()>0){
+                    addBrandValue();
 
-                if (chem_select_list.size() < 1) {
+                }
+
+               else if (brandList.size()==0&&chem_select_list.size() < 1) {
                     Toast.makeText(getApplicationContext(), "Select Chemist Name", Toast.LENGTH_LONG).show();
 
-                } else if (edt_search_brd.getText().toString().isEmpty()) {
+                } else if (brandList.size()==0&&edt_search_brd.getText().toString().isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Select Product Name ", Toast.LENGTH_LONG).show();
 
-                } else if (edt_qty.getText().toString().isEmpty()) {
+                } else if (brandList.size()==0&&edt_qty.getText().toString().isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Select Product Qty ", Toast.LENGTH_LONG).show();
 
                 }
@@ -386,14 +393,20 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
                     JSONObject object=array.getJSONObject(j);
                     ModelBrandAuditList modelBrandAuditList=new ModelBrandAuditList(jsonObject.getString("OPName"),object.getString("CompName"),object.getString("CompPName"),
                             object.getString("CPQty"),object.getString("CPptp"),object.getString("CPptr"),object.getString("CSw"),object.getString("CRx"),
-                            object.getString("CompCode"),object.getString("CompPCode"));
-                    brandList.clear();
-                    brandList.add(modelBrandAuditList);
-                    AdapterBrandAuditList2 adapter=new   AdapterBrandAuditList2(NewRCBentryActivity.this,brandList);
-                    listview_audit_list.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
+                            object.getString("CompCode"),object.getString("CompPCode"),object.getJSONArray("feedback"));
+
+                                        if (finalProduct.contains(object.getString("CompPName"))) {
+                                        }else {
+                                            brandList.add(modelBrandAuditList);
+                                     finalProduct += object.getString("CompPName");
+
+                                        }
+
 
                 }
+                AdapterBrandAuditList2 adapter=new   AdapterBrandAuditList2(NewRCBentryActivity.this,brandList);
+                listview_audit_list.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -414,21 +427,45 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
         final ListView popup_list = (ListView) dialog.findViewById(R.id.popup_list);
         ImageView iv_close_popup = (ImageView) dialog.findViewById(R.id.iv_close_popup);
         SearchView search_view = (SearchView) dialog.findViewById(R.id.search_view);
+        TextView textView=dialog.findViewById(R.id.tv_todayplan_popup_head);
+        textView.setText("DOCTOR NAME");
+        EditText search_edit = (EditText) dialog.findViewById(R.id.et_search);
+
         final PopupAdapter popupAdapter = new PopupAdapter(NewRCBentryActivity.this, xx);
         popup_list.setAdapter(popupAdapter);
         popupAdapter.notifyDataSetChanged();
-        search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+        search_edit.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
 
             @Override
-            public boolean onQueryTextChange(String s) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 popupAdapter.getFilter().filter(s);
-                return false;
+                popupAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
+
+//        search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String s) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String s) {
+//                popupAdapter.getFilter().filter(s);
+//                return false;
+//            }
+//        });
 
 
         ok.setOnClickListener(new View.OnClickListener() {
@@ -656,10 +693,10 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
 
 
 
-                    if (finalProduct.contains(jobj1.getString("CompName"))) {
-                    } else
-                        brandList.add(new ModelBrandAuditList(jobj.getString("OPName"), jobj1.getString("CompName"), jobj1.getString("CompPName"), jobj1.getString("CPQty"), jobj1.getString("CPptp"), jobj1.getString("CPptr"), jobj1.getString("CSw"), jobj1.getString("CRx"), jobj1.getString("CompCode"), jobj1.getString("CompPCode")));
-                    finalProduct += jobj1.getString("CompName");
+//                    if (finalProduct.contains(jobj1.getString("CompName"))) {
+//                    } else
+//                        brandList.add(new ModelBrandAuditList(jobj.getString("OPName"), jobj1.getString("CompName"), jobj1.getString("CompPName"), jobj1.getString("CPQty"), jobj1.getString("CPptp"), jobj1.getString("CPptr"), jobj1.getString("CSw"), jobj1.getString("CRx"), jobj1.getString("CompCode"), jobj1.getString("CompPCode"),jobj1.getJSONArray("feedback")));
+//                    finalProduct += jobj1.getString("CompName");
 
 //                        brandList.add(new ModelBrandAuditList(jobj.getString("OPName"), jobj1.getString("CompName"), jobj1.getString("CompPName"), jobj1.getString("CPQty"), jobj1.getString("CPptp"), jobj1.getString("CPptr"), jobj1.getString("CSw"), jobj1.getString("CRx"), jobj1.getString("CompCode"), jobj1.getString("CompPCode"),jobj1.getJSONArray("feedback")));
 //                    finalProduct += jobj1.getString("CompName");
@@ -699,7 +736,7 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
 
             if (!TextUtils.isEmpty(mm.getCName()) && !TextUtils.isEmpty(mm.getPName()) && !TextUtils.isEmpty(mm.getInvqty())) {
                 Log.v("CompanyName", mm.getCName() + " edit_val " + edt_search_brd.getText().toString() + " chosenprd " + mm.getPName() + " compcod " + mm.getCcode() + " pcode " + mm.getPCode());
-                brandList.add(new ModelBrandAuditList(edt_search_brd.getText().toString(), mm.getCName(), mm.getPName(), mm.getInvqty(), mm.getPtp(), mm.getPtr(), mm.getSw(), mm.getRx(), mm.getCcode(), mm.getPCode()));
+                brandList.add(new ModelBrandAuditList(edt_search_brd.getText().toString(), mm.getCName(), mm.getPName(), mm.getInvqty(), mm.getPtp(), mm.getPtr(), mm.getSw(), mm.getRx(), mm.getCcode(), mm.getPCode(),mm.getFeedback()));
             }
         }
         Log.v("brandsize", String.valueOf(brandList.size()));
@@ -755,12 +792,13 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
     }
 
     public void addBrandValues() {
+
         for (int i = 0; i < AdapterBrandAuditComp2.list_prd1.size(); i++) {
             CompNameProductNew mm = AdapterBrandAuditComp2.list_prd1.get(i);
 
             if (!TextUtils.isEmpty(mm.getInvqty())) {
                 Log.v("CompanyName", mm.getCName() + " edit_val " + edt_search_brd.getText().toString() + " chosenprd " + mm.getPName() + " compcod " + mm.getCcode() + " pcode " + mm.getPCode());
-                brandList.add(new ModelBrandAuditList(edt_search_brd.getText().toString(), mm.getCName(), mm.getPName(), mm.getInvqty(), mm.getPtp(), mm.getPtr(), mm.getSw(), mm.getRx(), mm.getCcode(), mm.getPCode()));
+                brandList.add(new ModelBrandAuditList(edt_search_brd.getText().toString(), mm.getCName(), mm.getPName(), mm.getInvqty(), mm.getPtp(), mm.getPtr(), mm.getSw(), mm.getRx(), mm.getCcode(), mm.getPCode(),mm.getFeedback()));
             }
         }
         Log.v("brandsize", String.valueOf(brandList));
@@ -1130,6 +1168,8 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
 
 
             feedbackbtn.setOnClickListener(new View.OnClickListener() {
+                ArrayList<String>imagelist1=new ArrayList<>();
+
                 @Override
                 public void onClick(View v) {
                     final Dialog dialog = new Dialog(context);
@@ -1144,6 +1184,33 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
                     editTextfeedback = dialog.findViewById(R.id.etfeedback);
                     ImageView camerabtn = dialog.findViewById(R.id.camerabtn);
                     gvGallery = dialog.findViewById(R.id.imagerecycle);
+                    if(list_prd1.get(i).getImage()==null) {
+
+
+                    }else{
+                        imagelist1 = list_prd1.get(i).getImage();
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+                        gvGallery.setLayoutManager(layoutManager);
+                        galleryAdapter = new GalleryAdapter(context, imagelist1);
+                        gvGallery.setAdapter(galleryAdapter);
+                    }
+
+                    editTextfeedback.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+                            list_prd1.get(i).setFmessage(editTextfeedback.getText().toString());
+                        }
+                    });
                     spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -1180,6 +1247,7 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
                             }
                             wordList.put(map);
                             list_prd1.get(i).setFeedback(wordList);
+                            list_prd1.get(i).setImage(imagelist);
 
                             dialog.dismiss();
                         }
@@ -1390,9 +1458,9 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
         private void choosePhotoFromGallary() {
             Intent intent = new Intent();
             intent.setType("image/*");
-            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false);
             intent.setAction(Intent.ACTION_GET_CONTENT);
-            context.startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY);
+            context.startActivityForResult(Intent.createChooser(intent,"Select Picture"), PICK_IMAGE_MULTIPLE);
         }
 
 
@@ -1426,65 +1494,62 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
             // When an Image is picked
-            if (requestCode == GALLERY && resultCode == RESULT_OK
+            if (requestCode == PICK_IMAGE_MULTIPLE && resultCode == RESULT_OK
                     && null != data) {
                 // Get the Image from data
-
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                String[] filePathColumn = { MediaStore.Images.Media.DATA };
                 imagesEncodedList = new ArrayList<String>();
-                if (data.getData() != null) {
-                    String orderBy = android.provider.MediaStore.Video.Media.DATE_TAKEN;
+                if (data.getClipData() != null) {
+                    ClipData mClipData = data.getClipData();
+                    ArrayList<Uri> mArrayUri = new ArrayList<Uri>();
+                    imagelist = new ArrayList<>();
 
-                    Uri mImageUri = data.getData();
-                    String ImageFileName = getImageFilePath(this, mImageUri);
+                    for (int i = 0; i < mClipData.getItemCount(); i++) {
 
-                    Cursor cursor = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, filePathColumn, null, null, orderBy + " DESC");
+                        ClipData.Item item = mClipData.getItemAt(i);
+                        Uri uri = item.getUri();
+                        mArrayUri.add(uri);
+                        String ImageFileName = getImageFilePath(this, uri);
+                        imagelist.clear();
+                        imagelist.add(ImageFileName);
+                        // Get the cursor
+                        Cursor cursor = getContentResolver().query(uri, filePathColumn, null, null, null);
+                        // Move to first row
+                        cursor.moveToFirst();
 
+                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                        imageEncoded  = cursor.getString(columnIndex);
+                        imagesEncodedList.add(imageEncoded);
+                        cursor.close();
+
+
+                        ModelDynamicView mm = array_view.get(pos_upload_file);
+                        mm.setValue(ImageFileName);
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+                        gvGallery.setLayoutManager(layoutManager);
+                        galleryAdapter = new GalleryAdapter(getApplicationContext(), imagelist);
+                        gvGallery.setAdapter(galleryAdapter);
+                    }
+
+
+                }
+
+                    else if (data.getData() != null) {
+                    Uri mImageUri=data.getData();
+
+                    // Get the cursor
+                    Cursor cursor = getContentResolver().query(mImageUri,
+                            filePathColumn, null, null, null);
                     // Move to first row
                     cursor.moveToFirst();
 
                     int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    imageEncoded = cursor.getString(columnIndex);
+                    imageEncoded  = cursor.getString(columnIndex);
                     cursor.close();
 
-                    ArrayList<Uri> mArrayUri = new ArrayList<Uri>();
-                    imagelist=new ArrayList<>();
-                    imagelist.clear();
-
-                    imagelist.add(ImageFileName);
-                    mArrayUri.add(mImageUri);
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-                    gvGallery.setLayoutManager(layoutManager);
-                    galleryAdapter = new GalleryAdapter(getApplicationContext(), imagelist);
-                    gvGallery.setAdapter(galleryAdapter);
-                    ModelDynamicView mm = array_view.get(pos_upload_file);
-                    mm.setValue(ImageFileName);
-
-                } else {
-
-                    if (data.getClipData() != null) {
-
-                        ClipData mClipData = data.getClipData();
-                        for (int i = 0; i < mClipData.getItemCount(); i++) {
-
-                            ClipData.Item item = mClipData.getItemAt(i);
-                            Uri uri = item.getUri();
-                            mArrayUri.add(uri);
-
-                            String ImageFileName = getImageFilePath(this, uri);
-
-                            // Get the cursor
-                            Cursor cursor = getContentResolver().query(uri, filePathColumn, null, null, null);
-                            // Move to first row
-                            cursor.moveToFirst();
-
-                            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                            imageEncoded = cursor.getString(columnIndex);
-                            imagesEncodedList.add(imageEncoded);
-                            cursor.close();
+                            String ImageFileName = getImageFilePath(this, mImageUri);
                             imagelist=new ArrayList<>();
                             imagelist.clear();
-
                             imagelist.add(ImageFileName);
                             LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
                             gvGallery.setLayoutManager(layoutManager);
@@ -1495,9 +1560,10 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
                             ModelDynamicView mm = array_view.get(pos_upload_file);
                             mm.setValue(ImageFileName);
 
-                        }
+
+
                         Log.v("LOG_TAG", "Selected Images" + mArrayUri.size());
-                    }
+
                 }
             } else if (requestCode == CAMERA) {
                 Bundle extras = data.getExtras();
@@ -1511,7 +1577,6 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
                 String ImageFileName = getImageFilePath(this, tempUri);
                 imagelist=new ArrayList<>();
                 imagelist.clear();
-
                 imagelist.add(ImageFileName);
 
                 LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -1528,8 +1593,8 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
             }
         } catch (Exception e) {
             Log.v("cameraerror", e.toString());
-            Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG)
-                    .show();
+//            Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG)
+//                    .show();
         }
 
         super.onActivityResult(requestCode, resultCode, data);

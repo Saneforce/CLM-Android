@@ -242,6 +242,8 @@
                             android:maxLength="6"
                             android:padding="2dp"/>
                         <EditText
+                            android:inputType="number"
+
                             android:paddingLeft="5dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -264,6 +266,8 @@
                             android:textColorHint="#d4d2d2"
                             android:padding="2dp"/>
                         <EditText
+                            android:inputType="number"
+
                             android:paddingLeft="5dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -285,6 +289,8 @@
                             android:padding="2dp"
                             android:textColorHint="#d4d2d2"/>
                         <EditText
+                            android:inputType="number"
+
                             android:paddingLeft="5dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -306,6 +312,7 @@
                             android:padding="2dp"
                             android:textColorHint="#d4d2d2"/>
                         <EditText
+                            android:inputType="number"
                             android:paddingLeft="5dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

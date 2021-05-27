@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="#fff">
+
+
+        <View
+
+            android:id="@+id/viewtext"
+            android:layout_marginTop="10dp"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:background="#FA1628"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_marginTop="5dp"
+                android:id="@+id/nametext"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hemoforce"
+                android:textColor="#000"
+                />
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:id="@+id/percentagetext"
+                android:layout_weight="2"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="80%"
+                android:textColor="#000"
+                android:textStyle="bold"
+                android:layout_marginBottom="5dp"
+
+                />
+        </LinearLayout>
+    </LinearLayout>
+

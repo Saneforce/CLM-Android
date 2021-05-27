@@ -2775,7 +2775,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
     private void addTabs(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new CallFragment(), "");
+        adapter.addFrag(new NewCallFragment(), "");
         adapter.addFrag(new NewTrainingFragment(), "");
         viewPager.setAdapter(adapter);
     }
@@ -3497,7 +3497,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             }
         });
 
-        CallFragment.bindUpdateViewList(new UpdateUi() {
+        NewCallFragment.bindUpdateViewList(new UpdateUi() {
             @Override
             public void updatingui() {
                 if (mCommonSharedPreference.getValueFromPreference("addAct").equalsIgnoreCase("0"))

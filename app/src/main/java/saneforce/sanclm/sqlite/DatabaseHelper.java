@@ -8,8 +8,8 @@ import saneforce.sanclm.sqlite.DataBaseHandler.*;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
 
-    public static final int DATABASE_VERSION = 14;
-    public static final String DATABASE_NAME = "eeEdetailing.db";
+    public static final int DATABASE_VERSION = 10;
+    public static final String DATABASE_NAME = "eghjjhEdetailing.db";
     private static final String TEXT_TYPE = " TEXT";
     private static final String COMMA_SEP = ",";
 
@@ -404,7 +404,56 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             TableEntry.COLUMN_HOS_NAME+ TEXT_TYPE +COMMA_SEP +
             TableEntry.COLUMN_HOS_CODE+ TEXT_TYPE +
             ")";
+    private static final String SQL_CREATE_DR_COVERAGE = "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.TABLE_DR_COVERAGE +" ("+
+            TableEntry.COLUMN_NAME+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_VCOUNT+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_TCOUNT+ TEXT_TYPE +
+            ")";
+    private static final String SQL_CREATE_PHARM_COVERAGE = "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.TABLE_PHARM_COVERAGE +" ("+
+            TableEntry.COLUMN_NAME+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_VCOUNT+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_TCOUNT+ TEXT_TYPE +
+            ")";
+    private static final String SQL_CREATE_TOTAL_COVERAGE = "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.TABLE_TOTAL_COVERAGE +" ("+
+            TableEntry.COLUMN_NAME+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_VCOUNT+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_TCOUNT+ TEXT_TYPE +
+            ")";
 
+    private static final String SQL_CREATE_DETAILING_TIMESPENT = "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.TABLE_DETAILING_TIMESPENT +" ("+
+            TableEntry.COLUMN_BRAND+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_PERCENT+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_BARCLR+ TEXT_TYPE +
+            COMMA_SEP +
+            TableEntry.COLUMN_LBLCLR+ TEXT_TYPE +
+            ")";
+
+    private static final String SQL_CREATE_BRAND_EXPOSURE = "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.TABLE_BRAND_EXPOSURE +" ("+
+            TableEntry.COLUMN_BRAND+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_TCOUNT+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_BARCLR+ TEXT_TYPE +
+            COMMA_SEP +
+            TableEntry.COLUMN_FLOAT+ TEXT_TYPE +
+            ")";
+    private static final String SQL_CREATE_TOTAL_CALLS = "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.TABLE_TOTAL_CALLS +" ("+
+            TableEntry.COLUMN_txt1+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_count1+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_Tcount1+ TEXT_TYPE +COMMA_SEP +
+
+            TableEntry.COLUMN_txt2+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_count2+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_Tcount2+ TEXT_TYPE +COMMA_SEP +
+
+            TableEntry.COLUMN_txt3+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_count3+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_Tcount3+ TEXT_TYPE +
+            ")";
 
     public DatabaseHelper(Context context)
     {
@@ -456,6 +505,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL(SQL_CREATE_TABLE_SLIDEBRAND);
         db.execSQL(SQL_CREATE_TABLE_SLIDEPRD);
         db.execSQL(SQL_CREATE_TABLE_SLIDESPEC);
+        db.execSQL(SQL_CREATE_DR_COVERAGE);
+        db.execSQL(SQL_CREATE_PHARM_COVERAGE);
+        db.execSQL(SQL_CREATE_TOTAL_COVERAGE);
+        db.execSQL(SQL_CREATE_DETAILING_TIMESPENT);
+        db.execSQL(SQL_CREATE_BRAND_EXPOSURE);
+        db.execSQL(SQL_CREATE_TOTAL_CALLS);
 
     }
 

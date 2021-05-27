@@ -39,7 +39,7 @@ public class ModelBrandAuditList {
 
 
 
-    public ModelBrandAuditList(String prName, String comName, String comPrdName, String qty, String rate, String val, String sw, String rx, String compCode, String compPcode) {
+    public ModelBrandAuditList(String prName, String comName, String comPrdName, String qty, String rate, String val, String sw, String rx, String compCode, String compPcode,JSONArray feedback) {
 
         this.prName = prName;
         this.comName = comName;
@@ -51,6 +51,7 @@ public class ModelBrandAuditList {
         this.compPcode=compPcode;
         this.rx=rx;
         this.sw=sw;
+        this.feedback=feedback;
     }
     public ModelBrandAuditList(String prName, String comName, String comPrdName, String qty, String rate, String val, String compCode, String compPcode) {
 
