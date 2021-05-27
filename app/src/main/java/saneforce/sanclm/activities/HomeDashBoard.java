@@ -2775,8 +2775,9 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
     private void addTabs(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new NewCallFragment(), "");
         adapter.addFrag(new NewTrainingFragment(), "");
+        adapter.addFrag(new NewCallFragment(), "");
+
         viewPager.setAdapter(adapter);
     }
 
