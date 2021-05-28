@@ -2338,6 +2338,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                         mCommonSharedPreference.setValueToPreference("ucap", jsonn.getString("NLCap"));
 
 
+
                         if (jsonn.has("DrRxQMd"))
                             mCommonSharedPreference.setValueToPreference("DrRxQMd", jsonn.getString("DrRxQMd"));
                         else
@@ -2362,6 +2363,34 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                             mCommonSharedPreference.setValueToPreference("DrInpMd", jsonn.getString("DrInpMd"));
                         else
                             mCommonSharedPreference.setValueToPreference("DrInpMd", "");
+
+                        if (jsonn.has("ChmNeed"))
+                            mCommonSharedPreference.setValueToPreference("chem_need", jsonn.getString("ChmNeed"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("chem_need", "");
+
+                        if (jsonn.has("StkNeed"))
+                            mCommonSharedPreference.setValueToPreference("stk_need", jsonn.getString("StkNeed"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("stk_need", "");
+
+                        if (jsonn.has("UNLNeed"))
+                            mCommonSharedPreference.setValueToPreference("unl_need", jsonn.getString("UNLNeed"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("unl_need", "");
+
+
+                        mCommonSharedPreference.setValueToPreference("cipcap", jsonn.getString("CIP_Caption"));
+
+                        if (jsonn.has("cip_need"))
+                            mCommonSharedPreference.setValueToPreference("cip_need", jsonn.getString("cip_need"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("cip_need", "");
+
+                        if (jsonn.has("CIP_ENeed"))
+                            mCommonSharedPreference.setValueToPreference("cip_det", jsonn.getString("CIP_ENeed"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("cip_det", "");
 
 
                         GpsNeed = jsonn.getString("GeoNeed");
@@ -2762,7 +2791,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     private void addTabs(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new CallFragment(), "");
-        adapter.addFrag(new TrainingFragment(), "");
+       // adapter.addFrag(new TrainingFragment(), "");
         viewPager.setAdapter(adapter);
     }
 

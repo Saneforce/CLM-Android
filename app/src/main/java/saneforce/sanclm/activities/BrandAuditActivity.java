@@ -333,9 +333,20 @@ public class BrandAuditActivity extends AppCompatActivity implements DataInterfa
         final ListView popup_list = (ListView) dialog.findViewById(R.id.popup_list);
         ImageView iv_close_popup = (ImageView) dialog.findViewById(R.id.iv_close_popup);
         SearchView search_view = (SearchView) dialog.findViewById(R.id.search_view);
+
+        search_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                search_view.setIconified(false);
+                InputMethodManager im = ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE));
+                im.showSoftInput(search_view, 0);
+            }
+        });
+
         final PopupAdapter popupAdapter = new PopupAdapter(BrandAuditActivity.this, xx);
         popup_list.setAdapter(popupAdapter);
         popupAdapter.notifyDataSetChanged();
+
         search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {

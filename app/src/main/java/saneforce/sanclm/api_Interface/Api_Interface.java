@@ -101,6 +101,11 @@ public interface Api_Interface {
     @FormUrlEncoded
     @POST("db.php?axn=get/chemist")
     Call<ResponseBody> getChemists(@Field("data") String sf);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=get/cip")
+    Call<ResponseBody> getCip(@Field("data") String sf);
+
     @FormUrlEncoded
     @POST("db.php?axn=get/quiz")
     Call<ResponseBody> getQuiz(@Field("data") String sf);

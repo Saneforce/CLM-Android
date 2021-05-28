@@ -266,7 +266,15 @@ public class FeedbackActivity extends AppCompatActivity {
                     if (!TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("spob")))
                         txt_pob.setText(mCommonSharedPreference.getValueFromPreference("spob"));
 
-                } else {
+                }
+//                else if (peopleType.equalsIgnoreCase("H")) {
+//                    if (mCommonSharedPreference.getValueFromPreference("hosp_filter").equalsIgnoreCase("0"))
+//                        txt_pob.setText("POB");
+//                    if (!TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("cpob")))
+//                        txt_pob.setText(mCommonSharedPreference.getValueFromPreference("cpob"));
+//
+//                }
+                else {
                     if (!TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("dpob")))
                         txt_pob.setText(mCommonSharedPreference.getValueFromPreference("dpob"));
                 }
@@ -317,7 +325,26 @@ public class FeedbackActivity extends AppCompatActivity {
             if (!TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("spob")))
                 txt_pob.setText(mCommonSharedPreference.getValueFromPreference("spob"));
 
-        } else {
+        }
+//        else if (feedOption.equalsIgnoreCase("cip")) {
+//            if (mCommonSharedPreference.getValueFromPreference("hosp_filter").equalsIgnoreCase("0")) {
+//                txt_pob.setText("POB");
+//            }
+//            if (!TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("cpob")))
+//                txt_pob.setText(mCommonSharedPreference.getValueFromPreference("cpob"));
+//
+//            call_plus.setEnabled(false);
+//            call_plus.getBackground().setAlpha(128);
+//            btn_brand_audit.setVisibility(View.INVISIBLE);
+//            // txt_name.setText(extra.getString("customer"));
+//            txt_name.setText(CommonUtils.TAG_CHEM_NAME);
+//            peopleType = "H";
+//            peopleCode = CommonUtils.TAG_CHEM_CODE;
+//            commonSFCode = CommonUtils.TAG_FEED_SF_CODE;
+//            TypePeople = "H";
+//
+//        }
+        else {
             txt_name.setText(CommonUtils.TAG_DOCTOR_NAME);
             peopleType = "D";
             peopleCode = CommonUtils.TAG_DOCTOR_CODE;

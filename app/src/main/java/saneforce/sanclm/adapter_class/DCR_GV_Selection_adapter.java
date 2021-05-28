@@ -232,6 +232,10 @@ public class DCR_GV_Selection_adapter extends BaseAdapter implements Filterable{
                 mViewHolder.drSpeciality.setText(row_pos.getmDocotrSpeciality());
                 mViewHolder.drCategory.setText(row_pos.getmDocotrCategory());
                 break;
+            case "4":
+                mViewHolder.drSpeciality.setText(row_pos.getmDocotrSpeciality());
+                mViewHolder.drCategory.setText(row_pos.getmDocotrCategory());
+                break;
         }
 
         mydayclustrCd = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_CLUSTER_CODE);

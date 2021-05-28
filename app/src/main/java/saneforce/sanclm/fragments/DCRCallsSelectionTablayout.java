@@ -85,10 +85,14 @@ public class DCRCallsSelectionTablayout  extends Fragment implements TabHost.OnT
             detailingTrackerPOJO.setTabSelection("0");  R.string.tab_option_listeddr,tab_option_chemist,tab_option_stockist,tab_option_unlisteddr*/
 
             mTabHost.addTab(mTabHost.newTabSpec("0").setIndicator(getTabIndicator(mTabHost.getContext(),commonSharedPreference.getValueFromPreference("drcap"), R.drawable.doctor_call)),DCRDRCallsSelection.class, null);
+            if(commonSharedPreference.getValueFromPreference("chem_need").equals("1"))
             mTabHost.addTab(mTabHost.newTabSpec("1").setIndicator(getTabIndicator(mTabHost.getContext(), commonSharedPreference.getValueFromPreference("chmcap"), R.drawable.chem_tab)),DCRCHMCallsSelection.class, null);
+            if(commonSharedPreference.getValueFromPreference("stk_need").equals("0"))
             mTabHost.addTab(mTabHost.newTabSpec("2").setIndicator(getTabIndicator(mTabHost.getContext(),commonSharedPreference.getValueFromPreference("stkcap"), R.drawable.stockist_tab)),DCRSTKCallsSelection.class, null);
+            if(commonSharedPreference.getValueFromPreference("unl_need").equals("0"))
             mTabHost.addTab(mTabHost.newTabSpec("3").setIndicator(getTabIndicator(mTabHost.getContext(), commonSharedPreference.getValueFromPreference("ucap"), R.drawable.ul_dr_tab)),DCRUDRCallsSelection.class, null);
-           // mTabHost.addTab(mTabHost.newTabSpec("4").setIndicator(getTabIndicator(mTabHost.getContext(), commonSharedPreference.getValueFromPreference("cipcap"), R.drawable.ul_dr_tab)),DCRCIPCallsSelection.class, null);
+           if(commonSharedPreference.getValueFromPreference("cip_need").equals("0"))
+            mTabHost.addTab(mTabHost.newTabSpec("4").setIndicator(getTabIndicator(mTabHost.getContext(), commonSharedPreference.getValueFromPreference("cipcap"), R.drawable.chem_tab)),DCRCIPCallsSelection.class, null);
 
           //  mTabHost.getTabWidget().getChildTabViewAt(mTabHost.getCurrentTab()).setBackgroundResource(bg_seltab);
 
