@@ -19,7 +19,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Search"
+            android:text="@string/search"
             android:textSize="20sp"
             android:textColor="#fff"
             android:textStyle="bold"
@@ -49,7 +49,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cluster"
+                    android:text="@string/cluster1"
                     android:textColor="@color/red"
                     android:id="@+id/tt_terri"/>
                 <RelativeLayout
@@ -62,7 +62,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Select Cluster"
+                        android:text="@string/sclt_clst"
                         android:textColor="@color/black"
                         android:singleLine="true"
                         android:layout_centerVertical="true"
@@ -105,7 +105,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Category"
+                    android:text="@string/catogy"
                     android:textColor="@color/red"
                     android:id="@+id/tt_cat"/>
                 <RelativeLayout
@@ -118,7 +118,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Select Category"
+                        android:text="@string/sclt_cat"
                         android:textColor="@color/black"
                         android:layout_centerVertical="true"
                         android:singleLine="true"
@@ -160,7 +160,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Speciality"
+                    android:text="@string/speciality"
                     android:textColor="@color/red"
                     android:id="@+id/tt_spec"/>
                 <RelativeLayout
@@ -173,7 +173,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Select Speciality"
+                        android:text="@string/sclt_spcl"
                         android:singleLine="true"
                         android:textColor="@color/black"
                         android:layout_centerVertical="true"
@@ -215,7 +215,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Qualification"
+                    android:text="@string/qualifications"
                     android:textColor="@color/red"
                     android:id="@+id/tt_qua"/>
                 <RelativeLayout
@@ -229,7 +229,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Select Qualification"
+                        android:text="@string/sclt_qualy"
                         android:singleLine="true"
                         android:textColor="@color/black"
                         android:id="@+id/txt_qua"
@@ -268,12 +268,13 @@
                 android:layout_height="wrap_content"
                 android:background="#fff"
                 android:padding="20dp">
+
                 <TextView
+                    android:id="@+id/tt_cls"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Class"
-                    android:textColor="@color/red"
-                    android:id="@+id/tt_cls"/>
+                    android:text="@string/clases"
+                    android:textColor="@color/red" />
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -284,7 +285,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Select Class"
+                        android:text="@string/sclt_class"
                         android:textColor="@color/black"
                         android:singleLine="true"
                         android:layout_centerVertical="true"
@@ -312,7 +313,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" Clear "
+            android:text="@string/clear"
             android:background="@drawable/map_blue_shape"
             android:id="@+id/btn_clr"
             android:layout_alignParentBottom="true"
@@ -323,7 +324,8 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" Apply "
+            android:text="@string/apply"
+            android:gravity="center"
             android:background="@drawable/map_red_shape"
             android:id="@+id/btn_apply"
             android:layout_alignParentBottom="true"

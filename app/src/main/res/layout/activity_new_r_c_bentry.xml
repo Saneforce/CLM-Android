@@ -33,7 +33,7 @@
                     android:layout_height="wrap_content"
                     android:background="#ffffff"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Chemist Name : "
+                    android:text="@string/chmnm"
                     android:textColor="@color/black"
                     android:layout_centerVertical="true"
                     android:textSize="18dp"
@@ -93,7 +93,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Doctor Name"
+                            android:text="@string/docnm"
                             android:layout_marginTop="15dp"
                             android:textColor="#000000"
                             android:fontFamily="@font/poppins_medium"
@@ -151,7 +151,7 @@
                             android:paddingLeft="10dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Shalina Product Brand"
+                            android:text="@string/shalinaprd"
                             android:layout_marginTop="8dp"
                             android:textColor="#000000"
                             android:fontFamily="@font/poppins_medium"
@@ -345,7 +345,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Competitor Audit"
+                        android:text="@string/compaudit"
                         android:layout_marginTop="15dp"
                         android:textColor="#000000"
                         android:fontFamily="@font/poppins_medium"
@@ -407,7 +407,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Competitor Company Name"
+                            android:text="@string/compnm"
                             android:layout_marginTop="15dp"
                             android:textColor="#000000"
                             android:fontFamily="@font/poppins_medium"
@@ -425,7 +425,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Competitor Brand Name"
+                            android:text="@string/brndnm"
                             android:layout_marginTop="15dp"
                             android:textColor="#000000"
                             android:fontFamily="@font/poppins_medium"
@@ -451,7 +451,7 @@
                             android:layout_width="match_parent"
                             android:gravity="center"
                             android:layout_height="wrap_content"
-                            android:text=" Inv.Qty"
+                            android:text="@string/inv"
                             android:layout_marginTop="15dp"
                             android:textColor="#000000"
                             android:fontFamily="@font/poppins_medium"
@@ -469,7 +469,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:gravity="center"                            android:layout_height="wrap_content"
-                            android:text="PTP"
+                            android:text="@string/ptp"
                             android:layout_marginTop="15dp"
                             android:textColor="#000000"
                             android:fontFamily="@font/poppins_medium"
@@ -487,7 +487,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:gravity="center"                            android:layout_height="wrap_content"
-                            android:text="PTR"
+                            android:text="@string/ptr"
                             android:layout_marginTop="15dp"
                             android:textColor="#000000"
                             android:fontFamily="@font/poppins_medium"
@@ -502,16 +502,17 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             >
+
                             <TextView
                                 android:layout_width="match_parent"
-                                android:gravity="center"                                android:layout_height="wrap_content"
-                                android:text="Avg.S/W"
+                                android:layout_height="wrap_content"
                                 android:layout_marginTop="15dp"
-                                android:textColor="#000000"
                                 android:fontFamily="@font/poppins_medium"
-                                android:typeface="serif"
+                                android:gravity="center"
+                                android:text="@string/sw"
+                                android:textColor="#000000"
                                 android:textSize="16sp"
-                                />
+                                android:typeface="serif" />
 
                         </LinearLayout>
                         <LinearLayout
@@ -522,7 +523,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:gravity="center"                                android:layout_height="wrap_content"
-                                android:text="Rx"
+                                android:text="@string/rx"
                                 android:layout_marginTop="15dp"
                                 android:textColor="#000000"
                                 android:fontFamily="@font/poppins_medium"
@@ -572,7 +573,7 @@
                 <Button
                     android:layout_width="180dp"
                     android:layout_height="30dp"
-                    android:text="Save"
+                    android:text="@string/sv_prsn"
                     android:background="#f21313"
                     android:layout_alignParentEnd="true"
                     android:layout_marginRight="10dp"
@@ -581,7 +582,7 @@
                 <Button
                     android:layout_width="220dp"
                     android:layout_height="30dp"
-                    android:text="Add Another Brand"
+                    android:text="@string/antherbrnd"
                     android:background="#060125"
                     android:layout_marginRight="15dp"
                     android:id="@+id/btn_add_brd"
@@ -592,7 +593,7 @@
                     android:visibility="gone"
                     android:layout_width="220dp"
                     android:layout_height="30dp"
-                    android:text="Add Competitor"
+                    android:text="@string/addcomp"
                     android:background="#060125"
                     android:layout_marginRight="15dp"
                     android:id="@+id/btn_add_comp"

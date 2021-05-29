@@ -225,9 +225,9 @@ public class DynamicActivity extends AppCompatActivity {
                     if (validationOfField())
                         saveEntry();
                     else
-                        Toast.makeText(DynamicActivity.this, "Fill the mandatory field", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DynamicActivity.this, getResources().getString(R.string.fillmand), Toast.LENGTH_SHORT).show();
                 } else
-                    Toast.makeText(DynamicActivity.this, "No network", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DynamicActivity.this, getResources().getString(R.string.nonetwrk), Toast.LENGTH_SHORT).show();
 
 
             }
@@ -337,18 +337,18 @@ public class DynamicActivity extends AppCompatActivity {
                         else {
                             String val = dayOfMonth + "-" + mnth + "-" + year;
                             if (dateDifference(val, mm.getTvalue()) < 0)
-                                Toast.makeText(DynamicActivity.this, "From date should be lesser", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(DynamicActivity.this, getResources().getString(R.string.datelesser), Toast.LENGTH_SHORT).show();
                             else
                                 mm.setValue(dayOfMonth + "-" + mnth + "-" + year);
 
                         }
                     } else {
                         if (TextUtils.isEmpty(mm.getValue()))
-                            Toast.makeText(DynamicActivity.this, "Fill from date", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DynamicActivity.this, getResources().getString(R.string.filldate), Toast.LENGTH_SHORT).show();
                         else {
                             String val = dayOfMonth + "-" + mnth + "-" + year;
                             if (dateDifference(mm.getValue(), val) < 0)
-                                Toast.makeText(DynamicActivity.this, "To date should be greater", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(DynamicActivity.this, getResources().getString(R.string.togreater), Toast.LENGTH_SHORT).show();
                             else
                                 mm.setTvalue(dayOfMonth + "-" + mnth + "-" + year);
                         }
@@ -391,16 +391,16 @@ public class DynamicActivity extends AppCompatActivity {
                                 if (selectedMinute < tmin) {
                                     mm.setValue(selectedHour + ":" + selectedMinute);
                                 } else
-                                    Toast.makeText(DynamicActivity.this, "From time should be lesser", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(DynamicActivity.this, getResources().getString(R.string.timelesser), Toast.LENGTH_SHORT).show();
                             } else if (thr > selectedHour) {
                                 mm.setValue(selectedHour + ":" + selectedMinute);
                             } else
-                                Toast.makeText(DynamicActivity.this, "From time should be lesser", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(DynamicActivity.this, getResources().getString(R.string.timelesser), Toast.LENGTH_SHORT).show();
 
                         }
                     } else {
                         if (TextUtils.isEmpty(mm.getValue()))
-                            Toast.makeText(DynamicActivity.this, "Fill the from  time", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DynamicActivity.this, getResources().getString(R.string.filltime), Toast.LENGTH_SHORT).show();
                         else {
                             int fhr = spiltTime(mm.getValue());
                             int fmin = spiltMin(mm.getValue());
@@ -408,11 +408,11 @@ public class DynamicActivity extends AppCompatActivity {
                                 if (selectedMinute > fmin) {
                                     mm.setTvalue(selectedHour + ":" + selectedMinute);
                                 } else
-                                    Toast.makeText(DynamicActivity.this, "To time should be greater", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(DynamicActivity.this, getResources().getString(R.string.totimegreater), Toast.LENGTH_SHORT).show();
                             } else if (fhr < selectedHour) {
                                 mm.setTvalue(selectedHour + ":" + selectedMinute);
                             } else
-                                Toast.makeText(DynamicActivity.this, "To time should be greater", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(DynamicActivity.this, getResources().getString(R.string.totimegreater), Toast.LENGTH_SHORT).show();
 
                         }
                     }
@@ -581,13 +581,13 @@ public class DynamicActivity extends AppCompatActivity {
                             if (js.getString("success").equalsIgnoreCase("true")) {
                                 progressDialog.dismiss();
                                 commonFun();
-                                Toast.makeText(DynamicActivity.this, "Data   saved   successfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(DynamicActivity.this, getResources().getString(R.string.datasave), Toast.LENGTH_SHORT).show();
                                 array_view.clear();
                                 adp_view.notifyDataSetChanged();
                             } else {
                                 progressDialog.dismiss();
                                 commonFun();
-                                Toast.makeText(DynamicActivity.this, "Cannot load data", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(DynamicActivity.this, getResources().getString(R.string.cannotload), Toast.LENGTH_SHORT).show();
                             }
 
 
@@ -788,7 +788,7 @@ public class DynamicActivity extends AppCompatActivity {
                     /*String filePath = getImageFilePath(data);
                     Log.v("file_path_are",filePath);*/
                     if (fullPath == null)
-                        Toast.makeText(DynamicActivity.this, "This file format not supported", Toast.LENGTH_LONG).show();
+                        Toast.makeText(DynamicActivity.this, getResources().getString(R.string.filenot_support), Toast.LENGTH_LONG).show();
                     else {
                         ModelDynamicView mm = array_view.get(pos_upload_file);
                         mm.setValue(fullPath);

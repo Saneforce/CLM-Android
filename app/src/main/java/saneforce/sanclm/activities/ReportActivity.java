@@ -1,8 +1,13 @@
 package saneforce.sanclm.activities;
 
+import android.content.Context;
 import android.content.Intent;
 
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,6 +22,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -30,6 +36,10 @@ import saneforce.sanclm.api_Interface.RetroClient;
 import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
 import saneforce.sanclm.applicationCommonFiles.CommonUtils;
 import saneforce.sanclm.applicationCommonFiles.CommonUtilsMethods;
+import saneforce.sanclm.fragments.LocaleHelper;
+
+import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
+import static saneforce.sanclm.fragments.AppConfiguration.language_string;
 
 public class ReportActivity extends AppCompatActivity {
 
@@ -42,7 +52,9 @@ public class ReportActivity extends AppCompatActivity {
     ImageView iv_back;
     CommonUtilsMethods mCommonUtilsMethods;
     String divCode,sftype;
-
+    String language;
+    Context context;
+    Resources resources;
     @Override
     public void onBackPressed() {
         Intent ii=new Intent(ReportActivity.this,HomeDashBoard.class);
@@ -53,6 +65,20 @@ public class ReportActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
+
+        SharedPreferences sharedPreferences = ReportActivity.this.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        language = sharedPreferences.getString(language_string, "");
+        if (!language.equals("")){
+            Log.d("homelang",language);
+            selected(language);
+            context = LocaleHelper.setLocale(ReportActivity.this, language);
+            resources = context.getResources();
+        }else {
+            selected("en");
+            context = LocaleHelper.setLocale(ReportActivity.this, "en");
+            resources = context.getResources();
+        }
+
         mCommonSharedPreference = new CommonSharedPreference(this);
         mCommonUtilsMethods=new CommonUtilsMethods(this);
         db_connPath =  mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DB_URL);
@@ -127,10 +153,10 @@ public class ReportActivity extends AppCompatActivity {
                             is.append(line);
                         }
                         Log.v("user_response",is.toString());
-                        reportdata.add(new LoadBitmap("Day Report","day"));
-                        reportdata.add(new LoadBitmap("Monthly Report","month"));
-                        reportdata.add(new LoadBitmap("Visit Control","visit"));
-                        reportdata.add(new LoadBitmap("Missed Reports","miss"));
+                        reportdata.add(new LoadBitmap(resources.getString(R.string.dayreport),"day"));
+                        reportdata.add(new LoadBitmap(resources.getString(R.string.monthlyreport),"month"));
+                        reportdata.add(new LoadBitmap(resources.getString(R.string.visitcontrol),"visit"));
+                        reportdata.add(new LoadBitmap(resources.getString(R.string.missedreport),"miss"));
                         JSONArray json=new JSONArray(is.toString());
                         for(int i=0;i<json.length();i++){
                             JSONObject jsonObject1=json.getJSONObject(i);
@@ -176,5 +202,13 @@ public class ReportActivity extends AppCompatActivity {
 
        /* */
 
+    }
+    private void selected(String language) {
+        Locale myLocale = new Locale(language);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
     }
 }

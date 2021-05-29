@@ -37,7 +37,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Name"
+                    android:text="@string/name"
                     android:textSize="14sp"
                     android:singleLine="true"
                     android:textColor="#000"
@@ -110,7 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:id="@+id/btn_view"
-                android:text="View"
+                android:text="@string/view"
                 android:textColor="#fff"
                 android:background="@drawable/map_red_shape"/>
         </LinearLayout>

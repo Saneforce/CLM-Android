@@ -3,6 +3,7 @@ package saneforce.sanclm.fragments;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -43,6 +44,8 @@ import saneforce.sanclm.sqlite.DataBaseHandler;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 import static saneforce.sanclm.activities.HomeDashBoard.drawer;
+import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
+import static saneforce.sanclm.fragments.AppConfiguration.language_string;
 
 public class DownloadMasterData extends Fragment implements View.OnTouchListener {
     ImageView iv_back;
@@ -64,6 +67,10 @@ public class DownloadMasterData extends Fragment implements View.OnTouchListener
     String sfType = null;
     public static String sfCoding;
     String digital = "";
+    String language;
+    Context context;
+    Resources resources;
+    TextView masterheader;
 
 
     @Override
@@ -72,9 +79,24 @@ public class DownloadMasterData extends Fragment implements View.OnTouchListener
         commonUtilsMethods = new CommonUtilsMethods(getActivity());
         mCommonSharedPreference = new CommonSharedPreference(getActivity());
         View v = inflater.inflate(R.layout.activity_download_master, container, false);
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        language = sharedPreferences.getString(language_string, "");
+        if (!language.equals("")){
+            Log.d("homelang",language);
+//            selected(language);
+            context = LocaleHelper.setLocale(getActivity(), language);
+            resources = context.getResources();
+        }else {
+            context = LocaleHelper.setLocale(getActivity(), "en");
+            resources = context.getResources();
+        }
+        masterheader = v.findViewById(R.id.master_cap);
         iv_back = (ImageView) v.findViewById(R.id.iv_dwnldmaster_back);
         tv_hqlist = (TextView) v.findViewById(R.id.tv_hqlist);
         lv_master_data = (ListView) v.findViewById(R.id.lv_master_data);
+        masterheader.setText(resources.getString(R.string.master));
+        tv_hqlist.setText(resources.getString(R.string.headquater));
         tv_hqlist.setOnTouchListener(this);
 //        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
         iv_back.setOnTouchListener(this);
@@ -207,7 +229,7 @@ public class DownloadMasterData extends Fragment implements View.OnTouchListener
 
         //  final Button btn_go = (Button) dialog.findViewById(R.id.btn_mydaypln_go);
         //btn_go.setVisibility(View.GONE);
-        tv_popuphead.setText("Headquater Selection");
+        tv_popuphead.setText(resources.getString(R.string.headquater)+" "+resources.getString(R.string.Selection));
 
         dialog.show();
         dbh.open();
@@ -345,7 +367,7 @@ public class DownloadMasterData extends Fragment implements View.OnTouchListener
     }
 
     public void updateTxt(String yy) {
-        tv_hqlist.setText("HeadQuater  " + yy);
+        tv_hqlist.setText(resources.getString(R.string.headquater)+" " + yy);
         headquaterSelection = true;
         updateViews();
     }
@@ -354,49 +376,49 @@ public class DownloadMasterData extends Fragment implements View.OnTouchListener
         array.clear();
         dbh.open();
         if (headquaterSelection) {
-            array.add(new ModelDownloadMaster("Work Types", pref.getString("work", "0"), false));
-            array.add(new ModelDownloadMaster("HeadQuaters", pref.getString("hq", "0"), false));
-            array.add(new ModelDownloadMaster("Competitors", pref.getString("comp", "0"), false));
-            array.add(new ModelDownloadMaster("Inputs", pref.getString("inputs", "0"), false));
-            array.add(new ModelDownloadMaster("Products", pref.getString("prd", "0"), false));
-            array.add(new ModelDownloadMaster("Slides", pref.getString("slide", "0"), false));
-            array.add(new ModelDownloadMaster("Brands", pref.getString("Brands", "0"), false));
-            array.add(new ModelDownloadMaster("Departments", pref.getString("Departments", "0"), false));
-            array.add(new ModelDownloadMaster("Speciality", pref.getString("Speciality", "0"), false));
-            array.add(new ModelDownloadMaster("Category", pref.getString("Category", "0"), false));
-            array.add(new ModelDownloadMaster("Qualifications", pref.getString("Qualifications", "0"), false));
-            array.add(new ModelDownloadMaster("Class", pref.getString("Class", "0"), false));
-            array.add(new ModelDownloadMaster("Types", pref.getString("Types", "0"), false));
-            array.add(new ModelDownloadMaster("Rating Details", "0", false));
-            array.add(new ModelDownloadMaster("Rating Feedbacks", "0", false));
-            array.add(new ModelDownloadMaster("Theraptic", pref.getString("theraptic", "0"), false));
-            array.add(new ModelDownloadMaster("Clusters", String.valueOf(dbh.select_cat_sfcode(sfCoding).getCount()), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.worktype), pref.getString("work", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.headquater), pref.getString("hq", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.competitors), pref.getString("comp", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.input), pref.getString("inputs", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.product), pref.getString("prd", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.slides), pref.getString("slide", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.brands), pref.getString("Brands", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.departments), pref.getString("Departments", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.speciality), pref.getString("Speciality", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.catogy), pref.getString("Category", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.qualifications), pref.getString("Qualifications", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.clases), pref.getString("Class", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.types), pref.getString("Types", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.details), "0", false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.feedbacks), "0", false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.theraptic), pref.getString("theraptic", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.cluster), String.valueOf(dbh.select_cat_sfcode(sfCoding).getCount()), false));
             array.add(new ModelDownloadMaster(mCommonSharedPreference.getValueFromPreference("drcap"), String.valueOf(dbh.select_dr_sfcode(sfCoding).getCount()), false));
             array.add(new ModelDownloadMaster(mCommonSharedPreference.getValueFromPreference("chmcap"), String.valueOf(dbh.select_chem_sfcode(sfCoding).getCount()), false));
             array.add(new ModelDownloadMaster(mCommonSharedPreference.getValueFromPreference("stkcap"), String.valueOf(dbh.select_stock_sfcode(sfCoding).getCount()), false));
             array.add(new ModelDownloadMaster(mCommonSharedPreference.getValueFromPreference("ucap"), String.valueOf(dbh.select_undr_sfcode(sfCoding).getCount()), false));
-            array.add(new ModelDownloadMaster("Jointwork", String.valueOf(dbh.select_joint_list().getCount()), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.jointwork), String.valueOf(dbh.select_joint_list().getCount()), false));
             Log.v("total_dr_stck", dbh.select_joint_sfcode(sfCoding).getCount() + "");
             if (mCommonSharedPreference.getValueFromPreference("hosp_filter").equalsIgnoreCase("0")) {
-                array.add(new ModelDownloadMaster("Hospital", String.valueOf(dbh.select_hospitalist(sfCoding).getCount()), false));
+                array.add(new ModelDownloadMaster(resources.getString(R.string.hospital), String.valueOf(dbh.select_hospitalist(sfCoding).getCount()), false));
             }
         } else {
-            array.add(new ModelDownloadMaster("Work Types", pref.getString("work", "0"), false));
-            array.add(new ModelDownloadMaster("HeadQuaters", pref.getString("hq", "0"), false));
-            array.add(new ModelDownloadMaster("Competitors", pref.getString("comp", "0"), false));
-            array.add(new ModelDownloadMaster("Inputs", pref.getString("inputs", "0"), false));
-            array.add(new ModelDownloadMaster("Products", pref.getString("prd", "0"), false));
-            array.add(new ModelDownloadMaster("Slides", pref.getString("slide", "0"), false));
-            array.add(new ModelDownloadMaster("Brands", pref.getString("Brands", "0"), false));
-            array.add(new ModelDownloadMaster("Departments", pref.getString("Departments", "0"), false));
-            array.add(new ModelDownloadMaster("Speciality", pref.getString("Speciality", "0"), false));
-            array.add(new ModelDownloadMaster("Category", pref.getString("Category", "0"), false));
-            array.add(new ModelDownloadMaster("Qualifications", pref.getString("Qualifications", "0"), false));
-            array.add(new ModelDownloadMaster("Class", pref.getString("Class", "0"), false));
-            array.add(new ModelDownloadMaster("Types", pref.getString("Types", "0"), false));
-            array.add(new ModelDownloadMaster("Rating Details", "0", false));
-            array.add(new ModelDownloadMaster("Rating Feedbacks", "0", false));
-            array.add(new ModelDownloadMaster("Theraptic", pref.getString("theraptic", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.worktype), pref.getString("work", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.headquater), pref.getString("hq", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.competitors), pref.getString("comp", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.input), pref.getString("inputs", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.product), pref.getString("prd", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.slides), pref.getString("slide", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.brands), pref.getString("Brands", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.departments), pref.getString("Departments", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.speciality), pref.getString("Speciality", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.catogy), pref.getString("Category", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.qualifications), pref.getString("Qualifications", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.clases), pref.getString("Class", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.types), pref.getString("Types", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.details), "0", false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.feedbacks), "0", false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.theraptic), pref.getString("theraptic", "0"), false));
         }
 
         adpt.notifyDataSetChanged();

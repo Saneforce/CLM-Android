@@ -425,7 +425,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
             public void onClick(View view) {
                 //  Toast.makeText(getApplicationContext(),fromdate_ed.getText().toString(),Toast.LENGTH_SHORT).show();
                 if (fromdate_ed.getText().toString().equals("")) {
-                    Toast.makeText(Target_Vs_Secondary.this, "Select From Date", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Target_Vs_Secondary.this,  getResources().getString(R.string.selctdate), Toast.LENGTH_LONG).show();
                 } else {
                     //Log.d("fromdate",fromdate_ed.getText().toString());
 //                    String [] frommedate = fromdate_ed.getText().toString().split("-");
@@ -662,7 +662,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 else if (selected_data.equalsIgnoreCase("Customdate")) {
 
                     if (fromdate_ed.getText().toString().equalsIgnoreCase("") || todate_ed.getText().toString().equalsIgnoreCase("")) {
-                        Toast.makeText(Target_Vs_Secondary.this, "Please Fill From date and To date", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Target_Vs_Secondary.this,  getResources().getString(R.string.sclt_frm_to), Toast.LENGTH_SHORT).show();
                     } else {
 
                             allproduct();
@@ -714,7 +714,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
             @Override
             public void onClick(View view) {
                 if (fromdate_ed.getText().toString().equals("")) {
-                    Toast.makeText(Target_Vs_Secondary.this, "Select From Date", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Target_Vs_Secondary.this,  getResources().getString(R.string.selctdate), Toast.LENGTH_LONG).show();
                 } else {
                     final Calendar c = Calendar.getInstance();
                     int mYear = c.get(Calendar.YEAR);
@@ -2565,7 +2565,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
             }
             else if (selected_data.equalsIgnoreCase("Customdate")) {
                 if (fromdate_ed.getText().toString().equalsIgnoreCase("") || todate_ed.getText().toString().equalsIgnoreCase("")) {
-                    Toast.makeText(Target_Vs_Secondary.this, "Please Fill From date and To date", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Target_Vs_Secondary.this,  getResources().getString(R.string.sclt_frm_to), Toast.LENGTH_SHORT).show();
                 } else {
                     if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
                         if(toback.size()==1){
@@ -2672,7 +2672,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
             }
             else if (selected_data.equalsIgnoreCase("Customdate")) {
                 if (fromdate_ed.getText().toString().equalsIgnoreCase("") || todate_ed.getText().toString().equalsIgnoreCase("")) {
-                    Toast.makeText(Target_Vs_Secondary.this, "Please Fill From date and To date", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Target_Vs_Secondary.this,  getResources().getString(R.string.sclt_frm_to), Toast.LENGTH_SHORT).show();
                 } else {
                     if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
                         if(toback.size()==1){
@@ -2791,7 +2791,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
             }
             else if (selected_data.equalsIgnoreCase("Customdate")) {
                 if (fromdate_ed.getText().toString().equalsIgnoreCase("") || todate_ed.getText().toString().equalsIgnoreCase("")) {
-                    Toast.makeText(Target_Vs_Secondary.this, "Please Fill From date and To date", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Target_Vs_Secondary.this,  getResources().getString(R.string.sclt_frm_to), Toast.LENGTH_SHORT).show();
                 } else {
                     if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
                         if(toback.size()==1){
@@ -2896,7 +2896,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
         }
         else if (selected_data.equalsIgnoreCase("Customdate")) {
             if (fromdate_ed.getText().toString().equalsIgnoreCase("") || todate_ed.getText().toString().equalsIgnoreCase("")) {
-                Toast.makeText(Target_Vs_Secondary.this, "Please Fill From date and To date", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Target_Vs_Secondary.this,  getResources().getString(R.string.sclt_frm_to), Toast.LENGTH_SHORT).show();
             } else {
                 if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
                     if(toback.size()==1){

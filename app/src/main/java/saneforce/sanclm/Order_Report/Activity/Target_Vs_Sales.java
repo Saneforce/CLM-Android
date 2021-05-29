@@ -244,7 +244,7 @@ public class Target_Vs_Sales extends Fragment {
             @Override
             public void onClick(View view) {
                 if (fromdate_ed.getText().toString().equals("")) {
-                    Toast.makeText(getActivity(), "Select From Date", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), getResources().getString(R.string.selctdate), Toast.LENGTH_LONG).show();
                 } else {
                     final Calendar c = Calendar.getInstance();
                     int mYear = c.get(Calendar.YEAR);
@@ -435,7 +435,7 @@ public class Target_Vs_Sales extends Fragment {
                 }
                 else if(custom_datecheck.getTag().toString().equalsIgnoreCase("check")){
                     if(fromdate_ed.getText().toString().equalsIgnoreCase("")||todate_ed.getText().toString().equalsIgnoreCase("")){
-                        Toast.makeText(getActivity(),"Please Fill From date and To date",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.sclt_frm_to),Toast.LENGTH_SHORT).show();
                     }else {
                         allproduct();
                         Orderproduct_Piechart();
@@ -1304,7 +1304,7 @@ public class Target_Vs_Sales extends Fragment {
             public void onClick(View v) {
 
                 if (textView.getText().toString().equals("")) {
-                    Toast.makeText(getActivity(), "Select From Date", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),  getResources().getString(R.string.selctdate), Toast.LENGTH_LONG).show();
                 } else {
                     final Calendar c = Calendar.getInstance();
                     int mYear = c.get(Calendar.YEAR);

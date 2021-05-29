@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -28,6 +30,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.core.content.FileProvider;
 
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -63,6 +66,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -87,9 +91,11 @@ import saneforce.sanclm.applicationCommonFiles.CommonUtils;
 import saneforce.sanclm.applicationCommonFiles.CommonUtilsMethods;
 import saneforce.sanclm.applicationCommonFiles.ImageFilePath;
 import saneforce.sanclm.applicationCommonFiles.LocationTrack;
+import saneforce.sanclm.fragments.LocaleHelper;
 import saneforce.sanclm.sqlite.DataBaseHandler;
 
 import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
+import static saneforce.sanclm.fragments.AppConfiguration.language_string;
 import static saneforce.sanclm.fragments.AppConfiguration.licenceKey;
 
 public class FeedbackActivity extends AppCompatActivity {
@@ -153,7 +159,9 @@ public class FeedbackActivity extends AppCompatActivity {
     Uri outputFileUri;
     String currentPhotoPath,AvailableAduitNeeded="";
     String nn = null;
-
+    String language;
+    Context context;
+    Resources resources;
 
     SharedPreferences sharedPreferences;
 
@@ -165,6 +173,20 @@ public class FeedbackActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
+
+        SharedPreferences sharedPreferences1 = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        language = sharedPreferences1.getString(language_string, "");
+        if (!language.equals("")){
+            Log.d("homelang",language);
+            selected(language);
+            context = LocaleHelper.setLocale(FeedbackActivity.this, language);
+            resources = context.getResources();
+        }else {
+            selected("en");
+            context = LocaleHelper.setLocale(FeedbackActivity.this, "en");
+            resources = context.getResources();
+        }
+
         dbh = new DataBaseHandler(this);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         Bundle extra = getIntent().getExtras();
@@ -789,7 +811,7 @@ public class FeedbackActivity extends AppCompatActivity {
                                 for (int jj = 0; jj < listFeedPrd.size(); jj++) {
                                     String rxqty = listFeedPrd.get(jj).getSample();
                                     if (rxqty.equalsIgnoreCase("")) {
-                                        Toast.makeText(getApplicationContext(), "Enter Sample values", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.entr_sample_val), Toast.LENGTH_LONG).show();
                                         return;
                                     }
                                     Log.v("rxqty", rxqty);
@@ -801,7 +823,7 @@ public class FeedbackActivity extends AppCompatActivity {
                                     for (int jj = 0; jj < listFeedPrd.size(); jj++) {
                                         String rxqty = listFeedPrd.get(jj).getRxQty();
                                         if (rxqty.equalsIgnoreCase("")) {
-                                            Toast.makeText(getApplicationContext(), "Enter RxQty values", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.entr_rx_val), Toast.LENGTH_LONG).show();
 
                                             return;
                                         }
@@ -811,7 +833,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
                             if (mCommonSharedPreference.getValueFromPreference("DrInpMd").equals("1") && peopleType.equalsIgnoreCase("D")) {
                                 if (input_array.size() < 1) {
-                                    Toast.makeText(getApplicationContext(), "Select the Input", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.sclt_input), Toast.LENGTH_LONG).show();
                                     return;
                                 }
                                 for (int jj = 0; jj < input_array.size(); jj++) {
@@ -819,7 +841,7 @@ public class FeedbackActivity extends AppCompatActivity {
                                     String inputQty = input_array.get(jj).getIqty();
 
                                     if (inputName.equalsIgnoreCase("") && inputQty.equalsIgnoreCase("")) {
-                                        Toast.makeText(getApplicationContext(), "Enter Input values", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.entr_input_val), Toast.LENGTH_LONG).show();
                                         return;
                                     }
                                 }
@@ -828,7 +850,7 @@ public class FeedbackActivity extends AppCompatActivity {
                             if (mCommonSharedPreference.getValueFromPreference("RcpaNd").equals("1") && peopleType.equalsIgnoreCase("D")) {
                                 String rcpa = mCommonSharedPreference.getValueFromPreference("jsonarray");
                                 if (rcpa.equalsIgnoreCase("")) {
-                                    Toast.makeText(getApplicationContext(), "Enter Rcpa values", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.entr_rcpa_val), Toast.LENGTH_LONG).show();
                                     return;
 
                                 }
@@ -854,7 +876,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
                         if (txt_name.getText().toString().equalsIgnoreCase("DocName")||txt_name.getText().toString().equalsIgnoreCase("")) {
                             Log.v("DocName", txt_name.toString());
-                            Toast.makeText(getApplicationContext(), "Invalid Customer Selection", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.invalid_cus), Toast.LENGTH_LONG).show();
                             return;
                         } else {
                             dbh.insertJson(String.valueOf(finalValue), txt_name.getText().toString() + "_s_ync", String.valueOf(d), peopleCode, peopleType, commonSFCode);
@@ -933,7 +955,7 @@ public class FeedbackActivity extends AppCompatActivity {
                     } while (mCursor.moveToNext());
                     popUpAlertFeed(xx, "i");
                 } else {
-                    Toast.makeText(FeedbackActivity.this, "No Input Available", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FeedbackActivity.this, getResources().getString(R.string.no_input), Toast.LENGTH_SHORT).show();
                 }
                 mCursor.close();
                 dbh.close();
@@ -989,6 +1011,16 @@ public class FeedbackActivity extends AppCompatActivity {
 
 
     }
+
+    private void selected(String language) {
+        Locale myLocale = new Locale(language);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+    }
+
 
 
     public ArrayList<PopFeed> gettingProductFB(String splitvalue) {
@@ -1129,13 +1161,13 @@ public class FeedbackActivity extends AppCompatActivity {
         popupAdapter.notifyDataSetChanged();
 
         if (x.equals("i")) {
-            tv_todayplan_popup_head.setText("Inputs Selection");
+            tv_todayplan_popup_head.setText(resources.getString(R.string.inp_selct));
         } else if (x.equals("a")) {
-            tv_todayplan_popup_head.setText("Additional Doctor Selection");
+            tv_todayplan_popup_head.setText(resources.getString(R.string.add_selct));
         } else if (x.equals("j")) {
-            tv_todayplan_popup_head.setText("Joint Work Selection");
+            tv_todayplan_popup_head.setText(resources.getString(R.string.joint_selct));
         } else {
-            tv_todayplan_popup_head.setText("Products Selection");
+            tv_todayplan_popup_head.setText(resources.getString(R.string.prodct_selct));
         }
         search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -1294,9 +1326,9 @@ public class FeedbackActivity extends AppCompatActivity {
                                 Log.v("json_successs", json.getString("success"));
                                 if (json.getString("success").equals("true")) {
                                     dialog.dismiss();
-                                    Toast.makeText(FeedbackActivity.this, "Query sent successfully ", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(FeedbackActivity.this, getResources().getString(R.string.data_success), Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Toast.makeText(FeedbackActivity.this, "Query not sent successfully ", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(FeedbackActivity.this, getResources().getString(R.string.query_notsuccs), Toast.LENGTH_SHORT).show();
 
                                 }
 
@@ -1998,7 +2030,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
                     if (js.getString("success").equals("true")) {
                         progressDialog.dismiss();
-                        Toast toast = Toast.makeText(FeedbackActivity.this, "Data Submitted Successfully", Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(FeedbackActivity.this, getResources().getString(R.string.data_success), Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.CENTER, 0, 0);
                         toast.show();
 
@@ -2022,7 +2054,7 @@ public class FeedbackActivity extends AppCompatActivity {
                             toast.show();
 
                         } else {
-                            Toast toast = Toast.makeText(FeedbackActivity.this, "OOPS!! data not submitted", Toast.LENGTH_SHORT);
+                            Toast toast = Toast.makeText(FeedbackActivity.this, getResources().getString(R.string.data_notsuccess), Toast.LENGTH_SHORT);
                             toast.setGravity(Gravity.CENTER, 0, 0);
                             toast.show();
                         }

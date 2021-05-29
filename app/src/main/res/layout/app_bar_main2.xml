@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/drawericon"
                 android:fontFamily="@font/poppins_semibold"
-                android:text="Target VS Sales Details"
+                android:text="@string/targetsales"
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:textColor="@color/white"
@@ -112,7 +112,7 @@
                     android:layout_margin="10dp"
                     android:gravity="center"
                     android:textStyle="bold"
-                    android:text="Primary"
+                    android:text="@string/primary"
                     android:background="@drawable/shape_white"
                     android:textColor="@color/black"/>
 
@@ -132,7 +132,7 @@
                 android:layout_margin="10dp"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:text="Clear Filter"
+                android:text="@string/clearfilter"
                 android:background="@color/red"
                 android:textColor="@color/white"/>
             </LinearLayout>
@@ -175,7 +175,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:text="Brand Contribution"
+            android:text="@string/brndcontry"
             android:textStyle="bold"
             android:fontFamily="@font/poppins"
             android:layout_margin="10dp"/>

@@ -57,6 +57,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import saneforce.sanclm.BuildConfig;
+import saneforce.sanclm.R;
 import saneforce.sanclm.activities.FeedbackActivity;
 import saneforce.sanclm.activities.HomeDashBoard;
 import saneforce.sanclm.activities.LoginActivity;
@@ -136,7 +137,7 @@ public class LocationTrack extends Service  {
 */
         }
         else{
-            Toast.makeText(fed,"Mock location detected ",Toast.LENGTH_SHORT).show();
+            Toast.makeText(fed,getResources().getString(R.string.mock_loc),Toast.LENGTH_SHORT).show();
            /* if(mock!=null)
             mock.mockDetect();*/
             commonSharedPreference.setValueToPreference("track_loc","0");
@@ -227,7 +228,7 @@ public class LocationTrack extends Service  {
 
             }
             else{
-                Toast.makeText(fed,"Mock location detected ",Toast.LENGTH_SHORT).show();
+                Toast.makeText(fed,getResources().getString(R.string.mock_loc),Toast.LENGTH_SHORT).show();
                 commonSharedPreference.setValueToPreference("track_loc","0");
                 stopLocationButtonClick();
                 mCommonUtilsMethod.CommonIntentwithNEwTaskMock(LoginActivity.class);

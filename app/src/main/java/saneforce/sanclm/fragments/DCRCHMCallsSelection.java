@@ -2,8 +2,11 @@ package saneforce.sanclm.fragments;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -14,6 +17,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -56,6 +60,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -88,6 +93,8 @@ import saneforce.sanclm.util.DCRCallSelectionFilter;
 import saneforce.sanclm.util.ManagerListLoading;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
+import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
+import static saneforce.sanclm.fragments.AppConfiguration.language_string;
 
 
 public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItemClickListener,View.OnClickListener{
@@ -131,6 +138,9 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
     String gpsNeed,geoFencing;
     double laty=0.0,lngy=0.0,limitKm=0.5;
     TextView txt_tool_header;
+    String language;
+    Context context;
+    Resources resources;
     public static DCRCHMCallsSelection newInstance() {
         DCRCHMCallsSelection fragment = new DCRCHMCallsSelection();
         return fragment;
@@ -175,6 +185,21 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
         commonUtilsMethods = new CommonUtilsMethods(getActivity());
 
         v = inflater.inflate(R.layout.activity_dcrchmcalls_selection, container, false);
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        language = sharedPreferences.getString(language_string, "");
+        if (!language.equals("")){
+            Log.d("homelang",language);
+            selected(language);
+            context = LocaleHelper.setLocale(getActivity(), language);
+            resources = context.getResources();
+        }else {
+            selected("en");
+            context = LocaleHelper.setLocale(getActivity(), "en");
+            resources = context.getResources();
+        }
+
+
         rl_dcr_precall_analysisMain = (RelativeLayout) v.findViewById(R.id.rl_dcr_precall_analysis_main) ;
         dcr_drselection_gridview= (RelativeLayout) v.findViewById(R.id.rl_dcr_drgrid_selection) ;
         rl_drPrecallanalysis = (RelativeLayout) v.findViewById(R.id.rl_dcr_drDetails);
@@ -204,7 +229,7 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
         if(mCommonSharedPreference.getValueFromPreference("geo_tag").equalsIgnoreCase("1")){
             rlay_spin.setVisibility(View.GONE);
         }
-        txt_tool_header.setText("Listed "+mCommonSharedPreference.getValueFromPreference("chmcap")+" selection");
+        txt_tool_header.setText(resources.getString(R.string.listed)+" "+mCommonSharedPreference.getValueFromPreference("chmcap")+" "+resources.getString(R.string.Selection));
         Log.d("daataselec",mCommonSharedPreference.getValueFromPreference("chmcap"));
         tv_chmterritory = (TextView)  v.findViewById(R.id.tv_terri_set) ;
         tv_chmaddr = (TextView)  v.findViewById(R.id.tv_chmaddr_set) ;
@@ -213,7 +238,7 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
 
         tv_pdt_promoted = (TextView)  v.findViewById(R.id.tv_pdtdetailed_set);
         et_companyurl=(EditText)v.findViewById(R.id.et_companyurl);
-        et_companyurl.setHint("Search Listed "+mCommonSharedPreference.getValueFromPreference("chmcap"));
+        et_companyurl.setHint(resources.getString(R.string.search)+" "+resources.getString(R.string.listed)+mCommonSharedPreference.getValueFromPreference("chmcap"));
         tv_pdt_promoted.setMovementMethod(new ScrollingMovementMethod());
         dcr_drselection_gridview.setVisibility(View.VISIBLE);
         spinner = (Spinner) v.findViewById(R.id.spinner);
@@ -528,7 +553,7 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
                         dwnloadMasterData.chemsList();
                     }
                     else{
-                        Toast.makeText(getActivity(),"Network required to get detail",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(),getResources().getString(R.string.network_req),Toast.LENGTH_SHORT).show();
                     }
                 }
                 else{
@@ -684,6 +709,16 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
         return v;
     }
 
+    private void selected(String language) {
+        Locale myLocale = new Locale(language);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+    }
+
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Custom_DCR_GV_Dr_Contents custom_dcr_gv_dr_contents  =  chmList.get(position);
@@ -738,7 +773,7 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
             case R.id.btn_go:
                 if(tv_drName.getText().toString().equalsIgnoreCase("DocName")) {
                     Log.v("DocName",tv_drName.toString());
-                    Toast.makeText(getActivity().getApplicationContext(),"Invalid Customer Selection",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity().getApplicationContext(),getResources().getString(R.string.invalid_cus_sclt),Toast.LENGTH_LONG).show();
                     return ;
                 }else if(mCommonSharedPreference.getValueFromPreference("Detailing_chem").equalsIgnoreCase("0")){
                     commonUtilsMethods.CommonIntentwithNEwTask(DetailingCreationActivity.class);
@@ -747,7 +782,7 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
                 else {
                     if(tv_drName.getText().toString().equalsIgnoreCase("DocName")) {
                         Log.v("DocName",tv_drName.toString());
-                        Toast.makeText(getActivity().getApplicationContext(),"Invalid Customer Selection",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity().getApplicationContext(),getResources().getString(R.string.invalid_cus_sclt),Toast.LENGTH_LONG).show();
                         return ;
                     }else {
                         Intent i = new Intent(getActivity(), FeedbackActivity.class);
@@ -761,7 +796,7 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
             case R.id.btn_skip:
                 if(tv_drName.getText().toString().equalsIgnoreCase("DocName")) {
                     Log.v("DocName",tv_drName.toString());
-                    Toast.makeText(getActivity().getApplicationContext(),"Invalid Customer Selection",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity().getApplicationContext(),getResources().getString(R.string.invalid_cus_sclt),Toast.LENGTH_LONG).show();
                     return ;
                 }else {
                     Intent i = new Intent(getActivity(), FeedbackActivity.class);
@@ -811,7 +846,7 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
 
         ListView popup_list=(ListView)dialog.findViewById(R.id.popup_list);
         TextView    tv_todayplan_popup_head=(TextView)dialog.findViewById(R.id.tv_todayplan_popup_head);
-        tv_todayplan_popup_head.setText("Selection  List");
+        tv_todayplan_popup_head.setText(getResources().getString(R.string.selctlist));
         ImageView   iv_close_popup=(ImageView)dialog.findViewById(R.id.iv_close_popup);
         Button   ok=(Button)dialog.findViewById(R.id.ok);
 
@@ -896,7 +931,7 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
 
                 }
                 else {
-                    spin_txt.setText("Select the hospital");
+                    spin_txt.setText(getResources().getString(R.string.sclt_hospital));
 
                 }
                 dialog.dismiss();
@@ -1002,7 +1037,7 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
 
                 }
                 else{
-                    Toast.makeText(getActivity(),"Please fill all fields ",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),getResources().getString(R.string.fill_all),Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -1046,7 +1081,7 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
                         if(json.getString("success").equalsIgnoreCase("true")){
                             dialog.dismiss();
                             commonFun();
-                            Toast.makeText(getActivity()," Saved successfully!! ",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(),getResources().getString(R.string.saved_sucs),Toast.LENGTH_SHORT).show();
                             if (progressDialog == null) {
                                 CommonUtilsMethods commonUtilsMethods = new CommonUtilsMethods(getActivity());
                                 progressDialog = commonUtilsMethods.createProgressDialog(getActivity());

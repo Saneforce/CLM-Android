@@ -2,8 +2,11 @@ package saneforce.sanclm.fragments;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -14,6 +17,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -55,6 +59,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -85,6 +90,8 @@ import saneforce.sanclm.util.DCRCallSelectionFilter;
 import saneforce.sanclm.util.ManagerListLoading;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
+import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
+import static saneforce.sanclm.fragments.AppConfiguration.language_string;
 
 
 public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItemClickListener,View.OnClickListener{
@@ -123,6 +130,11 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
     String selectedProductCode="";
     String  addDrr="0";
     TextView txt_tool_header;
+    String language;
+    Context context;
+    Resources resources;
+
+
     @Override
     public void onStart() {
         super.onStart();
@@ -163,6 +175,20 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
         mCommonSharedPreference = new CommonSharedPreference(getContext());
         commonUtilsMethods = new CommonUtilsMethods(getActivity());
         v = inflater.inflate(R.layout.activity_dcrudrcalls_selection, container, false);
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        language = sharedPreferences.getString(language_string, "");
+        if (!language.equals("")){
+            Log.d("homelang",language);
+            selected(language);
+            context = LocaleHelper.setLocale(getActivity(), language);
+            resources = context.getResources();
+        }else {
+            selected("en");
+            context = LocaleHelper.setLocale(getActivity(), "en");
+            resources = context.getResources();
+        }
+
         rl_dcr_precall_analysisMain = (RelativeLayout) v.findViewById(R.id.rl_dcr_precall_analysis_main) ;
         dcr_drselection_gridview= (RelativeLayout) v.findViewById(R.id.rl_dcr_drgrid_selection) ;
         rl_drPrecallanalysis = (RelativeLayout) v.findViewById(R.id.rl_dcr_drDetails);
@@ -186,12 +212,12 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
         ibtn_btn_go=(ImageButton)v.findViewById(R.id.btn_go);
         ibtn_skip=(ImageButton)v.findViewById(R.id.btn_skip);
         btn_act = (Button)  v.findViewById(R.id.btn_act) ;
-        txt_tool_header.setText(mCommonSharedPreference.getValueFromPreference("ucap")+" selection");
+        txt_tool_header.setText(mCommonSharedPreference.getValueFromPreference("ucap")+" "+resources.getString(R.string.Selection));
 
 
         Log.d("daataselec",mCommonSharedPreference.getValueFromPreference("ucap"));
 
-        et_companyurl.setHint("Search Listed "+mCommonSharedPreference.getValueFromPreference("ucap"));
+        et_companyurl.setHint(resources.getString(R.string.search)+" "+resources.getString(R.string.listed)+mCommonSharedPreference.getValueFromPreference("ucap"));
         if(mCommonSharedPreference.getValueFromPreference("addAct").equalsIgnoreCase("0"))
             btn_act.setVisibility(View.VISIBLE);
         Log.v("detailing_btn",mCommonSharedPreference.getValueFromPreference("Detailing_undr")+"hrjr");
@@ -466,7 +492,7 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
                         dwnloadMasterData.unDrList();
                     }
                     else{
-                        Toast.makeText(getActivity(),"Network required to get detail",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(),getResources().getString(R.string.network_req),Toast.LENGTH_SHORT).show();
                     }
                 }
                 else{
@@ -577,6 +603,15 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
         return v;
     }
 
+    private void selected(String language) {
+        Locale myLocale = new Locale(language);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+    }
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Log.v("unlisted_dr_cun","calling");
@@ -657,7 +692,7 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
                 case R.id.btn_go:
                     if(tv_drName.getText().toString().equalsIgnoreCase("DocName")) {
                         Log.v("DocName",tv_drName.toString());
-                        Toast.makeText(getActivity().getApplicationContext(),"Invalid Customer Selection",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity().getApplicationContext(),getResources().getString(R.string.invalid_cus_sclt),Toast.LENGTH_LONG).show();
                         return ;
                     }else if(mCommonSharedPreference.getValueFromPreference("Detailing_undr").equalsIgnoreCase("0")){
                         commonUtilsMethods.CommonIntentwithNEwTask(DetailingCreationActivity.class);
@@ -666,7 +701,7 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
                     else {
                         if(tv_drName.getText().toString().equalsIgnoreCase("DocName")) {
                             Log.v("DocName",tv_drName.toString());
-                            Toast.makeText(getActivity().getApplicationContext(),"Invalid Customer Selection",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity().getApplicationContext(),getResources().getString(R.string.invalid_cus_sclt),Toast.LENGTH_LONG).show();
                             return ;
                         }else {
                             Intent i = new Intent(getActivity(), FeedbackActivity.class);
@@ -684,7 +719,7 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
             case R.id.btn_skip:
                 if(tv_drName.getText().toString().equalsIgnoreCase("DocName")) {
                     Log.v("DocName",tv_drName.toString());
-                    Toast.makeText(getActivity().getApplicationContext(),"Invalid Customer Selection",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity().getApplicationContext(),getResources().getString(R.string.invalid_cus_sclt),Toast.LENGTH_LONG).show();
                     return ;
                 }else {
                     Intent i = new Intent(getActivity(), FeedbackActivity.class);
@@ -1035,7 +1070,7 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
 
                 }
                 else{
-                    Toast.makeText(getActivity(),"Please fill all fields ",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),getResources().getString(R.string.fill_all),Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -1191,7 +1226,7 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
                         if(json.getString("success").equalsIgnoreCase("true")){
                             dialog.dismiss();
                             commonFun();
-                            Toast.makeText(getActivity()," Saved successfully!! ",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(),getResources().getString(R.string.saved_sucs),Toast.LENGTH_SHORT).show();
                             if (progressDialog == null) {
                                 CommonUtilsMethods commonUtilsMethods = new CommonUtilsMethods(getActivity());
                                 progressDialog = commonUtilsMethods.createProgressDialog(getActivity());

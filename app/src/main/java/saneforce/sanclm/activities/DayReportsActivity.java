@@ -1,11 +1,16 @@
 package saneforce.sanclm.activities;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.Cursor;
 
 import android.os.Bundle;
 
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,6 +35,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -49,7 +55,11 @@ import saneforce.sanclm.api_Interface.RetroClient;
 import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
 import saneforce.sanclm.applicationCommonFiles.CommonUtils;
 import saneforce.sanclm.applicationCommonFiles.CommonUtilsMethods;
+import saneforce.sanclm.fragments.LocaleHelper;
 import saneforce.sanclm.sqlite.DataBaseHandler;
+
+import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
+import static saneforce.sanclm.fragments.AppConfiguration.language_string;
 
 public class DayReportsActivity extends AppCompatActivity {
 
@@ -80,6 +90,9 @@ public class DayReportsActivity extends AppCompatActivity {
     TextView txt_head_report;
     String[] ar={"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
     TextView txt_dr,txt_chm,txt_stk,txt_udr;
+    String language;
+    Context context;
+    Resources resources;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -97,6 +110,21 @@ public class DayReportsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_day_reports);
+
+        SharedPreferences sharedPreferences = DayReportsActivity.this.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        language = sharedPreferences.getString(language_string, "");
+        if (!language.equals("")){
+            Log.d("homelang",language);
+            selected(language);
+            context = LocaleHelper.setLocale(DayReportsActivity.this, language);
+            resources = context.getResources();
+        }else {
+            selected("en");
+            context = LocaleHelper.setLocale(DayReportsActivity.this, "en");
+            resources = context.getResources();
+        }
+
+
         Bundle extra=getIntent().getExtras();
         value=extra.getString("value");
         recycle_view=(RecyclerView)findViewById(R.id.recycle_view);
@@ -192,7 +220,7 @@ public class DayReportsActivity extends AppCompatActivity {
             recycle_view.setLayoutManager(layout);
             recycle_view.setItemAnimator(new DefaultItemAnimator());
             recycle_view.setAdapter(adpt);
-            txt_head_report.setText("Day Report");
+            txt_head_report.setText(resources.getString(R.string.dayreport));
             callApi(CommonUtilsMethods.getCurrentInstance());
         }
         else if(value.equalsIgnoreCase("2")){
@@ -205,7 +233,7 @@ public class DayReportsActivity extends AppCompatActivity {
             RecyclerView.LayoutManager layout=new LinearLayoutManager(getApplicationContext());
             recycle_view.setLayoutManager(layout);
             recycle_view.setAdapter(visit_adpt);
-            txt_head_report.setText("Visit Control");
+            txt_head_report.setText(resources.getString(R.string.visitcontrol));
             callApiVisit(month,yr);
 
         }
@@ -246,7 +274,7 @@ public class DayReportsActivity extends AppCompatActivity {
             recycle_view.setLayoutManager(layout);
             recycle_view.setItemAnimator(new DefaultItemAnimator());
             recycle_view.setAdapter(adpt);
-            txt_head_report.setText("Monthly Report");
+            txt_head_report.setText(resources.getString(R.string.monthlyreport));
             callApiMonth(commonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_CODE),CommonUtilsMethods.getCurrentInstance());
 
         }
@@ -257,7 +285,7 @@ public class DayReportsActivity extends AppCompatActivity {
             recycle_view.setLayoutManager(layout);
             recycle_view.setItemAnimator(new DefaultItemAnimator());
             recycle_view.setAdapter(miss_adpt);
-            txt_head_report.setText("Missed Reports");
+            txt_head_report.setText(resources.getString(R.string.missedreport));
             callApiMissed(CommonUtilsMethods.getCurrentInstance());
         }
 
@@ -526,6 +554,14 @@ public class DayReportsActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
+    }
+    private void selected(String language) {
+        Locale myLocale = new Locale(language);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
     }
 
 }

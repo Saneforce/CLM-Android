@@ -1,11 +1,15 @@
 package saneforce.sanclm.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,19 +42,58 @@ import lecho.lib.hellocharts.view.PieChartView;
 import saneforce.sanclm.R;
 import saneforce.sanclm.adapter_class.AdapterForVisitControl;
 
+import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
+import static saneforce.sanclm.fragments.AppConfiguration.language_string;
+
 //import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 public class NewTrainingFragment extends Fragment implements OnChartValueSelectedListener {
     private BarChart barChart;
     PieChartView pieChartView;
-
+    String language;
+    Context context;
+    Resources resources;
+    TextView mtd_call,mtd_reload,detailing,time_spent,brand_exposure,total_dr,total_pharma,totaldr,detail_reload;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View vv=inflater.inflate(R.layout.new_training_graph,container,false);
-      barChart= vv.findViewById(R.id.bar_chart);
-       barChart.setOnChartValueSelectedListener(this);
+        barChart= vv.findViewById(R.id.bar_chart);
+
+        mtd_call= vv.findViewById(R.id.tv_monthly_summary_head);
+        mtd_reload= vv.findViewById(R.id.reload);
+        detailing= vv.findViewById(R.id.tv_call_visit_details);
+        time_spent= vv.findViewById(R.id.timedetail);
+        brand_exposure= vv.findViewById(R.id.brandex);
+        total_dr= vv.findViewById(R.id.tv_total_dr);
+        total_pharma= vv.findViewById(R.id.tv_phrma);
+        totaldr= vv.findViewById(R.id.tv_totaldr);
+        detail_reload= vv.findViewById(R.id.reload1);
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        language = sharedPreferences.getString(language_string, "");
+        if (!language.equals("")){
+            Log.d("homelang",language);
+//            selected(language);
+            context = LocaleHelper.setLocale(getActivity(), language);
+            resources = context.getResources();
+        }else {
+            context = LocaleHelper.setLocale(getActivity(), "en");
+            resources = context.getResources();
+        }
+
+        mtd_call.setText("MTD "+resources.getString(R.string.call)+" "+resources.getString(R.string.coverage)+" & "+resources.getString(R.string.daily)+" "+resources.getString(R.string.call)+" "+resources.getString(R.string.average));
+        mtd_reload.setText(resources.getString(R.string.reload));
+        detailing.setText(resources.getString(R.string.detailing)+" "+resources.getString(R.string.performance));
+        time_spent.setText(resources.getString(R.string.detailing)+" "+resources.getString(R.string.time)+" "+resources.getString(R.string.performance));
+        brand_exposure.setText(resources.getString(R.string.brand)+" "+resources.getString(R.string.exposure));
+        total_dr.setText(resources.getString(R.string.total)+" Dr "+resources.getString(R.string.calls));
+        total_pharma.setText(resources.getString(R.string.total)+" "+resources.getString(R.string.pharmacy)+" "+resources.getString(R.string.calls));
+        totaldr.setText(resources.getString(R.string.total)+" Dr "+resources.getString(R.string.calls));
+        detail_reload.setText(resources.getString(R.string.reload));
+
+        barChart.setOnChartValueSelectedListener(this);
         UpperGraph();
         pieChartView = vv.findViewById(R.id.chart);
 
@@ -64,7 +107,7 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
 
         PieChartData pieChartData = new PieChartData(pieData);
         pieChartData.setHasLabels(false);
-        pieChartData.setHasCenterCircle(true).setCenterText1("Detailing Time Spent").setCenterText1FontSize(10).setCenterText1Color(Color.parseColor("#000000"));
+        pieChartData.setHasCenterCircle(true).setCenterText1(resources.getString(R.string.detailing)+" "+resources.getString(R.string.time)+" "+resources.getString(R.string.performance)).setCenterText1FontSize(10).setCenterText1Color(Color.parseColor("#000000"));
         pieChartView.setPieChartData(pieChartData);
         return vv;
     }

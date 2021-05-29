@@ -32,6 +32,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Build;
@@ -48,7 +50,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import saneforce.sanclm.fragments.LocaleHelper;
 
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -103,6 +107,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
+import static saneforce.sanclm.fragments.AppConfiguration.language_string;
 
 
 public class DashActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -221,6 +228,9 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
     int check=0;
     ArrayList<String> piedata = new ArrayList<String>();
     int position;
+    String language;
+    Context context;
+    Resources resources;
 
     CommonSharedPreference mCommonSharedPreference;
     String sf_code,div_Code,db_connPath;
@@ -229,6 +239,20 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dash);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        language = sharedPreferences.getString(language_string, "");
+        if (!language.equals("")){
+            Log.d("homelang",language);
+            selected(language);
+            context = LocaleHelper.setLocale(DashActivity.this, language);
+            resources = context.getResources();
+        }else {
+            selected("en");
+            context = LocaleHelper.setLocale(DashActivity.this, "en");
+            resources = context.getResources();
+        }
+
         iv_draw = ( ImageView ) findViewById(R.id.drawericon);
         navigationView = ( NavigationView ) findViewById(R.id.nav_view);
 //        Toolbar toolbar = ( Toolbar ) findViewById(R.id.ToolbarHome);
@@ -423,7 +447,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View view) {
               //  Toast.makeText(getApplicationContext(),fromdate_ed.getText().toString(),Toast.LENGTH_SHORT).show();
                 if (fromdate_ed.getText().toString().equals("")) {
-                    Toast.makeText(DashActivity.this, "Select From Date", Toast.LENGTH_LONG).show();
+                    Toast.makeText(DashActivity.this, resources.getString(R.string.selctdate), Toast.LENGTH_LONG).show();
                 } else {
 
                     final Calendar c = Calendar.getInstance();
@@ -693,7 +717,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 else if (selected_data.equalsIgnoreCase("Customdate")) {
 
                     if (fromdate_ed.getText().toString().equalsIgnoreCase("") || todate_ed.getText().toString().equalsIgnoreCase("")) {
-                        Toast.makeText(DashActivity.this, "Please Fill From date and To date", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DashActivity.this, resources.getString(R.string.sclt_frm_to), Toast.LENGTH_SHORT).show();
                     }
                     else {
 //                        if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
@@ -716,7 +740,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                     selected_data = "customdate";
                 }
                 else {
-                    Toast.makeText(DashActivity.this, "Please Select the options to filter", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DashActivity.this, resources.getString(R.string.sclt_option), Toast.LENGTH_SHORT).show();
                 }
                 slidemenu.closeDrawer(Gravity.RIGHT);
 
@@ -751,7 +775,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 if (fromdate_ed.getText().toString().equals("")) {
-                    Toast.makeText(DashActivity.this, "Select From Date", Toast.LENGTH_LONG).show();
+                    Toast.makeText(DashActivity.this, resources.getString(R.string.selctdate), Toast.LENGTH_LONG).show();
                 } else {
                     final Calendar c = Calendar.getInstance();
                     int mYear = c.get(Calendar.YEAR);
@@ -852,6 +876,15 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+    }
+
+    private void selected(String language) {
+        Locale myLocale = new Locale(language);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
     }
 
     public void changeToolBarText(String sTitle) {
@@ -1081,7 +1114,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                             parseJsonDataPieprimary(response.body().toString(),div_Code,sf_code,fromdata,todata);
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
-                            Toast.makeText(DashActivity.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DashActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -1097,7 +1130,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(DashActivity.this, resources.getString(R.string.something_wrong) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -1241,7 +1274,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                             Orderproduct_MTDsecondary(finalFromstrdate, finalTostrdate);
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
-                            Toast.makeText(DashActivity.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DashActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -1256,7 +1289,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(DashActivity.this, resources.getString(R.string.something_wrong) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
     public void QTDprimeproduct_admin(){
@@ -1354,7 +1387,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                             // secondaryproduct_detail11(startDateStr, endDateStr);
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
-                            Toast.makeText(DashActivity.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DashActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -1369,7 +1402,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(DashActivity.this, resources.getString(R.string.something_wrong) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
     public void Orderproduct_PiechartQTD_admin(){
@@ -1465,7 +1498,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
 //                            secondaryproduct_detail11(fromstrdate, tostrdate);
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
-                            Toast.makeText(DashActivity.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DashActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -1481,7 +1514,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(DashActivity.this, resources.getString(R.string.something_wrong) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -1588,7 +1621,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                             parseJsonDataPieprimary(response.body().toString(),div_Code,sfdata,fromdata,todata);
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
-                            Toast.makeText(DashActivity.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DashActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -1604,7 +1637,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(DashActivity.this, resources.getString(R.string.something_wrong) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -1730,7 +1763,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                             //secondaryproduct_detail11(startDateStr, endDateStr);
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
-                            Toast.makeText(DashActivity.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DashActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -1746,7 +1779,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(DashActivity.this, resources.getString(R.string.something_wrong) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -1835,7 +1868,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                             parseJsonDataPieprimary(response.body().toString(),div_Code,sf_code,fromdata,todata);
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
-                            Toast.makeText(DashActivity.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DashActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -1851,7 +1884,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(DashActivity.this, resources.getString(R.string.something_wrong) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
     public  void Orderproduct_Piechartadmin(){
@@ -1951,7 +1984,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                             parseJsonData_adminchart(response.body().toString(),CustomerMeList.get(0).getDivisionCode(),"Admin",fromdata,todata);
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
-                            Toast.makeText(DashActivity.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DashActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -1967,7 +2000,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(DashActivity.this, resources.getString(R.string.something_wrong) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -2064,7 +2097,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                             //secondaryproduct_detail11(fromstrdate, tostrdate);
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
-                            Toast.makeText(DashActivity.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DashActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -2080,7 +2113,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(DashActivity.this, resources.getString(R.string.something_wrong) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -2177,7 +2210,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                             //secondaryproduct_detail11(fromstrdate, tostrdate);
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
-                            Toast.makeText(DashActivity.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DashActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -2193,7 +2226,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(DashActivity.this, resources.getString(R.string.something_wrong) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -2345,14 +2378,14 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
 //                    bottom_sum.setVisibility(View.GONE);
                     SalesPrimaryDetails.clear();
                     targetadt.notifyDataSetChanged();
-                    Toast.makeText(DashActivity.this, "No Records found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DashActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                Toast.makeText(DashActivity.this, "No records found", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DashActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(DashActivity.this, resources.getString(R.string.something_wrong) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -2400,14 +2433,14 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
 //                    targetALLAdapter.notifyDataSetChanged();
                     targetadt.notifyDataSetChanged();
                     //targetsadt.notifyDataSetChanged();
-                    Toast.makeText(DashActivity.this, "No Records found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DashActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                Toast.makeText(DashActivity.this, "No records found", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DashActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(DashActivity.this, resources.getString(R.string.something_wrong) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -2490,7 +2523,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                             parseJsonDatasecondDetail11(response.body().toString());
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
-                            Toast.makeText(DashActivity.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DashActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -2506,7 +2539,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(DashActivity.this, resources.getString(R.string.something_wrong) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -2553,14 +2586,14 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
 //                    bottom_sum.setVisibility(View.GONE);
                     targetSdetails.clear();
                     // targetsadt.notifyDataSetChanged();
-                    Toast.makeText(DashActivity.this, "No Records found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DashActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                Toast.makeText(DashActivity.this, "No records found", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DashActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(DashActivity.this, resources.getString(R.string.something_wrong) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -2647,7 +2680,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
             }
             else if (selected_data.equalsIgnoreCase("Customdate")) {
                 if (fromdate_ed.getText().toString().equalsIgnoreCase("") || todate_ed.getText().toString().equalsIgnoreCase("")) {
-                    Toast.makeText(DashActivity.this, "Please Fill From date and To date", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DashActivity.this, resources.getString(R.string.sclt_frm_to), Toast.LENGTH_SHORT).show();
                 } else {
                     if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
                         if(toback.size()==1){
@@ -2746,7 +2779,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
             }
             else if (selected_data.equalsIgnoreCase("Customdate")) {
                 if (fromdate_ed.getText().toString().equalsIgnoreCase("") || todate_ed.getText().toString().equalsIgnoreCase("")) {
-                    Toast.makeText(DashActivity.this, "Please Fill From date and To date", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DashActivity.this, resources.getString(R.string.sclt_frm_to), Toast.LENGTH_SHORT).show();
                 } else {
                     if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
                         if(toback.size()==1){
@@ -2861,7 +2894,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
             }
             else if (selected_data.equalsIgnoreCase("Customdate")) {
                 if (fromdate_ed.getText().toString().equalsIgnoreCase("") || todate_ed.getText().toString().equalsIgnoreCase("")) {
-                    Toast.makeText(DashActivity.this, "Please Fill From date and To date", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DashActivity.this, resources.getString(R.string.sclt_frm_to), Toast.LENGTH_SHORT).show();
                 } else {
                     if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
                         if(toback.size()==1){
@@ -2966,7 +2999,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
         }
         else if (selected_data.equalsIgnoreCase("Customdate")) {
             if (fromdate_ed.getText().toString().equalsIgnoreCase("") || todate_ed.getText().toString().equalsIgnoreCase("")) {
-                Toast.makeText(DashActivity.this, "Please Fill From date and To date", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DashActivity.this, resources.getString(R.string.sclt_frm_to), Toast.LENGTH_SHORT).show();
             } else {
                 if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
                     if(toback.size()==1){
@@ -3055,7 +3088,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                             }
                             Log.d("gang", divname);
                         } else {
-                            Toast.makeText(DashActivity.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DashActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
                     @Override
@@ -3069,7 +3102,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(DashActivity.this, resources.getString(R.string.something_wrong) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -3179,7 +3212,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                             parseJsonDatasecondDetail(response.body().toString());
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
-                            Toast.makeText(DashActivity.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DashActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -3195,7 +3228,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(DashActivity.this, resources.getString(R.string.something_wrong) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -3235,14 +3268,14 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
 //                    bottom_sum.setVisibility(View.GONE);
 //                    targetSdetails.clear();
 //                    targetsadt.notifyDataSetChanged();
-                    Toast.makeText(DashActivity.this, "No Records found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DashActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                Toast.makeText(DashActivity.this, "No records found", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DashActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(DashActivity.this, resources.getString(R.string.something_wrong) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -3344,7 +3377,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
 //                            secondaryproduct_detail11(fromstrdate, tostrdate);
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
-                            Toast.makeText(DashActivity.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DashActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -3360,7 +3393,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(DashActivity.this, resources.getString(R.string.something_wrong) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -3473,7 +3506,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
 //                            secondaryproduct_detail11(fromstrdate, tostrdate);
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
-                            Toast.makeText(DashActivity.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DashActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -3489,7 +3522,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(DashActivity.this, resources.getString(R.string.something_wrong) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -3589,7 +3622,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
 //                            secondaryproduct_detail11(fromstrdate, tostrdate);
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
-                            Toast.makeText(DashActivity.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DashActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
                     @Override
@@ -3603,7 +3636,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(DashActivity.this, resources.getString(R.string.something_wrong) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -3640,14 +3673,14 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 } else {
                     targetAlls.clear();
                     targetALLAdapter.notifyDataSetChanged();
-                    Toast.makeText(DashActivity.this, "No Records found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DashActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                Toast.makeText(DashActivity.this, "No records found", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DashActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(DashActivity.this, resources.getString(R.string.something_wrong) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -3751,7 +3784,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
 //                            secondaryproduct_detail11(fromstrdate, tostrdate);
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
-                            Toast.makeText(DashActivity.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DashActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -3767,7 +3800,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(DashActivity.this, resources.getString(R.string.something_wrong) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
     public void Orderproduct_PiechartYTD(){
@@ -3872,7 +3905,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
 //                            secondaryproduct_detail11(fromstrdate, tostrdate);
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
-                            Toast.makeText(DashActivity.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DashActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -3888,7 +3921,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(DashActivity.this, resources.getString(R.string.something_wrong) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -3994,7 +4027,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                         }
                         else {
 //                            Log.d("expense:Res", "1112222233333444");
-                            Toast.makeText(DashActivity.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DashActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -4010,7 +4043,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(DashActivity.this, resources.getString(R.string.something_wrong) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -4166,17 +4199,17 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                     pieChart.setVisibility(View.GONE);
                     chrttxt.setVisibility(View.VISIBLE);
                     chrttxt.setText("No Data Found");
-                   // Toast.makeText(MainActivity.this, "No Records found", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(MainActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
                 pieChart.setVisibility(View.GONE);
                 chrttxt.setVisibility(View.VISIBLE);
                 chrttxt.setText("No Data Found");
-                //Toast.makeText(MainActivity.this, "No records found", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(DashActivity.this, resources.getString(R.string.something_wrong) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -4229,7 +4262,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                             parseJsonDatasecondDetail(response.body().toString());
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
-                            Toast.makeText(DashActivity.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DashActivity.this, resources.getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -4245,7 +4278,7 @@ public class DashActivity extends AppCompatActivity implements NavigationView.On
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(DashActivity.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(DashActivity.this, resources.getString(R.string.something_wrong) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

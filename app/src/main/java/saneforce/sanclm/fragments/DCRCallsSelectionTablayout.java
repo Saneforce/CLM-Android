@@ -200,7 +200,7 @@ public class DCRCallsSelectionTablayout  extends Fragment implements TabHost.OnT
                         if(js.has("msg"))
                             Toast.makeText(getActivity(),js.getString("msg"),Toast.LENGTH_SHORT).show();
                         else
-                        Toast.makeText(getActivity(),"Submit Successfully",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(),getResources().getString(R.string.submitsuccess),Toast.LENGTH_SHORT).show();
                     }
                     else{
                         progressDialog.dismiss();

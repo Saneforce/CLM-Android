@@ -118,14 +118,16 @@
                                 android:background="#28ABE3"
                                 android:weightSum="3"
                                 >
+
                                 <TextView
+                                    android:id="@+id/tv_total_dr"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Total Dr Calls"
-                                    android:textColor="#fff"
-                                    android:layout_weight="1"
                                     android:layout_gravity="center"
-                                    android:layout_marginLeft="10dp"/>
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_weight="1"
+                                    android:text="Total Dr Calls"
+                                    android:textColor="#fff" />
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -137,9 +139,8 @@
                                     android:layout_marginLeft="10dp"/>
 
                             </LinearLayout>
-
-
                         </RelativeLayout>
+
                     </LinearLayout>
                         <LinearLayout
                             android:layout_margin="10dp"
@@ -168,6 +169,7 @@
                                     android:weightSum="3"
                                     >
                                 <TextView
+                                    android:id="@+id/tv_phrma"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Total Pharmacy Calls"
@@ -216,6 +218,7 @@
                                     android:background="#38B64A"
                                     >
                                     <TextView
+                                        android:id="@+id/tv_totaldr"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:text="Total Dr Calls"
@@ -342,6 +345,7 @@
                    android:layout_marginRight="10dp"
                    android:elevation="10dp">
                    <TextView
+                       android:id="@+id/timedetail"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:fontFamily="@font/poppins_semibold"
@@ -619,6 +623,7 @@
                    android:layout_marginRight="10dp"
                    android:elevation="10dp">
                    <TextView
+                       android:id="@+id/brandex"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:fontFamily="@font/poppins_semibold"

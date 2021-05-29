@@ -2,6 +2,10 @@ package saneforce.sanclm.adapter_class;
 
 import android.content.Context;
 
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +18,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import saneforce.sanclm.R;
 import saneforce.sanclm.activities.Model.ModelReportList;
 import saneforce.sanclm.activities.ReportListActivity;
 import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
+import saneforce.sanclm.fragments.LocaleHelper;
+
+import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
+import static saneforce.sanclm.fragments.AppConfiguration.language_string;
 
 public class AdapterForReportList extends RecyclerView.Adapter<AdapterForReportList.MyViewHolder> {
     Context context;
@@ -28,6 +37,9 @@ public class AdapterForReportList extends RecyclerView.Adapter<AdapterForReportL
     String product,gift;
     CommonSharedPreference  commonSharedPreference;
     String  typ;
+    String language;
+//    Context context;
+    Resources resources;
 
     public AdapterForReportList(Context context, ArrayList<ModelReportList> array,String  typ) {
         this.context = context;
@@ -49,11 +61,11 @@ public class AdapterForReportList extends RecyclerView.Adapter<AdapterForReportL
         ModelReportList mm=array.get(position);
         holder.txt_name.setText(mm.getName());
         holder.txt_wt.setText(mm.getDt());
-        holder.txt_cluster.setText(mm.getCluster());
-        holder.txt_vtime_value.setText(mm.getVtime());
-        holder.txt_mtime_value.setText(mm.getMtime());
-        holder.txt_jw.setText(mm.getJw());
-        holder.txt_rem.setText(mm.getRemark());
+        holder.txt_cluster.setText(" : "+mm.getCluster());
+        holder.txt_vtime_value.setText(" : "+mm.getVtime());
+        holder.txt_mtime_value.setText(" : "+mm.getMtime());
+        holder.txt_jw.setText(" : "+mm.getJw());
+        holder.txt_rem.setText(" : "+mm.getRemark());
         if(commonSharedPreference.getValueFromPreference("addAct").equalsIgnoreCase("0")) {
             holder.txt_pob.setText("POB");
         }
@@ -77,6 +89,28 @@ public class AdapterForReportList extends RecyclerView.Adapter<AdapterForReportL
         holder.ip_recycle.setAdapter(gAdpt);
         gAdpt.notifyDataSetChanged();
 
+        SharedPreferences sharedPreferences = context.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        language = sharedPreferences.getString(language_string, "");
+        if (!language.equals("")){
+            Log.d("homelang",language);
+            selected(language);
+            context = LocaleHelper.setLocale(context, language);
+            resources = context.getResources();
+        }else {
+            selected("en");
+            context = LocaleHelper.setLocale(context, "en");
+            resources = context.getResources();
+        }
+
+    }
+
+    private void selected(String language) {
+        Locale myLocale = new Locale(language);
+        Resources res = context.getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
     }
 
     @Override

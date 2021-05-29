@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -57,6 +58,7 @@ import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
 import saneforce.sanclm.applicationCommonFiles.CommonUtilsMethods;
 import saneforce.sanclm.applicationCommonFiles.NetworkStatus;
 import saneforce.sanclm.fragments.AppConfiguration;
+import saneforce.sanclm.fragments.LocaleHelper;
 import saneforce.sanclm.sqlite.DataBaseHandler;
 import saneforce.sanclm.util.UpdateUi;
 
@@ -64,6 +66,9 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
+import static saneforce.sanclm.fragments.AppConfiguration.language_string;
+import static saneforce.sanclm.fragments.AppConfiguration.licenceKey;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     CommonSharedPreference mCommonSharedPreference;
@@ -109,7 +114,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click back again to exit", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getResources().getString(R.string.click_again), Toast.LENGTH_SHORT).show();
 
         new Handler().postDelayed(new Runnable() {
 
@@ -184,6 +189,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mloginButton=(Button) findViewById(R.id.bt_login);
         et_login_username=(EditText)findViewById(R.id.et_login_username);
         et_login_password=(EditText)findViewById(R.id.et_login_password);
+
+       SharedPreferences sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        String language = sharedPreferences.getString(language_string, "");
+        if (!language.equals("")){
+            Log.d("stringlang",language);
+            selected(language);
+        }else {
+            selected("en");
+        }
 
         if(TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_USERNAME)) ||
                 mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_USERNAME).equalsIgnoreCase("null")){}else{
@@ -363,7 +377,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                              {
                                  if (!(mCommonSharedPreference.getValueFromPreference("pass").equalsIgnoreCase(et_login_password.getText().toString())) ||
                                          !(mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_USERNAME).equalsIgnoreCase(et_login_username.getText().toString()))) {
-                                     Toast.makeText(LoginActivity.this, "Check username and password", Toast.LENGTH_SHORT).show();
+                                     Toast.makeText(LoginActivity.this, getResources().getString(R.string.check_us_ps), Toast.LENGTH_SHORT).show();
                                      progressDialog.dismiss();
                                  } else {
                                      Api_Interface apiService = RetroClient.getClient(db_pathUrl).create(Api_Interface.class);
@@ -383,7 +397,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                              Log.v("printing_passwrd",mCommonSharedPreference.getValueFromPreference("pass"));
                              if(!(mCommonSharedPreference.getValueFromPreference("pass").equalsIgnoreCase(et_login_password.getText().toString())) ||
                                      !(mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_USERNAME).equalsIgnoreCase(et_login_username.getText().toString()))){
-                                 Toast.makeText(LoginActivity.this,"Check username and password",Toast.LENGTH_SHORT).show();
+                                 Toast.makeText(LoginActivity.this,getResources().getString(R.string.check_us_ps),Toast.LENGTH_SHORT).show();
                                  progressDialog.dismiss();
                              }
                              else{
@@ -395,19 +409,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                            break;
                        }
                            }else {
-                           Toast.makeText(this,"Please allow Storage permission", Toast.LENGTH_SHORT).show();
+                           Toast.makeText(this,getResources().getString(R.string.strge_permis), Toast.LENGTH_SHORT).show();
                            //CheckForstoragePermission();
                         checkingPermissions();
                            }
 
                 }else{
                     if(TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_USERNAME))|| mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_USERNAME).equalsIgnoreCase("null")) {
-                        Toast.makeText(this,"Please Enable Mobile Internet..", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this,getResources().getString(R.string.mob_inter), Toast.LENGTH_SHORT).show();
                     }
                     else{
                         if(!(mCommonSharedPreference.getValueFromPreference("pass").equalsIgnoreCase(et_login_password.getText().toString())) ||
                                 !(mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_USERNAME).equalsIgnoreCase(et_login_username.getText().toString()))){
-                            Toast.makeText(LoginActivity.this,"Check username and password",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this,getResources().getString(R.string.check_us_ps),Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();
                         }
                         else {
@@ -546,7 +560,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         @Override
         public void onFailure(Call<ResponseBody> call, Throwable t) {
-            Toast.makeText(LoginActivity.this, "On Failure "+t.getMessage() , Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginActivity.this, getResources().getString(R.string.onfail)+t.getMessage() , Toast.LENGTH_LONG).show();
         }
     };
 
@@ -778,8 +792,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .create()
                 .show();
     }
-
-
-
-
+    public void selected(String lang){
+        Context context = LocaleHelper.setLocale(LoginActivity.this, lang);
+        Resources resources = context.getResources();
+        mloginButton.setText(resources.getString(R.string.Login));
+        et_login_username.setHint(resources.getString(R.string.username));
+        et_login_password.setHint(resources.getString(R.string.password));
+    }
 }

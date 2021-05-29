@@ -1,5 +1,8 @@
 package saneforce.sanclm.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -47,6 +50,9 @@ import saneforce.sanclm.applicationCommonFiles.CommonUtilsMethods;
 import saneforce.sanclm.sqlite.DataBaseHandler;
 import saneforce.sanclm.util.UpdateUi;
 
+import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
+import static saneforce.sanclm.fragments.AppConfiguration.language_string;
+
 public class CallFragment extends Fragment {
     PieChart pie;
     String db_connPath,SF_Code;
@@ -62,12 +68,39 @@ public class CallFragment extends Fragment {
     DataBaseHandler dbh;
     static UpdateUi updateUi;
     ImageButton call_visit_detailsReload;
-    
+    String language;
+    Context context;
+    Resources resources;
+    TextView tv_monthly_summary_head,tv_call_visit_details,categorycap,overallcap;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View vv=inflater.inflate(R.layout.home_call_graph, container, false);
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        language = sharedPreferences.getString(language_string, "");
+        if (!language.equals("")){
+            Log.d("homelang",language);
+//            selected(language);
+            context = LocaleHelper.setLocale(getActivity(), language);
+            resources = context.getResources();
+        }else {
+            context = LocaleHelper.setLocale(getActivity(), "en");
+            resources = context.getResources();
+        }
+
         pie=(PieChart)vv.findViewById(R.id.pie);
+
+        tv_monthly_summary_head=vv.findViewById(R.id.tv_monthly_summary_head);
+        tv_call_visit_details=vv.findViewById(R.id.tv_call_visit_details);
+        categorycap=vv.findViewById(R.id.categorycap);
+        overallcap=vv.findViewById(R.id.overallcap);
+
+        tv_monthly_summary_head.setText(resources.getString(R.string.monthly_average));
+        tv_call_visit_details.setText(resources.getString(R.string.current_visit));
+        categorycap.setText(resources.getString(R.string.category));
+        overallcap.setText(resources.getString(R.string.overall));
 
         call_visit_detailsReload=(ImageButton) vv.findViewById(R.id.call_visit_detailsReload);
 

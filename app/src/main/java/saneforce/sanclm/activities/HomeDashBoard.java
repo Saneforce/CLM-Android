@@ -17,6 +17,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -51,6 +53,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -103,6 +106,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.Callable;
@@ -143,6 +147,7 @@ import saneforce.sanclm.applicationCommonFiles.LocationTrack;
 import saneforce.sanclm.fragments.AppConfiguration;
 import saneforce.sanclm.fragments.CallFragment;
 import saneforce.sanclm.fragments.DownloadMasterData;
+import saneforce.sanclm.fragments.LocaleHelper;
 import saneforce.sanclm.fragments.NewCallFragment;
 import saneforce.sanclm.fragments.NewTrainingFragment;
 import saneforce.sanclm.fragments.TrainingFragment;
@@ -159,6 +164,7 @@ import android.location.LocationManager;
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
+import static saneforce.sanclm.fragments.AppConfiguration.language_string;
 import static saneforce.sanclm.fragments.AppConfiguration.licenceKey;
 
 public class HomeDashBoard extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener, LocationListener {
@@ -167,7 +173,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     public static DrawerLayout drawer;
     ImageView iv_navdrawer_menu, iv_setting, iv_reload, closePopupBtn, iv_logout, iv_noti;
     CommonUtilsMethods CommonUtilsMethods;
-    TextView tv_mWorktype, tv_cluster, tv_mworktype_cluster, tv_headquater, tv_userName, tv_worktype, tv_setting;
+    TextView myplancap,tv_mWorktype, tv_cluster, tv_mworktype_cluster, tv_headquater, tv_userName, tv_worktype, tv_setting;
     public static TextView tv_todaycall_count;
     TextView tv_reload, tv_logout;
     static DataBaseHandler dbh;
@@ -271,7 +277,10 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
     SharedPreferences licencesharedPreferences;
     String licence;
-
+    String language;
+    Context context;
+    Resources resources;
+    TextView tv_todaycall_head,tv_calls,tv_presentation,tv_reports;
     @Override
     protected void onPause() {
         super.onPause();
@@ -282,6 +291,19 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_homepage);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        language = sharedPreferences.getString(language_string, "");
+        if (!language.equals("")){
+            Log.d("homelang",language);
+            selected(language);
+            context = LocaleHelper.setLocale(HomeDashBoard.this, language);
+            resources = context.getResources();
+        }else {
+            selected("en");
+            context = LocaleHelper.setLocale(HomeDashBoard.this, "en");
+            resources = context.getResources();
+        }
 
         CommonUtilsMethods = new CommonUtilsMethods(this);
         dbh = new DataBaseHandler(this);
@@ -294,7 +316,14 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         mainDashbrd=findViewById(R.id.mainDashbrd);
         menuDashbrd=findViewById(R.id.menuDashbrd);
         layoutBottomSheet=findViewById(R.id.bottom_sheet);
+
         l1_app_config=findViewById(R.id.l1_app_config);
+
+        tv_todaycall_head=findViewById(R.id.tv_todaycall_head);
+        tv_calls=findViewById(R.id.tv_calls);
+        tv_presentation=findViewById(R.id.tv_presentation);
+        tv_reports=findViewById(R.id.tv_reports);
+
         tb_dwnloadSlides = (TableLayout) findViewById(R.id.tableLayout1);
      // tb_dwnloadSlides.setVisibility(View.GONE);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -307,6 +336,13 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
         mainDashbrd.setVisibility(View.VISIBLE);
         menuDashbrd.setVisibility(View.VISIBLE);
+
+        tv_todaycall_head.setText(resources.getString(R.string.todaycall));
+//        tv_calls.setVisibility(View.INVISIBLE);
+//        tv_calls.setText(resources.getString(R.string.calls));
+//        tv_presentation.setText(resources.getString(R.string.presentation));
+//        tv_reports.setText(resources.getString(R.string.report));
+
         digital=mCommonSharedPreference.getValueFromPreference("Digital_offline");
               Intent intent=getIntent();
               digitalOff=intent.getStringExtra("masters");
@@ -348,6 +384,16 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         }, 200);
 
     }
+
+    private void selected(String language) {
+        Locale myLocale = new Locale(language);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+    }
+
 
     @Override
     public void onResume() {
@@ -413,8 +459,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             Call<List<TodayTp>> tdaytp = apiService.todayTP(String.valueOf(json));
             tdaytp.enqueue(TodayTp);
         } else {
-            tv_worktype.setText("Work Type : " + mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_NAME));
-            tv_cluster.setText("Cluster : " + mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME));
+            tv_worktype.setText(resources.getString(R.string.worktype)+" : " + mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_NAME));
+            tv_cluster.setText(resources.getString(R.string.worktype)+" : " + mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME));
         }
        /* if(mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_NAME)=="null" || mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_NAME).trim().isEmpty()) {
 
@@ -449,7 +495,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
                 Log.v("todaycalllist__print", String.valueOf(TodayCallList.size()));
                 todayCalls_recyclerviewAdapter = new TodayCalls_recyclerviewAdapter(getApplicationContext(), TodayCallList);
-                tv_todaycall_count.setText("Total " + TodayCallList.size() + " Calls");
+                tv_todaycall_count.setText(resources.getString(R.string.total)+" " + TodayCallList.size() + " "+resources.getString(R.string.calls));
                 rv_todayCalls.setHasFixedSize(true);
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
                 rv_todayCalls.setLayoutManager(mLayoutManager);
@@ -479,7 +525,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     }
                     Log.v("todaycalllist__print_in", String.valueOf(TodayCallList.size()));
                     todayCalls_recyclerviewAdapter = new TodayCalls_recyclerviewAdapter(getApplicationContext(), TodayCallList);
-                    tv_todaycall_count.setText("Total " + todayCalls.size() + " Calls");
+                    tv_todaycall_count.setText(resources.getString(R.string.total)+" " + todayCalls.size() + " "+resources.getString(R.string.calls));
                     rv_todayCalls.setHasFixedSize(true);
                     RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
                     rv_todayCalls.setLayoutManager(mLayoutManager);
@@ -506,7 +552,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                 } catch (Exception e) {
                 }
             }
-            tv_todaycall_count.setText("Total " + TodayCallList.size() + " Calls");
+            tv_todaycall_count.setText(resources.getString(R.string.total)+" " + TodayCallList.size() + " "+resources.getString(R.string.calls));
             dbh.close();
         }
 
@@ -523,8 +569,13 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         public void onResponse(Call<List<TodayTp>> call, Response<List<TodayTp>> response) {
             List<TodayTp> todaytp = null;
             sharedpreferences.edit().remove(CommonUtils.TAG_WORKTYPE_CLUSTER_CODE).commit();
-            tv_worktype.setText("Work Type : ");
-            tv_cluster.setText("Cluster : ");
+            tv_worktype.setText(resources.getString(R.string.worktype)+" : ");
+            tv_cluster.setText(resources.getString(R.string.cluster)+" : ");
+
+//            tv_calls.setText(resources.getString(R.string.calls));
+//            tv_presentation.setText(resources.getString(R.string.presentation));
+//            tv_reports.setText(resources.getString(R.string.report));
+
             Log.v("tagg", response.toString());
 
             System.out.println("checkUser is sucessfuld :" + response.isSuccessful());
@@ -535,8 +586,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     todaytp = response.body();
                     Log.e("Tday_tp_Calling ", "dp " + todaytp.get(0).getPlNm() + " wrik_type " + todaytp.get(0).getWTNm() + " " + todaytp.get(0).getHQNm() + " " + todaytp.get(0).getFWFlg() + " " + todaytp.get(0).getTpVwFlg());
 
-                    tv_worktype.setText("Work Type : " + todaytp.get(0).getWTNm());
-                    tv_cluster.setText("Cluster : " + todaytp.get(0).getPlNm());
+                    tv_worktype.setText(resources.getString(R.string.worktype)+" : " + todaytp.get(0).getWTNm());
+                    tv_cluster.setText(resources.getString(R.string.cluster)+" : " + todaytp.get(0).getPlNm());
                     tpflag = todaytp.get(0).getTpVwFlg();
 
                     if (todaytp.get(0).getWTNm().contains(",")) {
@@ -617,7 +668,6 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     Worktype();
                 }
             }
-
         }
 
         @Override
@@ -853,8 +903,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     public void Worktype() {
 
         dialog.setContentView(R.layout.activity_myday_plan);
-        final TextView tv_worktype = (TextView) dialog.findViewById(R.id.et_mydaypln_worktype);
-        final TextView tv_headquater = (TextView) dialog.findViewById(R.id.et_mydaypln_HQ);
+        TextView tv_worktype = (TextView) dialog.findViewById(R.id.et_mydaypln_worktype);
+        TextView tv_headquater = (TextView) dialog.findViewById(R.id.et_mydaypln_HQ);
         tv_clusterView = (TextView) dialog.findViewById(R.id.et_mydaypln_cluster);
         final ImageView Close = (ImageView) dialog.findViewById(R.id.iv_close);
         final EditText et_remark = (EditText) dialog.findViewById(R.id.et_mydaypln_remarks);
@@ -863,6 +913,25 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         final ListView rv_hqlist = (ListView) dialog.findViewById(R.id.rv_hqlist);
         btn_mydayplan_go = (Button) dialog.findViewById(R.id.btn_mydaypln_go);
         ll_anim = (LinearLayout) dialog.findViewById(R.id.ll_anim);
+
+        TextView myplancap = (TextView)dialog.findViewById(R.id.tv_todayplan);
+        TextView tv_mWorktype = (TextView)dialog.findViewById(R.id.tv_mydaypln_worktype);
+        TextView tv_headquaters = (TextView)dialog.findViewById(R.id.tv_mydaypln_HQ);
+        TextView tv_mworktype_cluster = (TextView)dialog.findViewById(R.id.tv_mydaypln_cluster);
+        TextView tv_myremarks = (TextView)dialog.findViewById(R.id.tv_remarks);
+
+//        context = LocaleHelper.setLocale(HomeDashBoard.this, language);
+//        resources = context.getResources();
+//        myplancap.setText(resources.getString(R.string.todayworktype));
+//        tv_mWorktype.setText(resources.getString(R.string.worktype));
+//        tv_mworktype_cluster.setText(resources.getString(R.string.cluster));
+//        tv_headquaters.setText(resources.getString(R.string.headquater));
+//        tv_myremarks.setText(resources.getString(R.string.remarks));
+//        btn_mydayplan_go.setText(resources.getString(R.string.go));
+//        tv_worktype.setText(resources.getString(R.string.select)+""+resources.getString(R.string.worktype));
+//        tv_headquater.setText(resources.getString(R.string.select)+""+resources.getString(R.string.headquater));
+//        tv_clusterView.setText(resources.getString(R.string.select)+""+resources.getString(R.string.cluster));
+
         final ArrayList<PopFeed> array_cluster = new ArrayList<>();
         tv_headquater.setText(sharedpreferences.getString(CommonUtils.TAG_SF_HQ, ""));
 
@@ -1082,7 +1151,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     rv_cluster.setVisibility(View.INVISIBLE);
                 }
 
-                tv_clusterView.setText("SELECT CLUSTER");
+                tv_clusterView.setText(resources.getString(R.string.select_cluster));
                 tv_headquater.setText(parent.getItemAtPosition(position).toString());
                 rv_hqlist.setVisibility(View.INVISIBLE);
                 for (Map.Entry<String, String> entry : mHQListID.entrySet()) {
@@ -1116,12 +1185,12 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             @Override
             public void onClick(View view) {
                 Log.v("checking_for_enable", tv_clusterView.isEnabled() + "");
-                if (tv_worktype.getText().toString().equalsIgnoreCase("SELECT WORKTYPE")) {
-                    Toast.makeText(HomeDashBoard.this, "Fill the work type field ", Toast.LENGTH_SHORT).show();
-                } else if (tv_clusterView.getText().toString().equalsIgnoreCase("SELECT CLUSTER") && !displayWrk && tv_clusterView.isEnabled()) {
-                    Toast.makeText(HomeDashBoard.this, "Fill the cluster field", Toast.LENGTH_SHORT).show();
-                } else if (tv_headquater.getText().toString().equalsIgnoreCase("null") || tv_headquater.getText().toString().equalsIgnoreCase("select headquater")) {
-                    Toast.makeText(HomeDashBoard.this, "Fill the headquater field", Toast.LENGTH_SHORT).show();
+                if (tv_worktype.getText().toString().equalsIgnoreCase(resources.getString(R.string.select_worktype))) {
+                    Toast.makeText(HomeDashBoard.this, resources.getString(R.string.fill_the)+" "+resources.getString(R.string.worktype1)+" "+resources.getString(R.string.field_), Toast.LENGTH_SHORT).show();
+                } else if (tv_clusterView.getText().toString().equalsIgnoreCase(resources.getString(R.string.select_cluster)) && !displayWrk && tv_clusterView.isEnabled()) {
+                    Toast.makeText(HomeDashBoard.this, resources.getString(R.string.fill_the)+" "+resources.getString(R.string.cluster1)+" "+resources.getString(R.string.field_), Toast.LENGTH_SHORT).show();
+                } else if (tv_headquater.getText().toString().equalsIgnoreCase("null") || tv_headquater.getText().toString().equalsIgnoreCase(resources.getString(R.string.select_headquater))) {
+                    Toast.makeText(HomeDashBoard.this, resources.getString(R.string.fill_the)+" "+resources.getString(R.string.headquater1)+" "+resources.getString(R.string.field_), Toast.LENGTH_SHORT).show();
                 } else {
 
                     JSONObject json = new JSONObject();
@@ -2441,10 +2510,10 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(HomeDashBoard.this);
-            alertDialog.setTitle("Enable Location");
+            alertDialog.setTitle(getResources().getString(R.string.enable_location));
             alertDialog.setCancelable(false);
-            alertDialog.setMessage("Your locations setting is not enabled. Please enabled it in settings menu.");
-            alertDialog.setPositiveButton("Location Settings", new DialogInterface.OnClickListener() {
+            alertDialog.setMessage(getResources().getString(R.string.alert_location));
+            alertDialog.setPositiveButton(getResources().getString(R.string.location_setting), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), 1);
                 }
@@ -2568,7 +2637,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     JSONObject js = new JSONObject(is.toString());
                     if (js.getString("success").equals("true")) {
                         mis_dialog.dismiss();
-                        Toast.makeText(HomeDashBoard.this, "Submitted successfully !! ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(HomeDashBoard.this, resources.getString(R.string.submitsuccess), Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                     }
                 } catch (Exception e) {
@@ -2657,7 +2726,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
                 Log.v("todaycalllist__print", String.valueOf(TodayCallList.size()));
                 todayCalls_recyclerviewAdapter = new TodayCalls_recyclerviewAdapter(getApplicationContext(), TodayCallList);
-                tv_todaycall_count.setText("Total " + TodayCallList.size() + " Calls");
+                tv_todaycall_count.setText(resources.getString(R.string.total)+" "+ TodayCallList.size() + " "+resources.getString(R.string.calls));
                 rv_todayCalls.setHasFixedSize(true);
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
                 rv_todayCalls.setLayoutManager(mLayoutManager);
@@ -2780,7 +2849,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         String wrkNAm = sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, null);
         String wrkcluNAm = sharedpreferences.getString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, null);
         if (TextUtils.isEmpty(wrkNAm) || wrkNAm.equalsIgnoreCase("null")) {
-            Toast.makeText(HomeDashBoard.this, " My Day plan is Needed ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(HomeDashBoard.this, resources.getString(R.string.dplan_need), Toast.LENGTH_SHORT).show();
             if (!tpflag.isEmpty() || !tpflag.equals("")) {
                 if (tpflag.equals("1")) {
                     if (tb_dwnloadSlides.getVisibility() != View.VISIBLE) {
@@ -3041,6 +3110,19 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     }
 
     public void refreshPendingFunction() {
+        SharedPreferences sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        language = sharedPreferences.getString(language_string, "");
+        if (!language.equals("")){
+            Log.d("homelang",language);
+            selected(language);
+            context = LocaleHelper.setLocale(HomeDashBoard.this, language);
+            resources = context.getResources();
+        }else {
+            selected("en");
+            context = LocaleHelper.setLocale(HomeDashBoard.this, "en");
+            resources = context.getResources();
+        }
+
         viewpage = (ViewPager) findViewById(R.id.viewpage);
         addTabs(viewpage);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -3053,6 +3135,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         rl_presentation = (LinearLayout) findViewById(R.id.rl_presentation);
         rl_reports = (LinearLayout) findViewById(R.id.rl_reports);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
+        myplancap = (TextView)findViewById(R.id.tv_todayplan);
         tv_mWorktype = (TextView) findViewById(R.id.tv_mydaypln_worktype);
         tv_headquater = (TextView) findViewById(R.id.tv_mydaypln_HQ);
         tv_userName = (TextView) findViewById(R.id.tv_username);
@@ -3076,12 +3159,21 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         rl_up = (RelativeLayout) findViewById(R.id.rl_up);
         pBar = (ProgressBar) findViewById(R.id.pBar);
         nav_list = findViewById(R.id.nav_list);
+        tv_calls=findViewById(R.id.tv_calls);
+        tv_presentation=findViewById(R.id.tv_presentation);
+        tv_reports=findViewById(R.id.tv_reports);
+
+//        tv_calls.setText(resources.getString(R.string.calls));
+//        tv_presentation.setText(resources.getString(R.string.presentation));
+//        tv_reports.setText(resources.getString(R.string.report));
+
         addNavItem();
 //        iv_reload.setVisibility(View.GONE);
 //        if (digital.equalsIgnoreCase("1")) {
 //            iv_reload.setVisibility(View.VISIBLE);
 //        }
         layoutBottomSheet = (LinearLayout) findViewById(R.id.bottom_sheet);
+
         sheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
         sheetBehavior.setHideable(false);
 
@@ -3257,8 +3349,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             }
 
         }
-        tv_worktype.setText("Work Type : ");
-        tv_cluster.setText("Cluster : ");
+        tv_worktype.setText(resources.getString(R.string.worktype)+" : ");
+        tv_cluster.setText(resources.getString(R.string.cluster)+" : ");
         Log.v("intener_value_checking", mCommonSharedPreference.getValueFromPreference("check_online"));
 
 
@@ -3282,112 +3374,210 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         nav_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                switch (arrayNav.get(i).getText()) {
-                    case "Change Cluster":
-                        displayWrk = false;
-                        setSharedPreference();
+
+                if (arrayNav.get(i).getText().equals(resources.getString(R.string.change_cluster))){
+                    displayWrk = false;
+                    setSharedPreference();
+                    Worktype();
+
+                }else if (arrayNav.get(i).getText().equals(resources.getString(R.string.calls))){
+                    String wrkNAm = sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, null);
+                    Log.v("testing", wrkNAm);
+                    String wrkcluNAm = sharedpreferences.getString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, null);
+                    if (TextUtils.isEmpty(wrkNAm) || wrkNAm.equalsIgnoreCase("null")) {
+                        Toast.makeText(HomeDashBoard.this, resources.getString(R.string.dplan_need), Toast.LENGTH_SHORT).show();
                         Worktype();
-                        break;
-                    case "Calls":
-                        String wrkNAm = sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, null);
-                        Log.v("testing", wrkNAm);
-                        String wrkcluNAm = sharedpreferences.getString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, null);
-                        if (TextUtils.isEmpty(wrkNAm) || wrkNAm.equalsIgnoreCase("null")) {
-                            Toast.makeText(HomeDashBoard.this, " My Day plan is Needed ", Toast.LENGTH_SHORT).show();
-                            Worktype();
-                        }
+                    }
 /*
                 if(TextUtils.isEmpty(wrkcluNAm)|| TextUtils.isEmpty(wrkNAm) || wrkNAm.equalsIgnoreCase("null")){
                     Toast.makeText(HomeDashBoard.this," My Day plan is Needed ",Toast.LENGTH_SHORT).show();
                     Worktype();
                 }
 */
-                        else {
-                            if (sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("Field Work"))
-                                CommonUtilsMethods.CommonIntentwithNEwTask(DCRCallSelectionActivity.class);
-                        }
-                        break;
-                    case "Create Presentation":
-                        CommonUtilsMethods.CommonIntentwithNEwTask(PresentationCreationMainActivity.class);
-                        break;
-/*case R.id.nav_dr_profile:
-                        mCommonSharedPreference.setValueToPreference("dr_profile","true");
-                    CommonUtilsMethods.CommonIntentwithNEwTask(DRProfileActivity.class);
+                    else {
+                        if (sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("Field Work"))
+                            CommonUtilsMethods.CommonIntentwithNEwTask(DCRCallSelectionActivity.class);
+                    }
 
-                    break;*/
-                    case "Tour Plan":
-                        CommonUtilsMethods.CommonIntentwithNEwTask(DemoActivity.class);
-                        break;
-                    case "Missed Date Entry":
-                        //
-                        dbh.open();
-                        Cursor cur = dbh.select_worktypeList(SF_Code, "Field Work");
-                        if (cur.getCount() > 0) {
-                            while (cur.moveToNext()) {
-                                Log.v("sfcode_count", "Hello");
-                                CommonUtils.wrktype_code = cur.getString(1);
-                            }
+                }else if (arrayNav.get(i).getText().equals(resources.getString(R.string.create_presentation))){
+
+                    CommonUtilsMethods.CommonIntentwithNEwTask(PresentationCreationMainActivity.class);
+
+                }else if (arrayNav.get(i).getText().equals(resources.getString(R.string.tour_plan))){
+
+                    CommonUtilsMethods.CommonIntentwithNEwTask(DemoActivity.class);
+
+                }else if (arrayNav.get(i).getText().equals(resources.getString(R.string.missed_date_entry))){
+
+                    dbh.open();
+                    Cursor cur = dbh.select_worktypeList(SF_Code, "Field Work");
+                    if (cur.getCount() > 0) {
+                        while (cur.moveToNext()) {
+                            Log.v("sfcode_count", "Hello");
+                            CommonUtils.wrktype_code = cur.getString(1);
                         }
-                        cur.close();
-                        dbh.close();
-                        MissedClicked = true;
-                        String wrkNAm1 = sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, null);
-                        String wrkcluNAm1 = sharedpreferences.getString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, null);
+                    }
+                    cur.close();
+                    dbh.close();
+                    MissedClicked = true;
+                    String wrkNAm1 = sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, null);
+                    String wrkcluNAm1 = sharedpreferences.getString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, null);
                     /*if (TextUtils.isEmpty(wrkcluNAm1) || TextUtils.isEmpty(wrkNAm1) || wrkNAm1.equalsIgnoreCase("null")) {
                         Toast.makeText(HomeDashBoard.this, " My Day plan is Needed ", Toast.LENGTH_SHORT).show();
 
                     }
                     else*/
-                        missedDate();
-                        break;
-                    case "Leave Application":
-                        if (licence.equals("iil4420")) {
-                            CommonUtilsMethods.CommonIntentwithNEwTask(LeaveActivity1.class);
-                        } else {
-                            CommonUtilsMethods.CommonIntentwithNEwTask(LeaveActivity.class);
-                        }
-                        break;
-                    case "Detailing Report":
-                        CommonUtilsMethods.CommonIntentwithNEwTask(ReportOfDetailing.class);
-                        break;
-                    case "Approvals":
-                        CommonUtilsMethods.CommonIntentwithNEwTask(ApprovalActivity.class);
-                        break;
-                    case "Reports":
-                        CommonUtilsMethods.CommonIntentwithNEwTask(ReportActivity.class);
-                   /* Intent i=new Intent(HomeDashBoard.this,MyVaultActivity.class);
-                    startActivity(i);*/
-                        break;
-                    case "Quiz":
-                        if (progressDialog == null) {
-                            CommonUtilsMethods commonUtilsMethods = new CommonUtilsMethods(HomeDashBoard.this);
-                            progressDialog = commonUtilsMethods.createProgressDialog(HomeDashBoard.this);
-                            progressDialog.show();
-                        } else {
-                            progressDialog.show();
-                        }
-                        getQuiz();
-                        break;
-                    case "Near Me":
-                        Log.v("printing_geoneed_val", GpsNeed);
-                        //GpsNeed
-                        // if(fullCheckPermission() && CommonUtilsMethods.isOnline(HomeDashBoard.this)) {
-                        //GpsNeed.equalsIgnoreCase("0") &&
-                        if (CommonUtilsMethods.isOnline(HomeDashBoard.this)) {
-                            CommonUtilsMethods.CommonIntentwithNEwTask(NearTagActivity.class);
-                        } else {
-                            Toast.makeText(getApplicationContext(), "You are in OFF - Line ", Toast.LENGTH_SHORT).show();
-                            //Toast.makeText(getApplicationContext(),"Gps Required For this Option " +GpsNeed,Toast.LENGTH_SHORT).show();
-                        }
-                        break;
-                    case "Logout":
-                        CommonUtilsMethods.CommonIntentwithNEwTask(LoginActivity.class);
-                        break;
+                    missedDate();
 
-                    case "Dashboard":
-                        CommonUtilsMethods.CommonIntentwithNEwTask(DashActivity.class);
-                        break;
+                }else if (arrayNav.get(i).getText().equals(resources.getString(R.string.leave_application))){
+
+                    if (licence.equals("iil4420")) {
+                        CommonUtilsMethods.CommonIntentwithNEwTask(LeaveActivity1.class);
+                    } else {
+                        CommonUtilsMethods.CommonIntentwithNEwTask(LeaveActivity.class);
+                    }
+
+                }else if (arrayNav.get(i).getText().equals(resources.getString(R.string.approvals))){
+
+                    CommonUtilsMethods.CommonIntentwithNEwTask(ApprovalActivity.class);
+
+                }else if (arrayNav.get(i).getText().equals(resources.getString(R.string.report))){
+
+                    CommonUtilsMethods.CommonIntentwithNEwTask(ReportActivity.class);
+
+                }else if (arrayNav.get(i).getText().equals(resources.getString(R.string.near_me))){
+
+                    Log.v("printing_geoneed_val", GpsNeed);
+                    //GpsNeed
+                    // if(fullCheckPermission() && CommonUtilsMethods.isOnline(HomeDashBoard.this)) {
+                    //GpsNeed.equalsIgnoreCase("0") &&
+                    if (CommonUtilsMethods.isOnline(HomeDashBoard.this)) {
+                        CommonUtilsMethods.CommonIntentwithNEwTask(NearTagActivity.class);
+                    } else {
+                        Toast.makeText(getApplicationContext(), resources.getString(R.string.offline), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(),"Gps Required For this Option " +GpsNeed,Toast.LENGTH_SHORT).show();
+                    }
+
+                }else if (arrayNav.get(i).getText().equals(resources.getString(R.string.detailing_report))){
+
+                    CommonUtilsMethods.CommonIntentwithNEwTask(ReportOfDetailing.class);
+
+                }else if (arrayNav.get(i).getText().equals(resources.getString(R.string.logout))){
+
+                    CommonUtilsMethods.CommonIntentwithNEwTask(LoginActivity.class);
+
+                }else if (arrayNav.get(i).getText().equals(resources.getString(R.string.Dashboard))){
+
+                    CommonUtilsMethods.CommonIntentwithNEwTask(DashActivity.class);
+
                 }
+
+//                switch (arrayNav.get(i).getText()) {
+//                    case "Change Cluster"  :
+//                        displayWrk = false;
+//                        setSharedPreference();
+//                        Worktype();
+//                        break;
+//                    case "Calls":
+//                        String wrkNAm = sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, null);
+//                        Log.v("testing", wrkNAm);
+//                        String wrkcluNAm = sharedpreferences.getString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, null);
+//                        if (TextUtils.isEmpty(wrkNAm) || wrkNAm.equalsIgnoreCase("null")) {
+//                            Toast.makeText(HomeDashBoard.this, " My Day plan is Needed ", Toast.LENGTH_SHORT).show();
+//                            Worktype();
+//                        }
+///*
+//                if(TextUtils.isEmpty(wrkcluNAm)|| TextUtils.isEmpty(wrkNAm) || wrkNAm.equalsIgnoreCase("null")){
+//                    Toast.makeText(HomeDashBoard.this," My Day plan is Needed ",Toast.LENGTH_SHORT).show();
+//                    Worktype();
+//                }
+//*/
+//                        else {
+//                            if (sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("Field Work"))
+//                                CommonUtilsMethods.CommonIntentwithNEwTask(DCRCallSelectionActivity.class);
+//                        }
+//                        break;
+//                    case "Create Presentation":
+//                        CommonUtilsMethods.CommonIntentwithNEwTask(PresentationCreationMainActivity.class);
+//                        break;
+///*case R.id.nav_dr_profile:
+//                        mCommonSharedPreference.setValueToPreference("dr_profile","true");
+//                    CommonUtilsMethods.CommonIntentwithNEwTask(DRProfileActivity.class);
+//
+//                    break;*/
+//                    case "Tour Plan":
+//                        CommonUtilsMethods.CommonIntentwithNEwTask(DemoActivity.class);
+//                        break;
+//                    case "Missed Date Entry":
+//                        //
+//                        dbh.open();
+//                        Cursor cur = dbh.select_worktypeList(SF_Code, "Field Work");
+//                        if (cur.getCount() > 0) {
+//                            while (cur.moveToNext()) {
+//                                Log.v("sfcode_count", "Hello");
+//                                CommonUtils.wrktype_code = cur.getString(1);
+//                            }
+//                        }
+//                        cur.close();
+//                        dbh.close();
+//                        MissedClicked = true;
+//                        String wrkNAm1 = sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, null);
+//                        String wrkcluNAm1 = sharedpreferences.getString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, null);
+//                    /*if (TextUtils.isEmpty(wrkcluNAm1) || TextUtils.isEmpty(wrkNAm1) || wrkNAm1.equalsIgnoreCase("null")) {
+//                        Toast.makeText(HomeDashBoard.this, " My Day plan is Needed ", Toast.LENGTH_SHORT).show();
+//
+//                    }
+//                    else*/
+//                        missedDate();
+//                        break;
+//                    case "Leave Application":
+//                        if (licence.equals("iil4420")) {
+//                            CommonUtilsMethods.CommonIntentwithNEwTask(LeaveActivity1.class);
+//                        } else {
+//                            CommonUtilsMethods.CommonIntentwithNEwTask(LeaveActivity.class);
+//                        }
+//                        break;
+//                    case "Detailing Report":
+//                        CommonUtilsMethods.CommonIntentwithNEwTask(ReportOfDetailing.class);
+//                        break;
+//                    case "Approvals":
+//                        CommonUtilsMethods.CommonIntentwithNEwTask(ApprovalActivity.class);
+//                        break;
+//                    case "Reports":
+//                        CommonUtilsMethods.CommonIntentwithNEwTask(ReportActivity.class);
+//                   /* Intent i=new Intent(HomeDashBoard.this,MyVaultActivity.class);
+//                    startActivity(i);*/
+//                        break;
+//                    case "Quiz":
+//                        if (progressDialog == null) {
+//                            CommonUtilsMethods commonUtilsMethods = new CommonUtilsMethods(HomeDashBoard.this);
+//                            progressDialog = commonUtilsMethods.createProgressDialog(HomeDashBoard.this);
+//                            progressDialog.show();
+//                        } else {
+//                            progressDialog.show();
+//                        }
+//                        getQuiz();
+//                        break;
+//                    case "Near Me":
+//                        Log.v("printing_geoneed_val", GpsNeed);
+//                        //GpsNeed
+//                        // if(fullCheckPermission() && CommonUtilsMethods.isOnline(HomeDashBoard.this)) {
+//                        //GpsNeed.equalsIgnoreCase("0") &&
+//                        if (CommonUtilsMethods.isOnline(HomeDashBoard.this)) {
+//                            CommonUtilsMethods.CommonIntentwithNEwTask(NearTagActivity.class);
+//                        } else {
+//                            Toast.makeText(getApplicationContext(), "You are in OFF - Line ", Toast.LENGTH_SHORT).show();
+//                            //Toast.makeText(getApplicationContext(),"Gps Required For this Option " +GpsNeed,Toast.LENGTH_SHORT).show();
+//                        }
+//                        break;
+//                    case "Logout":
+//                        CommonUtilsMethods.CommonIntentwithNEwTask(LoginActivity.class);
+//                        break;
+//
+//                    case "Dashboard":
+//                        CommonUtilsMethods.CommonIntentwithNEwTask(DashActivity.class);
+//                        break;
+//                }
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                 drawer.closeDrawer(GravityCompat.START);
             }
@@ -3536,8 +3726,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     public void setMDPValue() {
         tv_worktype.setText(mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_NAME));
         tv_cluster.setText(mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME));
-        tv_worktype.setText("Work Type : " + tv_worktype.getText().toString());
-        tv_cluster.setText("Cluster : " + tv_cluster.getText().toString());
+        tv_worktype.setText(resources.getString(R.string.worktype)+" : " + tv_worktype.getText().toString());
+        tv_cluster.setText(resources.getString(R.string.cluster)+" : " + tv_cluster.getText().toString());
     }
 
     public String sendMDP(String jso, final String id) {
@@ -3800,7 +3990,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                 try {
                     final JSONObject jjj = ja1.getJSONObject(0);
                     if (TextUtils.isEmpty(jjj.getString("FileName"))) {
-                        Toast.makeText(HomeDashBoard.this, "File not available",
+                        Toast.makeText(HomeDashBoard.this, resources.getString(R.string.filenotavailable),
                                 Toast.LENGTH_LONG).show();
                     } else {
                         if (!fileExist("/storage/emulated/0/Quiz/" + jjj.getString("FileName"))) {
@@ -3895,14 +4085,14 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         @Override
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
-            Toast.makeText(HomeDashBoard.this, " A new file is downloading",
+            Toast.makeText(HomeDashBoard.this, resources.getString(R.string.filedownloading),
                     Toast.LENGTH_SHORT).show();
         }
 
         @Override
         protected void onPostExecute(File s) {
             super.onPostExecute(s);
-            Toast.makeText(HomeDashBoard.this, " A new file is downloaded successfully",
+            Toast.makeText(HomeDashBoard.this, resources.getString(R.string.downldsuccess),
                     Toast.LENGTH_SHORT).show();
 
             openFile(s);
@@ -4013,7 +4203,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(this, "No application found which can open the file", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, resources.getString(R.string.nofile), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -4021,22 +4211,21 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
         arrayNav.clear();
 
-        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_clu_mnu, "Change Cluster"));
-        arrayNav.add(new ModelNavDrawer(R.mipmap.calls, "Calls"));
-        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_presentation, "Create Presentation"));
-        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_tourplan, "Tour Plan"));
-        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_tourplan, "Missed Date Entry"));
-        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_leaveappln, "Leave Application"));
-        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_tourplan, "Approvals"));
-        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, "Reports"));
+        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_clu_mnu, /*"Change Cluster"*/resources.getString(R.string.change_cluster)));
+        arrayNav.add(new ModelNavDrawer(R.mipmap.calls, /*"Calls"*/resources.getString(R.string.calls)));
+        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_presentation, /*"Create Presentation"*/resources.getString(R.string.create_presentation)));
+        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_tourplan, /*"Tour Plan"*/resources.getString(R.string.tour_plan)));
+        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_tourplan, /*"Missed Date Entry"*/resources.getString(R.string.missed_date_entry)));
+        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_leaveappln, /*"Leave Application"*/resources.getString(R.string.leave_application)));
+        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_tourplan, /*"Approvals"*/resources.getString(R.string.approvals)));
+        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Reports"*/resources.getString(R.string.report)));
         // arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports,"Quiz"));
-        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, "Near Me"));
-        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, "Detailing Report"));
-        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_logout, "Logout"));
-        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, "Dashboard"));
+        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Near Me"*/resources.getString(R.string.near_me)));
+        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Detailing Report"*/resources.getString(R.string.detailing_report)));
+        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_logout, /*"Logout"*/resources.getString(R.string.logout)));
+        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Dashboard"*/resources.getString(R.string.Dashboard)));
         navAdpt = new NavigationItemAdapter(arrayNav, HomeDashBoard.this);
         nav_list.setAdapter(navAdpt);
     }
-
 
 }
