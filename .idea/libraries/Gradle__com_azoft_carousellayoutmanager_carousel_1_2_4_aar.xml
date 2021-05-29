@@ -4,6 +4,9 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0a6e1d6450134ec4f6aaabdbc3a517e2/jetified-carousel-1.2.4/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0a6e1d6450134ec4f6aaabdbc3a517e2/jetified-carousel-1.2.4/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/0a6e1d6450134ec4f6aaabdbc3a517e2/jetified-carousel-1.2.4/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e0a25ca79fa5f231892071e1d9272018/jetified-carousel-1.2.4/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e0a25ca79fa5f231892071e1d9272018/jetified-carousel-1.2.4/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e0a25ca79fa5f231892071e1d9272018/jetified-carousel-1.2.4/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.azoft.carousellayoutmanager/carousel/1.2.4/9136348f879ff38487caa7c9f2189a33179d4037/carousel-1.2.4-javadoc.jar!/" />

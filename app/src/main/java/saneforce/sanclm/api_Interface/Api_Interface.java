@@ -458,6 +458,27 @@ public interface Api_Interface {
    @POST("db.native.php?axn=get/product_sales_secondary")
    Call<JsonArray> getsecDataAsJArray(@QueryMap Map<String, String> params);
 
+    @FormUrlEncoded
+    @POST("db.php?axn=get/drcovdet")
+    Call<ResponseBody>getDoctorCoverage(@Field("data") String sf);
 
+    @FormUrlEncoded
+    @POST("db.php?axn=get/chmcovdet")
+    Call<ResponseBody>getPharmCoverage(@Field("data") String sf);
 
+    @FormUrlEncoded
+    @POST("db.php?axn=get/totcalls")
+    Call<ResponseBody>getTotalcallsCoverage(@Field("data") String sf);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=get/tdaydet")
+    Call<ResponseBody>getTotaldetails(@Field("data") String sf);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=get/brnddettm")
+    Call<ResponseBody>getDetailingtmspent(@Field("data") String sf);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=get/brndexpo")
+    Call<ResponseBody>getBrndexpo(@Field("data") String sf);
 }

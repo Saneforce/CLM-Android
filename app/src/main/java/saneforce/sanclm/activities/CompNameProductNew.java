@@ -2,10 +2,45 @@ package saneforce.sanclm.activities;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
+
 public class CompNameProductNew {
 
     String  Ccode;
     String CName;
+    String PCode;
+    String PName;
+    String invqty;
+
+
+
+
+    String ptp;
+    String ptr;
+    String sw;
+    String rx;
+    JSONArray feedback;
+    String Fmessage;
+    ArrayList<String> image;
+
+
+    public ArrayList<String> getImage() {
+        return image;
+    }
+
+    public void setImage(ArrayList<String> image) {
+        this.image = image;
+    }
+
+
+    public String getFmessage() {
+        return Fmessage;
+    }
+
+    public void setFmessage(String fmessage) {
+        Fmessage = fmessage;
+    }
+
 
     public String getCcode() {
         return Ccode;
@@ -67,6 +102,7 @@ public class CompNameProductNew {
         return sw;
     }
 
+
     public void setSw(String sw) {
         this.sw = sw;
     }
@@ -79,13 +115,7 @@ public class CompNameProductNew {
         this.rx = rx;
     }
 
-    String PCode;
-    String PName;
-    String invqty;
-    String ptp;
-    String ptr;
-    String sw;
-    String rx;
+
 
     public JSONArray getFeedback() {
         return feedback;
@@ -95,6 +125,5 @@ public class CompNameProductNew {
         this.feedback = feedback;
     }
 
-    JSONArray feedback;
 
 }

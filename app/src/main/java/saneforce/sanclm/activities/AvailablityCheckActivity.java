@@ -19,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -39,71 +41,109 @@ public class AvailablityCheckActivity extends AppCompatActivity {
      Cursor mCursor;
      ImageView backbtn;
      CommonSharedPreference mCommonSharedPreference;
-    AvailcheckAdapter adapter;
- String availjson;
-
+     AvailcheckAdapter adapter;
+     String availjson;
+    String yy="";
+    JSONObject jsonObject1=new JSONObject();
+String availability="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_availablity_check);
+
         mCommonSharedPreference = new CommonSharedPreference(this);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-        db=new DataBaseHandler(this);
         availchecks=new ArrayList<>();
         availchecks.clear();
-        db.open();
-        mCursor = db.select_product_content_master();
-
-        if (mCursor.getCount() != 0) {
-            mCursor.moveToFirst();
-            do {
-                Log.v("product_name_feed", mCursor.getString(0));
-
-//                availchecks.add(new Availcheck(mCursor.getString(0), mCursor.getString(2),false,false));
-                Availcheck availcheck=new Availcheck();
-                availcheck.setName(mCursor.getString(0));
-                availcheck.setCode(mCursor.getString(2));
-                availcheck.setIsoos(false);
-                availcheck.setAvailis(false);
-                availcheck.setQuantity("0");
-
-                availchecks.add(availcheck);
-            } while (mCursor.moveToNext());
-        }
-        mCursor.close();
-        db.close();
-
-
         etSearchview=findViewById(R.id.et_search);
         alloosText=findViewById(R.id.alloos);
         allavailText=findViewById(R.id.allavail);
         availabilityRecyclerview=findViewById(R.id.availabilty_recyclerview);
         buttonsave=findViewById(R.id.savebtn);
         backbtn=findViewById(R.id.iv_dwnldmaster_back);
+        db = new DataBaseHandler(this);
+
+        availability=mCommonSharedPreference.getValueFromPreference("availjson");
+        if(!availability.isEmpty()){
+            jsonExtraction(availability);
+
+        }
+
+        Bundle extra = getIntent().getExtras();
+        if (extra != null) {
+            yy = extra.getString("availjson");
+
+            Log.v("availjson",yy);
+
+        }
+        if(availchecks.size()==0){
+
+
+            db.open();
+            mCursor = db.select_product_content_master();
+
+            if (mCursor.getCount() != 0) {
+                mCursor.moveToFirst();
+                do {
+                    Log.v("product_name_feed", mCursor.getString(0));
+
+//                availchecks.add(new Availcheck(mCursor.getString(0), mCursor.getString(2),false,false));
+                    Availcheck availcheck = new Availcheck();
+                    availcheck.setName(mCursor.getString(0));
+                    availcheck.setCode(mCursor.getString(2));
+                    availcheck.setIsoos(false);
+                    availcheck.setAvailis(false);
+                    availcheck.setQuantity("0");
+
+                    availchecks.add(availcheck);
+                } while (mCursor.moveToNext());
+            }
+            mCursor.close();
+            db.close();
+
+        }
+
+
+
+
+
+
+
+
 
         buttonsave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                availjson= String.valueOf(adapter.composeJSON());
-                mCommonSharedPreference.setValueToPreference("availjson",availjson);
-                Log.v("avail>>>",availjson);
-                Toast.makeText(AvailablityCheckActivity.this, ""+availjson, Toast.LENGTH_SHORT).show();
+
+                try {
+
+                    JSONObject jsonObject=null;
+
+                    JSONArray jsonArray=new JSONArray();
+
+                    for(int i=0;i<availchecks.size();i++) {
+                        jsonObject=new JSONObject();
+                        jsonObject.put("code",availchecks.get(i).getCode());
+                        jsonObject.put("name",availchecks.get(i).getName());
+                        jsonObject.put("oos", availchecks.get(i).isIsoos());
+                        jsonObject.put("avail",availchecks.get(i).isAvailis());
+                        jsonObject.put("quantity",availchecks.get(i).getQuantity());
+                        jsonArray.put(jsonObject);
+
+                    }
+                    jsonObject1.put("availability",jsonArray);
+                    mCommonSharedPreference.setValueToPreference("availjson", String.valueOf(jsonObject1));
+                    Log.v("avail>>>",String.valueOf(jsonObject1));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+//                Toast.makeText(AvailablityCheckActivity.this, ""+availjson, Toast.LENGTH_SHORT).show();
 
                 Intent i=new Intent(AvailablityCheckActivity.this, FeedbackActivity.class);
-                i.putExtra("availability", String.valueOf(adapter.composeJSON()));
+                i.putExtra("availjson",String.valueOf(jsonObject1));
 
-
-                if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("chm"))
-                    i.putExtra("feedpage", "chemist");
-                else if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("stk")) {
-                    i.putExtra("feedpage", "stock");
-                } else if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("undr")) {
-                    i.putExtra("feedpage", "undr");
-                } else
-                    i.putExtra("feedpage", "dr");
-
-                startActivity(i);
+                setResult(6, i);
                 finish();
             }
         });
@@ -111,16 +151,9 @@ public class AvailablityCheckActivity extends AppCompatActivity {
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(AvailablityCheckActivity.this, FeedbackActivity.class);
-                if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("chm"))
-                    i.putExtra("feedpage", "chemist");
-                else if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("stk")) {
-                    i.putExtra("feedpage", "stock");
-                } else if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("undr")) {
-                    i.putExtra("feedpage", "undr");
-                } else
-                    i.putExtra("feedpage", "dr");
-                startActivity(i);
+                Intent i = new Intent(AvailablityCheckActivity.this, FeedbackActivity.class);
+                i.putExtra("availjson",String.valueOf(jsonObject1));
+                setResult(6, i);
                 finish();
             }
         });
@@ -288,6 +321,44 @@ public class AvailablityCheckActivity extends AppCompatActivity {
 
             }
         });
+
+
+    }
+
+    private void jsonExtraction(String yy) {
+        String quantity,name,oos = null,avail = null,code;
+        try {
+            JSONObject obj = new JSONObject(yy);
+
+                JSONArray jsonArray1=obj.getJSONArray("availability");
+                for (int j = 0; j < jsonArray1.length(); j++) {
+                    JSONObject jsonObject=jsonArray1.getJSONObject(j);
+
+                    quantity = jsonObject.getString("quantity");
+                    name = jsonObject.getString("name");
+                    oos = jsonObject.getString("oos");
+                    avail = jsonObject.getString("avail");
+                    code = jsonObject.getString("code");
+                    Availcheck availcheck = new Availcheck();
+                    availcheck.setName(name);
+                    availcheck.setCode(code);
+                    availcheck.setIsoos(Boolean.parseBoolean(oos));
+                    availcheck.setAvailis(Boolean.parseBoolean(avail));
+                    availcheck.setQuantity(quantity);
+
+                    availchecks.add(availcheck);
+                }
+
+            AvailcheckAdapter adapter=new AvailcheckAdapter(AvailablityCheckActivity.this,availchecks,Boolean.parseBoolean(avail),Boolean.parseBoolean(oos));
+            LinearLayoutManager manager=new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL,false);
+            availabilityRecyclerview.setLayoutManager(manager);
+            availabilityRecyclerview.setAdapter(adapter);
+            availabilityRecyclerview.setHasFixedSize(true);
+            adapter.notifyDataSetChanged();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
 
     }

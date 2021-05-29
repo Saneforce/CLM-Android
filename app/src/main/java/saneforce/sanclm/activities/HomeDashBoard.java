@@ -2373,8 +2373,12 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                         }else {
                             mCommonSharedPreference.setValueToPreference("AvailableAduitNeeded", "");
                         }
-
-
+                        //Rcpa Needed
+                        if(jsonn.has("RcpaNeeded")) {
+                            mCommonSharedPreference.setValueToPreference("RcpaNeeded", jsonn.getString("RcpaNeeded"));
+                        }else {
+                            mCommonSharedPreference.setValueToPreference("RcpaNeeded", "");
+                        }
 
                         Log.v("specFilter_json", mCommonSharedPreference.getValueFromPreference("specFilter"));
                         if (GpsNeed.equalsIgnoreCase("0") &&
@@ -2771,8 +2775,9 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
     private void addTabs(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new CallFragment(), "");
         adapter.addFrag(new NewTrainingFragment(), "");
+        adapter.addFrag(new NewCallFragment(), "");
+
         viewPager.setAdapter(adapter);
     }
 
@@ -3493,7 +3498,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             }
         });
 
-        CallFragment.bindUpdateViewList(new UpdateUi() {
+        NewCallFragment.bindUpdateViewList(new UpdateUi() {
             @Override
             public void updatingui() {
                 if (mCommonSharedPreference.getValueFromPreference("addAct").equalsIgnoreCase("0"))

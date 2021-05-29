@@ -109,7 +109,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginBottom="50dp"
-                                android:id="@+id/recycle1"/>
+                                android:id="@+id/recycledoctorcoverage"/>
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="50dp"
@@ -119,17 +119,17 @@
                                 android:weightSum="3"
                                 >
                                 <TextView
+                                    android:id="@+id/drcallstotal"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Total Dr Calls"
                                     android:textColor="#fff"
                                     android:layout_weight="1"
                                     android:layout_gravity="center"
                                     android:layout_marginLeft="10dp"/>
                                 <TextView
+                                    android:id="@+id/drtotal"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="220/220"
                                     android:textColor="#fff"
                                     android:layout_weight="2"
                                     android:textStyle="bold"
@@ -157,7 +157,7 @@
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:id="@+id/recycle2"
+                                    android:id="@+id/recyclepharmcoverage"
                                     android:layout_marginBottom="50dp"/>
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -168,17 +168,17 @@
                                     android:weightSum="3"
                                     >
                                 <TextView
+                                    android:id="@+id/pharmacycalls"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Total Pharmacy Calls"
                                     android:textColor="#fff"
                                     android:layout_weight="1"
                                     android:layout_gravity="center"
                                     android:layout_marginLeft="10dp"/>
                                 <TextView
+                                    android:id="@+id/totalpharcalls"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="220/220"
                                     android:textColor="#fff"
                                     android:layout_weight="2"
                                     android:textStyle="bold"
@@ -206,8 +206,8 @@
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:id="@+id/recycle3"
-                                    android:layout_marginBottom="50dp"/>
+                                    android:id="@+id/recycle3total"
+                                    />
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="50dp"
@@ -216,17 +216,17 @@
                                     android:background="#38B64A"
                                     >
                                     <TextView
+                                        android:id="@+id/totaldrtext"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="Total Dr Calls"
                                         android:textColor="#fff"
                                         android:layout_weight="1"
                                         android:layout_gravity="center"
                                         android:layout_marginLeft="10dp"/>
                                     <TextView
+                                        android:id="@+id/totaldrcount"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="220/220"
                                         android:textColor="#fff"
                                         android:layout_weight="2"
                                         android:textStyle="bold"
@@ -367,243 +367,19 @@
                            android:id="@+id/chart"
                            android:layout_width="match_parent"
                            android:layout_height="match_parent" />
-                       <LinearLayout
-                           android:layout_marginTop="40dp"
+                       <RelativeLayout
                            android:layout_width="match_parent"
                            android:layout_height="match_parent"
-                           android:layout_weight="1"
-                           android:orientation="vertical">
-                           <LinearLayout
-                               android:layout_width="200dp"
-                               android:layout_height="wrap_content"
-                               android:orientation="horizontal"
-                               >
-                               <View
-                                   android:layout_marginTop="5dp"
-                                   android:layout_width="10dp"
-                                   android:layout_height="10dp"
-                                   android:background="#FA1628"/>
-                               <LinearLayout
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:layout_weight="3"
-                                   android:orientation="horizontal">
-                               <TextView
-                                   android:layout_weight="1"
-                                   android:layout_marginLeft="10dp"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:text="Hemoforce"
-                                   android:textColor="#000"
-                                   />
+                           android:layout_weight="1">
 
-                                   <TextView
-                                       android:layout_weight="2"
-                                       android:layout_marginRight="10dp"
-                                       android:layout_alignParentRight="true"
-                                       android:layout_width="match_parent"
-                                       android:layout_height="wrap_content"
-                                       android:text="80%"
-                                       android:textColor="#000"
-                                       android:textStyle="bold"
+                       <androidx.recyclerview.widget.RecyclerView
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:layout_centerInParent="true"
+                           android:id="@+id/detailingrecycle"
+                           />
+                       </RelativeLayout>
 
-                                       />
-                               </LinearLayout>
-
-                           </LinearLayout>
-                           <LinearLayout
-                               android:layout_width="200dp"
-                               android:layout_height="wrap_content"
-                               android:orientation="horizontal"
-                               >
-                               <View
-                                   android:layout_marginTop="5dp"
-                                   android:layout_width="10dp"
-                                   android:layout_height="10dp"
-                                   android:background="#1CAD53"/>
-                               <LinearLayout
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:layout_weight="3"
-                                   android:orientation="horizontal">
-                                   <TextView
-                                       android:layout_weight="1"
-                                       android:layout_marginLeft="10dp"
-                                       android:layout_width="match_parent"
-                                       android:layout_height="wrap_content"
-                                       android:text="polygel"
-                                       android:textColor="#000"
-                                       />
-
-                                   <TextView
-                                       android:layout_weight="2"
-                                       android:layout_marginRight="10dp"
-                                       android:layout_width="match_parent"
-                                       android:layout_height="wrap_content"
-                                       android:text="20%"
-                                       android:textColor="#000"
-                                       android:textStyle="bold"
-
-                                       />
-
-                               </LinearLayout>
-
-
-
-                           </LinearLayout>
-                           <LinearLayout
-                               android:layout_width="200dp"
-                               android:layout_height="wrap_content"
-                               android:orientation="horizontal"
-                               >
-                               <View
-                                   android:layout_marginTop="5dp"
-                                   android:layout_width="10dp"
-                                   android:layout_height="10dp"
-                                   android:background="#F8C131"/>
-                               <LinearLayout
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:layout_weight="3"
-                                   android:orientation="horizontal">
-                               <TextView
-                                   android:layout_weight="1"
-                                   android:layout_marginLeft="10dp"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:text="Omeshal     "
-                                   android:textColor="#000"
-                                   />
-
-                               <TextView
-                                   android:layout_weight="2"
-                                   android:layout_marginRight="10dp"
-                                   android:layout_alignParentRight="true"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:text="80%"
-                                   android:textColor="#000"
-                                   android:textStyle="bold"
-
-                                   />
-                               </LinearLayout>
-
-                           </LinearLayout>
-                           <LinearLayout
-                               android:layout_width="200dp"
-                               android:layout_height="wrap_content"
-                               android:orientation="horizontal"
-                               >
-                               <View
-                                   android:layout_marginTop="5dp"
-                                   android:layout_width="10dp"
-                                   android:layout_height="10dp"
-                                   android:background="#A8E055"/>
-                               <LinearLayout
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:layout_weight="3"
-                                   android:orientation="horizontal">
-                               <TextView
-                                   android:layout_weight="1"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="match_parent"
-                                   android:layout_marginLeft="10dp"
-                                   android:text="Shaltoux     "
-                                   android:textColor="#000" />
-
-                               <TextView
-                                   android:layout_weight="2"
-                                   android:layout_marginRight="10dp"
-                                   android:layout_alignParentRight="true"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:text="80%"
-                                   android:textColor="#000"
-                                   android:textStyle="bold"
-
-                                   />
-                               </LinearLayout>
-
-                           </LinearLayout>
-                           <LinearLayout
-                               android:layout_width="200dp"
-                               android:layout_height="wrap_content"
-                               android:orientation="horizontal"
-                               >
-                               <View
-                                   android:layout_marginTop="5dp"
-                                   android:layout_width="10dp"
-                                   android:layout_height="10dp"
-                                   android:background="#28ABE3"/>
-                               <LinearLayout
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:layout_weight="3"
-                                   android:orientation="horizontal">
-                               <TextView
-                                   android:layout_weight="1"
-                                   android:layout_marginLeft="10dp"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:text="Zanitin DUP"
-                                   android:textColor="#000"
-                                   />
-
-                               <TextView
-                                   android:layout_weight="2"
-                                   android:layout_marginRight="10dp"
-                                   android:layout_alignParentRight="true"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:text="80%"
-                                   android:textColor="#000"
-                                   android:textStyle="bold"
-
-                                   />
-                               </LinearLayout>
-
-                           </LinearLayout>
-                           <LinearLayout
-                               android:layout_width="200dp"
-                               android:layout_height="wrap_content"
-                               android:orientation="horizontal"
-                               >
-                               <View
-                                   android:layout_marginTop="5dp"
-                                   android:layout_width="10dp"
-                                   android:layout_height="10dp"
-                                   android:background="#BC0811"/>
-                               <LinearLayout
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:layout_weight="3"
-                                   android:orientation="horizontal">
-                               <TextView
-                                   android:layout_weight="1"
-                                   android:layout_marginLeft="10dp"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:text="Shalbactam-TZ"
-                                   android:textColor="#000"
-                                   />
-
-                               <TextView
-                                   android:layout_weight="2"
-                                   android:layout_marginRight="10dp"
-                                   android:layout_alignParentRight="true"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:text="10%"
-                                   android:textColor="#000"
-                                   android:textStyle="bold"
-
-                                   />
-                               </LinearLayout>
-
-                           </LinearLayout>
-
-                       </LinearLayout>
 
                    </LinearLayout>
 

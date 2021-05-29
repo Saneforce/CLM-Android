@@ -147,6 +147,7 @@
             >
 
             <EditText
+                android:inputType="number"
                 android:background="@null"
                 android:singleLine="true"
                 android:layout_width="match_parent"
@@ -169,6 +170,7 @@
             android:layout_marginRight="5dp"
             >
             <EditText
+                android:inputType="number"
                 android:background="@null"
                 android:singleLine="true"
                 android:layout_width="match_parent"
@@ -192,6 +194,7 @@
                 android:layout_marginRight="5dp"
                 >
                 <EditText
+                    android:inputType="number"
                     android:background="@null"
                     android:singleLine="true"
                     android:layout_width="match_parent"
@@ -215,6 +218,7 @@
                 android:layout_marginRight="5dp"
                 >
                 <EditText
+                    android:inputType="number"
                     android:background="@null"
                     android:singleLine="true"
                     android:layout_width="match_parent"

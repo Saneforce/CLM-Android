@@ -39,7 +39,7 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
     ArrayList<Availcheck>availchecks;
     ArrayList<Availcheck>mFilterresult;
     boolean isavailall;
- boolean isoos;
+    boolean isoos;
 
     public AvailcheckAdapter(Activity context, ArrayList<Availcheck> availchecks1, boolean isAvailAll, boolean isoos) {
         this.context = context;
@@ -64,30 +64,26 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
 
 
         if(availchecks.get(position).isIsoos()==true){
+
             holder.oos.setBackgroundResource(R.drawable.rectangle_red);
             holder.oos.setTextColor(Color.WHITE);
             holder.avail.setBackgroundResource(R.drawable.rectangle);
             holder.avail.setTextColor(Color.BLACK);
             holder.stock_et.setEnabled(false);
-            holder.view.setVisibility(View.VISIBLE);
-            holder.textView2.setTextColor(Color.parseColor("#228B22"));
-
-        }else {
-            holder.oos.setBackgroundResource(R.drawable.rectangle);
-            holder.oos.setTextColor(Color.BLACK);
+            holder.stock_et.setText("0");
             holder.view.setVisibility(View.GONE);
-            holder.textView2.setTextColor(Color.parseColor("#3F51B5"));
-
+            holder.textView2.setTextColor(Color.parseColor("#F10505"));
         }
 
-        if(availchecks.get(position).isAvailis()==true){
+        else  if(availchecks.get(position).isAvailis()==true){
             holder.avail.setBackgroundResource(R.drawable.rectangle_green);
             holder.avail.setTextColor(Color.WHITE);
             holder.oos.setBackgroundResource(R.drawable.rectangle);
             holder.oos.setTextColor(Color.BLACK);
             holder.view.setVisibility(View.VISIBLE);
             holder.textView2.setTextColor(Color.parseColor("#228B22"));
-        }else{
+        }
+        else{
             holder.avail.setBackgroundResource(R.drawable.rectangle);
             holder.avail.setTextColor(Color.BLACK);
             holder.view.setVisibility(View.GONE);
@@ -125,21 +121,26 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
           public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
               if(isChecked){
                   availchecks.get(position).setIsoos(true);
+                  availchecks.get(position).setAvailis(false);
                   holder.oos.setBackgroundResource(R.drawable.rectangle_red);
                   holder.oos.setTextColor(Color.WHITE);
-                  holder.avail.setBackgroundResource(R.drawable.    rectangle);
+                  holder.avail.setBackgroundResource(R.drawable.rectangle);
                   holder.avail.setTextColor(Color.BLACK);
                   holder.stock_et.setEnabled(false);
+                  holder.stock_et.setText("0");
                   holder.checkBox.setChecked(true);
-
+                  holder.view.setVisibility(View.GONE);
+                  holder.textView2.setTextColor(Color.parseColor("#F10505"));
 
               }else {
                   availchecks.get(position).setIsoos(false);
+                  availchecks.get(position).setAvailis(false);
                   holder.oos.setBackgroundResource(R.drawable.rectangle);
                   holder.oos.setTextColor(Color.BLACK);
                   holder.stock_et.setEnabled(true);
                   holder.checkBox.setChecked(false);
-
+                  holder.view.setVisibility(View.GONE);
+                  holder.textView2.setTextColor(Color.parseColor("#3F51B5"));
               }
           }
       });
@@ -148,88 +149,72 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     availchecks.get(position).setAvailis(true);
+                    availchecks.get(position).setIsoos(false);
                     holder.avail.setBackgroundResource(R.drawable.rectangle_green);
                     holder.avail.setTextColor(Color.WHITE);
                     holder.oos.setBackgroundResource(R.drawable.rectangle);
                     holder.oos.setTextColor(Color.BLACK);
                     holder.stock_et.setEnabled(true);
                     holder.checkBox.setChecked(true);
-
+                    holder.view.setVisibility(View.VISIBLE);
+                    holder.textView2.setTextColor(Color.parseColor("#228B22"));
 
                 }else {
                     availchecks.get(position).setAvailis(false);
+                    availchecks.get(position).setIsoos(false);
                     holder.avail.setBackgroundResource(R.drawable.rectangle);
                     holder.avail.setTextColor(Color.BLACK);
                     holder.checkBox.setChecked(false);
+                    holder.view.setVisibility(View.GONE);
+                    holder.textView2.setTextColor(Color.parseColor("#3F51B5"));
 
                 }
             }
         });
 
-           holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-               @Override
-               public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                   if(buttonView.isChecked()){
-                       holder.view.setVisibility(View.VISIBLE);
-                       holder.textView2.setTextColor(Color.parseColor("#05c12b"));
-
-
-                   }else{
-                       holder.view.setVisibility(View.GONE);
-                       holder.textView2.setTextColor(Color.parseColor("#05c12b"));
-
-                   }
-               }
-           });
+//           holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//               @Override
+//               public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                   if(buttonView.isChecked()){
+//                       holder.view.setVisibility(View.VISIBLE);
+//                       holder.textView2.setTextColor(Color.parseColor("#05c12b"));
+//
+//
+//                   }else{
+//                       holder.view.setVisibility(View.GONE);
+//                       holder.textView2.setTextColor(Color.parseColor("#05c12b"));
+//
+//                   }
+//               }
+//           });
 
 
 
 
     }
 
-        public JSONArray sendData() {
-            JSONObject jsonObject=new JSONObject();
-            JSONArray jsonArray=new JSONArray();
 
-            try {
-                for(int i=0;i<mFilterresult.size();i++) {
-                    jsonObject.put("code", mFilterresult.get(i).getCode());
-                    jsonObject.put("name", mFilterresult.get(i).getName());
-                    jsonObject.put("oos", mFilterresult.get(i).isIsoos());
-                    jsonObject.put("avail", mFilterresult.get(i).isAvailis());
-                  jsonObject.put("quantity",mFilterresult.get(i).getQuantity());
-
-                    jsonArray.put(jsonObject);
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            Toast.makeText(context, ""+jsonObject.toString(), Toast.LENGTH_SHORT).show();
-            return jsonArray;
-
-        }
-    public String composeJSON() {
-        ArrayList<HashMap<String, String>> wordList;
-        wordList = new ArrayList<HashMap<String, String>>();
-        for (int i = 0; i < mFilterresult.size(); i++) {
-
-            HashMap<String, String> map = new HashMap<String, String>();
-            map.put("code", mFilterresult.get(i).getCode());
-            map.put("name", mFilterresult.get(i).getName());
-            map.put("oos", String.valueOf(mFilterresult.get(i).isIsoos()));
-            map.put("avail", String.valueOf(mFilterresult.get(i).isAvailis()));
-            map.put("quantity",mFilterresult.get(i).getQuantity());
-
-            wordList.add(map);
-
-        }
-
-        Gson gson = new GsonBuilder().create();
-        //Use GSON to serialize Array List to JSON
-        return gson.toJson(wordList);
-
-    }
+//    public String composeJSON() {
+//        ArrayList<HashMap<String, String>> wordList;
+//        wordList = new ArrayList<HashMap<String, String>>();
+//        for (int i = 0; i < mFilterresult.size(); i++) {
+//
+//            HashMap<String, String> map = new HashMap<String, String>();
+//            map.put("code", mFilterresult.get(i).getCode());
+//            map.put("name", mFilterresult.get(i).getName());
+//            map.put("oos", String.valueOf(mFilterresult.get(i).isIsoos()));
+//            map.put("avail", String.valueOf(mFilterresult.get(i).isAvailis()));
+//            map.put("quantity",mFilterresult.get(i).getQuantity());
+//
+//            wordList.add(map);
+//
+//        }
+//
+//        Gson gson = new GsonBuilder().create();
+//        //Use GSON to serialize Array List to JSON
+//        return gson.toJson(wordList);
+//
+//    }
 
     @Override
     public int getItemCount() {

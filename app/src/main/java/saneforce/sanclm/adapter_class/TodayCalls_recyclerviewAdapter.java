@@ -167,7 +167,7 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
                     edit.putString("common",tdaycall.getCommon());
                     edit.putString("code",tdaycall.getDrCode());
                     CommonUtils.TAG_DOCTOR_CODE=tdaycall.getDrCode();
-                    Log.v("Doc_Name_Hme",tdaycall.getDrName());
+                    Log.v("Doc_Name_Hme",tdaycall.getVstTyp());
 
                     edit.commit();
 
@@ -232,6 +232,7 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
                                         Intent i=new Intent(context, FeedbackActivity.class);
                                         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         i.putExtra("feedpage","edit");
+                                        i.putExtra("custype",tdaycall.getVstTyp());
                                         context.startActivity(i);
 
                                     }catch (Exception e){
@@ -256,6 +257,8 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
                         Intent i=new Intent(context, FeedbackActivity.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         i.putExtra("feedpage","edit");
+                        i.putExtra("custype",tdaycall.getVstTyp());
+
                         context.startActivity(i);
                     }
 

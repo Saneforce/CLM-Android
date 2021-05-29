@@ -111,8 +111,9 @@ public class BrandAuditActivity extends AppCompatActivity implements DataInterfa
             String yy=extra.getString("json_val");
             dr_name.setText(extra.getString("name"));
             jsonExtraction(yy);
+
             Log.e("Doc_Name",extra.getString("name"));
-            Log.v("extract_it_print","ing_inside"+yy);
+            Log.v("jsonvalue","ing_inside"+yy);
 
         }
 
@@ -336,19 +337,39 @@ public class BrandAuditActivity extends AppCompatActivity implements DataInterfa
         final PopupAdapter popupAdapter = new PopupAdapter(BrandAuditActivity.this, xx);
         popup_list.setAdapter(popupAdapter);
         popupAdapter.notifyDataSetChanged();
-        search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        EditText search_edit = (EditText) dialog.findViewById(R.id.et_search);
+
+//        search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String s) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String s) {
+//                popupAdapter.getFilter().filter(s);
+//                return false;
+//            }
+//        });
+
+        search_edit.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
 
             @Override
-            public boolean onQueryTextChange(String s) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 popupAdapter.getFilter().filter(s);
-                return false;
+                popupAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
-
 
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
