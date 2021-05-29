@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/back_img"
                 android:textStyle="bold"
-                android:text="Expense List"
+                android:text="@string/expncelist"
                 android:padding="13dp"
                 android:textSize="20sp"
                 android:layout_gravity="center"

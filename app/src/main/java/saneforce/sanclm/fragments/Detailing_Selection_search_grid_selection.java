@@ -107,7 +107,7 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
                     CommonUtils.TAG_DR_SPEC = codes;
                     DetailingTrackerPOJO.setmDoctorSpeciality(codes);
                     DisplayProductGridView(DetailingTrackerPOJO.getmDetListview_Selection());
-                    if (DetailingTrackerPOJO.getmDetListview_Selection().equalsIgnoreCase("Customise")) {
+                    if (DetailingTrackerPOJO.getmDetListview_Selection().equalsIgnoreCase(getResources().getString(R.string.customise))) {
                         customiseOption.isClicked();
                         CustomClick = true;
                     }
@@ -124,7 +124,7 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
                     CommonUtils.TAG_DR_SPEC = codes;
                     DetailingTrackerPOJO.setmDoctorTheraptic(codes);
                     DisplayProductGridView(DetailingTrackerPOJO.getmDetListview_Selection());
-                    if (DetailingTrackerPOJO.getmDetListview_Selection().equalsIgnoreCase("Customise")) {
+                    if (DetailingTrackerPOJO.getmDetListview_Selection().equalsIgnoreCase(getResources().getString(R.string.customise))) {
                         customiseOption.isClicked();
                         CustomClick = true;
                     }
@@ -138,7 +138,7 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
             public void specialityCode(String code) {
                 Log.v("Other_speciality_det", "are_calleddd" + code);
                 DetailingTrackerPOJO.setmDoctorSpeciality(code);
-                DisplayProductGridView("Speciality Wise");
+                DisplayProductGridView(getResources().getString(R.string.spclwise));
             }
         });
         DetailingCreationActivity.bindSpecListener(new SpecialityListener() {
@@ -149,7 +149,7 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
                     CommonUtils.TAG_DR_SPEC = codes;
                     DetailingTrackerPOJO.setmDoctorSpeciality(codes);
                     DisplayProductGridView(DetailingTrackerPOJO.getmDetListview_Selection());
-                    if (DetailingTrackerPOJO.getmDetListview_Selection().equalsIgnoreCase("Customise")) {
+                    if (DetailingTrackerPOJO.getmDetListview_Selection().equalsIgnoreCase(getResources().getString(R.string.customise))) {
                         customiseOption.isClicked();
                         CustomClick = true;
                     }
@@ -211,10 +211,10 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
         skipSpeciality = mCommonSharedPreference.getValueFromPreference("specFilter");
         if (brand_type.equals("null") || TextUtils.isEmpty(brand_type)) {
 
-            DisplayProductGridView("Brand Matrix");
-            mCommonSharedPreference.setValueToPreference("display_brand", "Brand Matrix");
+            DisplayProductGridView(getResources().getString(R.string.brandmatrix));
+            mCommonSharedPreference.setValueToPreference("display_brand", getResources().getString(R.string.brandmatrix));
         } else {
-            if (brand_type.equalsIgnoreCase("Speciality Wise")) {
+            if (brand_type.equalsIgnoreCase(getResources().getString(R.string.spclwise))) {
                 if (skipSpeciality.equalsIgnoreCase("0")) {
                     ll_img.setVisibility(View.VISIBLE);
                     spec_img.setVisibility(View.VISIBLE);
@@ -226,7 +226,7 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
             }
 
 
-            if (brand_type.equalsIgnoreCase("Theraptic")) {
+            if (brand_type.equalsIgnoreCase(getResources().getString(R.string.theraptic))) {
                 if (skipSpeciality.equalsIgnoreCase("0")) {
                     ll_layoutCat.setVisibility(View.VISIBLE);
                     cat_img.setVisibility(View.VISIBLE);
@@ -299,15 +299,15 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
         dbh.open();
         listViewItems.clear();
         BrdNameArray.clear();
-        listViewItems.add("Brand Matrix");
-        listViewItems.add("Speciality Wise");
-        listViewItems.add("All Brands");
+        listViewItems.add(getResources().getString(R.string.brandmatrix));
+        listViewItems.add(getResources().getString(R.string.spclwise));
+        listViewItems.add(getResources().getString(R.string.brandmatrix));
         if (!checkActivity)
-            listViewItems.add("Customise");
+            listViewItems.add(getResources().getString(R.string.customise));
         if (!TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("theraptic"))) {
             Log.v("therapticValue",mCommonSharedPreference.getValueFromPreference("theraptic"));
             if (mCommonSharedPreference.getValueFromPreference("theraptic").equalsIgnoreCase("0"))
-                listViewItems.add("Theraptic");
+                listViewItems.add(getResources().getString(R.string.theraptic));
         }
         ArrayList<String> PresentationName = new ArrayList<String>();
         mCursor = dbh.select_Presentation_Names_List();
@@ -332,7 +332,7 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
                 DetailingTrackerPOJO.setmDetstrtpdtBrdCode("");
                 DetailingTrackerPOJO.setmDetListview_Selection(parent.getItemAtPosition(position).toString());
 
-                if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Speciality Wise")) {
+                if (parent.getItemAtPosition(position).toString().equalsIgnoreCase(getResources().getString(R.string.spclwise))) {
                    /* _pPresentation_search_grid_selection.getView().setVisibility(View.GONE);
                     _pDetailing_Selection_search_grid_selection.getView().setVisibility(View.VISIBLE);*/
                     ll_img.setVisibility(View.VISIBLE);
@@ -344,7 +344,7 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
                     DisplayProductGridView(parent.getItemAtPosition(position).toString());
                     CustomClick = false;
                     /* */
-                } else if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Customise")) {
+                } else if (parent.getItemAtPosition(position).toString().equalsIgnoreCase(getResources().getString(R.string.customise))) {
                     lv_brdmatrix_list.setVisibility(View.INVISIBLE);
                     customiseOption.isClicked();
                     CustomClick = true;
@@ -358,7 +358,7 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
                    // getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.det_search_sel_fragment1, new Presentation_search_grid_selection()).commit();
                 }*/
 
-                else if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Theraptic")) {
+                else if (parent.getItemAtPosition(position).toString().equalsIgnoreCase(getResources().getString(R.string.theraptic))) {
                     ll_layoutCat.setVisibility(View.VISIBLE);
                     cat_img.setVisibility(View.VISIBLE);
 
@@ -379,8 +379,8 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
                     Log.v("first_prd_call_here222", "here_only");
                     DisplayProductGridView(parent.getItemAtPosition(position).toString());
                 }
-                if (parent.getItemAtPosition(position).toString().equalsIgnoreCase("Customise"))
-                    mCommonSharedPreference.setValueToPreference("display_brand", "customised");
+                if (parent.getItemAtPosition(position).toString().equalsIgnoreCase(getResources().getString(R.string.customise)))
+                    mCommonSharedPreference.setValueToPreference("display_brand", getResources().getString(R.string.customise));
                 else
                     mCommonSharedPreference.setValueToPreference("display_brand", parent.getItemAtPosition(position).toString());
             }
@@ -408,40 +408,41 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
             DetailingTrackerPOJO.setmDetListview_Selection(mSelectionList);
             String prdCode = null;
             Log.v("mSelectionList_detview", "calling" + skipSpeciality);
-            switch (mSelectionList) {
-                case "Brand Matrix":
-                    /* *
-                     * Getting Brand code for doctor wise mapping from web..
-                     * */
-                    mCursor1 = dbh.select_ProductCodeForDoctor(DetailingTrackerPOJO.getmDoctorCode());
-                    Log.v("retval_str", String.valueOf(mCursor1.getCount()));
-                    if (mCursor1.getCount() > 0) {
 
-                        while (mCursor1.moveToNext()) {
-                            Log.v("cursor_move", "to_next");
-                            ProductBrandCode = mCursor1.getString(0);
-                            Log.v("cursor_move", "to_next" + ProductBrandCode + " prd_code " + mCursor1.getString(1));
-                            prdCode = mCursor1.getString(1);
+            if (mSelectionList.equalsIgnoreCase(getResources().getString(R.string.brandmatrix))){
 
+                /* *
+                 * Getting Brand code for doctor wise mapping from web..
+                 * */
+                mCursor1 = dbh.select_ProductCodeForDoctor(DetailingTrackerPOJO.getmDoctorCode());
+                Log.v("retval_str", String.valueOf(mCursor1.getCount()));
+                if (mCursor1.getCount() > 0) {
+
+                    while (mCursor1.moveToNext()) {
+                        Log.v("cursor_move", "to_next");
+                        ProductBrandCode = mCursor1.getString(0);
+                        Log.v("cursor_move", "to_next" + ProductBrandCode + " prd_code " + mCursor1.getString(1));
+                        prdCode = mCursor1.getString(1);
+
+                    }
+                    if (prdCode != null) {
+                        for (String retval : prdCode.split(",")) {
+                            ProductCodeSplit.add(retval);
                         }
-                        if (prdCode != null) {
-                            for (String retval : prdCode.split(",")) {
-                                ProductCodeSplit.add(retval);
-                            }
-                            for (String retval : ProductBrandCode.split(",")) {
-                                try {//i made change, get cursor count as 1 but cursor.getstring(0) is null
+                        for (String retval : ProductBrandCode.split(",")) {
+                            try {//i made change, get cursor count as 1 but cursor.getstring(0) is null
 
-                                    String newStr = retval.substring(0, retval.indexOf("-"));
-                                    ProductBrandCodeSplit.add(newStr);
-                                } catch (Exception e) {
-                                    mCursor = null;
-                                    Log.v("cursor_move_exc", "to_next" + ProductBrandCodeSplit.size());
-                                    break;
+                                String newStr = retval.substring(0, retval.indexOf("-"));
+                                ProductBrandCodeSplit.add(newStr);
+                            } catch (Exception e) {
+                                mCursor = null;
+                                Log.v("cursor_move_exc", "to_next" + ProductBrandCodeSplit.size());
+                                break;
 
-                                }
-                                Log.v("productBrandSplitttt", ProductBrandCodeSplit + "");
                             }
+                            Log.v("productBrandSplitttt", ProductBrandCodeSplit + "");
                         }
+                    }
                                       /*for (String retval : prdCode.split(",")) {
                                          try {//i made change, get cursor count as 1 but cursor.getstring(0) is null
 
@@ -454,52 +455,52 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
 
                                          }
                                        }*/
-                    }
+                }
 
-                    for (int i = 0; i < ProductBrandCodeSplit.size(); i++) {
-                        String ProductBrdCode = ProductBrandCodeSplit.get(i);
-                        Log.v("skipSpeciality_here", ProductBrdCode);
-                        for (int k = 0; k < ProductCodeSplit.size(); k++) {
-                            Log.v("skipSpeciality_here", skipSpeciality);
-                            //if(skipSpeciality.equalsIgnoreCase("0"))
-                            mCursor = dbh.select_ProductBrandCodeBrandWiseSearchWithoutSpec(ProductBrdCode, ProductCodeSplit.get(k));
-                            // else
-                            //mCursor = dbh.select_ProductBrandCodeBrandWiseSearchSpec(ProductBrdCode,CommonUtils.TAG_DR_SPEC,ProductCodeSplit.get(k));
+                for (int i = 0; i < ProductBrandCodeSplit.size(); i++) {
+                    String ProductBrdCode = ProductBrandCodeSplit.get(i);
+                    Log.v("skipSpeciality_here", ProductBrdCode);
+                    for (int k = 0; k < ProductCodeSplit.size(); k++) {
+                        Log.v("skipSpeciality_here", skipSpeciality);
+                        //if(skipSpeciality.equalsIgnoreCase("0"))
+                        mCursor = dbh.select_ProductBrandCodeBrandWiseSearchWithoutSpec(ProductBrdCode, ProductCodeSplit.get(k));
+                        // else
+                        //mCursor = dbh.select_ProductBrandCodeBrandWiseSearchSpec(ProductBrdCode,CommonUtils.TAG_DR_SPEC,ProductCodeSplit.get(k));
 
-                            Log.v("brand_matxixx_loop", mCursor.getCount() + " brd_code " + ProductBrdCode);
-                            if (mCursor.getCount() > 0) {
-                                while (mCursor.moveToNext()) {
-                                    Log.v("Exce_topm_field", mCursor.getString(1) + " brdCode " + mCursor.getString(0) + " brdNamee " + mCursor.getString(5) + " cursor_count " + mCursor.getCount());
-                                    if (fileNames.contains(mCursor.getString(1))) {
-                                        Log.v("Exce_topm_field_11", mCursor.getString(1) + " brdCode " + mCursor.getString(0) + " filenamess " + mCursor.getCount() + fileNames);
-                                        //Toast.makeText(getActivity(),"dva"+ mCursor.getString(1),Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Log.v("Exce_topm_field_22", mCursor.getString(1) + " brdCode " + mCursor.getString(0) + " filenamess " + mCursor.getCount() + fileNames + " curss" + mCursor.getString(7));
-                                        Bitmap bb = null;
+                        Log.v("brand_matxixx_loop", mCursor.getCount() + " brd_code " + ProductBrdCode);
+                        if (mCursor.getCount() > 0) {
+                            while (mCursor.moveToNext()) {
+                                Log.v("Exce_topm_field", mCursor.getString(1) + " brdCode " + mCursor.getString(0) + " brdNamee " + mCursor.getString(5) + " cursor_count " + mCursor.getCount());
+                                if (fileNames.contains(mCursor.getString(1))) {
+                                    Log.v("Exce_topm_field_11", mCursor.getString(1) + " brdCode " + mCursor.getString(0) + " filenamess " + mCursor.getCount() + fileNames);
+                                    //Toast.makeText(getActivity(),"dva"+ mCursor.getString(1),Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Log.v("Exce_topm_field_22", mCursor.getString(1) + " brdCode " + mCursor.getString(0) + " filenamess " + mCursor.getCount() + fileNames + " curss" + mCursor.getString(7));
+                                    Bitmap bb = null;
                                              /* if(mCursor.getString(2).contains(".pdf")){
                                                   bb=getResizedBitmapForPdf(getBitmap(new File(mCursor.getString(2))),150,150);
                                               }*/
-                                        _products = new Custom_Products_GridView_Contents(mCursor.getString(1), mCursor.getString(0), mCursor.getString(5), mCursor.getString(2),
-                                                selectionstatus, CommonUtils.PRODUCT_GRIDVIEW_ADAPTER_MODE_DETAILINGSEARCH, mCursor.getString(6), bb);
-                                        mProducts_GridView_Contents.add(_products);
-                                        Log.e("BrandArray", BrdNameArray.toString());
-                                        Log.e("BrandArray", String.valueOf(BrdNameArray.size()));
-                                        Log.e("BrandArray", mCursor.getString(0));
+                                    _products = new Custom_Products_GridView_Contents(mCursor.getString(1), mCursor.getString(0), mCursor.getString(5), mCursor.getString(2),
+                                            selectionstatus, CommonUtils.PRODUCT_GRIDVIEW_ADAPTER_MODE_DETAILINGSEARCH, mCursor.getString(6), bb);
+                                    mProducts_GridView_Contents.add(_products);
+                                    Log.e("BrandArray", BrdNameArray.toString());
+                                    Log.e("BrandArray", String.valueOf(BrdNameArray.size()));
+                                    Log.e("BrandArray", mCursor.getString(0));
 
-                                        BrdCodeArray.add(mCursor.getString(0));
-                                        BrdNameArray.add(mCursor.getString(5));
-                                        ProductCodeSplit1.add(mCursor.getString(7));
-                                        fileNames += mCursor.getString(1) + "," + fileNames;
+                                    BrdCodeArray.add(mCursor.getString(0));
+                                    BrdNameArray.add(mCursor.getString(5));
+                                    ProductCodeSplit1.add(mCursor.getString(7));
+                                    fileNames += mCursor.getString(1) + "," + fileNames;
 
-                                        Log.e("BrandArray_add", BrdNameArray.toString());
-                                        Log.e("BrandArray_add", String.valueOf(BrdNameArray.size()));
+                                    Log.e("BrandArray_add", BrdNameArray.toString());
+                                    Log.e("BrandArray_add", String.valueOf(BrdNameArray.size()));
 
 
-                                    }
                                 }
                             }
                         }
                     }
+                }
 
 /*
                             for (int i = 0; i < ProductBrandCodeSplit.size(); i++) {
@@ -534,31 +535,29 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
                                 }
                              }
                             */
-                    break;
 
-                /**
-                 * Getting Brand code for doctor speciality wise mapping
-                 * */
-                case "Speciality Wise":
-                    mCursor = dbh.select_DrSpecialityWisePdts(DetailingTrackerPOJO.getmDoctorSpeciality());
-                    Log.v("specialityWise_", DetailingTrackerPOJO.getmDoctorSpeciality());
+            }else if (mSelectionList.equalsIgnoreCase(getResources().getString(R.string.spclwise))){
+
+                mCursor = dbh.select_DrSpecialityWisePdts(DetailingTrackerPOJO.getmDoctorSpeciality());
+                Log.v("specialityWise_", DetailingTrackerPOJO.getmDoctorSpeciality());
                     /*while(mCursor.moveToNext()){
                         Log.v("prdCode_allbrand",mCursor.getString(3)+" SL "+mCursor.getString(8)+" brand_code "+mCursor.getString(0)+"prd_name "+mCursor.getString(5));
                     }
                     mCursor.moveToFirst();*/
-                    break;
-                case "Theraptic":
-                    mCursor = dbh.select_DrTherapticWisePdts(DetailingTrackerPOJO.getmDoctorTheraptic());
-                    Log.v("Theraptic", DetailingTrackerPOJO.getmDoctorTheraptic());
-                    break;
 
-                case "All Brands":
-                    Log.v("all_brand_select", "all_brands_only_ss" + CommonUtils.TAG_DR_SPEC);
-                    if (skipSpeciality.equalsIgnoreCase("0"))
-                        mCursor = dbh.select_ProductBrdWiseSlide();
-                    else
-                        mCursor = dbh.select_ProductBrdWiseSlideSpec(CommonUtils.TAG_DR_SPEC);
-                    Log.v("Log_total", mCursor.getCount() + "");
+            }else if (mSelectionList.equalsIgnoreCase(getResources().getString(R.string.theraptic))){
+
+                mCursor = dbh.select_DrTherapticWisePdts(DetailingTrackerPOJO.getmDoctorTheraptic());
+                Log.v("Theraptic", DetailingTrackerPOJO.getmDoctorTheraptic());
+
+            }else if (mSelectionList.equalsIgnoreCase(getResources().getString(R.string.allbrand))){
+
+                Log.v("all_brand_select", "all_brands_only_ss" + CommonUtils.TAG_DR_SPEC);
+                if (skipSpeciality.equalsIgnoreCase("0"))
+                    mCursor = dbh.select_ProductBrdWiseSlide();
+                else
+                    mCursor = dbh.select_ProductBrdWiseSlideSpec(CommonUtils.TAG_DR_SPEC);
+                Log.v("Log_total", mCursor.getCount() + "");
 
                            /*  while(mCursor.moveToNext()){
                                  Log.v("prdCode_allbrand",mCursor.getString(7)+" SL "+mCursor.getString(9)+" brand_code "+mCursor.getString(0)+"prd_name "+mCursor.getString(5));
@@ -568,31 +567,201 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
                             mCursor = dbh.select_ProductBrdWiseSlide();
                              else
                                  mCursor=dbh.select_ProductBrdWiseSlideSpec(CommonUtils.TAG_DR_SPEC);*/
-                    break;
 
-                default:
-                    check_display = 6;
-                    //if(mSelectionList.equalsIgnoreCase("customised"))
-                    mCursor = dbh.select_products_Slides_PresntationWise(mSelectionList);
+            }else {
+
+                check_display = 6;
+                //if(mSelectionList.equalsIgnoreCase("customised"))
+                mCursor = dbh.select_products_Slides_PresntationWise(mSelectionList);
                             /*else
                                 mCursor = dbh.select_products_Slides_PresntationWiseByDesc(mSelectionList);*/
-                    break;
+
             }
+//            switch (mSelectionList) {
+//                case "Brand Matrix":
+//                    /* *
+//                     * Getting Brand code for doctor wise mapping from web..
+//                     * */
+//                    mCursor1 = dbh.select_ProductCodeForDoctor(DetailingTrackerPOJO.getmDoctorCode());
+//                    Log.v("retval_str", String.valueOf(mCursor1.getCount()));
+//                    if (mCursor1.getCount() > 0) {
+//
+//                        while (mCursor1.moveToNext()) {
+//                            Log.v("cursor_move", "to_next");
+//                            ProductBrandCode = mCursor1.getString(0);
+//                            Log.v("cursor_move", "to_next" + ProductBrandCode + " prd_code " + mCursor1.getString(1));
+//                            prdCode = mCursor1.getString(1);
+//
+//                        }
+//                        if (prdCode != null) {
+//                            for (String retval : prdCode.split(",")) {
+//                                ProductCodeSplit.add(retval);
+//                            }
+//                            for (String retval : ProductBrandCode.split(",")) {
+//                                try {//i made change, get cursor count as 1 but cursor.getstring(0) is null
+//
+//                                    String newStr = retval.substring(0, retval.indexOf("-"));
+//                                    ProductBrandCodeSplit.add(newStr);
+//                                } catch (Exception e) {
+//                                    mCursor = null;
+//                                    Log.v("cursor_move_exc", "to_next" + ProductBrandCodeSplit.size());
+//                                    break;
+//
+//                                }
+//                                Log.v("productBrandSplitttt", ProductBrandCodeSplit + "");
+//                            }
+//                        }
+//                                      /*for (String retval : prdCode.split(",")) {
+//                                         try {//i made change, get cursor count as 1 but cursor.getstring(0) is null
+//
+//                                            Log.v("new_retrival_Code",retval);
+//                                             ProductCodeSplit.add(retval);
+//                                         }catch (Exception e) {
+//                                             mCursor=null;
+//                                             Log.v("cursor_move_exc","to_next"+ProductBrandCodeSplit.size());
+//                                             break;
+//
+//                                         }
+//                                       }*/
+//                    }
+//
+//                    for (int i = 0; i < ProductBrandCodeSplit.size(); i++) {
+//                        String ProductBrdCode = ProductBrandCodeSplit.get(i);
+//                        Log.v("skipSpeciality_here", ProductBrdCode);
+//                        for (int k = 0; k < ProductCodeSplit.size(); k++) {
+//                            Log.v("skipSpeciality_here", skipSpeciality);
+//                            //if(skipSpeciality.equalsIgnoreCase("0"))
+//                            mCursor = dbh.select_ProductBrandCodeBrandWiseSearchWithoutSpec(ProductBrdCode, ProductCodeSplit.get(k));
+//                            // else
+//                            //mCursor = dbh.select_ProductBrandCodeBrandWiseSearchSpec(ProductBrdCode,CommonUtils.TAG_DR_SPEC,ProductCodeSplit.get(k));
+//
+//                            Log.v("brand_matxixx_loop", mCursor.getCount() + " brd_code " + ProductBrdCode);
+//                            if (mCursor.getCount() > 0) {
+//                                while (mCursor.moveToNext()) {
+//                                    Log.v("Exce_topm_field", mCursor.getString(1) + " brdCode " + mCursor.getString(0) + " brdNamee " + mCursor.getString(5) + " cursor_count " + mCursor.getCount());
+//                                    if (fileNames.contains(mCursor.getString(1))) {
+//                                        Log.v("Exce_topm_field_11", mCursor.getString(1) + " brdCode " + mCursor.getString(0) + " filenamess " + mCursor.getCount() + fileNames);
+//                                        //Toast.makeText(getActivity(),"dva"+ mCursor.getString(1),Toast.LENGTH_SHORT).show();
+//                                    } else {
+//                                        Log.v("Exce_topm_field_22", mCursor.getString(1) + " brdCode " + mCursor.getString(0) + " filenamess " + mCursor.getCount() + fileNames + " curss" + mCursor.getString(7));
+//                                        Bitmap bb = null;
+//                                             /* if(mCursor.getString(2).contains(".pdf")){
+//                                                  bb=getResizedBitmapForPdf(getBitmap(new File(mCursor.getString(2))),150,150);
+//                                              }*/
+//                                        _products = new Custom_Products_GridView_Contents(mCursor.getString(1), mCursor.getString(0), mCursor.getString(5), mCursor.getString(2),
+//                                                selectionstatus, CommonUtils.PRODUCT_GRIDVIEW_ADAPTER_MODE_DETAILINGSEARCH, mCursor.getString(6), bb);
+//                                        mProducts_GridView_Contents.add(_products);
+//                                        Log.e("BrandArray", BrdNameArray.toString());
+//                                        Log.e("BrandArray", String.valueOf(BrdNameArray.size()));
+//                                        Log.e("BrandArray", mCursor.getString(0));
+//
+//                                        BrdCodeArray.add(mCursor.getString(0));
+//                                        BrdNameArray.add(mCursor.getString(5));
+//                                        ProductCodeSplit1.add(mCursor.getString(7));
+//                                        fileNames += mCursor.getString(1) + "," + fileNames;
+//
+//                                        Log.e("BrandArray_add", BrdNameArray.toString());
+//                                        Log.e("BrandArray_add", String.valueOf(BrdNameArray.size()));
+//
+//
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//
+///*
+//                            for (int i = 0; i < ProductBrandCodeSplit.size(); i++) {
+//                                    String ProductBrdCode = ProductBrandCodeSplit.get(i);
+//                                    Log.v("skipSpeciality_here",skipSpeciality);
+//                                    if(skipSpeciality.equalsIgnoreCase("0"))
+//                                    mCursor = dbh.select_ProductCodeBrandWiseSearch(ProductBrdCode);
+//                                    else
+//                                        mCursor = dbh.select_ProductCodeBrandWiseSearchSpec(ProductBrdCode,CommonUtils.TAG_DR_SPEC);
+//
+//                                    if (mCursor.getCount() > 0) {
+//                                    while (mCursor.moveToNext()) {
+//                                        prdCode=mCursor.getString(7);
+//                                        Log.v("cursor_mv_chech","to_next"+" prd_code "+prdCode);
+//
+//                                        boolean FilterBrand=false;
+//                                      */
+//                        /*  for(String ret1 : prdCode.split(",")){
+//                                            if(specDrProdCode.contains(ret1))
+//                                                FilterBrand=true;
+//                                        }
+//                                        if(FilterBrand) {*//*
+//
+//                                            // Log.e("CURSOR ",mCursor.getString(1) +"---"+mCursor.getString(0));
+//                                            _products = new Custom_Products_GridView_Contents(mCursor.getString(1), mCursor.getString(0), mCursor.getString(5), mCursor.getString(2),
+//                                                    selectionstatus, CommonUtils.PRODUCT_GRIDVIEW_ADAPTER_MODE_DETAILINGSEARCH, mCursor.getString(6));
+//                                            mProducts_GridView_Contents.add(_products);
+//                                            BrdCodeArray.add(mCursor.getString(0));
+//                                            BrdNameArray.add(mCursor.getString(5));
+//                                      //  }
+//                                    }
+//                                }
+//                             }
+//                            */
+//                    break;
+//
+//                /**
+//                 * Getting Brand code for doctor speciality wise mapping
+//                 * */
+//                case "Speciality Wise":
+//                    mCursor = dbh.select_DrSpecialityWisePdts(DetailingTrackerPOJO.getmDoctorSpeciality());
+//                    Log.v("specialityWise_", DetailingTrackerPOJO.getmDoctorSpeciality());
+//                    /*while(mCursor.moveToNext()){
+//                        Log.v("prdCode_allbrand",mCursor.getString(3)+" SL "+mCursor.getString(8)+" brand_code "+mCursor.getString(0)+"prd_name "+mCursor.getString(5));
+//                    }
+//                    mCursor.moveToFirst();*/
+//                    break;
+//                case "Theraptic":
+//                    mCursor = dbh.select_DrTherapticWisePdts(DetailingTrackerPOJO.getmDoctorTheraptic());
+//                    Log.v("Theraptic", DetailingTrackerPOJO.getmDoctorTheraptic());
+//                    break;
+//
+//                case "All Brands":
+//                    Log.v("all_brand_select", "all_brands_only_ss" + CommonUtils.TAG_DR_SPEC);
+//                    if (skipSpeciality.equalsIgnoreCase("0"))
+//                        mCursor = dbh.select_ProductBrdWiseSlide();
+//                    else
+//                        mCursor = dbh.select_ProductBrdWiseSlideSpec(CommonUtils.TAG_DR_SPEC);
+//                    Log.v("Log_total", mCursor.getCount() + "");
+//
+//                           /*  while(mCursor.moveToNext()){
+//                                 Log.v("prdCode_allbrand",mCursor.getString(7)+" SL "+mCursor.getString(9)+" brand_code "+mCursor.getString(0)+"prd_name "+mCursor.getString(5));
+//                             }
+//                        mCursor.moveToFirst();*/
+//                            /* if(TextUtils.isEmpty(CommonUtils.TAG_DR_SPEC))
+//                            mCursor = dbh.select_ProductBrdWiseSlide();
+//                             else
+//                                 mCursor=dbh.select_ProductBrdWiseSlideSpec(CommonUtils.TAG_DR_SPEC);*/
+//                    break;
+//
+//                default:
+//                    check_display = 6;
+//                    //if(mSelectionList.equalsIgnoreCase("customised"))
+//                    mCursor = dbh.select_products_Slides_PresntationWise(mSelectionList);
+//                            /*else
+//                                mCursor = dbh.select_products_Slides_PresntationWiseByDesc(mSelectionList);*/
+//                    break;
+//            }
 
             if (mCursor != null && mCursor.getCount() > 0) {
                 while (mCursor.moveToNext()) {
                      Log.e("CURSOR ",mCursor.getString(1) +"---"+mCursor.getString(0));
                     Bitmap bb = null;
                     if (mCursor.getString(2).contains(".pdf")) {
-                        if (mSelectionList.equalsIgnoreCase("Brand Matrix") || mSelectionList.equalsIgnoreCase("All Brands")) {
+                        if (mSelectionList.equalsIgnoreCase(getResources().getString(R.string.brandmatrix)) || mSelectionList.equalsIgnoreCase(getResources().getString(R.string.allbrand))) {
                             bb = StringToBitMap(mCursor.getString(8));
-                        } else if (mSelectionList.equalsIgnoreCase("Speciality Wise")) {
+                        } else if (mSelectionList.equalsIgnoreCase(getResources().getString(R.string.spclwise))) {
                             bb = StringToBitMap(mCursor.getString(7));
                         } else {
                             bb = StringToBitMap(mCursor.getString(7));
                         }
                     }
-                    if (mSelectionList.equalsIgnoreCase("Speciality Wise")) {
+                    if (mSelectionList.equalsIgnoreCase(getResources().getString(R.string.spclwise))) {
                        // Log.v("selection_request", mCursor.getString(8));
                         Log.v("selection_request", String.valueOf(mCursor.getCount()));
                     }
@@ -627,23 +796,20 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
 
             JSONArray ProductBrdWiseSlidesArray = new JSONArray();
             len_slide = 0;
-            switch (DetailingTrackerPOJO.getmDetListview_Selection()) {
 
-                case "Speciality Wise":
-                    for (int j = 0; j < BrdCodeArray.size(); j++) {
-                        JSONObject ProductBrdSLidesJson = new JSONObject();
-                        ProductBrdSLidesJson.put("BrdCode", BrdCodeArray.get(j));
-                        ProductBrdSLidesJson.put("BrdName", BrdNameArray.get(j));
+            if (DetailingTrackerPOJO.getmDetListview_Selection().equalsIgnoreCase(getResources().getString(R.string.brandmatrix))){
 
-                        Log.e("Speciality_wise", String.valueOf(BrdCodeArray.size()));
-                        Log.e("Speciality_wise", BrdNameArray.get(j));
+                for (int j = 0; j < BrdCodeArray.size(); j++) {
+                    JSONObject ProductBrdSLidesJson = new JSONObject();
+                    ProductBrdSLidesJson.put("BrdCode", BrdCodeArray.get(j));
+                    ProductBrdSLidesJson.put("BrdName", BrdNameArray.get(j));
 
-                        mCursor = dbh.select_AllSlides_specialitywise(BrdCodeArray.get(j), speciality);
-                        JSONArray SlidesArray = new JSONArray();
+                    Log.e("Speciality_wise", String.valueOf(BrdCodeArray.size()));
+                    Log.e("Speciality_wise", BrdNameArray.get(j));
 
-try
-{
-
+                    mCursor = dbh.select_AllSlides_specialitywise(BrdCodeArray.get(j), speciality);
+                    JSONArray SlidesArray = new JSONArray();
+                    try {
                         if (mCursor.getCount() > 0) {
                             while (mCursor.moveToNext()) {
                                 Log.v("slide_printing_SL", BrdCodeArray.get(j) + " :-" + mCursor.getString(2) + " printing_code " + mCursor.getString(9));
@@ -660,82 +826,82 @@ try
                             }
                         }
                     }catch (Exception e)
-{
-    Log.e("Error",e.getMessage());
-}
-                        Log.v("Selection_prd_json", String.valueOf(SlidesArray.length()));
-                        ProductBrdSLidesJson.put("Slides", SlidesArray);
-
-                        ProductBrdWiseSlidesArray.put(ProductBrdSLidesJson);
-
+                    {
+                        Log.e("Error",e.getMessage());
                     }
-                    break;
-//
-                case "Theraptic":
-                    for (int j = 0; j < BrdCodeArray.size(); j++) {
-                        JSONObject ProductBrdSLidesJson = new JSONObject();
-                        ProductBrdSLidesJson.put("BrdCode", BrdCodeArray.get(j));
-                        ProductBrdSLidesJson.put("BrdName", BrdNameArray.get(j));
+                    Log.v("Selection_prd_json", String.valueOf(SlidesArray.length()));
+                    ProductBrdSLidesJson.put("Slides", SlidesArray);
+
+                    ProductBrdWiseSlidesArray.put(ProductBrdSLidesJson);
+
+                }
+
+            }else if (DetailingTrackerPOJO.getmDetListview_Selection().equalsIgnoreCase(getResources().getString(R.string.theraptic))){
+
+                for (int j = 0; j < BrdCodeArray.size(); j++) {
+                    JSONObject ProductBrdSLidesJson = new JSONObject();
+                    ProductBrdSLidesJson.put("BrdCode", BrdCodeArray.get(j));
+                    ProductBrdSLidesJson.put("BrdName", BrdNameArray.get(j));
 
 
-                        mCursor = dbh.select_AllSlides_therapticwise(BrdCodeArray.get(j), theraptic);
-                        JSONArray SlidesArray = new JSONArray();
-                        if (mCursor.getCount() > 0) {
-                            while (mCursor.moveToNext()) {
-                                if (!mCursor.getString(4).equalsIgnoreCase("0")) {
-                                    JSONObject SLidesJson = new JSONObject();
-                                    SLidesJson.put("SlideId", mCursor.getString(6));
-                                    SLidesJson.put("SlideName", mCursor.getString(2));
-                                    SLidesJson.put("SlideType", mCursor.getString(3));
-                                    SLidesJson.put("SlideLocUrl", mCursor.getString(4));
-                                    SLidesJson.put("PrdCode", "-1");
-                                    ++len_slide;
-                                    SlidesArray.put(SLidesJson);
-                                }
+                    mCursor = dbh.select_AllSlides_therapticwise(BrdCodeArray.get(j), theraptic);
+                    JSONArray SlidesArray = new JSONArray();
+                    if (mCursor.getCount() > 0) {
+                        while (mCursor.moveToNext()) {
+                            if (!mCursor.getString(4).equalsIgnoreCase("0")) {
+                                JSONObject SLidesJson = new JSONObject();
+                                SLidesJson.put("SlideId", mCursor.getString(6));
+                                SLidesJson.put("SlideName", mCursor.getString(2));
+                                SLidesJson.put("SlideType", mCursor.getString(3));
+                                SLidesJson.put("SlideLocUrl", mCursor.getString(4));
+                                SLidesJson.put("PrdCode", "-1");
+                                ++len_slide;
+                                SlidesArray.put(SLidesJson);
                             }
                         }
-                        Log.v("Selection_prd_json", String.valueOf(SlidesArray.length()));
-                        ProductBrdSLidesJson.put("Slides", SlidesArray);
-
-                        ProductBrdWiseSlidesArray.put(ProductBrdSLidesJson);
-
                     }
+                    Log.v("Selection_prd_json", String.valueOf(SlidesArray.length()));
+                    ProductBrdSLidesJson.put("Slides", SlidesArray);
 
-                    break;
-                case "Brand Matrix":
-                    for (int j = 0; j < BrdCodeArray.size(); j++) {
-                        JSONObject ProductBrdSLidesJson = new JSONObject();
-                        ProductBrdSLidesJson.put("BrdCode", BrdCodeArray.get(j));
-                        ProductBrdSLidesJson.put("BrdName", BrdNameArray.get(j));
-                        Log.v("skipSpeciality_pptt", skipSpeciality);
-                        JSONArray SlidesArray = new JSONArray();
-                        // for(int k=0;k<ProductCodeSplit1.size();k++){
-                        Log.v("product_code_spl", ProductCodeSplit1.get(j) + " selection_grid " + BrdCodeArray.get(j));
-                        //if(skipSpeciality.equalsIgnoreCase("0"))
-                        mCursor = dbh.select_AllSlides_brandwiseWithoutSpecProd(BrdCodeArray.get(j), ProductCodeSplit1.get(j));
-                        // else
-                        //   mCursor = dbh.select_AllSlides_brandwiseSpecProd(BrdCodeArray.get(j),CommonUtils.TAG_DR_SPEC,ProductCodeSplit1.get(j));
+                    ProductBrdWiseSlidesArray.put(ProductBrdSLidesJson);
 
-                        if (mCursor.getCount() > 0) {
-                            while (mCursor.moveToNext()) {
-                                Log.v("slide_printing_prd", mCursor.getString(4) + " printing_code " + mCursor.getString(8));
-                                if (!mCursor.getString(4).equalsIgnoreCase("0")) {
-                                    JSONObject SLidesJson = new JSONObject();
-                                    SLidesJson.put("SlideId", mCursor.getString(6));
-                                    SLidesJson.put("SlideName", mCursor.getString(2));
-                                    SLidesJson.put("SlideType", mCursor.getString(3));
-                                    SLidesJson.put("SlideLocUrl", mCursor.getString(4));
-                                    SLidesJson.put("PrdCode", ProductCodeSplit1.get(j));
-                                    ++len_slide;
-                                    SlidesArray.put(SLidesJson);
-                                }
+                }
+
+            }else if (DetailingTrackerPOJO.getmDetListview_Selection().equalsIgnoreCase(getResources().getString(R.string.brandmatrix))){
+
+                for (int j = 0; j < BrdCodeArray.size(); j++) {
+                    JSONObject ProductBrdSLidesJson = new JSONObject();
+                    ProductBrdSLidesJson.put("BrdCode", BrdCodeArray.get(j));
+                    ProductBrdSLidesJson.put("BrdName", BrdNameArray.get(j));
+                    Log.v("skipSpeciality_pptt", skipSpeciality);
+                    JSONArray SlidesArray = new JSONArray();
+                    // for(int k=0;k<ProductCodeSplit1.size();k++){
+                    Log.v("product_code_spl", ProductCodeSplit1.get(j) + " selection_grid " + BrdCodeArray.get(j));
+                    //if(skipSpeciality.equalsIgnoreCase("0"))
+                    mCursor = dbh.select_AllSlides_brandwiseWithoutSpecProd(BrdCodeArray.get(j), ProductCodeSplit1.get(j));
+                    // else
+                    //   mCursor = dbh.select_AllSlides_brandwiseSpecProd(BrdCodeArray.get(j),CommonUtils.TAG_DR_SPEC,ProductCodeSplit1.get(j));
+
+                    if (mCursor.getCount() > 0) {
+                        while (mCursor.moveToNext()) {
+                            Log.v("slide_printing_prd", mCursor.getString(4) + " printing_code " + mCursor.getString(8));
+                            if (!mCursor.getString(4).equalsIgnoreCase("0")) {
+                                JSONObject SLidesJson = new JSONObject();
+                                SLidesJson.put("SlideId", mCursor.getString(6));
+                                SLidesJson.put("SlideName", mCursor.getString(2));
+                                SLidesJson.put("SlideType", mCursor.getString(3));
+                                SLidesJson.put("SlideLocUrl", mCursor.getString(4));
+                                SLidesJson.put("PrdCode", ProductCodeSplit1.get(j));
+                                ++len_slide;
+                                SlidesArray.put(SLidesJson);
                             }
                         }
+                    }
 
-                        // }
-                        Log.v("printinging_each_item", SlidesArray.toString());
-                        ProductBrdSLidesJson.put("Slides", SlidesArray);
-                        ProductBrdWiseSlidesArray.put(ProductBrdSLidesJson);
+                    // }
+                    Log.v("printinging_each_item", SlidesArray.toString());
+                    ProductBrdSLidesJson.put("Slides", SlidesArray);
+                    ProductBrdWiseSlidesArray.put(ProductBrdSLidesJson);
 
                        /* if(skipSpeciality.equalsIgnoreCase("0"))
                         mCursor = dbh.select_AllSlides_brandwise(BrdCodeArray.get(j));
@@ -767,31 +933,32 @@ try
 
                         ProductBrdSLidesJson.put("Slides",SlidesArray);
                         ProductBrdWiseSlidesArray.put(ProductBrdSLidesJson);*/
-                    }
-                    break;
-                case "All Brands":
-                    Log.v("all_brand_select11", "all_brands_only_ss" + CommonUtils.TAG_DR_SPEC);
-                    Log.v("all_brandCount", "all_brands_only_ss" + BrdCodeArray.size());
-                    for (int j = 0; j < BrdCodeArray.size(); j++) {
-                        JSONObject ProductBrdSLidesJson = new JSONObject();
-                        ProductBrdSLidesJson.put("BrdCode", BrdCodeArray.get(j));
-                        ProductBrdSLidesJson.put("BrdName", BrdNameArray.get(j));
+                }
 
-                        Log.e("Brand_Name", BrdNameArray.get(j));
+            }else if (DetailingTrackerPOJO.getmDetListview_Selection().equalsIgnoreCase(getResources().getString(R.string.allbrand))){
 
-                        if (skipSpeciality.equalsIgnoreCase("0"))
-                            mCursor = dbh.select_AllSlides_brandwise(BrdCodeArray.get(j));
-                        else
-                            mCursor = dbh.select_AllSlides_brandwiseSpec(BrdCodeArray.get(j), CommonUtils.TAG_DR_SPEC);
+                Log.v("all_brand_select11", "all_brands_only_ss" + CommonUtils.TAG_DR_SPEC);
+                Log.v("all_brandCount", "all_brands_only_ss" + BrdCodeArray.size());
+                for (int j = 0; j < BrdCodeArray.size(); j++) {
+                    JSONObject ProductBrdSLidesJson = new JSONObject();
+                    ProductBrdSLidesJson.put("BrdCode", BrdCodeArray.get(j));
+                    ProductBrdSLidesJson.put("BrdName", BrdNameArray.get(j));
+
+                    Log.e("Brand_Name", BrdNameArray.get(j));
+
+                    if (skipSpeciality.equalsIgnoreCase("0"))
+                        mCursor = dbh.select_AllSlides_brandwise(BrdCodeArray.get(j));
+                    else
+                        mCursor = dbh.select_AllSlides_brandwiseSpec(BrdCodeArray.get(j), CommonUtils.TAG_DR_SPEC);
 
                         /*if(TextUtils.isEmpty(CommonUtils.TAG_DR_SPEC))
                         mCursor = dbh.select_AllSlides_brandwise(BrdCodeArray.get(j));
                         else
                          mCursor = dbh.select_AllSlides_brandwiseSpec(BrdCodeArray.get(j),CommonUtils.TAG_DR_SPEC);*/
 
-                        JSONArray SlidesArray = new JSONArray();
-                        try
-                        {
+                    JSONArray SlidesArray = new JSONArray();
+                    try
+                    {
 
                         if (mCursor.getCount() > 0) {
                             while (mCursor.moveToNext()) {
@@ -810,36 +977,36 @@ try
                         }
 
                     }catch (Exception e)
-                        {
-                            Log.e("Error",e.getMessage());
-                        }
-
-                        ProductBrdSLidesJson.put("Slides", SlidesArray);
-                        ProductBrdWiseSlidesArray.put(ProductBrdSLidesJson);
+                    {
+                        Log.e("Error",e.getMessage());
                     }
-                    break;
-                default:
-                    check_display = 6;
-                    Log.v("all_brand_select45", "all_brands_only_ss" + DetailingTrackerPOJO.getmDetListview_Selection());
-                    for (int j = 0; j < BrdCodeArray.size(); j++) {
-                        JSONObject ProductBrdSLidesJson = new JSONObject();
-                        ProductBrdSLidesJson.put("BrdCode", BrdCodeArray.get(j));
-                        ProductBrdSLidesJson.put("BrdName", BrdNameArray.get(j));
-                        mCursor = dbh.selectAllProducts_GroupPresentationWise(BrdCodeArray.get(j), DetailingTrackerPOJO.getmDetListview_Selection());
+
+                    ProductBrdSLidesJson.put("Slides", SlidesArray);
+                    ProductBrdWiseSlidesArray.put(ProductBrdSLidesJson);
+                }
+
+            } else {
+                check_display = 6;
+                Log.v("all_brand_select45", "all_brands_only_ss" + DetailingTrackerPOJO.getmDetListview_Selection());
+                for (int j = 0; j < BrdCodeArray.size(); j++) {
+                    JSONObject ProductBrdSLidesJson = new JSONObject();
+                    ProductBrdSLidesJson.put("BrdCode", BrdCodeArray.get(j));
+                    ProductBrdSLidesJson.put("BrdName", BrdNameArray.get(j));
+                    mCursor = dbh.selectAllProducts_GroupPresentationWise(BrdCodeArray.get(j), DetailingTrackerPOJO.getmDetListview_Selection());
 
 //                        if(DetailingTrackerPOJO.getmDetListview_Selection().equalsIgnoreCase("customised"))
 //                            mCursor = dbh.selectAllProducts_GroupPresentationWise(BrdCodeArray.get(j), DetailingTrackerPOJO.getmDetListview_Selection());
 //                        else
 //                        mCursor = dbh.selectAllProducts_GroupPresentationWiseByDesc(BrdCodeArray.get(j), DetailingTrackerPOJO.getmDetListview_Selection());
-                        JSONArray SlidesArray = new JSONArray();
-                        if (mCursor.getCount() > 0) {
-                            while (mCursor.moveToNext()) {
-                                if (!mCursor.getString(4).equalsIgnoreCase("0")) {
-                                    JSONObject SLidesJson = new JSONObject();
-                                    SLidesJson.put("SlideId", mCursor.getString(5));
-                                    SLidesJson.put("SlideName", mCursor.getString(2));
-                                    SLidesJson.put("SlideType", mCursor.getString(3));
-                                    SLidesJson.put("PrdCode", "-1");
+                    JSONArray SlidesArray = new JSONArray();
+                    if (mCursor.getCount() > 0) {
+                        while (mCursor.moveToNext()) {
+                            if (!mCursor.getString(4).equalsIgnoreCase("0")) {
+                                JSONObject SLidesJson = new JSONObject();
+                                SLidesJson.put("SlideId", mCursor.getString(5));
+                                SLidesJson.put("SlideName", mCursor.getString(2));
+                                SLidesJson.put("SlideType", mCursor.getString(3));
+                                SLidesJson.put("PrdCode", "-1");
                                /* if(mCursor.getString(3).equalsIgnoreCase("i")) {
                                     File compressedImageFile = null;
                                     try {
@@ -851,19 +1018,251 @@ try
                                     SLidesJson.put("SlideLocUrl", compressedImageFile.toString());
                                 }
                                 else*/
-                                    SLidesJson.put("SlideLocUrl", mCursor.getString(4));
-                                    ++len_slide;
-                                    SlidesArray.put(SLidesJson);
-                                }
+                                SLidesJson.put("SlideLocUrl", mCursor.getString(4));
+                                ++len_slide;
+                                SlidesArray.put(SLidesJson);
                             }
                         }
-
-                        ProductBrdSLidesJson.put("Slides", SlidesArray);
-                        ProductBrdWiseSlidesArray.put(ProductBrdSLidesJson);
                     }
 
-                    break;
+                    ProductBrdSLidesJson.put("Slides", SlidesArray);
+                    ProductBrdWiseSlidesArray.put(ProductBrdSLidesJson);
+                }
             }
+
+//            switch (DetailingTrackerPOJO.getmDetListview_Selection()) {
+//                case "Speciality Wise":
+//                    for (int j = 0; j < BrdCodeArray.size(); j++) {
+//                        JSONObject ProductBrdSLidesJson = new JSONObject();
+//                        ProductBrdSLidesJson.put("BrdCode", BrdCodeArray.get(j));
+//                        ProductBrdSLidesJson.put("BrdName", BrdNameArray.get(j));
+//
+//                        Log.e("Speciality_wise", String.valueOf(BrdCodeArray.size()));
+//                        Log.e("Speciality_wise", BrdNameArray.get(j));
+//
+//                        mCursor = dbh.select_AllSlides_specialitywise(BrdCodeArray.get(j), speciality);
+//                        JSONArray SlidesArray = new JSONArray();
+//                        try {
+//                        if (mCursor.getCount() > 0) {
+//                            while (mCursor.moveToNext()) {
+//                                Log.v("slide_printing_SL", BrdCodeArray.get(j) + " :-" + mCursor.getString(2) + " printing_code " + mCursor.getString(9));
+//                                if (!mCursor.getString(4).equalsIgnoreCase("0")) {
+//                                    JSONObject SLidesJson = new JSONObject();
+//                                    SLidesJson.put("SlideId", mCursor.getString(6));
+//                                    SLidesJson.put("SlideName", mCursor.getString(2));
+//                                    SLidesJson.put("SlideType", mCursor.getString(3));
+//                                    SLidesJson.put("SlideLocUrl", mCursor.getString(4));
+//                                    SLidesJson.put("PrdCode", "-1");
+//                                    ++len_slide;
+//                                    SlidesArray.put(SLidesJson);
+//                                }
+//                            }
+//                        }
+//                        }catch (Exception e)
+//                        {
+//                            Log.e("Error",e.getMessage());
+//                        }
+//                        Log.v("Selection_prd_json", String.valueOf(SlidesArray.length()));
+//                        ProductBrdSLidesJson.put("Slides", SlidesArray);
+//
+//                        ProductBrdWiseSlidesArray.put(ProductBrdSLidesJson);
+//
+//                    }
+//                    break;
+////
+//                case "Theraptic":
+//                    for (int j = 0; j < BrdCodeArray.size(); j++) {
+//                        JSONObject ProductBrdSLidesJson = new JSONObject();
+//                        ProductBrdSLidesJson.put("BrdCode", BrdCodeArray.get(j));
+//                        ProductBrdSLidesJson.put("BrdName", BrdNameArray.get(j));
+//
+//
+//                        mCursor = dbh.select_AllSlides_therapticwise(BrdCodeArray.get(j), theraptic);
+//                        JSONArray SlidesArray = new JSONArray();
+//                        if (mCursor.getCount() > 0) {
+//                            while (mCursor.moveToNext()) {
+//                                if (!mCursor.getString(4).equalsIgnoreCase("0")) {
+//                                    JSONObject SLidesJson = new JSONObject();
+//                                    SLidesJson.put("SlideId", mCursor.getString(6));
+//                                    SLidesJson.put("SlideName", mCursor.getString(2));
+//                                    SLidesJson.put("SlideType", mCursor.getString(3));
+//                                    SLidesJson.put("SlideLocUrl", mCursor.getString(4));
+//                                    SLidesJson.put("PrdCode", "-1");
+//                                    ++len_slide;
+//                                    SlidesArray.put(SLidesJson);
+//                                }
+//                            }
+//                        }
+//                        Log.v("Selection_prd_json", String.valueOf(SlidesArray.length()));
+//                        ProductBrdSLidesJson.put("Slides", SlidesArray);
+//
+//                        ProductBrdWiseSlidesArray.put(ProductBrdSLidesJson);
+//
+//                    }
+//
+//                    break;
+//                case "Brand Matrix":
+//                    for (int j = 0; j < BrdCodeArray.size(); j++) {
+//                        JSONObject ProductBrdSLidesJson = new JSONObject();
+//                        ProductBrdSLidesJson.put("BrdCode", BrdCodeArray.get(j));
+//                        ProductBrdSLidesJson.put("BrdName", BrdNameArray.get(j));
+//                        Log.v("skipSpeciality_pptt", skipSpeciality);
+//                        JSONArray SlidesArray = new JSONArray();
+//                        // for(int k=0;k<ProductCodeSplit1.size();k++){
+//                        Log.v("product_code_spl", ProductCodeSplit1.get(j) + " selection_grid " + BrdCodeArray.get(j));
+//                        //if(skipSpeciality.equalsIgnoreCase("0"))
+//                        mCursor = dbh.select_AllSlides_brandwiseWithoutSpecProd(BrdCodeArray.get(j), ProductCodeSplit1.get(j));
+//                        // else
+//                        //   mCursor = dbh.select_AllSlides_brandwiseSpecProd(BrdCodeArray.get(j),CommonUtils.TAG_DR_SPEC,ProductCodeSplit1.get(j));
+//
+//                        if (mCursor.getCount() > 0) {
+//                            while (mCursor.moveToNext()) {
+//                                Log.v("slide_printing_prd", mCursor.getString(4) + " printing_code " + mCursor.getString(8));
+//                                if (!mCursor.getString(4).equalsIgnoreCase("0")) {
+//                                    JSONObject SLidesJson = new JSONObject();
+//                                    SLidesJson.put("SlideId", mCursor.getString(6));
+//                                    SLidesJson.put("SlideName", mCursor.getString(2));
+//                                    SLidesJson.put("SlideType", mCursor.getString(3));
+//                                    SLidesJson.put("SlideLocUrl", mCursor.getString(4));
+//                                    SLidesJson.put("PrdCode", ProductCodeSplit1.get(j));
+//                                    ++len_slide;
+//                                    SlidesArray.put(SLidesJson);
+//                                }
+//                            }
+//                        }
+//
+//                        // }
+//                        Log.v("printinging_each_item", SlidesArray.toString());
+//                        ProductBrdSLidesJson.put("Slides", SlidesArray);
+//                        ProductBrdWiseSlidesArray.put(ProductBrdSLidesJson);
+//
+//                       /* if(skipSpeciality.equalsIgnoreCase("0"))
+//                        mCursor = dbh.select_AllSlides_brandwise(BrdCodeArray.get(j));
+//                        else
+//                            mCursor = dbh.select_AllSlides_brandwiseSpec(BrdCodeArray.get(j),CommonUtils.TAG_DR_SPEC);*/
+//
+//                      /*  JSONArray SlidesArray=new JSONArray();
+//                        if (mCursor.getCount() > 0) {
+//                            while (mCursor.moveToNext()) {
+//                                prdCode=mCursor.getString(8);
+//                                Log.v("cursor_mv_fulll","to_next"+" prd_code "+prdCode);
+//
+//                                boolean FilterBrand=false;
+//                                for(String ret1 : prdCode.split(",")){
+//                                    if(specDrProdCode.contains(ret1))
+//                                        FilterBrand=true;
+//                                }
+//                                if(FilterBrand) {
+//                                    JSONObject SLidesJson = new JSONObject();
+//                                    SLidesJson.put("SlideId", mCursor.getString(6));
+//                                    SLidesJson.put("SlideName", mCursor.getString(2));
+//                                    SLidesJson.put("SlideType", mCursor.getString(3));
+//                                    SLidesJson.put("SlideLocUrl", mCursor.getString(4));
+//                                    ++len_slide;
+//                                    SlidesArray.put(SLidesJson);
+//                                }
+//                            }
+//                        }
+//
+//                        ProductBrdSLidesJson.put("Slides",SlidesArray);
+//                        ProductBrdWiseSlidesArray.put(ProductBrdSLidesJson);*/
+//                    }
+//                    break;
+//                case "All Brands":
+//                    Log.v("all_brand_select11", "all_brands_only_ss" + CommonUtils.TAG_DR_SPEC);
+//                    Log.v("all_brandCount", "all_brands_only_ss" + BrdCodeArray.size());
+//                    for (int j = 0; j < BrdCodeArray.size(); j++) {
+//                        JSONObject ProductBrdSLidesJson = new JSONObject();
+//                        ProductBrdSLidesJson.put("BrdCode", BrdCodeArray.get(j));
+//                        ProductBrdSLidesJson.put("BrdName", BrdNameArray.get(j));
+//
+//                        Log.e("Brand_Name", BrdNameArray.get(j));
+//
+//                        if (skipSpeciality.equalsIgnoreCase("0"))
+//                            mCursor = dbh.select_AllSlides_brandwise(BrdCodeArray.get(j));
+//                        else
+//                            mCursor = dbh.select_AllSlides_brandwiseSpec(BrdCodeArray.get(j), CommonUtils.TAG_DR_SPEC);
+//
+//                        /*if(TextUtils.isEmpty(CommonUtils.TAG_DR_SPEC))
+//                        mCursor = dbh.select_AllSlides_brandwise(BrdCodeArray.get(j));
+//                        else
+//                         mCursor = dbh.select_AllSlides_brandwiseSpec(BrdCodeArray.get(j),CommonUtils.TAG_DR_SPEC);*/
+//
+//                        JSONArray SlidesArray = new JSONArray();
+//                        try
+//                        {
+//
+//                        if (mCursor.getCount() > 0) {
+//                            while (mCursor.moveToNext()) {
+//                                Log.v("slide_printing_prd", "SL" + mCursor.getString(9) + "Brand" + BrdCodeArray.get(j) + " printing_code " + mCursor.getString(8));
+//                                if (!mCursor.getString(4).equalsIgnoreCase("0")) {
+//                                    JSONObject SLidesJson = new JSONObject();
+//                                    SLidesJson.put("SlideId", mCursor.getString(6));
+//                                    SLidesJson.put("SlideName", mCursor.getString(2));
+//                                    SLidesJson.put("SlideType", mCursor.getString(3));
+//                                    SLidesJson.put("SlideLocUrl", mCursor.getString(4));
+//                                    SLidesJson.put("PrdCode", "-1");
+//                                    ++len_slide;
+//                                    SlidesArray.put(SLidesJson);
+//                                }
+//                            }
+//                        }
+//
+//                    }catch (Exception e)
+//                        {
+//                            Log.e("Error",e.getMessage());
+//                        }
+//
+//                        ProductBrdSLidesJson.put("Slides", SlidesArray);
+//                        ProductBrdWiseSlidesArray.put(ProductBrdSLidesJson);
+//                    }
+//                    break;
+//                default:
+//                    check_display = 6;
+//                    Log.v("all_brand_select45", "all_brands_only_ss" + DetailingTrackerPOJO.getmDetListview_Selection());
+//                    for (int j = 0; j < BrdCodeArray.size(); j++) {
+//                        JSONObject ProductBrdSLidesJson = new JSONObject();
+//                        ProductBrdSLidesJson.put("BrdCode", BrdCodeArray.get(j));
+//                        ProductBrdSLidesJson.put("BrdName", BrdNameArray.get(j));
+//                        mCursor = dbh.selectAllProducts_GroupPresentationWise(BrdCodeArray.get(j), DetailingTrackerPOJO.getmDetListview_Selection());
+//
+////                        if(DetailingTrackerPOJO.getmDetListview_Selection().equalsIgnoreCase("customised"))
+////                            mCursor = dbh.selectAllProducts_GroupPresentationWise(BrdCodeArray.get(j), DetailingTrackerPOJO.getmDetListview_Selection());
+////                        else
+////                        mCursor = dbh.selectAllProducts_GroupPresentationWiseByDesc(BrdCodeArray.get(j), DetailingTrackerPOJO.getmDetListview_Selection());
+//                        JSONArray SlidesArray = new JSONArray();
+//                        if (mCursor.getCount() > 0) {
+//                            while (mCursor.moveToNext()) {
+//                                if (!mCursor.getString(4).equalsIgnoreCase("0")) {
+//                                    JSONObject SLidesJson = new JSONObject();
+//                                    SLidesJson.put("SlideId", mCursor.getString(5));
+//                                    SLidesJson.put("SlideName", mCursor.getString(2));
+//                                    SLidesJson.put("SlideType", mCursor.getString(3));
+//                                    SLidesJson.put("PrdCode", "-1");
+//                               /* if(mCursor.getString(3).equalsIgnoreCase("i")) {
+//                                    File compressedImageFile = null;
+//                                    try {
+//                                        compressedImageFile = new Compressor(getActivity()).compressToFile(new File(mCursor.getString(4)));
+//                                    } catch (IOException e) {
+//                                        e.printStackTrace();
+//                                        Log.v("Exception_in_search_"," path "+ mCursor.getString(4));
+//                                    }
+//                                    SLidesJson.put("SlideLocUrl", compressedImageFile.toString());
+//                                }
+//                                else*/
+//                                    SLidesJson.put("SlideLocUrl", mCursor.getString(4));
+//                                    ++len_slide;
+//                                    SlidesArray.put(SLidesJson);
+//                                }
+//                            }
+//                        }
+//
+//                        ProductBrdSLidesJson.put("Slides", SlidesArray);
+//                        ProductBrdWiseSlidesArray.put(ProductBrdSLidesJson);
+//                    }
+//
+//                    break;
+//            }
             Log.v("ProductBrdWiseSlides_", ProductBrdWiseSlidesArray.toString());
             Log.v("len_slide_value", String.valueOf(len_slide));
             if (skipSpeciality.equalsIgnoreCase("0")) {
@@ -873,7 +1272,7 @@ try
                     JSONArray ja = new JSONArray(mCommonSharedPreference.getValueFromPreference("selection_product").toString());
                     len_slide = ja.length();
                     mCommonSharedPreference.setValueToPreference("ProductBrdWiseSlides_jsonArray", mCommonSharedPreference.getValueFromPreference("selection_product").toString());
-                } else if (DetailingTrackerPOJO.getmDetListview_Selection().equalsIgnoreCase("customised")) {
+                } else if (DetailingTrackerPOJO.getmDetListview_Selection().equalsIgnoreCase(getResources().getString(R.string.customise))) {
                     JSONArray ja = new JSONArray(mCommonSharedPreference.getValueFromPreference("selection_product").toString());
                     len_slide = ja.length();
                     mCommonSharedPreference.setValueToPreference("ProductBrdWiseSlides_jsonArray", mCommonSharedPreference.getValueFromPreference("selection_product").toString());

@@ -7,7 +7,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Reject Reason"
+        android:text="@string/rejectreson"
         android:id="@+id/txt_head"
         android:textColor="#000"
         android:textSize="14sp"/>
@@ -38,7 +38,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Are you Sure to Reject ? "
+            android:text="@string/surerejct"
             android:id="@+id/txt_warning"
             android:textColor="#000"
             android:layout_centerVertical="true"
@@ -53,10 +53,11 @@
             android:layout_alignParentEnd="true"
             >
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:text="    Cancel    "
+                android:text="@string/cancel"
                 android:textColor="#000"
+                android:gravity="center"
                 android:layout_marginRight="3dp"/>
         </RelativeLayout>
         <RelativeLayout
@@ -69,10 +70,11 @@
             android:layout_marginRight="6dp"
             >
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
-                android:text="    Yes, to Reject    "
+                android:text="@string/yesrject"
                 android:textColor="#fff"
+                android:gravity="center"
                 android:layout_marginRight="3dp"/>
         </RelativeLayout>
 

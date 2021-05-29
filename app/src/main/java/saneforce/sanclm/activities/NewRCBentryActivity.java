@@ -231,13 +231,13 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
                 }
 
                else if (brandList.size()==0&&chem_select_list.size() < 1) {
-                    Toast.makeText(getApplicationContext(), "Select Chemist Name", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.sclt_chmnm), Toast.LENGTH_LONG).show();
 
                 } else if (brandList.size()==0&&edt_search_brd.getText().toString().isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Select Product Name ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.sclt_prdnm), Toast.LENGTH_LONG).show();
 
                 } else if (brandList.size()==0&&edt_qty.getText().toString().isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Select Product Qty ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.scltprdqty), Toast.LENGTH_LONG).show();
 
                 }
 //                else if(TextUtils.isEmpty(competitorName) || competitorName.equals("")||competitorName.equalsIgnoreCase("null"))
@@ -1588,12 +1588,12 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
                 ModelDynamicView mm = array_view.get(pos_upload_file);
                 mm.setValue(ImageFileName);
             } else {
-                Toast.makeText(this, "You haven't picked Image",
+                Toast.makeText(this, getResources().getString(R.string.hnt_pickimg),
                         Toast.LENGTH_LONG).show();
             }
         } catch (Exception e) {
             Log.v("cameraerror", e.toString());
-//            Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG)
+//            Toast.makeText(this, getResources().getString(R.string.something_wrong), Toast.LENGTH_LONG)
 //                    .show();
         }
 

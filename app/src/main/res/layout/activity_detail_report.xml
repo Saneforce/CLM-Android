@@ -21,7 +21,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Report"
+            android:text="@string/report"
             android:textSize="18sp"
             android:textColor="#D80808"
             android:textStyle="bold"
@@ -83,7 +83,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Customer"
+                    android:text="@string/cutomer"
                     android:padding="20dp"
                     />
             </RelativeLayout>
@@ -101,7 +101,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Brand"
+                    android:text="@string/brand"
                     android:padding="15dp"
                     />
             </RelativeLayout>

@@ -2,12 +2,17 @@ package saneforce.sanclm.activities;
 
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Pair;
 import android.view.KeyEvent;
@@ -44,6 +49,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -65,12 +71,16 @@ import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
 import saneforce.sanclm.applicationCommonFiles.CommonUtils;
 import saneforce.sanclm.applicationCommonFiles.CommonUtilsMethods;
 import saneforce.sanclm.applicationCommonFiles.DownloadMasters;
+import saneforce.sanclm.fragments.LocaleHelper;
 import saneforce.sanclm.sqlite.DataBaseHandler;
 import saneforce.sanclm.util.GridSelectionList;
 import saneforce.sanclm.util.ProductChangeListener;
 import saneforce.sanclm.util.SpecialityListener;
 import saneforce.sanclm.util.TwoTypeparameter;
 import saneforce.sanclm.util.UpdateUi;
+
+import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
+import static saneforce.sanclm.fragments.AppConfiguration.language_string;
 
 public class DemoActivity extends AppCompatActivity {
     ViewPager viewpager;
@@ -164,6 +174,9 @@ public class DemoActivity extends AppCompatActivity {
     ProgressBar marker_progress;
     boolean alertshow=false;
     TextView notifi;
+    String language;
+    Context context;
+    Resources resources;
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
@@ -175,6 +188,20 @@ public class DemoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demo);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        language = sharedPreferences.getString(language_string, "");
+        if (!language.equals("")){
+            Log.d("homelang",language);
+            selected(language);
+            context = LocaleHelper.setLocale(DemoActivity.this, language);
+            resources = context.getResources();
+        }else {
+            selected("en");
+            context = LocaleHelper.setLocale(DemoActivity.this, "en");
+            resources = context.getResources();
+        }
+
         viewpager=(ViewPager)findViewById(R.id.viewpager);
         list_selection=(ListView)findViewById(R.id.list_selection);
         list_view_tp=(ListView)findViewById(R.id.list_view_tp);
@@ -1379,6 +1406,15 @@ public class DemoActivity extends AppCompatActivity {
        // getDateRangeDum(3,2020);
         //dayCaldumm();
         commonFun();
+    }
+
+    private void selected(String language) {
+        Locale myLocale = new Locale(language);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
     }
 
     public void getInsertValue(){

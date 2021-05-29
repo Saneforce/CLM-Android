@@ -39,12 +39,12 @@ public class AdapterForMisssedReportList extends RecyclerView.Adapter<AdapterFor
 
         holder.txt_name_miss.setText(mm.getName());
         holder.txt_date_miss.setText(mm.getDate());
-        holder.txt_cluster.setText(mm.getCluster());
-        holder.txt_hw_value.setText(mm.getQualify());
-        holder.txt_remark.setText(mm.getSpec());
-        holder.txt_previous.setText(mm.getPrev());
-        holder.txt_class.setText(mm.getCls());
-        holder.txt_category.setText(mm.getCategory());
+        holder.txt_cluster.setText(" : "+mm.getCluster());
+        holder.txt_hw_value.setText(" : "+mm.getQualify());
+        holder.txt_remark.setText(" : "+mm.getSpec());
+        holder.txt_previous.setText(" : "+mm.getPrev());
+        holder.txt_class.setText(" : "+mm.getCls());
+        holder.txt_category.setText(" : "+mm.getCategory());
 
 
 

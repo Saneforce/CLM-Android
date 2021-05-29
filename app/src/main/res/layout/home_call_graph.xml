@@ -93,17 +93,17 @@
                                         android:progress="0"
                                         android:layout_above="@+id/jan_txt"
                                         />
+
                                     <TextView
+                                        android:id="@+id/txt_count_jan"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:textColor="#000000"
-                                        android:text="0"
-                                        android:layout_centerHorizontal="true"
-                                        android:id="@+id/txt_count_jan"
                                         android:layout_alignBottom="@+id/pb_jan"
+                                        android:layout_centerHorizontal="true"
                                         android:layout_marginBottom="10dp"
-                                        android:textSize="@dimen/pb_txt_sz"
-                                        />
+                                        android:text="0"
+                                        android:textColor="#000000"
+                                        android:textSize="@dimen/pb_txt_sz" />
 
                                 </RelativeLayout>
 
@@ -758,6 +758,7 @@
 
                                 </com.github.mikephil.charting.charts.PieChart>
                                 <TextView
+                                    android:id="@+id/categorycap"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Categorywise Visit Details"
@@ -807,6 +808,7 @@
                                     android:layout_centerVertical="true"
                                     android:textColor="#000000"/>
                                 <TextView
+                                    android:id="@+id/overallcap"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_medium"

@@ -37,7 +37,7 @@
                     android:layout_toRightOf="@+id/back_btn_chepro"
                     android:layout_centerVertical="true"
                     android:fontFamily="@font/poppins_semibold"
-                    android:text="Target VS Sales Details"
+                    android:text="@string/targetsales"
                     android:textColor="@color/white"
                     android:textSize="15sp" />
 
@@ -122,7 +122,7 @@
                                 android:textSize="12.5sp"
                                 android:fontFamily="@font/poppins"
                                 android:textColor="@color/black"
-                                android:text="Primary"/>
+                                android:text="@string/primary"/>
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -188,7 +188,7 @@
                                 android:fontFamily="@font/poppins"
                                 android:textColor="@color/black"
                                 android:textSize="12.5sp"
-                                android:text="Target "/>
+                                android:text="@string/target"/>
 
                             <TextView
                                 android:id="@+id/tv_target"
@@ -307,7 +307,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:fontFamily="@font/poppins"
-                                android:text="Secondary"
+                                android:text="@string/secondary"
                                 android:textColor="@color/black"
                                 android:textSize="12.5sp" />
 
@@ -373,7 +373,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins"
                                 android:textColor="@color/black"
-                                android:text="Target"
+                                android:text="@string/target"
                                 android:textSize="12.5sp"
                                 android:visibility="invisible"/>
 
@@ -557,7 +557,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins"
         android:padding="10dp"
-        android:text="Brand Contribution"
+        android:text="@string/brndcontry"
         android:textColor="@color/black"
         android:textStyle="bold"
             android:layout_marginStart="10dp"
@@ -575,7 +575,7 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:layout_marginStart="250dp"
-            android:text="Primary"
+            android:text="@string/primary"
             android:textColor="@color/black"
             app:buttonTint="@color/grey_light"
 
@@ -587,7 +587,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="Secondary"
+            android:text="@string/secondary"
             android:layout_marginStart="5dp"
             android:textColor="@color/black"
             android:textStyle="bold"

@@ -759,7 +759,7 @@ public class DetailingFullScreenImageViewActivity extends FragmentActivity imple
                startActivity(i);*/
                 //CommonUtilsMethods.CommonIntentwithNEwTask(DetailingFullScreenImageViewActivity.class);
             }else{
-                Toast.makeText(this, "No Products Available", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.noprdavailable), Toast.LENGTH_SHORT).show();
             }
             Log.e("Slides_json",SlidesArray.toString());
 
@@ -1183,7 +1183,7 @@ public class DetailingFullScreenImageViewActivity extends FragmentActivity imple
                     e.printStackTrace();
                 }
                 if(jsonArray.length()==0){
-                    Toast.makeText(context,"No Product Available",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,context.getResources().getString(R.string.noprdavailable),Toast.LENGTH_SHORT).show();
                 }
                 else {
                     dialog.dismiss();
@@ -1231,7 +1231,7 @@ public class DetailingFullScreenImageViewActivity extends FragmentActivity imple
                     e.printStackTrace();
                 }
                 if(jsonArray.length()==0){
-                    Toast.makeText(context,"No Product Available",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,context.getResources().getString(R.string.noprdavailable),Toast.LENGTH_SHORT).show();
                 }
                 else {
                     dialog.dismiss();

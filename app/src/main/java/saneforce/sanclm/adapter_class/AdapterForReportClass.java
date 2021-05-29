@@ -3,6 +3,10 @@ package saneforce.sanclm.adapter_class;
 import android.content.Context;
 import android.content.Intent;
 
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,18 +19,27 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import saneforce.sanclm.R;
 import saneforce.sanclm.activities.Model.ModelDayReport;
+import saneforce.sanclm.activities.ReportActivity;
 import saneforce.sanclm.activities.ReportListActivity;
 import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
 import saneforce.sanclm.applicationCommonFiles.CommonUtilsMethods;
+import saneforce.sanclm.fragments.LocaleHelper;
+
+import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
+import static saneforce.sanclm.fragments.AppConfiguration.language_string;
 
 public class AdapterForReportClass extends RecyclerView.Adapter<AdapterForReportClass.MyViewHolder> {
     ArrayList<ModelDayReport> array=new ArrayList<>();
     Context context;
     int val;
     CommonSharedPreference commonSharedPreference;
+    String language;
+//    Context context;
+    Resources resources;
 
     public AdapterForReportClass(Context context,ArrayList<ModelDayReport> array,int val){
         this.context=context;
@@ -48,9 +61,9 @@ public class AdapterForReportClass extends RecyclerView.Adapter<AdapterForReport
         holder.txt_date.setText(mm.getDate());
         holder.txt_name.setText(mm.getName());
         holder.txt_wt.setText(mm.getWrktyp());
-        holder.txt_cluster.setText(mm.getCluster());
-        holder.txt_hw_value.setText(mm.getHoliday());
-        holder.txt_remark.setText(mm.getRem());
+        holder.txt_cluster.setText(" : "+mm.getCluster());
+        holder.txt_hw_value.setText(" : "+mm.getHoliday());
+        holder.txt_remark.setText(" : "+mm.getRem());
         holder.txt_count_dr.setText(mm.getDr());
         holder.txt_count_chm.setText(mm.getCh());
         holder.txt_count_stk.setText(mm.getSt());
@@ -117,7 +130,28 @@ public class AdapterForReportClass extends RecyclerView.Adapter<AdapterForReport
                 }
             }
         });
+        SharedPreferences sharedPreferences = context.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        language = sharedPreferences.getString(language_string, "");
+        if (!language.equals("")){
+            Log.d("homelang",language);
+            selected(language);
+            context = LocaleHelper.setLocale(context, language);
+            resources = context.getResources();
+        }else {
+            selected("en");
+            context = LocaleHelper.setLocale(context, "en");
+            resources = context.getResources();
+        }
 
+    }
+
+    private void selected(String language) {
+        Locale myLocale = new Locale(language);
+        Resources res = context.getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
     }
 
     @Override

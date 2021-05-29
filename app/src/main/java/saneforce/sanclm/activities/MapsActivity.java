@@ -283,7 +283,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                         dwnloadMasterData.unDrList();
                                         commonSharedPreference.setValueToPreference("map_return_count","one");
                                     }
-                                    Toast.makeText(MapsActivity.this, " Tagged successfully !! ", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(MapsActivity.this, getResources().getString(R.string.tag_succs), Toast.LENGTH_SHORT).show();
                                     onBackPressed();
                                 }
                             }
@@ -292,7 +292,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         }
                         else{
                             mp.dismiss();
-                            Toast.makeText(MapsActivity.this,"Something went wrong",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MapsActivity.this,getResources().getString(R.string.something_wrong),Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -407,7 +407,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             String postalCode = addresses.get(0).getPostalCode();
             String knownName = addresses.get(0).getFeatureName();
             Log.v("totally_printing_add",address);
-            txt_actual_addr.setText(address);
+            txt_actual_addr.setText(" : "+address);
         } catch (IOException e) {
             e.printStackTrace();
         }

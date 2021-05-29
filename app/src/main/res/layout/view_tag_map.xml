@@ -21,15 +21,17 @@
         android:layout_height="wrap_content"/>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycle"
         android:layout_width="350dp"
         android:layout_height="200dp"
-        android:id="@+id/recycle"
         android:layout_alignParentEnd="true"
-        android:layout_marginRight="10dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp">
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="13dp">
 
     </androidx.recyclerview.widget.RecyclerView>
+
     <ImageView
         android:layout_width="45dp"
         android:layout_height="45dp"
@@ -129,7 +131,7 @@
       android:layout_toLeftOf="@+id/fb_menu"
       android:background="@drawable/round_rect_light_grey"
       android:padding="10dp"
-      android:text="Category "
+      android:text="@string/catogy"
       android:layout_marginRight="-97dp"
       android:layout_marginTop="45dp"
       android:layout_below="@+id/rl_lay_tag"
@@ -154,7 +156,7 @@
  <TextView
      android:layout_width="wrap_content"
      android:layout_height="wrap_content"
-     android:text="Tagging "
+     android:text="@string/taging"
      android:textColor="#000000"
      android:padding="10dp"
      android:layout_centerVertical="true"

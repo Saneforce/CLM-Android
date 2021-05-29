@@ -71,7 +71,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Cluster : "
+                                android:text="@string/cluster1"
                                 android:textColor="#000"
                                 android:textStyle="bold"
                                 android:textSize="15sp"
@@ -90,19 +90,20 @@
                                 >
 
                             </TextView>
+
                             <TextView
+                                android:id="@+id/tt_dr"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Total Doctor : "
-                                android:textColor="#000"
-                                android:textStyle="bold"
-                                android:textSize="15sp"
-                                android:id="@+id/tt_dr"
                                 android:layout_below="@+id/tt_clu"
-                                android:layout_marginTop="10dp"
-                                >
+                                android:layout_marginTop="9dp"
+                                android:text="@string/totaldoc"
+                                android:textColor="#000"
+                                android:textSize="15sp"
+                                android:textStyle="bold">
 
                             </TextView>
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -119,7 +120,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Missed Call : "
+                                android:text="@string/missedcall"
                                 android:textColor="#000"
                                 android:textStyle="bold"
                                 android:textSize="15sp"
@@ -145,7 +146,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Doctor met : "
+                                android:text="@string/docmet"
                                 android:textColor="#000"
                                 android:textStyle="bold"
                                 android:textSize="15sp"
@@ -171,7 +172,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Doctor seen : "
+                                android:text="@string/docseen"
                                 android:textColor="#000"
                                 android:textStyle="bold"
                                 android:textSize="15sp"
@@ -197,7 +198,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Field Work Days : "
+                                android:text="@string/fieldday"
                                 android:textColor="#000"
                                 android:textStyle="bold"
                                 android:textSize="15sp"
@@ -223,7 +224,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Call Average : "
+                                android:text="@string/calaverage"
                                 android:textColor="#000"
                                 android:textStyle="bold"
                                 android:textSize="15sp"
@@ -267,7 +268,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Coverage : "
+                                android:text="@string/coverage"
                                 android:textColor="#D60606"
                                 android:textStyle="bold"
                                 android:textSize="15sp"
