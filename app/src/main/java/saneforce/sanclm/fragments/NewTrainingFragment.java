@@ -1,6 +1,7 @@
 package saneforce.sanclm.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -48,6 +49,7 @@ import retrofit2.Response;
 import saneforce.sanclm.Pojo_Class.DetailingList;
 import saneforce.sanclm.Pojo_Class.DoctorcoverageList;
 import saneforce.sanclm.R;
+import saneforce.sanclm.activities.HomeDashBoard;
 import saneforce.sanclm.activities.Model.Brandexpolist;
 import saneforce.sanclm.adapter_class.DetailingAdapter;
 import saneforce.sanclm.adapter_class.DoctorcoverageAdapter;
@@ -68,7 +70,7 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
     CommonSharedPreference mCommonSharedPreference;
     ArrayList<DoctorcoverageList>arrayList;
     RecyclerView recyclerViewdoctor,recyclerViewpharm,recyclerViewtotal,detailingrecyclerview;
-    DoctorcoverageAdapter adapter;
+    DoctorcoverageAdapter adapter,adapter1,adapter2;
     ArrayList<DoctorcoverageList>pharmlists;
     ArrayList<DoctorcoverageList>totaldetlist;
     DataBaseHandler db;
@@ -189,7 +191,10 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
                 getpharmcoverage();
                 gettotalcoverage();
                 gettotalcalls();
-               db.close();
+                db.close();
+
+                Intent intent=new Intent(getActivity(), HomeDashBoard.class);
+                startActivity(intent);
 
 
             }
@@ -209,6 +214,8 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
                 getbrandexpo();
                 getdetailing();
                 db.close();
+                Intent intent=new Intent(getActivity(), HomeDashBoard.class);
+                startActivity(intent);
             }
         });
 
@@ -670,9 +677,9 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
                 pharmlists.add(new DoctorcoverageList(mCursor.getString(0), mCursor.getString(1), mCursor.getString(2)));
 
             } while (mCursor.moveToNext());
-            adapter = new DoctorcoverageAdapter(getActivity(), pharmlists);
-            recyclerViewpharm.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
+            adapter1 = new DoctorcoverageAdapter(getActivity(), pharmlists);
+            recyclerViewpharm.setAdapter(adapter1);
+            adapter1.notifyDataSetChanged();
         }
         mCursor.close();
         db.close();
@@ -689,9 +696,9 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
                 totaldetlist.add(new DoctorcoverageList(mCursor.getString(0), mCursor.getString(1), mCursor.getString(2)));
 
             } while (mCursor.moveToNext());
-            adapter = new DoctorcoverageAdapter(getActivity(), totaldetlist);
-            recyclerViewtotal.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
+            adapter2 = new DoctorcoverageAdapter(getActivity(), totaldetlist);
+            recyclerViewtotal.setAdapter(adapter2);
+            adapter2.notifyDataSetChanged();
         }
         mCursor.close();
         db.close();
