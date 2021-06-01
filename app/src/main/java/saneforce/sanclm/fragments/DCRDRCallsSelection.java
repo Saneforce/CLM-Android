@@ -299,6 +299,11 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
             Log.v("Dr_detailing_Print123",mCursor.getString(2)+"comm"+mCommonSharedPreference.getValueFromPreference("geo_tag").equalsIgnoreCase("0")
             +"fencing"+geoFencing);
            if(mCommonSharedPreference.getValueFromPreference("geo_tag").equalsIgnoreCase("0") && geoFencing.equalsIgnoreCase("1")) {
+               if(mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true")){
+                   Log.v("Dr_detailing_Missed",mCursor.getString(2));
+                   _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(6), mCursor.getString(5),mCursor.getString(22),mCursor.getString(23),mCursor.getString(8));
+                   drList.add(_custom_DCR_GV_Dr_Contents);
+               }
                String yy=mCursor.getString(11);
                if (!TextUtils.isEmpty(mCursor.getString(11))){
                    Log.v("Dr_detailing_Print",mCursor.getString(2));
@@ -502,6 +507,12 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
                     drList.clear();
                     while (mCursor.moveToNext()) {
                         if(mCommonSharedPreference.getValueFromPreference("geo_tag").equalsIgnoreCase("0") && geoFencing.equalsIgnoreCase("1")) {
+                            if(mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true")){
+                                Log.v("Dr_detailing_Missed",mCursor.getString(2));
+                                _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(6), mCursor.getString(5),mCursor.getString(22),mCursor.getString(23),mCursor.getString(8));
+                                drList.add(_custom_DCR_GV_Dr_Contents);
+                            }
+
                             String yy=mCursor.getString(11);
                             if (!TextUtils.isEmpty(mCursor.getString(11))){
                                 Log.v("Dr_detailing_Print",mCursor.getString(2));

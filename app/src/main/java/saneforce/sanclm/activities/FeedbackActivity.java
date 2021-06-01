@@ -267,13 +267,13 @@ public class FeedbackActivity extends AppCompatActivity {
                         txt_pob.setText(mCommonSharedPreference.getValueFromPreference("spob"));
 
                 }
-//                else if (peopleType.equalsIgnoreCase("H")) {
-//                    if (mCommonSharedPreference.getValueFromPreference("hosp_filter").equalsIgnoreCase("0"))
-//                        txt_pob.setText("POB");
-//                    if (!TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("cpob")))
-//                        txt_pob.setText(mCommonSharedPreference.getValueFromPreference("cpob"));
-//
-//                }
+                else if (peopleType.equalsIgnoreCase("I")) {
+                    if (mCommonSharedPreference.getValueFromPreference("hosp_filter").equalsIgnoreCase("0"))
+                        txt_pob.setText("POB");
+                    if (!TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("cpob")))
+                        txt_pob.setText(mCommonSharedPreference.getValueFromPreference("cpob"));
+
+                }
                 else {
                     if (!TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("dpob")))
                         txt_pob.setText(mCommonSharedPreference.getValueFromPreference("dpob"));
@@ -326,24 +326,24 @@ public class FeedbackActivity extends AppCompatActivity {
                 txt_pob.setText(mCommonSharedPreference.getValueFromPreference("spob"));
 
         }
-//        else if (feedOption.equalsIgnoreCase("cip")) {
-//            if (mCommonSharedPreference.getValueFromPreference("hosp_filter").equalsIgnoreCase("0")) {
-//                txt_pob.setText("POB");
-//            }
-//            if (!TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("cpob")))
-//                txt_pob.setText(mCommonSharedPreference.getValueFromPreference("cpob"));
-//
-//            call_plus.setEnabled(false);
-//            call_plus.getBackground().setAlpha(128);
-//            btn_brand_audit.setVisibility(View.INVISIBLE);
-//            // txt_name.setText(extra.getString("customer"));
-//            txt_name.setText(CommonUtils.TAG_CHEM_NAME);
-//            peopleType = "H";
-//            peopleCode = CommonUtils.TAG_CHEM_CODE;
-//            commonSFCode = CommonUtils.TAG_FEED_SF_CODE;
-//            TypePeople = "H";
-//
-//        }
+        else if (feedOption.equalsIgnoreCase("cip")) {
+            if (mCommonSharedPreference.getValueFromPreference("hosp_filter").equalsIgnoreCase("0")) {
+                txt_pob.setText("POB");
+            }
+            if (!TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("cpob")))
+                txt_pob.setText(mCommonSharedPreference.getValueFromPreference("cpob"));
+
+            call_plus.setEnabled(false);
+            call_plus.getBackground().setAlpha(128);
+            btn_brand_audit.setVisibility(View.INVISIBLE);
+            // txt_name.setText(extra.getString("customer"));
+            txt_name.setText(CommonUtils.TAG_CHEM_NAME);
+            peopleType = "I";
+            peopleCode = CommonUtils.TAG_CHEM_CODE;
+            commonSFCode = CommonUtils.TAG_FEED_SF_CODE;
+            TypePeople = "I";
+
+        }
         else {
             txt_name.setText(CommonUtils.TAG_DOCTOR_NAME);
             peopleType = "D";
@@ -1555,12 +1555,14 @@ public class FeedbackActivity extends AppCompatActivity {
             String lat = shares.getString("lat", "");
             String lng = shares.getString("lng", "");
 
-            if (peopleType.equalsIgnoreCase("C") || peopleType.equalsIgnoreCase("S")) {
+            if (peopleType.equalsIgnoreCase("C") || peopleType.equalsIgnoreCase("S") || peopleType.equalsIgnoreCase("I")) {
 
                 jointObj.put("CateCode", "");
                 if (peopleType.equalsIgnoreCase("C"))
                     jointObj.put("CusType", "2");
-                else
+              else  if (peopleType.equalsIgnoreCase("I"))
+                    jointObj.put("CusType", "6");
+              else
                     jointObj.put("CusType", "3");
                 jointObj.put("CustCode", peopleCode);
                 jointObj.put("CustName", txt_name.getText().toString());

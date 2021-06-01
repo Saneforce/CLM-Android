@@ -1,9 +1,9 @@
 package saneforce.sanclm.activities.Model;
 
 public class ModelDayReport {
-    String date,name,wrktyp,cluster,holiday,rem,ul,dr,st,ch,code;
+    String date,name,wrktyp,cluster,holiday,rem,ul,dr,st,ch,code,cip;
 
-    public ModelDayReport(String date, String name, String wrktyp, String cluster, String holiday, String rem, String ul, String dr, String st, String ch,String code) {
+    public ModelDayReport(String date, String name, String wrktyp, String cluster, String holiday, String rem, String ul, String dr, String st, String ch, String code, String cip) {
         this.date = date;
         this.name = name;
         this.wrktyp = wrktyp;
@@ -15,6 +15,7 @@ public class ModelDayReport {
         this.st = st;
         this.ch = ch;
         this.code=code;
+        this.cip=cip;
     }
 
     public String getCode() {
@@ -103,5 +104,13 @@ public class ModelDayReport {
 
     public void setCh(String ch) {
         this.ch = ch;
+    }
+
+    public String getCip() {
+        return cip;
+    }
+
+    public void setCip(String cip) {
+        this.cip = cip;
     }
 }

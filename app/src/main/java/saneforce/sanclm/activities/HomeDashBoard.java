@@ -2337,6 +2337,21 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                         mCommonSharedPreference.setValueToPreference("stkcap", jsonn.getString("StkCap"));
                         mCommonSharedPreference.setValueToPreference("ucap", jsonn.getString("NLCap"));
 
+                        if (jsonn.has("ChmNeed"))
+                            mCommonSharedPreference.setValueToPreference("chem_need", jsonn.getString("ChmNeed"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("chem_need", "");
+
+                        if (jsonn.has("StkNeed"))
+                            mCommonSharedPreference.setValueToPreference("stk_need", jsonn.getString("StkNeed"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("stk_need", "");
+
+                        if (jsonn.has("UNLNeed"))
+                            mCommonSharedPreference.setValueToPreference("unl_need", jsonn.getString("UNLNeed"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("unl_need", "");
+
 
 
                         if (jsonn.has("DrRxQMd"))
@@ -2363,21 +2378,6 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                             mCommonSharedPreference.setValueToPreference("DrInpMd", jsonn.getString("DrInpMd"));
                         else
                             mCommonSharedPreference.setValueToPreference("DrInpMd", "");
-
-                        if (jsonn.has("ChmNeed"))
-                            mCommonSharedPreference.setValueToPreference("chem_need", jsonn.getString("ChmNeed"));
-                        else
-                            mCommonSharedPreference.setValueToPreference("chem_need", "");
-
-                        if (jsonn.has("StkNeed"))
-                            mCommonSharedPreference.setValueToPreference("stk_need", jsonn.getString("StkNeed"));
-                        else
-                            mCommonSharedPreference.setValueToPreference("stk_need", "");
-
-                        if (jsonn.has("UNLNeed"))
-                            mCommonSharedPreference.setValueToPreference("unl_need", jsonn.getString("UNLNeed"));
-                        else
-                            mCommonSharedPreference.setValueToPreference("unl_need", "");
 
 
                         mCommonSharedPreference.setValueToPreference("cipcap", jsonn.getString("CIP_Caption"));

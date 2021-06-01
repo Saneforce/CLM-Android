@@ -280,6 +280,10 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
         Log.v("geotag",mCommonSharedPreference.getValueFromPreference("geo_tag"));
         while (mCursor.moveToNext()) {
             if(mCommonSharedPreference.getValueFromPreference("geo_tag").equalsIgnoreCase("0") && geoFencing.equalsIgnoreCase("1")) {
+                if(mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true")){
+                    _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(5), mCursor.getString(4), mCursor.getString(11), mCursor.getString(12));
+                    chmList.add(_custom_DCR_GV_Dr_Contents);
+                }
                 String yy=mCursor.getString(11);
                 if (!TextUtils.isEmpty(mCursor.getString(14))){
                     Log.v("Dr_detailing_Print",mCursor.getString(2));
@@ -537,6 +541,10 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
                     chmList.clear();
                     while (mCursor.moveToNext()) {
                         if (mCommonSharedPreference.getValueFromPreference("geo_tag").equalsIgnoreCase("0") && geoFencing.equalsIgnoreCase("1")) {
+                             if(mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true")) {
+                                 _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(5), mCursor.getString(4), mCursor.getString(11), mCursor.getString(12));
+                                 chmList.add(_custom_DCR_GV_Dr_Contents);
+                             }
                             String yy = mCursor.getString(11);
                             if (!TextUtils.isEmpty(mCursor.getString(14))) {
                                 Log.v("Dr_detailing_Print", mCursor.getString(2));

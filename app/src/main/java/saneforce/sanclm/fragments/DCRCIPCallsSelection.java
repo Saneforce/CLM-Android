@@ -328,7 +328,7 @@ public class DCRCIPCallsSelection extends Fragment implements AdapterView.OnItem
         }
         Log.v("cip_value",cipList.size()+"");
         GridView gridView = (GridView) v.findViewById(R.id.gridview_dcrselect);
-        _DCR_GV_Selection_adapter = new DCR_GV_Selection_adapter(getContext(),cipList,"H");
+        _DCR_GV_Selection_adapter = new DCR_GV_Selection_adapter(getContext(),cipList,"I");
         gridView.setAdapter(_DCR_GV_Selection_adapter);
         _DCR_GV_Selection_adapter.notifyDataSetChanged();
 
@@ -579,7 +579,7 @@ public class DCRCIPCallsSelection extends Fragment implements AdapterView.OnItem
                         cipList.add(_custom_DCR_GV_Dr_Contents);
                     }
                     GridView gridView = (GridView) v.findViewById(R.id.gridview_dcrselect);
-                    _DCR_GV_Selection_adapter = new DCR_GV_Selection_adapter(getContext(),cipList,"H");
+                    _DCR_GV_Selection_adapter = new DCR_GV_Selection_adapter(getContext(),cipList,"I");
                     gridView.setAdapter(_DCR_GV_Selection_adapter);
                     _DCR_GV_Selection_adapter.notifyDataSetChanged();
 
@@ -601,7 +601,7 @@ public class DCRCIPCallsSelection extends Fragment implements AdapterView.OnItem
                         }
 
                         GridView gridView = (GridView) v.findViewById(R.id.gridview_dcrselect);
-                        _DCR_GV_Selection_adapter = new DCR_GV_Selection_adapter(getContext(),cipList,"H");
+                        _DCR_GV_Selection_adapter = new DCR_GV_Selection_adapter(getContext(),cipList,"I");
                         gridView.setAdapter(_DCR_GV_Selection_adapter);
                        // getHospital(1);
                         progressDialog.dismiss();
@@ -692,7 +692,7 @@ public class DCRCIPCallsSelection extends Fragment implements AdapterView.OnItem
                     return ;
                 }else if(mCommonSharedPreference.getValueFromPreference("cip_det").equalsIgnoreCase("1")){
                     commonUtilsMethods.CommonIntentwithNEwTask(DetailingCreationActivity.class);
-                    mCommonSharedPreference.setValueToPreference("detail_","chm");
+                    mCommonSharedPreference.setValueToPreference("detail_","cip");
                 }
                 else {
                     if(tv_drName.getText().toString().equalsIgnoreCase("DocName")) {
@@ -701,7 +701,7 @@ public class DCRCIPCallsSelection extends Fragment implements AdapterView.OnItem
                         return ;
                     }else {
                         Intent i = new Intent(getActivity(), FeedbackActivity.class);
-                        i.putExtra("feedpage", "chemist");
+                        i.putExtra("feedpage", "cip");
                         i.putExtra("customer", tv_drName.getText().toString());
                         startActivity(i);
                     }
@@ -715,7 +715,7 @@ public class DCRCIPCallsSelection extends Fragment implements AdapterView.OnItem
                     return ;
                 }else {
                     Intent i = new Intent(getActivity(), FeedbackActivity.class);
-                    i.putExtra("feedpage", "chemist");
+                    i.putExtra("feedpage", "cip");
                     i.putExtra("customer", tv_drName.getText().toString());
                     startActivity(i);
                 }
@@ -792,12 +792,12 @@ public class DCRCIPCallsSelection extends Fragment implements AdapterView.OnItem
         Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
         map.clear();
         map.put("SF", SF_Code);
-        map.put("typ", "H");
+        map.put("typ", "I");
         map.put("CusCode", code);
         JSONObject json=new JSONObject();
         try{
             json.put("SF", subSfCode);
-            json.put("typ", "H");
+            json.put("typ", "I");
             json.put("CusCode", code);
 
         }catch (Exception e){

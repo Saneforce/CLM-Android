@@ -189,6 +189,8 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
                                 typ="D";
                             else if(tdaycall.getVstTyp().equalsIgnoreCase("2"))
                                 typ="C";
+                            else if(tdaycall.getVstTyp().equalsIgnoreCase("6"))
+                                typ="I";
                             else
                                 typ="";
                             if(mCommonSharedPreference.getValueFromPreference("feed_pob").contains(typ))
@@ -226,6 +228,8 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
                                             edit.putString("type","C");
                                         else if(tdaycall.getVstTyp().equalsIgnoreCase("4"))
                                             edit.putString("type","U");
+                                        else if(tdaycall.getVstTyp().equalsIgnoreCase("6"))
+                                            edit.putString("type","I");
                                         else
                                             edit.putString("type","S");
                                         edit.putString("common",SF_Code);
