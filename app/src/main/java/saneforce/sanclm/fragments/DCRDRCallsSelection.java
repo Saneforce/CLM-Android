@@ -299,24 +299,24 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
             Log.v("Dr_detailing_Print123",mCursor.getString(2)+"comm"+mCommonSharedPreference.getValueFromPreference("geo_tag").equalsIgnoreCase("0")
             +"fencing"+geoFencing);
            if(mCommonSharedPreference.getValueFromPreference("geo_tag").equalsIgnoreCase("0") && geoFencing.equalsIgnoreCase("1")) {
-               if(mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true")){
-                   Log.v("Dr_detailing_Missed",mCursor.getString(2));
-                   _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(6), mCursor.getString(5),mCursor.getString(22),mCursor.getString(23),mCursor.getString(8));
+               if (mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true")) {
+                   Log.v("Dr_detailing_Missed", mCursor.getString(2));
+                   _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(6), mCursor.getString(5), mCursor.getString(22), mCursor.getString(23), mCursor.getString(8));
                    drList.add(_custom_DCR_GV_Dr_Contents);
-               }
-               String yy=mCursor.getString(11);
-               if (!TextUtils.isEmpty(mCursor.getString(11))){
-                   Log.v("Dr_detailing_Print",mCursor.getString(2));
-                   if (distance(laty, lngy, Double.parseDouble(mCursor.getString(11)), Double.parseDouble(mCursor.getString(12))) < limitKm) {
-                       _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2),mCursor.getString(1),mCursor.getString(10),mCursor.getString(9),mCursor.getString(6),mCursor.getString(5),mCursor.getString(22),mCursor.getString(23),mCursor.getString(8));
-                       drList.add(_custom_DCR_GV_Dr_Contents);
-                       Log.v("Dr_detailing_figure_dk","lat_lng "+laty+" lngy "+lngy+"drnam "+mCursor.getString(2));
+               } else {
+                   String yy = mCursor.getString(11);
+                   if (!TextUtils.isEmpty(mCursor.getString(11))) {
+                       Log.v("Dr_detailing_Print", mCursor.getString(2));
+                       if (distance(laty, lngy, Double.parseDouble(mCursor.getString(11)), Double.parseDouble(mCursor.getString(12))) < limitKm) {
+                           _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(6), mCursor.getString(5), mCursor.getString(22), mCursor.getString(23), mCursor.getString(8));
+                           drList.add(_custom_DCR_GV_Dr_Contents);
+                           Log.v("Dr_detailing_figure_dk", "lat_lng " + laty + " lngy " + lngy + "drnam " + mCursor.getString(2));
 
+                       } else {
+                           Log.v("Dr_detailing_figure", distance(laty, lngy, Double.parseDouble(mCursor.getString(11)), Double.parseDouble(mCursor.getString(12))) + "lat_lng " + laty + " lngy " + lngy + "drnam " + mCursor.getString(1) + "nn" + mCursor.getString(2));
+                       }
                    }
-                   else{
-                      Log.v("Dr_detailing_figure",distance(laty, lngy, Double.parseDouble(mCursor.getString(11)), Double.parseDouble(mCursor.getString(12)))+"lat_lng "+laty+" lngy "+lngy+"drnam "+mCursor.getString(1)+"nn"+mCursor.getString(2));
-                   }
-           }
+               }
            }
            else {
                Log.v("Dr_detailing_Print12366",mCursor.getString(2));
@@ -507,23 +507,22 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
                     drList.clear();
                     while (mCursor.moveToNext()) {
                         if(mCommonSharedPreference.getValueFromPreference("geo_tag").equalsIgnoreCase("0") && geoFencing.equalsIgnoreCase("1")) {
-                            if(mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true")){
-                                Log.v("Dr_detailing_Missed",mCursor.getString(2));
-                                _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(6), mCursor.getString(5),mCursor.getString(22),mCursor.getString(23),mCursor.getString(8));
+                            if (mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true")) {
+                                Log.v("Dr_detailing_Missed", mCursor.getString(2));
+                                _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(6), mCursor.getString(5), mCursor.getString(22), mCursor.getString(23), mCursor.getString(8));
                                 drList.add(_custom_DCR_GV_Dr_Contents);
-                            }
+                            } else {
+                                String yy = mCursor.getString(11);
+                                if (!TextUtils.isEmpty(mCursor.getString(11))) {
+                                    Log.v("Dr_detailing_Print", mCursor.getString(2));
+                                    if (distance(laty, lngy, Double.parseDouble(mCursor.getString(11)), Double.parseDouble(mCursor.getString(12))) < limitKm) {
+                                        _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(6), mCursor.getString(5), mCursor.getString(22), mCursor.getString(23), mCursor.getString(8));
+                                        drList.add(_custom_DCR_GV_Dr_Contents);
+                                        Log.v("Dr_detailing_figure_dk", "lat_lng " + laty + " lngy " + lngy + "drnam " + mCursor.getString(2));
 
-                            String yy=mCursor.getString(11);
-                            if (!TextUtils.isEmpty(mCursor.getString(11))){
-                                Log.v("Dr_detailing_Print",mCursor.getString(2));
-                                if (distance(laty, lngy, Double.parseDouble(mCursor.getString(11)), Double.parseDouble(mCursor.getString(12))) < limitKm) {
-                                    _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2),mCursor.getString(1),mCursor.getString(10),mCursor.getString(9),mCursor.getString(6),mCursor.getString(5),mCursor.getString(22),mCursor.getString(23),mCursor.getString(8));
-                                    drList.add(_custom_DCR_GV_Dr_Contents);
-                                    Log.v("Dr_detailing_figure_dk","lat_lng "+laty+" lngy "+lngy+"drnam "+mCursor.getString(2));
-
-                                }
-                                else{
-                                    Log.v("Dr_detailing_figure",distance(laty, lngy, Double.parseDouble(mCursor.getString(11)), Double.parseDouble(mCursor.getString(12)))+"lat_lng "+laty+" lngy "+lngy+"drnam "+mCursor.getString(1)+"nn"+mCursor.getString(2));
+                                    } else {
+                                        Log.v("Dr_detailing_figure", distance(laty, lngy, Double.parseDouble(mCursor.getString(11)), Double.parseDouble(mCursor.getString(12))) + "lat_lng " + laty + " lngy " + lngy + "drnam " + mCursor.getString(1) + "nn" + mCursor.getString(2));
+                                    }
                                 }
                             }
                         }
@@ -555,21 +554,25 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
                         Log.v("cursor_count", String.valueOf(mCursor.getCount()));
                         while (mCursor.moveToNext()) {
                             if(mCommonSharedPreference.getValueFromPreference("geo_tag").equalsIgnoreCase("0") && geoFencing.equalsIgnoreCase("1")) {
-                                String yy=mCursor.getString(11);
-                                if (!TextUtils.isEmpty(mCursor.getString(11))){
-                                    Log.v("Dr_detailing_Print",mCursor.getString(2));
-                                    if (distance(laty, lngy, Double.parseDouble(mCursor.getString(11)), Double.parseDouble(mCursor.getString(12))) < limitKm) {
-                                        _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(6), mCursor.getString(5),mCursor.getString(22),mCursor.getString(23),mCursor.getString(8));
-                                        drList.add(_custom_DCR_GV_Dr_Contents);
-                                        Log.v("Dr_detailing_figure_dk","lat_lng "+laty+" lngy "+lngy+"drnam "+mCursor.getString(2));
+                                if (mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true")) {
+                                    Log.v("Dr_detailing_Missed", mCursor.getString(2));
+                                    _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(6), mCursor.getString(5), mCursor.getString(22), mCursor.getString(23), mCursor.getString(8));
+                                    drList.add(_custom_DCR_GV_Dr_Contents);
+                                } else {
+                                    String yy = mCursor.getString(11);
+                                    if (!TextUtils.isEmpty(mCursor.getString(11))) {
+                                        Log.v("Dr_detailing_Print", mCursor.getString(2));
+                                        if (distance(laty, lngy, Double.parseDouble(mCursor.getString(11)), Double.parseDouble(mCursor.getString(12))) < limitKm) {
+                                            _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(6), mCursor.getString(5), mCursor.getString(22), mCursor.getString(23), mCursor.getString(8));
+                                            drList.add(_custom_DCR_GV_Dr_Contents);
+                                            Log.v("Dr_detailing_figure_dk", "lat_lng " + laty + " lngy " + lngy + "drnam " + mCursor.getString(2));
 
-                                    }
-                                    else{
-                                        Log.v("Dr_detailing_figure",distance(laty, lngy, Double.parseDouble(mCursor.getString(11)), Double.parseDouble(mCursor.getString(12)))+"lat_lng "+laty+" lngy "+lngy+"drnam "+mCursor.getString(1)+"nn"+mCursor.getString(2));
+                                        } else {
+                                            Log.v("Dr_detailing_figure", distance(laty, lngy, Double.parseDouble(mCursor.getString(11)), Double.parseDouble(mCursor.getString(12))) + "lat_lng " + laty + " lngy " + lngy + "drnam " + mCursor.getString(1) + "nn" + mCursor.getString(2));
+                                        }
                                     }
                                 }
                             }
-
                             else {
                                 _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(6), mCursor.getString(5), mCursor.getString(22), mCursor.getString(23),mCursor.getString(8));
                                 drList.add(_custom_DCR_GV_Dr_Contents);

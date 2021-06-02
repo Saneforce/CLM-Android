@@ -655,6 +655,8 @@ public class FeedbackActivity extends AppCompatActivity {
                         mCommonSharedPreference.setValueToPreference("selection", 0);
                     else if (peopleType.equalsIgnoreCase("C"))
                         mCommonSharedPreference.setValueToPreference("selection", 1);
+                    else if (peopleType.equalsIgnoreCase("I"))
+                        mCommonSharedPreference.setValueToPreference("selection", 1);
                     else if (peopleType.equalsIgnoreCase("S"))
                         mCommonSharedPreference.setValueToPreference("selection", 2);
                     else

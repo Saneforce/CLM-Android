@@ -428,45 +428,45 @@ public class DCRCIPCallsSelection extends Fragment implements AdapterView.OnItem
             @Override
             public void itemClick(String drname, String drcode) {
 
-//                if(mCommonSharedPreference.getValueFromPreference("geo_tag").equalsIgnoreCase("0") &&
-//                        mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("false")){
-//                    OnItemClick(drname,drcode);
-//                    rlay_spin.setVisibility(View.GONE);
-//                }
-//
-//                else if(mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true")){
-//                    setValueForFeed(drname,drcode);
-//                }
-//                else{
-//
-//                    if(NearTagActivity.list.contains(new ViewTagModel(drname))){
-//                        for(int i=0;i<NearTagActivity.list.size();i++){
-//                            if(NearTagActivity.list.get(i).getName().equalsIgnoreCase(drname)){
-//
-//                                Intent ii=new Intent(getActivity(), MapsActivity.class);
-//                                ii.putExtra("drcode",drcode);
-//                                ii.putExtra("drname",drname);
-//                                ii.putExtra("cust","C");
-//                                ii.putExtra("lats",NearTagActivity.list.get(i).getLat());
-//                                ii.putExtra("lngs",NearTagActivity.list.get(i).getLng());
-//                                i=NearTagActivity.list.size();
-//                                startActivity(ii);
-//
-//                            }
-//                        }
-//                    }
-//                    else{
-//                        Intent i=new Intent(getActivity(), MapsActivity.class);
-//                        i.putExtra("drcode",drcode);
-//                        i.putExtra("drname",drname);
-//                        i.putExtra("cust","C");
-//                        i.putExtra("lats","0.0");
-//                        i.putExtra("lngs","0.0");
-//                        startActivity(i);
-//                    }
-//
-//                }
-               OnItemClick(drname,drcode);
+                if(mCommonSharedPreference.getValueFromPreference("geo_tag").equalsIgnoreCase("0") &&
+                        mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("false")){
+                    OnItemClick(drname,drcode);
+                    rlay_spin.setVisibility(View.GONE);
+                }
+
+                else if(mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true")){
+                    setValueForFeed(drname,drcode);
+                }
+                else{
+
+                    if(NearTagActivity.list.contains(new ViewTagModel(drname))){
+                        for(int i=0;i<NearTagActivity.list.size();i++){
+                            if(NearTagActivity.list.get(i).getName().equalsIgnoreCase(drname)){
+
+                                Intent ii=new Intent(getActivity(), MapsActivity.class);
+                                ii.putExtra("drcode",drcode);
+                                ii.putExtra("drname",drname);
+                                ii.putExtra("cust","C");
+                                ii.putExtra("lats",NearTagActivity.list.get(i).getLat());
+                                ii.putExtra("lngs",NearTagActivity.list.get(i).getLng());
+                                i=NearTagActivity.list.size();
+                                startActivity(ii);
+
+                            }
+                        }
+                    }
+                    else{
+                        Intent i=new Intent(getActivity(), MapsActivity.class);
+                        i.putExtra("drcode",drcode);
+                        i.putExtra("drname",drname);
+                        i.putExtra("cust","C");
+                        i.putExtra("lats","0.0");
+                        i.putExtra("lngs","0.0");
+                        startActivity(i);
+                    }
+
+                }
+              // OnItemClick(drname,drcode);
 
             }
         });
@@ -631,6 +631,36 @@ public class DCRCIPCallsSelection extends Fragment implements AdapterView.OnItem
         lineChart.animateX(2000);
 
         return v;
+    }
+
+    public void setValueForFeed(String name,String code){
+
+        CommonUtils.TAG_CHEM_CODE=code;
+        CommonUtils.TAG_CHEM_NAME=name;
+
+        CommonUtils.TAG_FEED_SF_CODE=subSfCode;
+
+        try{
+            dbh.open();
+
+            Cursor mCursor = dbh.select_CipDetails(code);
+            while (mCursor.moveToNext()){
+
+                tv_chmcontactPerson.setText("");
+                tv_chmPhone.setText("");
+                tv_chmmob.setText(mCursor.getString(7));
+                tv_chmfax.setText("");
+                tv_chmemail.setText(mCursor.getString(8));
+                tv_chmterritory.setText(mCursor.getString(5));
+                tv_chmaddr.setText(mCursor.getString(9));
+            }
+
+        }catch(Exception e){
+
+        }finally {
+            dbh.close();
+        }
+
     }
 
 
