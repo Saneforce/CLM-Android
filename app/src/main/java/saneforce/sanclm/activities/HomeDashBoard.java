@@ -2791,7 +2791,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     private void addTabs(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new CallFragment(), "");
-       // adapter.addFrag(new TrainingFragment(), "");
+        adapter.addFrag(new TrainingFragment(), "");
         viewPager.setAdapter(adapter);
     }
 
@@ -2813,7 +2813,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                 }
             }
         } else {
-            if (sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("Field Work")) {
+            if (sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("Field Work")||sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("CoronaWFH-With Drs")) {
                 CommonUtilsMethods.CommonIntentwithNEwTask(DCRCallSelectionActivity.class);
             }
         }
@@ -3322,7 +3322,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                 }
 */
                         else {
-                            if (sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("Field Work"))
+                            if (sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("Field Work")||sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("CoronaWFH-With Drs"))
                                 CommonUtilsMethods.CommonIntentwithNEwTask(DCRCallSelectionActivity.class);
                         }
                         break;
@@ -3403,9 +3403,9 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                         CommonUtilsMethods.CommonIntentwithNEwTask(LoginActivity.class);
                         break;
 
-//                    case "Dashboard":
-//                        CommonUtilsMethods.CommonIntentwithNEwTask(DashActivity.class);
-//                        break;
+                    case "Profiling":
+                        CommonUtilsMethods.CommonIntentwithNEwTask(ProfilingActivity.class);
+                        break;
                 }
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                 drawer.closeDrawer(GravityCompat.START);
@@ -4052,7 +4052,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, "Near Me"));
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, "Detailing Report"));
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_logout, "Logout"));
-       // arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, "Target Vs Sales"));
+        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, "Profiling"));
         navAdpt = new NavigationItemAdapter(arrayNav, HomeDashBoard.this);
         nav_list.setAdapter(navAdpt);
     }

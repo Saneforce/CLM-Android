@@ -252,6 +252,8 @@ public class DCRCallsSelectionTablayout  extends Fragment implements TabHost.OnT
                         jj.put("CusType", "2");
                     else    if(js.getString("type").equalsIgnoreCase("S"))
                         jj.put("CusType", "3");
+                    else    if(js.getString("type").equalsIgnoreCase("I"))
+                        jj.put("CusType", "6");
                     else
                         jj.put("CusType", "4");
                     jj.put("CustCode", js.getString("code"));

@@ -374,6 +374,7 @@ public class DownloadMasterData extends Fragment implements View.OnTouchListener
             array.add(new ModelDownloadMaster("Theraptic", pref.getString("theraptic", "0"), false));
             array.add(new ModelDownloadMaster("Clusters", String.valueOf(dbh.select_cat_sfcode(sfCoding).getCount()), false));
             array.add(new ModelDownloadMaster(mCommonSharedPreference.getValueFromPreference("drcap"), String.valueOf(dbh.select_dr_sfcode(sfCoding).getCount()), false));
+            if(mCommonSharedPreference.getValueFromPreference("chem_need").equals("0"))
             array.add(new ModelDownloadMaster(mCommonSharedPreference.getValueFromPreference("chmcap"), String.valueOf(dbh.select_chem_sfcode(sfCoding).getCount()), false));
             array.add(new ModelDownloadMaster(mCommonSharedPreference.getValueFromPreference("stkcap"), String.valueOf(dbh.select_stock_sfcode(sfCoding).getCount()), false));
             array.add(new ModelDownloadMaster(mCommonSharedPreference.getValueFromPreference("ucap"), String.valueOf(dbh.select_undr_sfcode(sfCoding).getCount()), false));
@@ -382,6 +383,7 @@ public class DownloadMasterData extends Fragment implements View.OnTouchListener
             if (mCommonSharedPreference.getValueFromPreference("hosp_filter").equalsIgnoreCase("0")) {
                 array.add(new ModelDownloadMaster("Hospital", String.valueOf(dbh.select_hospitalist(sfCoding).getCount()), false));
             }
+            if(mCommonSharedPreference.getValueFromPreference("cip_need").equals("0"))
             array.add(new ModelDownloadMaster("Cip",  String.valueOf(dbh.select_cip_sfcode(sfCoding).getCount()), false));
         } else {
             array.add(new ModelDownloadMaster("Work Types", pref.getString("work", "0"), false));
@@ -400,7 +402,7 @@ public class DownloadMasterData extends Fragment implements View.OnTouchListener
             array.add(new ModelDownloadMaster("Rating Details", "0", false));
             array.add(new ModelDownloadMaster("Rating Feedbacks", "0", false));
             array.add(new ModelDownloadMaster("Theraptic", pref.getString("theraptic", "0"), false));
-            array.add(new ModelDownloadMaster("Cip", pref.getString("cip", "0"), false));
+
         }
 
         adpt.notifyDataSetChanged();

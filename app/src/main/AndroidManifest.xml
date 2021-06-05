@@ -254,6 +254,11 @@
 
         <activity android:name=".activities.DashActivity"
             android:screenOrientation="landscape"/>
+
+        <activity
+            android:name=".activities.ProfilingActivity"
+            android:screenOrientation="landscape"
+             />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
