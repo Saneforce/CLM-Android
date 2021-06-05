@@ -45,7 +45,7 @@ public class AvailablityCheckActivity extends AppCompatActivity {
      String availjson;
     String yy="";
     JSONObject jsonObject1=new JSONObject();
-String availability="";
+    String availability="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

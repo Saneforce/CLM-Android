@@ -144,55 +144,48 @@ public class Detailing_right_grid_view extends Fragment implements OnSelectGridV
             String speciality = detailingTrackerPOJO.getmDoctorSpeciality();
 
             String theraptic=detailingTrackerPOJO.getmDoctorTheraptic();
-
-            switch (detailingTrackerPOJO.getmDetListview_Selection()) {
-                case "Speciality Wise":
-                    mCursor = dbh.select_AllSlides_specialitywise(ProductBrdCode, speciality);
-                    break;
-                case "Theraptic":
-                    mCursor = dbh.select_AllSlides_therapticwise(ProductBrdCode, theraptic);
-                    break;
-                case "Brand Matrix":
-                    Log.v("matric_prdcode", commonSharedPreference.getValueFromPreference("prdCodee") + " brd_codee " + ProductBrdCode);
-                   /* if(TextUtils.isEmpty(CommonUtils.TAG_DR_SPEC))
+            String selMode=detailingTrackerPOJO.getmDetListview_Selection();
+            if(selMode==getResources().getString(R.string.spclwise)) { //"Speciality Wise":
+                mCursor = dbh.select_AllSlides_specialitywise(ProductBrdCode, speciality);
+            }else if(selMode==getResources().getString(R.string.theraptic)){ //"Theraptic":
+                mCursor = dbh.select_AllSlides_therapticwise(ProductBrdCode, theraptic);
+            }else if(selMode==getResources().getString(R.string.brandmatrix)){ //"Brand Matrix":
+                Log.v("matric_prdcode", commonSharedPreference.getValueFromPreference("prdCodee") + " brd_codee " + ProductBrdCode);
+               /* if(TextUtils.isEmpty(CommonUtils.TAG_DR_SPEC))
+                mCursor = dbh.select_AllSlides_brandwise(ProductBrdCode);
+                else
+                    mCursor = dbh.select_AllSlides_brandwiseSpec(ProductBrdCode,CommonUtils.TAG_DR_SPEC);*/
+                if (skipSpeciality.equalsIgnoreCase("0"))
+                    mCursor = dbh.select_AllSlides_brandwiseWithoutSpecProd(ProductBrdCode, commonSharedPreference.getValueFromPreference("prdCodee"));
+                else
+                    mCursor = dbh.select_AllSlides_brandwiseSpecProd(ProductBrdCode, CommonUtils.TAG_DR_SPEC, commonSharedPreference.getValueFromPreference("prdCodee"));
+            }else if(selMode==getResources().getString(R.string.allbrand)){ //"All Brands":
+                //if(TextUtils.isEmpty(CommonUtils.TAG_DR_SPEC))
+                if (skipSpeciality.equalsIgnoreCase("0")) {
                     mCursor = dbh.select_AllSlides_brandwise(ProductBrdCode);
-                    else
-                        mCursor = dbh.select_AllSlides_brandwiseSpec(ProductBrdCode,CommonUtils.TAG_DR_SPEC);*/
-                    if (skipSpeciality.equalsIgnoreCase("0"))
-                        mCursor = dbh.select_AllSlides_brandwiseWithoutSpecProd(ProductBrdCode, commonSharedPreference.getValueFromPreference("prdCodee"));
-                    else
-                        mCursor = dbh.select_AllSlides_brandwiseSpecProd(ProductBrdCode, CommonUtils.TAG_DR_SPEC, commonSharedPreference.getValueFromPreference("prdCodee"));
+                    Log.e("Tagme", mCursor.toString());
+                }
+                else { Log.e("Tagme1", mCursor.toString());
+                    mCursor = dbh.select_AllSlides_brandwiseSpec(ProductBrdCode, CommonUtils.TAG_DR_SPEC);
+                }
+               /* else
+                    mCursor = dbh.select_AllSlides_brandwiseSpec(ProductBrdCode,CommonUtils.TAG_DR_SPEC);*/
 
-                    break;
-                case "All Brands":
-                    //if(TextUtils.isEmpty(CommonUtils.TAG_DR_SPEC))
-                    if (skipSpeciality.equalsIgnoreCase("0")) {
-                        mCursor = dbh.select_AllSlides_brandwise(ProductBrdCode);
-                        Log.e("Tagme", mCursor.toString());
-                    }
-                    else { Log.e("Tagme1", mCursor.toString());
-                        mCursor = dbh.select_AllSlides_brandwiseSpec(ProductBrdCode, CommonUtils.TAG_DR_SPEC);
-                    }
-                   /* else
-                        mCursor = dbh.select_AllSlides_brandwiseSpec(ProductBrdCode,CommonUtils.TAG_DR_SPEC);*/
+                Log.e("Product_Categ", skipSpeciality);
+            }else{
+                mCursor = dbh.selectAllProducts_GroupPresentationWise(ProductBrdCode, detailingTrackerPOJO.getmDetListview_Selection());
 
-                    Log.e("Product_Categ", skipSpeciality);
-                    break;
-                default:
-                    mCursor = dbh.selectAllProducts_GroupPresentationWise(ProductBrdCode, detailingTrackerPOJO.getmDetListview_Selection());
+                Log.e("Product_Categ1", skipSpeciality);
+               /* if(DetailingTrackerPOJO.getmDetListview_Selection().equalsIgnoreCase("customised"))
+                 mCursor =  dbh.selectAllProducts_GroupPresentationWise(ProductBrdCode,detailingTrackerPOJO.getmDetListview_Selection());
+                else
+                    mCursor =  dbh.selectAllProducts_GroupPresentationWiseByDesc(ProductBrdCode,detailingTrackerPOJO.getmDetListview_Selection());*/
 
-                    Log.e("Product_Categ1", skipSpeciality);
-                   /* if(DetailingTrackerPOJO.getmDetListview_Selection().equalsIgnoreCase("customised"))
-                     mCursor =  dbh.selectAllProducts_GroupPresentationWise(ProductBrdCode,detailingTrackerPOJO.getmDetListview_Selection());
-                    else
-                        mCursor =  dbh.selectAllProducts_GroupPresentationWiseByDesc(ProductBrdCode,detailingTrackerPOJO.getmDetListview_Selection());*/
-
-                    break;
             }
 
             if (mCursor.getCount() > 0) {
                 while (mCursor.moveToNext()) {
-                    if (detailingTrackerPOJO.getmDetListview_Selection().equalsIgnoreCase("Brand Matrix")) {
+                    if (detailingTrackerPOJO.getmDetListview_Selection().equalsIgnoreCase(getResources().getString(R.string.brandmatrix))) { //"Brand Matrix"
                         String prdCode = mCursor.getString(8);
                         Log.v("cursor_mv_chech", "to_next" + " prd_code " + prdCode);
 
@@ -218,7 +211,7 @@ public class Detailing_right_grid_view extends Fragment implements OnSelectGridV
                         Bitmap bb = null;
                         if (mCursor.getString(4).contains(".pdf")) {
                             Log.v("printing_ful89", "choosing" + mCursor.getString(4));
-                            if (detailingTrackerPOJO.getmDetListview_Selection().equalsIgnoreCase("All Brands")) {
+                            if (detailingTrackerPOJO.getmDetListview_Selection().equalsIgnoreCase(getResources().getString(R.string.allbrand))) {
                                 Log.v("printing_ful898", "choosing");
                                 bb = StringToBitMap(mCursor.getString(7));
                             } else if (detailingTrackerPOJO.getmDetListview_Selection().equalsIgnoreCase("Speciality Wise"))

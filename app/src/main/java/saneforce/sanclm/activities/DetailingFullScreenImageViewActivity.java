@@ -689,35 +689,29 @@ public class DetailingFullScreenImageViewActivity extends FragmentActivity imple
         JSONArray SlidesArray = new JSONArray();
         prdName=PdtBrdName;
         Log.v("select_all_proof",mDetailingTrackerPOJO.getmDetListview_Selection());
+        String selMode= mDetailingTrackerPOJO.getmDetListview_Selection();
+
         try {
             dbh.open();
-            switch (mDetailingTrackerPOJO.getmDetListview_Selection()) {
-                case "Speciality Wise":
-                    mCursor = dbh.select_AllSlides_specialitywise(ProductBrdCode, speciality);
-                    break;
-
-                    case "Theraptic":
-                    mCursor = dbh.select_AllSlides_therapticwise(ProductBrdCode, speciality);
-                    break;
-
-                case "Brand Matrix":
-                    mCursor = dbh.select_AllSlides_brandwise(ProductBrdCode);
-                    break;
-                case "All Brands":
-                    mCursor = dbh.select_AllSlides_brandwise(ProductBrdCode);
-                    Cursor cursor1= dbh.select_ProductBrdWiseSlide();
-                    if(cursor1.getCount()!=0){
-                        cursor1.moveToFirst();
-                        do{
-                            Log.v("all_brand_cursor",cursor1.getString(2));
-                        }while(cursor1.moveToNext());
-                    }
-                    break;
-                default:
-                    Log.v("select_all_prrf",mDetailingTrackerPOJO.getmDetListview_Selection());
-                    mCursor = dbh.selectAllProducts_GroupPresentationWise(ProductBrdCode, mDetailingTrackerPOJO.getmDetListview_Selection());
-                    Log.v("select_all_prrf",mCursor.getCount()+"");
-                    break;
+            if(selMode==getResources().getString(R.string.spclwise)) { //"Speciality Wise":
+                mCursor = dbh.select_AllSlides_specialitywise(ProductBrdCode, speciality);
+            }else if(selMode==getResources().getString(R.string.theraptic)) {  //"Theraptic":
+                mCursor = dbh.select_AllSlides_therapticwise(ProductBrdCode, speciality);
+            }else if(selMode==getResources().getString(R.string.brandmatrix)) {  //"Brand Matrix":
+                mCursor = dbh.select_AllSlides_brandwise(ProductBrdCode);
+            }else if(selMode==getResources().getString(R.string.allbrand)) {  //"All Brands"
+                mCursor = dbh.select_AllSlides_brandwise(ProductBrdCode);
+                Cursor cursor1 = dbh.select_ProductBrdWiseSlide();
+                if (cursor1.getCount() != 0) {
+                    cursor1.moveToFirst();
+                    do {
+                        Log.v("all_brand_cursor", cursor1.getString(2));
+                    } while (cursor1.moveToNext());
+                }
+            }else{
+                Log.v("select_all_prrf",mDetailingTrackerPOJO.getmDetListview_Selection());
+                mCursor = dbh.selectAllProducts_GroupPresentationWise(ProductBrdCode, mDetailingTrackerPOJO.getmDetListview_Selection());
+                Log.v("select_all_prrf",mCursor.getCount()+"");
             }
             if (mCursor.getCount() > 0) {
                /* while (mCursor.moveToNext()) {
