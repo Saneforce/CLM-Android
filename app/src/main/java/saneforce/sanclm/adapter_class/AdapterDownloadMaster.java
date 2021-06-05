@@ -191,10 +191,10 @@ public class AdapterDownloadMaster extends BaseAdapter {
                  *//*       dwnloadMasterData.slideeList();*/
                         dwnloadMasterData.slideeList();
                         //context.startActivity(new Intent(context, HomeDashBoard.class));
-                        Intent masters = new Intent(context, HomeDashBoard.class);
-                        masters.putExtra("masters",digital);
+//                        Intent masters = new Intent(context, HomeDashBoard.class);
+//                        masters.putExtra("masters",digital);
                         //((HomeDashBoard) context.getApplicationContext()).statusNavigation(false);
-                        context.startActivity(masters);
+                   //    context.startActivity(masters);
 
 
                         share_value = "slide";
@@ -268,14 +268,22 @@ public class AdapterDownloadMaster extends BaseAdapter {
                         share_value = "join";
                         txt_count.setText("(0)");
                         break;
+
                     case 22:
+                        dwnloadMasterData = new DownloadMasters(context, db_connPath, db_slidedwnloadPath, DownloadMasterData.sfCoding, 8, SF_Code);
+                        dwnloadMasterData.CipList();
+                        share_value = "cip";
+                        txt_count.setText("(0)");
+                        break;
+
+                    case 23:
                         dwnloadMasterData = new DownloadMasters(context, db_connPath, db_slidedwnloadPath, DownloadMasterData.sfCoding, 8, SF_Code);
                         dwnloadMasterData.HosList();
                         share_value = "hos";
                         txt_count.setText("(0)");
                         break;
 
-                    case 23:
+                    case 24:
                         dwnloadMasterData.NewcopList();
                         share_value = "Newcomp";
                         break;

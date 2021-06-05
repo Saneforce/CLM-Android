@@ -39,6 +39,7 @@ import android.provider.Settings;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
@@ -73,7 +74,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.SearchView;
+
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -2407,6 +2408,22 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                         mCommonSharedPreference.setValueToPreference("stkcap", jsonn.getString("StkCap"));
                         mCommonSharedPreference.setValueToPreference("ucap", jsonn.getString("NLCap"));
 
+                        if (jsonn.has("ChmNeed"))
+                            mCommonSharedPreference.setValueToPreference("chem_need", jsonn.getString("ChmNeed"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("chem_need", "");
+
+                        if (jsonn.has("StkNeed"))
+                            mCommonSharedPreference.setValueToPreference("stk_need", jsonn.getString("StkNeed"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("stk_need", "");
+
+                        if (jsonn.has("UNLNeed"))
+                            mCommonSharedPreference.setValueToPreference("unl_need", jsonn.getString("UNLNeed"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("unl_need", "");
+
+
 
                         if (jsonn.has("DrRxQMd"))
                             mCommonSharedPreference.setValueToPreference("DrRxQMd", jsonn.getString("DrRxQMd"));
@@ -2432,6 +2449,19 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                             mCommonSharedPreference.setValueToPreference("DrInpMd", jsonn.getString("DrInpMd"));
                         else
                             mCommonSharedPreference.setValueToPreference("DrInpMd", "");
+
+
+                        mCommonSharedPreference.setValueToPreference("cipcap", jsonn.getString("CIP_Caption"));
+
+                        if (jsonn.has("cip_need"))
+                            mCommonSharedPreference.setValueToPreference("cip_need", jsonn.getString("cip_need"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("cip_need", "");
+
+                        if (jsonn.has("CIP_ENeed"))
+                            mCommonSharedPreference.setValueToPreference("cip_det", jsonn.getString("CIP_ENeed"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("cip_det", "");
 
 
                         GpsNeed = jsonn.getString("GeoNeed");
@@ -2844,6 +2874,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
     private void addTabs(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFrag(new CallFragment(), "");
+       // adapter.addFrag(new TrainingFragment(), "");
         adapter.addFrag(new NewTrainingFragment(), "");
         adapter.addFrag(new NewCallFragment(), "");
 
@@ -4229,6 +4261,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Detailing Report"*/resources.getString(R.string.detailing_report)));
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_logout, /*"Logout"*/resources.getString(R.string.logout)));
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Dashboard"*/resources.getString(R.string.Dashboard)));
+        // arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, "Target Vs Sales"));
         navAdpt = new NavigationItemAdapter(arrayNav, HomeDashBoard.this);
         nav_list.setAdapter(navAdpt);
     }

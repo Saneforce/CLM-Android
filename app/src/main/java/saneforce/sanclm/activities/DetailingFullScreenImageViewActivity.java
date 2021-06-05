@@ -664,6 +664,8 @@ public class DetailingFullScreenImageViewActivity extends FragmentActivity imple
                         i.putExtra("feedpage", "stock");
                     } else if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("undr")) {
                         i.putExtra("feedpage", "undr");
+                    }else if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("cip")) {
+                        i.putExtra("feedpage", "cip");
                     } else
                         i.putExtra("feedpage", "dr");
                     startActivity(i);

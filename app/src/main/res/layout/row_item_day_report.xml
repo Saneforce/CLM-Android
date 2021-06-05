@@ -67,7 +67,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="10">
+                android:layout_weight="11">
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
@@ -141,7 +141,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="10"
+                android:layout_weight="9"
                 android:orientation="horizontal"
                 android:layout_gravity="center"
                 >
@@ -149,7 +149,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:weightSum="4"
+
                     android:orientation="horizontal"
                     android:background="#A2A2A2">
 
@@ -249,6 +249,51 @@
                         android:gravity="center"
                         android:orientation="vertical"
                         android:background="#fff"
+                        android:id="@+id/lay_cip"
+                        android:visibility="gone"
+                        android:layout_marginRight="1dp">
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#A2A2A2"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="CIP"
+                            android:textSize="14sp"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:layout_marginTop="5dp"
+                            android:id="@+id/txt_cip"
+                            />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#A2A2A2"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textSize="14sp"
+                            android:textColor="@color/black"
+                            android:layout_marginTop="5dp"
+                            android:id="@+id/txt_count_cip"
+                            />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#A2A2A2"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:background="#fff"
                         android:id="@+id/lay_stk"
                         android:layout_marginRight="1dp">
                         <View
@@ -328,6 +373,8 @@
                             android:background="#A2A2A2"/>
 
                     </LinearLayout>
+
+
 
                 </LinearLayout>
 

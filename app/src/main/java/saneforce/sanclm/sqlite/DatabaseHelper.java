@@ -185,6 +185,26 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             TableEntry.COLUMN_TAGCOUNT + TEXT_TYPE +
             ")";
 
+    /*CIP MASTER */
+    private static final String SQL_CREATE_CIP_DETAILS = "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.TABLE_CIP_MASTER_DETAILS +" ("+
+            TableEntry.COLUMN_SF_CODE + TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_CIP_ID+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_NAME + TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_HOSPITAL_CODE+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_HOSPITAL_NAME + TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_CIP_TOWN_CODE + TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_CIP_TOWN_NAME + TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_CIP_MOBILE+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_CIP_EMAIL+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_CIP_ADDRESS  + TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_DESN_NAME  + TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_DEPT_NAME  + TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_LATITUDE + TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_LONGITUDE + TEXT_TYPE +
+            ")";
+
+
     /*TERRITORY MASTER */
     private static final String SQL_CREATE_TERRITORY_DETAILS = "CREATE TABLE IF NOT EXISTS "+
             TableEntry.TABLE_TERRITORY_MASTER_DETAILS +" ("+
@@ -505,6 +525,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL(SQL_CREATE_TABLE_SLIDEBRAND);
         db.execSQL(SQL_CREATE_TABLE_SLIDEPRD);
         db.execSQL(SQL_CREATE_TABLE_SLIDESPEC);
+        db.execSQL(SQL_CREATE_CIP_DETAILS);
         db.execSQL(SQL_CREATE_DR_COVERAGE);
         db.execSQL(SQL_CREATE_PHARM_COVERAGE);
         db.execSQL(SQL_CREATE_TOTAL_COVERAGE);

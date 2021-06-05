@@ -80,7 +80,7 @@ public class DayReportsActivity extends AppCompatActivity {
     String value,sf_type;
     RelativeLayout lay_filter,lay_select,lay_month,lay_missed;
     String sf_code,sumdate;
-    TextView txt_date,txt_count_dr,txt_count_chm,txt_count_stk,txt_count_ul,txt_hq,txt_count_dr_miss,txt_count_chm_miss,txt_count_stk_miss;
+    TextView txt_date,txt_count_dr,txt_count_chm,txt_count_stk,txt_count_ul,txt_hq,txt_count_dr_miss,txt_count_chm_miss,txt_count_stk_miss,txt_count_cip;
     DataBaseHandler dbh;
     ArrayList<SlideDetail> list=new ArrayList<>();
     ListView list_view;
@@ -89,6 +89,8 @@ public class DayReportsActivity extends AppCompatActivity {
     AdapterForMissedReport miss_adpt;
     TextView txt_head_report;
     String[] ar={"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+    TextView txt_dr,txt_chm,txt_stk,txt_udr,txt_cip;
+    LinearLayout lay_ul,lay_dr,lay_chm,lay_stk,lay_cip;
     TextView txt_dr,txt_chm,txt_stk,txt_udr;
     String language;
     Context context;
@@ -152,6 +154,16 @@ public class DayReportsActivity extends AppCompatActivity {
         myCalendar = Calendar.getInstance();
         dbh=new DataBaseHandler(this);
 
+        lay_ul=(LinearLayout)findViewById(R.id.lay_ul);
+        lay_dr=(LinearLayout)findViewById(R.id.lay_dr);
+        lay_chm=(LinearLayout)findViewById(R.id.lay_chm);
+        lay_stk=(LinearLayout)findViewById(R.id.lay_stk);
+
+
+        lay_cip=(LinearLayout)findViewById(R.id.lay_cip);
+        txt_cip=(TextView) findViewById(R.id.txt_cip);
+        txt_count_cip=(TextView) findViewById(R.id.txt_count_cip);
+
         commonSharedPreference=new CommonSharedPreference(DayReportsActivity.this);
         db_connPath =  commonSharedPreference.getValueFromPreference(CommonUtils.TAG_DB_URL);
         sf_type =  commonSharedPreference.getValueFromPreference("sf_type");
@@ -162,10 +174,27 @@ public class DayReportsActivity extends AppCompatActivity {
         aa.add("hello");
         apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
 
+
+//        if(commonSharedPreference.getValueFromPreference("cip_need").equals("0"))
+//        {
+//            txt_chm.setText(commonSharedPreference.getValueFromPreference("cipcap"));
+//        }else {
+//
+//            txt_chm.setText(commonSharedPreference.getValueFromPreference("chmcap"));
+//        }
         txt_dr.setText(commonSharedPreference.getValueFromPreference("drcap"));
         txt_chm.setText(commonSharedPreference.getValueFromPreference("chmcap"));
         txt_stk.setText(commonSharedPreference.getValueFromPreference("stkcap"));
         txt_udr.setText(commonSharedPreference.getValueFromPreference("ucap"));
+
+        txt_cip.setText(commonSharedPreference.getValueFromPreference("cipcap"));
+
+        if(commonSharedPreference.getValueFromPreference("cip_need").equals("0"))
+            lay_cip.setVisibility(View.VISIBLE);
+
+        if(commonSharedPreference.getValueFromPreference("chem_need").equals("1"))
+            lay_chm.setVisibility(View.GONE);
+
 /*
         if(sf_type.equalsIgnoreCase("2")){
             dbh.open();
@@ -359,7 +388,7 @@ public class DayReportsActivity extends AppCompatActivity {
                                 JSONObject json=jsonA.getJSONObject(i);
                                 array.add(new ModelDayReport(json.getString("Adate"),json.getString("SF_Name"),json.getString("wtype"),
                                         json.getString("TerrWrk"),json.getString("HalfDay_FW_Type"),json.getString("remarks"),json.getString("Udr"),
-                                        json.getString("Drs"),json.getString("Stk"),json.getString("Chm"),json.getString("ACode")));
+                                        json.getString("Drs"),json.getString("Stk"),json.getString("Chm"),json.getString("ACode"),json.getString("Cip")));
                             }
                             adpt.notifyDataSetChanged();
                         } catch (Exception e) {
@@ -452,7 +481,7 @@ public class DayReportsActivity extends AppCompatActivity {
                             }
                             Log.v("month_report", is.toString());
                             array.clear();
-                            int dr=0,ch=0,st=0,ul=0;
+                            int dr=0,ch=0,st=0,ul=0,cip=0;
                             JSONArray jsonA=new JSONArray(is.toString());
                             for(int i=0;i<jsonA.length();i++){
                                 JSONObject json=jsonA.getJSONObject(i);
@@ -460,16 +489,18 @@ public class DayReportsActivity extends AppCompatActivity {
                                 txt_date.setText(sumdate);
                                 array.add(new ModelDayReport("",json.getString("Adate"),json.getString("wtype"),
                                         json.getString("TerrWrk"),json.getString("HalfDay_FW_Type"),json.getString("Remarks"),json.getString("Udr"),
-                                        json.getString("Drs"),json.getString("Stk"),json.getString("Chm"),json.getString("ACode")));
+                                        json.getString("Drs"),json.getString("Stk"),json.getString("Chm"),json.getString("ACode"),json.getString("Cip")));
                                 dr=dr+countValues(json.getString("Drs"));
                                 ch=ch+countValues(json.getString("Chm"));
                                 st=st+countValues(json.getString("Stk"));
                                 ul=ul+countValues(json.getString("Udr"));
+                                cip=cip+countValues(json.getString("Cip"));
                             }
                             txt_count_ul.setText(String.valueOf(ul));
                             txt_count_dr.setText(String.valueOf(dr));
                             txt_count_chm.setText(String.valueOf(ch));
                             txt_count_stk.setText(String.valueOf(st));
+                            txt_count_cip.setText(String.valueOf(cip));
                             Log.v("showing_mnth",array.size()+"");
                             adpt.notifyDataSetChanged();
                         } catch (Exception e) {

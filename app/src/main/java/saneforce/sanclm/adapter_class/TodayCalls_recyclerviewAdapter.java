@@ -125,10 +125,12 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
                     holder.iv_edit.setVisibility(View.VISIBLE);
 
                     String value =mCommonSharedPreference.getValueFromPreference("showDelete");
+                    Log.v("delete_val",value);
 
                     if(value.equals("null")){
                         value ="0";
                     }
+
 
                     if(value.equalsIgnoreCase("0"))
                     holder.iv_del.setVisibility(View.VISIBLE);
@@ -211,6 +213,8 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
                                 typ="D";
                             else if(tdaycall.getVstTyp().equalsIgnoreCase("2"))
                                 typ="C";
+                            else if(tdaycall.getVstTyp().equalsIgnoreCase("6"))
+                                typ="I";
                             else
                                 typ="";
                             if(mCommonSharedPreference.getValueFromPreference("feed_pob").contains(typ))
@@ -248,6 +252,8 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
                                             edit.putString("type","C");
                                         else if(tdaycall.getVstTyp().equalsIgnoreCase("4"))
                                             edit.putString("type","U");
+                                        else if(tdaycall.getVstTyp().equalsIgnoreCase("6"))
+                                            edit.putString("type","I");
                                         else
                                             edit.putString("type","S");
                                         edit.putString("common",SF_Code);

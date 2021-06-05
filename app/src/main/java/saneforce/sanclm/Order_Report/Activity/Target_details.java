@@ -486,7 +486,8 @@ public class Target_details extends AppCompatActivity {
 
     private void Orderproduct_PiechartSecondary() {
         try {
-
+            sf_code=mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_CODE);
+            div_Code=mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DIVISION);
 
             if (!Dcrdatas.from_date.equals("")){
                 fromstrdate= Dcrdatas.from_date;
@@ -509,7 +510,7 @@ public class Target_details extends AppCompatActivity {
 
             }
 
-            ApiInterface apiService = ApiClient.getClient(getApplicationContext()).create(ApiInterface.class);
+            Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
             Log.e(" order request","order Detail request");
             Map<String, String> QryParam = new HashMap<>();
             QryParam.put("axn", "get/product_sales_secondary");
@@ -528,7 +529,7 @@ public class Target_details extends AppCompatActivity {
                 mProgressDialog.setMessage("Loading...");
                 mProgressDialog.setCancelable(false);
                 mProgressDialog.show();
-                Call<JsonArray> call = apiService.getDataAsJArray(AppConfig.getInstance(getApplicationContext()).getBaseurl(), QryParam);
+                Call<JsonArray> call = apiService.getsecDataAsJArray(QryParam);
                 call.enqueue(new Callback<JsonArray>() {
 
                     @Override

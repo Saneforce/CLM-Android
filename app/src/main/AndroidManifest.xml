@@ -235,6 +235,35 @@
         <activity
             android:name=".activities.DashActivity"
             android:screenOrientation="landscape" />
+
+
+        <activity android:name=".Order_Report.Activity.Target_details"
+            android:screenOrientation="landscape"/>
+
+        <activity android:name=".Order_Report.Activity.Target_Vs_Secondary"
+            android:screenOrientation="landscape"/>
+
+        <activity android:name=".Order_Report.Activity.Web_Activity"
+            android:screenOrientation="landscape"/>
+
+        <activity android:name=".Order_Report.Activity.Web_activity_secondary"
+            android:screenOrientation="landscape"/>
+
+
+        <activity android:name=".SFE_report.Activity.Web_activity_cat"
+            android:screenOrientation="landscape"/>
+
+        <activity android:name=".SFE_report.Activity.web_activity_spcl"
+            android:screenOrientation="landscape"/>
+
+        <activity android:name=".SFE_report.Activity.SFE_Activtity"
+            android:screenOrientation="landscape"/>
+
+        <activity android:name=".SFE_report.Activity.SFe_Activity"
+            android:screenOrientation="landscape"/>
+
+        <activity android:name=".activities.DashActivity"
+            android:screenOrientation="landscape"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

@@ -18,16 +18,25 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import saneforce.sanclm.R;
 import saneforce.sanclm.api_Interface.AppConfig;
+import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
+import saneforce.sanclm.applicationCommonFiles.CommonUtils;
 
 
 public class Web_activity_secondary extends AppCompatActivity {
     ImageView back;
     WebView dvalue;
-    String sfcode,fmonth,fyear,tmonth,tyear,divcode,Bcode,Bname,sfname;
+    String sfcode,fmonth,fyear,tmonth,tyear,divcode,Bcode,Bname,sfname,db_connPath,url;
+    CommonSharedPreference mCommonSharedPreference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_secondary);
+
+        mCommonSharedPreference=new CommonSharedPreference(this);
+        db_connPath = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DB_URL);
+
+        url="http://sansfa.in";
 
 
         back=findViewById(R.id.back_btn_chepro);
@@ -68,7 +77,7 @@ public class Web_activity_secondary extends AppCompatActivity {
 
 
 
-        webpage(AppConfig.getWeburl() +
+        webpage(url +
                 "/MasterFiles/AnalysisReports/rpt_Secondary_StkProd_Bill_View.aspx?" +
                 "sf_code="+sfcode+
                 "&Frm_Month=" +fmonth+

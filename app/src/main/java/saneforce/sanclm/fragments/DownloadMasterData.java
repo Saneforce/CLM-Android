@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 
+
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -24,6 +25,7 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.ListView;
+
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -402,6 +404,7 @@ public class DownloadMasterData extends Fragment implements View.OnTouchListener
             if (mCommonSharedPreference.getValueFromPreference("hosp_filter").equalsIgnoreCase("0")) {
                 array.add(new ModelDownloadMaster(resources.getString(R.string.hospital), String.valueOf(dbh.select_hospitalist(sfCoding).getCount()), false));
             }
+            array.add(new ModelDownloadMaster("Cip",  String.valueOf(dbh.select_cip_sfcode(sfCoding).getCount()), false));
         } else {
             array.add(new ModelDownloadMaster(resources.getString(R.string.worktype), pref.getString("work", "0"), false));
             array.add(new ModelDownloadMaster(resources.getString(R.string.headquater), pref.getString("hq", "0"), false));
@@ -419,6 +422,8 @@ public class DownloadMasterData extends Fragment implements View.OnTouchListener
             array.add(new ModelDownloadMaster(resources.getString(R.string.details), "0", false));
             array.add(new ModelDownloadMaster(resources.getString(R.string.feedbacks), "0", false));
             array.add(new ModelDownloadMaster(resources.getString(R.string.theraptic), pref.getString("theraptic", "0"), false));
+            array.add(new ModelDownloadMaster("Cip", pref.getString("cip", "0"), false));
+
         }
 
         adpt.notifyDataSetChanged();

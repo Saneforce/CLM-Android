@@ -13,11 +13,14 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
@@ -526,7 +529,7 @@ public class DownloadMasters extends IntentService {
                     //  dbh.delete_All_tableDatas();
                     // List<Doctors> doctors = response.body();
 
-                    String hosname = "0", hoscode = "0";
+                    String hosname = "0", hoscode = "0",Hospcodes= "0";
                     JSONArray ja = new JSONArray(is.toString());
                     edit.putString("dr", String.valueOf(ja.length()));
                     Log.v("_printing_dr", String.valueOf(ja.length()));
@@ -558,10 +561,15 @@ public class DownloadMasters extends IntentService {
                             MProd = js.getString("MProd");
                         String max = js.getString("MaxGeoMap");
                         String tag = js.getString("GEOTagCnt");
+
+//                        if (js.has("HospCodes"))
+//                            Hospcodes = js.getString("HospCodes");
                         if (js.has("hospital_name"))
                             hosname = js.getString("hospital_name");
                         if (js.has("hospital_code"))
                             hoscode = js.getString("hospital_code");
+
+
 
                         long xx = dbh.insert_doctormaster(DrCode, DrName, DrDOB, DrDOW, DrTwnCd, DrTwnNm, DrCatNm, DrSpecNm, DrCatCd, DrSpecCd, SfCd, Latitude, Longitude, Addr, Drdesig, Dremail, Drmobile, Drphone,
                                 DrHosAddr, DrResAddr, DrMappProds, MProd, max, tag, hosname, hoscode);
@@ -572,8 +580,8 @@ public class DownloadMasters extends IntentService {
                     if (managerListLoading != null)
                         managerListLoading.ListLoading();
 
-                } catch (Exception e) {
-
+                } catch (JSONException | IOException e) {
+                    Log.e("Drjsonexception",e.getMessage());
                 }
             } else {
                 try {
@@ -995,12 +1003,6 @@ public Callback<ResponseBody> NewComplist = new Callback<ResponseBody>() {
             // Toast.makeText(context, "On Failure " , Toast.LENGTH_LONG).show();
         }
     };
-
-
-
-
-
-
 
     public Callback<List<BrandList>> brandList = new Callback<List<BrandList>>() {
         @Override
@@ -1511,7 +1513,8 @@ public Callback<ResponseBody> NewComplist = new Callback<ResponseBody>() {
                     dbh.close();
                     edit.commit();
 
-                } catch (Exception e) {
+                } catch (JsonIOException | JSONException | IOException e) {
+                    Log.e("Errorexception",e.getMessage());
                 }
 
 
@@ -1580,6 +1583,73 @@ public Callback<ResponseBody> NewComplist = new Callback<ResponseBody>() {
         }
     };
 
+    public Callback<ResponseBody> CipList = new Callback<ResponseBody>() {
+        @Override
+        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            System.out.println("checkUser is sucessfuld :" + response.isSuccessful());
+            if (response.isSuccessful()) {
+                JSONObject jsonObject = null;
+                String jsonData = null;
+                try {
+                    dbh.open();
+                    dbh.delete_cip(SF_Code);
+                    InputStreamReader ip = null;
+                    StringBuilder is = new StringBuilder();
+                    String line = null;
+
+                    ip = new InputStreamReader(response.body().byteStream());
+                    BufferedReader bf = new BufferedReader(ip);
+
+                    while ((line = bf.readLine()) != null) {
+                        is.append(line);
+                    }
+                    //  dbh.delete_All_tableDatas();
+                    // List<Doctors> doctors = response.body();
+
+
+                    JSONArray ja = new JSONArray(is.toString());
+                    edit.putString("cip", String.valueOf(ja.length()));
+                    for (int i = 0; i < ja.length(); i++) {
+                        JSONObject js = ja.getJSONObject(i);
+                        String sf_code = js.getString("sf_code");
+                        String id = js.getString("id");
+                        String name = js.getString("name");
+                        String hoscode = js.getString("hospital_code");
+                        String hosname = js.getString("hospital_name");
+                        String cipTwnCd = js.getString("Town_code");
+                        String cipTwnNm = js.getString("Town_Name");
+                        String mobile = js.getString("Mobile");
+                        String address = js.getString("Address1");
+                        String email = js.getString("Email_Work");
+                        String desn_name = js.getString("Designation_Name");
+                        String dept_name = js.getString("Department_Name");
+
+
+
+                        Log.v("cip_info", js.toString());
+                        dbh.insert_cipMaster(sf_code, id, name,hoscode, hosname, cipTwnCd,cipTwnNm,mobile,address,email,desn_name,dept_name);
+                    }
+
+                    dbh.close();
+                    edit.commit();
+                    if (managerListLoading != null)
+                        managerListLoading.ListLoading();
+                } catch (Exception e) {
+                    Log.e("Errorexception",e.getMessage());
+                }
+            } else {
+                try {
+                    JSONObject jObjError = new JSONObject(response.toString());
+                } catch (Exception e) {
+                }
+            }
+        }
+
+        @Override
+        public void onFailure(Call<ResponseBody> call, Throwable t) {
+        }
+    };
+
 
     public interface CallSlideDownloader {
         void callDownload();
@@ -1613,6 +1683,7 @@ public Callback<ResponseBody> NewComplist = new Callback<ResponseBody>() {
         prodFbList();
         HosList();
         therapticList();
+        CipList();
         //SlideBrandList();
         //SlideSpecList();
         //SlidePrdList();
@@ -1769,6 +1840,11 @@ public Callback<ResponseBody> NewComplist = new Callback<ResponseBody>() {
     public void jointwrkCall() {
         Call<List<JointWork>> Callto = apiService.Jointwork(String.valueOf(obj));
         Callto.enqueue(jointWork1);
+    }
+
+    public void CipList() {
+        Call<ResponseBody> cipList = apiService.getCip(String.valueOf(obj));
+        cipList.enqueue(CipList);
     }
 
     public void NewcopList() {

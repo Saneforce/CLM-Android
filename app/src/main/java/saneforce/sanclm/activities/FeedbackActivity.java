@@ -45,6 +45,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -339,7 +340,15 @@ public class FeedbackActivity extends AppCompatActivity {
                     if (!TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("spob")))
                         txt_pob.setText(mCommonSharedPreference.getValueFromPreference("spob"));
 
-                } else {
+                }
+                else if (peopleType.equalsIgnoreCase("I")) {
+                    if (mCommonSharedPreference.getValueFromPreference("hosp_filter").equalsIgnoreCase("0"))
+                        txt_pob.setText("POB");
+                    if (!TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("cpob")))
+                        txt_pob.setText(mCommonSharedPreference.getValueFromPreference("cpob"));
+
+                }
+                else {
                     if (!TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("dpob")))
                         txt_pob.setText(mCommonSharedPreference.getValueFromPreference("dpob"));
                 }
@@ -390,7 +399,26 @@ public class FeedbackActivity extends AppCompatActivity {
             if (!TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("spob")))
                 txt_pob.setText(mCommonSharedPreference.getValueFromPreference("spob"));
 
-        } else {
+        }
+        else if (feedOption.equalsIgnoreCase("cip")) {
+            if (mCommonSharedPreference.getValueFromPreference("hosp_filter").equalsIgnoreCase("0")) {
+                txt_pob.setText("POB");
+            }
+            if (!TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("cpob")))
+                txt_pob.setText(mCommonSharedPreference.getValueFromPreference("cpob"));
+
+            call_plus.setEnabled(false);
+            call_plus.getBackground().setAlpha(128);
+            btn_brand_audit.setVisibility(View.INVISIBLE);
+            // txt_name.setText(extra.getString("customer"));
+            txt_name.setText(CommonUtils.TAG_CHEM_NAME);
+            peopleType = "I";
+            peopleCode = CommonUtils.TAG_CHEM_CODE;
+            commonSFCode = CommonUtils.TAG_FEED_SF_CODE;
+            TypePeople = "I";
+
+        }
+        else {
             txt_name.setText(CommonUtils.TAG_DOCTOR_NAME);
             peopleType = "D";
             peopleCode = CommonUtils.TAG_DOCTOR_CODE;
@@ -732,6 +760,8 @@ public class FeedbackActivity extends AppCompatActivity {
                     if (peopleType.equalsIgnoreCase("D"))
                         mCommonSharedPreference.setValueToPreference("selection", 0);
                     else if (peopleType.equalsIgnoreCase("C"))
+                        mCommonSharedPreference.setValueToPreference("selection", 1);
+                    else if (peopleType.equalsIgnoreCase("I"))
                         mCommonSharedPreference.setValueToPreference("selection", 1);
                     else if (peopleType.equalsIgnoreCase("S"))
                         mCommonSharedPreference.setValueToPreference("selection", 2);
@@ -1651,12 +1681,14 @@ public class FeedbackActivity extends AppCompatActivity {
             String lat = shares.getString("lat", "");
             String lng = shares.getString("lng", "");
 
-            if (peopleType.equalsIgnoreCase("C") || peopleType.equalsIgnoreCase("S")) {
+            if (peopleType.equalsIgnoreCase("C") || peopleType.equalsIgnoreCase("S") || peopleType.equalsIgnoreCase("I")) {
 
                 jointObj.put("CateCode", "");
                 if (peopleType.equalsIgnoreCase("C"))
                     jointObj.put("CusType", "2");
-                else
+              else  if (peopleType.equalsIgnoreCase("I"))
+                    jointObj.put("CusType", "6");
+              else
                     jointObj.put("CusType", "3");
                 jointObj.put("CustCode", peopleCode);
                 jointObj.put("CustName", txt_name.getText().toString());
@@ -1839,7 +1871,12 @@ public class FeedbackActivity extends AppCompatActivity {
                         if (funStringValidation(jsonTim.getString("eTm")))
                             ETm = jsonTim.getString("eTm").substring((jsonTim.getString("eTm").indexOf(" ")) + 1);
                         Log.v("name_js_js", namee + " smqty " + js.getString("SmpQty"));
-                        listFeedPrd.add(new FeedbackProductDetail(js.getString("Name"), STm.trim() + " " + ETm.trim(), rat, feed, dt, qty, "", pob, gettingProductFB(js.getString("prdfeed"))));
+                        if(js.has("prdfeed")) {
+                            listFeedPrd.add(new FeedbackProductDetail(js.getString("Name"), STm.trim() + " " + ETm.trim(), rat, feed, dt, qty, "", pob, gettingProductFB(js.getString("prdfeed"))));
+                        }else
+                        {
+                            listFeedPrd.add(new FeedbackProductDetail(js.getString("Name"), STm.trim() + " " + ETm.trim(), rat, feed, dt, qty, "", pob, gettingProductFB("")));
+                        }
 
 
                         //Log.v("Product_extract22", namee);

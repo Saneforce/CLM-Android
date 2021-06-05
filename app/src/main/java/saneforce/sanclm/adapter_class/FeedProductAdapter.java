@@ -26,8 +26,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
-import android.widget.SearchView;
+
 import android.widget.TextView;
+
+import androidx.appcompat.widget.SearchView;
 
 import org.json.JSONArray;
 import org.json.JSONException;

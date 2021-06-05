@@ -114,10 +114,10 @@ public class ReportActivity extends AppCompatActivity {
                 }
                 else{
 
-//                    if (mm.getTiming().equalsIgnoreCase("web")) {
-//                        Intent ii = new Intent(ReportActivity.this, viewWebsite.class);
-//                        startActivity(ii);
-//                    } else {
+                    if (mm.getTiming().equalsIgnoreCase("sales")) {
+                        Intent ii = new Intent(ReportActivity.this, DashActivity.class);
+                        startActivity(ii);
+                    } else {
                         Intent ii = new Intent(ReportActivity.this, DayReportsActivity.class);
                         if (mm.getTiming().equalsIgnoreCase("visit"))
                             ii.putExtra("value", "2");
@@ -131,7 +131,7 @@ public class ReportActivity extends AppCompatActivity {
                     }
                 }
 
-         //   }
+            }
         });
         Call<ResponseBody> menu=api.rptmenu();
 
@@ -157,6 +157,8 @@ public class ReportActivity extends AppCompatActivity {
                         reportdata.add(new LoadBitmap(resources.getString(R.string.monthlyreport),"month"));
                         reportdata.add(new LoadBitmap(resources.getString(R.string.visitcontrol),"visit"));
                         reportdata.add(new LoadBitmap(resources.getString(R.string.missedreport),"miss"));
+                        if(mCommonSharedPreference.getValueFromPreference("Target_sales").equalsIgnoreCase("1"))
+                        reportdata.add(new LoadBitmap("Target Vs Sales","sales"));
                         JSONArray json=new JSONArray(is.toString());
                         for(int i=0;i<json.length();i++){
                             JSONObject jsonObject1=json.getJSONObject(i);
