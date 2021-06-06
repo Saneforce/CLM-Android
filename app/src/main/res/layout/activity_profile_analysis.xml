@@ -2,9 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_dcr_precall_analysis_main"
     android:layout_width="match_parent"
     android:background="@color/appConfigurationBg"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:visibility="gone">
 <!--    <ScrollView-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="0dp"-->
@@ -23,6 +25,7 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp">
                 <TextView
+                    android:id="@+id/tv_drName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
