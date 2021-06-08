@@ -1,42 +1,90 @@
 package saneforce.sanclm.activities;
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.gson.JsonArray;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
+import id.zelory.compressor.Compressor;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import saneforce.sanclm.Pojo_Class.DetailingTrackerPOJO;
 import saneforce.sanclm.R;
+import saneforce.sanclm.activities.Model.ModelDynamicList;
+import saneforce.sanclm.activities.Model.ModelDynamicView;
+import saneforce.sanclm.activities.Model.PopFeed;
+import saneforce.sanclm.activities.Model.SlideDetail;
+import saneforce.sanclm.adapter_class.AdapterDynamicActivity;
+import saneforce.sanclm.adapter_class.AdapterDynamicView;
+import saneforce.sanclm.adapter_class.AdapterForDynamicSelectionList;
+import saneforce.sanclm.adapter_class.AdapterPopupSpinnerSelection;
 import saneforce.sanclm.adapter_class.Custom_DCR_GV_Dr_Contents;
 import saneforce.sanclm.adapter_class.DCR_GV_Selection_adapter;
+import saneforce.sanclm.api_Interface.Api_Interface;
+import saneforce.sanclm.api_Interface.RetroClient;
 import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
 import saneforce.sanclm.applicationCommonFiles.CommonUtils;
 import saneforce.sanclm.applicationCommonFiles.CommonUtilsMethods;
 import saneforce.sanclm.fragments.DCRDRCallsSelection;
 import saneforce.sanclm.sqlite.DataBaseHandler;
 import saneforce.sanclm.util.DCRCallSelectionFilter;
+import saneforce.sanclm.util.TwoTypeparameter;
 
 
-public class ProfilingActivity extends AppCompatActivity
+public class ProfilingActivity extends AppCompatActivity implements View.OnClickListener
 {
     AppCompatSpinner spinner;
     DCRDRCallsSelection dcrdrCallsSelection;
@@ -50,35 +98,84 @@ public class ProfilingActivity extends AppCompatActivity
     ArrayList<Custom_DCR_GV_Dr_Contents> chmList ;
     ArrayList<Custom_DCR_GV_Dr_Contents> stckList ;
     ArrayList<Custom_DCR_GV_Dr_Contents> UndrList ;
+    ArrayList<SlideDetail> list_dr;
+    ArrayList<ModelDynamicList> array = new ArrayList<>();
+    ArrayList<ModelDynamicView> array_view = new ArrayList<>();
     RelativeLayout rl_dcr_precall_analysisMain , dcr_drselection_gridview;
-    String SF_Code,mMydayWtypeCd,subSfCode;
+    String SF_Code,mMydayWtypeCd,subSfCode,division_code,cat_code;
     String selectedProductCode="";
     TextView tv_drName;
     Button btn_re_select_doctor;
-    EditText et_searchDr;
+    AppCompatEditText et_searchDr,et_dobd,et_dobm,et_doby,et_dowd,et_dowm,et_dowy;
     ImageView iv_back;
+    TextView txt_select_qua,txt_select_category,txt_select_type,txt_select_spec;
+    String db_connPath;
+    AppCompatAutoCompleteTextView at_district,at_addr,at_mobile,at_phone,at_email;
+    CheckBox check_male,check_female;
+    AdapterDynamicActivity adp;
+    ProgressDialog progressDialog = null;
+    ListView list;
+    Api_Interface api_interface;
+    int pos_upload_file = 0;
+    DatePickerDialog fromDatePickerDialog;
+    SimpleDateFormat dateFormatter;
+    TimePickerDialog timePickerDialog;
+    boolean isEmpty = false;
+    Button btn_Submit;
+
+
+    AdapterDynamicView adp_view;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profilings);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         dbh = new DataBaseHandler(getApplicationContext());
         commonUtilsMethods = new CommonUtilsMethods(ProfilingActivity.this);
         mCommonSharedPreference = new CommonSharedPreference(getApplicationContext());
         SF_Code= mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_CODE);
         mMydayWtypeCd = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_CLUSTER_CODE);
         subSfCode=mCommonSharedPreference.getValueFromPreference("sub_sf_code");
+        division_code=mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DIVISION);
+        db_connPath = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DB_URL);
         GridView gridView = (GridView) findViewById(R.id.gridview_dcrselect);
+        list_dr =new ArrayList<>();
 
         rl_dcr_precall_analysisMain = (RelativeLayout) findViewById(R.id.rl_dcr_precall_analysis_main) ;
         dcr_drselection_gridview= (RelativeLayout) findViewById(R.id.rl_dcr_drgrid_selection) ;
         btn_re_select_doctor = (Button) findViewById(R.id.btn_reselect) ;
         tv_drName = (TextView)  findViewById(R.id.tv_drName) ;
-        et_searchDr = (EditText) findViewById(R.id.et_searchDr);
+        et_searchDr = (AppCompatEditText) findViewById(R.id.et_searchDr);
         et_searchDr.setText("");
         iv_back = (ImageView) findViewById(R.id.iv_back);
         dcr_drselection_gridview.setVisibility(View.VISIBLE);
+        btn_Submit=(Button) findViewById(R.id.btn_Submit);
         spinner=(AppCompatSpinner) findViewById(R.id.spinner);
+        txt_select_qua=(TextView) findViewById(R.id.txt_select_qua);
+        txt_select_category=(TextView) findViewById(R.id.txt_select_category);
+        txt_select_type=(TextView) findViewById(R.id.txt_select_type);
+        txt_select_spec=(TextView) findViewById(R.id.txt_select_spec);
+        et_dobd = (AppCompatEditText) findViewById(R.id.et_dobd);
+        et_dobm = (AppCompatEditText) findViewById(R.id.et_dobm);
+        et_doby = (AppCompatEditText) findViewById(R.id.et_doby);
+        et_dowd = (AppCompatEditText) findViewById(R.id.et_dowd);
+        et_dowm = (AppCompatEditText) findViewById(R.id.et_dowm);
+        et_dowy = (AppCompatEditText) findViewById(R.id.et_dowy);
+        at_district=(AppCompatAutoCompleteTextView) findViewById(R.id.at_district);
+        at_addr=(AppCompatAutoCompleteTextView) findViewById(R.id.at_addr);
+        at_mobile=(AppCompatAutoCompleteTextView) findViewById(R.id.at_mobile);
+        at_phone=(AppCompatAutoCompleteTextView) findViewById(R.id.at_phone);
+        at_email=(AppCompatAutoCompleteTextView) findViewById(R.id.at_email);
+        check_male=(CheckBox) findViewById(R.id.check_male);
+        check_female=(CheckBox) findViewById(R.id.check_female);
+        list=(ListView) findViewById(R.id.list);
+
+
+        api_interface = RetroClient.getClient(db_connPath).create(Api_Interface.class);
+
 
         List<String> selectPosition = new ArrayList<>();
       //  selectPosition.add(0, "Select a player from the list");
@@ -90,6 +187,26 @@ public class ProfilingActivity extends AppCompatActivity
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, selectPosition);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(arrayAdapter);
+
+        txt_select_category.setOnClickListener(this);
+        txt_select_qua.setOnClickListener(this);
+        txt_select_type.setOnClickListener(this);
+        txt_select_spec.setOnClickListener(this);
+        btn_re_select_doctor.setOnClickListener(this);
+
+        AdapterDynamicView.bindListernerForDateRange(new TwoTypeparameter() {
+            @Override
+            public void update(int value, int pos) {
+                if (value == 5) {
+                    pos_upload_file = pos;
+                    uploadFile();
+
+                } else if (value > 5 && value < 10) {
+                    datePick(pos, value);
+                } else
+                    timePicker(pos, value);
+            }
+        });
 
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,14 +234,78 @@ public class ProfilingActivity extends AppCompatActivity
             @Override
             public void afterTextChanged(Editable cs) {
                 Log.v("filter_edt_txt", String.valueOf(cs.length()));
-              /*  if(cs.length()==0) {
-                    _DCR_GV_Selection_adapter.getFilter().filter(" ");
-                    _DCR_GV_Selection_adapter.notifyDataSetChanged();
-                }
-                else{*/
                 _DCR_GV_Selection_adapter.getFilter().filter(cs);
                 _DCR_GV_Selection_adapter.notifyDataSetChanged();
-                //   }
+            }
+        });
+
+        check_male.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean checked = ((CheckBox) v).isChecked();
+                if (checked){
+
+                    check_female.setChecked(false);
+                }
+
+            }
+        });
+        check_female.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean checked = ((CheckBox) v).isChecked();
+                // Check which checkbox was clicked
+                if (checked){
+                    check_male.setChecked(false);
+                }
+
+            }
+        });
+
+
+        btn_Submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
+                if (commonUtilsMethods.isOnline(ProfilingActivity.this)) {
+                    if (validationOfField())
+                        saveEntry();
+                    else
+                        Toast.makeText(ProfilingActivity.this, "Fill the mandatory field", Toast.LENGTH_SHORT).show();
+                } else
+                    Toast.makeText(ProfilingActivity.this, "No network", Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
+
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.v("postion_view_id", array_view.get(position).getViewid());
+                if (array_view.get(position).getViewid().equalsIgnoreCase("8") ||
+                        array_view.get(position).getViewid().equalsIgnoreCase("12") ||
+                        array_view.get(position).getViewid().equalsIgnoreCase("13")) {
+                    popupSpinner1(0, array_view.get(position).getA_list(), position);
+                } else if (array_view.get(position).getViewid().equalsIgnoreCase("9")) {
+                    popupSpinner1(1, array_view.get(position).getA_list(), position);
+                } else if (array_view.get(position).getViewid().equalsIgnoreCase("6")) {
+                    // tp.setVisibility(View.VISIBLE);
+                    timePicker(position, 8);
+                } else if (array_view.get(position).getViewid().equalsIgnoreCase("4")) {
+                    // tp.setVisibility(View.VISIBLE);
+                    datePick(position, 8);
+
+
+                } else if (array_view.get(position).getViewid().equalsIgnoreCase("10"))
+                    uploadFile();
+               /* else    if(array_view.get(position).getViewid().equalsIgnoreCase("10")){
+                   // tp.setVisibility(View.VISIBLE);
+                    datePick(position);
+                }*/
 
             }
         });
@@ -269,7 +450,885 @@ public class ProfilingActivity extends AppCompatActivity
                         CommonUtils.TAG_CHEM_CODE = code;
                         CommonUtils.TAG_CHEM_NAME = name;
                         CommonUtils.TAG_FEED_SF_CODE = subSfCode;
+
+                        JSONObject jsonObject = new JSONObject();
+                        try {
+                            jsonObject.put("SF", SF_Code);
+                            jsonObject.put("CusCode", code);
+                            jsonObject.put("typ", "D");
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.v("drDetails_param", jsonObject.toString());
+
+
+                        Call<ResponseBody> drDetails = api_interface.getDrDetails(jsonObject.toString());
+                       drDetails.enqueue(new Callback<ResponseBody>() {
+                           @Override
+                           public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                               if (response.isSuccessful()) {
+                                   InputStreamReader ip = null;
+                                   StringBuilder is = new StringBuilder();
+                                   String line = null;
+                                   try {
+                                       ip = new InputStreamReader(response.body().byteStream());
+                                       BufferedReader bf = new BufferedReader(ip);
+
+                                       while ((line = bf.readLine()) != null) {
+                                           is.append(line);
+                                       }
+                                       Log.v("drDetails", is.toString());
+                                       JSONArray ja = new JSONArray(is.toString());
+                                       for (int i = 0; i < ja.length(); i++) {
+                                           JSONObject js = ja.getJSONObject(i);
+
+                                           String mobile = js.getString("Mobile");
+                                           String phone = js.getString("Phone");
+                                           String address = js.getString("Addr1");
+                                           String email = js.getString("Email");
+                                           String dobd = js.getString("DOBD");
+                                           String dobm = js.getString("DOBM");
+                                           String doby = js.getString("DOBY");
+                                           String dowd = js.getString("DOWD");
+                                           String dowm = js.getString("DOWM");
+                                           String dowy = js.getString("DOWY");
+                                           String gender=js.getString("Gender");
+                                           String specName=js.getString("SpecName");
+                                           String catName=js.getString("CatName");
+                                           String qualName=js.getString("QualName");
+                                           cat_code=js.getString("CatCode");
+                                           String district=js.getString("District");
+                                           String pinCode=js.getString("PinCode");
+                                           String type=js.getString("Type");
+
+                                           txt_select_qua.setText(qualName);
+                                           txt_select_spec.setText(specName);
+                                           txt_select_category.setText(catName);
+                                           et_dobd.setText(dobd);
+                                           et_dobm.setText(dobm);
+                                           et_doby.setText(doby);
+                                           et_dowd.setText(dowd);
+                                           et_dowm.setText(dowd);
+                                           et_dowy.setText(dowy);
+                                           at_district.setText(district);
+                                           at_addr.setText(address);
+                                           at_mobile.setText(mobile);
+                                           at_phone.setText(phone);
+                                           at_email.setText(email);
+
+
+                                           Log.v("drdetails_info", js.toString());
+
+                                       }
+
+                                   } catch (Exception e) {
+                                       Log.e("Errorexception",e.getMessage());
+                                   }
+                               }
+                           }
+
+                           @Override
+                           public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                           }
+                       });
+
+                        callDynamicList();
+
+}
+
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public void onClick(View v) {
+        switch (v.getId())
+        {
+            case R.id.btn_reselect:
+                rl_dcr_precall_analysisMain.setVisibility(View.GONE);
+                dcr_drselection_gridview.setVisibility(View.VISIBLE);
+                break;
+            case R.id.txt_select_qua:
+                gettingTableValue(1);
+                break;
+            case R.id.txt_select_spec:
+                gettingTableValue(2);
+                break;
+            case R.id.txt_select_category:
+                gettingTableValue(3);
+                break;
+
+        }
+    }
+
+    public void gettingTableValue(int x){
+        list_dr.clear();
+        dbh.open();
+        Cursor cur=null;
+        if(x==1)
+            cur=dbh.select_quality_list();
+        else if(x==2)
+            cur=dbh.select_speciality_list();
+        else if(x==3)
+            cur=dbh.select_category_list();
+
+        if(cur.getCount()>0){
+            while(cur.moveToNext()){
+                list_dr.add(new SlideDetail(cur.getString(2),cur.getString(1)));
+
+            }
+        }
+
+        popupSpinner(x);
+    }
+
+    public void popupSpinner(final int x){
+        final Dialog dialog=new Dialog(this,R.style.AlertDialogCustom);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.popup_spinner_selection);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+        ListView popup_list=(ListView)dialog.findViewById(R.id.popup_list);
+        ImageView close_btn = (ImageView)dialog.findViewById(R.id.close_img);
+
+        close_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+
+        AdapterPopupSpinnerSelection popupAdapter=new AdapterPopupSpinnerSelection(getApplicationContext(),list_dr);
+        popup_list.setAdapter(popupAdapter);
+        popupAdapter.notifyDataSetChanged();
+
+        popup_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.v("qualification_select",list_dr.get(position).getInputName());
+                if(x==1) {
+                    txt_select_qua.setText(list_dr.get(position).getInputName());
+
+                }
+                else if(x==2){
+                    txt_select_spec.setText(list_dr.get(position).getInputName());
+
+                }
+                else if(x==3) {
+                    txt_select_category.setText(list_dr.get(position).getInputName());
+                    cat_code =list_dr.get(position).getIqty();
+                    Log.v("Cat_code",cat_code);
+                    String profileControls= mCommonSharedPreference.getValueFromPreference("Profiledynamic");
+                    JSONArray jsonArray= null;
+                    try {
+                        jsonArray = new JSONArray(profileControls);
+                        genAdditionalFields(jsonArray);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
 
+
+                }
+
+                dialog.dismiss();
+            }
+        });
+
+
+    }
+
+    public void popupSpinner1(int type, final ArrayList<PopFeed> array_selection, final int pos) {
+        final Dialog dialog = new Dialog(ProfilingActivity.this, R.style.AlertDialogCustom);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.popup_dynamic_view);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+
+        ListView popup_list = (ListView) dialog.findViewById(R.id.popup_list);
+        TextView tv_todayplan_popup_head = (TextView) dialog.findViewById(R.id.tv_todayplan_popup_head);
+        tv_todayplan_popup_head.setText(array_view.get(pos).getFieldname());
+        ImageView iv_close_popup = (ImageView) dialog.findViewById(R.id.iv_close_popup);
+        Button ok = (Button) dialog.findViewById(R.id.ok);
+
+        if (array_selection.contains(new PopFeed(true))) {
+            isEmpty = false;
+        } else
+            isEmpty = true;
+
+        final AdapterForDynamicSelectionList adapt = new AdapterForDynamicSelectionList(ProfilingActivity.this, array_selection, type);
+        popup_list.setAdapter(adapt);
+        final SearchView search_view = (SearchView) dialog.findViewById(R.id.search_view);
+        search_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                search_view.setIconified(false);
+                InputMethodManager im = ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE));
+                im.showSoftInput(search_view, 0);
+            }
+        });
+        search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                Log.v("search_view_str", s);
+                adapt.getFilter().filter(s);
+                return false;
+            }
+        });
+
+        iv_close_popup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isEmpty) {
+                    if (array_selection.contains(new PopFeed(true))) {
+                        for (int i = 0; i < array_selection.size(); i++) {
+                            PopFeed m = array_selection.get(i);
+                            m.setClick(false);
+                        }
                     }
+                }
+                dialog.dismiss();
+                //commonFun();
+            }
+        });
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (array_selection.contains(new PopFeed(true))) {
+                    for (int i = 0; i < array_selection.size(); i++) {
+                        PopFeed m = array_selection.get(i);
+                        if (m.isClick()) {
+                            array_view.get(pos).setValue(m.getTxt());
+                            i = array_selection.size();
+                            adp_view.notifyDataSetChanged();
+                            break;
+                        }
+                    }
+
+                } else {
+                    array_view.get(pos).setValue("");
+                    adp_view.notifyDataSetChanged();
+                }
+               // dialog.dismiss();
+                //commonFun();
+            }
+        });
+
+    }
+
+    public void commonFun() {
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+
+    }
+
+
+    public void callDynamicList() {
+        JSONObject json = new JSONObject();
+        //progressDialog = commonUtilsMethods.createProgressDialog(ProfilingActivity.this);
+        try {
+            json.put("Div", mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DIVISION));
+            Log.v("printing_sf_code", json.toString());
+            Call<ResponseBody> approval = api_interface.getCustProfCtrls(json.toString());
+
+            approval.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        Log.v("printing_res_track", response.body().byteStream() + "");
+                        Log.v("datawises", response.body().toString());
+                        JSONObject jsonObject = null;
+                        String jsonData = null;
+
+                        InputStreamReader ip = null;
+                        StringBuilder is = new StringBuilder();
+                        String line = null;
+                        try {
+                            ip = new InputStreamReader(response.body().byteStream());
+                            BufferedReader bf = new BufferedReader(ip);
+
+                            while ((line = bf.readLine()) != null) {
+                                is.append(line);
+                            }
+                            array.clear();
+                            Log.v("printing_here_dynamic", is.toString());
+                            JSONArray jsonArray = new JSONArray(is.toString());
+                            mCommonSharedPreference.setValueToPreference("Profiledynamic", is.toString());
+                            genAdditionalFields(jsonArray);
+
+                          //  progressDialog.dismiss();
+
+
+
+                        } catch (Exception e) {
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                }
+            });
+
+        } catch (Exception e) {
+        }
+
+    }
+
+
+public void genAdditionalFields(JSONArray jsonArray){
+    array_view.clear();
+    JSONObject jsonObject = null;
+    String jsonData = null;
+    InputStreamReader ip = null;
+    StringBuilder is = new StringBuilder();
+    String line = null;
+    progressDialog = commonUtilsMethods.createProgressDialog(ProfilingActivity.this);
+    progressDialog.show();
+    try {
+        for (int i = 0; i < jsonArray.length(); i++) {
+            ArrayList<PopFeed> arr = new ArrayList<>();
+            JSONObject json = jsonArray.getJSONObject(i);
+           if (json.getString("Cat_code").equalsIgnoreCase(cat_code)) {
+                JSONArray jarray = json.getJSONArray("input");
+                if (jarray.length() != 0) {
+                    for (int m = 0; m < jarray.length(); m++) {
+                        JSONObject jjss = jarray.getJSONObject(m);
+                        Log.v("json_input_iss", jjss.getString(json.getString("Table_code")));
+                        arr.add(new PopFeed(jjss.getString(json.getString("Table_name")), false, jjss.getString(json.getString("Table_code"))));
+                    }
+
+                }
+                String para = "";
+                if (json.getString("Control_Id").equalsIgnoreCase("11"))
+                    para = json.getString("Table_code");
+                else
+                    para = json.getString("Control_Para");
+                array_view.add(new ModelDynamicView(json.getString("Control_Id"), "", json.getString("Field_Name"), "", arr, para, json.getString("Sl_no"), json.getString("Activity_SlNo"), "", json.getString("Mandatory")));
+            }
+       }
+
+        adp_view = new AdapterDynamicView(array_view, ProfilingActivity.this);
+        list=(ListView) findViewById(R.id.list);
+        list.setAdapter(adp_view);
+        adp_view.notifyDataSetChanged();
+        progressDialog.dismiss();
+
+
+    } catch (Exception e) {
+
+        Log.v("Exception",e.getMessage());
+    }
+}
+
+    /*public void callDynamicViewList(String slno) {
+        final JSONObject json = new JSONObject();
+        try {
+            json.put("slno", slno);
+            json.put("SF", mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_CODE));
+            json.put("div", mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DIVISION));
+            Log.v("printing_sf_code", json.toString());
+            Call<ResponseBody> approval = api_interface.getDynamicViewTest(json.toString());
+
+            approval.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        Log.v("printing_res_track", response.body().byteStream() + "");
+                        JSONObject jsonObject = null;
+                        String jsonData = null;
+
+                        InputStreamReader ip = null;
+                        StringBuilder is = new StringBuilder();
+                        String line = null;
+                        try {
+                            ip = new InputStreamReader(response.body().byteStream());
+                            BufferedReader bf = new BufferedReader(ip);
+
+                            while ((line = bf.readLine()) != null) {
+                                is.append(line);
+                            }
+                            array_view.clear();
+                            Log.v("printing_dynamic_view", is.toString());
+                            JSONArray jsonArray = new JSONArray(is.toString());
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                ArrayList<PopFeed> arr = new ArrayList<>();
+                                JSONObject json = jsonArray.getJSONObject(i);
+                                JSONArray jarray = json.getJSONArray("input");
+                                if (jarray.length() != 0) {
+                                    for (int m = 0; m < jarray.length(); m++) {
+                                        JSONObject jjss = jarray.getJSONObject(m);
+                                        Log.v("json_input_iss", jjss.getString(json.getString("Table_code")));
+                                        arr.add(new PopFeed(jjss.getString(json.getString("Table_name")), false, jjss.getString(json.getString("Table_code"))));
+                                    }
+
+                                }
+                                String para = "";
+                                if (json.getString("Control_Id").equalsIgnoreCase("11"))
+                                    para = json.getString("Table_code");
+                                else
+                                    para = json.getString("Control_Para");
+                                array_view.add(new ModelDynamicView(json.getString("Control_Id"), "", json.getString("Field_Name"), "", arr, para, json.getString("Creation_Id"), json.getString("Activity_SlNo"), "", json.getString("Mandatory")));
+
+//                                if(json.getString("Control_Id").equalsIgnoreCase("17"))
+//                                {
+//                                    para = json.getString("Control_Para");
+//                                    array_view.add(new ModelDynamicView(json.getString("Control_Id"), "", json.getString("Field_Name"), "", arr, para, json.getString("Creation_Id"), json.getString("Activity_SlNo"), "", json.getString("Mandatory")));
+//                                }
+                            }
+
+                            adp_view = new AdapterDynamicView(array_view, ProfilingActivity.this,"","");
+                            list.setAdapter(adp_view);
+                            adp_view.notifyDataSetChanged();
+                            //progressDialog.dismiss();
+
+
+                        } catch (Exception e) {
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                }
+            });
+
+        } catch (Exception e) {
+        }
+
+    }*/
+    public void uploadFile() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        startActivityForResult(intent, 7);
+    }
+
+    public void datePick(final int pos, final int value) {
+        Calendar newCalendar = Calendar.getInstance();
+        fromDatePickerDialog = new DatePickerDialog(ProfilingActivity.this, new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                ModelDynamicView mm = array_view.get(pos);
+                int mnth = monthOfYear + 1;
+                if (mm.getViewid().equalsIgnoreCase("5")) {
+                    if (value == 8) {
+                        if (TextUtils.isEmpty(mm.getTvalue()))
+                            mm.setValue(dayOfMonth + "-" + mnth + "-" + year);
+                        else {
+                            String val = dayOfMonth + "-" + mnth + "-" + year;
+                            if (dateDifference(val, mm.getTvalue()) < 0)
+                                Toast.makeText(ProfilingActivity.this, "From date should be lesser", Toast.LENGTH_SHORT).show();
+                            else
+                                mm.setValue(dayOfMonth + "-" + mnth + "-" + year);
+
+                        }
+                    } else {
+                        if (TextUtils.isEmpty(mm.getValue()))
+                            Toast.makeText(ProfilingActivity.this, "Fill from date", Toast.LENGTH_SHORT).show();
+                        else {
+                            String val = dayOfMonth + "-" + mnth + "-" + year;
+                            if (dateDifference(mm.getValue(), val) < 0)
+                                Toast.makeText(ProfilingActivity.this, "To date should be greater", Toast.LENGTH_SHORT).show();
+                            else
+                                mm.setTvalue(dayOfMonth + "-" + mnth + "-" + year);
+                        }
+
+
+                    }
+                } else
+                    mm.setValue(dayOfMonth + "-" + mnth + "-" + year);
+
+                adp_view.notifyDataSetChanged();
+               // commonFun();
+
+            }
+
+        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+        fromDatePickerDialog.show();
+    }
+
+    public void timePicker(final int pos, final int value) {
+        Calendar mcurrentTime = Calendar.getInstance();
+        int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+        int minute = mcurrentTime.get(Calendar.MINUTE);
+        timePickerDialog = new TimePickerDialog(ProfilingActivity.this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                //eReminderTime.setText( selectedHour + ":" + selectedMinute);
+                ModelDynamicView mm = array_view.get(pos);
+                if (mm.getViewid().equalsIgnoreCase("7")) {
+                    if (value == 12) {
+                        if (TextUtils.isEmpty(mm.getTvalue()))
+                            mm.setValue(selectedHour + ":" + selectedMinute);
+                        else {
+                            int thr = spiltTime(mm.getTvalue());
+                            int tmin = spiltMin(mm.getTvalue());
+                            if (thr == selectedHour) {
+                                if (selectedMinute < tmin) {
+                                    mm.setValue(selectedHour + ":" + selectedMinute);
+                                } else
+                                    Toast.makeText(ProfilingActivity.this, "From time should be lesser", Toast.LENGTH_SHORT).show();
+                            } else if (thr > selectedHour) {
+                                mm.setValue(selectedHour + ":" + selectedMinute);
+                            } else
+                                Toast.makeText(ProfilingActivity.this, "From time should be lesser", Toast.LENGTH_SHORT).show();
+
+                        }
+                    } else {
+                        if (TextUtils.isEmpty(mm.getValue()))
+                            Toast.makeText(ProfilingActivity.this, "Fill the from  time", Toast.LENGTH_SHORT).show();
+                        else {
+                            int fhr = spiltTime(mm.getValue());
+                            int fmin = spiltMin(mm.getValue());
+                            if (fhr == selectedHour) {
+                                if (selectedMinute > fmin) {
+                                    mm.setTvalue(selectedHour + ":" + selectedMinute);
+                                } else
+                                    Toast.makeText(ProfilingActivity.this, "To time should be greater", Toast.LENGTH_SHORT).show();
+                            } else if (fhr < selectedHour) {
+                                mm.setTvalue(selectedHour + ":" + selectedMinute);
+                            } else
+                                Toast.makeText(ProfilingActivity.this, "To time should be greater", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+
+                } else
+                    mm.setValue(selectedHour + ":" + selectedMinute);
+
+
+                adp_view.notifyDataSetChanged();
+                //commonFun();
+
+            }
+        }, hour, minute, true);//Yes 24 hour time
+        timePickerDialog.setTitle("Select Time");
+        timePickerDialog.show();
+
+    }
+
+    public void saveEntry() {
+        boolean isEmpty = false;
+        int count = 0;
+        progressDialog.show();
+        if (array_view.contains(new ModelDynamicView("10"))) {
+            for (int i = 0; i < array_view.size(); i++) {
+                ModelDynamicView mm = array_view.get(i);
+                if (mm.getViewid().equalsIgnoreCase("10")) {
+                    if (!TextUtils.isEmpty(mm.getValue())) {
+                        isEmpty = true;
+                        count = count + 1;
+                        getMulipart(mm.getValue(), i);
+                    }
+                }
+            }
+        } else {
+            saveValueEntry();
+        }
+
+    }
+
+    public void getMulipart(String path, int x) {
+        MultipartBody.Part imgg = convertimg("file", path);
+        HashMap<String, RequestBody> values = field("MR0417");
+        CallApiImage(values, imgg, x);
+    }
+
+    public MultipartBody.Part convertimg(String tag, String path) {
+        MultipartBody.Part yy = null;
+        Log.v("full_profile", path);
+        try {
+            if (!TextUtils.isEmpty(path)) {
+
+                File file = new File(path);
+                if (path.contains(".png") || path.contains(".jpg") || path.contains(".jpeg"))
+                    file = new Compressor(getApplicationContext()).compressToFile(new File(path));
+                else
+                    file = new File(path);
+                RequestBody requestBody = RequestBody.create(MultipartBody.FORM, file);
+                yy = MultipartBody.Part.createFormData(tag, file.getName(), requestBody);
+            }
+        } catch (Exception e) {
+        }
+        Log.v("full_profile", yy + "");
+        return yy;
+    }
+
+    public HashMap<String, RequestBody> field(String val) {
+        HashMap<String, RequestBody> xx = new HashMap<String, RequestBody>();
+        xx.put("data", createFromString(val));
+
+        return xx;
+
+    }
+
+    private RequestBody createFromString(String txt) {
+        return RequestBody.create(MultipartBody.FORM, txt);
+    }
+
+    public void CallApiImage(HashMap<String, RequestBody> values, MultipartBody.Part imgg, final int x) {
+        Call<ResponseBody> Callto;
+
+        Callto = api_interface.uploadimg(values, imgg);
+
+        Callto.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.v("print_upload_file", "ggg" + response.isSuccessful() + response.body());
+                //uploading.setText("Uploading "+String.valueOf(count)+"/"+String.valueOf(count_check));
+
+                try {
+                    if (response.isSuccessful()) {
+
+
+                        Log.v("print_upload_file_true", "ggg" + response);
+                        JSONObject jb = null;
+                        String jsonData = null;
+                        jsonData = response.body().string();
+                        Log.v("request_data_upload", String.valueOf(jsonData));
+                        JSONObject js = new JSONObject(jsonData);
+                        if (js.getString("success").equalsIgnoreCase("true")) {
+                            ModelDynamicView mm = array_view.get(x);
+                            Log.v("printing_dynamic_cou", adp_view.DynamicCount + "    xxx" + x);
+                            mm.setUpload_sv(js.getString("url"));
+                            adp_view.notifyDataSetChanged();
+
+                            if (adp_view.DynamicCount == x) {
+                                saveValueEntry();
+                            }
+                        }
+
+
+                    }
+
+
+                } catch (Exception e) {
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.v("print_failure", "ggg" + t.getMessage());
+            }
+        });
+    }
+
+
+    public void saveValueEntry() {
+        if (array_view.size() != 0) {
+            JSONArray ja = new JSONArray();
+            JSONObject js = null;
+            JSONObject finaljs = new JSONObject();
+            String typ = "0", cust = "0", wt = "0", pl = "0", datasf = "", lat = "", lng = "", cusname = "";
+
+            if (!TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("cust_act"))) {
+                try {
+                    JSONObject jj = new JSONObject(mCommonSharedPreference.getValueFromPreference("cust_act").toString());
+                    typ = jj.getString("typ");
+                    cust = jj.getString("cust");
+                    wt = jj.getString("wt");
+                    pl = jj.getString("pl");
+                    datasf = jj.getString("DataSF");
+                    lat = jj.getString("lat");
+                    lng = jj.getString("lng");
+                    cusname = jj.getString("custname");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            for (int i = 0; i < array_view.size(); i++) {
+                ModelDynamicView mm = array_view.get(i);
+
+                try {
+                    js = new JSONObject();
+                    js.put("SF", mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_CODE));
+                    js.put("div", mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DIVISION));
+                    js.put("act_date", CommonUtilsMethods.getCurrentInstance() + " " + CommonUtilsMethods.getCurrentTime());
+                    js.put("dcr_date", CommonUtilsMethods.getCurrentInstance() + " " + "00:00:00");
+                    js.put("update_time", CommonUtilsMethods.getCurrentInstance() + " " + CommonUtilsMethods.getCurrentTime());
+                    js.put("slno", mm.getSlno());
+                    js.put("ctrl_id", mm.getViewid());
+                    js.put("creat_id", mm.getCreation_id());
+                    js.put("WT", wt);
+                    js.put("Pl", pl);
+                    js.put("cus_code", cust);
+                    js.put("lat", lat);
+                    js.put("lng", lng);
+                    js.put("cusname", cusname);
+                    js.put("DataSF", datasf);
+                    js.put("type", typ);
+
+                    if (mm.getViewid().equalsIgnoreCase("8") || mm.getViewid().equalsIgnoreCase("9")
+                            || mm.getViewid().equalsIgnoreCase("12") || mm.getViewid().equalsIgnoreCase("13")) {
+                        mm.getA_list();
+                        if (mm.getA_list().contains(new PopFeed(true))) {
+                            String name = "", code = "";
+                            for (int k = 0; k < mm.getA_list().size(); k++) {
+                                PopFeed pf = mm.getA_list().get(k);
+                                if (pf.isClick()) {
+                                    if (!mm.getViewid().equalsIgnoreCase("9")) {
+                                        name = name + "," + pf.getTxt();
+                                        code = code + "," + pf.getCode();
+                                        k = mm.getA_list().size();
+                                        break;
+                                    } else {
+                                        name = name + "," + pf.getTxt();
+                                        code = code + "," + pf.getCode();
+                                    }
+
+                                }
+                            }
+                            js.put("values", name);
+                            js.put("codes", code);
+                        }
+                    } else {
+                        if (mm.getViewid().equalsIgnoreCase("10"))
+                            js.put("values", mm.getUpload_sv());
+                        else
+                            js.put("values", mm.getValue());
+                        js.put("codes", "");
+                    }
+                    if(mm.getViewid().equalsIgnoreCase("17"))
+                    {
+                        js.put("values",mm.getLatValue());
+                        js.put("codes",mm.getLngValue());
+                    }else if(mm.getViewid().equalsIgnoreCase("7"))
+                    {
+                        js.put("values",mm.getValue());
+                        js.put("codes",mm.getTvalue());
+                    }
+                } catch (Exception e) {
+                }
+                ja.put(js);
+            }
+
+            try {
+                finaljs.put("val", ja);
+                Log.v("printing_json_dynamic", finaljs.toString());
+                callsave(finaljs.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    public void callsave(String json) {
+
+        try {
+
+            Call<ResponseBody> approval = api_interface.svdcrAct(json);
+
+            approval.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        Log.v("printing_res_track", response.body().byteStream() + "");
+                        JSONObject jsonObject = null;
+                        String jsonData = null;
+
+                        InputStreamReader ip = null;
+                        StringBuilder is = new StringBuilder();
+                        String line = null;
+                        try {
+                            ip = new InputStreamReader(response.body().byteStream());
+                            BufferedReader bf = new BufferedReader(ip);
+
+                            while ((line = bf.readLine()) != null) {
+                                is.append(line);
+                            }
+                            Log.v("printing_here_dynamic", is.toString());
+                            JSONObject js = new JSONObject(is.toString());
+                            if (js.getString("success").equalsIgnoreCase("true")) {
+                                progressDialog.dismiss();
+                                commonFun();
+                                Toast.makeText(ProfilingActivity.this, "Data   saved   successfully", Toast.LENGTH_SHORT).show();
+                                array_view.clear();
+                                adp_view.notifyDataSetChanged();
+                            } else {
+                                progressDialog.dismiss();
+                                commonFun();
+                                Toast.makeText(ProfilingActivity.this, "Cannot load data", Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        } catch (Exception e) {
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                }
+            });
+
+        } catch (Exception e) {
+        }
+
+    }
+
+    public boolean validationOfField() {
+        boolean val = true;
+        for (int i = 0; i < array_view.size(); i++) {
+            ModelDynamicView mm = array_view.get(i);
+            if (mm.getMandatory().equalsIgnoreCase("1") && (!mm.getViewid().equalsIgnoreCase("22"))) {
+                if (mm.getViewid().equalsIgnoreCase("5") || mm.getViewid().equalsIgnoreCase("7")) {
+                    if (TextUtils.isEmpty(mm.getTvalue()) || TextUtils.isEmpty(mm.getValue()))
+                        return false;
+                }else if(mm.getViewid().equalsIgnoreCase("17"))
+                {
+                    if (TextUtils.isEmpty(mm.getLatValue()) && TextUtils.isEmpty(mm.getLngValue()))
+                        return false;
+                } else {
+                    if (TextUtils.isEmpty(mm.getValue()))
+                        return false;
+                }
+            }
+        }
+        return val;
+    }
+
+    public int spiltTime(String val) {
+        String v = val.substring(0, val.indexOf(":"));
+        return Integer.parseInt(v);
+    }
+
+    public int spiltMin(String val) {
+        String v = val.substring(val.indexOf(":") + 1);
+        return Integer.parseInt(v);
+    }
+
+    public long dateDifference(String d1, String d2) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+
+        try {
+            Date date1 = simpleDateFormat.parse(d1 + " 00:00:00");
+            Date date2 = simpleDateFormat.parse(d2 + " 00:00:00");
+
+            long different = date2.getTime() - date1.getTime();
+            Log.v("priting_date_diffence", different + "");
+            return different;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+}
 

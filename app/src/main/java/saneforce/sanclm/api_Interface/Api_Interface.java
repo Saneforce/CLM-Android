@@ -468,4 +468,12 @@ public interface Api_Interface {
     @POST("db.php?axn=get/speciality_sfe")
     Call<JsonArray> getSpecialityDataAsJArray(@QueryMap Map<String, String> params);
 
+    @FormUrlEncoded
+    @POST("db.php?axn=get/drdets")
+    Call<ResponseBody> getDrDetails(@Field("data") String sf);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=get/custctrl")
+    Call<ResponseBody> getCustProfCtrls(@Field("data") String sf);
+
 }

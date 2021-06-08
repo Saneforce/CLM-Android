@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,11 +46,13 @@ public class AdapterDynamicView extends BaseAdapter implements LocationListener 
 
 
     public AdapterDynamicView(ArrayList<ModelDynamicView> array_lst, Context context) {
+        //super(context,R.layout.row_item_dynamic_view,array_lst);
         this.array_lst = array_lst;
         this.context = context;
     }
 
     public AdapterDynamicView(ArrayList<ModelDynamicView> array_lst,Context context, String latitude, String longitude) {
+        //super(context,R.layout.row_item_dynamic_view,array_lst);
         this.context = context;
         this.array_lst = array_lst;
         this.latitude = latitude;
@@ -73,6 +76,12 @@ public class AdapterDynamicView extends BaseAdapter implements LocationListener 
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+        return inflatView(position,convertView,parent);
+    }
+
+    private View inflatView(int position, View convertView, ViewGroup parent) {
+
+        Log.e("position",String.valueOf(position));
         View view = LayoutInflater.from(context).inflate(R.layout.row_item_dynamic_view, parent, false);
         TextView txt_label = (TextView) view.findViewById(R.id.txt_label);
         RelativeLayout rlay_spin = (RelativeLayout) view.findViewById(R.id.rlay_spin);
@@ -150,16 +159,16 @@ public class AdapterDynamicView extends BaseAdapter implements LocationListener 
             if (!TextUtils.isEmpty(mm.getValue()))
                 edt_field_numeric.setText(mm.getValue());
         } else if (mm.getViewid().equalsIgnoreCase("3")) {
-                edt_feed.setVisibility(View.VISIBLE);
-                if (!TextUtils.isEmpty(mm.getCtrl_para())) {
-                    int maxLength = Integer.parseInt(mm.getCtrl_para());
-                    InputFilter[] FilterArray = new InputFilter[1];
-                    FilterArray[0] = new InputFilter.LengthFilter(maxLength);
-                    edt_feed.setFilters(FilterArray);
+            edt_feed.setVisibility(View.VISIBLE);
+            if (!TextUtils.isEmpty(mm.getCtrl_para())) {
+                int maxLength = Integer.parseInt(mm.getCtrl_para());
+                InputFilter[] FilterArray = new InputFilter[1];
+                FilterArray[0] = new InputFilter.LengthFilter(maxLength);
+                edt_feed.setFilters(FilterArray);
 
-                }
-                if (!TextUtils.isEmpty(mm.getValue()))
-                    edt_feed.setText(mm.getValue());
+            }
+            if (!TextUtils.isEmpty(mm.getValue()))
+                edt_feed.setText(mm.getValue());
 
         } else if (mm.getViewid().equalsIgnoreCase("4") || mm.getViewid().equalsIgnoreCase("8")
                 || mm.getViewid().equalsIgnoreCase("6") || mm.getViewid().equalsIgnoreCase("9")
@@ -305,7 +314,7 @@ public class AdapterDynamicView extends BaseAdapter implements LocationListener 
             public void afterTextChanged(Editable s) {
                 String ss = String.valueOf(s);
                 mm.setValue(ss);
-               // mm.setValue(latitude + "  " + longitude );
+                // mm.setValue(latitude + "  " + longitude );
             }
         });
         edt_field_currency.addTextChangedListener(new TextWatcher() {
@@ -429,8 +438,10 @@ public class AdapterDynamicView extends BaseAdapter implements LocationListener 
 
         }
 
-
-
+//    @Override
+//    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+//        return inflatView(position,convertView,parent);
+//    }
 
     private void getLocation() {
 

@@ -7,23 +7,29 @@
     android:background="@color/appConfigurationBg"
     android:layout_height="match_parent"
     android:visibility="gone">
-<!--    <ScrollView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:padding="10dp"-->
-<!--        android:layout_above="@+id/tvSubmit"-->
-<!--       >-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/tvSubmit"
+        android:id="@+id/main_lay">
 
-    <LinearLayout
-            android:orientation="vertical"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="-1dp"
+        android:padding="10dp">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
                 <TextView
                     android:id="@+id/tv_drName"
                     android:layout_width="0dp"
@@ -31,10 +37,9 @@
                     android:layout_weight="1"
                     android:text="A narashima Rao."
                     android:textAllCaps="true"
-                    android:textSize="21sp"
-                    android:textColor="@color/black"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                  />
+                    android:textColor="@color/black"
+                    android:textSize="21sp" />
 
                 <Button
                     android:id="@+id/btn_reselect"
@@ -54,52 +59,52 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
                 android:layout_marginTop="15dp"
                 android:background="@color/white"
+                android:padding="10dp"
                 android:weightSum="10">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_weight="4.25"
-                   >
+                    android:orientation="vertical">
 
                     <LinearLayout
-                        android:orientation="horizontal"
-                        android:weightSum="3"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
 
                         <TextView
-                            android:layout_gravity="center_vertical"
                             android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_weight="1"
-                            android:textSize="14sp"
                             android:text="@string/gender"
-                            android:textColor="@color/black"
                             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                            android:layout_height="wrap_content"/>
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
 
                         <CheckBox
+                            android:id="@+id/check_male"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.8"
-                            android:textSize="14sp"
                             android:text="@string/male"
                             android:textColor="@color/black"
-                            android:theme="@style/check_box"
-                           />
+                            android:textSize="14sp"
+                            android:theme="@style/check_box" />
+
                         <CheckBox
+                            android:id="@+id/check_female"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1.5"
-                            android:textSize="14sp"
                             android:text="@string/female"
                             android:textColor="@color/black"
-                            android:theme="@style/check_box"
-                            />
+                            android:textSize="14sp"
+                            android:theme="@style/check_box" />
 
 
                     </LinearLayout>
@@ -110,484 +115,611 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:orientation="horizontal"
-                        android:weightSum="3"
-                        >
+                        android:weightSum="3">
 
                         <TextView
-                            android:layout_gravity="center_vertical"
                             android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_weight="1"
                             android:text="@string/qualification"
-                            android:textSize="14sp"
-                            android:textColor="@color/black"
                             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                            android:layout_height="wrap_content"/>
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
 
                         <RelativeLayout
                             android:layout_width="0dp"
                             android:layout_height="30dp"
-                            android:background="@color/appConfigurationBg"
-                            android:layout_weight="2">
-                            <androidx.appcompat.widget.AppCompatSpinner
+                            android:layout_weight="2"
+                            android:background="@color/appConfigurationBg">
+                            <!--                            <androidx.appcompat.widget.AppCompatSpinner-->
+                            <!--                                android:id="@+id/spinner_qualification"-->
+                            <!--                                android:layout_width="match_parent"-->
+                            <!--                                android:layout_height="match_parent"-->
+                            <!--                                app:backgroundTint="@color/black"-->
+
+                            <!--                                />-->
+
+                            <TextView
+                                android:id="@+id/txt_select_qua"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                app:backgroundTint="@color/black"
+                                android:padding="5dp"
+                                android:textColor="#000000"
+                                android:textColorHint="#000000" />
+
+                            <ImageView
+                                android:layout_width="10dp"
+                                android:layout_height="10dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_margin="10dp"
+                                android:src="@drawable/spin_down_arrow"
 
                                 />
                         </RelativeLayout>
 
                     </LinearLayout>
+
                     <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:orientation="horizontal"
-                        android:weightSum="3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:weightSum="3">
 
                         <TextView
-                            android:layout_gravity="center_vertical"
                             android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_weight="1"
-                            android:textSize="14sp"
                             android:text="@string/speciality"
-                            android:textColor="@color/black"
                             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                            android:layout_height="wrap_content"/>
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
 
 
                         <RelativeLayout
-                            android:layout_height="30dp"
-                            android:background="@color/appConfigurationBg"
                             android:layout_width="0dp"
-                            android:layout_weight="2">
-                            <androidx.appcompat.widget.AppCompatSpinner
+                            android:layout_height="30dp"
+                            android:layout_weight="2"
+                            android:background="@color/appConfigurationBg">
+                            <!--                            <androidx.appcompat.widget.AppCompatSpinner-->
+                            <!--                                android:layout_width="match_parent"-->
+                            <!--                                android:layout_height="match_parent"-->
+                            <!--                                app:backgroundTint="@color/black"-->
+                            <!--                               />-->
+
+                            <TextView
+                                android:id="@+id/txt_select_spec"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                app:backgroundTint="@color/black"
-                               />
+                                android:padding="5dp"
+                                android:textColor="#000000"
+                                android:textColorHint="#000000" />
+
+                            <ImageView
+                                android:layout_width="10dp"
+                                android:layout_height="10dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_margin="10dp"
+                                android:src="@drawable/spin_down_arrow"
+
+                                />
                         </RelativeLayout>
 
 
                     </LinearLayout>
 
                     <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:orientation="horizontal"
-                        android:weightSum="3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:weightSum="3">
 
                         <TextView
-                            android:layout_gravity="center_vertical"
                             android:layout_width="0dp"
-                            android:textSize="14sp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_weight="1"
                             android:text="@string/category"
-                            android:textColor="@color/black"
                             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                            android:layout_height="wrap_content"/>
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
                         <RelativeLayout
-                            android:layout_height="30dp"
-                            android:background="@color/appConfigurationBg"
                             android:layout_width="0dp"
-                            android:layout_weight="2">
-                            <androidx.appcompat.widget.AppCompatSpinner
+                            android:layout_height="30dp"
+                            android:layout_weight="2"
+                            android:background="@color/appConfigurationBg">
+                            <!--                            <androidx.appcompat.widget.AppCompatSpinner-->
+                            <!--                                android:layout_width="match_parent"-->
+                            <!--                                android:layout_height="match_parent"-->
+                            <!--                                app:backgroundTint="@color/black"/>-->
+                            <TextView
+                                android:id="@+id/txt_select_category"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                app:backgroundTint="@color/black"/>
+                                android:padding="5dp"
+                                android:textColor="#000000"
+                                android:textColorHint="#000000" />
+
+                            <ImageView
+                                android:layout_width="10dp"
+                                android:layout_height="10dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_margin="10dp"
+                                android:src="@drawable/spin_down_arrow"
+
+                                />
                         </RelativeLayout>
 
                     </LinearLayout>
+
                     <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:orientation="horizontal"
-                        android:weightSum="3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:visibility="gone"
+                        android:weightSum="3">
 
                         <TextView
-                            android:layout_gravity="center_vertical"
                             android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_weight="1"
-                            android:textSize="14sp"
                             android:text="@string/type"
-                            android:textColor="@color/black"
                             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                            android:layout_height="wrap_content"/>
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
 
                         <RelativeLayout
-                            android:layout_height="30dp"
-                            android:background="@color/appConfigurationBg"
                             android:layout_width="0dp"
-                            android:layout_weight="2">
-                            <androidx.appcompat.widget.AppCompatSpinner
+                            android:layout_height="30dp"
+                            android:layout_weight="2"
+                            android:background="@color/appConfigurationBg">
+                            <!--                            <androidx.appcompat.widget.AppCompatSpinner-->
+                            <!--                                android:layout_width="match_parent"-->
+                            <!--                                android:layout_height="match_parent"-->
+                            <!--                                app:backgroundTint="@color/black"/>-->
+
+                            <TextView
+                                android:id="@+id/txt_select_type"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                app:backgroundTint="@color/black"/>
+                                android:padding="5dp"
+                                android:textColor="#000000"
+                                android:textColorHint="#000000" />
+
+                            <ImageView
+                                android:layout_width="10dp"
+                                android:layout_height="10dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_margin="10dp"
+                                android:src="@drawable/spin_down_arrow"
+
+                                />
                         </RelativeLayout>
                     </LinearLayout>
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginStart="15dp"
-                    android:orientation="vertical"
-                    android:layout_weight="4.25"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_weight="4.25"
+                    android:orientation="vertical">
 
                     <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:orientation="horizontal"
-                        android:weightSum="3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:weightSum="3">
 
                         <TextView
-                            android:layout_gravity="center_vertical"
                             android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_weight="1"
                             android:text="@string/dob"
-                            android:textSize="14sp"
-                            android:textColor="@color/black"
                             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                            android:layout_height="wrap_content"/>
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
 
                         <LinearLayout
-                            android:layout_weight="2"
                             android:layout_width="0dp"
-                            android:weightSum="10"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:weightSum="10">
+
                             <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/et_dobd"
                                 android:layout_width="0dp"
-                                android:layout_weight="3"
-                                android:textSize="14sp"
-                                android:background="@drawable/edit_inline_bg"
                                 android:layout_height="30dp"
+                                android:layout_weight="3"
+                                android:background="@drawable/edit_inline_bg"
+                                android:padding="5dp"
+                                android:textColor="@color/black"
+                                android:textSize="14sp"
                                 tools:ignore="NestedWeights" />
+
                             <androidx.appcompat.widget.AppCompatEditText
-                                android:layout_marginStart="10dp"
+                                android:id="@+id/et_dobm"
                                 android:layout_width="0dp"
-                                android:background="@drawable/edit_inline_bg"
+                                android:layout_height="30dp"
+                                android:layout_marginStart="10dp"
                                 android:layout_weight="3.5"
-                                android:textSize="14sp"
-                                android:layout_height="30dp"/>
+                                android:background="@drawable/edit_inline_bg"
+                                android:padding="5dp"
+                                android:textColor="@color/black"
+                                android:textSize="14sp" />
+
                             <androidx.appcompat.widget.AppCompatEditText
-                                android:layout_marginStart="10dp"
+                                android:id="@+id/et_doby"
                                 android:layout_width="0dp"
-                                android:textSize="14sp"
-                                android:background="@drawable/edit_inline_bg"
+                                android:layout_height="30dp"
+                                android:layout_marginStart="10dp"
                                 android:layout_weight="3.5"
-                                android:layout_height="30dp"/>
+                                android:background="@drawable/edit_inline_bg"
+                                android:padding="5dp"
+                                android:textColor="@color/black"
+                                android:textSize="14sp" />
 
                         </LinearLayout>
 
                     </LinearLayout>
+
                     <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:orientation="horizontal"
-                        android:weightSum="3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:weightSum="3">
 
                         <TextView
-                            android:layout_gravity="center_vertical"
                             android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_weight="1"
-                            android:textSize="14sp"
                             android:text="@string/dow"
-                            android:textColor="@color/black"
                             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                            android:layout_height="wrap_content"/>
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
 
                         <LinearLayout
-                            android:layout_weight="2"
                             android:layout_width="0dp"
-                            android:weightSum="10"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:weightSum="10">
+
                             <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/et_dowd"
                                 android:layout_width="0dp"
-                                android:layout_weight="3"
-                                android:textSize="14sp"
-                                android:background="@drawable/edit_inline_bg"
                                 android:layout_height="30dp"
+                                android:layout_weight="3"
+                                android:background="@drawable/edit_inline_bg"
+                                android:padding="5dp"
+                                android:textColor="@color/black"
+                                android:textSize="14sp"
                                 tools:ignore="NestedWeights" />
+
                             <androidx.appcompat.widget.AppCompatEditText
-                                android:layout_marginStart="10dp"
+                                android:id="@+id/et_dowm"
                                 android:layout_width="0dp"
-                                android:background="@drawable/edit_inline_bg"
+                                android:layout_height="30dp"
+                                android:layout_marginStart="10dp"
                                 android:layout_weight="3.5"
-                                android:textSize="14sp"
-                                android:layout_height="30dp"/>
+                                android:background="@drawable/edit_inline_bg"
+                                android:padding="5dp"
+                                android:textColor="@color/black"
+                                android:textSize="14sp" />
+
                             <androidx.appcompat.widget.AppCompatEditText
-                                android:layout_marginStart="10dp"
+                                android:id="@+id/et_dowy"
                                 android:layout_width="0dp"
-                                android:textSize="14sp"
-                                android:background="@drawable/edit_inline_bg"
+                                android:layout_height="30dp"
+                                android:layout_marginStart="10dp"
                                 android:layout_weight="3.5"
-                                android:layout_height="30dp"/>
+                                android:background="@drawable/edit_inline_bg"
+                                android:padding="5dp"
+                                android:textColor="@color/black"
+                                android:textSize="14sp" />
 
                         </LinearLayout>
-
 
 
                     </LinearLayout>
 
 
                     <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:orientation="horizontal"
-                        android:weightSum="3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:weightSum="3">
 
                         <TextView
-                            android:layout_gravity="center_vertical"
                             android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_weight="1"
                             android:text="@string/district"
-                            android:textColor="@color/black"
-                            android:textSize="14sp"
                             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                            android:layout_height="wrap_content"/>
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
 
                         <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                            android:id="@+id/at_district"
                             android:layout_width="0dp"
+                            android:layout_height="30dp"
                             android:layout_weight="2"
-                            android:textSize="14sp"
                             android:background="@drawable/edit_inline_bg"
-                            android:layout_height="30dp"/>
+                            android:padding="5dp"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
 
                     </LinearLayout>
+
                     <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:orientation="horizontal"
-                        android:weightSum="3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:weightSum="3">
 
                         <TextView
-                            android:layout_gravity="center_vertical"
                             android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_weight="1"
                             android:text="@string/city"
-                            android:textSize="14sp"
-                            android:textColor="@color/black"
                             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                            android:layout_height="wrap_content"/>
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
 
                         <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                             android:layout_width="0dp"
+                            android:layout_height="30dp"
                             android:layout_weight="2"
-                            android:textSize="14sp"
                             android:background="@drawable/edit_inline_bg"
-                            android:layout_height="30dp"/>
+                            android:padding="5dp"
+                            android:textSize="14sp" />
 
                     </LinearLayout>
+
                     <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:orientation="horizontal"
-                        android:weightSum="3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:visibility="gone"
+                        android:weightSum="3">
 
                         <TextView
-                            android:layout_gravity="center_vertical"
                             android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_weight="1"
                             android:text=""
-                            android:textSize="14sp"
-                            android:textColor="@color/black"
                             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                            android:layout_height="wrap_content"/>
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
 
                         <RelativeLayout
-                            android:layout_height="30dp"
-                            android:background="@color/grey_light"
                             android:layout_width="0dp"
-                            android:layout_weight="2">
+                            android:layout_height="30dp"
+                            android:layout_weight="2"
+                            android:background="@color/grey_light">
+
                             <androidx.appcompat.widget.AppCompatSpinner
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                app:backgroundTint="@color/black"/>
+                                app:backgroundTint="@color/black" />
                         </RelativeLayout>
 
                     </LinearLayout>
 
                 </LinearLayout>
+
                 <LinearLayout
-                    android:layout_marginStart="5dp"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
-                    android:layout_weight="1.5"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1.5"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
 
                     <ImageView
-                        android:layout_marginTop="20dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_height="150dp"
                         android:layout_width="match_parent"
+                        android:layout_height="150dp"
                         android:layout_gravity="center"
-                        android:background="@color/appConfigurationBg"
-                        />
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@color/appConfigurationBg" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
-                android:padding="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:background="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:orientation="vertical"
+                android:padding="15dp">
+
                 <TextView
-                    android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:text="@string/address_details"
-                    android:textSize="20sp"
-                    android:textColor="@color/black"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                    android:layout_height="wrap_content"/>
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
 
                 <View
-                    android:layout_marginTop="10dp"
-                    android:background="@color/grey_light"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"/>
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/grey_light" />
 
                 <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:orientation="horizontal"
-                    android:weightSum="5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:weightSum="5">
 
                     <TextView
-                        android:layout_gravity="center_vertical"
                         android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:text="@string/main_address"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"
                         android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                        android:layout_height="wrap_content"/>
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
 
                     <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        android:id="@+id/at_addr"
                         android:layout_width="0dp"
+                        android:layout_height="30dp"
                         android:layout_weight="4"
-                        android:textSize="14sp"
                         android:background="@drawable/edit_inline_bg"
-                        android:layout_height="30dp"/>
+                        android:padding="5dp"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
                 </LinearLayout>
+
                 <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:orientation="horizontal"
-                    android:weightSum="5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:weightSum="5">
 
                     <TextView
-                        android:layout_gravity="center_vertical"
                         android:layout_width="0dp"
-                        android:textSize="14sp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:text="@string/mobile"
-                        android:textColor="@color/black"
                         android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                        android:layout_height="wrap_content"/>
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
 
                     <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        android:id="@+id/at_mobile"
                         android:layout_width="0dp"
-                        android:textSize="14sp"
+                        android:layout_height="30dp"
                         android:layout_weight="1.5"
-                        android:inputType="phone"
                         android:background="@drawable/edit_inline_bg"
-                        android:layout_height="30dp"/>
+                        android:inputType="phone"
+                        android:padding="5dp"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
                     <TextView
-                        android:layout_gravity="center_vertical"
                         android:layout_width="0dp"
-                        android:textSize="14sp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="15dp"
                         android:layout_weight=".8"
                         android:text="@string/phone"
-                        android:layout_marginStart="15dp"
-
-                        android:textColor="@color/black"
                         android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                        android:layout_height="wrap_content"/>
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
 
                     <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        android:id="@+id/at_phone"
                         android:layout_width="0dp"
-                        android:inputType="phone"
+                        android:layout_height="30dp"
                         android:layout_weight="1.2"
-                        android:textSize="14sp"
                         android:background="@drawable/edit_inline_bg"
-                        android:layout_height="30dp"/>
+                        android:inputType="phone"
+                        android:padding="5dp"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
                 </LinearLayout>
+
                 <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:orientation="horizontal"
-                    android:weightSum="5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:weightSum="5">
 
                     <TextView
-                        android:textSize="14sp"
-                        android:layout_gravity="center_vertical"
                         android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:text="@string/e_mail"
-                        android:textColor="@color/black"
                         android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                        android:layout_height="wrap_content"/>
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
 
                     <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        android:id="@+id/at_email"
                         android:layout_width="0dp"
+                        android:layout_height="30dp"
                         android:layout_weight="1.5"
-                        android:inputType="phone"
-                        android:textSize="14sp"
                         android:background="@drawable/edit_inline_bg"
-                        android:layout_height="30dp"/>
+                        android:inputType="phone"
+                        android:padding="5dp"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
-                 <LinearLayout
-                android:orientation="vertical"
-                android:padding="15dp"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:background="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:orientation="vertical"
+                android:padding="15dp">
+
                 <TextView
-                    android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:text="@string/additional_details"
-                    android:textSize="20sp"
-                    android:textColor="@color/black"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                    android:layout_height="wrap_content"/>
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
 
                 <View
-                    android:layout_marginTop="10dp"
-                    android:background="@color/grey_light"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"/>
-                 </LinearLayout>
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/grey_light" />
+
+
+                <ListView
+                    android:id="@+id/list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white" />
+            </LinearLayout>
+
+
+
 
         </LinearLayout>
-
-
-
-<!--</ScrollView>-->
+    </ScrollView>
+    </RelativeLayout>
     <Button
         android:layout_width="155dp"
         android:layout_height="30dp"
-        android:id="@+id/tvSubmit"
+        android:id="@+id/btn_Submit"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:background="@color/colorPrimary"
