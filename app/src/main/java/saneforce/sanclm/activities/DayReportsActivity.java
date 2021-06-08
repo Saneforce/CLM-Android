@@ -91,7 +91,6 @@ public class DayReportsActivity extends AppCompatActivity {
     String[] ar={"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
     TextView txt_dr,txt_chm,txt_stk,txt_udr,txt_cip;
     LinearLayout lay_ul,lay_dr,lay_chm,lay_stk,lay_cip;
-    TextView txt_dr,txt_chm,txt_stk,txt_udr;
     String language;
     Context context;
     Resources resources;

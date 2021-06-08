@@ -423,5 +423,18 @@
     <string name="add_selct">Seleção Adicional de Médico</string>
     <string name="joint_selct">Seleção de Trabalho Conjunto</string>
     <string name="prodct_selct">Seleção de Produtos</string>
+    <string name="tourplan_entry">Entrada do plano de turismo</string>
+    <string name="feedback_details">detalhes de feedback</string>
+    <string name="feedback_here">Feedback aqui</string>
+    <string name="duration">Duração</string>
+    <string name="current_month">Mês atual</string>
+    <string name="next_month">Próximo mês</string>
+    <string name="search_unlisted_doctor">Pesquisar médico não listado</string>
+    <string name="unlisted_doctor_selection">Seleção de médico não listada</string>
+    <string name="additional_doctor">Médico Adicional</string>
+    <string name="select_the_category">Selecione a categoria</string>
+    <string name="select_the_territory">Selecione o Território</string>
+    <string name="pincode">Pincode</string>
+    <string name="add_chemist">Adicionar Químico</string>
 
 </resources>

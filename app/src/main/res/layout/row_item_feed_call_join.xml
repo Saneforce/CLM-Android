@@ -12,7 +12,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Jointwork"
+            android:text="@string/jointwork"
             android:layout_marginTop="15dp"
             android:textColor="#b1aeae"
             android:fontFamily="@font/poppins_medium"

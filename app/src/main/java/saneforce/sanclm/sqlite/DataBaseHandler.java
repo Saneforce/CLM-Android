@@ -299,7 +299,7 @@ public class DataBaseHandler {
         public static final String TABLE_CIP_MASTER_DETAILS ="Cip_Master";
         //public static final String COLUMN_SF_CODE = "sfCode";               //0
         public static final String COLUMN_CIP_ID = "Id";           //1
-        public static final String COLUMN_NAME = "Name";           //2
+        public static final String COLUMN_CIP_NAME = "Name";           //2
         public static final String COLUMN_HOSPITAL_CODE = "Hosp_code";  //3
         public static final String COLUMN_HOSPITAL_NAME = "Hosp_Name";  //4
         public static final String COLUMN_CIP_TOWN_CODE = "Cip_twncd";    //5
@@ -756,7 +756,7 @@ public class DataBaseHandler {
         ContentValues values = new ContentValues();
         values.put(TableEntry.COLUMN_SF_CODE, sfCode);
         values.put(TableEntry.COLUMN_CIP_ID, id);
-        values.put(TableEntry.COLUMN_NAME, name);
+        values.put(TableEntry.COLUMN_CIP_NAME, name);
         values.put(TableEntry.COLUMN_HOSPITAL_CODE, hoscode);
         values.put(TableEntry.COLUMN_HOSPITAL_NAME, hosname);
         values.put(TableEntry.COLUMN_CIP_TOWN_CODE, cipTwnCd);

@@ -249,7 +249,6 @@ public class FeedbackActivity extends AppCompatActivity {
             availLayout.setVisibility(View.VISIBLE);
             btn_brand_audit.setVisibility(View.VISIBLE);
             addcalllayout.setVisibility(View.GONE);
-
         }
 
        else  if(RcpaNeeded.equals("1")&&feedOption.equals("dr")){

@@ -420,7 +420,19 @@
     <string name="add_selct">Additional Doctor Selection</string>
     <string name="joint_selct">Joint Work Selection</string>
     <string name="prodct_selct">Products Selection</string>
-
+    <string name="tourplan_entry">Tourplan Entry</string>
+    <string name="feedback_details">Feedback Details</string>
+    <string name="feedback_here">Feedback here</string>
+    <string name="duration">Duration</string>
+    <string name="current_month">Current Month</string>
+    <string name="next_month">Next Month</string>
+    <string name="search_unlisted_doctor">Search UNListed Doctor</string>
+    <string name="unlisted_doctor_selection">UnListed Doctor Selection</string>
+    <string name="additional_doctor">Additional Doctor</string>
+    <string name="select_the_category">Select the Category</string>
+    <string name="select_the_territory">Select the Territory</string>
+    <string name="pincode">Pincode</string>
+    <string name="add_chemist">Add Chemist</string>
 
 
 </resources>

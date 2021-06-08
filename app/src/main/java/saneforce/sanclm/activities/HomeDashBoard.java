@@ -291,8 +291,6 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_homepage);
-
         SharedPreferences sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         language = sharedPreferences.getString(language_string, "");
         if (!language.equals("")){
@@ -305,6 +303,9 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             context = LocaleHelper.setLocale(HomeDashBoard.this, "en");
             resources = context.getResources();
         }
+
+        setContentView(R.layout.activity_new_homepage);
+
 
         CommonUtilsMethods = new CommonUtilsMethods(this);
         dbh = new DataBaseHandler(this);
@@ -398,6 +399,18 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onResume() {
+        SharedPreferences sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        language = sharedPreferences.getString(language_string, "");
+        if (!language.equals("")){
+            Log.d("homelang",language);
+            selected(language);
+            context = LocaleHelper.setLocale(HomeDashBoard.this, language);
+            resources = context.getResources();
+        }else {
+            selected("en");
+            context = LocaleHelper.setLocale(HomeDashBoard.this, "en");
+            resources = context.getResources();
+        }
         CommonUtilsMethods.FullScreencall(this);
         super.onResume();
         registerReceiver(receiver, intentFilter);
@@ -974,7 +987,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         Log.d("checkcurcount", "" + mCursor.getCount());
         if (mCursor.getCount() > 0) {
             while (mCursor.moveToNext()) {
-                if (displayWrk && mCursor.getString(2).equalsIgnoreCase("Field Work")) {
+                if (displayWrk && mCursor.getString(4).equalsIgnoreCase("Y")) {
                 }//other than fieldwork in missed date
                 else {
                     mWorktypeListID.put(mCursor.getString(1), mCursor.getString(2));
@@ -1377,7 +1390,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
         @Override
         public void onFailure(Call<ResponseBody> call, Throwable t) {
-            // Toast.makeText(context, "On Failure " , Toast.LENGTH_LONG).show();
+             Toast.makeText(context, "On Failure " +t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
         }
     };
 
@@ -2451,7 +2464,10 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                             mCommonSharedPreference.setValueToPreference("DrInpMd", "");
 
 
-                        mCommonSharedPreference.setValueToPreference("cipcap", jsonn.getString("CIP_Caption"));
+                        if (jsonn.has("cipcap"))
+                            mCommonSharedPreference.setValueToPreference("cipcap", jsonn.getString("CIP_Caption"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("cipcap", "");
 
                         if (jsonn.has("cip_need"))
                             mCommonSharedPreference.setValueToPreference("cip_need", jsonn.getString("cip_need"));
@@ -2466,6 +2482,12 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
                         GpsNeed = jsonn.getString("GeoNeed");
 
+                        //availableAdudit Needed
+                        if(jsonn.has("NActivityNeed")) {
+                            mCommonSharedPreference.setValueToPreference("ActivityNeeded", jsonn.getString("NActivityNeed"));
+                        }else {
+                            mCommonSharedPreference.setValueToPreference("ActivityNeeded", "");
+                        }
                         //availableAdudit Needed
                         if(jsonn.has("AvailableAduitNeeded")) {
                             mCommonSharedPreference.setValueToPreference("AvailableAduitNeeded", jsonn.getString("AvailableAduitNeeded"));
@@ -2876,8 +2898,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new CallFragment(), "");
        // adapter.addFrag(new TrainingFragment(), "");
-        adapter.addFrag(new NewTrainingFragment(), "");
-        adapter.addFrag(new NewCallFragment(), "");
+//        adapter.addFrag(new NewTrainingFragment(), "");
+//        adapter.addFrag(new NewCallFragment(), "");
 
         viewPager.setAdapter(adapter);
     }
@@ -2900,9 +2922,9 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                 }
             }
         } else {
-            if (sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("Field Work")) {
+            //if (sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("Field Work")) {
                 CommonUtilsMethods.CommonIntentwithNEwTask(DCRCallSelectionActivity.class);
-            }
+            //}
         }
 
 //            if(wttpeFlag.equals("0"))
@@ -3147,18 +3169,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     }
 
     public void refreshPendingFunction() {
-        SharedPreferences sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        language = sharedPreferences.getString(language_string, "");
-        if (!language.equals("")){
-            Log.d("homelang",language);
-            selected(language);
-            context = LocaleHelper.setLocale(HomeDashBoard.this, language);
-            resources = context.getResources();
-        }else {
-            selected("en");
-            context = LocaleHelper.setLocale(HomeDashBoard.this, "en");
-            resources = context.getResources();
-        }
+
 
         viewpage = (ViewPager) findViewById(R.id.viewpage);
         addTabs(viewpage);
@@ -3250,7 +3261,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         } else {
             //UpdateWrktype();
         }
-        if (mCommonSharedPreference.getValueFromPreference("addAct").equalsIgnoreCase("0"))
+        if (mCommonSharedPreference.getValueFromPreference("ActivityNeeded").equalsIgnoreCase("1"))
             rl_act.setVisibility(View.VISIBLE);
         else
             rl_act.setVisibility(View.INVISIBLE);
@@ -3281,7 +3292,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         mCommonSharedPreference.setValueToPreference("missed", "false");
         mCommonSharedPreference.setValueToPreference("missed_array", "[]");
         mCommonSharedPreference.setValueToPreference("miss_select", "0");
-        mCommonSharedPreference.setValueToPreference("display_brand", "Brand Matrix");
+        mCommonSharedPreference.setValueToPreference("display_brand", getResources().getString(R.string.brandmatrix));
 
         try {
             jsonObject = new JSONObject(jsondata);
@@ -3432,7 +3443,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                 }
 */
                     else {
-                        if (sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("Field Work"))
+                       // if (sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("Field Work"))
                             CommonUtilsMethods.CommonIntentwithNEwTask(DCRCallSelectionActivity.class);
                     }
 
@@ -4260,7 +4271,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Near Me"*/resources.getString(R.string.near_me)));
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Detailing Report"*/resources.getString(R.string.detailing_report)));
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_logout, /*"Logout"*/resources.getString(R.string.logout)));
-        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Dashboard"*/resources.getString(R.string.Dashboard)));
+        //arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Dashboard"*/resources.getString(R.string.Dashboard)));
         // arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, "Target Vs Sales"));
         navAdpt = new NavigationItemAdapter(arrayNav, HomeDashBoard.this);
         nav_list.setAdapter(navAdpt);

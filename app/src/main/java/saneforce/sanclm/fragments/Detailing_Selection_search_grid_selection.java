@@ -522,7 +522,8 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
                                             if(specDrProdCode.contains(ret1))
                                                 FilterBrand=true;
                                         }
-                                        if(FilterBrand) {*//*
+                                        if(FilterBrand) {*/
+                /*
 
                                             // Log.e("CURSOR ",mCursor.getString(1) +"---"+mCursor.getString(0));
                                             _products = new Custom_Products_GridView_Contents(mCursor.getString(1), mCursor.getString(0), mCursor.getString(5), mCursor.getString(2),
@@ -797,7 +798,7 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
             JSONArray ProductBrdWiseSlidesArray = new JSONArray();
             len_slide = 0;
 
-            if (DetailingTrackerPOJO.getmDetListview_Selection().equalsIgnoreCase(getResources().getString(R.string.brandmatrix))){
+            if (DetailingTrackerPOJO.getmDetListview_Selection().equalsIgnoreCase(getResources().getString(R.string.spclwise))){
 
                 for (int j = 0; j < BrdCodeArray.size(); j++) {
                     JSONObject ProductBrdSLidesJson = new JSONObject();

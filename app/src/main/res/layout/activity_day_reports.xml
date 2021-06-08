@@ -81,7 +81,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Head quater name"
+                    android:text="@string/headquater"
                     android:textColor="@color/black"
                     android:layout_centerVertical="true"
                     android:textSize="15sp"
@@ -171,7 +171,7 @@
                        <TextView
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
-                           android:text="Doctor"
+                           android:text="@string/doctor"
                            android:textSize="14sp"
                            android:textColor="@color/black"
                            android:textStyle="bold"
@@ -214,7 +214,7 @@
                        <TextView
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
-                           android:text="Chemist"
+                           android:text="@string/chmnm"
                            android:textSize="14sp"
                            android:textColor="@color/black"
                            android:textStyle="bold"
@@ -303,7 +303,7 @@
                        <TextView
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
-                           android:text="Stockist"
+                           android:text="@string/tab_option_stockist"
                            android:textSize="14sp"
                            android:textColor="@color/black"
                            android:textStyle="bold"

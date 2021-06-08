@@ -423,6 +423,19 @@
     <string name="add_selct">Sélection de médecin supplémentaire</string>
     <string name="joint_selct">Sélection du travail conjoint</string>
     <string name="prodct_selct">Sélection de produits</string>
+    <string name="tourplan_entry">Plan de visite Entrée</string>
+    <string name="feedback_details">détails des commentaires</string>
+    <string name="feedback_here">Commentaires ici</string>
+    <string name="duration">Durée</string>
+    <string name="current_month">Mois en cours</string>
+    <string name="next_month">Le mois prochain</string>
+    <string name="search_unlisted_doctor">Rechercher un médecin non répertorié</string>
+    <string name="unlisted_doctor_selection">Sélection de médecins non répertoriés</string>
+    <string name="additional_doctor">Médecin supplémentaire</string>
+    <string name="select_the_category">Sélectionnez la catégorie</string>
+    <string name="select_the_territory">Sélectionnez le territoire</string>
+    <string name="pincode">Code PIN</string>
+    <string name="add_chemist">Ajouter un chimiste</string>
 
 
 </resources>
