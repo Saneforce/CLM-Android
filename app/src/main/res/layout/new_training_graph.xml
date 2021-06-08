@@ -135,9 +135,8 @@
                                     android:layout_marginLeft="10dp"/>
 
                             </LinearLayout>
-
-
                         </RelativeLayout>
+
                     </LinearLayout>
                         <LinearLayout
                           android:layout_margin="5dp"
@@ -339,6 +338,7 @@
                    android:layout_marginRight="5dp"
                    android:elevation="10dp">
                    <TextView
+                       android:id="@+id/timedetail"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:fontFamily="@font/poppins_semibold"
@@ -392,6 +392,7 @@
                    android:layout_marginRight="5dp"
                    android:elevation="10dp">
                    <TextView
+                       android:id="@+id/brandex"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:fontFamily="@font/poppins_semibold"

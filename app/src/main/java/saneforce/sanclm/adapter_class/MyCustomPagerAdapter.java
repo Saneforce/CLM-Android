@@ -12,6 +12,7 @@ import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -230,7 +231,7 @@ public class MyCustomPagerAdapter extends PagerAdapter implements Runnable{
             HelpWebView.swipeTopListener(new WebviewTopSwipe() {
                 @Override
                 public void swipeTop() {
-                    //popupScribbling(4,slideDescribe.get(presentSlidePos).getSlideUrl());
+                    popupScribbling(4,slideDescribe.get(presentSlidePos).getSlideUrl());
                 }
             });
         }catch (Exception e){
@@ -320,6 +321,14 @@ public class MyCustomPagerAdapter extends PagerAdapter implements Runnable{
                 popupScribbling(2,slideDescribe.get(presentSlidePos).getSlideUrl());
             }
         });
+
+
+//        webView.setOnTouchListener(new OnSwipeTouchListener(context,true,slideUrl1){
+//            public void onSwipeTop() {
+//                Log.v("swiping_top","are_clciek");
+//                popupScribbling(4,slideDescribe.get(presentSlidePos).getSlideUrl());
+//            }
+//        });
 
 
 
@@ -917,7 +926,6 @@ case MotionEvent.ACTION_MOVE:
                                         params.leftMargin = 0;
                                         video_view.setLayoutParams(params);
 
-
                                         video_view.setVisibility(View.VISIBLE);
                                         play_btn.setText("Play");
                                         video_view.pause();
@@ -933,12 +941,35 @@ case MotionEvent.ACTION_MOVE:
                                         Log.v("play_btn_ccc11", "Clicked");
                                         video_view.setVisibility(View.VISIBLE);
                                         play_btn.setText("Pause");
+
+                                        video_view.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                                            @Override
+                                            public void onPrepared(MediaPlayer mp) {
+                                                setVideoProgress();
+                                            }
+                                        });
+
                                         video_view.start();
-                                        isPlaying = true;
-                                        seekBar.setMax(video_view.getDuration());
-                                        current_pos = video_view.getDuration();
-                                        Log.v("CurrentPostttt11", String.valueOf(video_view.getDuration()));
-                                        new Thread(rr).start();
+//                                        isPlaying = true;
+//                                        seekBar.setMax(video_view.getDuration());
+//                                        current_pos = video_view.getDuration();
+//                                       Log.v("CurrentPostttt11", String.valueOf(video_view.getDuration()));
+//                                       new Thread(rr).start();
+
+
+//                                    Runnable runnable = new Runnable() {
+//                                        @Override
+//                                        public void run() {
+//                                            try {
+//
+//                                                seekBar.setProgress(video_view.getCurrentPosition());
+//                                                mHandler.postDelayed(this, 1000);
+//                                            } catch (IllegalStateException ed){
+//                                                ed.printStackTrace();
+//                                            }
+//                                        }
+//                                    };
+//                                    mHandler.postDelayed(runnable, 1000);
                    /* if(!isPause) {
 
                     }
@@ -949,33 +980,35 @@ case MotionEvent.ACTION_MOVE:
                         video_view.resume();
                         isPlaying = true;
                     }*/
+
+
                                     }
 
                                 }
                             });
 
-                            seekBar=(SeekBar)itemView.findViewById(R.id.seek_bar);
-
-                            seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
-                                @Override
-                                public void onStopTrackingTouch(SeekBar seekBar) {
-
-                                }
-
-                                @Override
-                                public void onStartTrackingTouch(SeekBar seekBar) {
-
-                                }
-
-                                @Override
-                                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                                    if(video_view != null && fromUser){
-                                        Log.v("seek_progress", String.valueOf(progress));
-                                        video_view.seekTo(progress);
-                                    }
-                                }
-                            });
+                           seekBar=(SeekBar)itemView.findViewById(R.id.seek_bar);
+//
+//                            seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+//
+//                                @Override
+//                                public void onStopTrackingTouch(SeekBar seekBar) {
+//
+//                                }
+//
+//                                @Override
+//                                public void onStartTrackingTouch(SeekBar seekBar) {
+//
+//                                }
+//
+//                                @Override
+//                                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//                                    if(video_view != null && fromUser){
+//                                        Log.v("seek_progress", String.valueOf(progress));
+//                                        video_view.seekTo(progress);
+//                                    }
+//                                }
+//                            });
 
 
                             webView.setVisibility(View.INVISIBLE);
@@ -1000,7 +1033,7 @@ case MotionEvent.ACTION_MOVE:
                             video_view.seekTo(1);
 
                             videoCount++;
-                            new Thread(this).start();
+                            //new Thread(this).start();
                            // seekBar.setMax(video_view.getDuration());
                             Log.v("video_currentPost", String.valueOf(video_view.getDuration()));
                             return itemView;
@@ -1085,12 +1118,59 @@ case MotionEvent.ACTION_MOVE:
                     });
                 }
 
-
             }
         } catch (Exception e) {
-            //Log.v("videoPlayingHeee", e.getMessage());
+            Log.v("videoPlayingHeee", e.getMessage());
             //return;
         }
+    }
+
+    public void setVideoProgress() {
+        //get the video duration
+        current_pos = video_view.getCurrentPosition();
+        double total_duration = video_view.getDuration();
+
+        //display video duration
+
+        seekBar.setMax((int) total_duration);
+        final Handler handler = new Handler();
+
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                try {
+
+                    seekBar.setProgress(video_view.getCurrentPosition());
+                    handler.postDelayed(this, 1000);
+                } catch (IllegalStateException ed) {
+                    ed.printStackTrace();
+                }
+            }
+        };
+        handler.postDelayed(runnable, 1000);
+
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                current_pos = seekBar.getProgress();
+                video_view.seekTo((int) current_pos);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (video_view != null && fromUser) {
+                    Log.v("seek_progress", String.valueOf(progress));
+                    video_view.seekTo(progress);
+                }
+            }
+        });
     }
 
     public interface touchGesture{
@@ -1374,27 +1454,49 @@ case MotionEvent.ACTION_MOVE:
                 }
                 else{
                     Log.v("wehview_sharess",path);
+                    try
+                    {
                         File webfile = new File(path);
-                        Intent intentShareFile = new Intent(Intent.ACTION_SEND);
-                            intentShareFile.setType("application/zip");
+
+                        Log.v("webview_path_arre",webfile.getAbsolutePath());
+                        Uri webUri = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+                            ? FileProvider.getUriForFile(context, context.getPackageName(), webfile)
+                            : Uri.fromFile(webfile);
+                    ShareCompat.IntentBuilder.from(act)
+                            .setStream(webUri)
+                            .setType("application/zip")
+                            .setChooserTitle("Share video...")
+                            .startChooser();
+                }catch (Exception e){
+                    shareImage(photoFile,4);
+                }
+
+//                        Intent intentShareFile = new Intent(Intent.ACTION_SEND);
+//                            intentShareFile.setType("application/zip");
+
                        // intentShareFile.setType("text/*");
                         //intentShareFile.setType(URLConnection.guessContentTypeFromName(webfile.getName()));
-                    Log.v("webview_path_arre",webfile.getAbsolutePath());
+                 //   Log.v("webview_path_arre",webfile.getAbsolutePath());
 /*
                         intentShareFile.putExtra(Intent.EXTRA_STREAM,
                                 Uri.parse("file://"+webfile.getAbsolutePath()));
 */
                         /*intentShareFile.putExtra(Intent.EXTRA_STREAM,
                                 Uri.parse("content://"+webfile.getAbsolutePath()));*/
-                        intentShareFile.putExtra(Intent.EXTRA_STREAM,
-                                Uri.fromFile(webfile));
+
+
+//                        intentShareFile.putExtra(Intent.EXTRA_STREAM,
+//                                webfile);
 
                         //if you need
                         //intentShareFile.putExtra(Intent.EXTRA_SUBJECT,"Sharing File Subject);
                         //intentShareFile.putExtra(Intent.EXTRA_TEXT, "Sharing File Description");
 
-                    context.startActivity(Intent.createChooser(intentShareFile, "Share File"));
-
+//                  context.startActivity(Intent.createChooser(intentShareFile, "Share File"));
+//
+//                    }catch (Exception e){
+//                  shareImage(photoFile,4);
+//              }
 
                 }
 
@@ -1437,6 +1539,8 @@ case MotionEvent.ACTION_MOVE:
                 shareIntent.setType("application/pdf");
             else if(x==3)
                 shareIntent.setType("video/mp4");
+            else if(x==4)
+                shareIntent.setType("application/zip");
 
             context.startActivity(Intent.createChooser(shareIntent, "Choose an app"));
         }

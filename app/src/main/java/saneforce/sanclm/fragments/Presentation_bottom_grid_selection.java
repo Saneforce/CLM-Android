@@ -149,31 +149,31 @@ public class Presentation_bottom_grid_selection  extends Fragment implements Vie
                 Cursor mCursor = dbh.select_distinct_PresentationName(svPresentationNm);
                 if (mCursor.getCount() > 0) {
                     while (mCursor.moveToNext()) {
-                        Toast.makeText(getActivity(), "Already saved presentation !! please enter different Name..", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.alert_already), Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     if (svPresentationNm.equals("") || svPresentationNm.equals("1")) {
                         if(svPresentationNm.equals("1"))
-                        Toast.makeText(getActivity(), "Please Enter Presentaion Name not as 1 !", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.alert_entr_presnt), Toast.LENGTH_LONG).show();
                         else
-                            Toast.makeText(getActivity(), "Please Enter Presentation Name !", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), getResources().getString(R.string.alert_presentnm), Toast.LENGTH_LONG).show();
                     } else {
                         //mDo_Action_Bar_Action(Action_Save, "Do you want to Save presentation?");
-                        popupAlert(1,"Do you want to Save presentation?");
+                        popupAlert(1,getResources().getString(R.string.save_present));
                     }
                 }
                 break;
 
             case R.id.btn_delPresentation:
                 //mDo_Action_Bar_Action(Action_Update, "Do you want to update presentation?");
-                popupAlert(2,"Do you want to update presentation?");
+                popupAlert(2,getResources().getString(R.string.update_present));
 
                 break;
 
                 case R.id.btn_delete:
 
                 //mDo_Action_Bar_Action(Action_Delete, "Do you want to delete presentation?");
-                    popupAlert(3,"Do you want to delete presentation?");
+                    popupAlert(3,getResources().getString(R.string.delete_present));
 
                 break;
 
@@ -281,12 +281,12 @@ public class Presentation_bottom_grid_selection  extends Fragment implements Vie
                             id = dbh.update_presentation_mapping_name(svPresentationNm);
                             //Log.d("Products presentation save",String.valueOf(id));
                             if(id == 0){
-                                Toast.makeText(getActivity(), "Select Products for Mapping!!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity(), getResources().getString(R.string.prd_mappg), Toast.LENGTH_LONG).show();
                                 CommonUtilsMethods.FullScreencall(getActivity());
                             }else{
-                               String SaveMessage ="Saved Successfully";
-                                builder = new AlertDialog.Builder(getActivity()).setTitle("Alert").
-                                        setMessage(SaveMessage).setPositiveButton("OK",
+                               String SaveMessage =getResources().getString(R.string.saved_sucs);
+                                builder = new AlertDialog.Builder(getActivity()).setTitle(getResources().getString(R.string.alert)).
+                                        setMessage(SaveMessage).setPositiveButton(getResources().getString(R.string.ok),
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
                                                 dialog.dismiss();
@@ -306,7 +306,7 @@ public class Presentation_bottom_grid_selection  extends Fragment implements Vie
                         dbh.delete_groupName(mDetailingTrackerPOJO.getmPrsn_svName());
                         savePresentation.saveDetail();
                         id = dbh.update_presentation_mapping_name(svPresentationNm);
-                        Toast.makeText(getActivity(), "Updated presentation successfully!!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.upd_prest_success), Toast.LENGTH_LONG).show();
                         mCommonSharedPreference.setValueToPreference("presentationList",false);
                         dbh.close();
 
@@ -325,9 +325,9 @@ public class Presentation_bottom_grid_selection  extends Fragment implements Vie
 
                     case Action_Delete:
                         mCommonSharedPreference.setValueToPreference("presentationList",false);
-                        String alertMessage ="Deleted Successfully";
-                        builder = new AlertDialog.Builder(getActivity()).setTitle("Alert").
-                                setMessage(alertMessage).setPositiveButton("OK",
+                        String alertMessage =getResources().getString(R.string.del_sucs);
+                        builder = new AlertDialog.Builder(getActivity()).setTitle(getResources().getString(R.string.alert)).
+                                setMessage(alertMessage).setPositiveButton(getResources().getString(R.string.ok),
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
@@ -341,7 +341,7 @@ public class Presentation_bottom_grid_selection  extends Fragment implements Vie
                         break;
                 }
             }
-        }).setNegativeButton("Cancel",
+        }).setNegativeButton(getResources().getString(R.string.cancel),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
@@ -380,10 +380,10 @@ public class Presentation_bottom_grid_selection  extends Fragment implements Vie
                             id = dbh.update_presentation_mapping_name(svPresentationNm);
                             //Log.d("Products presentation save",String.valueOf(id));
                             if(id == 0){
-                                Toast.makeText(getActivity(), "Select Products for Mapping!!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity(), getResources().getString(R.string.prd_mappg), Toast.LENGTH_LONG).show();
                                 CommonUtilsMethods.FullScreencall(getActivity());
                             }else{
-                                Toast.makeText(getActivity(), "Successfully Saved", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity(), getResources().getString(R.string.saved_sucs), Toast.LENGTH_LONG).show();
 
                                 CommonUtilsMethods.CommonIntentwithNEwTask(PresentationCreationMainActivity.class);}
 
@@ -400,7 +400,7 @@ public class Presentation_bottom_grid_selection  extends Fragment implements Vie
                         dbh.delete_groupName(mDetailingTrackerPOJO.getmPrsn_svName());
                         savePresentation.saveDetail();
                         id = dbh.update_presentation_mapping_name(svPresentationNm);
-                        Toast.makeText(getActivity(), "Updated presentation successfully!!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.upd_prest_success), Toast.LENGTH_LONG).show();
                         dbh.close();
                         dialog.dismiss();
                         commonFun();
@@ -487,7 +487,7 @@ public class Presentation_bottom_grid_selection  extends Fragment implements Vie
                 btn_delPresentation.setVisibility(View.VISIBLE);
                 btn_cancel.setVisibility(View.VISIBLE);
                 btn_delete.setVisibility(View.VISIBLE);
-                btn_delPresentation.setText("Update");
+                btn_delPresentation.setText(getResources().getString(R.string.update));
                 mCommonSharedPreference.setValueToPreference("presentationList",true);
                 et_svPresentation.setText(parent.getItemAtPosition(position).toString());
                 update_fragmentPresn_selection(parent.getItemAtPosition(position).toString());

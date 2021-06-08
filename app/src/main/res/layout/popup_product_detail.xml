@@ -21,7 +21,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="SAN Digital Detailing"
+                    android:text="@string/sandigital"
                     android:textColor="#000000"
                     android:textSize="14sp"
                     android:fontFamily="@font/poppins_medium"
@@ -33,7 +33,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Do you want Cancel this call without"
+                    android:text="@string/alertmsg"
                     android:textColor="#000000"
                     android:textSize="12sp"
                     android:fontFamily="@font/poppins_medium"
@@ -45,7 +45,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Submit Call"
+                    android:text="@string/aleretmsg1"
                     android:textColor="#000000"
                     android:textSize="12sp"
                     android:fontFamily="@font/poppins_medium"
@@ -69,7 +69,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Save Draft"
+                android:text="@string/savedft"
                 android:textColor="#1c79c6"
                 android:textSize="14sp"
                 android:id="@+id/txt_save"
@@ -92,7 +92,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ok"
+                android:text="@string/ok"
                 android:textColor="#1c79c6"
                 android:textSize="14sp"
                 android:fontFamily="@font/poppins_medium"
@@ -114,7 +114,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cancel"
+                android:text="@string/cancel"
                 android:textColor="#1c79c6"
                 android:textSize="14sp"
                 android:fontFamily="@font/poppins_medium"

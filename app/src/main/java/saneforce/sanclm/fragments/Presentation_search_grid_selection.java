@@ -256,7 +256,7 @@ public class Presentation_search_grid_selection extends Fragment implements Adap
                             list_order.add(mCursor.getString(5));
                         }
                     }else{
-                        Toast.makeText(getActivity(), "No Products available", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.noprdavailable), Toast.LENGTH_LONG).show();
                     }
 
             prdctNaming.clear();
@@ -384,9 +384,9 @@ public class Presentation_search_grid_selection extends Fragment implements Adap
 
     public void displayItems(){
         listViewItems.clear();
-        listViewItems.add("Brand Matrix");
-        listViewItems.add("Speciality Wise");
-        listViewItems.add("All Brands");
+        listViewItems.add(getResources().getString(R.string.brandmatrix));
+        listViewItems.add(getResources().getString(R.string.speciality));
+        listViewItems.add(getResources().getString(R.string.allbrand));
         lv_brdmatrix_list.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.listview_items, listViewItems));
         lv_brdmatrix_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

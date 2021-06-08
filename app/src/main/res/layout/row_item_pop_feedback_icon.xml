@@ -38,7 +38,7 @@
                 <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Feedback Details"
+                android:text="@string/feedback_details"
                 android:textColor="#000000"
                 android:textSize="16sp"
                 android:layout_centerVertical="true"
@@ -60,7 +60,7 @@
                     android:background="@null"
                     android:id="@+id/edt_feed"
                     android:textColor="#000000"
-                    android:hint="Feedback here"
+                    android:hint="@string/feedback_here"
                     android:textColorHint="#C2C0C0"/>
 
             </LinearLayout>
@@ -87,7 +87,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Duration "
+                        android:text="@string/duration"
                         android:textColor="#000000"
                         android:textSize="16sp"
                         android:fontFamily="@font/poppins_medium"
@@ -100,7 +100,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Feedback Details"
+                        android:text="@string/feedback_details"
                         android:textColor="#c6c4c4"
                         android:textSize="16sp"
                         android:fontFamily="@font/poppins_medium"

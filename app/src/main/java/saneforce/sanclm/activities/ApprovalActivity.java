@@ -36,7 +36,7 @@ import saneforce.sanclm.applicationCommonFiles.CommonUtilsMethods;
 import saneforce.sanclm.applicationCommonFiles.DownloadMasters;
 
 public class ApprovalActivity extends AppCompatActivity {
-    ListView list_view;
+    ListView list_view; //test
     CommonSharedPreference mCommonSharedPreference;
     String db_connPath;
     Api_Interface apiService;

@@ -1,15 +1,21 @@
 package saneforce.sanclm.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
 
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import java.util.Locale;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -18,10 +24,14 @@ import saneforce.sanclm.R;
 import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
 import saneforce.sanclm.applicationCommonFiles.CommonUtils;
 import saneforce.sanclm.applicationCommonFiles.CommonUtilsMethods;
+import saneforce.sanclm.fragments.LocaleHelper;
 import saneforce.sanclm.fragments.Presentation_bottom_grid_selection;
 import saneforce.sanclm.fragments.Presentation_recycler_item;
 import saneforce.sanclm.fragments.Presentation_search_grid_selection;
 import saneforce.sanclm.sqlite.DataBaseHandler;
+
+import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
+import static saneforce.sanclm.fragments.AppConfiguration.language_string;
 
 public class PresentationCreationMainActivity extends FragmentActivity implements View.OnClickListener,Presentation_search_grid_selection.Communicator,
         Presentation_bottom_grid_selection.Communicator1{
@@ -34,7 +44,9 @@ public class PresentationCreationMainActivity extends FragmentActivity implement
    LinearLayout linearLayout;
     static boolean CustomDetail=false;
     CommonSharedPreference commonSharedPreference;
-
+    String language;
+    Context context;
+    Resources resources;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +56,20 @@ public class PresentationCreationMainActivity extends FragmentActivity implement
         commonSharedPreference=new CommonSharedPreference(this);
         commonSharedPreference.setValueToPreference("present","yes");
         setContentView(R.layout.activity_presentation_creation_main);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        language = sharedPreferences.getString(language_string, "");
+        if (!language.equals("")){
+            Log.d("homelang",language);
+            selected(language);
+            context = LocaleHelper.setLocale(PresentationCreationMainActivity.this, language);
+            resources = context.getResources();
+        }else {
+            selected("en");
+            context = LocaleHelper.setLocale(PresentationCreationMainActivity.this, "en");
+            resources = context.getResources();
+        }
+
         mDetailingTrackerPOJO.setmPrsn_svName("");
         iv_back = (ImageView)  findViewById(R.id.iv_back);
         linearLayout=(LinearLayout)findViewById(R.id.ll_anim);
@@ -58,6 +84,15 @@ public class PresentationCreationMainActivity extends FragmentActivity implement
        // Log.e("PDT MAPP ",mCursor.getString(4) +"---"+mCursor.getString(7)  );
         }
         commonFun();
+    }
+
+    private void selected(String language) {
+        Locale myLocale = new Locale(language);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
     }
 
     @Override

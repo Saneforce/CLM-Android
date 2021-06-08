@@ -4,9 +4,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -27,6 +30,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -39,7 +43,11 @@ import saneforce.sanclm.api_Interface.Api_Interface;
 import saneforce.sanclm.api_Interface.RetroClient;
 import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
 import saneforce.sanclm.applicationCommonFiles.CommonUtils;
+import saneforce.sanclm.fragments.LocaleHelper;
 import saneforce.sanclm.sqlite.DataBaseHandler;
+
+import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
+import static saneforce.sanclm.fragments.AppConfiguration.language_string;
 
 public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCalls_recyclerviewAdapter.MyViewHolder> {
 
@@ -52,6 +60,9 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
     String db_connPath,SF_Code;
     ProgressDialog progressDialog=null;
     Api_Interface apiService;
+    String language;
+//    Context context;
+    Resources resources;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView DrName, DrVst;
@@ -93,6 +104,19 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
         public void onBindViewHolder(final TodayCalls_recyclerviewAdapter.MyViewHolder holder, final int position) {
             final Custom_Todaycalls_contents tdaycall = custom_todaycalls_contents.get(position);
 
+            SharedPreferences sharedPreferences = context.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+            language = sharedPreferences.getString(language_string, "");
+            if (!language.equals("")){
+                Log.d("homelang",language);
+                selected(language);
+                context = LocaleHelper.setLocale(context, language);
+                resources = context.getResources();
+            }else {
+                selected("en");
+                context = LocaleHelper.setLocale(context, "en");
+                resources = context.getResources();
+            }
+
 
              dr_name=tdaycall.getDrName();
             visitTime=tdaycall.getVstDt();
@@ -101,10 +125,12 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
                     holder.iv_edit.setVisibility(View.VISIBLE);
 
                     String value =mCommonSharedPreference.getValueFromPreference("showDelete");
+                    Log.v("delete_val",value);
 
                     if(value.equals("null")){
                         value ="0";
                     }
+
 
                     if(value.equalsIgnoreCase("0"))
                     holder.iv_del.setVisibility(View.VISIBLE);
@@ -187,6 +213,8 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
                                 typ="D";
                             else if(tdaycall.getVstTyp().equalsIgnoreCase("2"))
                                 typ="C";
+                            else if(tdaycall.getVstTyp().equalsIgnoreCase("6"))
+                                typ="I";
                             else
                                 typ="";
                             if(mCommonSharedPreference.getValueFromPreference("feed_pob").contains(typ))
@@ -224,6 +252,8 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
                                             edit.putString("type","C");
                                         else if(tdaycall.getVstTyp().equalsIgnoreCase("4"))
                                             edit.putString("type","U");
+                                        else if(tdaycall.getVstTyp().equalsIgnoreCase("6"))
+                                            edit.putString("type","I");
                                         else
                                             edit.putString("type","S");
                                         edit.putString("common",SF_Code);
@@ -299,7 +329,7 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
                                             dbh.del_json();
                                             dbh.close();
                                             custom_todaycalls_contents.remove(position);
-                                            HomeDashBoard.tv_todaycall_count.setText("Total " + custom_todaycalls_contents.size() + " Calls");
+                                            HomeDashBoard.tv_todaycall_count.setText(resources.getString(R.string.total)+" "+ custom_todaycalls_contents.size() + " "+resources.getString(R.string.calls));
                                             notifyDataSetChanged();
                                         }
                                         else
@@ -324,7 +354,7 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
                         dbh.del_json();
                         dbh.close();
                         custom_todaycalls_contents.remove(position);
-                        HomeDashBoard.tv_todaycall_count.setText("Total " + custom_todaycalls_contents.size() + " Calls");
+                        HomeDashBoard.tv_todaycall_count.setText(resources.getString(R.string.total)+" " + custom_todaycalls_contents.size() + " "+resources.getString(R.string.calls));
 
                     }
                     notifyDataSetChanged();
@@ -333,8 +363,17 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
             //   holder.DrCallSync.setText(movie.getYear());
         }
 
+    private void selected(String language) {
+        Locale myLocale = new Locale(language);
+        Resources res = context.getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+    }
 
-        @Override
+
+    @Override
         public int getItemCount() {
             return custom_todaycalls_contents.size();
         }

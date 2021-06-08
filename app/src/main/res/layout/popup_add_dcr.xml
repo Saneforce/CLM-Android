@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Additional Doctor"
+            android:text="@string/additional_doctor"
             android:padding="12dp"
             android:textColor="#ffffff"
             android:textSize="18sp"/>
@@ -39,7 +39,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Doctor Name"
+            android:text="@string/docnm"
             android:layout_marginTop="15dp"
             android:textColor="#000000"
             android:id="@+id/txt_dr"/>
@@ -72,9 +72,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Qualification  * "
+                        android:text="@string/qualifications"
                         android:layout_marginTop="15dp"
-                        android:textColor="#000000"
+                        android:textColor="#ff0000"
                         android:id="@+id/txt_qua"
                         />
 
@@ -85,7 +85,7 @@
                         android:id="@+id/txt_select_qua"
                         android:padding="8dp"
                         android:textColor="#000000"
-                        android:hint="Select the Qualification"
+                        android:hint="@string/sclt_qualy"
                         android:textColorHint="#000000"
                         android:background="@drawable/shape_white_grey"
                         android:layout_below="@+id/txt_qua"
@@ -102,9 +102,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Category  * "
+                        android:text="@string/catogy"
                         android:layout_marginTop="10dp"
-                        android:textColor="#000000"
+                        android:textColor="#ff0000"
                         android:id="@+id/txt_category"
                         android:layout_below="@+id/txt_select_qua"
                         />
@@ -112,7 +112,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Select the Category"
+                        android:hint="@string/select_the_category"
                         android:textColorHint="#000000"
                         android:layout_marginTop="10dp"
                         android:textColor="#000000"
@@ -143,16 +143,16 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Class  * "
+                        android:text="@string/clases"
                         android:layout_marginTop="15dp"
-                        android:textColor="#000000"
+                        android:textColor="#ff0000"
                         android:id="@+id/txt_class"
                         />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Select the Class"
+                        android:hint="@string/sclt_class"
                         android:textColorHint="#000000"
                         android:layout_marginTop="10dp"
                         android:textColor="#000000"
@@ -173,9 +173,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Speciality  * "
+                        android:text="@string/speciality"
                         android:layout_marginTop="10dp"
-                        android:textColor="#000000"
+                        android:textColor="#ff0000"
                         android:id="@+id/txt_spec"
                         android:layout_below="@+id/txt_select_class"
                         />
@@ -183,7 +183,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Select the Speciality"
+                        android:hint="@string/sclt_spcl"
                         android:layout_marginTop="10dp"
                         android:textColor="#000000"
                         android:textColorHint="#000000"
@@ -212,7 +212,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Address"
+            android:text="@string/addrss"
             android:layout_marginTop="10dp"
             android:textColor="#000000"
             android:id="@+id/txt_addr"
@@ -244,16 +244,16 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Territory  * "
+                        android:text="@string/territory"
                         android:layout_marginTop="15dp"
-                        android:textColor="#000000"
+                        android:textColor="#ff0000"
                         android:id="@+id/txt_terr"
                         />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Select the Territory"
+                        android:hint="@string/select_the_territory"
                         android:textColorHint="#000000"
                         android:layout_marginTop="10dp"
                         android:textColor="#000000"
@@ -274,7 +274,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Phone"
+                        android:text="@string/phone"
                         android:layout_marginTop="10dp"
                         android:textColor="#000000"
                         android:id="@+id/txt_phone"
@@ -308,7 +308,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Pincode"
+                        android:text="@string/pincode"
                         android:layout_marginTop="15dp"
                         android:textColor="#000000"
                         android:id="@+id/txt_code"
@@ -331,7 +331,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Mobile"
+                        android:text="@string/mobile"
                         android:layout_marginTop="10dp"
                         android:textColor="#000000"
                         android:id="@+id/txt_mob"
@@ -360,7 +360,7 @@
         <Button
             android:layout_width="130dp"
             android:layout_height="40dp"
-            android:text="Save"
+            android:text="@string/sv_prsn"
             android:background="#0427A8"
             android:layout_below="@+id/ll_btm_spin"
             android:layout_alignParentEnd="true"

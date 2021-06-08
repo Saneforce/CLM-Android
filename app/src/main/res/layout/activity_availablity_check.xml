@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_medium"
-            android:text="Availability Check "
+            android:text="@string/avilablecheck"
             android:textColor="@color/black"
             android:layout_centerVertical="true"
             android:textSize="20dp"
@@ -54,7 +54,7 @@
             android:layout_width="370dp"
             android:layout_height="40dp"
             android:background="@drawable/rectangle_grey"
-            android:hint="Search by Sub Category code/Description "
+            android:hint="@string/avilablesearch"
             android:textColorHint="#C3C0C0"
             android:id="@+id/et_search"
             android:paddingLeft="10dp"
@@ -76,21 +76,21 @@
                 android:elevation="10dp"
                 android:layout_width="120dp"
                 android:layout_height="40dp"
-                android:text="ALL OOS"
-                android:textOff="ALL OOS"
-                android:textOn="ALL OOS"
+                android:text="@string/allos"
+                android:textOff="@string/allos"
+                android:textOn="@string/allos"
                 android:textColor="#fff"
                 android:background="@drawable/rectangle_red"
                 android:gravity="center"/>
             <ToggleButton
-                android:textOff="ALL AVAIL"
-                android:textOn="ALL AVAIL"
+                android:textOff="@string/allavail"
+                android:textOn="@string/allavail"
                 android:id="@+id/allavail"
                 android:elevation="10dp"
                 android:layout_marginLeft="30dp"
                 android:layout_width="120dp"
                 android:layout_height="40dp"
-                android:text="ALL AVAIL"
+                android:text="@string/allavail"
                 android:textColor="#fff"
                 android:background="@drawable/rectangle_green"
                 android:gravity="center"/>
@@ -98,7 +98,7 @@
                 android:layout_marginLeft="50dp"
                 android:layout_width="120dp"
                 android:layout_height="40dp"
-                android:text="STOCK"
+                android:text="@string/availstock"
                 android:textColor="#000"
                 android:gravity="center"/>
 
@@ -129,7 +129,7 @@
         android:layout_height="50dp"
         android:background="@drawable/rectangle_red"
         android:layout_alignParentBottom="true"
-        android:text="Save"
+        android:text="@string/sv_prsn"
         android:paddingRight="10dp"
         android:drawableRight="@drawable/ic_baseline_arrow_forward_24"/>
 

@@ -25,7 +25,7 @@
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_gravity="right"
-                android:src="@drawable/backarrow"
+                android:src="@drawable/drawerslide"
                 android:visibility="visible" />
 
 
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/drawericon"
                 android:fontFamily="@font/poppins_semibold"
-                android:text="Target VS Sales Details"
+                android:text="@string/targetsales"
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:textColor="@color/white"
@@ -43,15 +43,26 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/camp_filter"
+                android:id="@+id/close_img"
                 android:layout_width="65dp"
                 android:layout_height="25dp"
                 android:layout_gravity="right"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_camfilter"
+                android:src="@drawable/cancel_icon"
                 android:layout_alignParentEnd="true"
                 android:visibility="visible"
                 android:layout_alignParentRight="true" />
+
+            <ImageView
+                android:id="@+id/camp_filter"
+                android:layout_width="65dp"
+                android:layout_height="25dp"
+                android:layout_toStartOf="@+id/close_img"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_camfilter"
+                android:visibility="visible"
+                />
+
         </RelativeLayout>
 
     </LinearLayout>
@@ -112,7 +123,7 @@
             android:layout_margin="10dp"
             android:gravity="center"
             android:textStyle="bold"
-            android:text="Secondary"
+            android:text="@string/secondary"
             android:background="@drawable/shape_white"
             android:textColor="@color/black"/>
 
@@ -120,7 +131,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/bg_reddot"
-            android:layout_margin="5dp"/>
+            android:layout_margin="5dp"
+            android:visibility="gone"/>
 
 
         <TextView
@@ -132,9 +144,10 @@
             android:layout_margin="10dp"
             android:gravity="center"
             android:textStyle="bold"
-            android:text="Clear Filter"
+            android:text="@string/clearfilter"
             android:background="@color/red"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:visibility="gone"/>
     </LinearLayout>
 
     <LinearLayout
@@ -175,16 +188,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                android:text="Brand Contribution"
+                android:text="@string/brndcontry"
                 android:textStyle="bold"
                 android:fontFamily="@font/poppins"
                 android:layout_margin="10dp"/>
 
 
+            <TextView
+                android:id="@+id/charttext"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textColor="@color/red"
+                android:visibility="gone"/>
+
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/piechart"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="400dp"
                 android:layout_gravity="center"
                 android:minHeight="300dp"
                 android:layout_margin="20dp"

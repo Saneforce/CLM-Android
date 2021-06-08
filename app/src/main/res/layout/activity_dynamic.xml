@@ -24,7 +24,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Activity"
+            android:text="@string/activity"
             android:textSize="18sp"
             android:textColor="#D80808"
             android:textStyle="bold"
@@ -53,7 +53,7 @@
             android:orientation="vertical"
             android:background="@drawable/round_rect_white"
             >
-            <SearchView
+            <androidx.appcompat.widget.SearchView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="2dp"
@@ -105,7 +105,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/map_blue_shape"
-                        android:text="SAVE"
+                        android:text="@string/sv_prsn"
                         android:layout_alignParentEnd="true"
                         android:id="@+id/btn_save"
 

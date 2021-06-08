@@ -106,12 +106,13 @@ public class DCR_GV_Selection_adapter extends BaseAdapter implements Filterable{
 //            if(row_pos.getMax().equalsIgnoreCase("null"))
 //                row_pos.setMax("0");*/
 
-           if(type.equals("D"))
-           {
-               mViewHolder.tv_count.setText(row_pos.getTag()+"/"+row_pos.getMax());
-           }else{
-               mViewHolder.tv_count.setText("");
-           }
+        mViewHolder.tv_count.setText(row_pos.getTag()+"/"+row_pos.getMax());
+//           if(type.equals("D"))
+//           {
+//               mViewHolder.tv_count.setText(row_pos.getTag()+"/"+row_pos.getMax());
+//           }else{
+//               mViewHolder.tv_count.setText("");
+//           }
 
 
 
@@ -149,7 +150,7 @@ public class DCR_GV_Selection_adapter extends BaseAdapter implements Filterable{
                         String  s=detailingTrackerPOJO.getTabSelection();
                         switch(s){
                             case    "0":
-                            case "3":
+                            case "4":
                                 Log.v("pritning_spec_code",row_pos.getSpecCode()+" printing");
                                 mCommonSharedPreference.setValueToPreference("specCode",row_pos.getSpecCode());
                                 mCommonSharedPreference.setValueToPreference("specName",row_pos.getmDocotrSpeciality());
@@ -167,7 +168,7 @@ public class DCR_GV_Selection_adapter extends BaseAdapter implements Filterable{
                     String  s=detailingTrackerPOJO.getTabSelection();
                     switch(s){
                         case    "0":
-                        case "3":
+                        case "4":
                             mCommonSharedPreference.setValueToPreference("specCode",row_pos.getSpecCode());
                             mCommonSharedPreference.setValueToPreference("specName",row_pos.getmDocotrSpeciality());
                             break;
@@ -224,10 +225,14 @@ public class DCR_GV_Selection_adapter extends BaseAdapter implements Filterable{
                 mViewHolder.drCategory.setText("");
                 break;
             case "2":
+                mViewHolder.drSpeciality.setText(row_pos.getmDocotrSpeciality());
+                mViewHolder.drCategory.setText(row_pos.getmDocotrCategory());
+                break;
+            case "3":
                 mViewHolder.drSpeciality.setText("");
                 mViewHolder.drCategory.setText("");
                 break;
-            case "3":
+            case "4":
                 mViewHolder.drSpeciality.setText(row_pos.getmDocotrSpeciality());
                 mViewHolder.drCategory.setText(row_pos.getmDocotrCategory());
                 break;

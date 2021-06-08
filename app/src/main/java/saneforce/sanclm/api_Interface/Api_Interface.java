@@ -101,6 +101,11 @@ public interface Api_Interface {
     @FormUrlEncoded
     @POST("db.php?axn=get/chemist")
     Call<ResponseBody> getChemists(@Field("data") String sf);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=get/cip")
+    Call<ResponseBody> getCip(@Field("data") String sf);
+
     @FormUrlEncoded
     @POST("db.php?axn=get/quiz")
     Call<ResponseBody> getQuiz(@Field("data") String sf);
@@ -448,14 +453,18 @@ public interface Api_Interface {
    @POST("db.php?axn=get/product_sales_primary")
     Call<JsonArray> getDataAsJArray(@QueryMap Map<String, String> params);
 
+    @POST("db.php?axn=get/product_sales_secondary")
+    Call<JsonArray> getsecDataAsJArray(@QueryMap Map<String, String> params);
+
     @POST("db.php?axn=get/target_sales_primary")
     Call<JsonArray> getTargetDataAsJArray(@QueryMap Map<String, String> params);
 
     @POST("db.php?axn=get/target_sales_secondary")
     Call<JsonArray> getTargetSecDataAsJArray(@QueryMap Map<String, String> params);
 
-   @POST("db.native.php?axn=get/product_sales_secondary")
-   Call<JsonArray> getsecDataAsJArray(@QueryMap Map<String, String> params);
+
+    @POST("db.php?axn=getdivision_speciality")
+    Call<JsonArray> getdivSpecDataAsJArray(@QueryMap Map<String, String> params);
 
     @FormUrlEncoded
     @POST("db.php?axn=get/drcovdet")
@@ -472,6 +481,14 @@ public interface Api_Interface {
     @FormUrlEncoded
     @POST("db.php?axn=get/tdaydet")
     Call<ResponseBody>getTotaldetails(@Field("data") String sf);
+    @POST("db.php?axn=get/hierarchy")
+    Call<JsonArray> gethierarchyDataAsJArray(@QueryMap Map<String, String> params);
+
+    @POST("db.php?axn=get/Category_sfe")
+    Call<JsonArray> getCategoryDataAsJArray(@QueryMap Map<String, String> params);
+
+    @POST("db.php?axn=get/speciality_sfe")
+    Call<JsonArray> getSpecialityDataAsJArray(@QueryMap Map<String, String> params);
 
     @FormUrlEncoded
     @POST("db.php?axn=get/brnddettm")

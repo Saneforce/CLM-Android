@@ -41,7 +41,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="From :"
+                            android:text="@string/frm"
                             android:id="@+id/txt_from"
                             android:layout_marginLeft="10dp"
                             android:layout_toRightOf="@+id/spinner"
@@ -51,7 +51,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="To :"
+                            android:text="@string/lto"
                             android:id="@+id/txt_to"
                             android:layout_marginLeft="40dp"
                             android:visibility="gone"
@@ -68,9 +68,10 @@
                         android:layout_alignParentEnd="true"
                         android:id="@+id/lay_filter">
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="60dp"
                             android:layout_height="wrap_content"
-                            android:text="  Filter   "
+                            android:text="@string/filter"
+                            android:gravity="center"
                             android:padding="5dp"
                             android:textColor="#000"/>
                     </RelativeLayout>
@@ -99,7 +100,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Top 5 Detailed Count"
+                        android:text="@string/detail_graph1"
                         android:padding="5dp"
                         android:textColor="#000"
                         />
@@ -120,7 +121,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Top 5 Detailed Time"
+                        android:text="@string/detail_graph2"
                         android:padding="5dp"
                         android:textColor="#000"
                         />
@@ -160,7 +161,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Brand"
+                                android:text="@string/brand"
                                 android:padding="5dp"
                                 android:textColor="#000"
                                 android:textStyle="bold"/>
@@ -180,7 +181,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Fieldforce"
+                                android:text="@string/fieldforce"
                                 android:padding="5dp"
                                 android:textColor="#000"
                                 android:textStyle="bold"/>
@@ -200,7 +201,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Detailing Count"
+                                android:text="@string/detail_count"
                                 android:padding="5dp"
                                 android:textColor="#000"
                                 android:textStyle="bold"/>
@@ -220,7 +221,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Detailing Duration"
+                                android:text="@string/detail_duration"
                                 android:padding="5dp"
                                 android:textColor="#000"
                                 android:textStyle="bold"/>
@@ -258,6 +259,7 @@
         app:itemBackground="@drawable/side_nav_bar"
         app:itemIconTint="#ff1d25"
         app:itemTextColor="#808080"
+        android:visibility="gone"
         app:theme="@style/ThemeOverlay.AppCompat.Light" >
         <include layout="@layout/nav_missed_row_item"/>
     </com.google.android.material.navigation.NavigationView>

@@ -21,6 +21,7 @@
             android:background="@color/ash"
             android:src="@mipmap/left_arrow" />
         <TextView
+            android:id="@+id/master_cap"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#ffffff"

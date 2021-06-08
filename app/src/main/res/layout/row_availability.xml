@@ -67,9 +67,9 @@
                     android:background="@drawable/rectangle"
                     android:elevation="10dp"
                     android:gravity="center"
-                    android:text="OOS"
-                    android:textOff="OOS"
-                    android:textOn="OOS"
+                    android:text="@string/availoos"
+                    android:textOff="@string/availoos"
+                    android:textOn="@string/availoos"
                     android:textColor="#000" />
 
                 <ToggleButton
@@ -81,9 +81,9 @@
                     android:background="@drawable/rectangle"
                     android:elevation="10dp"
                     android:gravity="center"
-                    android:text="AVAIL"
-                    android:textOn="AVAIL"
-                    android:textOff="AVAIL"
+                    android:text="@string/allavail"
+                    android:textOn="@string/allavail"
+                    android:textOff="@string/allavail"
                     android:textColor="#000" />
 
                 <EditText

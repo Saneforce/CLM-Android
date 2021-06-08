@@ -154,7 +154,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="9.49" />
+                                android:text="9.49"
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                         <LinearLayout
@@ -176,7 +177,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                android:layout_gravity="center"
-                                android:text="9.47" />
+                                android:text="9.47"
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                         <LinearLayout
@@ -198,7 +200,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                              android:layout_gravity="center"
-                                android:text="80" />
+                                android:text="80"
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                         <LinearLayout
@@ -220,7 +223,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="80" />
+                                android:text="80"
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                         <LinearLayout
@@ -242,7 +246,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="80" />
+                                android:text="80"
+                                android:textColor="@color/black"/>
                         </LinearLayout>
 
                         <View

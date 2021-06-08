@@ -338,6 +338,22 @@ public class DataBaseHandler {
         //public static final String COLUMN_DOCTOR_PHONE = "Dr_Phone";            //14
         public static final String COLUMN_DOCTOR_QUALIFICATION_CODE = "Dr_Qual";  //15
 
+        /*CIP MASTER DETAILS*/
+        public static final String TABLE_CIP_MASTER_DETAILS ="Cip_Master";
+        //public static final String COLUMN_SF_CODE = "sfCode";               //0
+        public static final String COLUMN_CIP_ID = "Id";           //1
+        public static final String COLUMN_CIP_NAME = "Name";           //2
+        public static final String COLUMN_HOSPITAL_CODE = "Hosp_code";  //3
+        public static final String COLUMN_HOSPITAL_NAME = "Hosp_Name";  //4
+        public static final String COLUMN_CIP_TOWN_CODE = "Cip_twncd";    //5
+        public static final String COLUMN_CIP_TOWN_NAME = "Cip_twnNm";    //6
+        public static final String COLUMN_CIP_MOBILE = "Cip_Mobile";    //7
+        public static final String COLUMN_CIP_EMAIL = "Cip_email";   //8
+        public static final String COLUMN_CIP_ADDRESS = "Cip_addr";    //9
+        public static final String COLUMN_DESN_NAME = "Desn_name";    //10
+        public static final String COLUMN_DEPT_NAME = "Dept_name";    //11
+
+
         /*TERRITORY MASTER DETAILS*/
         public static final String TABLE_TERRITORY_MASTER_DETAILS ="Territory_Master";
             //public static final String COLUMN_SF_CODE = "sfCode";            //0
@@ -786,6 +802,25 @@ public class DataBaseHandler {
         return db.insert(TableEntry.TABLE_STOCKIST_MASTER_DETAILS,TableEntry.COLUMN_NULLABLE, values);
     }
 
+    public long insert_cipMaster(String sfCode, String id, String name, String hoscode, String hosname,String cipTwnCd, String cipTwnNm
+            ,String mobile,String address,String email,String desnname,String deptname ) {
+        ContentValues values = new ContentValues();
+        values.put(TableEntry.COLUMN_SF_CODE, sfCode);
+        values.put(TableEntry.COLUMN_CIP_ID, id);
+        values.put(TableEntry.COLUMN_CIP_NAME, name);
+        values.put(TableEntry.COLUMN_HOSPITAL_CODE, hoscode);
+        values.put(TableEntry.COLUMN_HOSPITAL_NAME, hosname);
+        values.put(TableEntry.COLUMN_CIP_TOWN_CODE, cipTwnCd);
+        values.put(TableEntry.COLUMN_CIP_MOBILE, mobile);
+        values.put(TableEntry.COLUMN_CIP_ADDRESS, address);
+        values.put(TableEntry.COLUMN_CIP_EMAIL, email);
+        values.put(TableEntry.COLUMN_DESN_NAME, desnname);
+        values.put(TableEntry.COLUMN_DEPT_NAME, deptname);
+
+        Log.v("cip_values",hosname+"credit"+hoscode);
+        return db.insert(TableEntry.TABLE_CIP_MASTER_DETAILS,TableEntry.COLUMN_NULLABLE, values);
+    }
+
     public long insert_ProductMaster(String pdtCode, String pdtName, String pSlNo, String pdtCatId, String divCode, String actFlg, String pdtRate) {
         ContentValues values = new ContentValues();
         values.put(TableEntry.COLUMN_PRODUCT_CODE, pdtCode);
@@ -1163,6 +1198,9 @@ public class DataBaseHandler {
     public void delete_chem(String sfcode) {
         db.execSQL("delete from "+ TableEntry.TABLE_CHEMIST_MASTER_DETAILS +" WHERE "+TableEntry.COLUMN_SF_CODE+" = '"+ sfcode +"' "  ) ;
     }
+    public void delete_cip(String sfcode) {
+        db.execSQL("delete from "+ TableEntry.TABLE_CIP_MASTER_DETAILS +" WHERE "+TableEntry.COLUMN_SF_CODE+" = '"+ sfcode +"' "  ) ;
+    }
     public void delete_hos(String sfcode) {
         db.execSQL("delete from "+ TableEntry.TABLE_HOSPITAL +" WHERE "+TableEntry.COLUMN_SF_CODE+" = '"+ sfcode +"' "  ) ;
     }
@@ -1212,7 +1250,7 @@ public class DataBaseHandler {
             db.execSQL("delete from " + TableEntry.TABLE_SCRIB+"  ");
             db.execSQL("delete from " + TableEntry.TABLE_FEEDBACK +"  ");
             db.execSQL("delete from " + TableEntry.TABLE_COMPETITOR_MASTER_NEW +"  ");
-
+            db.execSQL("delete from " + TableEntry.TABLE_CIP_MASTER_DETAILS+ "  ");
         }
 
         public void deleteFeed(){
@@ -1283,6 +1321,9 @@ public class DataBaseHandler {
     }
     public Cursor select_stock_sfcode(String sfcode){
         return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_STOCKIST_MASTER_DETAILS+ " WHERE "+TableEntry.COLUMN_SF_CODE+" = '"+sfcode+"' ",null);
+    }
+    public Cursor select_cip_sfcode(String sfcode){
+        return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_CIP_MASTER_DETAILS+ " WHERE "+TableEntry.COLUMN_SF_CODE+" = '"+sfcode+"' ",null);
     }
     public Cursor select_joint_sfcode(String sfcode){
         return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_JOINWORK_USER_DETAILS+ " WHERE "+TableEntry.COLUMN_SF_CODE+" = '"+sfcode+"' ",null);
@@ -1365,6 +1406,13 @@ public class DataBaseHandler {
             + TableEntry.COLUMN_SF_CODE + " = '" + sf_code + "'   ORDER BY  (CASE " + TableEntry.COLUMN_STOCKIST_TOWN_CODE + " WHEN '" + twnCd+"' THEN 1 ELSE 1000 END) ," + TableEntry.COLUMN_STOCKIST_NAME + " ASC", null);
 
     }
+
+    public Cursor select_Cip_bySf(String sf_code,String twnCd) {
+        return db.rawQuery("SELECT *  FROM "
+                + TableEntry.TABLE_CIP_MASTER_DETAILS + " WHERE "
+                + TableEntry.COLUMN_SF_CODE + " = '" + sf_code + "' ORDER BY  (CASE " + TableEntry.COLUMN_CIP_TOWN_CODE + " WHEN '" + twnCd+"' THEN 1 ELSE 1000 END) ," + TableEntry.COLUMN_HOSPITAL_NAME + " ASC", null);
+    }
+
     public Cursor select_slidesUrlPath() {
         return db.rawQuery("SELECT *  FROM "
                 + TableEntry.TABLE_SLIDES_MASTER+ " WHERE "+TableEntry.COLUMN_SYNC_STATUS+" = '0' " , null);
@@ -1859,6 +1907,10 @@ public Cursor select_ProductBrdWiseSlide() {
     public Cursor select_StockistDetails(String stckCode) {
         return db.rawQuery("SELECT  *  FROM "+TableEntry.TABLE_STOCKIST_MASTER_DETAILS+" WHERE "+TableEntry.COLUMN_STOCKIST_CODE+" ='"+stckCode+"'  ", null);
     }
+    public Cursor select_CipDetails(String ChmCode) {
+        return db.rawQuery("SELECT  *  FROM "+TableEntry.TABLE_CIP_MASTER_DETAILS+" WHERE "+TableEntry.COLUMN_CIP_ID+" ='"+ChmCode+"'  ", null);
+    }
+
     public Cursor select_DrSpecialityWisePdts(String drSpeciality) {
 
       //  Log.e()

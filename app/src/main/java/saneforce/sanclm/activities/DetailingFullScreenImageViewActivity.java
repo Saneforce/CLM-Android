@@ -658,23 +658,16 @@ public class DetailingFullScreenImageViewActivity extends FragmentActivity imple
 
                     Intent i = new Intent(DetailingFullScreenImageViewActivity.this, FeedbackActivity.class);
                     //Intent i=new Intent(DetailingFullScreenImageViewActivity.this,DummyActivity.class);
-                    if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("chm")) {
+                    if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("chm"))
                         i.putExtra("feedpage", "chemist");
-                        i.putExtra("custype", "0");
-
-                    }  else if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("stk")) {
+                    else if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("stk")) {
                         i.putExtra("feedpage", "stock");
-                        i.putExtra("custype","0");
-
-
                     } else if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("undr")) {
                         i.putExtra("feedpage", "undr");
-                        i.putExtra("custype","0");
-
+                    }else if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("cip")) {
+                        i.putExtra("feedpage", "cip");
                     } else
                         i.putExtra("feedpage", "dr");
-                     i.putExtra("custype","0");
-
                     startActivity(i);
                 }
             }
@@ -698,35 +691,29 @@ public class DetailingFullScreenImageViewActivity extends FragmentActivity imple
         JSONArray SlidesArray = new JSONArray();
         prdName=PdtBrdName;
         Log.v("select_all_proof",mDetailingTrackerPOJO.getmDetListview_Selection());
+        String selMode= mDetailingTrackerPOJO.getmDetListview_Selection();
+
         try {
             dbh.open();
-            switch (mDetailingTrackerPOJO.getmDetListview_Selection()) {
-                case "Speciality Wise":
-                    mCursor = dbh.select_AllSlides_specialitywise(ProductBrdCode, speciality);
-                    break;
-
-                    case "Theraptic":
-                    mCursor = dbh.select_AllSlides_therapticwise(ProductBrdCode, speciality);
-                    break;
-
-                case "Brand Matrix":
-                    mCursor = dbh.select_AllSlides_brandwise(ProductBrdCode);
-                    break;
-                case "All Brands":
-                    mCursor = dbh.select_AllSlides_brandwise(ProductBrdCode);
-                    Cursor cursor1= dbh.select_ProductBrdWiseSlide();
-                    if(cursor1.getCount()!=0){
-                        cursor1.moveToFirst();
-                        do{
-                            Log.v("all_brand_cursor",cursor1.getString(2));
-                        }while(cursor1.moveToNext());
-                    }
-                    break;
-                default:
-                    Log.v("select_all_prrf",mDetailingTrackerPOJO.getmDetListview_Selection());
-                    mCursor = dbh.selectAllProducts_GroupPresentationWise(ProductBrdCode, mDetailingTrackerPOJO.getmDetListview_Selection());
-                    Log.v("select_all_prrf",mCursor.getCount()+"");
-                    break;
+            if(selMode==getResources().getString(R.string.spclwise)) { //"Speciality Wise":
+                mCursor = dbh.select_AllSlides_specialitywise(ProductBrdCode, speciality);
+            }else if(selMode==getResources().getString(R.string.theraptic)) {  //"Theraptic":
+                mCursor = dbh.select_AllSlides_therapticwise(ProductBrdCode, speciality);
+            }else if(selMode==getResources().getString(R.string.brandmatrix)) {  //"Brand Matrix":
+                mCursor = dbh.select_AllSlides_brandwise(ProductBrdCode);
+            }else if(selMode==getResources().getString(R.string.allbrand)) {  //"All Brands"
+                mCursor = dbh.select_AllSlides_brandwise(ProductBrdCode);
+                Cursor cursor1 = dbh.select_ProductBrdWiseSlide();
+                if (cursor1.getCount() != 0) {
+                    cursor1.moveToFirst();
+                    do {
+                        Log.v("all_brand_cursor", cursor1.getString(2));
+                    } while (cursor1.moveToNext());
+                }
+            }else{
+                Log.v("select_all_prrf",mDetailingTrackerPOJO.getmDetListview_Selection());
+                mCursor = dbh.selectAllProducts_GroupPresentationWise(ProductBrdCode, mDetailingTrackerPOJO.getmDetListview_Selection());
+                Log.v("select_all_prrf",mCursor.getCount()+"");
             }
             if (mCursor.getCount() > 0) {
                /* while (mCursor.moveToNext()) {
@@ -768,7 +755,7 @@ public class DetailingFullScreenImageViewActivity extends FragmentActivity imple
                startActivity(i);*/
                 //CommonUtilsMethods.CommonIntentwithNEwTask(DetailingFullScreenImageViewActivity.class);
             }else{
-                Toast.makeText(this, "No Products Available", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.noprdavailable), Toast.LENGTH_SHORT).show();
             }
             Log.e("Slides_json",SlidesArray.toString());
 
@@ -1192,7 +1179,7 @@ public class DetailingFullScreenImageViewActivity extends FragmentActivity imple
                     e.printStackTrace();
                 }
                 if(jsonArray.length()==0){
-                    Toast.makeText(context,"No Product Available",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,context.getResources().getString(R.string.noprdavailable),Toast.LENGTH_SHORT).show();
                 }
                 else {
                     dialog.dismiss();
@@ -1240,7 +1227,7 @@ public class DetailingFullScreenImageViewActivity extends FragmentActivity imple
                     e.printStackTrace();
                 }
                 if(jsonArray.length()==0){
-                    Toast.makeText(context,"No Product Available",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,context.getResources().getString(R.string.noprdavailable),Toast.LENGTH_SHORT).show();
                 }
                 else {
                     dialog.dismiss();

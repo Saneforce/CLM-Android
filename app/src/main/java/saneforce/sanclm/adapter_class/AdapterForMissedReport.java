@@ -40,7 +40,7 @@ public class AdapterForMissedReport extends RecyclerView.Adapter<AdapterForMisse
 
         holder.txt_name_miss.setText(mm.getName());
         holder.txt_date_miss.setText(mm.getDisplay_date());
-        holder.txt_hq_miss_val.setText(mm.getCluster());
+        holder.txt_hq_miss_val.setText(" "+mm.getCluster());
         holder.txt_count_dr_miss.setText(mm.getDr());
         holder.txt_count_chm_miss.setText(mm.getMet());
         holder.txt_count_stk_miss.setText(mm.getMissed());

@@ -1,7 +1,9 @@
 package saneforce.sanclm.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -62,11 +64,19 @@ import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
 import saneforce.sanclm.applicationCommonFiles.CommonUtils;
 import saneforce.sanclm.sqlite.DataBaseHandler;
 
+import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
+import static saneforce.sanclm.fragments.AppConfiguration.language_string;
+
 //import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 public class NewTrainingFragment extends Fragment implements OnChartValueSelectedListener {
     private BarChart barChart;
     PieChartView pieChartView;
+    String language;
+    Context context;
+    Resources resources;
+    TextView mtd_call,mtd_reload,detailing,time_spent,brand_exposure,total_dr,total_pharma,totaldr,detail_reload;
+
    Api_Interface apiInterface;
     JSONObject obj = new JSONObject();
     String SF_Code = "", db_connPath;

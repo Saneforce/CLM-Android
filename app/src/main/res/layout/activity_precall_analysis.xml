@@ -47,7 +47,7 @@
                     android:layout_marginEnd="35dp"
                     android:background="@drawable/shape_ash"
                     android:fontFamily="@font/poppins"
-                    android:text="Re - Select"
+                    android:text="@string/reselect"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
@@ -58,9 +58,9 @@
                     android:layout_alignBottom="@+id/tv_dcrsel_drname"
                     android:layout_marginEnd="35dp"
                     android:layout_toLeftOf="@+id/btn_reselect"
-                    android:background="@drawable/red"
+                    android:background="@drawable/shape_ash"
                     android:fontFamily="@font/poppins"
-                    android:text="Activity"
+                    android:text="@string/activity"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="12sp"
@@ -100,7 +100,7 @@
                                     android:layout_marginStart="43dp"
                                     android:fontFamily="@font/poppins_medium"
                                     android:lineSpacingExtra="1.6dp"
-                                    android:text="Qualification "
+                                    android:text="@string/qualifications"
                                     android:textColor="@color/black"
                                     android:textSize="14sp" />
 
@@ -110,7 +110,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="9dp"
                                     android:fontFamily="@font/poppins_medium"
-                                    android:text="Date Of Birth"
+                                    android:text="@string/date_birth"
                                     android:layout_marginStart="43dp"
                                     android:layout_below="@+id/tv_drqualification"
                                     android:textColor="@color/black"
@@ -124,7 +124,7 @@
                                     android:layout_marginStart="43dp"
                                     android:layout_marginTop="9dp"
                                     android:fontFamily="@font/poppins_medium"
-                                    android:text="Wedding Date "
+                                    android:text="@string/weddnig"
                                     android:textColor="@color/black"
                                     android:textSize="14sp" />
 
@@ -136,7 +136,7 @@
                                     android:layout_marginStart="43dp"
                                     android:layout_marginTop="9dp"
                                     android:fontFamily="@font/poppins_medium"
-                                    android:text="Mobile "
+                                    android:text="@string/mobile"
                                     android:textColor="@color/black"
                                     android:textSize="14sp" />
 
@@ -201,7 +201,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_medium"
-                                    android:text="Category "
+                                    android:text="@string/catogy"
                                     android:textColor="@color/black"
                                     android:textSize="14sp" />
 
@@ -212,7 +212,7 @@
                                     android:layout_below="@+id/tv_drCategory"
                                     android:layout_marginTop="9dp"
                                     android:fontFamily="@font/poppins_medium"
-                                    android:text="Speciality "
+                                    android:text="@string/speciality"
                                     android:textColor="@color/black"
                                     android:textSize="14sp" />
 
@@ -223,7 +223,7 @@
                                     android:layout_below="@+id/tv_drspeciality"
                                     android:layout_marginTop="9dp"
                                     android:fontFamily="@font/poppins_medium"
-                                    android:text="Territory "
+                                    android:text="@string/territory"
                                     android:textColor="@color/black"
                                     android:textSize="14sp" />
 
@@ -268,7 +268,7 @@
                                     android:layout_below="@+id/tv_drterritory"
                                     android:layout_marginTop="9dp"
                                     android:fontFamily="@font/poppins_medium"
-                                    android:text="E Mail "
+                                    android:text="@string/email"
                                     android:textColor="@color/black"
                                     android:textSize="14sp" />
 
@@ -295,7 +295,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
-                                android:text="Address "
+                                android:text="@string/addrss"
                                 android:textColor="@color/black"
                                 android:textSize="14sp" />
 
@@ -349,7 +349,7 @@
                                     android:layout_marginStart="43dp"
                                     android:fontFamily="@font/poppins_medium"
                                     android:lineSpacingExtra="1.6dp"
-                                    android:text="Contact Person"
+                                    android:text="@string/contc_person"
                                     android:textColor="@color/black"
                                     android:textSize="14sp" />
 
@@ -362,7 +362,7 @@
                                     android:layout_below="@+id/tv_chmcontactPerson"
                                     android:layout_marginTop="15dp"
                                     android:fontFamily="@font/poppins_medium"
-                                    android:text="Phone"
+                                    android:text="@string/phone"
                                     android:textColor="@color/black"
                                     android:textSize="14sp" />
 
@@ -374,7 +374,7 @@
                                     android:layout_marginTop="15dp"
                                     android:layout_marginStart="43dp"
                                     android:fontFamily="@font/poppins_medium"
-                                    android:text="Mobile "
+                                    android:text="@string/mobile"
                                     android:textColor="@color/black"
                                     android:textSize="14sp" />
 
@@ -428,7 +428,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentStart="true"
                                     android:fontFamily="@font/poppins_medium"
-                                    android:text="Fax"
+                                    android:text="@string/fax"
                                     android:textColor="@color/black"
                                     android:textSize="14sp" />
 
@@ -439,7 +439,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_below="@+id/tv_chmfax"
                                     android:fontFamily="@font/poppins_medium"
-                                    android:text="E-Mail "
+                                    android:text="@string/email"
                                     android:layout_marginTop="15dp"
                                     android:textColor="@color/black"
                                     android:textSize="14sp" />
@@ -451,7 +451,7 @@
                                     android:layout_below="@+id/tv_chmemail"
                                     android:layout_marginTop="10dp"
                                     android:fontFamily="@font/poppins_medium"
-                                    android:text="Territory"
+                                    android:text="@string/territory"
                                     android:textColor="@color/black"
                                     android:textSize="14sp" />
 
@@ -499,7 +499,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
-                                android:text="Address "
+                                android:text="@string/addrss"
                                 android:textColor="@color/black"
                                 android:textSize="14sp" />
 
@@ -544,7 +544,7 @@
                     android:layout_marginStart="43dp"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Precall Analysis"
+                    android:text="@string/precall"
                     android:textColor="#1a1a1a"
                     android:textSize="21sp" />
 
@@ -568,7 +568,7 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginStart="43dp"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Last Visit Date:"
+                    android:text="@string/last_visit"
                     android:textColor="#1a1a1a"
                     android:textSize="14sp" />
 
@@ -579,7 +579,7 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginStart="43dp"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Products Promoted:"
+                    android:text="@string/product_promte"
                     android:layout_below="@+id/tv_lastvisitdtls_hdng"
                     android:textColor="#1a1a1a"
                     android:textSize="14sp" />
@@ -592,7 +592,7 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginStart="43dp"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Inputs:"
+                    android:text="@string/input"
                     android:textColor="#1a1a1a"
                     android:textSize="14sp" />
 
@@ -604,7 +604,7 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginStart="43dp"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Feedback"
+                    android:text="@string/feedback"
                     android:textColor="#1a1a1a"
                     android:textSize="14sp" />
 
@@ -616,7 +616,7 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginStart="43dp"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Remarks:"
+                    android:text="@string/remarks1"
                     android:textColor="#1a1a1a"
                     android:textSize="14sp" />
 

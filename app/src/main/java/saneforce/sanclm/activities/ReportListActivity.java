@@ -10,8 +10,13 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +30,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -41,6 +47,10 @@ import saneforce.sanclm.api_Interface.Api_Interface;
 import saneforce.sanclm.api_Interface.RetroClient;
 import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
 import saneforce.sanclm.applicationCommonFiles.CommonUtils;
+import saneforce.sanclm.fragments.LocaleHelper;
+
+import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
+import static saneforce.sanclm.fragments.AppConfiguration.language_string;
 
 public class ReportListActivity extends AppCompatActivity {
 
@@ -67,7 +77,9 @@ public class ReportListActivity extends AppCompatActivity {
     String clu="",cat="",spec="",qua="",cls="";
     TextView txt_clu,txt_cat,txt_spec,txt_cls,txt_qua,txt_head_report;
     Button btn_apply,btn_clr;
-
+    String language;
+    Context context;
+    Resources resources;
 
     public void commonFun(){
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -83,6 +95,20 @@ public class ReportListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_list);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        language = sharedPreferences.getString(language_string, "");
+        if (!language.equals("")){
+            Log.d("homelang",language);
+            selected(language);
+            context = LocaleHelper.setLocale(ReportListActivity.this, language);
+            resources = context.getResources();
+        }else {
+            selected("en");
+            context = LocaleHelper.setLocale(ReportListActivity.this, "en");
+            resources = context.getResources();
+        }
+
         Bundle value=getIntent().getExtras();
         val=value.getString("val");
         if(val.equalsIgnoreCase("1")) {
@@ -124,7 +150,7 @@ public class ReportListActivity extends AppCompatActivity {
             recycle_view.setAdapter(adpt);
             search_icon.setVisibility(View.INVISIBLE);
             drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-            txt_head_report.setText("Day Report");
+            txt_head_report.setText(resources.getString(R.string.dayreport));
 
             callApi();
         }
@@ -134,7 +160,7 @@ public class ReportListActivity extends AppCompatActivity {
             recycle_view.setItemAnimator(new DefaultItemAnimator());
             missed_adpt = new AdapterForMisssedReportList(ReportListActivity.this, mis_array);
             recycle_view.setAdapter(missed_adpt);
-            txt_head_report.setText("Missed Report");
+            txt_head_report.setText(resources.getString(R.string.missedreport));
             callApiMissed();
         }
 
@@ -244,6 +270,15 @@ public class ReportListActivity extends AppCompatActivity {
                 drawer.closeDrawer(GravityCompat.END);            }
         });
         commonFun();
+    }
+
+    private void selected(String language) {
+        Locale myLocale = new Locale(language);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
     }
 
     public void callApi(){

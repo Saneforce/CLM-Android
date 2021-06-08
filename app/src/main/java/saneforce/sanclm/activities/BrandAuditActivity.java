@@ -109,7 +109,7 @@ public class BrandAuditActivity extends AppCompatActivity implements DataInterfa
         Bundle extra=getIntent().getExtras();
         if(extra!=null){
             String yy=extra.getString("json_val");
-            dr_name.setText(extra.getString("name"));
+            dr_name.setText(" : "+extra.getString("name"));
             jsonExtraction(yy);
 
             Log.e("Doc_Name",extra.getString("name"));
@@ -124,7 +124,7 @@ public class BrandAuditActivity extends AppCompatActivity implements DataInterfa
 
 
        else{
-            dr_name.setText(mCommonSharedPreference.getValueFromPreference("drName"));
+            dr_name.setText(" : "+mCommonSharedPreference.getValueFromPreference("drName"));
         }
 
 /*
@@ -156,13 +156,13 @@ public class BrandAuditActivity extends AppCompatActivity implements DataInterfa
             public void onClick(View view) {
 
                 if (chem_select_list.size() < 1) {
-                    Toast.makeText(getApplicationContext(), "Select Chemist Name", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.sclt_chmnm), Toast.LENGTH_LONG).show();
 
                 } else if (edt_search_brd.getText().toString().isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Select Product Name ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.sclt_prdnm), Toast.LENGTH_LONG).show();
 
                 } else if (edt_qty.getText().toString().isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Select Product Qty ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.scltprdqty), Toast.LENGTH_LONG).show();
 
                 }
 //                else if(TextUtils.isEmpty(competitorName) || competitorName.equals("")||competitorName.equalsIgnoreCase("null"))
@@ -334,6 +334,16 @@ public class BrandAuditActivity extends AppCompatActivity implements DataInterfa
         final ListView popup_list = (ListView) dialog.findViewById(R.id.popup_list);
         ImageView iv_close_popup = (ImageView) dialog.findViewById(R.id.iv_close_popup);
         SearchView search_view = (SearchView) dialog.findViewById(R.id.search_view);
+
+        search_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                search_view.setIconified(false);
+                InputMethodManager im = ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE));
+                im.showSoftInput(search_view, 0);
+            }
+        });
+
         final PopupAdapter popupAdapter = new PopupAdapter(BrandAuditActivity.this, xx);
         popup_list.setAdapter(popupAdapter);
         popupAdapter.notifyDataSetChanged();
@@ -615,7 +625,7 @@ public class BrandAuditActivity extends AppCompatActivity implements DataInterfa
 
         if(brandList.size()<1)
         {
-            Toast.makeText(getApplicationContext(),"Select Competitor Details ",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),getResources().getString(R.string.sclt_compdetl),Toast.LENGTH_LONG).show();
             return;
         }  else {
             jsonSave();

@@ -68,7 +68,7 @@ public class BrandDetailing extends Fragment {
     ListView list;
     TextView tt_terri,txt_clu,tt_cat,txt_cat,tt_spec,txt_spec,tt_qua,txt_qua,tt_cls,txt_cls;
     RelativeLayout lay_filter;
-    String[] country = { "This Month", "Previous Month", "Customise"};
+    String[] country ;
     CardView card_cluster,card_cat,card_spe,card_qua,card_cls;
     String clu="",cat="",spec="",qua="",cls="";
     ArrayList<PopFeed> cluster_list=new ArrayList<>();
@@ -128,17 +128,17 @@ public class BrandDetailing extends Fragment {
         close_img=(ImageView)vv.findViewById(R.id.close_img);
         drawer = (DrawerLayout) vv.findViewById(R.id.drawer_layout);
         Spinner spin = (Spinner) vv.findViewById(R.id.spinner);
-
+        country = new String[]{getResources().getString(R.string.thimnth), getResources().getString(R.string.pr_mnth), getResources().getString(R.string.custmz)};
         commonSharedPreference=new CommonSharedPreference(getActivity());
         baseurl =  commonSharedPreference.getValueFromPreference(CommonUtils.TAG_DB_URL);
         SFCode =  commonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_CODE);
         apiService = RetroClient.getClient(baseurl).create(Api_Interface.class);
         //callApi(CommonUtilsMethods.getCurrentDate(),CommonUtilsMethods.getCurrentDate());
-        tt_terri.setText("Field Force");
-        tt_cat.setText("Type");
-        tt_spec.setText("Territory");
-        tt_qua.setText("Speciality");
-        tt_cls.setText("Class");
+        tt_terri.setText(getResources().getString(R.string.fieldforce));
+        tt_cat.setText(getResources().getString(R.string.type));
+        tt_spec.setText(getResources().getString(R.string.territory));
+        tt_qua.setText(getResources().getString(R.string.speciality));
+        tt_cls.setText(getResources().getString(R.string.clases));
 
         card_cluster.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,6 +193,8 @@ public class BrandDetailing extends Fragment {
                 if(i==2){
                     txt_from.setVisibility(View.VISIBLE);
                     txt_to.setVisibility(View.VISIBLE);
+                    txt_from.setText(getResources().getString(R.string.frm)+" : ");
+                    txt_to.setText(getResources().getString(R.string.lto)+" : ");
                 }
                 else{
                     txt_from.setVisibility(View.GONE);
@@ -248,11 +250,11 @@ public class BrandDetailing extends Fragment {
                 clearTheArraylist(speciality_list);
                 clearTheArraylist(qualification_list);
                 clearTheArraylist(class_list);
-                txt_clu.setText("Select FieldForce");
-                txt_cat.setText("Select Type");
-                txt_spec.setText("Select Territory");
-                txt_qua.setText("Select Speciality");
-                txt_cls.setText("Select Class");
+                txt_clu.setText(getResources().getString(R.string.selct)+" "+getResources().getString(R.string.fieldforce));
+                txt_cat.setText(getResources().getString(R.string.selct)+" "+getResources().getString(R.string.type));
+                txt_spec.setText(getResources().getString(R.string.selct)+" "+getResources().getString(R.string.territory));
+                txt_qua.setText(getResources().getString(R.string.sclt_spcl));
+                txt_cls.setText(getResources().getString(R.string.sclt_class));
             }
         });
 
@@ -298,11 +300,11 @@ public class BrandDetailing extends Fragment {
                 datePick(0);
             }
         });
-        txt_clu.setText("Select FieldForce");
-        txt_cat.setText("Select Type");
-        txt_spec.setText("Select Territory");
-        txt_qua.setText("Select Speciality");
-        txt_cls.setText("Select Class");
+        txt_clu.setText(getResources().getString(R.string.selct)+" "+getResources().getString(R.string.fieldforce));
+        txt_cat.setText(getResources().getString(R.string.selct)+" "+getResources().getString(R.string.type));
+        txt_spec.setText(getResources().getString(R.string.selct)+" "+getResources().getString(R.string.territory));
+        txt_qua.setText(getResources().getString(R.string.sclt_spcl));
+        txt_cls.setText(getResources().getString(R.string.sclt_class));
         return vv;
     }
 
@@ -363,7 +365,7 @@ public class BrandDetailing extends Fragment {
 
                 int mnth=monthOfYear+1;
                 if(x==0) {
-                    txt_from.setText("From : " + dayOfMonth + "-" + mnth + "-" + year);
+                    txt_from.setText(getResources().getString(R.string.frm)+" : " + dayOfMonth + "-" + mnth + "-" + year);
                     String dd=dayOfMonth + "-" + mnth + "-" + year;
                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
                     try {
@@ -375,7 +377,7 @@ public class BrandDetailing extends Fragment {
                     }
                 }
                 else {
-                    txt_to.setText("To : " + dayOfMonth + "-" + mnth + "-" + year);
+                    txt_to.setText(getResources().getString(R.string.lto)+" : " + dayOfMonth + "-" + mnth + "-" + year);
                     String dd=dayOfMonth + "-" + mnth + "-" + year;
                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
                     try {
@@ -529,7 +531,7 @@ public class BrandDetailing extends Fragment {
                         txt_clu.setText(ss);
                     }
                     else
-                        txt_clu.setText("Select Cluster");
+                        txt_clu.setText(getResources().getString(R.string.sclt_clst));
 
                 }
                 else if(x==2){
@@ -545,7 +547,7 @@ public class BrandDetailing extends Fragment {
                         txt_cat.setText(ss);
                     }
                     else
-                        txt_cat.setText("Select Category");
+                        txt_cat.setText(getResources().getString(R.string.sclt_cat));
 
                 }
                 else if(x==3){
@@ -561,7 +563,7 @@ public class BrandDetailing extends Fragment {
                         txt_spec.setText(ss);
                     }
                     else
-                        txt_spec.setText("Select Speciality");
+                        txt_spec.setText(getResources().getString(R.string.sclt_spcl));
 
                 }
                 else if(x==4){
@@ -577,7 +579,7 @@ public class BrandDetailing extends Fragment {
                         txt_qua.setText(ss);
                     }
                     else
-                        txt_qua.setText("Select Qualification");
+                        txt_qua.setText(getResources().getString(R.string.sclt_qualy));
 
                 }
                 else{
@@ -593,7 +595,7 @@ public class BrandDetailing extends Fragment {
                         txt_cls.setText(ss);
                     }
                     else
-                        txt_cls.setText("Select Class");
+                        txt_cls.setText(getResources().getString(R.string.sclt_class));
 
                 }
                 dialog.dismiss();
@@ -647,11 +649,11 @@ public class BrandDetailing extends Fragment {
         spec="";
         qua="";
         cls="";
-        txt_cls.setText("Select Class");
-        txt_qua.setText("Select Qualification");
-        txt_spec.setText("Select Speciality");
-        txt_cat.setText("Select Category");
-        txt_clu.setText("Select Cluster");
+        txt_cls.setText(getResources().getString(R.string.sclt_class));
+        txt_qua.setText(getResources().getString(R.string.sclt_qualy));
+        txt_spec.setText(getResources().getString(R.string.sclt_spcl));
+        txt_cat.setText(getResources().getString(R.string.sclt_cat));
+        txt_clu.setText(getResources().getString(R.string.sclt_clst));
         JSONObject jj=new JSONObject();
         try{
 
