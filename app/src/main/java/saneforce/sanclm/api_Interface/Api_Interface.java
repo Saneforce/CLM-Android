@@ -382,7 +382,6 @@ public interface Api_Interface {
     @POST("db.php?axn=save/drprofile")
     Call<ResponseBody> svDrProfile(@Field("data") String sf);
 
-
     @FormUrlEncoded
     @POST("db.php?axn=update/call")
     Call<ResponseBody> updateEditcall(@Field("data") String sf);
@@ -481,4 +480,12 @@ public interface Api_Interface {
     @FormUrlEncoded
     @POST("db.php?axn=get/brndexpo")
     Call<ResponseBody>getBrndexpo(@Field("data") String sf);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=get/actplnact")
+    Call<ResponseBody>getActivities(@Field("data") String sfdviv);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=get/sampplnact")
+    Call<ResponseBody>getSamples(@Field("data") String sfdviv);
 }

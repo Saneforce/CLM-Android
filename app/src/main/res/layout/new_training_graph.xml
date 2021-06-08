@@ -29,10 +29,10 @@
                         android:gravity="center|left"
                         android:text="   MTD Call Coverage &amp; Daily Call Average"
                         android:textColor="#000"
-                        android:textSize="18sp"
+                        android:textSize="15sp"
                         android:textStyle="normal"
                         android:typeface="serif"
-                        android:padding="11dp"/>
+                        android:padding="5dp"/>
                     <ImageButton
                         android:visibility="gone"
                         android:id="@+id/iv_monthly_summary_reload"
@@ -43,11 +43,10 @@
                         android:layout_alignParentTop="true"
                         android:src="@mipmap/sync" />
                     <TextView
-                        android:layout_marginTop="5dp"
                         android:id="@+id/reload"
                         android:layout_alignParentRight="true"
                         android:layout_width="150dp"
-                        android:layout_height="40dp"
+                        android:layout_height="35dp"
                         android:background="@drawable/rectanle_rounded"
                         android:text="Reload"
                         android:gravity="center"
@@ -64,7 +63,6 @@
                     android:layout_alignStart="@+id/ll_monthly_summary"
                     android:layout_below="@+id/ll_monthly_summary"
                     android:background="#ffffff"
-                    android:padding="5dp"
 
                     >
                     <RelativeLayout
@@ -93,7 +91,7 @@
                         >
 
                     <LinearLayout
-                        android:layout_margin="10dp"
+                        android:layout_margin="5dp"
                         android:elevation="10dp"
                         android:background="#fff"
                         android:layout_width="match_parent"
@@ -142,7 +140,7 @@
                         </RelativeLayout>
                     </LinearLayout>
                         <LinearLayout
-                            android:layout_margin="10dp"
+                          android:layout_margin="5dp"
                             android:elevation="10dp"
                             android:background="#fff"
                             android:layout_width="match_parent"
@@ -191,8 +189,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:layout_margin="10dp"
-                            android:elevation="10dp"
+                          android:layout_margin="5dp"                          android:elevation="10dp"
                             android:background="#fff"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -275,7 +272,7 @@
                         android:gravity="center|left"
                         android:text="   Detailing Performance"
                         android:textColor="#000"
-                        android:textSize="18sp"
+                        android:textSize="15sp"
                         android:textStyle="normal"
                         android:typeface="serif"
                         />
@@ -294,7 +291,7 @@
                         android:id="@+id/reload1"
                         android:layout_alignParentRight="true"
                         android:layout_width="150dp"
-                        android:layout_height="40dp"
+                        android:layout_height="35dp"
                         android:background="@drawable/rectanle_rounded"
                         android:text="Reload"
                         android:gravity="center"
@@ -337,9 +334,9 @@
                    android:orientation="vertical"
                    android:layout_weight="1"
                    android:background="#fff"
-                   android:layout_marginLeft="10dp"
-                   android:layout_marginBottom="10dp"
-                   android:layout_marginRight="10dp"
+                   android:layout_marginLeft="5dp"
+                   android:layout_marginBottom="5dp"
+                   android:layout_marginRight="5dp"
                    android:elevation="10dp">
                    <TextView
                        android:layout_width="wrap_content"
@@ -349,7 +346,7 @@
                        android:padding="5dp"
                        android:text=" Detailing Time Spent"
                        android:textColor="#000"
-                       android:textSize="15sp" />
+                       android:textSize="14sp" />
 
                    <View
                        android:layout_width="match_parent"
@@ -390,9 +387,9 @@
                    android:orientation="vertical"
                    android:layout_weight="1"
                    android:background="#fff"
-                   android:layout_marginLeft="10dp"
-                   android:layout_marginBottom="10dp"
-                   android:layout_marginRight="10dp"
+                   android:layout_marginLeft="5dp"
+                   android:layout_marginBottom="5dp"
+                   android:layout_marginRight="5dp"
                    android:elevation="10dp">
                    <TextView
                        android:layout_width="wrap_content"
@@ -402,7 +399,7 @@
                        android:padding="5dp"
                        android:text=" Brand Exposure"
                        android:textColor="#000"
-                       android:textSize="15sp" />
+                       android:textSize="14sp" />
 
                    <View
                        android:layout_width="match_parent"

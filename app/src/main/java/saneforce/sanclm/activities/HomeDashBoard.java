@@ -2353,6 +2353,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 //                            mCommonSharedPreference.setValueToPreference("DrRxNd", jsonn.getString("DrRxNd"));
 //                        else
 //                            mCommonSharedPreference.setValueToPreference("DrRxNd", "");
+                        //Rcpa Needed
 
                         if (jsonn.has("RcpaNd"))
                             mCommonSharedPreference.setValueToPreference("RcpaNd", jsonn.getString("RcpaNd"));
@@ -2373,12 +2374,6 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                         }else {
                             mCommonSharedPreference.setValueToPreference("AvailableAduitNeeded", "");
                         }
-                        //Rcpa Needed
-                        if(jsonn.has("RcpaNeeded")) {
-                            mCommonSharedPreference.setValueToPreference("RcpaNeeded", jsonn.getString("RcpaNeeded"));
-                        }else {
-                            mCommonSharedPreference.setValueToPreference("RcpaNeeded", "");
-                        }
 
                         Log.v("specFilter_json", mCommonSharedPreference.getValueFromPreference("specFilter"));
                         if (GpsNeed.equalsIgnoreCase("0") &&
@@ -2387,6 +2382,31 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                             /*callLocation();
                              */
 
+                        }
+
+                        //DashboardSetup
+                        if(jsonn.has("Dashboard1")){
+                            if(jsonn.getString("Dashboard1").contains("MTD")) {
+                                mCommonSharedPreference.setValueToPreference("Dashboard1", "Newscreen1");
+                            }else{
+                                mCommonSharedPreference.setValueToPreference("Dashboard1", "Oldscreen1");
+
+                            }
+
+                        }else{
+                            mCommonSharedPreference.setValueToPreference("Dashboard1", "");
+                        }
+
+                        if(jsonn.has("Dashboard2")){
+                            if(jsonn.getString("Dashboard2").contains("VSD")) {
+                                mCommonSharedPreference.setValueToPreference("Dashboard2", "Newscreen2");
+                            }else{
+                                mCommonSharedPreference.setValueToPreference("Dashboard2", "Oldscreen2");
+
+                            }
+
+                        }else{
+                            mCommonSharedPreference.setValueToPreference("Dashboard2", "");
                         }
 
 //                        if(jsonn.has("Detailing_chem")){

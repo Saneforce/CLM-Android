@@ -658,14 +658,23 @@ public class DetailingFullScreenImageViewActivity extends FragmentActivity imple
 
                     Intent i = new Intent(DetailingFullScreenImageViewActivity.this, FeedbackActivity.class);
                     //Intent i=new Intent(DetailingFullScreenImageViewActivity.this,DummyActivity.class);
-                    if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("chm"))
+                    if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("chm")) {
                         i.putExtra("feedpage", "chemist");
-                    else if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("stk")) {
+                        i.putExtra("custype", "0");
+
+                    }  else if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("stk")) {
                         i.putExtra("feedpage", "stock");
+                        i.putExtra("custype","0");
+
+
                     } else if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("undr")) {
                         i.putExtra("feedpage", "undr");
+                        i.putExtra("custype","0");
+
                     } else
                         i.putExtra("feedpage", "dr");
+                     i.putExtra("custype","0");
+
                     startActivity(i);
                 }
             }

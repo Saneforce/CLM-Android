@@ -26,9 +26,11 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +38,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -224,7 +227,7 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
         for(int i=0;i<branlist.size();i++){
 
             xVals.add(branlist.get(i).getBrand());
-            entries.add(new BarEntry(i,Float.parseFloat(branlist.get(i).getTcount())));
+            entries.add(new BarEntry(i, Float.parseFloat((branlist.get(i).getTcount()))));
           String col=branlist.get(i).getBarclr();
             colors[i]=Color.parseColor(col);
 
@@ -233,7 +236,8 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
         BarDataSet set = new BarDataSet(entries, "Visit Data");
         set.setColors(colors);
         BarData data = new BarData(set);
-        data.setBarWidth(0.9f);// set custom bar width
+        data.setBarWidth(0.7f);// set custom bar width
+        data.setValueFormatter(new DecimalRemover(new DecimalFormat("###,###,##0.0")));
         barChart.setData(data);
         barChart.setDescription(null);
         barChart.getLegend().setEnabled(false);
@@ -249,7 +253,7 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setLabelCount(xVals.size());
         xAxis.setValueFormatter(new IndexAxisValueFormatter(xVals));
-        xAxis.setTextSize(5f);
+        xAxis.setTextSize(9f);
         YAxis rightYAxis = barChart.getAxisRight();
         rightYAxis.setEnabled(false);
         YAxis rightYAxis1 = barChart.getAxisLeft();
@@ -769,4 +773,17 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
         db.close();
     }
 
+    private class DecimalRemover extends ValueFormatter {
+        protected DecimalFormat mFormat;
+
+        public DecimalRemover(DecimalFormat format) {
+            this.mFormat = format;
+        }
+
+        @Override
+        public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+            if(value < 10) return "";
+            return mFormat.format(value) ;
+        }
+    }
 }

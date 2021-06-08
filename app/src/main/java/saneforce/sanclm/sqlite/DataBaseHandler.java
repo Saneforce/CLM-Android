@@ -141,6 +141,49 @@ public class DataBaseHandler {
 
     }
 
+    public long insert_activity(String activity_slNo, String activity_name, String pln, String act) {
+
+        ContentValues values=new ContentValues();
+        values.put(TableEntry.COLUMN_SI,activity_slNo);
+        values.put(TableEntry.COLUMN_NAME,activity_name);
+        values.put(TableEntry.COLUMN_PLAN,pln);
+        values.put(TableEntry.COLUMN_ACTUAL,act);
+
+        return db.insert(TableEntry.TABLE_Activities,null,values);
+
+    }
+
+    public Cursor select_activities() {
+        //noinspection ConstantExpression
+        return db.rawQuery(" SELECT "+ TableEntry.COLUMN_SI+","+TableEntry.COLUMN_NAME+","+TableEntry.COLUMN_PLAN+","+TableEntry.COLUMN_ACTUAL+" FROM "+TableEntry.TABLE_Activities,null);
+
+    }
+
+    public void del_activity() {
+        db.execSQL("delete from " + TableEntry.TABLE_Activities +"  ");
+
+    }
+
+    public Cursor select_samples() {
+        return db.rawQuery(" SELECT "+ TableEntry.COLUMN_SI+","+TableEntry.COLUMN_NAME+","+TableEntry.COLUMN_PLAN+","+TableEntry.COLUMN_ACTUAL+" FROM "+TableEntry.TABLE_SAMPLES_CODE,null);
+
+    }
+
+    public void del_samples() {
+        db.execSQL("delete from " + TableEntry.TABLE_SAMPLES_CODE +"  ");
+
+    }
+
+    public long insert_samples(String code, String name, String pln, String act) {
+        ContentValues values=new ContentValues();
+        values.put(TableEntry.COLUMN_SI,code);
+        values.put(TableEntry.COLUMN_NAME,name);
+        values.put(TableEntry.COLUMN_PLAN,pln);
+        values.put(TableEntry.COLUMN_ACTUAL,act);
+
+        return db.insert(TableEntry.TABLE_SAMPLES_CODE,null,values);
+    }
+
     /* Inner class that defines the table contents */
     public abstract class TableEntry implements BaseColumns {
 
@@ -484,6 +527,14 @@ public class DataBaseHandler {
         public static final String COLUMN_txt3="txt3";
         public static final String COLUMN_count3="count3";
         public static final String COLUMN_Tcount3="Tcount3";
+
+
+        public static final String TABLE_Activities="activities";
+        public static final String COLUMN_SI="sino";
+        public static final String COLUMN_PLAN="plan";
+        public static final String COLUMN_ACTUAL="actual";
+
+        public static final String TABLE_SAMPLES_CODE="samplescode";
 
     }
 

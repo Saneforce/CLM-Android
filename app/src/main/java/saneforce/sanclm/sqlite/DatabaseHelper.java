@@ -8,8 +8,8 @@ import saneforce.sanclm.sqlite.DataBaseHandler.*;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
 
-    public static final int DATABASE_VERSION = 10;
-    public static final String DATABASE_NAME = "eghjjhEdetailing.db";
+    public static final int DATABASE_VERSION = 13;
+    public static final String DATABASE_NAME = "Edetailing11.db";
     private static final String TEXT_TYPE = " TEXT";
     private static final String COMMA_SEP = ",";
 
@@ -455,6 +455,22 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             TableEntry.COLUMN_Tcount3+ TEXT_TYPE +
             ")";
 
+    private static final String SQL_CREATE_ACTIVITIES = "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.TABLE_Activities +" ("+
+            TableEntry.COLUMN_SI+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_NAME+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_PLAN+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_ACTUAL+ TEXT_TYPE +
+            ")";
+
+    private static final String SQL_CREATE_SAMPLES= "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.TABLE_SAMPLES_CODE +" ("+
+            TableEntry.COLUMN_SI+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_NAME+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_PLAN+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_ACTUAL+ TEXT_TYPE +
+            ")";
+
     public DatabaseHelper(Context context)
     {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -511,6 +527,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL(SQL_CREATE_DETAILING_TIMESPENT);
         db.execSQL(SQL_CREATE_BRAND_EXPOSURE);
         db.execSQL(SQL_CREATE_TOTAL_CALLS);
+        db.execSQL(SQL_CREATE_ACTIVITIES);
+        db.execSQL(SQL_CREATE_SAMPLES);
 
     }
 

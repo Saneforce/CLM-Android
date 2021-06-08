@@ -43,9 +43,9 @@ public class AvailablityCheckActivity extends AppCompatActivity {
      CommonSharedPreference mCommonSharedPreference;
      AvailcheckAdapter adapter;
      String availjson;
-    String yy="";
+     String yy="";
     JSONObject jsonObject1=new JSONObject();
-String availability="";
+      String availability="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,7 +142,7 @@ String availability="";
 
                 Intent i=new Intent(AvailablityCheckActivity.this, FeedbackActivity.class);
                 i.putExtra("availjson",String.valueOf(jsonObject1));
-
+                 i.putExtra("custype","0");
                 setResult(6, i);
                 finish();
             }
@@ -153,6 +153,7 @@ String availability="";
             public void onClick(View v) {
                 Intent i = new Intent(AvailablityCheckActivity.this, FeedbackActivity.class);
                 i.putExtra("availjson",String.valueOf(jsonObject1));
+                i.putExtra("custype","0");
                 setResult(6, i);
                 finish();
             }
@@ -366,15 +367,23 @@ String availability="";
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent i=new Intent(AvailablityCheckActivity.this, FeedbackActivity.class);
-        if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("chm"))
+        Intent i = new Intent(AvailablityCheckActivity.this, FeedbackActivity.class);
+        if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("chm")){
             i.putExtra("feedpage", "chemist");
-        else if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("stk")) {
+        i.putExtra("custype", "0");
+
+    }else if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("stk")) {
             i.putExtra("feedpage", "stock");
+            i.putExtra("custype","0");
+
         } else if (mCommonSharedPreference.getValueFromPreference("detail_").equalsIgnoreCase("undr")) {
             i.putExtra("feedpage", "undr");
+            i.putExtra("custype","0");
+
         } else
             i.putExtra("feedpage", "dr");
+            i.putExtra("custype","0");
+
         startActivity(i);
         finish();
 

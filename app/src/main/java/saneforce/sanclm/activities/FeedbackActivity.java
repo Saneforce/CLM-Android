@@ -155,11 +155,12 @@ public class FeedbackActivity extends AppCompatActivity {
     String nn = null;
 
 
-    SharedPreferences sharedPreferences;
+    SharedPreferences sharedPreferences,sharedPreferences1;
 
     ArrayList<StoreImageTypeUrl> arrayStore = new ArrayList<>();
     LinearLayout addcalllayout,availLayout;
    String availability=null,custype="0";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,8 +170,10 @@ public class FeedbackActivity extends AppCompatActivity {
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         Bundle extra = getIntent().getExtras();
         feedOption = extra.getString("feedpage", null);
-        custype=extra.getString("custype",null);
+
 //        Log.v("options>>>>", custype);
+         sharedPreferences1 = getSharedPreferences("feed_list", 0);
+         custype=sharedPreferences1.getString("type","");
 
 
 
@@ -209,11 +212,9 @@ public class FeedbackActivity extends AppCompatActivity {
         val_pob = mCommonSharedPreference.getValueFromPreference("feed_pob");
         SF_Type = mCommonSharedPreference.getValueFromPreference("sf_type");
         AvailableAduitNeeded = mCommonSharedPreference.getValueFromPreference("AvailableAduitNeeded");
-//      RcpaNeeded= mCommonSharedPreference.getValueFromPreference("RcpaNeeded");
-        RcpaNeeded="1";
+        RcpaNeeded= mCommonSharedPreference.getValueFromPreference("RcpaNd");
         availability=mCommonSharedPreference.getValueFromPreference("availjson");
             Log.v("avail>>>1",availability);
-        btn_brand_audit.setVisibility(View.VISIBLE);
 
 
 
@@ -222,24 +223,31 @@ public class FeedbackActivity extends AppCompatActivity {
             addcalllayout.setVisibility(View.GONE);
             btn_brand_audit.setVisibility(View.VISIBLE);
 
-        }else if(AvailableAduitNeeded.equals("1")&&feedOption.equals("edit")&&custype.equals("2")) {
-            availLayout.setVisibility(View.VISIBLE);
-            btn_brand_audit.setVisibility(View.VISIBLE);
-            addcalllayout.setVisibility(View.GONE);
-
         }
+
 
        else  if(RcpaNeeded.equals("1")&&feedOption.equals("dr")){
-            btn_brand_audit.setVisibility(View.GONE);
+            btn_brand_audit.setVisibility(View.VISIBLE);
+            availLayout.setVisibility(View.GONE);
+            addcalllayout.setVisibility(View.VISIBLE);
 
-        }else if(RcpaNeeded.equals("1")&&feedOption.equals("edit")&&custype.equals("1")) {
-            btn_brand_audit.setVisibility(View.GONE);
         }
+       else if(AvailableAduitNeeded.equals("1")&&custype.equals("C")){
+            availLayout.setVisibility(View.VISIBLE);
+            addcalllayout.setVisibility(View.GONE);
+            btn_brand_audit.setVisibility(View.VISIBLE);
 
+        }
+        else  if(RcpaNeeded.equals("1")&&custype.equals("D")){
+            btn_brand_audit.setVisibility(View.VISIBLE);
+            availLayout.setVisibility(View.GONE);
+            addcalllayout.setVisibility(View.VISIBLE);
+
+        }
         else{
             availLayout.setVisibility(View.GONE);
             addcalllayout.setVisibility(View.VISIBLE);
-            btn_brand_audit.setVisibility(View.VISIBLE);
+            btn_brand_audit.setVisibility(View.GONE);
 
         }
 

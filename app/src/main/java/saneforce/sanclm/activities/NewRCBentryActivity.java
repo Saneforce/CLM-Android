@@ -211,6 +211,7 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(NewRCBentryActivity.this, FeedbackActivity.class);
+                i.putExtra("custype","0");
 
                 setResult(6, i);
                 finish();
@@ -772,6 +773,7 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
         jsonSave();
 
         Intent i = new Intent(NewRCBentryActivity.this, FeedbackActivity.class);
+        i.putExtra("custype","0");
         setResult(6, i);
 
         finish();
