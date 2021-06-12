@@ -816,7 +816,7 @@ public void genAdditionalFields(JSONArray jsonArray){
         for (int i = 0; i < jsonArray.length(); i++) {
             ArrayList<PopFeed> arr = new ArrayList<>();
             JSONObject json = jsonArray.getJSONObject(i);
-          // if (json.getString("Cat_code").equalsIgnoreCase(cat_code)) {
+           if (json.getString("Cat_code").equalsIgnoreCase(cat_code)) {
                 JSONArray jarray = json.getJSONArray("input");
                 if (jarray.length() != 0) {
                     for (int m = 0; m < jarray.length(); m++) {
@@ -833,7 +833,7 @@ public void genAdditionalFields(JSONArray jsonArray){
                     para = json.getString("Control_Para");
                 array_view.add(new ModelDynamicView(json.getString("Control_Id"), "", json.getString("Field_Name"), "", arr, para, json.getString("Sl_no"), json.getString("Activity_SlNo"), "", json.getString("Mandatory"),json.getString("Type")));
             }
-      // }
+       }
 
         adp_view = new AdapterDynamicView(array_view, ProfilingActivity.this);
         list=(ListView) findViewById(R.id.list);
