@@ -158,7 +158,6 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
             holder.iv_edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                     SharedPreferences share=context.getSharedPreferences("feed_list",0);
                     SharedPreferences.Editor edit=share.edit();
                     edit.putString("name",tdaycall.getDrName());
@@ -175,6 +174,7 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
 
 
                     if(!tdaycall.isLocal()){
+                        mCommonSharedPreference.setValueToPreference("Draft","false");
                         JSONObject json=new JSONObject();
                         try {
                             Toast toast=Toast.makeText(context, "Processing Data", Toast.LENGTH_SHORT);
@@ -259,6 +259,7 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
                     }
 
                     else{
+                        mCommonSharedPreference.setValueToPreference("Draft","true");
                         Intent i=new Intent(context, FeedbackActivity.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         i.putExtra("feedpage","edit");

@@ -476,4 +476,8 @@ public interface Api_Interface {
     @POST("db.php?axn=get/custctrl")
     Call<ResponseBody> getCustProfCtrls(@Field("data") String sf);
 
+    @FormUrlEncoded
+    @POST("db.php?axn=save/DrProfile")
+    Call<ResponseBody> svdcrProfile(@Field("data") String sf);
+
 }

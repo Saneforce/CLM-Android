@@ -10,13 +10,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/tvSubmit"
+        android:layout_above="@+id/btn_Submit"
         android:id="@+id/main_lay">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="-1dp"
+        android:fillViewport="true"
         android:padding="10dp">
 
         <LinearLayout
@@ -706,7 +707,7 @@
                 <ListView
                     android:id="@+id/list"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:background="@color/white" />
             </LinearLayout>
 
@@ -714,7 +715,7 @@
 
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
     </RelativeLayout>
     <Button
         android:layout_width="155dp"

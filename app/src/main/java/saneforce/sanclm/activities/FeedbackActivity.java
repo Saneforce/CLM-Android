@@ -1716,12 +1716,17 @@ public class FeedbackActivity extends AppCompatActivity {
                                 qty = js.getString("SmpQty");
                         }
                         if (val_pob.contains(peopleType)) {
-                            if (mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true")) {
-                                if (funStringValidation(js.getString("RxQty")))
-                                    pob = js.getString("RxQty");
-                            } else {
-                                if (funStringValidation(js.getString("rx_pob")))
-                                    pob = js.getString("rx_pob");
+                            if ((js.has("RxQty")) || (js.has("rx_pob"))) {
+                                if (mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true")) {
+                                    if (funStringValidation(js.getString("RxQty")))
+                                        pob = js.getString("RxQty");
+                                } else if (mCommonSharedPreference.getValueFromPreference("Draft").equalsIgnoreCase("true")) {
+                                    if (funStringValidation(js.getString("RxQty")))
+                                        pob = js.getString("RxQty");
+                                } else {
+                                    if (funStringValidation(js.getString("rx_pob")))
+                                        pob = js.getString("rx_pob");
+                                }
                             }
                         }
 

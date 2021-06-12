@@ -378,6 +378,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SUB_ACTIVITY_CREATE_USER && resultCode == Activity.RESULT_OK) {
             Bundle extras = data.getExtras();
             if (extras != null) {
@@ -2380,10 +2381,12 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                             mCommonSharedPreference.setValueToPreference("DrInpMd", "");
 
 
-                        mCommonSharedPreference.setValueToPreference("cipcap", jsonn.getString("CIP_Caption"));
 
-                        if (jsonn.has("cip_need"))
+
+                        if (jsonn.has("cip_need")) {
                             mCommonSharedPreference.setValueToPreference("cip_need", jsonn.getString("cip_need"));
+                            mCommonSharedPreference.setValueToPreference("cipcap", jsonn.getString("CIP_Caption"));
+                        }
                         else
                             mCommonSharedPreference.setValueToPreference("cip_need", "");
 

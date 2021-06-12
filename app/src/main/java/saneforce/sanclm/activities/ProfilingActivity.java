@@ -38,6 +38,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -102,14 +103,13 @@ public class ProfilingActivity extends AppCompatActivity implements View.OnClick
     ArrayList<ModelDynamicList> array = new ArrayList<>();
     ArrayList<ModelDynamicView> array_view = new ArrayList<>();
     RelativeLayout rl_dcr_precall_analysisMain , dcr_drselection_gridview;
-    String SF_Code,mMydayWtypeCd,subSfCode,division_code,cat_code;
+    String SF_Code,mMydayWtypeCd,subSfCode,division_code,cat_code,spec_code,qual_code,class_code,hosp_code,terr_code;
     String selectedProductCode="";
     TextView tv_drName;
     Button btn_re_select_doctor;
     AppCompatEditText et_searchDr,et_dobd,et_dobm,et_doby,et_dowd,et_dowm,et_dowy;
     ImageView iv_back;
     TextView txt_select_qua,txt_select_category,txt_select_type,txt_select_spec;
-    String db_connPath;
     AppCompatAutoCompleteTextView at_district,at_addr,at_mobile,at_phone,at_email;
     CheckBox check_male,check_female;
     AdapterDynamicActivity adp;
@@ -122,8 +122,8 @@ public class ProfilingActivity extends AppCompatActivity implements View.OnClick
     TimePickerDialog timePickerDialog;
     boolean isEmpty = false;
     Button btn_Submit;
-
-
+    String mobile,phone,address,email,dobd,dobm,doby,dowd,dowm,dowy,gender,specName,catName,qualName,className,hospName,district,pinCode,type;
+    String db_connPath,target,productRange,listedDrVisit,visitMultiple,listedDrAvgPatients,listedDrclsPatients;
     AdapterDynamicView adp_view;
 
 
@@ -266,8 +266,6 @@ public class ProfilingActivity extends AppCompatActivity implements View.OnClick
         btn_Submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
 
                 if (commonUtilsMethods.isOnline(ProfilingActivity.this)) {
                     if (validationOfField())
@@ -483,24 +481,42 @@ public class ProfilingActivity extends AppCompatActivity implements View.OnClick
                                        for (int i = 0; i < ja.length(); i++) {
                                            JSONObject js = ja.getJSONObject(i);
 
-                                           String mobile = js.getString("Mobile");
-                                           String phone = js.getString("Phone");
-                                           String address = js.getString("Addr1");
-                                           String email = js.getString("Email");
-                                           String dobd = js.getString("DOBD");
-                                           String dobm = js.getString("DOBM");
-                                           String doby = js.getString("DOBY");
-                                           String dowd = js.getString("DOWD");
-                                           String dowm = js.getString("DOWM");
-                                           String dowy = js.getString("DOWY");
-                                           String gender=js.getString("Gender");
-                                           String specName=js.getString("SpecName");
-                                           String catName=js.getString("CatName");
-                                           String qualName=js.getString("QualName");
+                                           mobile = js.getString("Mobile");
+                                           phone = js.getString("Phone");
+                                           address = js.getString("Addr1");
+                                           email = js.getString("Email");
+                                           dobd = js.getString("DOBD");
+                                           dobm = js.getString("DOBM");
+                                           doby = js.getString("DOBY");
+                                           dowd = js.getString("DOWD");
+                                           dowm = js.getString("DOWM");
+                                           dowy = js.getString("DOWY");
+                                           gender=js.getString("Gender");
+                                           specName=js.getString("SpecName");
+                                           catName=js.getString("CatName");
+                                           qualName=js.getString("QualName");
+                                           className=js.getString("ClsName");
+                                           hospName=js.getString("HospNames");
+                                           spec_code=js.getString("SpecCode");
                                            cat_code=js.getString("CatCode");
-                                           String district=js.getString("District");
-                                           String pinCode=js.getString("PinCode");
-                                           String type=js.getString("Type");
+                                           qual_code=js.getString("QualCode");
+                                           class_code=js.getString("ClsCode");
+                                           hosp_code=js.getString("HospCodes");
+                                           terr_code=js.getString("TerrCode");
+                                           class_code=js.getString("ClsCode");
+                                           district=js.getString("District");
+                                           pinCode=js.getString("PinCode");
+                                           type=js.getString("Type");
+                                           target=js.getString("Target");
+                                           productRange=js.getString("Product_Range");
+                                           target=js.getString("Target");
+                                           productRange=js.getString("Product_Range");
+                                           listedDrVisit=js.getString("ListedDr_Visit_Days");
+                                           visitMultiple=js.getString("Visit_Session_Multiple");
+                                           listedDrAvgPatients=js.getString("ListedDr_Avg_Patients");
+                                           listedDrclsPatients=js.getString("ListedDr_Class_Patients");
+
+
 
                                            txt_select_qua.setText(qualName);
                                            txt_select_spec.setText(specName);
@@ -800,7 +816,7 @@ public void genAdditionalFields(JSONArray jsonArray){
         for (int i = 0; i < jsonArray.length(); i++) {
             ArrayList<PopFeed> arr = new ArrayList<>();
             JSONObject json = jsonArray.getJSONObject(i);
-           if (json.getString("Cat_code").equalsIgnoreCase(cat_code)) {
+          // if (json.getString("Cat_code").equalsIgnoreCase(cat_code)) {
                 JSONArray jarray = json.getJSONArray("input");
                 if (jarray.length() != 0) {
                     for (int m = 0; m < jarray.length(); m++) {
@@ -815,9 +831,9 @@ public void genAdditionalFields(JSONArray jsonArray){
                     para = json.getString("Table_code");
                 else
                     para = json.getString("Control_Para");
-                array_view.add(new ModelDynamicView(json.getString("Control_Id"), "", json.getString("Field_Name"), "", arr, para, json.getString("Sl_no"), json.getString("Activity_SlNo"), "", json.getString("Mandatory")));
+                array_view.add(new ModelDynamicView(json.getString("Control_Id"), "", json.getString("Field_Name"), "", arr, para, json.getString("Sl_no"), json.getString("Activity_SlNo"), "", json.getString("Mandatory"),json.getString("Type")));
             }
-       }
+      // }
 
         adp_view = new AdapterDynamicView(array_view, ProfilingActivity.this);
         list=(ListView) findViewById(R.id.list);
@@ -1128,110 +1144,132 @@ public void genAdditionalFields(JSONArray jsonArray){
 
 
     public void saveValueEntry() {
+        JSONObject finaljs =null;
+        JSONArray jsonAddtnlCtrls = new JSONArray();
+
         if (array_view.size() != 0) {
-            JSONArray ja = new JSONArray();
-            JSONObject js = null;
-            JSONObject finaljs = new JSONObject();
-            String typ = "0", cust = "0", wt = "0", pl = "0", datasf = "", lat = "", lng = "", cusname = "";
-
-            if (!TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("cust_act"))) {
-                try {
-                    JSONObject jj = new JSONObject(mCommonSharedPreference.getValueFromPreference("cust_act").toString());
-                    typ = jj.getString("typ");
-                    cust = jj.getString("cust");
-                    wt = jj.getString("wt");
-                    pl = jj.getString("pl");
-                    datasf = jj.getString("DataSF");
-                    lat = jj.getString("lat");
-                    lng = jj.getString("lng");
-                    cusname = jj.getString("custname");
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
             for (int i = 0; i < array_view.size(); i++) {
-                ModelDynamicView mm = array_view.get(i);
+                JSONObject js = null;
+                    ModelDynamicView mm = array_view.get(i);
 
-                try {
-                    js = new JSONObject();
-                    js.put("SF", mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_CODE));
-                    js.put("div", mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DIVISION));
-                    js.put("act_date", CommonUtilsMethods.getCurrentInstance() + " " + CommonUtilsMethods.getCurrentTime());
-                    js.put("dcr_date", CommonUtilsMethods.getCurrentInstance() + " " + "00:00:00");
-                    js.put("update_time", CommonUtilsMethods.getCurrentInstance() + " " + CommonUtilsMethods.getCurrentTime());
-                    js.put("slno", mm.getSlno());
-                    js.put("ctrl_id", mm.getViewid());
-                    js.put("creat_id", mm.getCreation_id());
-                    js.put("WT", wt);
-                    js.put("Pl", pl);
-                    js.put("cus_code", cust);
-                    js.put("lat", lat);
-                    js.put("lng", lng);
-                    js.put("cusname", cusname);
-                    js.put("DataSF", datasf);
-                    js.put("type", typ);
+                    try {
+                        js = new JSONObject();
+                        js.put("sfCode", mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_CODE));
+                        js.put("DivCode", mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DIVISION));
+                        js.put("ProfType",mm.getType());
+                        js.put("DrCat",cat_code);
+                        js.put("CustCode",selectedProductCode);
+                        js.put("ctrl_id", mm.getViewid());
+                        js.put("creat_id", mm.getCreation_id());
 
-                    if (mm.getViewid().equalsIgnoreCase("8") || mm.getViewid().equalsIgnoreCase("9")
-                            || mm.getViewid().equalsIgnoreCase("12") || mm.getViewid().equalsIgnoreCase("13")) {
-                        mm.getA_list();
-                        if (mm.getA_list().contains(new PopFeed(true))) {
-                            String name = "", code = "";
-                            for (int k = 0; k < mm.getA_list().size(); k++) {
-                                PopFeed pf = mm.getA_list().get(k);
-                                if (pf.isClick()) {
-                                    if (!mm.getViewid().equalsIgnoreCase("9")) {
-                                        name = name + "," + pf.getTxt();
-                                        code = code + "," + pf.getCode();
-                                        k = mm.getA_list().size();
-                                        break;
-                                    } else {
-                                        name = name + "," + pf.getTxt();
-                                        code = code + "," + pf.getCode();
+                        if (mm.getViewid().equalsIgnoreCase("8") || mm.getViewid().equalsIgnoreCase("9")
+                                || mm.getViewid().equalsIgnoreCase("12") || mm.getViewid().equalsIgnoreCase("13")) {
+                            mm.getA_list();
+                            if (mm.getA_list().contains(new PopFeed(true))) {
+                                String name = "", code = "";
+                                for (int k = 0; k < mm.getA_list().size(); k++) {
+                                    PopFeed pf = mm.getA_list().get(k);
+                                    if (pf.isClick()) {
+                                        if (!mm.getViewid().equalsIgnoreCase("9")) {
+                                            name = name + "," + pf.getTxt();
+                                            code = code + "," + pf.getCode();
+                                            k = mm.getA_list().size();
+                                            break;
+                                        } else {
+                                            name = name + "," + pf.getTxt();
+                                            code = code + "," + pf.getCode();
+                                        }
+
                                     }
-
                                 }
+                                js.put("values", name);
+                                js.put("codes", code);
                             }
-                            js.put("values", name);
-                            js.put("codes", code);
+                        } else {
+                            if (mm.getViewid().equalsIgnoreCase("10"))
+                                js.put("values", mm.getUpload_sv());
+                            else
+                                js.put("values", mm.getValue());
+                            js.put("codes", "");
                         }
-                    } else {
-                        if (mm.getViewid().equalsIgnoreCase("10"))
-                            js.put("values", mm.getUpload_sv());
-                        else
+                        if (mm.getViewid().equalsIgnoreCase("17")) {
+                            js.put("values", mm.getLatValue());
+                            js.put("codes", mm.getLngValue());
+                        } else if (mm.getViewid().equalsIgnoreCase("7")) {
                             js.put("values", mm.getValue());
-                        js.put("codes", "");
+                            js.put("codes", mm.getTvalue());
+                        }
+
+                    } catch (Exception e) {
                     }
-                    if(mm.getViewid().equalsIgnoreCase("17"))
-                    {
-                        js.put("values",mm.getLatValue());
-                        js.put("codes",mm.getLngValue());
-                    }else if(mm.getViewid().equalsIgnoreCase("7"))
-                    {
-                        js.put("values",mm.getValue());
-                        js.put("codes",mm.getTvalue());
-                    }
-                } catch (Exception e) {
-                }
-                ja.put(js);
+                jsonAddtnlCtrls.put(js);
             }
 
-            try {
-                finaljs.put("val", ja);
-                Log.v("printing_json_dynamic", finaljs.toString());
-                callsave(finaljs.toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
+
+        try {
+            finaljs=new JSONObject();
+            finaljs.put("AdditionalCtrls",jsonAddtnlCtrls);
+            finaljs.put("ContactPerson", "");
+            finaljs.put("CustCode", selectedProductCode);
+            finaljs.put("CustName", tv_drName.getText().toString());
+            finaljs.put("DrAdd1", at_addr.getText().toString());
+            finaljs.put("DrAdd2", "");
+            finaljs.put("DrAdd3", "");
+            finaljs.put("DrAdd4", "");
+            finaljs.put("DrAdd5", "");
+            finaljs.put("DrCat",cat_code);
+            finaljs.put("DrClass", "");
+            finaljs.put("DrDOBD", et_dobd.getText().toString());
+            finaljs.put("DrDOBM", et_dobm.getText().toString());
+            finaljs.put("DrDOBY", et_doby.getText().toString());
+            finaljs.put("DrDOWD", et_dowd.getText().toString());
+            finaljs.put("DrDOWM", et_dowm.getText().toString());
+            finaljs.put("DrDOWY", et_dowy.getText().toString());
+            finaljs.put("DrEmail",at_email.getText().toString() );
+            finaljs.put("DrHosp", "");
+            finaljs.put("DrHospNm", "");
+            finaljs.put("DrMob",at_mobile.getText().toString() );
+            finaljs.put("DrPhone", at_phone.getText().toString());
+            finaljs.put("DrQual", qual_code);
+            finaljs.put("DrSpec",spec_code );
+            finaljs.put("DrTar", target);
+            finaljs.put("DrType", type);
+
+            JsonArray jProducts=new JsonArray();
+//            for(int i=0;i<jProducts.size();i++)
+//            {
+//                JSONObject jsonObject=new JSONObject();
+//                jsonObject.put("Code", "");
+//                jsonObject.put("Name", "");
+//            }
+
+            finaljs.put("Products",jProducts);
+
+            finaljs.put("ProfType","D");
+
+            JsonArray jvisitDays=new JsonArray();
+            finaljs.put("VisitDays",jvisitDays);
+            JsonArray jvstSession=new JsonArray();
+            finaljs.put("VstSess",jvstSession);
+            JsonArray jvstAvgDay=new JsonArray();
+            finaljs.put("vstAvgPDy",jvstAvgDay);
+            JsonArray jvstecoPats=new JsonArray();
+            finaljs.put("vstEcoPats",jvstecoPats);
+
+        }catch (Exception e)
+        {
+
         }
-
+        Log.v("printing_dr_profile", finaljs.toString());
+        callsave(finaljs.toString());
     }
 
     public void callsave(String json) {
 
         try {
 
-            Call<ResponseBody> approval = api_interface.svdcrAct(json);
+            Call<ResponseBody> approval = api_interface.svdcrProfile(json);
 
             approval.enqueue(new Callback<ResponseBody>() {
                 @Override

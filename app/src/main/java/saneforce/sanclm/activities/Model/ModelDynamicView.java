@@ -14,6 +14,7 @@ public class ModelDynamicView {
     String mandatory;
     String latValue;
     String lngValue;
+    String type;
     ArrayList<PopFeed>  a_list=new ArrayList<>();
 
     public ModelDynamicView(String viewid, String value, String fieldname,String    tvalue,ArrayList<PopFeed>  a_list,
@@ -29,6 +30,22 @@ public class ModelDynamicView {
         this.upload_sv=upload_sv;
         this.mandatory=mandatory;
     }
+
+    public ModelDynamicView(String viewid, String value, String fieldname,String    tvalue,ArrayList<PopFeed>  a_list,
+                            String ctrl_para,String creation_id,String slno,String upload_sv,String mandatory,String type) {
+        this.viewid = viewid;
+        this.value = value;
+        this.tvalue = tvalue;
+        this.fieldname = fieldname;
+        this.a_list=a_list;
+        this.ctrl_para=ctrl_para;
+        this.creation_id=creation_id;
+        this.slno=slno;
+        this.upload_sv=upload_sv;
+        this.mandatory=mandatory;
+        this.type=type;
+    }
+
 
     public ModelDynamicView(String viewid, String value, String fieldname,String    tvalue,ArrayList<PopFeed>  a_list,
                             String ctrl_para,String creation_id,String slno,String upload_sv,String mandatory,String latValue,String lngValue) {
@@ -146,6 +163,14 @@ public class ModelDynamicView {
 
     public ModelDynamicView(String  viewid){
         this.viewid=viewid;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override
