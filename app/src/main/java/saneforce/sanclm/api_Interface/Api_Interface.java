@@ -207,6 +207,14 @@ public interface Api_Interface {
     Call<List<CompetitorsList>> getcompetitors(@Field("data") String sf);
 
     @FormUrlEncoded
+    @POST("db.php?axn=get/mapcompdet")
+    Call<ResponseBody>getNewcompetitors(@Field("data") String sf);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=get/rcpafedbktmpl")
+    Call<ResponseBody>getFeedback(@Field("data") String div);
+
+    @FormUrlEncoded
     @POST("db.php?axn=get/catvst")
     Call<ResponseBody> gettCatVst(@Field ("data") String sfc);
 
@@ -459,6 +467,21 @@ public interface Api_Interface {
     @POST("db.php?axn=getdivision_speciality")
     Call<JsonArray> getdivSpecDataAsJArray(@QueryMap Map<String, String> params);
 
+    @FormUrlEncoded
+    @POST("db.php?axn=get/drcovdet")
+    Call<ResponseBody>getDoctorCoverage(@Field("data") String sf);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=get/chmcovdet")
+    Call<ResponseBody>getPharmCoverage(@Field("data") String sf);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=get/totcalls")
+    Call<ResponseBody>getTotalcallsCoverage(@Field("data") String sf);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=get/tdaydet")
+    Call<ResponseBody>getTotaldetails(@Field("data") String sf);
     @POST("db.php?axn=get/hierarchy")
     Call<JsonArray> gethierarchyDataAsJArray(@QueryMap Map<String, String> params);
 
@@ -468,6 +491,13 @@ public interface Api_Interface {
     @POST("db.php?axn=get/speciality_sfe")
     Call<JsonArray> getSpecialityDataAsJArray(@QueryMap Map<String, String> params);
 
+    @FormUrlEncoded
+    @POST("db.php?axn=get/brnddettm")
+    Call<ResponseBody>getDetailingtmspent(@Field("data") String sf);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=get/brndexpo")
+    Call<ResponseBody>getBrndexpo(@Field("data") String sf);
     @FormUrlEncoded
     @POST("db.php?axn=get/drdets")
     Call<ResponseBody> getDrDetails(@Field("data") String sf);

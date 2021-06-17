@@ -4,7 +4,9 @@
     package="saneforce.sanclm"
     android:screenOrientation="landscape">
 
-    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -18,7 +20,6 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
@@ -37,14 +38,15 @@
         android:windowSoftInputMode="stateHidden"
         tools:node="replace"
         tools:replace="android:icon">
-
-        <activity android:name=".activities.LeaveActivity1"/>
-
-
+        <activity android:name=".activities.ImageActivity"
+            android:screenOrientation="landscape"></activity>
+        <activity
+            android:name=".activities.NewRCBentryActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name=".activities.LeaveActivity1" />
         <activity
             android:name=".activities.ReportOfDetailing"
-            android:screenOrientation="landscape">
-        </activity>
+            android:screenOrientation="landscape" />
         <activity android:name=".activities.PublishProgressActivity" />
         <activity android:name=".activities.DownloadActivity" />
         <activity android:name=".activities.MainActivity" />
@@ -130,7 +132,6 @@
             android:name=".activities.DownloadListViewSubActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-
         <activity
             android:name=".activities.viewWebsite"
             android:screenOrientation="landscape"
@@ -225,6 +226,15 @@
         <activity
             android:name=".activities.ReportWebActivity"
             android:screenOrientation="landscape" />
+        <activity
+            android:name=".Order_Report.Activity.Target_details"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".Order_Report.Activity.Target_Vs_Secondary"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".activities.DashActivity"
+            android:screenOrientation="landscape" />
 
 
         <activity android:name=".Order_Report.Activity.Target_details"
@@ -277,6 +287,9 @@
         <activity
             android:name=".activities.MapsActivity"
             android:label="@string/title_activity_maps"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".activities.AvailablityCheckActivity"
             android:screenOrientation="landscape" />
     </application>
 

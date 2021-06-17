@@ -666,6 +666,68 @@ public class DownloadMasters extends IntentService {
         }
     };
 
+//newcomp
+public Callback<ResponseBody> NewComplist = new Callback<ResponseBody>() {
+    @Override
+    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+        System.out.println("checkUser is sucessfuld :" + response.isSuccessful());
+        if (response.isSuccessful()) {
+            JSONObject jsonObject = null;
+            String jsonData = null;
+            try {
+                dbh.open();
+                dbh.del_comp_new();
+                InputStreamReader ip = null;
+                StringBuilder is = new StringBuilder();
+                String line = null;
+
+                ip = new InputStreamReader(response.body().byteStream());
+                BufferedReader bf = new BufferedReader(ip);
+
+                while ((line = bf.readLine()) != null) {
+                    is.append(line);
+                }
+                //  dbh.delete_All_tableDatas();
+                // List<Doctors> doctors = response.body();
+
+                JSONArray ja = new JSONArray(is.toString());
+                for (int i = 0; i < ja.length(); i++) {
+                    JSONObject js1 = ja.getJSONObject(i);
+                    JSONArray jsonArray = js1.getJSONArray("Cmpt");
+                    for (int j = 0; j < jsonArray.length(); j++) {
+                        JSONObject js = jsonArray.getJSONObject(i);
+
+                        String compSlNo = js.getString("CCode");
+                        String compName = js.getString("CName");
+                        String compPrdSlNo= js.getString("PCode");
+                        String compPrdName = js.getString("PName");
+
+                        dbh.insertCompetitorTable(compSlNo, compName, compPrdSlNo, compPrdName);
+
+                        Log.v("printing_chompnew", compName);
+
+
+                    }
+                }
+                dbh.close();
+
+            } catch (Exception e) {
+            }
+        } else {
+            try {
+                JSONObject jObjError = new JSONObject(response.toString());
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    @Override
+    public void onFailure(Call<ResponseBody> call, Throwable t) {
+    }
+};
+
+
+
     public Callback<List<Stockists>> StockistList = new Callback<List<Stockists>>() {
         @Override
         public void onResponse(Call<List<Stockists>> call, Response<List<Stockists>> response) {
@@ -1608,6 +1670,8 @@ public class DownloadMasters extends IntentService {
         prdList();
         brdList();
         copList();
+        NewcopList();
+
         clsList();
         typeeList();
         spesList();
@@ -1781,6 +1845,11 @@ public class DownloadMasters extends IntentService {
     public void CipList() {
         Call<ResponseBody> cipList = apiService.getCip(String.valueOf(obj));
         cipList.enqueue(CipList);
+    }
+
+    public void NewcopList() {
+//        Call<ResponseBody> chm = apiService.getNewcompetitors(String.valueOf(obj));
+//        chm.enqueue(NewComplist);
     }
 
     public static void bindManagerListLoading(ManagerListLoading mManagerListLoading) {

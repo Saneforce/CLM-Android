@@ -39,7 +39,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Name : "
+                            android:text="@string/name"
                             android:textSize="14sp"
                             android:textColor="#000"
                             android:id="@+id/txt_name"
@@ -68,7 +68,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="From : "
+                            android:text="@string/frm"
                             android:textSize="14sp"
                             android:textColor="#000"
                             android:id="@+id/txt_from"
@@ -97,7 +97,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="To : "
+                            android:text="@string/lto"
                             android:textSize="14sp"
                             android:textColor="#000"
                             android:textAllCaps="true"
@@ -129,7 +129,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Day : "
+                            android:text="@string/day"
                             android:textSize="14sp"
                             android:textColor="#000"
                             android:id="@+id/txt_day"
@@ -168,7 +168,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Reason For Leave"
+                        android:text="@string/reason"
                         android:textSize="14sp"
                         android:textColor="#000"
                         android:id="@+id/txt_reason"
@@ -184,7 +184,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Enter Leave Reason"
+                            android:text="@string/ent_lvreason"
                             android:textColor="#277199"
                             android:textSize="13sp"
                             android:id="@+id/txt_val_reason"/>
@@ -201,7 +201,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Address on Leave"
+                        android:text="@string/addrs_leave"
                         android:textSize="14sp"
                         android:textColor="#000"
                         android:id="@+id/txt_addr"
@@ -217,7 +217,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Enter the remarks"
+                            android:text="@string/ent_lvremarks"
                             android:textColor="#277199"
                             android:id="@+id/txt_val_addr"
                             android:textSize="13sp"/>
@@ -241,7 +241,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Leave Type :"
+                        android:text="@string/leavetype"
                         android:textSize="14sp"
                         android:textColor="#000"
                         android:id="@+id/txt_leave"
@@ -267,7 +267,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Available :"
+                        android:text="@string/available"
                         android:textSize="14sp"
                         android:textColor="#000"
                         android:id="@+id/txt_avail"
@@ -302,9 +302,10 @@
                             android:padding="3dp"
                             >
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="70dp"
                                 android:layout_height="wrap_content"
-                                android:text="    Reject    "
+                                android:text="@string/rejct"
+                                android:gravity="center"
                                 android:textColor="#fff"
                                 android:layout_marginRight="3dp"/>
                         </RelativeLayout>
@@ -317,12 +318,14 @@
                             android:layout_toLeftOf="@+id/lay_reject"
                             android:layout_marginRight="5dp"
                             >
+
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="70dp"
                                 android:layout_height="wrap_content"
-                                android:text="    Accept    "
-                                android:textColor="#fff"
-                                android:layout_marginRight="3dp"/>
+                                android:layout_marginRight="3dp"
+                                android:text="@string/accpt"
+                                android:gravity="center"
+                                android:textColor="#fff" />
                         </RelativeLayout>
 
                     </RelativeLayout>

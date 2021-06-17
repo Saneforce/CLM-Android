@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SAN CLM</string>
+    <string name="app_version">Version 1.8.2</string>
+
+    <string name="preference_name">saneforce.sanclm.preferencefile</string>
+    <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+
+    <string name="tab_option_listeddr">DOCTOR</string>
+    <string name="tab_option_chemist">CHEMIST</string>
+    <string name="tab_option_stockist">STOCKIST</string>
+    <string name="tab_option_unlisteddr">UNLISTED DOCTOR</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="start_updates">START LOCATION UPDATES</string>
+    <string name="stop_updates">STOP LOCATION UPDATES</string>
+    <string name="get_last_location">GET LAST LOCATION</string>
+
+    <string name="hnt_fcs_pdts">Focused Products</string>
+
+    <string name="sv_prsn">SALVE </string>
+    <string name="del_prsn">Delete Presentation</string>
+
+    <string name="prsnt">presentate</string>
+
+    <string-array name="Det_listsview_Items">
+        <item>Brand Matrix</item>
+        <item>Speciality Wise</item>
+        <item>All Brands</item>
+    </string-array>
+    <string name="title_activity_maps">Map</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="App_Configuration">CONFIGURAÇÃO DO APP</string>
+    <string name="Web_URL">URL da WEB ( eg: www.yoururl.com )</string>
+    <string name="License_Key">CHAVE DE LICENÇA</string>
+    <string name="Your_Device_ID">ID DO SEU DISPOSITIVO</string>
+    <string name="CLEAR_DATA">APAGAR OS DADOS</string>
+    <string name="SAVE_SETTINGS">ENREGISTRER LES PARAMÈTRES</string>
+    <string name="CLOSE">PERTO</string>
+    <string name="language">língua</string>
+    <string name="username">nome do usuário</string>
+    <string name="password">Senha</string>
+    <string name="Login">CONECTE-SE</string>
+
+    <string name="worktype">TIPO DE TRABALHO</string>
+    <string name="headquater">QUARTEL GENERAL</string>
+    <string name="cluster">GRUPO</string>
+    <string name="remarks">OBSERVAÇÕES</string>
+    <string name="select">SELECIONE</string>
+    <string name="todayworktype">PLANO DE TRABALHO HOJE</string>
+    <string name="go">VAI</string>
+
+    <string name="todaycall">Chamadas de hoje</string>
+    <string name="total">Total</string>
+    <string name="calls">Ligações</string>
+    <string name="presentation">Apresentação</string>
+    <string name="report">Relatórios</string>
+
+    <string name="monthly_average">MÉDIA DE CHAMADAS MENSAIS</string>
+    <string name="current_visit">DETALHES DA VISITA DA CHAMADA DO MÊS ATUAL</string>
+    <string name="category">DETALHES DE VISITA POR CATEGORIA</string>
+    <string name="overall">DETALHES DA VISITA GERAL</string>
+
+    <string name="call">Ligar</string>
+    <string name="coverage">Cobertura</string>
+    <string name="daily">Diariamente</string>
+    <string name="average">Média</string>
+    <string name="reload">recarregar</string>
+    <string name="detailing">Detalhamento</string>
+    <string name="performance">Desempenho</string>
+    <string name="time">Tempo</string>
+    <string name="spent">Gasto</string>
+    <string name="brand">Marca</string>
+    <string name="exposure">Exposição</string>
+    <string name="pharmacy">Farmacia</string>
+
+    <string name="master">LISTA MASTER BAIXO CARREGADOR</string>
+    <string name="list">LIST</string>
+    <string name="competitors">COMPETIDORES</string>
+    <string name="input">ENTRADAS</string>
+    <string name="product">PRODUTOS</string>
+    <string name="slides">SLIDES</string>
+    <string name="brands">MARCAS</string>
+    <string name="departments">DEPARTAMENTOS</string>
+    <string name="speciality">ESPECIALIDADE</string>
+    <string name="catogy">CATEGORIA</string>
+    <string name="qualifications">QUALIFICAÇÕES</string>
+    <string name="clases">AULA</string>
+    <string name="types">TIPOS</string>
+    <string name="rating">Avaliação</string>
+    <string name="details">DETALHES DE CLASSIFICAÇÃO</string>
+    <string name="feedbacks">AVALIAÇÃO DE FEEDBACKS</string>
+    <string name="theraptic">Terapêutica</string>
+    <string name="jointwork">Trabalho conjunto</string>
+    <string name="hospital">HOSPITAL</string>
+    <string name="change_cluster">ALTERAR CLUSTER</string>
+
+    <string name="select_worktype">SELECIONE O TIPO DE TRABALHO</string>
+    <string name="select_cluster">SELECIONE O CLUSTER</string>
+    <string name="select_headquater">SELECIONE A CABEÇA</string>
+    <string name="activity">Atividade</string>
+    <string name="Slides_Downloader">Downloader de slides</string>
+
+    <string name="create_presentation">Criar apresentação</string>
+    <string name="tour_plan">Plano de turismo</string>
+    <string name="missed_date_entry">Entrada de data perdida</string>
+    <string name="leave_application">Sair do aplicativo</string>
+    <string name="approvals">Aprovações</string>
+    <string name="near_me">Perto de mim</string>
+    <string name="detailing_report">Relatório de Detalhamento</string>
+    <string name="logout">Sair</string>
+    <string name="Dashboard">Painel</string>
+
+    <string name="worktype1">Tipo de trabalho</string>
+    <string name="headquater1">Quartel general</string>
+    <string name="cluster1">Grupo</string>
+    <string name="Selection">SELEÇÃO</string>
+    <string name="search">Procurar</string>
+    <string name="listed">Listadas</string>
+    <string name="cancel">Cancelar</string>
+    <string name="presentation_name">Dê um nome à sua apresentação</string>
+    <string name="dayreport">Relatório do dia</string>
+    <string name="monthlyreport">Relatório mensal</string>
+    <string name="visitcontrol">Visite o controle</string>
+    <string name="missedreport">Relatórios Perdidos</string>
+    <string name="change_password">Alterar a senha</string>
+
+    <string name="halfdaywork">Meio dia de trabalho</string>
+    <string name="remarks1">Observações</string>
+    <string name="visit_time">Hora da visita</string>
+    <string name="modified_time">Modificar hora</string>
+    <string name="Products">produtos</string>
+    <string name="sampqty">Quantidade de amostra</string>
+    <string name="rxqty">Rx Qty</string>
+    <string name="feedback">Comentários</string>
+    <string name="input1">Entrada</string>
+    <string name="summary">Resumo</string>
+
+    <string name="totaldoc">Médico total</string>
+    <string name="missedcall">Chamada Perdida</string>
+    <string name="docmet">Doutor conheceu</string>
+    <string name="docseen">Médico visto</string>
+    <string name="fieldday">Dias de Trabalho de Campo</string>
+    <string name="calaverage">Média de Chamadas</string>
+    <string name="savegallery">Salvar na galeria</string>
+
+    <string name="doctor">MÉDICO</string>
+    <string name="met">Conheceu</string>
+    <string name="missed">Esquecidos</string>
+    <string name="previosvst">Visita Anterior</string>
+    <string name="apply">APLIQUE</string>
+    <string name="clear">CLARO</string>
+
+    <string name="done">Feito</string>
+    <string name="sclt_clst">Selecione Cluster</string>
+    <string name="sclt_work">Selecione o tipo de trabalho</string>
+    <string name="sclt_head">Selecione a sede</string>
+    <string name="sclt_cat">Selecione a Categoria</string>
+    <string name="sclt_spcl">Selecione a especialidade</string>
+    <string name="sclt_qualy">Selecione a qualificação</string>
+    <string name="sclt_class">Selecione a classe</string>
+    <string name="sclt_doc">Selecione o médico</string>
+    <string name="tour_entry">ENTRADA NO PLANO DE TURISMO</string>
+    <string name="choose_date">Escolha a data</string>
+    <string name="send_apprve">   Enviar para aprovação  </string>
+    <string name="apprve">Aprovar</string>
+    <string name="rejct">Rejeitar</string>
+
+    <string name="sunday">Domigo</string>
+    <string name="monday">Segunda-feira</string>
+    <string name="tuesday">terça</string>
+    <string name="wednesday">quarta-feira</string>
+    <string name="thursday">quinta-feira</string>
+    <string name="friday">sexta-feira</string>
+    <string name="saturday">sábado</string>
+
+    <string name="add_session">Adicionar sessão</string>
+    <string name="del_session">Apagar sessão</string>
+    <string name="misdate">SELEÇÃO DE DATA PERDIDA</string>
+
+    <string name="field">Trabalho de Campo</string>
+    <string name="other">Outros</string>
+
+    <string name="leavecap">SAIR DA APLICAÇÃO</string>
+    <string name="lfrom">Partir de</string>
+    <string name="lto">Para</string>
+    <string name="reason">Razão para sair</string>
+    <string name="nodays">No. de dias</string>
+    <string name="leavetype">Tipo de Licença</string>
+    <string name="addrs_leave">Endereço na Licença</string>
+    <string name="eligible">Elegibilidade</string>
+    <string name="taken">Ocupada</string>
+    <string name="available">Disponível</string>
+    <string name="submit">Enviar</string>
+    <string name="tpapproval">Aprovações de planos de turismo</string>
+    <string name="lvapproval">Aprovações de licença</string>
+    <string name="dcrapproval">Aprovações DCR</string>
+    <string name="name">Nome</string>
+    <string name="ent_lvreason">Insira o motivo da licença</string>
+    <string name="ent_lvremarks">Digite as observações</string>
+    <string name="day">Dia</string>
+    <string name="accpt">Aceitar</string>
+    <string name="frm">A partir de</string>
+    <string name="mnth">Mês</string>
+    <string name="year">Ano</string>
+    <string name="view">Visualizar</string>
+    <string name="taging">Etiquetagem</string>
+    <string name="nerme">Perto de mim</string>
+    <string name="addrss">Endereço</string>
+    <string name="tag">MARCAÇÃO</string>
+    <string name="refresh">Atualizar</string>
+    <string name="findroute">Encontrar rota</string>
+    <string name="visit">Visita</string>
+    <string name="cutomer">Cliente</string>
+
+    <string name="thimnth">Este mês</string>
+    <string name="pr_mnth">Mês anterior</string>
+    <string name="custmz">Customizar</string>
+    <string name="nm_cust">Nome do cliente</string>
+    <string name="nm_ffc">Nome da FieldForce</string>
+    <string name="type">Modelo</string>
+    <string name="territory">Território</string>
+    <string name="detail_count">Contagem de detalhamento</string>
+    <string name="detail_duration">Duração de detalhamento</string>
+    <string name="detail_graph1">Top 5 de contagem detalhada</string>
+    <string name="detail_graph2">5 melhores tempos detalhados</string>
+    <string name="filter">Filtro</string>
+    <string name="fieldforce">Campo de força</string>
+    <string name="selct">Selecione</string>
+    <string name="old_pass">Senha Antiga</string>
+    <string name="new_pass">Nova Senha</string>
+    <string name="conf_pass">Confirme a Senha</string>
+    <string name="confirm">confirme</string>
+    <string name="sclt_hospital">Selecione o hospital</string>
+
+    <string name="date_birth">Data de nascimento</string>
+    <string name="weddnig">Data do casamento</string>
+    <string name="mobile">Móvel</string>
+    <string name="email">O email</string>
+    <string name="last_visit">Data da Última Visita</string>
+    <string name="product_promte">Produtos Promovidos</string>
+    <string name="reselect">Re - Selecionar</string>
+
+    <string name="contc_person">Pessoa de contato</string>
+    <string name="phone">Telefone</string>
+    <string name="fax">Fax</string>
+    <string name="precall">Análise Pré-Chamada</string>
+
+    <string name="sendquies">Enviar consultas</string>
+    <string name="prd_nme">Nome do Produto</string>
+    <string name="timline">Linha do tempo</string>
+    <string name="samp">Amostras</string>
+    <string name="rx">Rx</string>
+    <string name="qty">Qty</string>
+    <string name="add_cals">Chamadas Adicionais</string>
+    <string name="rcpaenty">Rcpa Entry</string>
+    <string name="finlsubmit">Envio final</string>
+
+    <string name="docnm">Nome do Médico</string>
+    <string name="chmnm">Nome do Químico</string>
+    <string name="rcpalist">Lista Rcpa</string>
+    <string name="ourbrand">Nossa Marca de Produto</string>
+    <string name="compnm">Nome da empresa concorrente</string>
+    <string name="brndnm">Nome da marca concorrente</string>
+    <string name="rate">Avaliar</string>
+    <string name="value">Valor</string>
+    <string name="addcomp">Adicionar concorrente</string>
+    <string name="antherbrnd">Adicionar outra marca</string>
+    <string name="compaudit">Auditoria de Concorrente</string>
+    <string name="inv">Inv.Qty</string>
+    <string name="ptp">PTP</string>
+    <string name="ptr">PTR</string>
+    <string name="sw">Avg.S/W</string>
+    <string name="shalinaprd">Marca de Produto Shalina</string>
+    <string name="signature">Assinatura aqui</string>
+    <string name="typehere">digite aqui</string>
+    <string name="sandigital">Detalhamento Digital SAN</string>
+    <string name="alertmsg">Você quer cancelar esta chamada sem</string>
+    <string name="aleretmsg1">Enviar chamada</string>
+    <string name="savedft">Salvar rascunho</string>
+    <string name="ok">OK</string>
+    <string name="brandmatrix">Matriz de marca</string>
+    <string name="spclwise">Especialidade sábia</string>
+    <string name="allbrand">Todas as marcas</string>
+    <string name="customise">Customizar</string>
+
+    <string name="targetsales">Detalhes de vendas do VS-alvo</string>
+    <string name="primary">Primária</string>
+    <string name="clearfilter">Filtro limpo</string>
+    <string name="brndcontry">Contribuição da marca</string>
+    <string name="home">Casa</string>
+    <string name="sfe">SFE</string>
+    <string name="customfilter">Filtro customizado</string>
+    <string name="secondary">Secundária</string>
+    <string name="mtd">MTD</string>
+    <string name="qtd">QTD</string>
+    <string name="ytd">YTD</string>
+    <string name="customdate">Data Personalizada</string>
+    <string name="selctdate">Selecione a partir da data</string>
+    <string name="todate">Selecione a data</string>
+    <string name="selctlist">Lista de Seleção</string>
+    <string name="avilablecheck">Verificação de disponibilidade</string>
+
+    <string name="avilablesearch">Pesquisa por código de subcategoria / descrição</string>
+    <string name="allos">ALL OOS</string>
+    <string name="allavail">TODOS DISPONÍVEIS</string>
+    <string name="availstock">ESTOQUE</string>
+    <string name="availoos">OOS </string>
+    <string name="avail">APROVEITAR</string>
+    <string name="target">Alvo</string>
+
+    <string name="sclt_chmnm">Selecione o nome do químico</string>
+    <string name="sclt_prdnm">Selecione o nome do produto</string>
+    <string name="scltprdqty">Selecione a quantidade do produto</string>
+    <string name="sclt_compdetl">Selecione os detalhes do concorrente</string>
+
+    <string name="sclt_frm_to">Por favor, preencha a partir da data e até a data</string>
+    <string name="sclt_option">Selecione as opções para filtrar</string>
+    <string name="no_record">sem registros encontrados</string>
+    <string name="something_wrong">Algo deu errado</string>
+    <string name="noprdsclt">Nenhum produto selecionado</string>
+    <string name="noprdavailable">Nenhum produto disponível</string>
+    <string name="alarmset">Alarme definido em</string>
+    <string name="seconds">segundos</string>
+    <string name="alarm">Alarme....</string>
+    <string name="submitsuccess">Submetido com sucesso !!</string>
+    <string name="dplan_need">Meu plano do dia é necessário</string>
+    <string name="offline">Você está OFF - Line</string>
+    <string name="filenotavailable">arquivo não disponível</string>
+    <string name="filedownloading">Um novo arquivo está sendo baixado</string>
+    <string name="downldsuccess">Um novo arquivo foi baixado com sucesso</string>
+    <string name="nofile">Nenhum aplicativo encontrado que possa abrir o arquivo</string>
+
+    <string name="fillmand">Preencha o campo obrigatório</string>
+    <string name="nonetwrk">Sem rede</string>
+    <string name="datelesser">A partir da data deve ser menor</string>
+    <string name="filldate">Preencher a partir da data</string>
+    <string name="togreater">Até o momento deve ser maior</string>
+    <string name="timelesser">De vez deve ser menor</string>
+    <string name="filltime">Preencha o tempo</string>
+    <string name="totimegreater">Para o tempo deve ser maior</string>
+    <string name="datasave">Dados salvos com sucesso</string>
+    <string name="cannotload">Não é possível carregar dados</string>
+    <string name="filenot_support">Este formato de arquivo não é compatível</string>
+
+    <string name="expncelist">Lista de Despesas</string>
+    <string name="rejectreson">Motivo de rejeição</string>
+    <string name="surerejct">Tem certeza de rejeitar?</string>
+    <string name="yesrject">Sim, para rejeitar</string>
+
+    <string name="entr_sample_val">Insira os valores de amostra</string>
+    <string name="entr_rx_val">Insira os valores RxQty</string>
+    <string name="sclt_input">Selecione a entrada</string>
+    <string name="entr_input_val">Insira os valores de entrada</string>
+    <string name="entr_rcpa_val">Insira os valores Rcpa</string>
+    <string name="invalid_cus">Seleção de cliente inválida</string>
+    <string name="no_input">Nenhuma entrada disponível</string>
+    <string name="query_succs">Consulta enviada com sucesso</string>
+    <string name="query_notsuccs">Consulta não enviada com sucesso</string>
+    <string name="data_success">Dados enviados com sucesso</string>
+    <string name="data_notsuccess">OOPS !! dados não enviados</string>
+
+    <string name="leave_success">Saia enviada com sucesso !!</string>
+    <string name="leave_already">Já Saia Postado nesta data !!</string>
+
+    <string name="click_again">Clique novamente para sair</string>
+    <string name="check_us_ps">Verifique o nome de usuário e a senha</string>
+    <string name="strge_permis">Permita a permissão de armazenamento</string>
+    <string name="mob_inter">Habilite a Internet móvel ..</string>
+    <string name="onfail">Em caso de falha</string>
+    <string name="fill_the">Preencha o</string>
+    <string name="field_">campo</string>
+    <string name="tag_succs">Marcado com sucesso !!</string>
+    <string name="hnt_pickimg">Você não escolheu a imagem</string>
+    <string name="nomrequiz">Sem mais questionários</string>
+    <string name="choose_ans">Escolha a resposta</string>
+    <string name="quiz_submitted">Questionário enviado com sucesso</string>
+    <string name="quiz">Questionário</string>
+    <string name="quiz_rmtime">Tempo restante -</string>
+    <string name="quiz_info">Escolha a resposta que mais se aplica a você</string>
+    <string name="quiz_nxt">Próximo</string>
+    <string name="mock_loc">Localização simulada detectada</string>
+    <string name="conf_succs">Configurado com Sucesso</string>
+    <string name="invalid_url">URL inválida</string>
+    <string name="app_data_clr">Dados do aplicativo apagados</string>
+    <string name="some_field">alguns campos estão vazios</string>
+    <string name="pass_succed">Senha alterada com sucesso !!</string>
+    <string name="pass_new_same">Nova senha e confirmação de senha não são iguais !!</string>
+    <string name="saved_sucs"> Salvo com sucesso!!</string>
+    <string name="del_sucs">Apagado com sucesso</string>
+    <string name="invalid_cus_sclt">Seleção de cliente inválida</string>
+    <string name="fill_all">Por favor preencha todos os campos</string>
+    <string name="network_req">Rede necessária para obter detalhes</string>
+    <string name="loction_detcted">Localização não detectada</string>
+    <string name="succ_upd">Atualizado com sucesso</string>
+    <string name="alert">alerta</string>
+    <string name="alert_already">Apresentação já salva !! por favor insira um nome diferente ..</string>
+    <string name="alert_entr_presnt">Por favor, digite o nome da apresentação não como 1!</string>
+    <string name="alert_presentnm">Insira o nome da apresentação!</string>
+    <string name="save_present">Você quer salvar a apresentação?</string>
+    <string name="update_present">Você quer atualizar a apresentação?</string>
+    <string name="delete_present">Você quer deletar a apresentação?</string>
+    <string name="prd_mappg">Selecione produtos para mapeamento !!</string>
+    <string name="upd_prest_success">Apresentação atualizada com sucesso !!</string>
+    <string name="update">Atualizar</string>
+    <string name="enable_location">Habilitar localização</string>
+    <string name="alert_location">Sua configuração de locais não está habilitada. Por favor, habilite-o no menu de configurações.</string>
+    <string name="location_setting">Configurações de localização</string>
+    <string name="myplan_alert">Meu plano do dia já foi enviado aqui</string>
+    <string name="overwrite">Sobrescrever</string>
+    <string name="halfday">Meio dia</string>
+
+    <string name="inp_selct">Seleção de entradas</string>
+    <string name="add_selct">Seleção Adicional de Médico</string>
+    <string name="joint_selct">Seleção de Trabalho Conjunto</string>
+    <string name="prodct_selct">Seleção de Produtos</string>
+    <string name="tourplan_entry">Entrada do plano de turismo</string>
+    <string name="feedback_details">detalhes de feedback</string>
+    <string name="feedback_here">Feedback aqui</string>
+    <string name="duration">Duração</string>
+    <string name="current_month">Mês atual</string>
+    <string name="next_month">Próximo mês</string>
+    <string name="search_unlisted_doctor">Pesquisar médico não listado</string>
+    <string name="unlisted_doctor_selection">Seleção de médico não listada</string>
+    <string name="additional_doctor">Médico Adicional</string>
+    <string name="select_the_category">Selecione a categoria</string>
+    <string name="select_the_territory">Selecione o Território</string>
+    <string name="pincode">Pincode</string>
+    <string name="add_chemist">Adicionar Químico</string>
+
+</resources>

@@ -75,6 +75,7 @@ public class ExpenseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expense);
+
         list_view=(ListView)findViewById(R.id.list_view);
         list_entry=(ListView)findViewById(R.id.list_entry);
         back_img=(ImageView)findViewById(R.id.back_img);
@@ -95,6 +96,7 @@ public class ExpenseActivity extends AppCompatActivity {
         SF_Code =  mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_CODE);
         div=mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DIVISION);
         jsondata = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_LOGIN_RESPONSE);
+
        /* Log.v("printing_json_expe",jsondata);
         try {
             JSONObject  jsonn = new JSONObject(jsondata);
@@ -252,6 +254,7 @@ public class ExpenseActivity extends AppCompatActivity {
                 }
             }
         });
+
         close_img_entry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -263,6 +266,7 @@ public class ExpenseActivity extends AppCompatActivity {
                 animation.start();
             }
         });
+
     }
 
     public void retrieveExpRes(){

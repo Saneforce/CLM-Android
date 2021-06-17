@@ -180,7 +180,7 @@ public class DetailingCreationActivity extends FragmentActivity implements View.
         });
 
         if (TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("specCode")) || mCommonSharedPreference.getValueFromPreference("specCode") == "null"){
-            txt_spinner.setText("Select speciality");
+            txt_spinner.setText(getResources().getString(R.string.sclt_spcl));
         }
 
     }
@@ -190,7 +190,7 @@ public class DetailingCreationActivity extends FragmentActivity implements View.
         CommonUtilsMethods.FullScreencall(this);
         super.onResume();
         if (TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("specCode")) || mCommonSharedPreference.getValueFromPreference("specCode")=="null")
-            txt_spinner.setText("Select speciality");
+            txt_spinner.setText(getResources().getString(R.string.sclt_spcl));
         else {
             txt_spinner.setText(mCommonSharedPreference.getValueFromPreference("specName"));
             CommonUtils.TAG_DR_SPEC = mCommonSharedPreference.getValueFromPreference("specCode");
@@ -210,7 +210,7 @@ public class DetailingCreationActivity extends FragmentActivity implements View.
         switch (v.getId()) {
             case R.id.iv_back:
                 CommonUtilsMethods.CommonIntentwithNEwTask(DCRCallSelectionActivity.class);
-                mCommonSharedPreference.setValueToPreference("display_brand", "Brand Matrix");
+                mCommonSharedPreference.setValueToPreference("display_brand", getResources().getString(R.string.brandmatrix));
                 break;
 
             case R.id.iv_startdet:
@@ -219,7 +219,7 @@ public class DetailingCreationActivity extends FragmentActivity implements View.
                     Detailing_Selection_search_grid_selection.CustomClick = true;
                     savePresentation.saveDetail();
                     prdName = "";
-                    det_search_sel_fragment1.DisplayProductGridView("customised");
+                    det_search_sel_fragment1.DisplayProductGridView(getResources().getString(R.string.customise));
                 }
                 String slideData = mCommonSharedPreference.getValueFromPreference("ProductBrdWiseSlides_jsonArray");
                 JSONArray jsonArray = null;
@@ -231,7 +231,7 @@ public class DetailingCreationActivity extends FragmentActivity implements View.
                     e.printStackTrace();
                 }
                 if (jsonArray.length() == 0) {
-                    Toast.makeText(DetailingCreationActivity.this, "No Product selected ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DetailingCreationActivity.this, getResources().getString(R.string.noprdsclt), Toast.LENGTH_SHORT).show();
                 } else {
                     Intent i = new Intent(DetailingCreationActivity.this, DetailingFullScreenImageViewActivity.class);
                     i.putExtra("pname", prdName);

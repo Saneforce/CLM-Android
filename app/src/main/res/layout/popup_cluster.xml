@@ -18,7 +18,7 @@
             android:fontFamily="@font/poppins_semibold"
             android:gravity="center|left"
             android:paddingLeft="15dp"
-            android:text="Select  Cluster"
+            android:text="@string/sclt_clst"
             android:textAllCaps="true"
             android:textColor="#ffffff"
             android:textSize="18sp"

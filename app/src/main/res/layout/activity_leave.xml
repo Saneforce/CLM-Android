@@ -33,7 +33,7 @@
                 android:fontFamily="@font/poppins_medium"
                 android:gravity="left|center"
                 android:paddingLeft="25dp"
-                android:text="LEAVE APPLICATION"
+                android:text="@string/leavecap"
                 android:textAllCaps="false"
                 android:textColor="@color/red"
                 android:textSize="18dp"
@@ -72,7 +72,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Leave From"
+                                android:text="@string/lfrom"
                                 android:layout_centerVertical="true"
                                 android:textSize="18sp"
                                 android:textColor="#000000"
@@ -111,7 +111,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="To"
+                                android:text="@string/lto"
                                 android:textSize="18sp"
                                 android:textColor="#000000"
                                 android:textStyle="bold"
@@ -158,7 +158,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="No. of days"
+                                android:text="@string/nodays"
                                 android:textSize="18sp"
                                 android:id="@+id/txt_to"
                                 android:textColor="#000000"
@@ -194,7 +194,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Leave Type"
+                                android:text="@string/leavetype"
                                 android:textSize="18sp"
                                 android:id="@+id/txt_type"
                                 android:textColor="#000000"
@@ -301,7 +301,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Reason For Leave"
+                            android:text="@string/reason"
                             android:textSize="18sp"
                             android:textColor="#000000"
                             android:id="@+id/txt_reason"
@@ -348,7 +348,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Address on Leave"
+                            android:text="@string/addrs_leave"
                             android:textSize="18sp"
                             android:textColor="#000000"
                             android:id="@+id/txt_add"
@@ -399,7 +399,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Eligibility"
+                            android:text="@string/eligible"
                             android:textSize="16sp"
                             android:textColor="#000000"
                             android:id="@+id/txt_elig"
@@ -420,7 +420,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Taken"
+                            android:text="@string/taken"
                             android:textSize="16sp"
                             android:textColor="#000000"
                             android:id="@+id/txt_take"
@@ -441,7 +441,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Available"
+                            android:text="@string/available"
                             android:textSize="16sp"
                             android:textColor="#000000"
                             android:id="@+id/txt_avail"
@@ -468,9 +468,10 @@
                     >
 
                     <Button
-                        android:layout_width="wrap_content"
+                        android:layout_width="120dp"
                         android:layout_height="wrap_content"
-                        android:text="         Submit         "
+                        android:text="@string/submit"
+                        android:gravity="center"
                         android:layout_gravity="bottom"
                         android:textColor="#ffffff"
                         android:background="#010135"

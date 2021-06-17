@@ -51,7 +51,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cluster : "
+                android:text="@string/cluster1"
                 android:textSize="14sp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
@@ -87,7 +87,7 @@
                    <TextView
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:text="Visit Time : "
+                       android:text="@string/visit_time"
                        android:textSize="14sp"
                        android:textColor="@color/black"
                        android:textStyle="bold"
@@ -115,7 +115,7 @@
                    <TextView
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:text="Modify Time : "
+                       android:text="@string/modified_time"
                        android:textSize="14sp"
                        android:textColor="@color/black"
                        android:textStyle="bold"
@@ -145,7 +145,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Joint Work : "
+                android:text="@string/jointwork"
                 android:textSize="14sp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
@@ -180,13 +180,12 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Product : "
+                        android:text="@string/Products"
                         android:textSize="14sp"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         android:layout_marginTop="7dp"
                         android:id="@+id/txt_prd_value"
-
                         android:layout_below="@+id/lay_time"
                         />
                     <LinearLayout
@@ -209,7 +208,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Product"
+                                android:text="@string/Products"
                                 android:textSize="14sp"
                                 android:textColor="@color/black"
                                 android:textStyle="bold"
@@ -230,7 +229,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Sample Qty"
+                                android:text="@string/sampqty"
                                 android:textSize="14sp"
                                 android:padding="5dp"
                                 android:textColor="@color/black"
@@ -251,7 +250,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Rx Qty"
+                                android:text="@string/rxqty"
                                 android:textSize="14sp"
                                 android:textColor="@color/black"
                                 android:textStyle="bold"
@@ -273,7 +272,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Feedback"
+                                android:text="@string/feedback"
                                 android:padding="5dp"
                                 android:textSize="14sp"
                                 android:textColor="@color/black"
@@ -299,7 +298,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Input : "
+                        android:text="@string/input1"
                         android:textSize="14sp"
                         android:textColor="@color/black"
                         android:textStyle="bold"
@@ -327,7 +326,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Product"
+                                android:text="@string/Products"
                                 android:textSize="14sp"
                                 android:padding="5dp"
                                 android:textColor="@color/black"
@@ -348,7 +347,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Sample Qty"
+                                android:text="@string/sampqty"
                                 android:textSize="14sp"
                                 android:padding="5dp"
                                 android:textColor="@color/black"
@@ -370,7 +369,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Remark : "
+                android:text="@string/remarks1"
                 android:textSize="14sp"
                 android:textColor="@color/black"
                 android:textStyle="bold"

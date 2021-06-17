@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Chemist"
+            android:text="@string/add_chemist"
             android:padding="12dp"
             android:id="@+id/txt_header"
             android:textColor="#ffffff"
@@ -41,7 +41,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chemist Name"
+            android:text="@string/chmnm"
             android:layout_marginTop="15dp"
             android:textColor="#000000"
             android:id="@+id/txt_dr"/>
@@ -62,7 +62,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Address"
+            android:text="@string/addrss"
             android:layout_marginTop="10dp"
             android:textColor="#000000"
             android:id="@+id/txt_addr"
@@ -94,16 +94,16 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Territory  * "
+                        android:text="@string/territory"
                         android:layout_marginTop="15dp"
-                        android:textColor="#000000"
+                        android:textColor="#ff0000"
                         android:id="@+id/txt_terr"
                         />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Select the Territory"
+                        android:hint="@string/select_the_territory"
                         android:textColorHint="#000000"
                         android:layout_marginTop="10dp"
                         android:textColor="#000000"
@@ -124,9 +124,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Headquater  *"
+                        android:text="@string/headquater"
                         android:layout_marginTop="10dp"
-                        android:textColor="#000000"
+                        android:textColor="#ff0000"
                         android:id="@+id/txt_hq"
                         android:visibility="gone"
                         android:layout_below="@+id/txt_select_terr"
@@ -135,7 +135,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Select the Headquater"
+                        android:hint="@string/select_headquater"
                         android:textColorHint="#000000"
                         android:layout_marginTop="10dp"
                         android:textColor="#000000"
@@ -170,7 +170,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Phone"
+                        android:text="@string/phone"
                         android:layout_marginTop="15dp"
                         android:textColor="#000000"
                         android:id="@+id/txt_phone"
@@ -197,7 +197,7 @@
         <Button
             android:layout_width="130dp"
             android:layout_height="40dp"
-            android:text="Save"
+            android:text="@string/sv_prsn"
             android:background="#0427A8"
             android:layout_below="@+id/ll_btm_spin"
             android:layout_alignParentEnd="true"

@@ -4,10 +4,13 @@ package saneforce.sanclm.fragments;
 import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -18,6 +21,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -60,6 +64,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -93,6 +98,8 @@ import saneforce.sanclm.util.LocationUpdate;
 import saneforce.sanclm.util.ManagerListLoading;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
+import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
+import static saneforce.sanclm.fragments.AppConfiguration.language_string;
 
 public class DCRDRCallsSelection extends Fragment implements View.OnClickListener{
     DataBaseHandler dbh;
@@ -140,8 +147,9 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
     RelativeLayout  rlay_spin,app_config;
 
     int currentItem=0;
-
-
+    String language;
+    Context context;
+    Resources resources;
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -197,6 +205,20 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
         commonUtilsMethods = new CommonUtilsMethods(getActivity());
         //locationTrack=new LocationTrack(getActivity());
         v = inflater.inflate(R.layout.activity_dcrdrcalls_selection, container, false);
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        language = sharedPreferences.getString(language_string, "");
+        if (!language.equals("")){
+            Log.d("homelang",language);
+            selected(language);
+            context = LocaleHelper.setLocale(getActivity(), language);
+            resources = context.getResources();
+        }else {
+            selected("en");
+            context = LocaleHelper.setLocale(getActivity(), "en");
+            resources = context.getResources();
+        }
+
         rl_dcr_precall_analysisMain = (RelativeLayout) v.findViewById(R.id.rl_dcr_precall_analysis_main) ;
         dcr_drselection_gridview= (RelativeLayout) v.findViewById(R.id.rl_dcr_drgrid_selection) ;
         rlay_spin= (RelativeLayout) v.findViewById(R.id.rlay_spin) ;
@@ -206,7 +228,7 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
         btn_re_select_doctor = (Button)  v.findViewById(R.id.btn_reselect) ;
         btn_act = (Button)  v.findViewById(R.id.btn_act) ;
         txt_tool_header=v.findViewById(R.id.txt_tool_header);
-        txt_tool_header.setText(mCommonSharedPreference.getValueFromPreference("drcap")+" selection");
+        txt_tool_header.setText(mCommonSharedPreference.getValueFromPreference("drcap")+" "+resources.getString(R.string.Selection));
         Log.d("daataselec",mCommonSharedPreference.getValueFromPreference("drcap"));
         //FullScreencall();
         if(mCommonSharedPreference.getValueFromPreference("addAct").equalsIgnoreCase("0"))
@@ -237,7 +259,7 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
             rlay_spin.setVisibility(View.VISIBLE);
         et_searchDr = (EditText) v.findViewById(R.id.et_searchDr);
         et_searchDr.setText("");
-        et_searchDr.setHint("Search Listed "+mCommonSharedPreference.getValueFromPreference("drcap"));
+        et_searchDr.setHint(resources.getString(R.string.search)+" "+mCommonSharedPreference.getValueFromPreference("drcap"));
         lineChart = (LineChart) v.findViewById(R.id.chart);
         tv_pdts_promoted_set.setMovementMethod(new ScrollingMovementMethod());
         dcr_drselection_gridview.setVisibility(View.VISIBLE);
@@ -426,7 +448,7 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
                     setValueForFeed(drname,drcode);
 
                 }
-                else if(mCommonSharedPreference.getValueFromPreference("dr_profile").equalsIgnoreCase("true")){
+                else if(mCommonSharedPreference.getValueFromPreference("dr_profile").equalsIgnoreCase("false")){
                     mCommonSharedPreference.setValueToPreference("Pname",drname);
                     mCommonSharedPreference.setValueToPreference("Pcode",drcode);
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.app_config, new DrProfile()).commit();
@@ -498,7 +520,7 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
                         dwnloadMasterData.HosList();
 
                     }else{
-                        Toast.makeText(getActivity(),"Network required to get dr detail",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(),getResources().getString(R.string.network_req),Toast.LENGTH_SHORT).show();
                     }
                 }
                 else{
@@ -814,53 +836,62 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
         return v;
     }
 
+    private void selected(String language) {
+        Locale myLocale = new Locale(language);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+    }
 
-  /*  @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Custom_DCR_GV_Dr_Contents custom_dcr_gv_dr_contents  =  drList.get(position);
-        tv_drName.setText(custom_dcr_gv_dr_contents.getmDoctorName());
-        DetailingTrackerPOJO.setmDoctorCode(custom_dcr_gv_dr_contents.getmDoctorcode());
-        rl_drPrecallanalysis.setVisibility(View.VISIBLE);
-        rl_chmPrecallanalysis.setVisibility(View.GONE);
-        rl_dcr_precall_analysisMain.setVisibility(View.VISIBLE);
-        dcr_drselection_gridview.setVisibility(View.GONE);
 
-        HashMap<String, String> map = new HashMap<String, String>();
-        Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
-        map.clear();
-        map.put("SF", SF_Code);
-        map.put("typ", "D");
-        map.put("CusCode", custom_dcr_gv_dr_contents.getmDoctorcode());
+    /*  @Override
+      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+          Custom_DCR_GV_Dr_Contents custom_dcr_gv_dr_contents  =  drList.get(position);
+          tv_drName.setText(custom_dcr_gv_dr_contents.getmDoctorName());
+          DetailingTrackerPOJO.setmDoctorCode(custom_dcr_gv_dr_contents.getmDoctorcode());
+          rl_drPrecallanalysis.setVisibility(View.VISIBLE);
+          rl_chmPrecallanalysis.setVisibility(View.GONE);
+          rl_dcr_precall_analysisMain.setVisibility(View.VISIBLE);
+          dcr_drselection_gridview.setVisibility(View.GONE);
 
-        Call<List<DCRLastVisitDetails>> dcrlastcallDtls = apiService.dcrLastcallDtls(map);
-        dcrlastcallDtls.enqueue(DcrlastcallDtls);
+          HashMap<String, String> map = new HashMap<String, String>();
+          Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
+          map.clear();
+          map.put("SF", SF_Code);
+          map.put("typ", "D");
+          map.put("CusCode", custom_dcr_gv_dr_contents.getmDoctorcode());
 
-        Toast.makeText(getActivity(), ""+custom_dcr_gv_dr_contents.getmDoctorcode(), Toast.LENGTH_SHORT).show();
+          Call<List<DCRLastVisitDetails>> dcrlastcallDtls = apiService.dcrLastcallDtls(map);
+          dcrlastcallDtls.enqueue(DcrlastcallDtls);
 
-        try{
-            dbh.open();
-            Cursor mCursor = dbh.select_doctorDetails(custom_dcr_gv_dr_contents.getmDoctorcode());
-            while (mCursor.moveToNext()){
-                tv_drqual.setText(mCursor.getString(14));
-                tv_drdob.setText(mCursor.getString(3));
-                tv_drdow.setText(mCursor.getString(4));
-                tv_drmob.setText(mCursor.getString(16));
-                tv_drcat.setText(mCursor.getString(9));
-                tv_drspecl.setText(mCursor.getString(10));
-                tv_drtown.setText(mCursor.getString(6));
-                tv_dremail.setText(mCursor.getString(15));
-                tv_draddr.setText(mCursor.getString(18));
-                DetailingTrackerPOJO.setmDoctorSpeciality(mCursor.getString(8));
+          Toast.makeText(getActivity(), ""+custom_dcr_gv_dr_contents.getmDoctorcode(), Toast.LENGTH_SHORT).show();
 
-            }
+          try{
+              dbh.open();
+              Cursor mCursor = dbh.select_doctorDetails(custom_dcr_gv_dr_contents.getmDoctorcode());
+              while (mCursor.moveToNext()){
+                  tv_drqual.setText(mCursor.getString(14));
+                  tv_drdob.setText(mCursor.getString(3));
+                  tv_drdow.setText(mCursor.getString(4));
+                  tv_drmob.setText(mCursor.getString(16));
+                  tv_drcat.setText(mCursor.getString(9));
+                  tv_drspecl.setText(mCursor.getString(10));
+                  tv_drtown.setText(mCursor.getString(6));
+                  tv_dremail.setText(mCursor.getString(15));
+                  tv_draddr.setText(mCursor.getString(18));
+                  DetailingTrackerPOJO.setmDoctorSpeciality(mCursor.getString(8));
 
-        }catch(Exception e){
+              }
 
-        }finally {
-            dbh.close();
-        }
+          }catch(Exception e){
 
-    }*/
+          }finally {
+              dbh.close();
+          }
+
+      }*/
     public Callback<List<DCRLastVisitDetails>> DcrlastcallDtls = new Callback<List<DCRLastVisitDetails>>() {
         @Override
         public void onResponse(Call<List<DCRLastVisitDetails>> call, Response<List<DCRLastVisitDetails>> response) {
@@ -876,11 +907,11 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
                     pdtDtls = pdtDtls.replace("^", "-");
                     giftDtls = dcrLastvstDtls.get(0).getInputs();
 
-                    tv_lastvstDt_set.setText(dcrLastvstDtls.get(0).getVstDate().getDate());
-                    tv_pdts_promoted_set.setText(pdtDtls);
-                    tv_gifts_set.setText(giftDtls);
-                    tv_feedbck_set.setText(dcrLastvstDtls.get(0).getFeedbk());
-                    tv_rmks_set.setText(dcrLastvstDtls.get(0).getRemks());
+                    tv_lastvstDt_set.setText(" : "+dcrLastvstDtls.get(0).getVstDate().getDate());
+                    tv_pdts_promoted_set.setText(" : "+pdtDtls);
+                    tv_gifts_set.setText(" : "+giftDtls);
+                    tv_feedbck_set.setText(" : "+dcrLastvstDtls.get(0).getFeedbk());
+                    tv_rmks_set.setText(" : "+dcrLastvstDtls.get(0).getRemks());
                     dbh.open();
                     dbh.insert_precall_data(dcrLastvstDtls.get(0).getVstDate().getDate(),pdtDtls,giftDtls,dcrLastvstDtls.get(0).getFeedbk(),dcrLastvstDtls.get(0).getRemks(),selectedProductCode);
                     dbh.close();
@@ -922,7 +953,7 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
 
                 if(tv_drName.getText().toString().equalsIgnoreCase("DocName")) {
                     Log.v("DocName",tv_drName.toString());
-                    Toast.makeText(getActivity().getApplicationContext(),"Invalid Customer Selection",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity().getApplicationContext(),getResources().getString(R.string.invalid_cus_sclt),Toast.LENGTH_LONG).show();
                     return ;
                 }else {
 
@@ -935,7 +966,7 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
 
                     if(tv_drName.getText().toString().equalsIgnoreCase("DocName")) {
                         Log.v("DocName",tv_drName.toString());
-                        Toast.makeText(getActivity().getApplicationContext(),"Invalid Customer Selection",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity().getApplicationContext(),getResources().getString(R.string.invalid_cus_sclt),Toast.LENGTH_LONG).show();
                         return ;
                     }else {
 
@@ -1207,10 +1238,10 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
                 // to handle the case where the user grants the permission. See the documentation
                 // for ActivityCompat#requestPermissions for more details.
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-                alertDialog.setTitle("Enable Location");
+                alertDialog.setTitle(getResources().getString(R.string.enable_location));
                 alertDialog.setCancelable(false);
-                alertDialog.setMessage("Your locations setting is not enabled. Please enabled it in settings menu.");
-                alertDialog.setPositiveButton("Location Settings", new DialogInterface.OnClickListener() {
+                alertDialog.setMessage(getResources().getString(R.string.alert_location));
+                alertDialog.setPositiveButton(getResources().getString(R.string.location_setting), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), 1);
                     }
@@ -1226,7 +1257,7 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
 
             }
         }catch (Exception e){
-            Toast toast=Toast.makeText(getActivity(), " Location cannot detected ", Toast.LENGTH_SHORT);
+            Toast toast=Toast.makeText(getActivity(), getResources().getString(R.string.loction_detcted), Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER,0,0);
             toast.show();
         }
@@ -1629,7 +1660,7 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
 
         ListView popup_list=(ListView)dialog.findViewById(R.id.popup_list);
         TextView    tv_todayplan_popup_head=(TextView)dialog.findViewById(R.id.tv_todayplan_popup_head);
-        tv_todayplan_popup_head.setText("Selection  List");
+        tv_todayplan_popup_head.setText(getResources().getString(R.string.selctlist));
         ImageView   iv_close_popup=(ImageView)dialog.findViewById(R.id.iv_close_popup);
         Button   ok=(Button)dialog.findViewById(R.id.ok);
 
@@ -1736,7 +1767,7 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
 
                 }
                 else {
-                    spin_txt.setText("Select the hospital");
+                    spin_txt.setText(getResources().getString(R.string.sclt_hospital));
 
                 }
                 dialog.dismiss();

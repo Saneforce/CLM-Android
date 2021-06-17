@@ -38,7 +38,7 @@
                     android:id="@+id/tv_calls"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Calls"
+                    android:text="@string/calls"
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:textColor="#ffffff"/>
@@ -63,7 +63,7 @@
                     android:id="@+id/tv_presentation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Presentation"
+                    android:text="@string/presentation"
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:textColor="#000000"/>
@@ -87,7 +87,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Report"
+                    android:text="@string/report"
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:id="@+id/tv_reports"
@@ -119,7 +119,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Calls"
+                    android:text="@string/calls"
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:textColor="#000000"/>
@@ -142,7 +142,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Presentation"
+                    android:text="@string/presentation"
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:textColor="#000000"/>
@@ -166,7 +166,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Report"
+                    android:text="@string/report"
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:textColor="#000000"/>

@@ -37,13 +37,14 @@
                 <Button
                     android:layout_width="180dp"
                     android:layout_height="50dp"
-                    android:text="Send Queries"
+                    android:text="@string/sendquies"
                     android:textColor="#e4e2e2"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
                     android:layout_alignParentEnd="true"
                     android:fontFamily="@font/poppins_medium"
                     android:typeface="serif"
+                    android:gravity="center"
                     android:id="@+id/btn_query"
 
                     />
@@ -93,7 +94,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Product Name"
+                                android:text="@string/prd_nme"
                                 android:textColor="#000000"
                                 android:textSize="18sp"
                                 android:layout_gravity="center"
@@ -108,7 +109,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Rating"
+                                android:text="@string/rating"
                                 android:textColor="#000000"
                                 android:textSize="18sp"
                                 android:layout_gravity="center"
@@ -129,7 +130,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Timeline"
+                                android:text="@string/timline"
                                 android:textColor="#000000"
                                 android:textSize="18sp"
                                 android:layout_gravity="center"
@@ -144,7 +145,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Feedback"
+                                android:text="@string/feedback"
                                 android:fontFamily="@font/poppins_medium"
                                 android:typeface="serif"
                                 android:layout_gravity="center"
@@ -159,7 +160,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Samples"
+                                android:text="@string/samp"
                                 android:textColor="#000000"
                                 android:layout_gravity="center"
                                 android:textSize="18sp"
@@ -203,7 +204,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Product Name"
+                                android:text="@string/prd_nme"
                                 android:textColor="#000000"
                                 android:textSize="18sp"
                                 android:layout_gravity="center"
@@ -218,7 +219,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Rating"
+                                android:text="@string/rating"
                                 android:textColor="#000000"
                                 android:textSize="18sp"
                                 android:layout_gravity="center"
@@ -240,7 +241,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Timeline"
+                                android:text="@string/timline"
                                 android:textColor="#000000"
                                 android:textSize="18sp"
                                 android:layout_gravity="center"
@@ -254,7 +255,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Feedback"
+                                android:text="@string/feedback"
                                 android:fontFamily="@font/poppins_medium"
                                 android:typeface="serif"
                                 android:layout_gravity="center"
@@ -265,15 +266,16 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="10.5">
+
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Samples"
-                                android:textColor="#000000"
                                 android:layout_gravity="center"
-                                android:textSize="18sp"
                                 android:fontFamily="@font/poppins_medium"
-                                android:typeface="serif"/>
+                                android:text="@string/samp"
+                                android:textColor="#000000"
+                                android:textSize="18sp"
+                                android:typeface="serif" />
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -282,7 +284,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Rx"
+                                android:text="@string/rx"
                                 android:id="@+id/txt_pob"
                                 android:textColor="#000000"
                                 android:layout_gravity="center"
@@ -372,7 +374,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Input"
+                            android:text="@string/input1"
                             android:layout_marginTop="15dp"
                             android:textColor="#000000"
                             android:fontFamily="@font/poppins_medium"
@@ -388,7 +390,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Qty"
+                            android:text="@string/qty"
                             android:fontFamily="@font/poppins_medium"
                             android:typeface="serif"
                             android:layout_marginTop="15dp"
@@ -438,13 +440,15 @@
 
 
             </LinearLayout>
+
+            //Availability
+
             <LinearLayout
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="5"
                 android:background="@drawable/layout_background"
-                android:layout_marginTop="8dp"
-                android:layout_marginLeft="5dp"
                 android:weightSum="10"
                 android:orientation="vertical">
                 <LinearLayout
@@ -458,7 +462,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Additional Calls"
+                            android:text="@string/jointwork"
                             android:layout_marginTop="15dp"
                             android:textColor="#000000"
                             android:fontFamily="@font/poppins_medium"
@@ -467,15 +471,15 @@
                         <Button
                             android:layout_width="35dp"
                             android:layout_height="35dp"
+                            android:background="#05c12b"
+                            android:text="+"
+                            android:textColor="#ffffff"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
                             android:layout_centerVertical="true"
                             android:layout_alignParentEnd="true"
                             android:layout_marginRight="15dp"
-                            android:id="@+id/call_plus"
-                            android:background="#05c12b"
-                            android:text="+"
-                            android:textStyle="bold"
-                            android:textColor="#ffffff"
-                            android:textSize="18sp"/>
+                            android:id="@+id/join_plus"/>
 
 
                     </RelativeLayout>
@@ -490,12 +494,11 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    >
+                    android:layout_weight="3">
                     <ListView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/listView_feed_call"
+                        android:id="@+id/listView_feed_join"
                         android:divider="#efeded"
                         android:dividerHeight="1dp"
                         android:layout_marginLeft="13dp"
@@ -503,9 +506,17 @@
 
                     </ListView>
 
+
                 </LinearLayout>
+
             </LinearLayout>
+
+
+
+
         </LinearLayout>
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -534,7 +545,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Remarks"
+                        android:text="@string/remarks1"
                         android:layout_marginTop="15dp"
                         android:textColor="#000000"
                         android:textSize="18sp"
@@ -566,7 +577,7 @@
                         android:fontFamily="@font/poppins_medium"
                         android:typeface="serif"
                         android:id="@+id/edt_report"
-                        android:hint="type here"
+                        android:hint="@string/typehere"
                         android:enabled="false"
                         />
 
@@ -589,7 +600,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Signature Here"
+                            android:text="@string/signature"
                             android:layout_centerHorizontal="true"
                             android:textColor="#e4e2e2"
                             android:layout_centerVertical="true"
@@ -600,6 +611,7 @@
                 </LinearLayout>
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -609,10 +621,39 @@
                 android:layout_marginRight="15dp"
                 android:weightSum="10"
                 android:orientation="vertical">
+
+                //joint
+
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/availLayout"
+                    android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="3"
+                    android:layout_weight="5"
+                    android:background="@drawable/layout_background"
+                    android:weightSum="10"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/availcheckbtn"
+                        android:background="@drawable/rectangle_green"
+                        android:gravity="center"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/avilablecheck"
+                        android:layout_marginTop="15dp"
+                        android:textColor="#fff"
+                        android:fontFamily="@font/poppins_medium"
+                        android:typeface="serif"
+                        android:textSize="20dp"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/addcallLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
                     android:background="@drawable/layout_background"
                     android:weightSum="10"
                     android:orientation="vertical">
@@ -620,14 +661,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="7"
-                        android:layout_marginLeft="13dp">
+                        >
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
                             <TextView
+                                android:layout_marginLeft="10dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Jointwork"
+                                android:text="@string/add_cals"
                                 android:layout_marginTop="15dp"
                                 android:textColor="#000000"
                                 android:fontFamily="@font/poppins_medium"
@@ -636,15 +678,15 @@
                             <Button
                                 android:layout_width="35dp"
                                 android:layout_height="35dp"
-                                android:background="#05c12b"
-                                android:text="+"
-                                android:textColor="#ffffff"
-                                android:textSize="18sp"
-                                android:textStyle="bold"
                                 android:layout_centerVertical="true"
                                 android:layout_alignParentEnd="true"
                                 android:layout_marginRight="15dp"
-                                android:id="@+id/join_plus"/>
+                                android:id="@+id/call_plus"
+                                android:background="#05c12b"
+                                android:text="+"
+                                android:textStyle="bold"
+                                android:textColor="#ffffff"
+                                android:textSize="18sp"/>
 
 
                         </RelativeLayout>
@@ -659,11 +701,12 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="3">
+                        android:layout_weight="3"
+                        >
                         <ListView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:id="@+id/listView_feed_join"
+                            android:id="@+id/listView_feed_call"
                             android:divider="#efeded"
                             android:dividerHeight="1dp"
                             android:layout_marginLeft="13dp"
@@ -672,12 +715,12 @@
                         </ListView>
 
                     </LinearLayout>
-
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="7"
+                    android:layout_weight="6"
                     android:orientation="horizontal"
                     android:weightSum="3"
                     android:layout_marginLeft="15dp"
@@ -691,7 +734,7 @@
                         <Button
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:text="Rcpa Entry"
+                            android:text="@string/rcpaenty"
                             android:background="#02053b"
                             android:layout_gravity="bottom"
                             android:fontFamily="@font/poppins_medium"
@@ -708,7 +751,7 @@
                         <Button
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:text="Final Submit"
+                            android:text="@string/finlsubmit"
                             android:background="#02053b"
                             android:layout_gravity="bottom"
                             android:fontFamily="@font/poppins_medium"
@@ -725,7 +768,7 @@
                         <Button
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:text="Cancel"
+                            android:text="@string/cancel"
                             android:id="@+id/bt_cancel"
                             android:background="#f51a0f"
                             android:layout_gravity="bottom"

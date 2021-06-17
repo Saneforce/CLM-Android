@@ -41,7 +41,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="From :"
+                    android:text="@string/frm"
                     android:id="@+id/txt_from"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@+id/spinner"
@@ -51,7 +51,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="To :"
+                    android:text="@string/lto"
                     android:id="@+id/txt_to"
                     android:layout_marginLeft="40dp"
                     android:visibility="gone"
@@ -67,12 +67,14 @@
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
                 android:id="@+id/lay_filter">
+
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
-                    android:text="  Filter   "
                     android:padding="5dp"
-                    android:textColor="#000"/>
+                    android:gravity="center"
+                    android:text="@string/filter"
+                    android:textColor="#000" />
             </RelativeLayout>
 
         </RelativeLayout>
@@ -80,7 +82,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="9"
+        android:layout_weight="8"
         android:weightSum="20"
         android:orientation="horizontal">
         <LinearLayout
@@ -99,7 +101,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Top 5 Detailed Count"
+                android:text="@string/detail_graph1"
                 android:padding="5dp"
                 android:textColor="#000"
                 />
@@ -120,7 +122,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Top 5 Detailed Time"
+                android:text="@string/detail_graph2"
                 android:padding="5dp"
                 android:textColor="#000"
                 />
@@ -130,9 +132,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="7"
+        android:layout_weight="8"
         android:background="#fff"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="15dp">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -160,7 +162,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Name Of Customer"
+                        android:text="@string/nm_cust"
                         android:padding="5dp"
                         android:textColor="#000"
                         android:textStyle="bold"/>
@@ -180,7 +182,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Name Of FieldForce"
+                        android:text="@string/nm_ffc"
                         android:padding="5dp"
                         android:textColor="#000"
                         android:textStyle="bold"/>
@@ -200,7 +202,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Type"
+                        android:text="@string/type"
                         android:padding="5dp"
                         android:textColor="#000"
                         android:textStyle="bold"/>
@@ -220,7 +222,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Territory"
+                        android:text="@string/territory"
                         android:padding="5dp"
                         android:textColor="#000"
                         android:textStyle="bold"/>
@@ -240,7 +242,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Speciality"
+                        android:text="@string/speciality"
                         android:padding="5dp"
                         android:textColor="#000"
                         android:textStyle="bold"/>
@@ -261,7 +263,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Class"
+                        android:text="@string/clases"
                         android:padding="5dp"
                         android:textColor="#000"
                         android:textStyle="bold"/>
@@ -282,7 +284,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Detailing count"
+                        android:text="@string/detail_count"
                         android:padding="5dp"
                         android:textColor="#000"
                         android:textStyle="bold"/>
@@ -302,7 +304,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Detailing Duration"
+                        android:text="@string/detail_duration"
                         android:padding="5dp"
                         android:textColor="#000"
                         android:textStyle="bold"/>

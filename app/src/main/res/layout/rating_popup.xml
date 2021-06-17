@@ -22,7 +22,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Feedback Details"
+                    android:text="@string/feedback_details"
                     android:textColor="#ffffff"
                     android:textSize="16sp"
                     android:layout_centerVertical="true"
@@ -54,7 +54,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Feedback Details"
+                    android:text="@string/feedback_details"
                     android:textColor="#000000"
                     android:textSize="16sp"
                     android:layout_centerVertical="true"
@@ -93,7 +93,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Feedback"
+                    android:text="@string/feedback"
                     android:textColor="#000000"
                     android:textSize="16sp"
                     android:layout_centerVertical="true"

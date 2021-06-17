@@ -551,7 +551,7 @@ public class DummyActivity extends AppCompatActivity {
                 this.getApplicationContext(), 234324243, intent, 0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP, val, pendingIntent);
-        Toast.makeText(this, "Alarm set in " + val + " seconds",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getResources().getString(R.string.alarmset)+" "+ val +" "+ getResources().getString(R.string.seconds),Toast.LENGTH_LONG).show();
     }
     //new DummyTask().execute();
 
@@ -880,14 +880,14 @@ public class DummyActivity extends AppCompatActivity {
         }
     }
 
-    public static class MyBroadcastReceiver extends BroadcastReceiver {
+    public class MyBroadcastReceiver extends BroadcastReceiver {
         // MediaPlayer mp;
         @Override
         public void onReceive(Context context, Intent intent) {
             /*mp=MediaPlayer.create(context, R.raw.alarm);
             mp.start();*/
             Log.v("alarm_are_started","here");
-            Toast.makeText(context, "Alarm....", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, getResources().getString(R.string.alarm), Toast.LENGTH_LONG).show();
         }
     }
     }

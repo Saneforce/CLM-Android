@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F4F4F4">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="20"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="10"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:id="@+id/ll_monthly_summary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp">
+                    <TextView
+                        android:drawableLeft="@drawable/phone"
+                        android:id="@+id/tv_monthly_summary_head"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:gravity="center|left"
+                        android:text="   MTD Call Coverage &amp; Daily Call Average"
+                        android:textColor="#000"
+                        android:textSize="18sp"
+                        android:textStyle="normal"
+                        android:typeface="serif"
+                        android:padding="11dp"/>
+                    <ImageButton
+                        android:visibility="gone"
+                        android:id="@+id/iv_monthly_summary_reload"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:background="#666666"
+                        android:layout_alignParentTop="true"
+                        android:src="@mipmap/sync" />
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:id="@+id/reload"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="150dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/rectanle_rounded"
+                        android:text="Reload"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:drawableRight="@drawable/syncicon"
+                        />
+
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/rv_monthly_summary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/ll_monthly_summary"
+                    android:layout_below="@+id/ll_monthly_summary"
+                    android:background="#ffffff"
+                    android:padding="5dp"
+
+                    >
+                    <RelativeLayout
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        >
+
+                        <com.github.mikephil.charting.charts.BarChart
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                           >
+
+                        </com.github.mikephil.charting.charts.BarChart>
+
+                    </RelativeLayout>
+
+<!--                    //new desgin-->
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:weightSum="3"
+                        >
+
+                    <LinearLayout
+                        android:layout_margin="10dp"
+                        android:elevation="10dp"
+                        android:background="#fff"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_weight="1"
+                        >
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            >
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="50dp"
+                                android:id="@+id/recycledoctorcoverage"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:layout_alignParentBottom="true"
+                                android:orientation="horizontal"
+                                android:background="#28ABE3"
+                                android:weightSum="3"
+                                >
+                                <TextView
+                                    android:id="@+id/drcallstotal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#fff"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="10dp"/>
+                                <TextView
+                                    android:id="@+id/drtotal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#fff"
+                                    android:layout_weight="2"
+                                    android:textStyle="bold"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="10dp"/>
+
+                            </LinearLayout>
+                        </RelativeLayout>
+
+                    </LinearLayout>
+                        <LinearLayout
+                            android:layout_margin="10dp"
+                            android:elevation="10dp"
+                            android:background="#fff"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:layout_weight="1"
+                            >
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                >
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:id="@+id/recyclepharmcoverage"
+                                    android:layout_marginBottom="50dp"/>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="50dp"
+                                    android:layout_alignParentBottom="true"
+                                    android:orientation="horizontal"
+                                    android:background="#F6931C"
+                                    android:weightSum="3"
+                                    >
+                                <TextView
+                                    android:id="@+id/pharmacycalls"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#fff"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="10dp"/>
+                                <TextView
+                                    android:id="@+id/totalpharcalls"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#fff"
+                                    android:layout_weight="2"
+                                    android:textStyle="bold"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="10dp"/>
+                                </LinearLayout>
+
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_margin="10dp"
+                            android:elevation="10dp"
+                            android:background="#fff"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:layout_weight="1"
+                            >
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                >
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:id="@+id/recycle3total"
+                                    />
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="50dp"
+                                    android:layout_alignParentBottom="true"
+                                    android:orientation="horizontal"
+                                    android:background="#38B64A"
+                                    >
+                                    <TextView
+                                        android:id="@+id/totaldrtext"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#fff"
+                                        android:layout_weight="1"
+                                        android:layout_gravity="center"
+                                        android:layout_marginLeft="10dp"/>
+                                    <TextView
+                                        android:id="@+id/totaldrcount"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#fff"
+                                        android:layout_weight="2"
+                                        android:textStyle="bold"
+                                        android:layout_gravity="center"
+                                        android:layout_marginLeft="10dp"/>
+                                </LinearLayout>
+
+                            </RelativeLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+
+
+
+
+                    <!--                    //new desgin-->
+
+                </RelativeLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="10"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:id="@+id/ll_call_visit_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignStart="@+id/rv_monthly_summary"
+                    android:layout_below="@+id/rv_monthly_summary"
+                    android:orientation="horizontal"
+                    android:layout_marginEnd="10dp"
+                    android:padding="5dp"
+                    android:layout_marginTop="5dp"
+                    >
+
+                    <TextView
+                        android:drawableLeft="@drawable/mileage"
+                        android:id="@+id/tv_call_visit_details"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:gravity="center|left"
+                        android:text="   Detailing Performance"
+                        android:textColor="#000"
+                        android:textSize="18sp"
+                        android:textStyle="normal"
+                        android:typeface="serif"
+                        />
+
+                    <ImageButton
+                        android:visibility="gone"
+                        android:id="@+id/call_visit_detailsReload"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:background="#666666"
+                        android:padding="5dp"
+                        android:src="@mipmap/sync" />
+                    <TextView
+                        android:id="@+id/reload1"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="150dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/rectanle_rounded"
+                        android:text="Reload"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:drawableRight="@drawable/syncicon"
+                        />
+
+
+                </RelativeLayout>
+
+<!--                //old-->
+
+                <RelativeLayout
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#ffffff"
+                    android:layout_alignStart="@+id/ll_call_visit_details"
+                    android:layout_below="@+id/ll_call_visit_details"
+                    android:id="@+id/chart_lay"
+                    >
+
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/bar_chart_below">
+
+                    </com.github.mikephil.charting.charts.BarChart>
+                </RelativeLayout>
+                <!--                //old-->
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:orientation="horizontal"
+               android:weightSum="2">
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:orientation="vertical"
+                   android:layout_weight="1"
+                   android:background="#fff"
+                   android:layout_marginLeft="10dp"
+                   android:layout_marginBottom="10dp"
+                   android:layout_marginRight="10dp"
+                   android:elevation="10dp">
+                   <TextView
+                       android:id="@+id/timedetail"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:fontFamily="@font/poppins_semibold"
+                       android:gravity="center|left"
+                       android:padding="5dp"
+                       android:text=" Detailing Time Spent"
+                       android:textColor="#000"
+                       android:textSize="15sp" />
+
+                   <View
+                       android:layout_width="match_parent"
+                       android:layout_height="0.5dp"
+                       android:background="#CFCBCB" />
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:orientation="horizontal"
+                       android:weightSum="2">
+
+
+                       <lecho.lib.hellocharts.view.PieChartView
+                           android:layout_weight="1"
+                           android:id="@+id/chart"
+                           android:layout_width="match_parent"
+                           android:layout_height="match_parent" />
+                       <RelativeLayout
+                           android:layout_width="match_parent"
+                           android:layout_height="match_parent"
+                           android:layout_weight="1">
+
+                       <androidx.recyclerview.widget.RecyclerView
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:layout_centerInParent="true"
+                           android:id="@+id/detailingrecycle"
+                           />
+                       </RelativeLayout>
+
+
+                   </LinearLayout>
+
+               </LinearLayout>
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:orientation="vertical"
+                   android:layout_weight="1"
+                   android:background="#fff"
+                   android:layout_marginLeft="10dp"
+                   android:layout_marginBottom="10dp"
+                   android:layout_marginRight="10dp"
+                   android:elevation="10dp">
+                   <TextView
+                       android:id="@+id/brandex"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:fontFamily="@font/poppins_semibold"
+                       android:gravity="center|left"
+                       android:padding="5dp"
+                       android:text=" Brand Exposure"
+                       android:textColor="#000"
+                       android:textSize="15sp" />
+
+                   <View
+                       android:layout_width="match_parent"
+                       android:layout_height="0.5dp"
+                       android:background="#CFCBCB" />
+
+                   <com.github.mikephil.charting.charts.BarChart
+                       android:layout_width="match_parent"
+                       android:layout_height="fill_parent"
+                       android:layout_margin="12dp"
+                       android:layout_marginTop="10dp"
+                       android:layout_above="@+id/tt_cover"
+                       android:id="@+id/bar_chart"/>
+
+               </LinearLayout>
+
+           </LinearLayout>
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

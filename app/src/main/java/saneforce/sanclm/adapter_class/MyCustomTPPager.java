@@ -279,7 +279,7 @@ public class MyCustomTPPager extends PagerAdapter {
                                     updateUi.updatingui();
                                 }
                             } else
-                                Toast.makeText(context, "Select work type ", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, context.getResources().getString(R.string.sclt_work), Toast.LENGTH_SHORT).show();
                            /* DemoActivity.val_drneed = false;
                             DemoActivity.val_chneed = false;
                             DemoActivity.val_jwneed = false;*/
@@ -468,14 +468,14 @@ public class MyCustomTPPager extends PagerAdapter {
                         selector.checkPosition(3);
                     }
                     else
-                        Toast.makeText(context,"Select hospital",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,context.getResources().getString(R.string.sclt_hospital),Toast.LENGTH_SHORT).show();
                 }
                 else if(!TextUtils.isEmpty(tp.getCluster())) {
                 selectorpos=3;
                 selector.checkPosition(3);
             }
                 else
-                        Toast.makeText(context,"Select cluster",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,context.getResources().getString(R.string.sclt_clst),Toast.LENGTH_SHORT).show();
             }
         });
         dr_img.setOnClickListener(new View.OnClickListener() {
@@ -487,14 +487,14 @@ public class MyCustomTPPager extends PagerAdapter {
                         selector.checkPosition(4);
                     }
                     else
-                        Toast.makeText(context,"Select hospital",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,context.getResources().getString(R.string.sclt_hospital),Toast.LENGTH_SHORT).show();
                 }
                 else {
                     if (!TextUtils.isEmpty(tp.getCluster())) {
                         selectorpos = 4;
                         selector.checkPosition(4);
                     } else
-                        Toast.makeText(context, "Select cluster", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, context.getResources().getString(R.string.sclt_clst), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -507,7 +507,7 @@ public class MyCustomTPPager extends PagerAdapter {
                 selector.checkPosition(6);
                 }
                 else
-                    Toast.makeText(context,"Select cluster",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,context.getResources().getString(R.string.sclt_clst),Toast.LENGTH_SHORT).show();
             }
         });
         chem_img.setOnClickListener(new View.OnClickListener() {
@@ -520,14 +520,14 @@ public class MyCustomTPPager extends PagerAdapter {
                         selector.checkPosition(5);
                     }
                     else
-                        Toast.makeText(context,"Select hospital",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,context.getResources().getString(R.string.sclt_hospital),Toast.LENGTH_SHORT).show();
                 }
                 else if(!TextUtils.isEmpty(tp.getCluster())) {
                 selectorpos=5;
                 selector.checkPosition(5);
                 }
                 else
-                    Toast.makeText(context,"Select cluster",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,context.getResources().getString(R.string.sclt_clst),Toast.LENGTH_SHORT).show();
             }
         });
         lay_wrk.setOnClickListener(new View.OnClickListener() {
@@ -547,7 +547,7 @@ public class MyCustomTPPager extends PagerAdapter {
                     selector.checkPosition(1);
                 }
                 else{
-                    Toast.makeText(context,"Select the work type ",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,context.getResources().getString(R.string.sclt_work),Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -565,7 +565,7 @@ public class MyCustomTPPager extends PagerAdapter {
                     }
                 }
                 else{
-                    Toast.makeText(context,"Select the Headquater or Worktype ",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,context.getResources().getString(R.string.sclt_work),Toast.LENGTH_SHORT).show();
                 }
             }
         });

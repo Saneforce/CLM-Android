@@ -368,10 +368,10 @@ public class ViewTag extends Fragment {
                 // to handle the case where the user grants the permission. See the documentation
                 // for ActivityCompat#requestPermissions for more details.
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-                alertDialog.setTitle("Enable Location");
+                alertDialog.setTitle(getResources().getString(R.string.enable_location));
                 alertDialog.setCancelable(false);
-                alertDialog.setMessage("Your locations setting is not enabled. Please enabled it in settings menu.");
-                alertDialog.setPositiveButton("Location Settings", new DialogInterface.OnClickListener() {
+                alertDialog.setMessage(getResources().getString(R.string.alert_location));
+                alertDialog.setPositiveButton(getResources().getString(R.string.location_setting), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), 1);
                     }
@@ -387,7 +387,7 @@ public class ViewTag extends Fragment {
 
             }
         }catch (Exception e){
-            Toast toast=Toast.makeText(getActivity(), " Location cannot detected ", Toast.LENGTH_SHORT);
+            Toast toast=Toast.makeText(getActivity(), getResources().getString(R.string.loction_detcted), Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER,0,0);
             toast.show();
         }

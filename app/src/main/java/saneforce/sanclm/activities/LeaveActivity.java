@@ -374,14 +374,14 @@ public class LeaveActivity extends AppCompatActivity {
                                                         JSONObject jj = new JSONObject(is.toString());
                                                         if (jj.getString("success").equalsIgnoreCase("true")) {
 
-                                                            Toast.makeText(getApplicationContext(), "Leave submitted successfully !! ", Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.leave_success), Toast.LENGTH_SHORT).show();
                                                             txt_day.setText("");
                                                             edt_from.setText("");
                                                             edt_to.setText("");
                                                             edt_add.setText("");
                                                             edt_reason.setText("");
                                                         } else {
-                                                            Toast.makeText(getApplicationContext(), "Already Leave Posted on this date!! ", Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.leave_already), Toast.LENGTH_SHORT).show();
                                                         }
 
                                     /* JSONArray js=new JSONArray(is.toString());
@@ -404,11 +404,11 @@ public class LeaveActivity extends AppCompatActivity {
 
                                                 @Override
                                                 public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                                    Toast.makeText(getApplicationContext(), "Something Went Wrong", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
                                                 }
                                             });
                                         } else {
-                                            Toast.makeText(getApplicationContext(), "Choose the date", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.choose_date), Toast.LENGTH_SHORT).show();
 
                                         }
 
@@ -658,7 +658,7 @@ public class LeaveActivity extends AppCompatActivity {
             } else {
                 String data = edt_from.getText().toString();
                 if (data.equals("")) {
-                    Toast.makeText(getActivity(), "Select the from date", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getResources().getString(R.string.selctdate), Toast.LENGTH_SHORT).show();
                     return null;
                 } else {
                     String[] arrSplit = data.split("-");
@@ -795,7 +795,7 @@ DatePickerDialog datepickerdialog = new DatePickerDialog(getActivity(),
                     txt_day.setText(String.valueOf(getCountOfDays(edt_from.getText().toString(), edt_to.getText().toString())));
 
                 } else {
-                    Toast.makeText(context, "TO date must be greater", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, getResources().getString(R.string.togreater), Toast.LENGTH_SHORT).show();
                     edt_to.setText("");
                 }
             }

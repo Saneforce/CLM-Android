@@ -1,13 +1,45 @@
 package saneforce.sanclm.activities.Model;
 
+import org.json.JSONArray;
+
 public class ModelBrandAuditList {
     String prName;
     String comName;
     String comPrdName;
-    String qty,rate,val,compCode,compPcode;
+    String qty,rate,val,compCode,compPcode,sw,rx;
     String jsonChem;
 
-    public ModelBrandAuditList(String prName, String comName, String comPrdName, String qty, String rate, String val,String compCode,String compPcode) {
+    public JSONArray getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(JSONArray feedback) {
+        this.feedback = feedback;
+    }
+
+    JSONArray feedback;
+
+
+
+    public String getSw() {
+        return sw;
+    }
+
+    public void setSw(String sw) {
+        this.sw = sw;
+    }
+
+    public String getRx() {
+        return rx;
+    }
+
+    public void setRx(String rx) {
+        this.rx = rx;
+    }
+
+
+
+    public ModelBrandAuditList(String prName, String comName, String comPrdName, String qty, String rate, String val, String sw, String rx, String compCode, String compPcode,JSONArray feedback) {
 
         this.prName = prName;
         this.comName = comName;
@@ -17,8 +49,22 @@ public class ModelBrandAuditList {
         this.val = val;
         this.compCode=compCode;
         this.compPcode=compPcode;
+        this.rx=rx;
+        this.sw=sw;
+        this.feedback=feedback;
     }
+    public ModelBrandAuditList(String prName, String comName, String comPrdName, String qty, String rate, String val, String compCode, String compPcode) {
 
+        this.prName = prName;
+        this.comName = comName;
+        this.comPrdName = comPrdName;
+        this.qty = qty;
+        this.rate = rate;
+        this.val = val;
+        this.compCode=compCode;
+        this.compPcode=compPcode;
+
+    }
     public ModelBrandAuditList(String prName, String comName, String qty, String rate, String val, String compCode,String jsonChem) {
 
         this.prName = prName;
@@ -29,7 +75,18 @@ public class ModelBrandAuditList {
         this.compCode = compCode;
         this.jsonChem=jsonChem;
     }
+    public ModelBrandAuditList(String prName, String comName, String qty, String rate, String val, String sw,String rx,String compCode,String jsonChem) {
 
+        this.prName = prName;
+        this.comName = comName;
+        this.qty = qty;
+        this.rate = rate;
+        this.val = val;
+        this.compCode = compCode;
+        this.jsonChem=jsonChem;
+        this.sw=sw;
+        this.rx=rx;
+    }
     public String getPrName() {
         return prName;
     }

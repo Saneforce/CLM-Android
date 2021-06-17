@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="#EDEAEA">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/rel"
+        android:layout_width="match_parent"
+        android:layout_height="73dp"
+        android:background="#fff">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
+            android:text="@string/avilablecheck"
+            android:textColor="@color/black"
+            android:layout_centerVertical="true"
+            android:textSize="20dp"
+            android:typeface="serif"
+            android:layout_marginLeft="100dp"
+            android:id="@+id/dct_holder"
+            />
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+
+    <LinearLayout
+        android:layout_below="@+id/rel"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/ln1"
+        android:layout_marginLeft="10dp"
+
+        >
+
+        <EditText
+
+            android:layout_width="370dp"
+            android:layout_height="40dp"
+            android:background="@drawable/rectangle_grey"
+            android:hint="@string/avilablesearch"
+            android:textColorHint="#C3C0C0"
+            android:id="@+id/et_search"
+            android:paddingLeft="10dp"
+            android:textSize="15dp"
+            android:drawableRight="@drawable/search_icon"
+            android:paddingRight="20dp"
+            android:textColor="#000"/>
+
+
+        <LinearLayout
+            android:layout_marginLeft="85dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <ToggleButton
+                android:id="@+id/alloos"
+                android:layout_marginLeft="5dp"
+                android:elevation="10dp"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:text="@string/allos"
+                android:textOff="@string/allos"
+                android:textOn="@string/allos"
+                android:textColor="#fff"
+                android:background="@drawable/rectangle_red"
+                android:gravity="center"/>
+            <ToggleButton
+                android:textOff="@string/allavail"
+                android:textOn="@string/allavail"
+                android:id="@+id/allavail"
+                android:elevation="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:text="@string/allavail"
+                android:textColor="#fff"
+                android:background="@drawable/rectangle_green"
+                android:gravity="center"/>
+            <TextView
+                android:layout_marginLeft="50dp"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:text="@string/availstock"
+                android:textColor="#000"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <View
+        android:layout_below="@+id/ln1"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#DAD9D9"/>
+
+<androidx.recyclerview.widget.RecyclerView
+    android:layout_marginTop="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/ln1"
+    android:id="@+id/availabilty_recyclerview"
+    android:layout_marginBottom="55dp"/>
+    <Button
+        android:textSize="20dp"
+        android:id="@+id/savebtn"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:background="@drawable/rectangle_red"
+        android:layout_alignParentBottom="true"
+        android:text="@string/sv_prsn"
+        android:paddingRight="10dp"
+        android:drawableRight="@drawable/ic_baseline_arrow_forward_24"/>
+
+    <ImageView
+        android:id="@+id/iv_dwnldmaster_back"
+        android:layout_width="100dp"
+        android:layout_height="73dp"
+        android:layout_marginLeft="0dp"
+        android:background="@color/ash"
+        android:src="@mipmap/left_arrow" />
+
+</RelativeLayout>

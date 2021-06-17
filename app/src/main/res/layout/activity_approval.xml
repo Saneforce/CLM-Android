@@ -22,7 +22,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Approvals"
+            android:text="@string/approvals"
             android:textSize="18sp"
             android:textColor="#D80808"
             android:textStyle="bold"
@@ -78,14 +78,13 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Tour Plan Approvals"
+                            android:text="@string/tpapproval"
                             android:textSize="16sp"
                             android:textColor="@color/red"
                             android:textStyle="bold"
                             android:layout_centerInParent="true"
                             android:fontFamily="@font/poppins_medium"
                             />
-
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -116,7 +115,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Leave Approvals"
+                            android:text="@string/lvapproval"
                             android:textSize="16sp"
                             android:textColor="@color/red"
                             android:textStyle="bold"
@@ -153,7 +152,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="DCR Approvals"
+                            android:text="@string/dcrapproval"
                             android:textSize="16sp"
                             android:textColor="@color/red"
                             android:textStyle="bold"
@@ -296,7 +295,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Name"
+                        android:text="@string/name"
                         android:textSize="14sp"
                         android:singleLine="true"
                         android:textColor="#000"
@@ -312,7 +311,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Month"
+                        android:text="@string/mnth"
                         android:textSize="14sp"
                         android:singleLine="true"
                         android:textStyle="bold"
@@ -329,7 +328,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Year"
+                        android:text="@string/year"
                         android:textSize="14sp"
                         android:singleLine="true"
                         android:textStyle="bold"

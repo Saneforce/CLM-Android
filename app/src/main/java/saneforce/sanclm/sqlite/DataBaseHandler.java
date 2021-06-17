@@ -9,8 +9,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 import android.util.Log;
 
-import saneforce.sanclm.applicationCommonFiles.CommonUtils;
-
 public class DataBaseHandler {
 
     private DatabaseHelper dbHelper;
@@ -32,8 +30,116 @@ public class DataBaseHandler {
         dbHelper.close();
     }
 
+    public void del_drcoverage() {
+        db.execSQL("delete from " + TableEntry.TABLE_DR_COVERAGE +"  ");
 
+    }
 
+    public long insert_drcoverage(String name, String vCount, String tCnt) {
+        ContentValues values=new ContentValues();
+        values.put(TableEntry.COLUMN_NAME,name);
+        values.put(TableEntry.COLUMN_VCOUNT,vCount);
+        values.put(TableEntry.COLUMN_TCOUNT,tCnt);
+
+        return db.insert(TableEntry.TABLE_DR_COVERAGE,null,values);
+    }
+
+    public long insert_pharmcoverage(String name, String vCount, String tCnt) {
+        ContentValues values=new ContentValues();
+        values.put(TableEntry.COLUMN_NAME,name);
+        values.put(TableEntry.COLUMN_VCOUNT,vCount);
+        values.put(TableEntry.COLUMN_TCOUNT,tCnt);
+
+        return db.insert(TableEntry.TABLE_PHARM_COVERAGE,null,values);
+    }
+    public long insert_totalcoverage(String name, String vCount, String tCnt) {
+        ContentValues values=new ContentValues();
+        values.put(TableEntry.COLUMN_NAME,name);
+        values.put(TableEntry.COLUMN_VCOUNT,vCount);
+        values.put(TableEntry.COLUMN_TCOUNT,tCnt);
+
+        return db.insert(TableEntry.TABLE_TOTAL_COVERAGE,null,values);
+    }
+
+    public void del_pharmcoverage() {
+        db.execSQL("delete from " + TableEntry.TABLE_PHARM_COVERAGE +"  ");
+
+    }
+    public void del_totalcoverage() {
+        db.execSQL("delete from " + TableEntry.TABLE_TOTAL_COVERAGE +"  ");
+
+    }
+
+    public Cursor select_pharmcoverager() {
+        return db.rawQuery(" SELECT "+ TableEntry.COLUMN_NAME+","+TableEntry.COLUMN_VCOUNT+","+TableEntry.COLUMN_TCOUNT+" FROM "+TableEntry.TABLE_PHARM_COVERAGE,null);
+
+    }
+    public Cursor select_totalcoverager() {
+        return db.rawQuery(" SELECT "+ TableEntry.COLUMN_NAME+","+TableEntry.COLUMN_VCOUNT+","+TableEntry.COLUMN_TCOUNT+" FROM "+TableEntry.TABLE_TOTAL_COVERAGE,null);
+
+    }
+
+    public void del_detailing() {
+        db.execSQL("delete from " + TableEntry.TABLE_DETAILING_TIMESPENT +"  ");
+
+    }
+    public Cursor select_Detailingtime() {
+        return db.rawQuery(" SELECT "+ TableEntry.COLUMN_BRAND+","+TableEntry.COLUMN_PERCENT+","+TableEntry.COLUMN_LBLCLR+","+TableEntry.COLUMN_BARCLR+" FROM "+TableEntry.TABLE_DETAILING_TIMESPENT,null);
+
+    }
+    public Cursor select_brandexpo() {
+        return db.rawQuery(" SELECT "+ TableEntry.COLUMN_BRAND+","+TableEntry.COLUMN_TCOUNT+","+TableEntry.COLUMN_BARCLR+","+TableEntry.COLUMN_FLOAT+" FROM "+TableEntry.TABLE_BRAND_EXPOSURE,null);
+
+    }
+    public long insertdetailingtime(String brand, String percnt, String barcolr ,String lblClr) {
+
+        ContentValues values=new ContentValues();
+        values.put(TableEntry.COLUMN_BRAND,brand);
+        values.put(TableEntry.COLUMN_PERCENT,percnt);
+        values.put(TableEntry.COLUMN_BARCLR,barcolr);
+        values.put(TableEntry.COLUMN_LBLCLR,lblClr);
+
+        return db.insert(TableEntry.TABLE_DETAILING_TIMESPENT,null,values);
+    }
+
+    public void del_brandexpose() {
+        db.execSQL("delete from " + TableEntry.TABLE_BRAND_EXPOSURE +"  ");
+
+    }
+
+    public long insertBrandexpo(String brand, String totCnt, String barcolr, String valueOf) {
+        ContentValues values=new ContentValues();
+        values.put(TableEntry.COLUMN_BRAND,brand);
+        values.put(TableEntry.COLUMN_TCOUNT,totCnt);
+        values.put(TableEntry.COLUMN_BARCLR,barcolr);
+        values.put(TableEntry.COLUMN_FLOAT,valueOf);
+
+        return db.insert(TableEntry.TABLE_BRAND_EXPOSURE,null,values);
+    }
+
+    public void del_totalcalls() {
+        db.execSQL("delete from " + TableEntry.TABLE_TOTAL_CALLS+"  ");
+
+    }
+
+    public long insertTotalcalls(String name, String vCount, String tCnt, String name1, String vCount1, String tCnt1, String name2, String vCount2, String tCnt2) {
+        ContentValues values=new ContentValues();
+        values.put(TableEntry.COLUMN_txt1,name);
+        values.put(TableEntry.COLUMN_count1,vCount);
+        values.put(TableEntry.COLUMN_Tcount1,tCnt);
+        values.put(TableEntry.COLUMN_txt2,name1);
+        values.put(TableEntry.COLUMN_count2,vCount1);
+        values.put(TableEntry.COLUMN_Tcount2,tCnt1);
+        values.put(TableEntry.COLUMN_txt3,name2);
+        values.put(TableEntry.COLUMN_count3,vCount2);
+        values.put(TableEntry.COLUMN_Tcount3,tCnt2);
+        return db.insert(TableEntry.TABLE_TOTAL_CALLS,null,values);
+    }
+
+    public Cursor select_totalcalls() {
+        return db.rawQuery(" SELECT "+ TableEntry.COLUMN_txt1+","+TableEntry.COLUMN_count1+","+TableEntry.COLUMN_Tcount1+","+TableEntry.COLUMN_txt2+","+TableEntry.COLUMN_count2+","+TableEntry.COLUMN_Tcount2+","+TableEntry.COLUMN_txt3+","+TableEntry.COLUMN_count3+","+TableEntry.COLUMN_Tcount3+" FROM "+TableEntry.TABLE_TOTAL_CALLS,null);
+
+    }
 
     /* Inner class that defines the table contents */
     public abstract class TableEntry implements BaseColumns {
@@ -106,6 +212,7 @@ public class DataBaseHandler {
             public static final String COLUMN_COMPETITOR_PRODUCT_CODE = "compet_pdtcode";//2
             public static final String COLUMN_COMPETITOR_PRODUCT_NAME = "compet_pdtname";//3
 
+           public static final String TABLE_COMPETITOR_MASTER_NEW= "NewCompetitor_Master";
 
 
         /*DOCTOR MASTER DETAILS*/
@@ -192,7 +299,7 @@ public class DataBaseHandler {
         public static final String TABLE_CIP_MASTER_DETAILS ="Cip_Master";
         //public static final String COLUMN_SF_CODE = "sfCode";               //0
         public static final String COLUMN_CIP_ID = "Id";           //1
-        public static final String COLUMN_NAME = "Name";           //2
+        public static final String COLUMN_CIP_NAME = "Name";           //2
         public static final String COLUMN_HOSPITAL_CODE = "Hosp_code";  //3
         public static final String COLUMN_HOSPITAL_NAME = "Hosp_Name";  //4
         public static final String COLUMN_CIP_TOWN_CODE = "Cip_twncd";    //5
@@ -365,6 +472,34 @@ public class DataBaseHandler {
         public static final String COLUMN_HOS_CODE="clm_hs_code";
 
         public static final String TABLE_PROD_FB="tbl_fb";
+
+        //
+        public static final String TABLE_DR_COVERAGE="dr_coverage";
+        public static final String COLUMN_NAME="dr_name";
+        public static final String COLUMN_VCOUNT="dr_vcount";
+        public static final String COLUMN_TCOUNT="dr_tcount";
+        public static final String TABLE_PHARM_COVERAGE="pharm_coverage";
+        public static final String TABLE_TOTAL_COVERAGE="total_coverage";
+
+        public static final String TABLE_DETAILING_TIMESPENT="detailing_timespent";
+        public static final String COLUMN_BRAND="brand";
+        public static final String COLUMN_PERCENT="percent";
+        public static final String COLUMN_BARCLR="barclr";
+        public static final String COLUMN_LBLCLR="lblclr";
+
+        public static final String TABLE_BRAND_EXPOSURE="brand_exposure";
+        public static final String COLUMN_FLOAT="floatvalue";
+
+        public static final String TABLE_TOTAL_CALLS="total_calls";
+        public static final String COLUMN_txt1="txt1";
+        public static final String COLUMN_count1="count1";
+        public static final String COLUMN_Tcount1="Tcount1";
+        public static final String COLUMN_txt2="txt2";
+        public static final String COLUMN_count2="count2";
+        public static final String COLUMN_Tcount2="Tcount2";
+        public static final String COLUMN_txt3="txt3";
+        public static final String COLUMN_count3="count3";
+        public static final String COLUMN_Tcount3="Tcount3";
 
     }
 
@@ -621,7 +756,7 @@ public class DataBaseHandler {
         ContentValues values = new ContentValues();
         values.put(TableEntry.COLUMN_SF_CODE, sfCode);
         values.put(TableEntry.COLUMN_CIP_ID, id);
-        values.put(TableEntry.COLUMN_NAME, name);
+        values.put(TableEntry.COLUMN_CIP_NAME, name);
         values.put(TableEntry.COLUMN_HOSPITAL_CODE, hoscode);
         values.put(TableEntry.COLUMN_HOSPITAL_NAME, hosname);
         values.put(TableEntry.COLUMN_CIP_TOWN_CODE, cipTwnCd);
@@ -788,7 +923,17 @@ public class DataBaseHandler {
         Log.v("divcoe",cmpprdname);
         return db.insert(TableEntry.TABLE_COMPETITOR_MASTER,null,values);
     }
+    public long NewinsertCompetitorTable(String cmpcode,String cmpname,String cmpprdcode,String cmpprdname,String OProdCd) {
 
+        ContentValues values=new ContentValues();
+        values.put(TableEntry.COLUMN_COMPETITOR_CODE,cmpcode);
+        values.put(TableEntry.COLUMN_COMPETITOR_NAME,cmpname);
+        values.put(TableEntry.COLUMN_COMPETITOR_PRODUCT_CODE,cmpprdcode);
+        values.put(TableEntry.COLUMN_COMPETITOR_PRODUCT_NAME,cmpprdname);
+        values.put(TableEntry.COLUMN_PRODUCT_BRAND_CODE,OProdCd);
+        return db.insert(TableEntry.TABLE_COMPETITOR_MASTER_NEW,null,values);
+
+    }
     public long insertJson(String value,String name,String time,String code,String type,String commonCode){
         ContentValues values=new ContentValues();
         values.put(TableEntry.TOTAL_VALUE,value);
@@ -973,6 +1118,10 @@ public class DataBaseHandler {
     public void del_comp(){
         db.execSQL("delete from " + TableEntry.TABLE_COMPETITOR_MASTER +"  ");
     }
+    public void del_comp_new(){
+        db.execSQL("delete from " + TableEntry.TABLE_COMPETITOR_MASTER_NEW +"  ");
+    }
+
     public void del_brand(){
         db.execSQL("delete from " + TableEntry.TABLE_BRAND +"  ");
     }
@@ -1049,6 +1198,7 @@ public class DataBaseHandler {
             db.execSQL("delete from " + TableEntry.TABLE_TOUR_PLAN+"  ");
             db.execSQL("delete from " + TableEntry.TABLE_SCRIB+"  ");
             db.execSQL("delete from " + TableEntry.TABLE_FEEDBACK +"  ");
+            db.execSQL("delete from " + TableEntry.TABLE_COMPETITOR_MASTER_NEW +"  ");
             db.execSQL("delete from " + TableEntry.TABLE_CIP_MASTER_DETAILS+ "  ");
         }
 
@@ -1133,6 +1283,9 @@ public class DataBaseHandler {
     public Cursor select_product_content_master(){
         return db.rawQuery(" SELECT "+ TableEntry.COLUMN_PRODUCT_NAME+","+TableEntry.COLUMN_PRODUCT_RATE+","+TableEntry.COLUMN_PRODUCT_CODE+" FROM "+TableEntry.TABLE_PRODUCT_MASTER,null);
     }
+    public Cursor select_drcoverager(){
+        return db.rawQuery(" SELECT "+ TableEntry.COLUMN_NAME+","+TableEntry.COLUMN_VCOUNT+","+TableEntry.COLUMN_TCOUNT+" FROM "+TableEntry.TABLE_DR_COVERAGE,null);
+    }
     public Cursor select_input_list(){
         return db.rawQuery(" SELECT "+ TableEntry.INPUT_NAME+" FROM "+TableEntry.TABLE_INPUT,null);
     }
@@ -1153,6 +1306,10 @@ public class DataBaseHandler {
     }
     public Cursor select_comp_list(){
         return db.rawQuery(" SELECT "+ TableEntry.COLUMN_COMPETITOR_NAME+","+TableEntry.COLUMN_COMPETITOR_PRODUCT_NAME+","+TableEntry.COLUMN_COMPETITOR_CODE+","+TableEntry.COLUMN_COMPETITOR_PRODUCT_CODE+" FROM "+TableEntry.TABLE_COMPETITOR_MASTER,null);
+    }
+    public Cursor select_comp_list_new(String prdEnterCode){
+        return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_COMPETITOR_MASTER_NEW+" WHERE "+TableEntry.COLUMN_PRODUCT_BRAND_CODE+" = '"+prdEnterCode+"' ",null);
+//                + TableEntry.COLUMN_COMPETITOR_NAME+","+TableEntry.COLUMN_COMPETITOR_PRODUCT_NAME+","+TableEntry.COLUMN_COMPETITOR_CODE+","+TableEntry.COLUMN_COMPETITOR_PRODUCT_CODE,null);
     }
     public Cursor select_joint_list(){
         return db.rawQuery(" SELECT "+ TableEntry.COLUMN_SFNAME+","+TableEntry.COLUMN_SF_CODE+" FROM "+TableEntry.TABLE_JOINWORK_USER_DETAILS,null);
@@ -1176,7 +1333,9 @@ public class DataBaseHandler {
     public Cursor select_chemist_list(){
         return db.rawQuery(" SELECT "+ TableEntry.COLUMN_CHEMIST_NAME+","+ TableEntry.COLUMN_CHEMIST_CODE+" FROM "+TableEntry.TABLE_CHEMIST_MASTER_DETAILS,null);
     }
-
+    public Cursor select_doctor_listnew(){
+        return db.rawQuery(" SELECT "+ TableEntry.COLUMN_DOCTOR_NAME+","+ TableEntry.COLUMN_DOCTOR_CODE+" FROM "+TableEntry.TABLE_DOCTOR_MASTER_DETAILS,null);
+    }
     public Cursor select_precall_graph_list(String code){
         return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_PRE_CALL_GRAPH+ " WHERE "+TableEntry.COLUMN_CODE+" = '"+code+"' " ,null);
     }

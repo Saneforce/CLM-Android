@@ -375,7 +375,7 @@ public class DrProfile extends Fragment {
                             if(jj.getString("success").equalsIgnoreCase("true")){
                                 dwnloadMasterData = new DownloadMasters(getActivity(), db_connPath, db_slidedwnloadPath, commonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_CODE),8);
                                 dwnloadMasterData.drList();
-                                Toast.makeText(getActivity(),"Successfully  Updated",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(),getResources().getString(R.string.succ_upd),Toast.LENGTH_SHORT).show();
                                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_lay, new DCRDRCallsSelection()).commit();
 
                             }

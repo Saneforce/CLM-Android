@@ -1,5 +1,6 @@
 package saneforce.sanclm.adapter_class;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
@@ -46,7 +47,7 @@ public class AdapterBrandAuditComp extends BaseAdapter {
     DataInterface dataInterface;
 
 
-    public AdapterBrandAuditComp(ArrayList<CompNameProduct> list, BrandAuditActivity context,ArrayList<CompNameProduct> list_prd,DataInterface dataInterface) {
+    public AdapterBrandAuditComp(ArrayList<CompNameProduct> list, Activity context, ArrayList<CompNameProduct> list_prd, DataInterface dataInterface) {
         this.full_list_prd = list;
         this.context = context;
         this.list_prd=list_prd;
@@ -100,6 +101,7 @@ public class AdapterBrandAuditComp extends BaseAdapter {
             txt_comp_brd_name.setVisibility(View.INVISIBLE);
         }
         if(!TextUtils.isEmpty(mm.getQty())){
+
             edt_qty.setText(mm.getQty());
             txt_rate.setText(mm.getRate());
             txt_value.setText(mm.getValue());

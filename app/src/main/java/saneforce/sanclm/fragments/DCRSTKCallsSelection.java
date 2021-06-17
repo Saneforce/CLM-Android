@@ -1,8 +1,11 @@
 package saneforce.sanclm.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Build;
@@ -10,6 +13,7 @@ import android.os.Bundle;
 
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -46,6 +50,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -73,6 +78,8 @@ import saneforce.sanclm.sqlite.DataBaseHandler;
 import saneforce.sanclm.util.DCRCallSelectionFilter;
 import saneforce.sanclm.util.ManagerListLoading;
 
+import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
+import static saneforce.sanclm.fragments.AppConfiguration.language_string;
 
 
 public class DCRSTKCallsSelection extends Fragment implements AdapterView.OnItemClickListener,View.OnClickListener{
@@ -103,6 +110,9 @@ public class DCRSTKCallsSelection extends Fragment implements AdapterView.OnItem
     String selectedProductCode="";
     TextView txt_tool_header;
     EditText et_companyurl;
+    String language;
+    Context context;
+    Resources resources;
 
     public static DCRSTKCallsSelection newInstance() {
         DCRSTKCallsSelection fragment = new DCRSTKCallsSelection();
@@ -148,6 +158,20 @@ public class DCRSTKCallsSelection extends Fragment implements AdapterView.OnItem
         mCommonSharedPreference = new CommonSharedPreference(getContext());
 
         v = inflater.inflate(R.layout.activity_dcrstkcalls_selection, container, false);
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        language = sharedPreferences.getString(language_string, "");
+        if (!language.equals("")){
+            Log.d("homelang",language);
+            selected(language);
+            context = LocaleHelper.setLocale(getActivity(), language);
+            resources = context.getResources();
+        }else {
+            selected("en");
+            context = LocaleHelper.setLocale(getActivity(), "en");
+            resources = context.getResources();
+        }
+
         rl_dcr_precall_analysisMain = (RelativeLayout) v.findViewById(R.id.rl_dcr_precall_analysis_main) ;
         dcr_drselection_gridview= (RelativeLayout) v.findViewById(R.id.rl_dcr_drgrid_selection) ;
         rl_drPrecallanalysis = (RelativeLayout) v.findViewById(R.id.rl_dcr_drDetails);
@@ -176,10 +200,10 @@ public class DCRSTKCallsSelection extends Fragment implements AdapterView.OnItem
         btn_act = (Button)  v.findViewById(R.id.btn_act) ;
         txt_tool_header=v.findViewById(R.id.txt_tool_header);
         et_companyurl=v.findViewById(R.id.et_companyurl);
-        txt_tool_header.setText("Listed "+mCommonSharedPreference.getValueFromPreference("stkcap")+" selection");
+        txt_tool_header.setText(resources.getString(R.string.listed)+" "+mCommonSharedPreference.getValueFromPreference("stkcap")+" "+resources.getString(R.string.Selection));
         Log.d("daataselec",mCommonSharedPreference.getValueFromPreference("stkcap"));
 
-        et_companyurl.setHint("Search Listed "+mCommonSharedPreference.getValueFromPreference("stkcap"));
+        et_companyurl.setHint(resources.getString(R.string.search)+" "+resources.getString(R.string.listed)+mCommonSharedPreference.getValueFromPreference("stkcap"));
         if(mCommonSharedPreference.getValueFromPreference("addAct").equalsIgnoreCase("0"))
             btn_act.setVisibility(View.VISIBLE);
         if(mCommonSharedPreference.getValueFromPreference("Detailing_stk").equalsIgnoreCase("0"))
@@ -384,7 +408,7 @@ public class DCRSTKCallsSelection extends Fragment implements AdapterView.OnItem
                         dwnloadMasterData.stckList();
                     }
                     else{
-                        Toast.makeText(getActivity(),"Network required to get detail",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(),getResources().getString(R.string.network_req),Toast.LENGTH_SHORT).show();
 
                     }
                 }
@@ -483,6 +507,15 @@ public class DCRSTKCallsSelection extends Fragment implements AdapterView.OnItem
         return v;
     }
 
+    private void selected(String language) {
+        Locale myLocale = new Locale(language);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+    }
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Custom_DCR_GV_Dr_Contents custom_dcr_gv_dr_contents  =  stckList.get(position);
@@ -530,7 +563,7 @@ public class DCRSTKCallsSelection extends Fragment implements AdapterView.OnItem
             case R.id.btn_go:
                 if(tv_drName.getText().toString().equalsIgnoreCase("DocName")) {
                     Log.v("DocName",tv_drName.toString());
-                    Toast.makeText(getActivity().getApplicationContext(),"Invalid Customer Selection",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity().getApplicationContext(),getResources().getString(R.string.invalid_cus_sclt),Toast.LENGTH_LONG).show();
                     return ;
                 }else if(mCommonSharedPreference.getValueFromPreference("Detailing_stk").equalsIgnoreCase("0")){
                     commonUtilsMethods.CommonIntentwithNEwTask(DetailingCreationActivity.class);
@@ -539,7 +572,7 @@ public class DCRSTKCallsSelection extends Fragment implements AdapterView.OnItem
                 else {
                     if(tv_drName.getText().toString().equalsIgnoreCase("DocName")) {
                         Log.v("DocName",tv_drName.toString());
-                        Toast.makeText(getActivity().getApplicationContext(),"Invalid Customer Selection",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity().getApplicationContext(),getResources().getString(R.string.invalid_cus_sclt),Toast.LENGTH_LONG).show();
                         return ;
                     }else {
                         Intent i = new Intent(getActivity(), FeedbackActivity.class);

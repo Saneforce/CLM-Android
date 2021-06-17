@@ -62,14 +62,14 @@ public class AdapterForVisitControl extends RecyclerView.Adapter<AdapterForVisit
         barReport(holder,position);
         holder.txt_name.setText(mm.getName());
         holder.txt_date.setText(mm.getDate());
-        holder.txt_clust.setText(mm.getCluster());
-        holder.txt_dr.setText(mm.getTdr());
-        holder.txt_miss.setText(mm.getMiss());
-        holder.txt_met.setText(mm.getDr_met());
-        holder.txt_seen.setText(mm.getDr_seen());
-        holder.txt_fw.setText(mm.getFw_day());
-        holder.txt_call.setText(mm.getAvg());
-        holder.txt_cover.setText(mm.getCover());
+        holder.txt_clust.setText(" : "+mm.getCluster());
+        holder.txt_dr.setText(" : "+mm.getTdr());
+        holder.txt_miss.setText(" : "+mm.getMiss());
+        holder.txt_met.setText(" : "+mm.getDr_met());
+        holder.txt_seen.setText(" : "+mm.getDr_seen());
+        holder.txt_fw.setText(" : "+mm.getFw_day());
+        holder.txt_call.setText(" : "+mm.getAvg());
+        holder.txt_cover.setText(" : "+mm.getCover());
         holder.barChart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -256,14 +256,14 @@ public class AdapterForVisitControl extends RecyclerView.Adapter<AdapterForVisit
          barReport(post);
         txt_name.setText(mm.getName());
         txt_date.setText(mm.getDate());
-        txt_clust.setText(mm.getCluster());
-        txt_dr.setText(mm.getTdr());
-        txt_miss.setText(mm.getMiss());
-        txt_met.setText(mm.getDr_met());
-        txt_seen.setText(mm.getDr_seen());
-        txt_fw.setText(mm.getFw_day());
-        txt_call.setText(mm.getAvg());
-        txt_cover.setText(mm.getCover());
+        txt_clust.setText(" : "+mm.getCluster());
+        txt_dr.setText(" : "+mm.getTdr());
+        txt_miss.setText(" : "+mm.getMiss());
+        txt_met.setText(" : "+mm.getDr_met());
+        txt_seen.setText(" : "+mm.getDr_seen());
+        txt_fw.setText(" : "+mm.getFw_day());
+        txt_call.setText(" : "+mm.getAvg());
+        txt_cover.setText(" : "+mm.getCover());
          btn_save.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {

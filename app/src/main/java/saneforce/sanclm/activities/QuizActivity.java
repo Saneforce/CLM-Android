@@ -1,5 +1,6 @@
 package saneforce.sanclm.activities;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -71,7 +72,7 @@ public class QuizActivity extends AppCompatActivity {
     String qid,sid,starttime,endtime;
     JSONArray ja=new JSONArray();
     ProgressDialog progressDialog;
-    String ss="Quiz submitted successfully";
+    String ss=getResources().getString(R.string.quiz_submitted);
     String final_value="";
     String attempt;
     @Override
@@ -151,7 +152,7 @@ public class QuizActivity extends AppCompatActivity {
                 if(quiz_array.size()-1==increment_value){
                     sub_btn.setEnabled(true);
                     sub_btn.setAlpha(1f);
-                    Toast.makeText(QuizActivity.this,"No More Quiz",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(QuizActivity.this,getResources().getString(R.string.nomrequiz),Toast.LENGTH_SHORT).show();
                 }
                 else {
                     boolean val=false;
@@ -197,7 +198,7 @@ public class QuizActivity extends AppCompatActivity {
                         changeQuestion(0);
                     }
                     else
-                        Toast.makeText(QuizActivity.this,"Choose the answer",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(QuizActivity.this,getResources().getString(R.string.choose_ans),Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -499,6 +500,7 @@ public class QuizActivity extends AppCompatActivity {
                 txt.setTextColor(Color.parseColor("#000000"));
                 txt.setGravity(Gravity.CENTER);
                 ll.setOnClickListener(new View.OnClickListener() {
+                    @SuppressLint("ResourceType")
                     @Override
                     public void onClick(View view) {
                         Log.v("relativeLayout_id",ll.getId()+"");

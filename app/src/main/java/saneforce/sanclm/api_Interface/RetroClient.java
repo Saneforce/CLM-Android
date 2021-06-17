@@ -20,19 +20,20 @@ public class RetroClient {
 
     private static Retrofit retrofit = null;
     private static Retrofit retrofitt = null;
+
     public static Retrofit getClient(String dbPathUrl) {
 
 
-            HttpLoggingInterceptor interceptor=new HttpLoggingInterceptor();
-            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-            OkHttpClient client=new OkHttpClient.Builder().addInterceptor(interceptor)
-                    .readTimeout(500, TimeUnit.SECONDS).writeTimeout(500,TimeUnit.SECONDS).build();
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor)
+                .readTimeout(500, TimeUnit.SECONDS).writeTimeout(500, TimeUnit.SECONDS).build();
       /*  OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
                 .connectTimeout(1000, TimeUnit.SECONDS)
                 .readTimeout(1000, TimeUnit.SECONDS)
                 .writeTimeout(1000, TimeUnit.SECONDS)
                 .build();*/
-        if (retrofit==null) {
+        if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(dbPathUrl)
                     .addConverterFactory(GsonConverterFactory.create())

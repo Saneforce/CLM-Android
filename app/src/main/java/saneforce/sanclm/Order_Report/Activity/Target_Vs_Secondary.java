@@ -449,7 +449,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
             public void onClick(View view) {
                 //  Toast.makeText(getApplicationContext(),fromdate_ed.getText().toString(),Toast.LENGTH_SHORT).show();
                 if (fromdate_ed.getText().toString().equals("")) {
-                    Toast.makeText(Target_Vs_Secondary.this, "Select From Date", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.selctdate), Toast.LENGTH_LONG).show();
                 } else {
                     //Log.d("fromdate",fromdate_ed.getText().toString());
 //                    String [] frommedate = fromdate_ed.getText().toString().split("-");
@@ -702,7 +702,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 else if (selected_data.equalsIgnoreCase("Customdate")) {
 
                     if (fromdate_ed.getText().toString().equalsIgnoreCase("") || todate_ed.getText().toString().equalsIgnoreCase("")) {
-                        Toast.makeText(Target_Vs_Secondary.this, "Please Fill From date and To date", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.sclt_frm_to), Toast.LENGTH_SHORT).show();
                     } else {
 
                         allproduct();
@@ -714,7 +714,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                     selected_data = "customdate";
                 }
                 else {
-                    Toast.makeText(Target_Vs_Secondary.this, "Please Select the options to filter", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.sclt_option), Toast.LENGTH_SHORT).show();
                 }
                 slidemenu.closeDrawer(Gravity.RIGHT);
             }
@@ -754,7 +754,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
             @Override
             public void onClick(View view) {
                 if (fromdate_ed.getText().toString().equals("")) {
-                    Toast.makeText(Target_Vs_Secondary.this, "Select From Date", Toast.LENGTH_LONG).show();
+                    Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.selctdate), Toast.LENGTH_LONG).show();
                 } else {
                     final Calendar c = Calendar.getInstance();
                     int mYear = c.get(Calendar.YEAR);
@@ -1091,7 +1091,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                             parseJsonDataPieprimary(response.body().toString(),div_Code,sf_code,fromdata,todata);
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
-                            Toast.makeText(Target_Vs_Secondary.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -1107,7 +1107,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(Target_Vs_Secondary.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.something_wrong) + "  " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -1247,7 +1247,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                             // secondaryproduct_detail11(startDateStr, endDateStr);
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
-                            Toast.makeText(Target_Vs_Secondary.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -1262,7 +1262,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(Target_Vs_Secondary.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.something_wrong) + "  " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
     public void QTDprimeproduct_admin(){
@@ -1388,7 +1388,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                             // secondaryproduct_detail11(startDateStr, endDateStr);
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
-                            Toast.makeText(Target_Vs_Secondary.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -1403,7 +1403,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(Target_Vs_Secondary.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.something_wrong) + "  " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
     public void Orderproduct_PiechartQTD_admin(){
@@ -1498,7 +1498,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
 //                            secondaryproduct_detail11(fromstrdate, tostrdate);
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
-                            Toast.makeText(Target_Vs_Secondary.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -1514,7 +1514,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(Target_Vs_Secondary.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.something_wrong) + "  " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -1599,7 +1599,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                             parseJsonDataPieprimary(response.body().toString(),div_Code,sf_code,fromdata,todata);
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
-                            Toast.makeText(Target_Vs_Secondary.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -1615,7 +1615,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(Target_Vs_Secondary.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.something_wrong) + "  " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -1715,7 +1715,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                             //secondaryproduct_detail11(startDateStr, endDateStr);
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
-                            Toast.makeText(Target_Vs_Secondary.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -1731,7 +1731,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(Target_Vs_Secondary.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.something_wrong) + "  " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -1813,7 +1813,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                             parseJsonDataPieprimary(response.body().toString(),div_Code,sf_code,fromdata,todata);
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
-                            Toast.makeText(Target_Vs_Secondary.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -1829,7 +1829,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(Target_Vs_Secondary.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.something_wrong) + "  " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
     public  void Orderproduct_Piechartadmin(){
@@ -1929,7 +1929,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                             parseJsonData_adminchart(response.body().toString(), CustomerMeList.get(0).getDivisionCode(),"Admin",fromdata,todata);
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
-                            Toast.makeText(Target_Vs_Secondary.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -1945,7 +1945,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(Target_Vs_Secondary.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.something_wrong) + "  " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -2032,7 +2032,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                             //secondaryproduct_detail11(fromstrdate, tostrdate);
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
-                            Toast.makeText(Target_Vs_Secondary.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -2048,7 +2048,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(Target_Vs_Secondary.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.something_wrong) + "  " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -2146,7 +2146,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                             //secondaryproduct_detail11(fromstrdate, tostrdate);
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
-                            Toast.makeText(Target_Vs_Secondary.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -2162,7 +2162,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            Toast.makeText(Target_Vs_Secondary.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.something_wrong) + "  " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -2321,14 +2321,14 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
 //                    bottom_sum.setVisibility(View.GONE);
                     SalesSecondaryDetails.clear();
                     targetadt.notifyDataSetChanged();
-                    Toast.makeText(Target_Vs_Secondary.this, "No Records found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                Toast.makeText(Target_Vs_Secondary.this, "No records found", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.no_record), Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            Toast.makeText(Target_Vs_Secondary.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.something_wrong) + "  " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -2376,14 +2376,14 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
 //                    targetALLAdapter.notifyDataSetChanged();
                     targetadt.notifyDataSetChanged();
                     //targetsadt.notifyDataSetChanged();
-                    Toast.makeText(Target_Vs_Secondary.this, "No Records found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                Toast.makeText(Target_Vs_Secondary.this, "No records found", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.no_record), Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            Toast.makeText(Target_Vs_Secondary.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.something_wrong) + "  " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -2466,7 +2466,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
 //                            parseJsonDatasecondDetail11(response.body().toString());
 //                        } else {
 ////                            Log.d("expense:Res", "1112222233333444");
-//                            Toast.makeText(Target_Vs_Secondary.this, "No records found", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.no_record), Toast.LENGTH_SHORT).show();
 //                        }
 //                    }
 //
@@ -2529,7 +2529,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
 ////                    bottom_sum.setVisibility(View.GONE);
 //                    targetSdetails.clear();
 //                    // targetsadt.notifyDataSetChanged();
-//                    Toast.makeText(Target_Vs_Secondary.this, "No Records found", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.no_record), Toast.LENGTH_SHORT).show();
 //                }
 //            } catch (JSONException e) {
 //                e.printStackTrace();
@@ -2623,7 +2623,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
         }
         else if (selected_data.equalsIgnoreCase("Customdate")) {
             if (fromdate_ed.getText().toString().equalsIgnoreCase("") || todate_ed.getText().toString().equalsIgnoreCase("")) {
-                Toast.makeText(Target_Vs_Secondary.this, "Please Fill From date and To date", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.sclt_frm_to), Toast.LENGTH_SHORT).show();
             } else {
                 if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
                     if(toback.size()==1){
@@ -2730,7 +2730,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
         }
         else if (selected_data.equalsIgnoreCase("Customdate")) {
             if (fromdate_ed.getText().toString().equalsIgnoreCase("") || todate_ed.getText().toString().equalsIgnoreCase("")) {
-                Toast.makeText(Target_Vs_Secondary.this, "Please Fill From date and To date", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.sclt_frm_to), Toast.LENGTH_SHORT).show();
             } else {
                 if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
                     if(toback.size()==1){
@@ -2849,7 +2849,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
         }
         else if (selected_data.equalsIgnoreCase("Customdate")) {
             if (fromdate_ed.getText().toString().equalsIgnoreCase("") || todate_ed.getText().toString().equalsIgnoreCase("")) {
-                Toast.makeText(Target_Vs_Secondary.this, "Please Fill From date and To date", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.sclt_frm_to), Toast.LENGTH_SHORT).show();
             } else {
                 if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
                     if(toback.size()==1){
@@ -2954,7 +2954,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
         }
         else if (selected_data.equalsIgnoreCase("Customdate")) {
             if (fromdate_ed.getText().toString().equalsIgnoreCase("") || todate_ed.getText().toString().equalsIgnoreCase("")) {
-                Toast.makeText(Target_Vs_Secondary.this, "Please Fill From date and To date", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.sclt_frm_to), Toast.LENGTH_SHORT).show();
             } else {
                 if(toback.get(toback.size()-1).equalsIgnoreCase("Admin")){
                     if(toback.size()==1){
@@ -3046,7 +3046,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                             }
                             Log.d("gang", divname);
                         } else {
-                            Toast.makeText(Target_Vs_Secondary.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
                     @Override
@@ -3170,7 +3170,7 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
                             parseJsonDatasecondDetail(response.body().toString());
                         } else {
 //                            Log.d("expense:Res", "1112222233333444");
-                            Toast.makeText(Target_Vs_Secondary.this, "No records found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -3230,11 +3230,11 @@ public class Target_Vs_Secondary extends AppCompatActivity implements Navigation
 //                    bottom_sum.setVisibility(View.GONE);
                     targetSdetails.clear();
                     targetadt.notifyDataSetChanged();
-                    Toast.makeText(Target_Vs_Secondary.this, "No Records found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.no_record), Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                Toast.makeText(Target_Vs_Secondary.this, "No records found", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Target_Vs_Secondary.this, getResources().getString(R.string.no_record), Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
             Toast.makeText(Target_Vs_Secondary.this, "Something went wrong  " + e.getMessage(), Toast.LENGTH_SHORT).show();

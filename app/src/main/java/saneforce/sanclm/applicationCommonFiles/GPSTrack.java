@@ -228,26 +228,26 @@ public class GPSTrack implements LocationListener {
         });
     }
 */
-private void isLocationEnabled() {
-
-    if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
-        alertDialog.setTitle("Enable Location");
-        alertDialog.setMessage("Your locations setting is not enabled. Please enabled it in settings menu.");
-        alertDialog.setPositiveButton("Location Settings", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                mContext.startActivity(intent);
-            }
-        });
-        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        AlertDialog alert = alertDialog.create();
-        alert.show();
-    }
-}
+//private void isLocationEnabled() {
+//
+//    if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+//        AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
+//        alertDialog.setTitle(getResources().getString(R.string.enable_location));
+//        alertDialog.setMessage(getResources().getString(R.string.alert_location));
+//        alertDialog.setPositiveButton(getResources().getString(R.string.location_setting), new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int which) {
+//                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+//                mContext.startActivity(intent);
+//            }
+//        });
+//        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.cancel();
+//            }
+//        });
+//        AlertDialog alert = alertDialog.create();
+//        alert.show();
+//    }
+//}
 
 }

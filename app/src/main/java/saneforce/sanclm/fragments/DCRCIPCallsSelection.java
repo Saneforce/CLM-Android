@@ -549,7 +549,7 @@ public class DCRCIPCallsSelection extends Fragment implements AdapterView.OnItem
                         dwnloadMasterData.CipList();
                     }
                     else{
-                        Toast.makeText(getActivity(),"Network required to get detail",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(),getResources().getString(R.string.network_req),Toast.LENGTH_SHORT).show();
                     }
                 }
                 else{
@@ -718,7 +718,7 @@ public class DCRCIPCallsSelection extends Fragment implements AdapterView.OnItem
             case R.id.btn_go:
                 if(tv_drName.getText().toString().equalsIgnoreCase("DocName")) {
                     Log.v("DocName",tv_drName.toString());
-                    Toast.makeText(getActivity().getApplicationContext(),"Invalid Customer Selection",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity().getApplicationContext(),getResources().getString(R.string.invalid_cus),Toast.LENGTH_LONG).show();
                     return ;
                 }else if(mCommonSharedPreference.getValueFromPreference("cip_det").equalsIgnoreCase("1")){
                     commonUtilsMethods.CommonIntentwithNEwTask(DetailingCreationActivity.class);
@@ -727,7 +727,7 @@ public class DCRCIPCallsSelection extends Fragment implements AdapterView.OnItem
                 else {
                     if(tv_drName.getText().toString().equalsIgnoreCase("DocName")) {
                         Log.v("DocName",tv_drName.toString());
-                        Toast.makeText(getActivity().getApplicationContext(),"Invalid Customer Selection",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity().getApplicationContext(),getResources().getString(R.string.invalid_cus),Toast.LENGTH_LONG).show();
                         return ;
                     }else {
                         Intent i = new Intent(getActivity(), FeedbackActivity.class);
@@ -741,7 +741,7 @@ public class DCRCIPCallsSelection extends Fragment implements AdapterView.OnItem
             case R.id.btn_skip:
                 if(tv_drName.getText().toString().equalsIgnoreCase("DocName")) {
                     Log.v("DocName",tv_drName.toString());
-                    Toast.makeText(getActivity().getApplicationContext(),"Invalid Customer Selection",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity().getApplicationContext(),getResources().getString(R.string.invalid_cus),Toast.LENGTH_LONG).show();
                     return ;
                 }else {
                     Intent i = new Intent(getActivity(), FeedbackActivity.class);
