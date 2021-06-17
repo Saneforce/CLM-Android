@@ -2380,9 +2380,6 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                         else
                             mCommonSharedPreference.setValueToPreference("DrInpMd", "");
 
-
-
-
                         if (jsonn.has("cip_need")) {
                             mCommonSharedPreference.setValueToPreference("cip_need", jsonn.getString("cip_need"));
                             mCommonSharedPreference.setValueToPreference("cipcap", jsonn.getString("CIP_Caption"));
