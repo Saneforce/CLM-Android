@@ -5,13 +5,19 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -54,6 +60,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import id.zelory.compressor.Compressor;
 import okhttp3.MultipartBody;
@@ -79,10 +86,15 @@ import saneforce.sanclm.api_Interface.RetroClient;
 import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
 import saneforce.sanclm.applicationCommonFiles.CommonUtils;
 import saneforce.sanclm.applicationCommonFiles.CommonUtilsMethods;
+import saneforce.sanclm.applicationCommonFiles.ImageFilePath;
 import saneforce.sanclm.fragments.DCRDRCallsSelection;
+import saneforce.sanclm.fragments.LocaleHelper;
 import saneforce.sanclm.sqlite.DataBaseHandler;
 import saneforce.sanclm.util.DCRCallSelectionFilter;
 import saneforce.sanclm.util.TwoTypeparameter;
+
+import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
+import static saneforce.sanclm.fragments.AppConfiguration.language_string;
 
 
 public class ProfilingActivity extends AppCompatActivity implements View.OnClickListener
@@ -124,6 +136,9 @@ public class ProfilingActivity extends AppCompatActivity implements View.OnClick
     Button btn_Submit;
     String mobile,phone,address,email,dobd,dobm,doby,dowd,dowm,dowy,gender,specName,catName,qualName,className,hospName,district,pinCode,type;
     String db_connPath,target,productRange,listedDrVisit,visitMultiple,listedDrAvgPatients,listedDrclsPatients;
+//    String language;
+//    Context context;
+//    Resources resources;
     AdapterDynamicView adp_view;
 
 
@@ -131,6 +146,20 @@ public class ProfilingActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        SharedPreferences sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+//        language = sharedPreferences.getString(language_string, "");
+//        if (!language.equals("")){
+//            Log.d("homelang",language);
+//            selected(language);
+//            context = LocaleHelper.setLocale(ProfilingActivity.this, language);
+//            resources = context.getResources();
+//        }else {
+//            selected("en");
+//            context = LocaleHelper.setLocale(ProfilingActivity.this, "en");
+//            resources = context.getResources();
+//        }
+
+
         setContentView(R.layout.activity_profilings);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         dbh = new DataBaseHandler(getApplicationContext());
@@ -178,11 +207,10 @@ public class ProfilingActivity extends AppCompatActivity implements View.OnClick
 
 
         List<String> selectPosition = new ArrayList<>();
-      //  selectPosition.add(0, "Select a player from the list");
-        selectPosition.add("Listed Dr.");
-        selectPosition.add("Chemist");
-        selectPosition.add("Stockist");
-        selectPosition.add("Unlisted Dr.");
+        selectPosition.add(/*"Listed Dr."*/ getResources().getString(R.string.listed_dr));
+        selectPosition.add(/*"Chemist"*/ getResources().getString(R.string.chem));
+        selectPosition.add(/*"Stockist"*/ getResources().getString(R.string.stockist));
+        selectPosition.add(/*"Unlisted Dr."*/ getResources().getString(R.string.unlisted_dr));
         dcrdrCallsSelection=new DCRDRCallsSelection();
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, selectPosition);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -271,9 +299,9 @@ public class ProfilingActivity extends AppCompatActivity implements View.OnClick
                     if (validationOfField())
                         saveEntry();
                     else
-                        Toast.makeText(ProfilingActivity.this, "Fill the mandatory field", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ProfilingActivity.this,  getResources().getString(R.string.fillmand), Toast.LENGTH_SHORT).show();
                 } else
-                    Toast.makeText(ProfilingActivity.this, "No network", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProfilingActivity.this, getResources().getString(R.string.nonetwrk), Toast.LENGTH_SHORT).show();
 
 
             }
@@ -435,6 +463,15 @@ public class ProfilingActivity extends AppCompatActivity implements View.OnClick
 //        FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
 //        fragmentTransaction.replace(R.id.frame_layout,dcrdrCallsSelection);
 //        fragmentTransaction.commit();
+    }
+
+    private void selected(String language) {
+        Locale myLocale = new Locale(language);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
     }
 
                     public void OnItemClick(String name, final String code) {
@@ -946,18 +983,18 @@ public void genAdditionalFields(JSONArray jsonArray){
                         else {
                             String val = dayOfMonth + "-" + mnth + "-" + year;
                             if (dateDifference(val, mm.getTvalue()) < 0)
-                                Toast.makeText(ProfilingActivity.this, "From date should be lesser", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ProfilingActivity.this, getResources().getString(R.string.datelesser), Toast.LENGTH_SHORT).show();
                             else
                                 mm.setValue(dayOfMonth + "-" + mnth + "-" + year);
 
                         }
                     } else {
                         if (TextUtils.isEmpty(mm.getValue()))
-                            Toast.makeText(ProfilingActivity.this, "Fill from date", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ProfilingActivity.this, getResources().getString(R.string.filldate), Toast.LENGTH_SHORT).show();
                         else {
                             String val = dayOfMonth + "-" + mnth + "-" + year;
                             if (dateDifference(mm.getValue(), val) < 0)
-                                Toast.makeText(ProfilingActivity.this, "To date should be greater", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ProfilingActivity.this, getResources().getString(R.string.togreater), Toast.LENGTH_SHORT).show();
                             else
                                 mm.setTvalue(dayOfMonth + "-" + mnth + "-" + year);
                         }
@@ -996,16 +1033,16 @@ public void genAdditionalFields(JSONArray jsonArray){
                                 if (selectedMinute < tmin) {
                                     mm.setValue(selectedHour + ":" + selectedMinute);
                                 } else
-                                    Toast.makeText(ProfilingActivity.this, "From time should be lesser", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ProfilingActivity.this, getResources().getString(R.string.timelesser), Toast.LENGTH_SHORT).show();
                             } else if (thr > selectedHour) {
                                 mm.setValue(selectedHour + ":" + selectedMinute);
                             } else
-                                Toast.makeText(ProfilingActivity.this, "From time should be lesser", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ProfilingActivity.this, getResources().getString(R.string.timelesser), Toast.LENGTH_SHORT).show();
 
                         }
                     } else {
                         if (TextUtils.isEmpty(mm.getValue()))
-                            Toast.makeText(ProfilingActivity.this, "Fill the from  time", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ProfilingActivity.this, getResources().getString(R.string.filltime), Toast.LENGTH_SHORT).show();
                         else {
                             int fhr = spiltTime(mm.getValue());
                             int fmin = spiltMin(mm.getValue());
@@ -1013,11 +1050,11 @@ public void genAdditionalFields(JSONArray jsonArray){
                                 if (selectedMinute > fmin) {
                                     mm.setTvalue(selectedHour + ":" + selectedMinute);
                                 } else
-                                    Toast.makeText(ProfilingActivity.this, "To time should be greater", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ProfilingActivity.this, getResources().getString(R.string.totimegreater), Toast.LENGTH_SHORT).show();
                             } else if (fhr < selectedHour) {
                                 mm.setTvalue(selectedHour + ":" + selectedMinute);
                             } else
-                                Toast.makeText(ProfilingActivity.this, "To time should be greater", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ProfilingActivity.this,  getResources().getString(R.string.totimegreater), Toast.LENGTH_SHORT).show();
 
                         }
                     }
@@ -1294,13 +1331,13 @@ public void genAdditionalFields(JSONArray jsonArray){
                             if (js.getString("success").equalsIgnoreCase("true")) {
                                 progressDialog.dismiss();
                                 commonFun();
-                                Toast.makeText(ProfilingActivity.this, "Data   saved   successfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ProfilingActivity.this, getResources().getString(R.string.datasave), Toast.LENGTH_SHORT).show();
                                 array_view.clear();
                                 adp_view.notifyDataSetChanged();
                             } else {
                                 progressDialog.dismiss();
                                 commonFun();
-                                Toast.makeText(ProfilingActivity.this, "Cannot load data", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ProfilingActivity.this, getResources().getString(R.string.cannotload), Toast.LENGTH_SHORT).show();
                             }
 
 
@@ -1320,6 +1357,40 @@ public void genAdditionalFields(JSONArray jsonArray){
         }
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO Auto-generated method stub
+
+        switch (requestCode) {
+
+            case 7:
+
+                if (resultCode == RESULT_OK) {
+
+                    Uri uri = data.getData();
+                    ImageFilePath filepath = new ImageFilePath();
+                    String fullPath = filepath.getPath(ProfilingActivity.this, uri);
+                    Log.v("file_path_are", fullPath + "print");
+                    String PathHolder = data.getData().getPath();
+                    /*String filePath = getImageFilePath(data);
+                    Log.v("file_path_are",filePath);*/
+                    if (fullPath == null)
+                        Toast.makeText(ProfilingActivity.this, getResources().getString(R.string.filenot_support), Toast.LENGTH_LONG).show();
+                    else {
+                        ModelDynamicView mm = array_view.get(pos_upload_file);
+                        mm.setValue(fullPath);
+                        adp_view.notifyDataSetChanged();
+                    }
+
+                    commonFun();
+
+                }
+                break;
+
+        }
+    }
+
 
     public boolean validationOfField() {
         boolean val = true;

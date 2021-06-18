@@ -407,7 +407,7 @@ public class DemoActivity extends AppCompatActivity {
                             list_selection.setVisibility(View.VISIBLE);
                             recurSeparatedPrdCode(aa.get(currentPos).getWrk());
                             jsonArray = new JSONArray(wrkLoader);
-                            dr_head.setText("Select Worktype");
+                            dr_head.setText(/*"Select Worktype"*/ resources.getString(R.string.sclt_work));
                             selectCategory = "w";
                         } else if (i == 1) {
                             if(!mCommonSharedPreference.getValueFromPreference("approve").equalsIgnoreCase("null")) {
@@ -418,7 +418,7 @@ public class DemoActivity extends AppCompatActivity {
                                 list_selection.setVisibility(View.VISIBLE);
                                 recurSeparatedPrdCode(aa.get(currentPos).getHq());
                                 jsonArray = new JSONArray(hqLoader);
-                                dr_head.setText("Select Hq");
+                                dr_head.setText(/*"Select Hq"*/ resources.getString(R.string.sclt_hq));
                                 selectCategory = "h";
                             }
                         } else if (i == 2) {
@@ -431,7 +431,7 @@ public class DemoActivity extends AppCompatActivity {
                             }
                             recurSeparatedPrdCode(aa.get(currentPos).getCluster());
                             jsonArray = new JSONArray(clusterLoader);
-                            dr_head.setText("Select Cluster");
+                            dr_head.setText(/*"Select Cluster"*/ resources.getString(R.string.sclt_clst));
                             selectCategory = "c";
                             clusterBased = "";
 
@@ -444,7 +444,7 @@ public class DemoActivity extends AppCompatActivity {
                             }
                             recurSeparatedPrdCode(aa.get(currentPos).getJoint());
                             jsonArray = new JSONArray(jointLoader);
-                            dr_head.setText("Select Jointwork");
+                            dr_head.setText(/*"Select Jointwork"*/ resources.getString(R.string.sclt_jw));
                             selectCategory = "j";
                         } else if (i == 4) {
                             expand_list.setVisibility(View.VISIBLE);
@@ -483,7 +483,7 @@ public class DemoActivity extends AppCompatActivity {
                             }
                             recurSeparatedPrdCode(aa.get(currentPos).getHosp());
                             jsonArray = new JSONArray(hospLoader);
-                            dr_head.setText("Select Hospital");
+                            dr_head.setText(/*"Select Hospital"*/ resources.getString(R.string.sclt_hosp));
                             selectCategory = "hos";
 
                         }
@@ -1390,7 +1390,7 @@ public class DemoActivity extends AppCompatActivity {
            btn_send.setVisibility(View.GONE);
            btn_approve.setVisibility(View.VISIBLE);
            btn_reject.setVisibility(View.VISIBLE);
-           btn_edit.setText("Edit");
+           btn_edit.setText(/*"Edit"*/ resources.getString(R.string.edit));
             getDateRangeDum(Integer.parseInt(mCommonSharedPreference.getValueFromPreference("tpmonth"))-1,Integer.parseInt(mCommonSharedPreference.getValueFromPreference("tpyear")));
             dayCaldumm();
             Log.v("jsonObject1",jsonObject1.toString());
@@ -2693,7 +2693,9 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
 
                 }
             });
-        }catch (Exception e){}
+        }catch (Exception e){
+            Log.v("exceptionmsg",e.getMessage());
+        }
 
     }
 
@@ -3341,13 +3343,13 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
             grid_cal.setEnabled(false);*/
             notifi.setText("");
             showToast("Already Approved");
-            btn_edit.setText("View");
+            btn_edit.setText(/*"View"*/ resources.getString(R.string.view));
             btn_save.setVisibility(View.INVISIBLE);
             btn_send.setVisibility(View.INVISIBLE);
         }
         else if(status.equalsIgnoreCase("2")) {
             Log.v("printing_reject",reject+"kkk");
-            btn_edit.setText("Edit");
+            btn_edit.setText(/*"Edit"*/ resources.getString(R.string.edit));
             if(!TextUtils.isEmpty(reject)) {
                /* if(!alertshow)
                 alertForReject(1);*/
@@ -3363,7 +3365,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
         }
         else if(status.equalsIgnoreCase("0")) {
             btn_send.setVisibility(View.VISIBLE);
-            btn_edit.setText("Edit");
+            btn_edit.setText(/*"Edit"*/ resources.getString(R.string.edit));
             notifi.setText("");
             Log.v("startcount_are",CalendarAdapter.arr_json+"");
 

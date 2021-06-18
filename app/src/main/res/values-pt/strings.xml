@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SAN CLM</string>
-    <string name="app_version">Version 1.8.2</string>
+    <string name="app_version">Version 1.8.3</string>
 
     <string name="preference_name">saneforce.sanclm.preferencefile</string>
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
@@ -164,6 +164,13 @@
     <string name="sclt_clst">Selecione Cluster</string>
     <string name="sclt_work">Selecione o tipo de trabalho</string>
     <string name="sclt_head">Selecione a sede</string>
+    <string name="sclt_hq">Selecione Hq</string>
+    <string name="sclt_jw">Selecione Trabalho em Conjunto</string>
+    <string name="sclt_hosp">Selecione Hospital</string>
+    <string name="edit">Editar</string>
+    <string name="session">Sessão</string>
+    <string name="wrktype">Tipo de trabalho</string>
+    <string name="tgt_sales">Alvo Vs Vendas</string>
     <string name="sclt_cat">Selecione a Categoria</string>
     <string name="sclt_spcl">Selecione a especialidade</string>
     <string name="sclt_qualy">Selecione a qualificação</string>
@@ -436,5 +443,23 @@
     <string name="select_the_territory">Selecione o Território</string>
     <string name="pincode">Pincode</string>
     <string name="add_chemist">Adicionar Químico</string>
+
+
+    <string name="profiling">Profiling</string>
+    <string name="gender">Gênero</string>
+    <string name="male">Macho</string>
+    <string name="female">Fêmea</string>
+    <string name="dob">DOB</string>
+    <string name="district">Distrito</string>
+    <string name="dow">DOW</string>
+    <string name="city">Cidade</string>
+    <string name="address_details">Detalhes do Endereço</string>
+    <string name="main_address">Endereço Principal</string>
+    <string name="e_mail">E-mail</string>
+    <string name="additional_details">detalhes adicionais</string>
+    <string name="listed_dr">Dr. listado</string>
+    <string name="chem">Químico</string>
+    <string name="stockist">Estoquista</string>
+    <string name="unlisted_dr">Dr. não listado</string>
 
 </resources>

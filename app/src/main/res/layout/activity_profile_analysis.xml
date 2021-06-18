@@ -51,7 +51,7 @@
                     android:layout_marginEnd="35dp"
                     android:background="@drawable/shape_ash"
                     android:fontFamily="@font/poppins"
-                    android:text="Re - Select"
+                    android:text="@string/reselect"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
@@ -120,10 +120,10 @@
 
                         <TextView
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="21dp"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
-                            android:text="@string/qualification"
+                            android:text="@string/qualifications"
                             android:textAppearance="@style/TextAppearance.AppCompat.Title"
                             android:textColor="@color/black"
                             android:textSize="14sp" />
@@ -223,7 +223,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
-                            android:text="@string/category"
+                            android:text="@string/catogy"
                             android:textAppearance="@style/TextAppearance.AppCompat.Title"
                             android:textColor="@color/black"
                             android:textSize="14sp" />

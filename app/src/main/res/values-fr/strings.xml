@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SAN CLM</string>
-    <string name="app_version">Version 1.8.2</string>
+    <string name="app_version">Version 1.8.3</string>
 
     <string name="preference_name">saneforce.sanclm.preferencefile</string>
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
@@ -163,7 +163,14 @@
     <string name="done">Fait</string>
     <string name="sclt_clst">Sélectionnez un cluster</string>
     <string name="sclt_work">Sélectionnez le type de travail</string>
-    <string name="sclt_head">Sélectionnez Headquater</string>
+    <string name="sclt_head">Sélectionnez Siège social</string>
+    <string name="sclt_hq">Sélectionnez QG</string>
+    <string name="sclt_jw">Sélectionnez Jointure</string>
+    <string name="sclt_hosp">Sélectionnez l\'hôpital</string>
+    <string name="edit">Éditer</string>
+    <string name="session">Session</string>
+    <string name="wrktype">Type de travail</string>
+    <string name="tgt_sales">Cible Vs Ventes</string>
     <string name="sclt_cat">Choisir une catégorie</string>
     <string name="sclt_spcl">Sélectionnez une spécialité</string>
     <string name="sclt_qualy">Sélectionnez la qualification</string>
@@ -436,6 +443,24 @@
     <string name="select_the_territory">Sélectionnez le territoire</string>
     <string name="pincode">Code PIN</string>
     <string name="add_chemist">Ajouter un chimiste</string>
+
+
+    <string name="profiling">Profilage</string>
+    <string name="gender">Genre</string>
+    <string name="male">Mâle</string>
+    <string name="female">Femelle</string>
+    <string name="dob">Date de naissance</string>
+    <string name="district">Quartier</string>
+    <string name="dow">DOW</string>
+    <string name="city">Ville</string>
+    <string name="address_details">Détails de l\'adresse</string>
+    <string name="main_address">Adresse principale</string>
+    <string name="e_mail">E-mail</string>
+    <string name="additional_details">Détails supplémentaires</string>
+    <string name="listed_dr">Listé Dr.</string>
+    <string name="chem">Chimiste</string>
+    <string name="stockist">Stockiste</string>
+    <string name="unlisted_dr">Non répertorié Dr.</string>
 
 
 </resources>

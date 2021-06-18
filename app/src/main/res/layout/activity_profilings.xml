@@ -27,7 +27,7 @@
             android:fontFamily="@font/poppins_medium"
             android:gravity="left|center"
             android:paddingLeft="25dp"
-            android:text="Profiling"
+            android:text="@string/profiling"
             android:textAllCaps="true"
             android:textColor="#ff1d25"
             android:textSize="18dp"

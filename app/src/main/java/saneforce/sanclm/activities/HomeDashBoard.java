@@ -2894,7 +2894,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     private void addTabs(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new CallFragment(), "");
-       // adapter.addFrag(new TrainingFragment(), "");
+        //adapter.addFrag(new TrainingFragment(), "");
 //        adapter.addFrag(new NewTrainingFragment(), "");
 //        adapter.addFrag(new NewCallFragment(), "");
 
@@ -3490,6 +3490,9 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
                     CommonUtilsMethods.CommonIntentwithNEwTask(ReportActivity.class);
 
+                }else if (arrayNav.get(i).getText().equals(resources.getString(R.string.profiling))) {
+
+                    CommonUtilsMethods.CommonIntentwithNEwTask(ProfilingActivity.class);
                 }else if (arrayNav.get(i).getText().equals(resources.getString(R.string.near_me))){
 
                     Log.v("printing_geoneed_val", GpsNeed);
@@ -4265,8 +4268,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_tourplan, /*"Approvals"*/resources.getString(R.string.approvals)));
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Reports"*/resources.getString(R.string.report)));
         // arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports,"Quiz"));
-        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, "Profiling"));
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Near Me"*/resources.getString(R.string.near_me)));
+        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Profiling"*/resources.getString(R.string.profiling)));
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Detailing Report"*/resources.getString(R.string.detailing_report)));
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_logout, /*"Logout"*/resources.getString(R.string.logout)));
         //arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Dashboard"*/resources.getString(R.string.Dashboard)));
