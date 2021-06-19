@@ -641,7 +641,7 @@ public class DemoActivity extends AppCompatActivity {
                     }
                 }
                 else
-                    showToast("Select the date");
+                    showToast(/*"Select the date"*/ resources.getString(R.string.slct_date));
             }
         });
 
@@ -652,7 +652,7 @@ public class DemoActivity extends AppCompatActivity {
                 if(CommonUtilsMethods.isOnline(DemoActivity.this))
                     alertOnline();
                 else
-                    showToast("Check network connection!!");
+                    showToast(/*"Check network connection!!"*/ resources.getString(R.string.chk_nwcnctn));
             }
         });
 
@@ -787,7 +787,7 @@ public class DemoActivity extends AppCompatActivity {
                     String fillTheField = "";
                     int pos = 0;
                     if (txt_right_head.getText().toString().equalsIgnoreCase("Choose the date")) {
-                        showToast("Select the date");
+                        showToast(/*"Select the date"*/ resources.getString(R.string.slct_date));
                         checkSession = true;
                     }
                     else if (!TextUtils.isEmpty(work)) {
@@ -811,24 +811,24 @@ public class DemoActivity extends AppCompatActivity {
                                                     } else {
                                                         pos = i;
                                                         if (TextUtils.isEmpty(tp.getHq()))
-                                                            fillTheField = "Head quater";
+                                                            fillTheField = /*"Headquater"*/ resources.getString(R.string.headquater1);
                                                         else if (TextUtils.isEmpty(tp.getCluster()))
-                                                            fillTheField = "Cluster";
+                                                            fillTheField = /*"Cluster"*/ resources.getString(R.string.cluster1);
                                                         else
-                                                            fillTheField = "Doctor";
+                                                            fillTheField = /*"Doctor"*/ resources.getString(R.string.dr);
 
-                                                        if(fillTheField.equalsIgnoreCase("Cluster")){
+                                                        if(fillTheField.equalsIgnoreCase(/*"Cluster"*/ resources.getString(R.string.cluster1))){
                                                             if(hospNeed.equalsIgnoreCase("0")&&(!TextUtils.isEmpty(tp.getHosp()))){
                                                                 checkFilledValue = true;
                                                             }
                                                             else    if(hospNeed.equalsIgnoreCase("0")){
                                                                 checkFilledValue = false;
-                                                                fillTheField="hospital";
+                                                                fillTheField=/*"hospital"*/ resources.getString(R.string.hospital);
                                                             }
                                                             else
                                                                 checkFilledValue = false;
                                                         }
-                                                        else    if(fillTheField.equalsIgnoreCase("Doctor")){
+                                                        else    if(fillTheField.equalsIgnoreCase(/*"Doctor"*/ resources.getString(R.string.dr))){
                                                             if(drNeed.equalsIgnoreCase("1"))
                                                                 checkFilledValue = true;
                                                         }
@@ -841,11 +841,11 @@ public class DemoActivity extends AppCompatActivity {
                                                     if (TextUtils.isEmpty(tp.getCluster())) {
                                                         pos = i;
                                                         if (TextUtils.isEmpty(tp.getHq()))
-                                                            fillTheField = "Head quater";
+                                                            fillTheField = /*"Headquater"*/ resources.getString(R.string.headquater1);
                                                         else
-                                                            fillTheField = "Cluster";
+                                                            fillTheField = /*"Cluster"*/ resources.getString(R.string.cluster1);
 
-                                                        if(fillTheField.equalsIgnoreCase("Cluster")){
+                                                        if(fillTheField.equalsIgnoreCase(/*"Cluster"*/ resources.getString(R.string.cluster1))){
                                                             if(hospNeed.equalsIgnoreCase("0")&&(!TextUtils.isEmpty(tp.getHosp()))){
                                                                 checkFilledValue = true;
                                                             }
@@ -950,18 +950,18 @@ public class DemoActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                             work = "";
-                            txt_right_head.setText("Choose the date");
+                            txt_right_head.setText(/*"Choose the date"*/ resources.getString(R.string.choose_date));
                         } else {
                             viewpager.setCurrentItem(pos);
-                            showToast("Select " + fillTheField);
+                            showToast(/*"Select "*/ resources.getString(R.string.selct) + fillTheField);
                             jss = new JSONObject();
                             ja = new JSONArray();
                         }
                     } else
-                        showToast("Select worktype");
+                        showToast(/*"Select Worktype"*/ resources.getString(R.string.sclt_work));
                 }
                 else
-                    showToast("Already sent to approval");
+                    showToast(/*"Already sent to approval"*/ resources.getString(R.string.sent_appr));
             }
 
 
@@ -1161,7 +1161,7 @@ public class DemoActivity extends AppCompatActivity {
                     sendingOfflineTpData(1);
                 }
                 else
-                    showToast("Check Network Connection");
+                    showToast(/*"Check network connection!!"*/ resources.getString(R.string.chk_nwcnctn));
             }
         });
 
@@ -2021,7 +2021,7 @@ public class DemoActivity extends AppCompatActivity {
         }
     }
     public void showToast(String msg){
-        if(msg.equalsIgnoreCase("Doctor"))
+        if(msg.equalsIgnoreCase(/*"Doctor"*/ resources.getString(R.string.dr)))
             msg=mCommonSharedPreference.getValueFromPreference("drcap");
 
         try {
@@ -2965,12 +2965,12 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                             marker_progress.setVisibility(View.GONE);
 
                             if(x==1) {
-                                showToast("Successfully sent !!");
+                                showToast(/*"Successfully sent"*/ resources.getString(R.string.sent_suxs));
                                 btn_send.setVisibility(View.INVISIBLE);
                                 btn_save.setVisibility(View.INVISIBLE);
                             }
                             if(x==2){
-                                showToast("Successfully sent !!");
+                                showToast(/*"Successfully sent"*/ resources.getString(R.string.sent_suxs));
                                 Intent i=new Intent(DemoActivity.this,ApprovalActivity.class);
                                 startActivity(i);
                             }
@@ -3016,7 +3016,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                             Log.v("day_reject", is.toString());
                             JSONObject js = new JSONObject(is.toString());
                             if(js.getString("success").equalsIgnoreCase("true")) {
-                                showToast("Tour plan rejected !!");
+                                showToast(/*"Tour plan rejected"*/ resources.getString(R.string.tp_rjct));
                                 Intent i=new Intent(DemoActivity.this,ApprovalActivity.class);
                                 startActivity(i);
                             }
@@ -3342,7 +3342,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
            /* grid_cal.setAlpha(0.5f);
             grid_cal.setEnabled(false);*/
             notifi.setText("");
-            showToast("Already Approved");
+            showToast(/*"Already Approved"*/ resources.getString(R.string.tp_aprvd));
             btn_edit.setText(/*"View"*/ resources.getString(R.string.view));
             btn_save.setVisibility(View.INVISIBLE);
             btn_send.setVisibility(View.INVISIBLE);
@@ -3360,7 +3360,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
             btn_save.setVisibility(View.VISIBLE);
             btn_send.getBackground().setAlpha(255);
             btn_send.setEnabled(true);
-            showToast("Tour plan got Rejected");
+            showToast(/*"Tour plan rejected"*/ resources.getString(R.string.tp_rjct));
 
         }
         else if(status.equalsIgnoreCase("0")) {
@@ -3458,7 +3458,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                                 sendingOfflineTpData(0);
 
                                 else
-                                showToast("Already sent to Approval");
+                                showToast(/*"Already sent to approval"*/ resources.getString(R.string.sent_appr));
                                 commonFun();
                             }
                         });
@@ -3816,7 +3816,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                     rejectApproval(edt_feed.getText().toString());
                 }
                 else
-                    showToast("Message field is empty");
+                    showToast(/*"Message field is empty"*/ resources.getString(R.string.msg_empty));
 
                 commonFun();
             }

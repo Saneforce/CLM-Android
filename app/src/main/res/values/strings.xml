@@ -440,6 +440,21 @@
     <string name="select_the_territory">Select the Territory</string>
     <string name="pincode">Pincode</string>
     <string name="add_chemist">Add Chemist</string>
+    <string name="search_doctor">Search Doctor</string>
+
+    <string name="slct_date">Select the date</string>
+    <string name="chk_nwcnctn">Check network connection!!</string>
+    <string name="dr">Doctor</string>
+    <string name="sent_appr">Already sent to approval</string>
+    <string name="sent_suxs">Successfully sent</string>
+    <string name="tp_rjct">Tour plan rejected</string>
+    <string name="tp_aprvd">Already Approved</string>
+    <string name="msg_empty">Message field is empty</string>
+    <string name="wrk_types">Work Types</string>
+    <string name="hqs">HeadQuaters</string>
+    <string name="clusters">Clusters</string>
+    <string name="srch_lstd">Search Listed Doctor</string>
+
 
 
 

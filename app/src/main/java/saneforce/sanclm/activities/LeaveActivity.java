@@ -374,14 +374,14 @@ public class LeaveActivity extends AppCompatActivity {
                                                         JSONObject jj = new JSONObject(is.toString());
                                                         if (jj.getString("success").equalsIgnoreCase("true")) {
 
-                                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.leave_success), Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.leave_success), Toast.LENGTH_LONG).show();
                                                             txt_day.setText("");
                                                             edt_from.setText("");
                                                             edt_to.setText("");
                                                             edt_add.setText("");
                                                             edt_reason.setText("");
                                                         } else {
-                                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.leave_already), Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.leave_already), Toast.LENGTH_LONG).show();
                                                         }
 
                                     /* JSONArray js=new JSONArray(is.toString());

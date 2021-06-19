@@ -443,6 +443,20 @@
     <string name="select_the_territory">Selecione o Território</string>
     <string name="pincode">Pincode</string>
     <string name="add_chemist">Adicionar Químico</string>
+    <string name="search_doctor">Médico de pesquisa</string>
+
+    <string name="slct_date">Selecione a data</string>
+    <string name="chk_nwcnctn">Verifique a conexão de rede !!</string>
+    <string name="dr">Médico</string>
+    <string name="sent_appr">Já enviado para aprovação</string>
+    <string name="sent_suxs">Enviada com sucesso</string>
+    <string name="tp_rjct">Plano de viagem rejeitado</string>
+    <string name="tp_aprvd">Já aprovado</string>
+    <string name="msg_empty">O campo da mensagem está vazio</string>
+    <string name="wrk_types">Tipos de Trabalho</string>
+    <string name="hqs">Quartel general</string>
+    <string name="clusters">Grupo</string>
+    <string name="srch_lstd">Pesquisar médico listado</string>
 
 
     <string name="profiling">Profiling</string>

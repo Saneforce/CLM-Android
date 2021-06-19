@@ -666,7 +666,7 @@ public class CallFragment extends Fragment {
                                 mCommonSharedPreference.setValueToPreference("addChm","1");
                             if(js.has("addAct")) {
                                 mCommonSharedPreference.setValueToPreference("addAct", js.getString("addAct"));
-                                updateUi.updatingui();
+                                //updateUi.updatingui();
                             }
                             else
                                 mCommonSharedPreference.setValueToPreference("addAct","1");

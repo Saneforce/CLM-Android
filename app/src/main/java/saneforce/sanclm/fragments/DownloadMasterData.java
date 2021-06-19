@@ -378,8 +378,8 @@ public class DownloadMasterData extends Fragment implements View.OnTouchListener
         array.clear();
         dbh.open();
         if (headquaterSelection) {
-            array.add(new ModelDownloadMaster(resources.getString(R.string.worktype), pref.getString("work", "0"), false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.headquater), pref.getString("hq", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.wrk_types), pref.getString("work", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.hqs), pref.getString("hq", "0"), false));
             array.add(new ModelDownloadMaster(resources.getString(R.string.competitors), pref.getString("comp", "0"), false));
             array.add(new ModelDownloadMaster(resources.getString(R.string.input), pref.getString("inputs", "0"), false));
             array.add(new ModelDownloadMaster(resources.getString(R.string.product), pref.getString("prd", "0"), false));
@@ -408,8 +408,8 @@ public class DownloadMasterData extends Fragment implements View.OnTouchListener
             if(mCommonSharedPreference.getValueFromPreference("cip_need").equals("0"))
             array.add(new ModelDownloadMaster("Cip",  String.valueOf(dbh.select_cip_sfcode(sfCoding).getCount()), false));
         } else {
-            array.add(new ModelDownloadMaster(resources.getString(R.string.worktype), pref.getString("work", "0"), false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.headquater), pref.getString("hq", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.wrk_types), pref.getString("work", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.hqs), pref.getString("hq", "0"), false));
             array.add(new ModelDownloadMaster(resources.getString(R.string.competitors), pref.getString("comp", "0"), false));
             array.add(new ModelDownloadMaster(resources.getString(R.string.input), pref.getString("inputs", "0"), false));
             array.add(new ModelDownloadMaster(resources.getString(R.string.product), pref.getString("prd", "0"), false));
