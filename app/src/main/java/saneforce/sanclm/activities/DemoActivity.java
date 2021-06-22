@@ -2731,8 +2731,8 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
             }
             clusterneed=json.getString("ClusterNeed");
             drNeed=json.getString("DrNeed");
-            if(json.has("hospitalNeed"))
-                hospNeed=json.getString("hospitalNeed");
+            if(json.has("HospNeed"))
+                hospNeed=json.getString("HospNeed");
             else
                 hospNeed="1";
             drNeed=json.getString("DrNeed");

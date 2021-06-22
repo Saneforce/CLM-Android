@@ -16,6 +16,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -26,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatSpinner;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -87,16 +90,20 @@ public class LeaveActivity extends AppCompatActivity {
     ImageView iv_dwnldmaster_back;
     static String leaveType = "";
     CommonSharedPreference mCommonSharedPreference;
-    static String SF_Code, Emp_Id;
+    static String SF_Code, Emp_Id,div_Code;
     String db_connPath;
     static Api_Interface apiService;
     Button submit;
     static UpdateUi updateUi;
 
     SharedPreferences sharedPreferences;
-    String licence;
+    String licence,leaveCode,leavetype,leaveName,aw_flag;
     String req = "0", empId;
     JSONObject svjson;
+    AppCompatSpinner spinner;
+    ArrayList<String> selectedLeave;
+    ArrayAdapter<String> arrayAdapter;
+
 
 
     @Override
@@ -155,18 +162,23 @@ public class LeaveActivity extends AppCompatActivity {
         iv_dwnldmaster_back = (ImageView) findViewById(R.id.iv_dwnldmaster_back);
         mCommonSharedPreference = new CommonSharedPreference(this);
         submit = (Button) findViewById(R.id.submit);
+        spinner=(AppCompatSpinner) findViewById(R.id.lv_spinner);
+        selectedLeave=new ArrayList<>();
 
-//        lay_el=(LinearLayout) findViewById(R.id.lay_el);
+
+
+        //        lay_el=(LinearLayout) findViewById(R.id.lay_el);
 //        txt_el=(TextView)findViewById(R.id.type_el);
 
-        txt_cl.setBackgroundColor(Color.BLACK);
-        txt_cl.setTextColor(Color.WHITE);
-
-        leaveType = "CL";
+//        txt_cl.setBackgroundColor(Color.BLACK);
+//        txt_cl.setTextColor(Color.WHITE);
+//
+//        leaveType = "CL";
 
 
         leavestatus = mCommonSharedPreference.getValueFromPreference("LeaveStatus");
         SF_Code = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_CODE);
+        div_Code=mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DIVISION);
 
 
         Emp_Id = mCommonSharedPreference.getValueFromPreference("sf_emp_id");
@@ -249,6 +261,24 @@ public class LeaveActivity extends AppCompatActivity {
 
         db_connPath = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DB_URL);
         apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
+
+        leaveTypes();
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                  // ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
+                ((TextView)view).setTextColor(getResources().getColor(R.color.black));
+                 leaveType = adapterView.getItemAtPosition(i).toString();
+                 Log.v("leavetype",leaveType);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
 
         try {
             JSONObject js = new JSONObject();
@@ -439,124 +469,124 @@ public class LeaveActivity extends AppCompatActivity {
             }
         });
 
-        lay_cl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.v("txt_get_color", String.valueOf(txt_cl.getCurrentTextColor()));
-
-
-                if (txt_cl.getCurrentTextColor() == -16777216) {
-                    txt_cl.setBackgroundColor(Color.BLACK);
-                    txt_cl.setTextColor(Color.WHITE);
-                    txt_pl.setBackgroundColor(Color.TRANSPARENT);
-                    txt_sl.setBackgroundColor(Color.TRANSPARENT);
-                    txt_lop.setBackgroundColor(Color.TRANSPARENT);
-                    txt_pl.setTextColor(Color.BLACK);
-                    txt_sl.setTextColor(Color.BLACK);
-                    txt_lop.setTextColor(Color.BLACK);
-
-//                    txt_el.setBackgroundColor(Color.TRANSPARENT);
-//                    txt_el.setTextColor(Color.BLACK);
-
-
-                    leaveType = "CL";
-
-
-                } else {
-                    /*txt_cl.setBackgroundColor(Color.TRANSPARENT);
-                    txt_cl.setTextColor(Color.BLACK);*/
-                }
-            }
-        });
-
-        lay_pl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.v("txt_get_color", String.valueOf(txt_pl.getCurrentTextColor()));
-
-
-                if (txt_pl.getCurrentTextColor() == -16777216) {
-                    txt_pl.setBackgroundColor(Color.BLACK);
-                    txt_pl.setTextColor(Color.WHITE);
-                    txt_cl.setBackgroundColor(Color.TRANSPARENT);
-                    txt_sl.setBackgroundColor(Color.TRANSPARENT);
-                    txt_lop.setBackgroundColor(Color.TRANSPARENT);
-                    txt_cl.setTextColor(Color.BLACK);
-                    txt_sl.setTextColor(Color.BLACK);
-                    txt_lop.setTextColor(Color.BLACK);
-
-//                    txt_el.setBackgroundColor(Color.TRANSPARENT);
-//                    txt_el.setTextColor(Color.BLACK);
-
-
-                    leaveType = "PL";
-
-
-                } else {
-                    /*txt_pl.setBackgroundColor(Color.TRANSPARENT);
-                    txt_pl.setTextColor(Color.BLACK);*/
-                }
-            }
-        });
-
-        lay_sl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.v("txt_get_color", String.valueOf(txt_sl.getCurrentTextColor()));
-
-
-                if (txt_sl.getCurrentTextColor() == -16777216) {
-                    txt_sl.setBackgroundColor(Color.BLACK);
-                    txt_sl.setTextColor(Color.WHITE);
-                    txt_pl.setBackgroundColor(Color.TRANSPARENT);
-                    txt_pl.setTextColor(Color.BLACK);
-                    txt_cl.setBackgroundColor(Color.TRANSPARENT);
-                    txt_cl.setTextColor(Color.BLACK);
-                    txt_lop.setBackgroundColor(Color.TRANSPARENT);
-                    txt_lop.setTextColor(Color.BLACK);
-
-//                    txt_el.setBackgroundColor(Color.TRANSPARENT);
-//                    txt_el.setTextColor(Color.BLACK);
-
-
-                    leaveType = "SL";
-
-
-                } else {
-                    /*txt_sl.setBackgroundColor(Color.TRANSPARENT);
-                    txt_sl.setTextColor(Color.BLACK);*/
-                }
-            }
-        });
-
-        lay_lop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.v("txt_get_color", String.valueOf(txt_lop.getCurrentTextColor()));
-
-
-                if (txt_lop.getCurrentTextColor() == -16777216) {
-                    txt_lop.setBackgroundColor(Color.BLACK);
-                    txt_lop.setTextColor(Color.WHITE);
-                    txt_pl.setBackgroundColor(Color.TRANSPARENT);
-                    txt_sl.setBackgroundColor(Color.TRANSPARENT);
-                    txt_cl.setBackgroundColor(Color.TRANSPARENT);
-                    txt_cl.setTextColor(Color.BLACK);
-                    txt_sl.setTextColor(Color.BLACK);
-                    txt_pl.setTextColor(Color.BLACK);
-
-//                    txt_el.setBackgroundColor(Color.TRANSPARENT);
-//                    txt_el.setTextColor(Color.BLACK);
-
-
-                    leaveType = "LOP";
-
-                } else {
-                   /* txt_lop.setBackgroundColor(Color.TRANSPARENT);
-                    txt_lop.setTextColor(Color.BLACK);*/
-                }
-            }
-        });
+//        lay_cl.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.v("txt_get_color", String.valueOf(txt_cl.getCurrentTextColor()));
+//
+//
+//                if (txt_cl.getCurrentTextColor() == -16777216) {
+//                    txt_cl.setBackgroundColor(Color.BLACK);
+//                    txt_cl.setTextColor(Color.WHITE);
+//                    txt_pl.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_sl.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_lop.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_pl.setTextColor(Color.BLACK);
+//                    txt_sl.setTextColor(Color.BLACK);
+//                    txt_lop.setTextColor(Color.BLACK);
+//
+////                    txt_el.setBackgroundColor(Color.TRANSPARENT);
+////                    txt_el.setTextColor(Color.BLACK);
+//
+//
+//                    leaveType = "CL";
+//
+//
+//                } else {
+//                    /*txt_cl.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_cl.setTextColor(Color.BLACK);*/
+//                }
+//            }
+//        });
+//
+//        lay_pl.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.v("txt_get_color", String.valueOf(txt_pl.getCurrentTextColor()));
+//
+//
+//                if (txt_pl.getCurrentTextColor() == -16777216) {
+//                    txt_pl.setBackgroundColor(Color.BLACK);
+//                    txt_pl.setTextColor(Color.WHITE);
+//                    txt_cl.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_sl.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_lop.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_cl.setTextColor(Color.BLACK);
+//                    txt_sl.setTextColor(Color.BLACK);
+//                    txt_lop.setTextColor(Color.BLACK);
+//
+////                    txt_el.setBackgroundColor(Color.TRANSPARENT);
+////                    txt_el.setTextColor(Color.BLACK);
+//
+//
+//                    leaveType = "PL";
+//
+//
+//                } else {
+//                    /*txt_pl.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_pl.setTextColor(Color.BLACK);*/
+//                }
+//            }
+//        });
+//
+//        lay_sl.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.v("txt_get_color", String.valueOf(txt_sl.getCurrentTextColor()));
+//
+//
+//                if (txt_sl.getCurrentTextColor() == -16777216) {
+//                    txt_sl.setBackgroundColor(Color.BLACK);
+//                    txt_sl.setTextColor(Color.WHITE);
+//                    txt_pl.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_pl.setTextColor(Color.BLACK);
+//                    txt_cl.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_cl.setTextColor(Color.BLACK);
+//                    txt_lop.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_lop.setTextColor(Color.BLACK);
+//
+////                    txt_el.setBackgroundColor(Color.TRANSPARENT);
+////                    txt_el.setTextColor(Color.BLACK);
+//
+//
+//                    leaveType = "SL";
+//
+//
+//                } else {
+//                    /*txt_sl.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_sl.setTextColor(Color.BLACK);*/
+//                }
+//            }
+//        });
+//
+//        lay_lop.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.v("txt_get_color", String.valueOf(txt_lop.getCurrentTextColor()));
+//
+//
+//                if (txt_lop.getCurrentTextColor() == -16777216) {
+//                    txt_lop.setBackgroundColor(Color.BLACK);
+//                    txt_lop.setTextColor(Color.WHITE);
+//                    txt_pl.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_sl.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_cl.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_cl.setTextColor(Color.BLACK);
+//                    txt_sl.setTextColor(Color.BLACK);
+//                    txt_pl.setTextColor(Color.BLACK);
+//
+////                    txt_el.setBackgroundColor(Color.TRANSPARENT);
+////                    txt_el.setTextColor(Color.BLACK);
+//
+//
+//                    leaveType = "LOP";
+//
+//                } else {
+//                   /* txt_lop.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_lop.setTextColor(Color.BLACK);*/
+//                }
+//            }
+//        });
 
 
         edt_from.setOnClickListener(new View.OnClickListener() {
@@ -604,6 +634,57 @@ public class LeaveActivity extends AppCompatActivity {
                 commonFun();
             }
         });
+    }
+
+    private void leaveTypes() {
+        try {
+            JSONObject jss = new JSONObject();
+            jss.put("div", div_Code);
+            Call<ResponseBody> leaveType = apiService.getLeaveType(jss.toString());
+            leaveType.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    InputStreamReader ip = null;
+                    StringBuilder is = new StringBuilder();
+                    String line = null;
+                    try {
+                        ip = new InputStreamReader(response.body().byteStream());
+                        BufferedReader bf = new BufferedReader(ip);
+
+                        while ((line = bf.readLine()) != null) {
+                            is.append(line);
+                        }
+                        Log.v("printing_leave_types", is.toString());
+                        JSONArray json = new JSONArray(is.toString());
+                        for (int i = 0; i < json.length(); i++) {
+                            JSONObject js = json.getJSONObject(i);
+
+                             leaveCode = js.getString("Leave_code");
+                             leavetype= js.getString("Leave_SName");
+                             leaveName = js.getString("Leave_Name");
+                             aw_flag = js.getString("Active_Flag");
+
+                             selectedLeave.add(leavetype);
+
+                             Log.v("getResults",js.toString());
+                        }
+                        arrayAdapter = new ArrayAdapter<String>(LeaveActivity.this, android.R.layout.simple_spinner_item, selectedLeave);
+                        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner.setAdapter(arrayAdapter);
+
+                    } catch (Exception e) {
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                }
+            });
+
+        } catch (Exception e) {
+        }
     }
 
     public void commonFun() {

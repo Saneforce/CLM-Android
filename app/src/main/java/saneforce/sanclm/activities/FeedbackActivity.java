@@ -232,8 +232,8 @@ public class FeedbackActivity extends AppCompatActivity {
         val_pob = mCommonSharedPreference.getValueFromPreference("feed_pob");
         SF_Type = mCommonSharedPreference.getValueFromPreference("sf_type");
         AvailableAduitNeeded = mCommonSharedPreference.getValueFromPreference("AvailableAduitNeeded");
-//      RcpaNeeded= mCommonSharedPreference.getValueFromPreference("RcpaNeeded");
-        RcpaNeeded="1";
+        RcpaNeeded= mCommonSharedPreference.getValueFromPreference("RcpaNeeded");
+       // RcpaNeeded="1";
         availability=mCommonSharedPreference.getValueFromPreference("availjson");
             Log.v("avail>>>1",availability);
         btn_brand_audit.setVisibility(View.VISIBLE);
@@ -298,7 +298,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
             call_plus.setEnabled(false);
             call_plus.getBackground().setAlpha(128);
-//            btn_brand_audit.setVisibility(View.INVISIBLE);
+            btn_brand_audit.setVisibility(View.INVISIBLE);
             // txt_name.setText(extra.getString("customer"));
             txt_name.setText(CommonUtils.TAG_CHEM_NAME);
             peopleType = "C";

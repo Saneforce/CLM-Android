@@ -510,4 +510,9 @@ public interface Api_Interface {
     @POST("db.php?axn=save/DrProfile")
     Call<ResponseBody> svdcrProfile(@Field("data") String sf);
 
+    @FormUrlEncoded
+    @POST("db.php?axn=get/leavetype")
+    Call<ResponseBody> getLeaveType(@Field("data") String sf);
+
+
 }
