@@ -37,6 +37,7 @@
             android:padding="10dp"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
+            android:visibility="gone"
 
             />
     </RelativeLayout>

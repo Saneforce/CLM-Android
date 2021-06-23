@@ -159,7 +159,7 @@ public class FeedbackActivity extends AppCompatActivity {
     ImageView img_capture;
     Uri outputFileUri;
     String currentPhotoPath,AvailableAduitNeeded="",RcpaNeeded="";
-    String nn = null;
+    String nn = null,workType;
     String language;
     Context context;
     Resources resources;
@@ -231,6 +231,7 @@ public class FeedbackActivity extends AppCompatActivity {
         SFCode = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_CODE);
         val_pob = mCommonSharedPreference.getValueFromPreference("feed_pob");
         SF_Type = mCommonSharedPreference.getValueFromPreference("sf_type");
+        workType=mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_NAME);
         AvailableAduitNeeded = mCommonSharedPreference.getValueFromPreference("AvailableAduitNeeded");
         RcpaNeeded= mCommonSharedPreference.getValueFromPreference("RcpaNeeded");
        // RcpaNeeded="1";
@@ -902,7 +903,7 @@ public class FeedbackActivity extends AppCompatActivity {
                                 }
 
                             }
-                            if (mCommonSharedPreference.getValueFromPreference("RcpaNd").equals("1") && peopleType.equalsIgnoreCase("D")) {
+                            if (mCommonSharedPreference.getValueFromPreference("RcpaNd").equals("1") && peopleType.equalsIgnoreCase("D") && workType.equalsIgnoreCase("Field Work")) {
                                 String rcpa = mCommonSharedPreference.getValueFromPreference("jsonarray");
                                 if (rcpa.equalsIgnoreCase("")) {
                                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.entr_rcpa_val), Toast.LENGTH_LONG).show();

@@ -3206,9 +3206,9 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                                             namearray = null;
                                             finalValue = "";
 
-                                            if(jj.has("HOSCode")) {
-                                                code = jj.getString("HOSCode");
-                                                name = jj.getString("HOSName");
+                                            if(jj.has("HospCode")) {
+                                                code = jj.getString("HospCode");
+                                                name = jj.getString("HospName");
 
                                                 if (!TextUtils.isEmpty(code)) {
                                                     codearray = separateCodeandName(code);
