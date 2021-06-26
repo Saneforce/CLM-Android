@@ -136,7 +136,7 @@ public class Presentation_recycler_item extends Fragment {
                 dbh.open();
                /* Collections.sort(mProducts_GridView_Contents,new SortListBrdId());
                 Collections.reverse(mProducts_GridView_Contents);*/
-                arrangeTheProductBasedOnSearch();
+                //arrangeTheProductBasedOnSearch();
 
                 /*for(int k=0;k<mProducts_GridView_Contents.size();k++){
                     Log.v("prd_grid_content ",mProducts_GridView_Contents.get(k).getmProductName());

@@ -448,7 +448,7 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
                     setValueForFeed(drname,drcode);
 
                 }
-                else if(mCommonSharedPreference.getValueFromPreference("dr_profile").equalsIgnoreCase("false")){
+                else if(mCommonSharedPreference.getValueFromPreference("dr_profile").equalsIgnoreCase("true")){
                     mCommonSharedPreference.setValueToPreference("Pname",drname);
                     mCommonSharedPreference.setValueToPreference("Pcode",drcode);
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.app_config, new DrProfile()).commit();
