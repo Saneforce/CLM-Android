@@ -189,7 +189,7 @@ public class Presentation_recycler_item extends Fragment {
             public void saveDetail() {
                 arrangeTheProduct();
                 mProducts_GridView_Contents.addAll(_product_list_arrange);
-                arrangeTheProductBasedOnSearch();
+               // arrangeTheProductBasedOnSearch();
                 dbh.open();
                 /*Collections.sort(mProducts_GridView_Contents,new SortListBrdId());
                 Collections.reverse(mProducts_GridView_Contents);*/

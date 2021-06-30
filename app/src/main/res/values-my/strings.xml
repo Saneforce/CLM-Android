@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">SAN CLM</string>
+    <string name="app_version">Version 1.8.4</string>
+
+    <string name="preference_name">saneforce.sanclm.preferencefile</string>
+    <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+
+    <string name="tab_option_listeddr">ဆရာဝန်</string>
+    <string name="tab_option_chemist">ဓာတုဗေဒပညာရှင်</string>
+    <string name="tab_option_stockist">STOCKIST</string>
+    <string name="tab_option_unlisteddr">စာရင်းမသွင်းထားသောဆရာဝန်</string>
+    <string name="title_activity_main">အဓိကလှုပ်ရှားမှု</string>
+    <string name="section_format">ကဏ္fromမှကမ္ဘာ့မင်္ဂလာပါ: %1$d</string>
+    <string name="start_updates"> မွမ်းမံစတင်</string>
+    <string name="stop_updates">ရပ် တည်နေရာ မွမ်းမံမှုများ</string>
+    <string name="get_last_location">နောက်ဆုံးနေရာရရှိပါ</string>
+
+    <string name="hnt_fcs_pdts">အာရုံစူးစိုက်ထုတ်ကုန်</string>
+
+    <string name="sv_prsn">သိမ်းဆည်းပါ</string>
+    <string name="del_prsn">တင်ပြချက်ဖျက်ပါ</string>
+
+    <string name="prsnt">တကယ</string>
+
+    <string-array name="Det_listsview_Items">
+        <item>ကုန်အမှတ်တံဆိပ် Matrix</item>
+        <item>ပညာရှိအထူး</item>
+        <item>အမှတ်တံဆိပ်အားလုံး</item>
+    </string-array>
+    <string name="title_activity_maps">မြေပုံ</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">မင်္ဂလာပါအလွတ်အပိုင်းအစ</string>
+
+    <string name="App_Configuration">App ကို Configuration</string>
+    <string name="Web_URL">ဝက်ဘ်လိပ်စာ ( eg: www.yoururl.com )</string>
+    <string name="License_Key">လိုင်စင် Key ကို</string>
+    <string name="Your_Device_ID">သင့်ကိရိယာ ID</string>
+    <string name="CLEAR_DATA">ရှင်းလင်းသောအချက်အလက်</string>
+    <string name="SAVE_SETTINGS">ချိန်ညှိချက်များကိုသိမ်းဆည်းပါ</string>
+    <string name="CLOSE">ပိတ်ပါ</string>
+    <string name="language">ဘာသာစကား</string>
+    <string name="username">အသုံးပြုသူအမည်</string>
+    <string name="password">စကားဝှက်</string>
+    <string name="Login">လော့ဂ်အင်</string>
+
+    <string name="worktype">အလုပ်အမျိုးအစား</string>
+    <string name="select_worktype">အလုပ်လုပ်ရန်ရွေးချယ်ပါ</string>
+    <string name="select_cluster">စပျစ်သီးပြွတ် ရွေးချယ်ပါ</string>
+    <string name="select_headquater">ဌာနချုပ် ရွေးချယ်ပါ</string>
+    <string name="headquater">ရုံးချုပ်</string>
+    <string name="cluster">စပျစ်သီးပြွတ်</string>
+    <string name="remarks">မှတ်ချက်</string>
+    <string name="select">ရွေးချယ်ပါ</string>
+    <string name="todayworktype">ဒီနေ့အလုပ်အစီအစဉ်</string>
+    <string name="go">သွားပါ</string>
+
+    <string name="todaycall">ဒီနေ့ခေါ်ဆိုမှုများ</string>
+    <string name="total">စုစုပေါင်း</string>
+    <string name="calls">ခေါ်ဆိုမှုများ</string>
+    <string name="presentation">တင်ပြချက်</string>
+    <string name="report">အစီရင်ခံစာများ</string>
+
+    <string name="monthly_average">လစဉ်ခေါ်ဆိုမှုပျမ်းမျှ</string>
+    <string name="current_visit">လက်ရှိလဖုန်းခေါ်ဆိုမှုအသေးစိတ်ကိုကြည့်ပါ</string>
+    <string name="category">အမျိုးအစားအလိုက်အသေးစိတ်ကြည့်ရှုပါ</string>
+    <string name="overall">ယေဘုယျအားအလည်အပတ်ခရီးအသေးစိတ်</string>
+
+    <string name="call">ခေါ်ပါ</string>
+    <string name="coverage">လွှမ်းခြုံမှု</string>
+    <string name="daily">နေ့စဉ်</string>
+    <string name="average">ပျမ်းမျှ</string>
+    <string name="reload">ပြန်တင်ပါ</string>
+    <string name="detailing">အသေးစိတ်</string>
+    <string name="performance">စွမ်းဆောင်ရည်</string>
+    <string name="time">အချိန်</string>
+    <string name="spent">သုံးစွဲခဲ့သည်</string>
+    <string name="brand">ကုန်အမှတ်တံဆိပ်</string>
+    <string name="exposure">ထိတွေ့ခြင်း</string>
+    <string name="pharmacy">ဆေးဆိုင်</string>
+
+    <string name="master">Master စာရင်းစာရင်းချ</string>
+    <string name="list">စာရင်း</string>
+    <string name="competitors">ပြိုင်ဘက်</string>
+    <string name="input">သွင်းအားစုများ</string>
+    <string name="product">ထုတ်ကုန်များ</string>
+    <string name="slides">slides</string>
+    <string name="brands">ကုန်အမှတ်တံဆိပ်</string>
+    <string name="departments">ဌာနများ</string>
+    <string name="speciality">အထူး</string>
+    <string name="catogy">အမျိုးအစား</string>
+    <string name="qualifications">အရည်အချင်း</string>
+    <string name="clases">အတန်း</string>
+    <string name="types">အမျိုးအစားများ</string>
+    <string name="rating">အဆင့်သတ်မှတ်ချက်</string>
+    <string name="details">အသေးစိတ်</string>
+    <string name="feedbacks">တုံ့ပြန်ချက်များ</string>
+    <string name="theraptic">ကုထုံး</string>
+    <string name="jointwork">ပူးတွဲ</string>
+    <string name="hospital">ဆေးရုံ</string>
+    <string name="change_cluster">Cluster ကိုပြောင်းပါ</string>
+    <string name="activity">လှုပ်ရှားမှု</string>
+    <string name="Slides_Downloader">Slides Downloader</string>
+
+    <string name="create_presentation">တင်ပြချက်ဖန်တီးပါ</string>
+    <string name="tour_plan">ခရီးစဉ်</string>
+    <string name="missed_date_entry">လွဲချော်သည့်နေ့စွဲ Entry</string>
+    <string name="leave_application">လျှောက်လွှာချန်ထားပါ</string>
+    <string name="approvals">ခွင့်ပြုချက်</string>
+    <string name="near_me">ငါ့ကိုအနီး</string>
+    <string name="detailing_report">အသေးစိတ်အစီရင်ခံစာ</string>
+    <string name="logout">ထွက်ပေါက်</string>
+    <string name="Dashboard">ဒိုင်ခွက်</string>
+
+    <string name="worktype1">လုပ်ငန်းခွင်</string>
+    <string name="headquater1">ရုံးချုပ်</string>
+    <string name="cluster1">စပျစ်သီးပြွတ်</string>
+    <string name="Selection">ရွေးချယ်ခြင်း</string>
+    <string name="search">ရှာပါ</string>
+    <string name="listed">စာရင်း</string>
+    <string name="cancel">ပယ်ဖျက်ပါ</string>
+    <string name="presentation_name">သင့်ရဲ့တင်ဆက်မှုအမည်</string>
+    <string name="dayreport">နေ့အစီရင်ခံစာ</string>
+    <string name="monthlyreport">လစဉ်အစီရင်ခံစာ</string>
+    <string name="visitcontrol">ထိန်းချုပ်ရေးသွားရောက်ကြည့်ရှု</string>
+    <string name="missedreport">လွဲချော်သောအစီရင်ခံစာများ</string>
+    <string name="change_password">စကားဝှက်ကိုပြောင်းရန်</string>
+
+    <string name="halfdaywork">နေ့လည်ခင်းအလုပ်</string>
+    <string name="remarks1">မှတ်ချက်</string>
+    <string name="visit_time">လည်ပတ်ချိန်</string>
+    <string name="modified_time">အချိန်ပြုပြင်ပါ</string>
+    <string name="Products">ထုတ်ကုန်</string>
+    <string name="sampqty">နမူနာအရေအတွက်</string>
+    <string name="rxqty">Rx အရေအတွက်</string>
+    <string name="feedback">တုံ့ပြန်ချက်</string>
+    <string name="input1">input ကို</string>
+    <string name="summary">အကျဉ်းချုပ်</string>
+
+    <string name="totaldoc">စုစုပေါင်းဆရာဝန်</string>
+    <string name="missedcall">Missed ခေါ်ဆိုမှု</string>
+    <string name="docmet">ဆရာဝန်နဲ့တွေ့တယ်</string>
+    <string name="docseen">ဆရာဝန်တွေ့ပြီ</string>
+    <string name="fieldday">လယ်ကွင်းလုပ်ငန်းနေ့များ</string>
+    <string name="calaverage">ပျမ်းမျှဖုန်းခေါ်ပါ</string>
+    <string name="savegallery">ပြခန်းသို့သိမ်းဆည်းပါ</string>
+
+    <string name="doctor">ဆရာဝန်</string>
+    <string name="met">တွေ့ဆုံခဲ့</string>
+    <string name="missed">လွဲသွားသည်</string>
+    <string name="previosvst">ယခင်ခရီးစဉ်</string>
+    <string name="apply">လျှောက်ထားပါ</string>
+    <string name="clear">ရှင်းလင်းသော</string>
+
+    <string name="done">ပြီးပြီ</string>
+    <string name="sclt_clst">Cluster ကိုရွေးချယ်ပါ</string>
+    <string name="sclt_work">လုပ်ငန်းခွင် ကိုရွေးချယ်ပါ</string>
+    <string name="sclt_head">ရုံးချုပ်ကိုရွေးပါ</string>
+    <string name="sclt_hq">Hq ကိုရွေးပါ</string>
+    <string name="sclt_jw">ပူးတွဲအလုပ် ကိုရွေးချယ်ပါ</string>
+    <string name="sclt_hosp">ဆေးရုံရွေးပါ</string>
+    <string name="edit">တည်းဖြတ်ပါ</string>
+    <string name="session">အပိုင်း</string>
+    <string name="wrktype">အလုပ်အမျိုးအစား</string>
+    <string name="tgt_sales">အရောင်း vs ပစ်မှတ်</string>
+    <string name="sclt_cat">အမျိုးအစားကိုရွေးပါ</string>
+    <string name="sclt_spcl">အထူးရွေးချယ်ပါ</string>
+    <string name="sclt_qualy">အရည်အချင်းရွေးချယ်ပါ</string>
+    <string name="sclt_class">အတန်းအစား ကိုရွေးပါ</string>
+    <string name="sclt_doc">ဆရာဝန်ရွေးပါ</string>
+    <string name="tour_entry">ခရီးစဉ်အစီအစဉ်</string>
+    <string name="choose_date">ရက်စွဲကိုရွေးပါ</string>
+    <string name="send_apprve"> အတည်ပြုချက်ကိုပို့ပါ </string>
+    <string name="apprve">အတည်ပြု</string>
+    <string name="rejct">ငြင်းသည်</string>
+
+    <string name="sunday">တနင်္ဂနွေနေ့ -</string>
+    <string name="monday">တနင်္လာနေ့၊</string>
+    <string name="tuesday">အင်္ဂါနေ့</string>
+    <string name="wednesday">ဗုဒ္ဓဟူးနေ့</string>
+    <string name="thursday">ကြာသပတေးနေ့ -</string>
+    <string name="friday">သောကြာနေ့</string>
+    <string name="saturday">စနေနေ့</string>
+
+    <string name="add_session">အပိုင်း ထည့်ပါ</string>
+    <string name="del_session">အပိုင်း ကိုဖျက်ပါ။</string>
+    <string name="misdate">လွဲချော်သောနေ့ရွေးချယ်မှု:</string>
+    <string name="field">Wo ကွက်</string>
+    <string name="other">အခြားသူများ</string>
+
+
+    <string name="leavecap">လျှောက်လွှာချန်ပါ</string>
+    <string name="lfrom">မှထွက်ခွာသည် -</string>
+    <string name="lto">ရန်</string>
+    <string name="reason">ထွက်ခွာရန်အကြောင်းပြချက်</string>
+    <string name="nodays">ရက်အရေအတွက်</string>
+    <string name="leavetype">Leave အမျိုးအစား</string>
+    <string name="addrs_leave">Leave အပေါ်လိပ်စာ</string>
+    <string name="eligible">အကျုံးဝင်သည်</string>
+    <string name="taken">ယူ</string>
+    <string name="available">ရရှိနိုင်</string>
+    <string name="submit">တင်သွင်းပါ</string>
+    <string name="tpapproval">ခရီးစဉ်အစီအစဉ်အတည်ပြုချက်</string>
+    <string name="lvapproval">ခွင့်ပြုချက်ချန်ထားပါ</string>
+    <string name="dcrapproval">DCR အတည်ပြုချက်</string>
+    <string name="name">နာမည်</string>
+    <string name="ent_lvreason">ထွက်ခွာသွားသည် အကြောင်းပြချက်ကိုရိုက်ထည့်ပါ</string>
+    <string name="ent_lvremarks">မှတ်ချက်များကိုထည့်ပါ</string>
+    <string name="day">နေ့</string>
+    <string name="accpt">လက်ခံသည်</string>
+    <string name="frm">မှ</string>
+    <string name="mnth">လ</string>
+    <string name="year">နှစ်</string>
+    <string name="view">ကြည့်ရှုပါ</string>
+    <string name="taging">Tagging</string>
+    <string name="nerme">Near Me</string>
+    <string name="addrss">လိပ်စာ</string>
+    <string name="tag">တဂ်</string>
+    <string name="refresh">Refresh</string>
+    <string name="findroute">လမ်းကြောင်းရှာပါ</string>
+    <string name="visit">အလည်အပတ်</string>
+    <string name="cutomer">ဖောက်သည်</string>
+
+    <string name="thimnth">ဤလတွင်</string>
+    <string name="pr_mnth">ပြီးခဲ့သည့်လ</string>
+    <string name="custmz">စိတ်ကြိုက်ပြုလုပ်ပါ</string>
+    <string name="nm_cust">သုံးစွဲသူ၏အမည်</string>
+    <string name="nm_ffc">FieldForce အမည်</string>
+    <string name="type">အမျိုးအစား</string>
+    <string name="territory">နယ်မြေ</string>
+    <string name="detail_count">အသေးစိတ်အရေအတွက်</string>
+    <string name="detail_duration">အသေးစိတ်အချက်အလက်များ</string>
+    <string name="detail_graph1">ထိပ်ဆုံး ၅ ခု</string>
+    <string name="detail_graph2">ထိပ်ဆုံး ၅ အချိန်အသေးစိတ်</string>
+    <string name="filter">စစ်ထုတ်သည်</string>
+    <string name="fieldforce">Field Force</string>
+    <string name="selct">ရွေးချယ်ပါ</string>
+    <string name="old_pass">စကားဝှက်အဟောင်း</string>
+    <string name="new_pass">စကားဝှကိအသစ်</string>
+    <string name="conf_pass">စကားဝှက်ကိုအတည်ပြုပါ</string>
+    <string name="confirm">အတည်ပြုပါ</string>
+    <string name="sclt_hospital">Select hospital</string>
+
+    <string name="date_birth">မွေးနေ့</string>
+    <string name="weddnig">မင်္ဂလာဆောင်သည့်နေ့ရက်</string>
+    <string name="mobile">မိုဘိုင်း</string>
+    <string name="email">အီးမေးလ်</string>
+    <string name="last_visit">နောက်ဆုံးခရီးစဉ်</string>
+    <string name="product_promte">ထုတ်ကုန်များမြှင့်တင်</string>
+    <string name="reselect">Re - ရွေးချယ်ပါ</string>
+
+    <string name="contc_person">ဆက်သွယ်ရမည့်သူ</string>
+    <string name="phone">ဖုန်း</string>
+    <string name="fax">ဖက်စ်</string>
+    <string name="precall">ကြိုတင်လေ့လာသုံးသပ်ချက်</string>
+
+    <string name="sendquies">Queries ပို့ပါ</string>
+    <string name="prd_nme">ထုတ်ကုန်အမည်</string>
+    <string name="timline">အချိန်ဇယား</string>
+    <string name="samp">နမူနာများ</string>
+    <string name="rx">Rx</string>
+    <string name="qty">ရေတွက်</string>
+    <string name="add_cals">အပိုခေါ်ဆိုမှုများ</string>
+    <string name="rcpaenty">Rcpa Entry</string>
+    <string name="finlsubmit">နောက်ဆုံးတင်သွင်းရန်</string>
+
+    <string name="docnm">ဆရာဝန်အမည်</string>
+    <string name="chmnm">ဓာတုဗေဒအမည်</string>
+    <string name="rcpalist">Rcpa စာရင်း</string>
+    <string name="ourbrand">ကျွန်ုပ်တို့၏ကုန်ပစ္စည်းအမှတ်တံဆိပ်</string>
+    <string name="compnm">ပြိုင်ဘက်ကုမ္ပဏီအမည်</string>
+    <string name="brndnm">ပြိုင်ဘက်တံဆိပ်အမည်</string>
+    <string name="rate">အဆင့်သတ်မှတ်ချက်</string>
+    <string name="value">တန်ဖိုး</string>
+    <string name="addcomp">ပြိုင်ဘက်ထည့်ပါ</string>
+    <string name="antherbrnd">နောက်ထပ်အမှတ်တံဆိပ်ထည့်ပါ</string>
+    <string name="compaudit">ပြိုင်ဘက်စာရင်းစစ်</string>
+    <string name="inv">မင်္ဂလာပါ</string>
+    <string name="ptp">PTP</string>
+    <string name="ptr">PTR</string>
+    <string name="sw">Avg.S/W</string>
+    <string name="shalinaprd">Shalina ကုန်ပစ္စည်းအမှတ်တံဆိပ်</string>
+    <string name="signature">ဤနေရာတွင်လက်မှတ်ထိုးသည်</string>
+    <string name="typehere">ဒီမှာရိုက်ပါ</string>
+    <string name="sandigital">SAN ဒီဂျစ်တယ်အသေးစိတ်</string>
+    <string name="alertmsg">ဤခေါ်ဆိုမှုကိုဖျက်သိမ်းချင်ပါသလား</string>
+    <string name="aleretmsg1">ဖုန်းခေါ်ပါ</string>
+    <string name="savedft">မူကြမ်းသိမ်းဆည်းပါ</string>
+    <string name="ok">အိုကေ</string>
+    <string name="brandmatrix">ကုန်အမှတ်တံဆိပ် Matrix</string>
+    <string name="spclwise">ပညာရှိအထူး</string>
+    <string name="allbrand">အမှတ်တံဆိပ်အားလုံး</string>
+    <string name="customise">Customise</string>
+    <string name="customised">customised</string>
+
+    <string name="targetsales">VS အရောင်းအသေးစိတ်</string>
+    <string name="primary">မူလတန်း</string>
+    <string name="clearfilter">filter ကိုရှင်းပါ</string>
+    <string name="brndcontry">ကုန်အမှတ်တံဆိပ်အလှူငွေ</string>
+    <string name="home">နေအိမ်</string>
+    <string name="sfe">SFE</string>
+    <string name="customfilter">စိတ်ကြိုက် filter</string>
+    <string name="secondary">ကိုအလယ်တန်း</string>
+    <string name="mtd">MTD</string>
+    <string name="qtd">QTD</string>
+    <string name="ytd">ဝိုင်တီဒီ</string>
+    <string name="customdate">စိတ်ကြိုက်ရက်စွဲ</string>
+    <string name="selctdate">နေ့စွဲမှရွေးပါ</string>
+    <string name="todate">နေ့စွဲကိုရွေးချယ်ပါ</string>
+    <string name="selctlist">ရွေးချယ်ရေးစာရင်း</string>
+    <string name="avilablecheck">ရရှိနိုင်မှုစစ်ဆေးပါ</string>
+
+    <string name="avilablesearch">Search by Sub Category code/Description </string>
+    <string name="allos">ALL OOS </string>
+    <string name="allavail">ALL AVAIL </string>
+    <string name="availstock">STOCK </string>
+    <string name="availoos">OOS </string>
+    <string name="avail">AVAIL </string>
+    <string name="target">Target </string>
+
+    <string name="sclt_chmnm">Select Chemist Name</string>
+    <string name="sclt_prdnm">Select Product Name</string>
+    <string name="scltprdqty">Select Product Qty</string>
+    <string name="sclt_compdetl">Select Competitor Details</string>
+
+    <string name="sclt_frm_to">Please Fill From date and To date</string>
+    <string name="sclt_option">Please Select the options to filter</string>
+    <string name="no_record">No records found</string>
+    <string name="something_wrong">Something went wrong</string>
+    <string name="noprdsclt">No Product selected</string>
+    <string name="noprdavailable">No Products Available</string>
+    <string name="alarmset">Alarm set in</string>
+    <string name="seconds">seconds</string>
+    <string name="alarm">Alarm....</string>
+    <string name="submitsuccess">Submitted successfully</string>
+    <string name="dplan_need">My Day plan is Needed </string>
+    <string name="offline">You are in OFF - Line  </string>
+    <string name="filenotavailable">File not available  </string>
+    <string name="filedownloading">A new file is downloading  </string>
+    <string name="downldsuccess">A new file is downloaded successfully</string>
+    <string name="nofile">No application found which can open the file</string>
+
+    <string name="fillmand">Fill the mandatory field</string>
+    <string name="nonetwrk">No network</string>
+    <string name="datelesser">From date should be lesser</string>
+    <string name="filldate">Fill from date</string>
+    <string name="togreater">To date should be greater</string>
+    <string name="timelesser">From time should be lesser</string>
+    <string name="filltime">Fill the from  time</string>
+    <string name="totimegreater">To time should be greater</string>
+    <string name="datasave">Data   saved   successfully</string>
+    <string name="cannotload">Cannot load data</string>
+    <string name="filenot_support">This file format not supported</string>
+
+    <string name="expncelist">Expense List</string>
+    <string name="rejectreson">Reject Reason</string>
+    <string name="surerejct">Are you Sure to Reject ?</string>
+    <string name="yesrject">Yes, to Reject</string>
+
+    <string name="entr_sample_val">Enter Sample values</string>
+    <string name="entr_rx_val">Enter RxQty values</string>
+    <string name="sclt_input">Select the Input</string>
+    <string name="entr_input_val">Enter Input values</string>
+    <string name="entr_rcpa_val">Enter Rcpa values</string>
+    <string name="invalid_cus">Invalid Customer Selection</string>
+    <string name="no_input">No Input Available</string>
+    <string name="query_succs">Query sent successfully</string>
+    <string name="query_notsuccs">Query not sent successfully</string>
+    <string name="data_success">Data Submitted Successfully</string>
+    <string name="data_notsuccess">OOPS!! data not submitted</string>
+
+    <string name="leave_success">Leave submitted successfully !!</string>
+    <string name="leave_already">Already Leave Posted on this date!!  </string>
+    <string name="click_again">Please click back again to exit</string>
+    <string name="check_us_ps">Check username and password</string>
+    <string name="strge_permis">Please allow Storage permission</string>
+    <string name="mob_inter">Please Enable Mobile Internet..</string>
+    <string name="onfail">On Failure</string>
+    <string name="fill_the">Fill the</string>
+    <string name="field_">field</string>
+    <string name="tag_succs">Tagged successfully !!</string>
+    <string name="hnt_pickimg">You havenot picked Image</string>
+    <string name="nomrequiz">No More Quiz</string>
+    <string name="choose_ans">Choose the answer</string>
+    <string name="quiz_submitted">Quiz submitted successfully</string>
+    <string name="quiz">Quiz</string>
+    <string name="quiz_rmtime">Remaining Time - </string>
+    <string name="quiz_info">Choose the one answer that mostly apply to you</string>
+    <string name="quiz_nxt">Next</string>
+    <string name="mock_loc">Mock location detected </string>
+    <string name="conf_succs">Configured Successfully</string>
+    <string name="invalid_url">Invalid URL</string>
+    <string name="app_data_clr">Application data cleared</string>
+    <string name="some_field">some fields are empty</string>
+    <string name="pass_succed">Password changed successfully !!</string>
+    <string name="pass_new_same">New password and confirm password are not same !! </string>
+    <string name="saved_sucs"> Saved successfully</string>
+    <string name="del_sucs"> Deleted successfully</string>
+    <string name="invalid_cus_sclt">Invalid Customer Selection</string>
+    <string name="fill_all">Please fill all fields</string>
+    <string name="network_req">Network required to get detail</string>
+    <string name="loction_detcted"> Location cannot detected </string>
+    <string name="succ_upd"> Successfully  Updated </string>
+    <string name="alert">alert</string>
+    <string name="alert_already">Already saved presentation !! please enter different Name..</string>
+    <string name="alert_entr_presnt">Please Enter Presentaion Name not as 1 !</string>
+    <string name="alert_presentnm">Please Enter Presentation Name !</string>
+    <string name="save_present">Do you want to Save presentation?</string>
+    <string name="update_present">Do you want to update presentation?</string>
+    <string name="delete_present">Do you want to delete presentation?</string>
+    <string name="prd_mappg">Select Products for Mapping!!</string>
+    <string name="upd_prest_success">Updated presentation successfully!!</string>
+    <string name="update">Update</string>
+    <string name="enable_location">Enable Location</string>
+    <string name="alert_location">Your locations setting is not enabled. Please enabled it in settings menu.</string>
+    <string name="location_setting">Location Settings</string>
+    <string name="myplan_alert">Already my day plan are submitted here</string>
+    <string name="overwrite">Overwrite</string>
+    <string name="halfday">Half day</string>
+
+    <string name="inp_selct">Inputs Selection</string>
+    <string name="add_selct">Additional Doctor Selection</string>
+    <string name="joint_selct">Joint Work Selection</string>
+    <string name="prodct_selct">Products Selection</string>
+    <string name="tourplan_entry">Tourplan Entry</string>
+    <string name="feedback_details">Feedback Details</string>
+    <string name="feedback_here">Feedback here</string>
+    <string name="duration">Duration</string>
+    <string name="current_month">Current Month</string>
+    <string name="next_month">Next Month</string>
+    <string name="search_unlisted_doctor">Search UNListed Doctor</string>
+    <string name="unlisted_doctor_selection">UnListed Doctor Selection</string>
+    <string name="additional_doctor">Additional Doctor</string>
+    <string name="select_the_category">Select the Category</string>
+    <string name="select_the_territory">Select the Territory</string>
+    <string name="pincode">Pincode</string>
+    <string name="add_chemist">Add Chemist</string>
+    <string name="search_doctor">Search Doctor</string>
+
+    <string name="slct_date">Select the date</string>
+    <string name="chk_nwcnctn">Check network connection!!</string>
+    <string name="dr">Doctor</string>
+    <string name="sent_appr">Already sent to approval</string>
+    <string name="sent_suxs">Successfully sent</string>
+    <string name="tp_rjct">Tour plan rejected</string>
+    <string name="tp_aprvd">Already Approved</string>
+    <string name="msg_empty">Message field is empty</string>
+    <string name="wrk_types">Work Types</string>
+    <string name="hqs">HeadQuaters</string>
+    <string name="clusters">Clusters</string>
+    <string name="srch_lstd">Search Listed Doctor</string>
+
+
+
+
+    <string name="profiling">Profiling</string>
+    <string name="gender">Gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="dob">DOB</string>
+    <string name="district">District</string>
+    <string name="dow">DOW</string>
+    <string name="city">City</string>
+    <string name="address_details">Address Details</string>
+    <string name="main_address">Main Address</string>
+    <string name="e_mail">E-mail</string>
+    <string name="additional_details">Additional Details</string>
+    <string name="listed_dr">Listed Dr.</string>
+    <string name="chem">Chemist</string>
+    <string name="stockist">Stockist</string>
+    <string name="unlisted_dr">Unlisted Dr.</string>
+
+</resources>

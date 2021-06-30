@@ -106,6 +106,7 @@ public class LeaveActivity extends AppCompatActivity {
 
 
 
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         Log.v("keypad_down", "are_called");
@@ -278,6 +279,7 @@ public class LeaveActivity extends AppCompatActivity {
 
             }
         });
+
 
 
         try {
@@ -668,8 +670,12 @@ public class LeaveActivity extends AppCompatActivity {
 
                              Log.v("getResults",js.toString());
                         }
-                        arrayAdapter = new ArrayAdapter<String>(LeaveActivity.this, android.R.layout.simple_spinner_item, selectedLeave);
-                        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//                        arrayAdapter = new ArrayAdapter<String>(LeaveActivity.this, android.R.layout.simple_spinner_item, selectedLeave);
+//                        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//                        spinner.setAdapter(arrayAdapter);
+
+                        arrayAdapter = new ArrayAdapter<String>(LeaveActivity.this,android.R.layout.simple_spinner_item, selectedLeave);
+                        arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                         spinner.setAdapter(arrayAdapter);
 
                     } catch (Exception e) {

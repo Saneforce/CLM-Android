@@ -380,7 +380,7 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
                     DisplayProductGridView(parent.getItemAtPosition(position).toString());
                 }
                 if (parent.getItemAtPosition(position).toString().equalsIgnoreCase(getResources().getString(R.string.customise)))
-                    mCommonSharedPreference.setValueToPreference("display_brand", getResources().getString(R.string.customise));
+                    mCommonSharedPreference.setValueToPreference("display_brand", getResources().getString(R.string.customised));
                 else
                     mCommonSharedPreference.setValueToPreference("display_brand", parent.getItemAtPosition(position).toString());
             }
@@ -1273,7 +1273,7 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
                     JSONArray ja = new JSONArray(mCommonSharedPreference.getValueFromPreference("selection_product").toString());
                     len_slide = ja.length();
                     mCommonSharedPreference.setValueToPreference("ProductBrdWiseSlides_jsonArray", mCommonSharedPreference.getValueFromPreference("selection_product").toString());
-                } else if (DetailingTrackerPOJO.getmDetListview_Selection().equalsIgnoreCase(getResources().getString(R.string.customise))) {
+                } else if (DetailingTrackerPOJO.getmDetListview_Selection().equalsIgnoreCase(getResources().getString(R.string.customised))) {
                     JSONArray ja = new JSONArray(mCommonSharedPreference.getValueFromPreference("selection_product").toString());
                     len_slide = ja.length();
                     mCommonSharedPreference.setValueToPreference("ProductBrdWiseSlides_jsonArray", mCommonSharedPreference.getValueFromPreference("selection_product").toString());

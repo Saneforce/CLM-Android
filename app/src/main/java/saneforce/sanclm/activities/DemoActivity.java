@@ -3047,7 +3047,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
 
     public void retrieveOldDatas(String json, final String month){
         Log.v("calendar_date_",json+"   "+jsonObject1.toString());
-        Call<ResponseBody> drDetail= apiService.getTP(json);
+        Call<ResponseBody> drDetail= apiService.getTP(json,"1");
         drDetail.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

@@ -708,8 +708,10 @@ public class FeedbackActivity extends AppCompatActivity {
 
                 jsonBrandValue = mCommonSharedPreference.getValueFromPreference("jsonarray");
 
-
-                if(feedOption.equalsIgnoreCase("dr")){
+                if (TextUtils.isEmpty(jsonBrandValue)) {
+                    Intent i = new Intent(FeedbackActivity.this, BrandAuditActivity.class);
+                    startActivityForResult(i, 6);
+                }else if(feedOption.equalsIgnoreCase("edit")||feedOption.equalsIgnoreCase("dr")){
                     Intent i = new Intent(FeedbackActivity.this,BrandAuditActivity.class);
                     i.putExtra("json_val", jsonBrandValue);
                     i.putExtra("name", txt_name.getText().toString());

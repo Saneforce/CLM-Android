@@ -289,17 +289,31 @@
                             android:layout_height="match_parent"
                             android:layout_weight="8"
                             android:gravity="center">
-                            <androidx.appcompat.widget.AppCompatSpinner
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp">
+
+                                <androidx.appcompat.widget.AppCompatSpinner
                                     android:id="@+id/lv_spinner"
                                     android:layout_width="match_parent"
-                                    android:layout_gravity="center"
                                     android:layout_height="35dp"
+                                    android:layout_gravity="center"
                                     android:layout_marginEnd="8dp"
                                     android:textAlignment="center"
                                     android:theme="@style/Spinner"
-                                    android:background="@drawable/bg_spinner_divider"
-                                />
+                                    android:background="@color/white"
+                                    />
 
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="35dp"
+                                    android:layout_alignParentEnd="true"
+                                    android:padding="5dp"
+                                    android:layout_marginEnd="8dp"
+                                    android:src="@drawable/spin_down_arrow" />
+
+                            </RelativeLayout>
                         </LinearLayout>
                     </LinearLayout>
 

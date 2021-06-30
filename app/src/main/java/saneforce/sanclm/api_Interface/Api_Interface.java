@@ -196,7 +196,7 @@ public interface Api_Interface {
 
     @FormUrlEncoded
     @POST("db.php?axn=get/tpdetail")
-    Call<ResponseBody> getTP(@Field("data") String sfc);
+    Call<ResponseBody> getTP(@Field("data") String sfc,@Query("mode") String mode);
 
     @FormUrlEncoded
     @POST("db.php?axn=save/expdetail")
