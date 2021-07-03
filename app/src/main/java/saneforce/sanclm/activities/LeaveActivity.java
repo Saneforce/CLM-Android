@@ -412,6 +412,8 @@ public class LeaveActivity extends AppCompatActivity {
                                                             edt_to.setText("");
                                                             edt_add.setText("");
                                                             edt_reason.setText("");
+                                                           // selectedLeave.clear();
+                                                           // arrayAdapter.notifyDataSetChanged();
                                                         } else {
                                                             Toast.makeText(getApplicationContext(), getResources().getString(R.string.leave_already), Toast.LENGTH_LONG).show();
                                                         }

@@ -1051,6 +1051,7 @@ public class FeedbackActivity extends AppCompatActivity {
                 dbh.open();
                 mCursor = dbh.select_joint_list();
 
+
                 if (mCursor.getCount() != 0) {
                     mCursor.moveToFirst();
                     do {

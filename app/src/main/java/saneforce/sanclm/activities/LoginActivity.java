@@ -64,6 +64,7 @@ import saneforce.sanclm.util.UpdateUi;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.MANAGE_EXTERNAL_STORAGE;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
@@ -144,6 +145,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         permissions.add(CAMERA);
         permissions.add(READ_EXTERNAL_STORAGE);
         permissions.add(WRITE_EXTERNAL_STORAGE);
+        permissions.add(MANAGE_EXTERNAL_STORAGE);
         FirebaseApp.initializeApp(this);
         //permissions.add(READ_CONTACTS);
 

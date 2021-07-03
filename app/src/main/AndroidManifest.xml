@@ -9,7 +9,7 @@
         android:required="true" />
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -22,6 +22,8 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+
 
     <application
         android:allowBackup="false"
@@ -37,7 +39,8 @@
         android:usesCleartextTraffic="true"
         android:windowSoftInputMode="stateHidden"
         tools:node="replace"
-        tools:replace="android:icon">
+        tools:replace="android:icon"
+        android:preserveLegacyExternalStorage="true">
         <activity android:name=".activities.ImageActivity"
             android:screenOrientation="landscape"></activity>
         <activity

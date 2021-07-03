@@ -191,7 +191,14 @@ public class AppConfiguration extends Fragment implements View.OnClickListener {
                 tv_language.setText("PORTUGUESE");
             }else if (ldata.equals("fr")){
                 tv_language.setText("FRENCH");
-            }else {
+            }else if (ldata.equals("my")) {
+                tv_language.setText("BURMESE");
+            }else if (ldata.equals("vi")) {
+                tv_language.setText("VIETNAMESE");
+            }else if (ldata.equals("zh")) {
+                tv_language.setText("MANDARIN");
+            }
+            else {
                 tv_language.setText("ENGLISH");
             }
         }else {
@@ -567,7 +574,7 @@ public class AppConfiguration extends Fragment implements View.OnClickListener {
     }
 
     public void language_setup() {
-        final String[] Language = {"ENGLISH", "FRENCH", "PORTUGUESE"};
+        final String[] Language = {"ENGLISH", "FRENCH", "PORTUGUESE","BURMESE","VIETNAMESE","MANDARIN"};
         ArrayList<String> langlist = new ArrayList<>();
         langlist.clear();
         for (int i = 0; i < Language.length; ++i) {
@@ -630,6 +637,24 @@ public class AppConfiguration extends Fragment implements View.OnClickListener {
                         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString(language_string, "pt");
+                        editor.commit();
+                    }else if (selectedFromList.equalsIgnoreCase("BURMESE")) {
+                        selected("my");
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString(language_string, "my");
+                        editor.commit();
+                    }else if (selectedFromList.equalsIgnoreCase("VIETNAMESE")) {
+                        selected("vi");
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString(language_string, "vi");
+                        editor.commit();
+                    }else if (selectedFromList.equalsIgnoreCase("MANDARIN")) {
+                        selected("zh");
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString(language_string, "zh");
                         editor.commit();
                     }
                     tv_language.setText(selectedFromList);

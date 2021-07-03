@@ -1,0 +1,479 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">SAN CLM</string>
+    <string name="app_version">Version 1.8.4</string>
+
+    <string name="preference_name">saneforce.sanclm.preferencefile</string>
+    <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+
+    <string name="tab_option_listeddr">医生</string>
+    <string name="tab_option_chemist">化学家</string>
+    <string name="tab_option_stockist">存货</string>
+    <string name="tab_option_unlisteddr">非上市医生</string>
+    <string name="title_activity_main">主要活动</string>
+    <string name="section_format">你好世界部分: %1$d</string>
+    <string name="start_updates">开始位置更新</string>
+    <string name="stop_updates">停止位置更新</string>
+    <string name="get_last_location">获取最后位置</string>
+
+    <string name="hnt_fcs_pdts">重点产品</string>
+
+    <string name="sv_prsn">保存</string>
+    <string name="del_prsn">删除演示文稿</string>
+
+    <string name="prsnt">呈现</string>
+
+    <string-array name="Det_listsview_Items">
+        <item>品牌矩阵</item>
+        <item>专业明智</item>
+        <item>所有品牌</item>
+    </string-array>
+    <string name="title_activity_maps">地图</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">你好空白片段</string>
+
+    <string name="App_Configuration">应用配置</string>
+    <string name="Web_URL">网址 ( eg: www.yoururl.com )</string>
+    <string name="License_Key">注册码</string>
+    <string name="Your_Device_ID">您的设备 ID</string>
+    <string name="CLEAR_DATA">清除数据</string>
+    <string name="SAVE_SETTINGS">保存设置</string>
+    <string name="CLOSE">关闭</string>
+    <string name="language">语</string>
+    <string name="username">用户名</string>
+    <string name="password">密码</string>
+    <string name="Login">登录</string>
+
+    <string name="worktype">工作类型</string>
+    <string name="select_worktype">选择工作类型</string>
+    <string name="select_cluster">选择集群</string>
+    <string name="select_headquater">选择总部</string>
+    <string name="headquater">总部</string>
+    <string name="cluster">簇</string>
+    <string name="remarks">评论</string>
+    <string name="select">选择</string>
+    <string name="todayworktype">今日工作计划</string>
+    <string name="go">去</string>
+
+    <string name="todaycall">今日来电</string>
+    <string name="total">全部的</string>
+    <string name="calls">通话</string>
+    <string name="presentation">推介会</string>
+    <string name="report">报告</string>
+
+    <string name="monthly_average">每月通话平均值</string>
+    <string name="current_visit">本月电话访问详情</string>
+    <string name="category">分类访问详情</string>
+    <string name="overall">整体访问详情</string>
+
+    <string name="call">称呼</string>
+    <string name="coverage">覆盖范围</string>
+    <string name="daily">日常的</string>
+    <string name="average">平均数</string>
+    <string name="reload">重新加载</string>
+    <string name="detailing">细部</string>
+    <string name="performance">表现</string>
+    <string name="time">时间</string>
+    <string name="spent">花费</string>
+    <string name="brand">牌</string>
+    <string name="exposure">接触</string>
+    <string name="pharmacy">药店</string>
+
+    <string name="master">主列表下载器</string>
+    <string name="list">列表</string>
+    <string name="competitors">竞争对手</string>
+    <string name="input">输入</string>
+    <string name="product">产品</string>
+    <string name="slides">幻灯片</string>
+    <string name="brands">品牌</string>
+    <string name="departments">部门</string>
+    <string name="speciality">专业</string>
+    <string name="catogy">类别</string>
+    <string name="qualifications">资质</string>
+    <string name="clases">班级</string>
+    <string name="types">类型</string>
+    <string name="rating">评分</string>
+    <string name="details">细节</string>
+    <string name="feedbacks">反馈</string>
+    <string name="theraptic">治疗</string>
+    <string name="jointwork">联合工作</string>
+    <string name="hospital">医院</string>
+    <string name="change_cluster">更改集群</string>
+    <string name="activity">活动</string>
+    <string name="Slides_Downloader">幻灯片下载器</string>
+
+    <string name="create_presentation">创建演示文稿</string>
+    <string name="tour_plan">旅游计划</string>
+    <string name="missed_date_entry">错过日期输入</string>
+    <string name="leave_application">离开应用程序</string>
+    <string name="approvals">批准</string>
+    <string name="near_me">靠近我</string>
+    <string name="detailing_report">详细报告</string>
+    <string name="logout">登出</string>
+    <string name="Dashboard">仪表盘</string>
+
+    <string name="worktype1">工作类型</string>
+    <string name="headquater1">总部</string>
+    <string name="cluster1">簇</string>
+    <string name="Selection">选择</string>
+    <string name="search">搜索</string>
+    <string name="listed">上市</string>
+    <string name="cancel">取消</string>
+    <string name="presentation_name">为您的演示文稿命名</string>
+    <string name="dayreport">日报</string>
+    <string name="monthlyreport">月度报告</string>
+    <string name="visitcontrol">访问控制</string>
+    <string name="missedreport">漏报</string>
+    <string name="change_password">更改密码</string>
+
+    <string name="halfdaywork">半天工作</string>
+    <string name="remarks1">评论</string>
+    <string name="visit_time">参观时间</string>
+    <string name="modified_time">修改时间</string>
+    <string name="Products">产品</string>
+    <string name="sampqty">样品数量</string>
+    <string name="rxqty">接收数量</string>
+    <string name="feedback">反馈</string>
+    <string name="input1">输入</string>
+    <string name="summary">概括</string>
+
+    <string name="totaldoc">总医生</string>
+    <string name="missedcall">未接来电</string>
+    <string name="docmet">医生见面了</string>
+    <string name="docseen">看过医生</string>
+    <string name="fieldday">实地工作天数</string>
+    <string name="calaverage">通话平均值</string>
+    <string name="savegallery">保存到图库</string>
+
+    <string name="doctor">医生</string>
+    <string name="met">遇见</string>
+    <string name="missed">错过了</string>
+    <string name="previosvst">上次访问</string>
+    <string name="apply">申请</string>
+    <string name="clear">清除</string>
+
+    <string name="done">完毕</string>
+    <string name="sclt_clst">选择集群</string>
+    <string name="sclt_work">选择工作类型</string>
+    <string name="sclt_head">选择总部</string>
+    <string name="sclt_hq">选择总部</string>
+    <string name="sclt_jw">选择联合</string>
+    <string name="sclt_hosp">选择医院</string>
+    <string name="edit">编辑</string>
+    <string name="session">会议</string>
+    <string name="wrktype">工作类型</string>
+    <string name="tgt_sales">目标与销售额</string>
+    <string name="sclt_cat">选择类别</string>
+    <string name="sclt_spcl">选择专业</string>
+    <string name="sclt_qualy">选择资质</string>
+    <string name="sclt_class">选择班级</string>
+    <string name="sclt_doc">选择医生</string>
+    <string name="tour_entry">旅游计划条目</string>
+    <string name="choose_date">选择日期</string>
+    <string name="send_apprve"> 发送审批  </string>
+    <string name="apprve">批准</string>
+    <string name="rejct">拒绝</string>
+
+    <string name="sunday">星期日</string>
+    <string name="monday">周一</string>
+    <string name="tuesday">周二</string>
+    <string name="wednesday">周三</string>
+    <string name="thursday">周四</string>
+    <string name="friday">星期五</string>
+    <string name="saturday">周六</string>
+
+    <string name="add_session">添加会话</string>
+    <string name="del_session">删除会话</string>
+    <string name="misdate">错过日期选择</string>
+    <string name="field">实地工作</string>
+    <string name="other">其他</string>
+
+
+    <string name="leavecap">离开应用程序</string>
+    <string name="lfrom">离开</string>
+    <string name="lto">至</string>
+    <string name="reason">请假理由</string>
+    <string name="nodays">天数</string>
+    <string name="leavetype">休假类型</string>
+    <string name="addrs_leave">休假地址</string>
+    <string name="eligible">合格</string>
+    <string name="taken">采取</string>
+    <string name="available">可用的</string>
+    <string name="submit">提交</string>
+    <string name="tpapproval">旅游计划批准</string>
+    <string name="lvapproval">休假批准</string>
+    <string name="dcrapproval">DCR 批准</string>
+    <string name="name">名称</string>
+    <string name="ent_lvreason">输入请假原因</string>
+    <string name="ent_lvremarks">输入备注</string>
+    <string name="day">日</string>
+    <string name="accpt">接受</string>
+    <string name="frm">从</string>
+    <string name="mnth">月</string>
+    <string name="year">年</string>
+    <string name="view">看法</string>
+    <string name="taging">标记</string>
+    <string name="nerme">靠近我</string>
+    <string name="addrss">地址</string>
+    <string name="tag">标签</string>
+    <string name="refresh">刷新</string>
+    <string name="findroute">查找路线</string>
+    <string name="visit">访问</string>
+    <string name="cutomer">顾客</string>
+
+    <string name="thimnth">这个月</string>
+    <string name="pr_mnth">前一个月</string>
+    <string name="custmz">定制</string>
+    <string name="nm_cust">客户姓名</string>
+    <string name="nm_ffc">外勤部队名称</string>
+    <string name="type">类型</string>
+    <string name="territory">领土</string>
+    <string name="detail_count">细部计数</string>
+    <string name="detail_duration">详图工期</string>
+    <string name="detail_graph1">前 5 名详细计数</string>
+    <string name="detail_graph2">Top 5 详细时间</string>
+    <string name="filter">筛选</string>
+    <string name="fieldforce">场力</string>
+    <string name="selct">选择</string>
+    <string name="old_pass">旧密码</string>
+    <string name="new_pass">新密码</string>
+    <string name="conf_pass">确认密码</string>
+    <string name="confirm">确认</string>
+    <string name="sclt_hospital">选择医院</string>
+
+    <string name="date_birth">出生日期</string>
+    <string name="weddnig">婚礼日期</string>
+    <string name="mobile">移动的</string>
+    <string name="email">电子邮件</string>
+    <string name="last_visit">上次访问日期</string>
+    <string name="product_promte">推广产品</string>
+    <string name="reselect">重新选择</string>
+
+    <string name="contc_person">联络人</string>
+    <string name="phone">电话</string>
+    <string name="fax">传真</string>
+    <string name="precall">预调用分析</string>
+
+    <string name="sendquies">发送查询</string>
+    <string name="prd_nme">产品名称</string>
+    <string name="timline">时间线</string>
+    <string name="samp">样品</string>
+    <string name="rx">接收</string>
+    <string name="qty">数量</string>
+    <string name="add_cals">附加电话</string>
+    <string name="rcpaenty">Rcpa 条目</string>
+    <string name="finlsubmit">最终提交</string>
+
+    <string name="docnm">医生姓名</string>
+    <string name="chmnm">化学家姓名</string>
+    <string name="rcpalist">注册会计师列表</string>
+    <string name="ourbrand">我们的产品品牌</string>
+    <string name="compnm">竞争对手公司名称</string>
+    <string name="brndnm">竞争对手品牌名称</string>
+    <string name="rate">速度</string>
+    <string name="value">价值</string>
+    <string name="addcomp">添加竞争对手</string>
+    <string name="antherbrnd">添加另一个品牌</string>
+    <string name="compaudit">竞争对手审核</string>
+    <string name="inv">进货量</string>
+    <string name="ptp">点对点</string>
+    <string name="ptr">PTR</string>
+    <string name="sw">平均S/W</string>
+    <string name="shalinaprd">Shalina 产品品牌</string>
+    <string name="signature">签名在这里</string>
+    <string name="typehere">在此输入</string>
+    <string name="sandigital">SAN 数字细节</string>
+    <string name="alertmsg">你想取消这个电话吗</string>
+    <string name="aleretmsg1">提交呼叫</string>
+    <string name="savedft">保存草稿</string>
+    <string name="ok">好的</string>
+    <string name="brandmatrix">品牌矩阵</string>
+    <string name="spclwise">专业明智</string>
+    <string name="allbrand">所有品牌</string>
+    <string name="customise">定制</string>
+    <string name="customised">定制</string>
+
+    <string name="targetsales">目标 VS 销售详情</string>
+    <string name="primary">基本的</string>
+    <string name="clearfilter">清除过滤器</string>
+    <string name="brndcontry">品牌贡献</string>
+    <string name="home">家</string>
+    <string name="sfe">SFE</string>
+    <string name="customfilter">自定义过滤器</string>
+    <string name="secondary">中学</string>
+    <string name="mtd">MTD</string>
+    <string name="qtd">QTD</string>
+    <string name="ytd">年初至今</string>
+    <string name="customdate">自定义日期</string>
+    <string name="selctdate">选择日期</string>
+    <string name="todate">选择至今</string>
+    <string name="selctlist">选择列表</string>
+    <string name="avilablecheck">可用性检查</string>
+
+    <string name="avilablesearch">按子类别代码/描述搜索</string>
+    <string name="allos">所有 OOS </string>
+    <string name="allavail">全部可用 </string>
+    <string name="availstock">股票 </string>
+    <string name="availoos">操作系统 </string>
+    <string name="avail">可用性 </string>
+    <string name="target">目标 </string>
+
+    <string name="sclt_chmnm">选择化学家名称</string>
+    <string name="sclt_prdnm">选择产品名称</string>
+    <string name="scltprdqty">选择产品数量</string>
+    <string name="sclt_compdetl">选择竞争对手详情</string>
+
+    <string name="sclt_frm_to">请填写起始日期和截止日期</string>
+    <string name="sclt_option">请选择要过滤的选项</string>
+    <string name="no_record">没有找到记录</string>
+    <string name="something_wrong">出问题了</string>
+    <string name="noprdsclt">未选择产品</string>
+    <string name="noprdavailable">没有可用的产品</string>
+    <string name="alarmset">闹钟设置</string>
+    <string name="seconds">秒</string>
+    <string name="alarm">警报....</string>
+    <string name="submitsuccess">提交成功</string>
+    <string name="dplan_need">需要我的一天计划 </string>
+    <string name="offline">您处于离线状态  </string>
+    <string name="filenotavailable">文件不可用  </string>
+    <string name="filedownloading">正在下载新文件  </string>
+    <string name="downldsuccess">新文件下载成功</string>
+    <string name="nofile">找不到可以打开文件的应用程序e</string>
+
+    <string name="fillmand">填写必填字段</string>
+    <string name="nonetwrk">没有网络</string>
+    <string name="datelesser">从日期应该更小</string>
+    <string name="filldate">填写日期</string>
+    <string name="togreater">迄今为止应该更大</string>
+    <string name="timelesser">从时间应该少一些</string>
+    <string name="filltime">填写从时间</string>
+    <string name="totimegreater">时间应该更大</string>
+    <string name="datasave">数据保存成功</string>
+    <string name="cannotload">无法加载数据a</string>
+    <string name="filenot_support">不支持此文件格式</string>
+
+    <string name="expncelist">费用清单</string>
+    <string name="rejectreson">拒绝原因</string>
+    <string name="surerejct">你确定要拒绝吗 ?</string>
+    <string name="yesrject">是的，拒绝</string>
+
+    <string name="entr_sample_val">输入样本值</string>
+    <string name="entr_rx_val">输入 RxQty 值</string>
+    <string name="sclt_input">选择输入</string>
+    <string name="entr_input_val">输入输入值</string>
+    <string name="entr_rcpa_val">输入 Rcpa 值</string>
+    <string name="invalid_cus">无效的客户选择</string>
+    <string name="no_input">无可用输入</string>
+    <string name="query_succs">查询发送成功</string>
+    <string name="query_notsuccs">查询未成功发送</string>
+    <string name="data_success">数据提交成功</string>
+    <string name="data_notsuccess">哎呀！！数据未提交</string>
+
+    <string name="leave_success">休假提交成功 !!</string>
+    <string name="leave_already">已离开 在此日期发布!!  </string>
+    <string name="click_again">请再次点击返回退出</string>
+    <string name="check_us_ps">检查用户名和密码</string>
+    <string name="strge_permis">请允许存储权限</string>
+    <string name="mob_inter">请启用移动互联网..</string>
+    <string name="onfail">失败时</string>
+    <string name="fill_the">填补</string>
+    <string name="field_">场地</string>
+    <string name="tag_succs">标记成功 !!</string>
+    <string name="hnt_pickimg">你还没有选择图片</string>
+    <string name="nomrequiz">没有更多的测验</string>
+    <string name="choose_ans">选择答案</string>
+    <string name="quiz_submitted">测验提交成功</string>
+    <string name="quiz">测验</string>
+    <string name="quiz_rmtime">剩余时间 - </string>
+    <string name="quiz_info">选择最适合您的一个答案</string>
+    <string name="quiz_nxt">下一个</string>
+    <string name="mock_loc">检测到模拟位置 </string>
+    <string name="conf_succs">配置成功</string>
+    <string name="invalid_url">无效的网址</string>
+    <string name="app_data_clr">申请资料已清除</string>
+    <string name="some_field">有些字段是空的</string>
+    <string name="pass_succed">密码更换成功 !!</string>
+    <string name="pass_new_same">新密码和确认密码不一样 !! </string>
+    <string name="saved_sucs"> 保存 su</string>
+    <string name="del_sucs"> 删除成功</string>
+    <string name="invalid_cus_sclt">无效的客户选择</string>
+    <string name="fill_all">请填写所有字段</string>
+    <string name="network_req">获取详细信息所需的网络</string>
+    <string name="loction_detcted"> 无法检测到位置 </string>
+    <string name="succ_upd"> 成功更新 </string>
+    <string name="alert">警报</string>
+    <string name="alert_already">已保存演示文稿！请输入不同的名称..</string>
+    <string name="alert_entr_presnt">请输入演示名称而不是 1 !</string>
+    <string name="alert_presentnm">请输入演示名称 !</string>
+    <string name="save_present">是否要保存演示文稿?</string>
+    <string name="update_present">您要更新演示文稿吗?</string>
+    <string name="delete_present">您要删除演示文稿吗?</string>
+    <string name="prd_mappg">选择映射产品!!</string>
+    <string name="upd_prest_success">已成功更新演示文稿!!</string>
+    <string name="update">更新</string>
+    <string name="enable_location">启用位置</string>
+    <string name="alert_location">您的位置设置未启用。请在设置菜单中启用它.</string>
+    <string name="location_setting">位置设置</string>
+    <string name="myplan_alert">我的一天计划已经提交在这里</string>
+    <string name="overwrite">覆盖</string>
+    <string name="halfday">半天</string>
+
+    <string name="inp_selct">输入选择</string>
+    <string name="add_selct">额外的医生选择</string>
+    <string name="joint_selct">联合工作选择</string>
+    <string name="prodct_selct">产品选择</string>
+    <string name="tourplan_entry">旅游计划条目</string>
+    <string name="feedback_details">反馈详情</string>
+    <string name="feedback_here">在这里反馈</string>
+    <string name="duration">期间</string>
+    <string name="current_month">这个月</string>
+    <string name="next_month">下个月</string>
+    <string name="search_unlisted_doctor">搜索未列出的医生</string>
+    <string name="unlisted_doctor_selection">非上市医生选择</string>
+    <string name="additional_doctor">附加医生</string>
+    <string name="select_the_category">选择类别</string>
+    <string name="select_the_territory">选择区域</string>
+    <string name="pincode">PIN码</string>
+    <string name="add_chemist">添加化学家</string>
+    <string name="search_doctor">搜索医生</string>
+
+    <string name="slct_date">选择日期</string>
+    <string name="chk_nwcnctn">检查网络连接!!</string>
+    <string name="dr">医生</string>
+    <string name="sent_appr">已发送审批</string>
+    <string name="sent_suxs">发送成功</string>
+    <string name="tp_rjct">旅游计划被拒绝</string>
+    <string name="tp_aprvd">已经批准</string>
+    <string name="msg_empty">消息字段为空</string>
+    <string name="wrk_types">工作类型</string>
+    <string name="hqs">总部</string>
+    <string name="clusters">集群</string>
+    <string name="srch_lstd">搜索上市医生</string>
+
+
+
+
+    <string name="profiling">剖析</string>
+    <string name="gender">性别</string>
+    <string name="male">男性</string>
+    <string name="female">女性</string>
+    <string name="dob">出生日期</string>
+    <string name="district">区</string>
+    <string name="dow">陶氏</string>
+    <string name="city">城市</string>
+    <string name="address_details">详细地址</string>
+    <string name="main_address">主要地址</string>
+    <string name="e_mail">电子邮件</string>
+    <string name="additional_details">额外细节</string>
+    <string name="listed_dr">上市博士.</string>
+    <string name="chem">化学家</string>
+    <string name="stockist">批发商</string>
+    <string name="unlisted_dr">未上市博士.</string>
+
+</resources>

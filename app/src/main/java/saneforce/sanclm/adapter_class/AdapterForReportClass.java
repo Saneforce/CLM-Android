@@ -102,6 +102,7 @@ public class AdapterForReportClass extends RecyclerView.Adapter<AdapterForReport
                     i.putExtra("val","1");
                     i.putExtra("acd",mm.getCode());
                     i.putExtra("typ","1");
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(i);
                 }
             }
@@ -116,6 +117,7 @@ public class AdapterForReportClass extends RecyclerView.Adapter<AdapterForReport
                     i.putExtra("val","1");
                     i.putExtra("acd",mm.getCode());
                     i.putExtra("typ","2");
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(i);
                 }
             }
@@ -130,6 +132,7 @@ public class AdapterForReportClass extends RecyclerView.Adapter<AdapterForReport
                     i.putExtra("val","1");
                     i.putExtra("acd",mm.getCode());
                     i.putExtra("typ","3");
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(i);
                 }
             }
@@ -144,6 +147,7 @@ public class AdapterForReportClass extends RecyclerView.Adapter<AdapterForReport
                     i.putExtra("val","1");
                     i.putExtra("acd",mm.getCode());
                     i.putExtra("typ","4");
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(i);
                 }
             }
@@ -159,6 +163,7 @@ public class AdapterForReportClass extends RecyclerView.Adapter<AdapterForReport
                     i.putExtra("val","1");
                     i.putExtra("acd",mm.getCode());
                     i.putExtra("typ","6");
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(i);
                 }
             }
