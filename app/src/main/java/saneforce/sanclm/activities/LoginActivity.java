@@ -18,6 +18,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.Settings;
 
@@ -153,7 +154,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //get the permissions we have asked for before but are not granted..
         //we will store this in a global list to access later.
 
-        if(permissionsToRequest.size()>0){}else accessStorageAllowed=true;
+        if(permissionsToRequest.size()>0){}
+        else accessStorageAllowed=true;
+
+        if (Build.VERSION.SDK_INT >=Build.VERSION_CODES.R){
+            if(Environment.isExternalStorageManager()) {
+//todo when permission is granted
+            } else {
+//request for the permission
+                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                intent.setData(uri);
+                startActivity(intent);
+            }
+        }
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

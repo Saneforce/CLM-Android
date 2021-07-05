@@ -197,13 +197,15 @@ public class AppConfiguration extends Fragment implements View.OnClickListener {
                 tv_language.setText("VIETNAMESE");
             }else if (ldata.equals("zh")) {
                 tv_language.setText("MANDARIN");
+            }else if (ldata.equals("es")) {
+                tv_language.setText("SPANISH");
             }
             else {
                 tv_language.setText("ENGLISH");
             }
         }else {
             selected("en");
-            tv_language.setText("");
+            tv_language.setText("ENGLISH");
         }
 
 
@@ -574,7 +576,7 @@ public class AppConfiguration extends Fragment implements View.OnClickListener {
     }
 
     public void language_setup() {
-        final String[] Language = {"ENGLISH", "FRENCH", "PORTUGUESE","BURMESE","VIETNAMESE","MANDARIN"};
+        final String[] Language = {"ENGLISH", "FRENCH", "PORTUGUESE","BURMESE","VIETNAMESE","MANDARIN","SPANISH"};
         ArrayList<String> langlist = new ArrayList<>();
         langlist.clear();
         for (int i = 0; i < Language.length; ++i) {
@@ -655,6 +657,12 @@ public class AppConfiguration extends Fragment implements View.OnClickListener {
                         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString(language_string, "zh");
+                        editor.commit();
+                    }else if (selectedFromList.equalsIgnoreCase("SPANISH")) {
+                        selected("es");
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString(language_string, "es");
                         editor.commit();
                     }
                     tv_language.setText(selectedFromList);
