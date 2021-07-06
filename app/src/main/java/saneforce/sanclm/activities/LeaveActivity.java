@@ -86,7 +86,7 @@ public class LeaveActivity extends AppCompatActivity {
     EditText edt_add, edt_reason;
     ImageView iv_dwnldmaster_back;
     static String leaveType = "";
-    CommonSharedPreference mCommonSharedPreference;
+    static CommonSharedPreference mCommonSharedPreference;
     static String SF_Code, Emp_Id;
     String db_connPath;
     static Api_Interface apiService;
@@ -312,77 +312,80 @@ public class LeaveActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                svjson = new JSONObject();
+                for (int i = 0; i < arrElig.size(); i++) {
+                    if (!txt_day.getText().toString().isEmpty()) {
+                        if (Integer.parseInt(arrElig.get(i).getTiming()) >= Integer.parseInt(txt_day.getText().toString())&&arrElig.get(i).getBrdName().matches(leaveType)) {
+                            svjson = new JSONObject();
 
-                try {
-                    JSONObject json = new JSONObject();
-                    json.put("SF", SF_Code);
-                    json.put("Fdt", edt_from.getText().toString());
-                    json.put("Tdt", edt_to.getText().toString());
-                    json.put("LTy", leaveType);
-                    Log.v("dateValidation", json.toString());
-
-
-                    svjson.put("SF", SF_Code);
-                    svjson.put("FDate", edt_from.getText().toString());
-                    svjson.put("TDate", edt_to.getText().toString());
-                    svjson.put("LeaveType", leaveType);
-                    svjson.put("NOD", txt_day.getText().toString());
-                    svjson.put("LvOnAdd", edt_add.getText().toString());
-                    svjson.put("LvRem", edt_reason.getText().toString());
-
-
-                    Call<ResponseBody> dateVal = apiService.dateValidation(json.toString());
-                    dateVal.enqueue(new Callback<ResponseBody>() {
-                        @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            JSONObject jsonObject = null;
-
-                            InputStreamReader ip = null;
-                            StringBuilder is = new StringBuilder();
-                            String line = null;
                             try {
-                                ip = new InputStreamReader(response.body().byteStream());
-                                BufferedReader bf = new BufferedReader(ip);
+                                JSONObject json = new JSONObject();
+                                json.put("SF", SF_Code);
+                                json.put("Fdt", edt_from.getText().toString());
+                                json.put("Tdt", edt_to.getText().toString());
+                                json.put("LTy", leaveType);
+                                Log.v("dateValidation", json.toString());
 
-                                while ((line = bf.readLine()) != null) {
-                                    is.append(line);
-                                }
-                                Log.v("printing_date_valid", is.toString());
-                                JSONArray js = new JSONArray(is.toString());
-                                for (int i = 0; i < js.length(); i++) {
-                                    JSONObject jo = js.getJSONObject(i);
-                                    if (TextUtils.isEmpty(jo.getString("Msg"))) {
 
-                                        if (!TextUtils.isEmpty(txt_day.getText().toString())) {
-                                            Call<ResponseBody> dateVal = apiService.saveLeave(svjson.toString());
-                                            dateVal.enqueue(new Callback<ResponseBody>() {
-                                                @Override
-                                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                svjson.put("SF", SF_Code);
+                                svjson.put("FDate", edt_from.getText().toString());
+                                svjson.put("TDate", edt_to.getText().toString());
+                                svjson.put("LeaveType", leaveType);
+                                svjson.put("NOD", txt_day.getText().toString());
+                                svjson.put("LvOnAdd", edt_add.getText().toString());
+                                svjson.put("LvRem", edt_reason.getText().toString());
 
-                                                    InputStreamReader ip = null;
-                                                    StringBuilder is = new StringBuilder();
-                                                    String line = null;
-                                                    try {
-                                                        ip = new InputStreamReader(response.body().byteStream());
-                                                        BufferedReader bf = new BufferedReader(ip);
 
-                                                        while ((line = bf.readLine()) != null) {
-                                                            is.append(line);
-                                                        }
-                                                        Log.v("printing_date_save", is.toString());
-                                                        JSONObject jj = new JSONObject(is.toString());
-                                                        if (jj.getString("success").equalsIgnoreCase("true")) {
+                                Call<ResponseBody> dateVal = apiService.dateValidation(json.toString());
+                                dateVal.enqueue(new Callback<ResponseBody>() {
+                                    @Override
+                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                        JSONObject jsonObject = null;
 
-                                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.leave_success), Toast.LENGTH_SHORT).show();
-                                                            txt_day.setText("");
-                                                            edt_from.setText("");
-                                                            edt_to.setText("");
-                                                            edt_add.setText("");
-                                                            edt_reason.setText("");
-                                                        } else {
-                                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.leave_already), Toast.LENGTH_SHORT).show();
-                                                        }
+                                        InputStreamReader ip = null;
+                                        StringBuilder is = new StringBuilder();
+                                        String line = null;
+                                        try {
+                                            ip = new InputStreamReader(response.body().byteStream());
+                                            BufferedReader bf = new BufferedReader(ip);
+
+                                            while ((line = bf.readLine()) != null) {
+                                                is.append(line);
+                                            }
+                                            Log.v("printing_date_valid", is.toString());
+                                            JSONArray js = new JSONArray(is.toString());
+                                            for (int i = 0; i < js.length(); i++) {
+                                                JSONObject jo = js.getJSONObject(i);
+                                                if (TextUtils.isEmpty(jo.getString("Msg"))) {
+
+                                                    if (!TextUtils.isEmpty(txt_day.getText().toString())) {
+                                                        Call<ResponseBody> dateVal = apiService.saveLeave(svjson.toString());
+                                                        dateVal.enqueue(new Callback<ResponseBody>() {
+                                                            @Override
+                                                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                                                                InputStreamReader ip = null;
+                                                                StringBuilder is = new StringBuilder();
+                                                                String line = null;
+                                                                try {
+                                                                    ip = new InputStreamReader(response.body().byteStream());
+                                                                    BufferedReader bf = new BufferedReader(ip);
+
+                                                                    while ((line = bf.readLine()) != null) {
+                                                                        is.append(line);
+                                                                    }
+                                                                    Log.v("printing_date_save", is.toString());
+                                                                    JSONObject jj = new JSONObject(is.toString());
+                                                                    if (jj.getString("success").equalsIgnoreCase("true")) {
+
+                                                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.leave_success), Toast.LENGTH_SHORT).show();
+                                                                        txt_day.setText("");
+                                                                        edt_from.setText("");
+                                                                        edt_to.setText("");
+                                                                        edt_add.setText("");
+                                                                        edt_reason.setText("");
+                                                                    } else {
+                                                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.leave_already), Toast.LENGTH_SHORT).show();
+                                                                    }
 
                                     /* JSONArray js=new JSONArray(is.toString());
                                      for(int i=0;i<js.length();i++){
@@ -397,46 +400,55 @@ public class LeaveActivity extends AppCompatActivity {
                                              //Toast.makeText(LeaveActivity.this,jo.getString("Msg"),Toast.LENGTH_SHORT).show();
                                          }
                                      }*/
-                                                    } catch (Exception e) {
+                                                                } catch (Exception e) {
+
+                                                                }
+                                                            }
+
+                                                            @Override
+                                                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
+                                                    } else {
+                                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.choose_date), Toast.LENGTH_SHORT).show();
 
                                                     }
-                                                }
 
-                                                @Override
-                                                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                        } else {
-                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.choose_date), Toast.LENGTH_SHORT).show();
 
+                                                } else {
+                                                    // Toast.makeText(getContext(),jo.getString("Msg"),Toast.LENGTH_SHORT).show();
+                                                    edt_to.setText("");
+                                                    txt_day.setText("");
+                                                    Toast.makeText(getApplicationContext(), jo.getString("Msg"), Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        } catch (Exception e) {
+                                            Log.e("the vALID", "================" + e.getMessage());
                                         }
-
-
-                                    } else {
-                                        // Toast.makeText(getContext(),jo.getString("Msg"),Toast.LENGTH_SHORT).show();
-                                        edt_to.setText("");
-                                        txt_day.setText("");
-                                        Toast.makeText(getApplicationContext(), jo.getString("Msg"), Toast.LENGTH_SHORT).show();
                                     }
-                                }
+
+                                    @Override
+                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                                    }
+                                });
+
+
                             } catch (Exception e) {
-                                Log.e("the vALID", "================"+e.getMessage());
+
                             }
+
+
+                        } else {
+                            Toast.makeText(LeaveActivity.this, "Your Not eligible to apply "+leaveType+" for "+txt_day.getText().toString()+" days", Toast.LENGTH_SHORT).show();
                         }
 
-                        @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                        }
-                    });
-
-
-                } catch (Exception e) {
-
+                    }
                 }
 
             }
+
         });
 
         lay_cl.setOnClickListener(new View.OnClickListener() {
@@ -648,10 +660,22 @@ public class LeaveActivity extends AppCompatActivity {
             if (from) {
                 year = calendar.get(Calendar.YEAR);
                 month = calendar.get(Calendar.MONTH);
-                day = calendar.get(Calendar.DAY_OF_MONTH);
+                if(mCommonSharedPreference.getValueFromPreference("missed").matches("false"))
+
+                    day = calendar.get(Calendar.DAY_OF_MONTH)+1;
+                else
+                    day=calendar.get(Calendar.DAY_OF_MONTH);
+
+
                 DatePickerDialog datepickerdialog = new DatePickerDialog(getActivity(),
                         AlertDialog.THEME_HOLO_LIGHT, this, year, month, day);
                 datepickerdialog.getDatePicker().setCalendarViewShown(false);
+                if(mCommonSharedPreference.getValueFromPreference("missed").matches("false"))
+                   datepickerdialog.getDatePicker().setMinDate(System.currentTimeMillis()+(24*60*60*1000)-1000);//where 24*60*60*1000 represents the total timestamp for one day
+                 else
+                    datepickerdialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+
+
                 long value = System.currentTimeMillis();
                 Log.v("printing_time", value + "");
                 return datepickerdialog;
