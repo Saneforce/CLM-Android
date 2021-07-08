@@ -18,9 +18,11 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.Settings;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -64,6 +66,7 @@ import saneforce.sanclm.util.UpdateUi;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.MANAGE_EXTERNAL_STORAGE;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
@@ -88,6 +91,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     NetworkStatus net;
     String db_pathUrl="",Slides_dwnload_url="";
     boolean accessStorageAllowed = false;
+    boolean accessStorageAllowedNew = false;
+
     boolean doubleBackToExitPressedOnce = false;
     private ArrayList permissionsToRequest;
     private ArrayList permissionsRejected = new ArrayList();
@@ -125,6 +130,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }, 2000);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,6 +150,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         permissions.add(CAMERA);
         permissions.add(READ_EXTERNAL_STORAGE);
         permissions.add(WRITE_EXTERNAL_STORAGE);
+        permissions.add(MANAGE_EXTERNAL_STORAGE);
         FirebaseApp.initializeApp(this);
         //permissions.add(READ_CONTACTS);
 
@@ -151,7 +158,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //get the permissions we have asked for before but are not granted..
         //we will store this in a global list to access later.
 
-        if(permissionsToRequest.size()>0){}else accessStorageAllowed=true;
+        if(permissionsToRequest.size()>0){
+
+        }else
+            accessStorageAllowed=true;
+         accessStorageAllowedNew=true;
+
+
+       if (Build.VERSION.SDK_INT >=Build.VERSION_CODES.R){
+            if(Environment.isExternalStorageManager()) {
+            //todo when permission is granted
+        } else {
+            //request for the permission
+            Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+            Uri uri = Uri.fromParts("package", getPackageName(), null);
+            intent.setData(uri);
+            startActivity(intent);
+        }
+        }
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -256,6 +280,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 //CheckForstoragePermission();
                 checkingPermissions();
+                checkingPermissionsNew();
 
             }
         }else{
@@ -633,6 +658,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     ActivityCompat.requestPermissions(LoginActivity.this,
                             new String[]{WRITE_EXTERNAL_STORAGE},
                             11);
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                    Uri uri = Uri.fromParts("package", getPackageName(), null);
+                    intent.setData(uri);
+                    startActivity(intent);
 
                     // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
                     // app-defined int constant. The callback method gets the
@@ -642,10 +671,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 // Permission has already been granted
                 accessStorageAllowed=true;
 
+
             }
         }else {
             // Permission has already been granted
             accessStorageAllowed=true;
+
 
         }
     }
@@ -799,4 +830,46 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         et_login_username.setHint(resources.getString(R.string.username));
         et_login_password.setHint(resources.getString(R.string.password));
     }
+
+    public void checkingPermissionsNew(){
+        if (ContextCompat.checkSelfPermission(LoginActivity.this, MANAGE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            Log.v("permission_check","are_not_granted");
+            // Permission is not granted
+            if (ContextCompat.checkSelfPermission(LoginActivity.this,
+                    MANAGE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                // Permission is not granted
+                // Should we show an explanation?
+                if (ActivityCompat.shouldShowRequestPermissionRationale(LoginActivity.this,
+                        MANAGE_EXTERNAL_STORAGE)) {
+                    // Show an explanation to the user *asynchronously* -- don't block
+                    // this thread waiting for the user's response! After the user
+                    // sees the explanation, try again to request the permission.
+                } else {
+                    // No explanation needed; request the permission
+                    Log.v("accessPermission","went_request");
+                    ActivityCompat.requestPermissions(LoginActivity.this,
+                            new String[]{MANAGE_EXTERNAL_STORAGE},
+                            12);
+
+                    // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                    // app-defined int constant. The callback method gets the
+                    // result of the request.
+                }
+            } else {
+                // Permission has already been granted
+                accessStorageAllowedNew=true;
+
+            }
+        }else {
+            // Permission has already been granted
+            accessStorageAllowedNew=true;
+
+        }
+    }
+
+
+
 }

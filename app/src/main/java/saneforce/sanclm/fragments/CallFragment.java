@@ -644,21 +644,21 @@ public class CallFragment extends Fragment {
                             }
                             else
                                 mCommonSharedPreference.setValueToPreference("showDelete","1");
-                            if(js.has("Detailing_chem")){
-                                mCommonSharedPreference.setValueToPreference("Detailing_chem",js.getString("Detailing_chem"));
-                            }
-                            else
-                                mCommonSharedPreference.setValueToPreference("Detailing_chem","1");
-                            if(js.has("Detailing_stk")){
-                                mCommonSharedPreference.setValueToPreference("Detailing_stk",js.getString("Detailing_stk"));
-                            }
-                            else
-                                mCommonSharedPreference.setValueToPreference("Detailing_stk","1");
-                            if(js.has("Detailing_undr")){
-                                mCommonSharedPreference.setValueToPreference("Detailing_undr",js.getString("Detailing_undr"));
-                            }
-                            else
-                                mCommonSharedPreference.setValueToPreference("Detailing_undr","1");
+//                            if(js.has("Detailing_chem")){
+//                                mCommonSharedPreference.setValueToPreference("Detailing_chem",js.getString("Detailing_chem"));
+//                            }
+//                            else
+//                                mCommonSharedPreference.setValueToPreference("Detailing_chem","1");
+//                            if(js.has("Detailing_stk")){
+//                                mCommonSharedPreference.setValueToPreference("Detailing_stk",js.getString("Detailing_stk"));
+//                            }
+//                            else
+//                                mCommonSharedPreference.setValueToPreference("Detailing_stk","1");
+//                            if(js.has("Detailing_undr")){
+//                                mCommonSharedPreference.setValueToPreference("Detailing_undr",js.getString("Detailing_undr"));
+//                            }
+//                            else
+//                                mCommonSharedPreference.setValueToPreference("Detailing_undr","1");
                             if(js.has("addChm")){
                                 mCommonSharedPreference.setValueToPreference("addChm",js.getString("addChm"));
                             }

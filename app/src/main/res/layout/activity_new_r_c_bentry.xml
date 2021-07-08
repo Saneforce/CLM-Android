@@ -218,6 +218,7 @@
                         android:orientation="horizontal"
                         android:weightSum="5">
                         <EditText
+                            android:imeOptions="actionNext"
                             android:paddingLeft="5dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -225,6 +226,7 @@
                             android:background="@drawable/row_item_feed_edt_grey"
                             android:textSize="16sp"
                             android:singleLine="true"
+                            android:selectAllOnFocus="true"
                             android:ems="5"
                             android:layout_weight="1"
                             android:layout_gravity="center"
@@ -235,7 +237,6 @@
                             android:layout_marginLeft="10dp"
                             android:id="@+id/edt_qty"
                             android:digits="1234567890."
-                            android:imeOptions="actionDone"
                             android:textColorHint="#d4d2d2"
                             android:inputType="number"
                             android:hint="Inv.Qty"
@@ -243,6 +244,7 @@
                             android:padding="2dp"/>
                         <EditText
                             android:inputType="number"
+                            android:imeOptions="actionNext"
 
                             android:paddingLeft="5dp"
                             android:layout_width="wrap_content"
@@ -251,7 +253,7 @@
                             android:background="@drawable/row_item_feed_edt_grey"
                             android:textSize="16sp"
                             android:singleLine="true"
-                            android:ems="5"
+                            android:selectAllOnFocus="true"                            android:ems="5"
                             android:layout_weight="1"
                             android:layout_centerVertical="true"
                             android:layout_gravity="center"
@@ -267,6 +269,7 @@
                             android:padding="2dp"/>
                         <EditText
                             android:inputType="number"
+                            android:imeOptions="actionNext"
 
                             android:paddingLeft="5dp"
                             android:layout_width="wrap_content"
@@ -274,8 +277,9 @@
                             android:textColor="#000000"
                             android:background="@drawable/row_item_feed_edt_grey"
                             android:textSize="16sp"
-                            android:singleLine="true"
                             android:ems="5"
+                            android:singleLine="true"
+                            android:selectAllOnFocus="true"
                             android:layout_weight="1"
                             android:layout_gravity="center"
                             android:fontFamily="@font/poppins_medium"
@@ -290,6 +294,7 @@
                             android:textColorHint="#d4d2d2"/>
                         <EditText
                             android:inputType="number"
+                            android:imeOptions="actionNext"
 
                             android:paddingLeft="5dp"
                             android:layout_width="wrap_content"
@@ -298,7 +303,7 @@
                             android:background="@drawable/row_item_feed_edt_grey"
                             android:textSize="16sp"
                             android:singleLine="true"
-                            android:ems="5"
+                            android:selectAllOnFocus="true"                            android:ems="5"
                             android:layout_weight="1"
                             android:layout_gravity="center"
                             android:fontFamily="@font/poppins_medium"
@@ -320,6 +325,8 @@
                             android:background="@drawable/row_item_feed_edt_grey"
                             android:textSize="16sp"
                             android:singleLine="true"
+                            android:selectAllOnFocus="true"
+                            android:imeOptions="actionDone"
                             android:ems="5"
                             android:layout_weight="1"
                             android:layout_gravity="center"

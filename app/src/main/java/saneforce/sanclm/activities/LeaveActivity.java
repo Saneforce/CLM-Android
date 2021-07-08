@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -25,6 +26,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
@@ -653,6 +655,7 @@ public class LeaveActivity extends AppCompatActivity {
 
         static Context context;
 
+        @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             final Calendar calendar = Calendar.getInstance();
@@ -660,20 +663,30 @@ public class LeaveActivity extends AppCompatActivity {
             if (from) {
                 year = calendar.get(Calendar.YEAR);
                 month = calendar.get(Calendar.MONTH);
-                if(mCommonSharedPreference.getValueFromPreference("missed").matches("false"))
+                DatePickerDialog datepickerdialog;
+                String miss=mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_NAME);
+                if(!mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_NAME).isEmpty()) {
 
-                    day = calendar.get(Calendar.DAY_OF_MONTH)+1;
-                else
-                    day=calendar.get(Calendar.DAY_OF_MONTH);
+                    day = calendar.get(Calendar.DAY_OF_MONTH) + 1;
+                 datepickerdialog = new DatePickerDialog(getActivity(),
+
+                            AlertDialog.THEME_HOLO_LIGHT, this, year, month, day);
+                    datepickerdialog.getDatePicker().setCalendarViewShown(false);
+                    datepickerdialog.getDatePicker().setMinDate(System.currentTimeMillis()+(24*60*60*1000)-1000);//where 24*60*60*1000 represents the total timestamp for one day
 
 
-                DatePickerDialog datepickerdialog = new DatePickerDialog(getActivity(),
-                        AlertDialog.THEME_HOLO_LIGHT, this, year, month, day);
-                datepickerdialog.getDatePicker().setCalendarViewShown(false);
-                if(mCommonSharedPreference.getValueFromPreference("missed").matches("false"))
-                   datepickerdialog.getDatePicker().setMinDate(System.currentTimeMillis()+(24*60*60*1000)-1000);//where 24*60*60*1000 represents the total timestamp for one day
-                 else
+                }
+                else {
+                    day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                    datepickerdialog = new DatePickerDialog(getActivity(),
+
+                    AlertDialog.THEME_HOLO_LIGHT, this, year, month, day);
+                    datepickerdialog.getDatePicker().setCalendarViewShown(false);
                     datepickerdialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+
+                }
+
 
 
                 long value = System.currentTimeMillis();

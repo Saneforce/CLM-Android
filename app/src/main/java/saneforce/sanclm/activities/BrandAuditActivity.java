@@ -155,13 +155,13 @@ public class BrandAuditActivity extends AppCompatActivity implements DataInterfa
             @Override
             public void onClick(View view) {
 
-                if (chem_select_list.size() < 1) {
+                if (brandList.size()==0&&chem_select_list.size() < 1) {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.sclt_chmnm), Toast.LENGTH_LONG).show();
 
-                } else if (edt_search_brd.getText().toString().isEmpty()) {
+                } else if (brandList.size()==0&&edt_search_brd.getText().toString().isEmpty()) {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.sclt_prdnm), Toast.LENGTH_LONG).show();
 
-                } else if (edt_qty.getText().toString().isEmpty()) {
+                } else if (brandList.size()==0&&edt_qty.getText().toString().isEmpty()) {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.scltprdqty), Toast.LENGTH_LONG).show();
 
                 }
@@ -593,7 +593,7 @@ public class BrandAuditActivity extends AppCompatActivity implements DataInterfa
         for (int i = 0; i < AdapterBrandAuditComp.full_list_prd.size(); i++) {
             CompNameProduct mm = AdapterBrandAuditComp.full_list_prd.get(i);
 
-            if (!TextUtils.isEmpty(mm.getCompName()) && !TextUtils.isEmpty(mm.getChoosenPrdName()) && !TextUtils.isEmpty(mm.getQty())) {
+            if (!TextUtils.isEmpty(mm.getQty())) {
                 Log.v("CompanyName", mm.getCompName() + " edit_val " + edt_search_brd.getText().toString() + " chosenprd " + mm.getChoosenPrdName() + " compcod " + mm.getCompCode() + " pcode " + mm.getCompPCode());
                 brandList.add(new ModelBrandAuditList(edt_search_brd.getText().toString(), mm.getCompName(), mm.getChoosenPrdName(), mm.getQty(), mm.getRate(), mm.getValue(), mm.getCompCode(), mm.getCompPCode()));
             }

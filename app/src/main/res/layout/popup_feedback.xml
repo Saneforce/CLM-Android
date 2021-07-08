@@ -5,19 +5,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rl_mydayplan_popup"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:weightSum="40"
     android:background="@drawable/shape_white">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="12"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/ln1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         >
         <RelativeLayout
             android:id="@+id/rl_popup_title"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:background="@drawable/shape_login_button">
 
             <TextView
@@ -48,9 +52,10 @@
 
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/ln2"
+        android:layout_below="@+id/ln1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="11"
+        android:layout_height="100dp"
         android:background="@color/appConfigurationBg"
         android:orientation="vertical">
         <androidx.appcompat.widget.SearchView
@@ -82,9 +87,10 @@
     </LinearLayout>
 
     <ListView
-        android:layout_weight="7"
+        android:layout_marginBottom="80dp"
+        android:layout_below="@+id/ln2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="#ffffff"
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
@@ -97,13 +103,10 @@
 
     </ListView>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="10"
-        android:gravity="end"
-        >
+
         <Button
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:text="@string/ok"
@@ -112,9 +115,12 @@
             android:layout_marginTop="10dp"
             android:textColor="#ffffff"
             android:background="#353434"
-            android:id="@+id/ok"/>
+            android:id="@+id/ok"
+            android:layout_marginBottom="20dp"/>
 
-    </LinearLayout>
+
+    </RelativeLayout>
+
 </LinearLayout>
 
 

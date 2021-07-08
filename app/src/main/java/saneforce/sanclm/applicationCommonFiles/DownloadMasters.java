@@ -141,6 +141,7 @@ public class DownloadMasters extends IntentService {
             obj.put("SF", SF_Code);
             obj.put("APPUserSF", appusercode);
             obj.put("div", commonSharedPreference.getValueFromPreference(CommonUtils.TAG_DIVISION));
+            Log.v("code>>",obj.toString());
             map.put("SF", SF_Code);
             map.put("APPUserSF", appusercode);
             //map.put("APPUserSF", "MR4077");

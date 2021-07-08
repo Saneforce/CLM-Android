@@ -14,11 +14,13 @@ import android.os.Build;
 import android.os.Bundle;
 
 import android.text.Editable;
+import android.text.Layout;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -90,6 +92,7 @@ import saneforce.sanclm.util.DCRCallSelectionFilter;
 import saneforce.sanclm.util.ManagerListLoading;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
+import static android.view.Gravity.RELATIVE_LAYOUT_DIRECTION;
 import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
 import static saneforce.sanclm.fragments.AppConfiguration.language_string;
 
@@ -274,7 +277,7 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
         drList.clear();
         mCursor = dbh.select_unListeddoctors_bySf(SF_Code,mMydayWtypeCd);
         while (mCursor.moveToNext()) {
-            _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2),mCursor.getString(1),mCursor.getString(10),mCursor.getString(9),mCursor.getString(6),mCursor.getString(5),mCursor.getString(16),mCursor.getString(17));
+            _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2),mCursor.getString(1),mCursor.getString(10),mCursor.getString(9),mCursor.getString(6),mCursor.getString(5),mCursor.getString(16),mCursor.getString(17),"","grey");
             drList.add(_custom_DCR_GV_Dr_Contents);
         }
 
@@ -500,7 +503,7 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
                     drList.clear();
 
                     while (mCursor.moveToNext()) {
-                        _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2),mCursor.getString(1),mCursor.getString(10),mCursor.getString(9),mCursor.getString(6),mCursor.getString(5),mCursor.getString(16),mCursor.getString(17));
+                        _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2),mCursor.getString(1),mCursor.getString(10),mCursor.getString(9),mCursor.getString(6),mCursor.getString(5),mCursor.getString(16),mCursor.getString(17),"","grey");
                         drList.add(_custom_DCR_GV_Dr_Contents);
                     }
 
@@ -518,7 +521,7 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
                         drList.clear();
                         mCursor = dbh.select_unListeddoctors_bySf(SF_coding.get(i),mMydayWtypeCd);
                         while (mCursor.moveToNext()) {
-                            _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2),mCursor.getString(1),mCursor.getString(10),mCursor.getString(9),mCursor.getString(6),mCursor.getString(5),mCursor.getString(16),mCursor.getString(17));
+                            _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2),mCursor.getString(1),mCursor.getString(10),mCursor.getString(9),mCursor.getString(6),mCursor.getString(5),mCursor.getString(16),mCursor.getString(17),"","grey");
                             drList.add(_custom_DCR_GV_Dr_Contents);
                         }
 
@@ -1249,7 +1252,7 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
                                     mCursor = dbh.select_unListeddoctors_bySf(SF_Code,mMydayWtypeCd);
 
                                     while (mCursor.moveToNext()) {
-                                        _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2),mCursor.getString(1),mCursor.getString(10),mCursor.getString(9),mCursor.getString(6),mCursor.getString(5),mCursor.getString(16),mCursor.getString(17));
+                                        _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2),mCursor.getString(1),mCursor.getString(10),mCursor.getString(9),mCursor.getString(6),mCursor.getString(5),mCursor.getString(16),mCursor.getString(17),"","grey");
                                         drList.add(_custom_DCR_GV_Dr_Contents);
                                     }
                                     gridView = (GridView) v.findViewById(R.id.gridview_dcrselect);

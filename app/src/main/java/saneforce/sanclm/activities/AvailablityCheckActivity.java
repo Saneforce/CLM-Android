@@ -194,7 +194,7 @@ public class AvailablityCheckActivity extends AppCompatActivity {
                     mCursor.close();
                     db.close();
 
-                    AvailcheckAdapter adapter=new AvailcheckAdapter(AvailablityCheckActivity.this,availchecks,true,false);
+                    adapter=new AvailcheckAdapter(AvailablityCheckActivity.this,availchecks,true,false);
                     LinearLayoutManager manager=new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL,false);
                     availabilityRecyclerview.setLayoutManager(manager);
                     availabilityRecyclerview.setAdapter(adapter);
@@ -226,7 +226,7 @@ public class AvailablityCheckActivity extends AppCompatActivity {
                     mCursor.close();
                     db.close();
 
-                    AvailcheckAdapter adapter=new AvailcheckAdapter(AvailablityCheckActivity.this,availchecks,false,false);
+                     adapter=new AvailcheckAdapter(AvailablityCheckActivity.this,availchecks,false,false);
                     LinearLayoutManager manager=new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL,false);
                     availabilityRecyclerview.setLayoutManager(manager);
                     availabilityRecyclerview.setAdapter(adapter);
@@ -264,7 +264,7 @@ public class AvailablityCheckActivity extends AppCompatActivity {
                     db.close();
 
 
-                    AvailcheckAdapter adapter=new AvailcheckAdapter(AvailablityCheckActivity.this,availchecks,false,true);
+                     adapter=new AvailcheckAdapter(AvailablityCheckActivity.this,availchecks,false,true);
                     LinearLayoutManager manager=new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL,false);
                     availabilityRecyclerview.setLayoutManager(manager);
                     availabilityRecyclerview.setAdapter(adapter);
@@ -294,7 +294,7 @@ public class AvailablityCheckActivity extends AppCompatActivity {
                     mCursor.close();
                     db.close();
 
-                    AvailcheckAdapter adapter=new AvailcheckAdapter(AvailablityCheckActivity.this,availchecks,false,false);
+                    adapter=new AvailcheckAdapter(AvailablityCheckActivity.this,availchecks,false,false);
                     LinearLayoutManager manager=new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL,false);
                     availabilityRecyclerview.setLayoutManager(manager);
                     availabilityRecyclerview.setAdapter(adapter);

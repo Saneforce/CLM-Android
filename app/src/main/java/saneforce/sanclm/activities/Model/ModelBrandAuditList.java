@@ -9,6 +9,9 @@ public class ModelBrandAuditList {
     String qty,rate,val,compCode,compPcode,sw,rx;
     String jsonChem;
 
+    public ModelBrandAuditList() {
+    }
+
     public JSONArray getFeedback() {
         return feedback;
     }

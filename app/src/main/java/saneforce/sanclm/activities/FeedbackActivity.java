@@ -29,7 +29,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.content.FileProvider;
 
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -164,11 +166,11 @@ public class FeedbackActivity extends AppCompatActivity {
     Context context;
     Resources resources;
 
-    SharedPreferences sharedPreferences;
+    SharedPreferences sharedPreferences, sharedPreferences2;
 
     ArrayList<StoreImageTypeUrl> arrayStore = new ArrayList<>();
     LinearLayout addcalllayout,availLayout;
-   String availability=null,custype="0";
+   String availability=null,custype="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,8 +194,9 @@ public class FeedbackActivity extends AppCompatActivity {
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         Bundle extra = getIntent().getExtras();
         feedOption = extra.getString("feedpage", null);
-        custype=extra.getString("custype",null);
-//        Log.v("options>>>>", custype);
+        sharedPreferences2 = getSharedPreferences("feed_list", 0);
+        custype=sharedPreferences2.getString("type","");
+        //        Log.v("options>>>>", custype);
 
 
 
@@ -232,12 +235,9 @@ public class FeedbackActivity extends AppCompatActivity {
         val_pob = mCommonSharedPreference.getValueFromPreference("feed_pob");
         SF_Type = mCommonSharedPreference.getValueFromPreference("sf_type");
         AvailableAduitNeeded = mCommonSharedPreference.getValueFromPreference("AvailableAduitNeeded");
-//      RcpaNeeded= mCommonSharedPreference.getValueFromPreference("RcpaNeeded");
-        RcpaNeeded="1";
+        RcpaNeeded= mCommonSharedPreference.getValueFromPreference("RcpaNd");
         availability=mCommonSharedPreference.getValueFromPreference("availjson");
             Log.v("avail>>>1",availability);
-        btn_brand_audit.setVisibility(View.VISIBLE);
-
 
 
         if(AvailableAduitNeeded.equals("1")&&feedOption.equals("chemist")){
@@ -245,23 +245,24 @@ public class FeedbackActivity extends AppCompatActivity {
             addcalllayout.setVisibility(View.GONE);
             btn_brand_audit.setVisibility(View.VISIBLE);
 
-        }else if(AvailableAduitNeeded.equals("1")&&feedOption.equals("edit")&&custype.equals("2")) {
+        }else if(AvailableAduitNeeded.equals("1")&&custype.equalsIgnoreCase("C")&&feedOption.equals("edit")) {
             availLayout.setVisibility(View.VISIBLE);
-            btn_brand_audit.setVisibility(View.VISIBLE);
             addcalllayout.setVisibility(View.GONE);
+            btn_brand_audit.setVisibility(View.VISIBLE);
         }
 
        else  if(RcpaNeeded.equals("1")&&feedOption.equals("dr")){
-            btn_brand_audit.setVisibility(View.GONE);
+            btn_brand_audit.setVisibility(View.VISIBLE);
 
-        }else if(RcpaNeeded.equals("1")&&feedOption.equals("edit")&&custype.equals("1")) {
-            btn_brand_audit.setVisibility(View.GONE);
+        }else if(RcpaNeeded.equals("1")&&custype.equalsIgnoreCase("D")&&feedOption.equals("edit")) {
+            btn_brand_audit.setVisibility(View.VISIBLE);
         }
 
         else{
             availLayout.setVisibility(View.GONE);
             addcalllayout.setVisibility(View.VISIBLE);
-            btn_brand_audit.setVisibility(View.VISIBLE);
+            btn_brand_audit.setVisibility(View.GONE);
+
 
         }
 
@@ -353,7 +354,7 @@ public class FeedbackActivity extends AppCompatActivity {
                 }
                 call_plus.setEnabled(false);
                 call_plus.getBackground().setAlpha(128);
-                btn_brand_audit.setVisibility(View.INVISIBLE);
+//                btn_brand_audit.setVisibility(View.INVISIBLE);
                 TypePeople = peopleType;
             } else {
                 TypePeople = "D";
@@ -372,7 +373,7 @@ public class FeedbackActivity extends AppCompatActivity {
             dbh.close();*/
             call_plus.setEnabled(false);
             call_plus.getBackground().setAlpha(128);
-            btn_brand_audit.setVisibility(View.INVISIBLE);
+//            btn_brand_audit.setVisibility(View.INVISIBLE);
             /*txt_name.setText(extra.getString("customer"));*/
             txt_name.setText(CommonUtils.TAG_UNDR_NAME);
             peopleType = "U";
@@ -388,7 +389,7 @@ public class FeedbackActivity extends AppCompatActivity {
             dbh.deleteFeed();
             dbh.close();*/
             call_plus.setEnabled(false);
-            btn_brand_audit.setVisibility(View.INVISIBLE);
+//            btn_brand_audit.setVisibility(View.INVISIBLE);
             call_plus.getBackground().setAlpha(128);
             txt_name.setText(CommonUtils.TAG_STOCK_NAME);
             peopleType = "S";
@@ -408,7 +409,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
             call_plus.setEnabled(false);
             call_plus.getBackground().setAlpha(128);
-            btn_brand_audit.setVisibility(View.INVISIBLE);
+//            btn_brand_audit.setVisibility(View.INVISIBLE);
             // txt_name.setText(extra.getString("customer"));
             txt_name.setText(CommonUtils.TAG_CHEM_NAME);
             peopleType = "I";
@@ -1204,6 +1205,8 @@ public class FeedbackActivity extends AppCompatActivity {
         ImageView iv_close_popup = (ImageView) dialog.findViewById(R.id.iv_close_popup);
         TextView tv_todayplan_popup_head = (TextView) dialog.findViewById(R.id.tv_todayplan_popup_head);
         final SearchView search_view = (SearchView) dialog.findViewById(R.id.search_view);
+        EditText searchedit=dialog.findViewById(R.id.et_search);
+
         search_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1226,18 +1229,36 @@ public class FeedbackActivity extends AppCompatActivity {
         } else {
             tv_todayplan_popup_head.setText(resources.getString(R.string.prodct_selct));
         }
-        search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchedit.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
 
             @Override
-            public boolean onQueryTextChange(String s) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 popupAdapter.getFilter().filter(s);
-                return false;
+                popupAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
+//        search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String s) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String s) {
+//                popupAdapter.getFilter().filter(s);
+//                return false;
+//            }
+//        });
 
 
         ok.setOnClickListener(new View.OnClickListener() {

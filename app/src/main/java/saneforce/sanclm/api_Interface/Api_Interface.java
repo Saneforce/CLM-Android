@@ -154,6 +154,7 @@ public interface Api_Interface {
     @POST("db.php?axn=get/slidespeciality")
     Call<ResponseBody> getslidespeciality(@Field("data") String sf);
 
+
     @FormUrlEncoded
     @POST("db.php?axn=get/todaytp")
     Call<List<TodayTp>> todayTP(@Field("data") String sf);
@@ -505,4 +506,14 @@ public interface Api_Interface {
     @FormUrlEncoded
     @POST("db.php?axn=get/sampplnact")
     Call<ResponseBody>getSamples(@Field("data") String sfdviv);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=get/todaycus")
+    Call<ResponseBody>gettodayCusdoc(@Field("data") String sfedt);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=get/callVstDetls")
+    Call<ResponseBody>getCallvstdetails(@Field("data") String sf);
+
+
 }

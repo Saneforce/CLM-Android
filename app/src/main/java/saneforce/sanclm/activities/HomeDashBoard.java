@@ -38,9 +38,11 @@ import android.os.Parcelable;
 import android.provider.Settings;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import androidx.core.view.GravityCompat;
@@ -164,6 +166,7 @@ import android.location.LocationManager;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.MANAGE_EXTERNAL_STORAGE;
 import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
 import static saneforce.sanclm.fragments.AppConfiguration.language_string;
 import static saneforce.sanclm.fragments.AppConfiguration.licenceKey;
@@ -282,12 +285,16 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     Context context;
     Resources resources;
     TextView tv_todaycall_head,tv_calls,tv_presentation,tv_reports;
+    ProgressDialog progress;
+    boolean accessStorageAllowedNew = false;
+
     @Override
     protected void onPause() {
         super.onPause();
         unregisterReceiver(receiver);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -307,9 +314,15 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_new_homepage);
 
 
+//          checkingPermissionsNew();
+
+
+
         CommonUtilsMethods = new CommonUtilsMethods(this);
         dbh = new DataBaseHandler(this);
         dialog = new Dialog(HomeDashBoard.this);
+        progress = CommonUtilsMethods.createProgressDialog(HomeDashBoard.this);
+        progress.show();
         mCommonSharedPreference = new CommonSharedPreference(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -344,6 +357,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 //        tv_calls.setText(resources.getString(R.string.calls));
 //        tv_presentation.setText(resources.getString(R.string.presentation));
 //        tv_reports.setText(resources.getString(R.string.report));
+
 
         digital=mCommonSharedPreference.getValueFromPreference("Digital_offline");
               Intent intent=getIntent();
@@ -385,6 +399,10 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             }
         }, 200);
 
+    }
+
+    private void hideTP() {
+        arrayNav.remove(3);
     }
 
     private void selected(String language) {
@@ -993,7 +1011,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     mWorktypeListID.put(mCursor.getString(1), mCursor.getString(2));
                     mWrktypelist.add(new ModelWorkType(mCursor.getString(2), mCursor.getString(1), mCursor.getString(4)));
                     worktypeNm.add(mCursor.getString(2));
-                    Log.d("display_wrktype", mCursor.getString(2));
+                    Log.d("display_wrktype", mCursor.getString(4));
                 }
             }
         }
@@ -1201,8 +1219,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                 Log.v("checking_for_enable", tv_clusterView.isEnabled() + "");
                 if (tv_worktype.getText().toString().equalsIgnoreCase(resources.getString(R.string.select_worktype))) {
                     Toast.makeText(HomeDashBoard.this, resources.getString(R.string.fill_the)+" "+resources.getString(R.string.worktype1)+" "+resources.getString(R.string.field_), Toast.LENGTH_SHORT).show();
-                } else if (tv_clusterView.getText().toString().equalsIgnoreCase(resources.getString(R.string.select_cluster)) && !displayWrk && tv_clusterView.isEnabled()) {
-                    Toast.makeText(HomeDashBoard.this, resources.getString(R.string.fill_the)+" "+resources.getString(R.string.cluster1)+" "+resources.getString(R.string.field_), Toast.LENGTH_SHORT).show();
+//                } else if (tv_clusterView.getText().toString().equalsIgnoreCase(resources.getString(R.string.select_cluster)) && !displayWrk && tv_clusterView.isEnabled()) {
+//                    Toast.makeText(HomeDashBoard.this, resources.getString(R.string.fill_the)+" "+resources.getString(R.string.cluster1)+" "+resources.getString(R.string.field_), Toast.LENGTH_SHORT).show();
                 } else if (tv_headquater.getText().toString().equalsIgnoreCase("null") || tv_headquater.getText().toString().equalsIgnoreCase(resources.getString(R.string.select_headquater))) {
                     Toast.makeText(HomeDashBoard.this, resources.getString(R.string.fill_the)+" "+resources.getString(R.string.headquater1)+" "+resources.getString(R.string.field_), Toast.LENGTH_SHORT).show();
                 } else {
@@ -1401,6 +1419,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         files.clear();
 
         try {
+            dbh.open();
 
             Cursor cur = dbh.select_slidesUrlPath();
             if (cur.getCount() == 0) {
@@ -1456,6 +1475,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     tb_dwnloadSlides.setVisibility(View.VISIBLE);
                 }
             }
+            dbh.close();;
         } catch (Exception e) {
             Log.v("Excetion_slipe", e.getMessage());
             dbh.open();
@@ -2260,6 +2280,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         /*Menu nav_Menu = navigationView.getMenu();
         nav_Menu.findItem(R.id.nav_approvals).setVisible(false);*/
         arrayNav.remove(6);
+
     }
 
     private void hideNearMe() {
@@ -2530,11 +2551,30 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                             mCommonSharedPreference.setValueToPreference("Dashboard2", "");
                         }
 
-//                        if(jsonn.has("Detailing_chem")){
-//                            mCommonSharedPreference.setValueToPreference("Detailing_chem",jsonn.getString("Detailing_chem"));
-//                        }
-//                        else
-//                            mCommonSharedPreference.setValueToPreference("Detailing_chem","1");
+                        if(jsonn.has("Detailing_chem")){
+                            mCommonSharedPreference.setValueToPreference("Detailing_chem",jsonn.getString("Detailing_chem"));
+                        }
+                        else
+                            mCommonSharedPreference.setValueToPreference("Detailing_chem","");
+                        if(jsonn.has("Detailing_stk")){
+                                mCommonSharedPreference.setValueToPreference("Detailing_stk",jsonn.getString("Detailing_stk"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("Detailing_stk","");
+                            if(jsonn.has("Detailing_undr")){
+                                mCommonSharedPreference.setValueToPreference("Detailing_undr",jsonn.getString("Detailing_undr"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("Detailing_undr","");
+
+
+                        if(jsonn.has("Tp_Based")){
+                            mCommonSharedPreference.setValueToPreference("Tp_Based",jsonn.getString("Tp_Based"));
+                        }
+                        else
+                            mCommonSharedPreference.setValueToPreference("Tp_Based","");
+
+
 
                         getTodayCalls();
                     } catch (Exception e) {
@@ -2916,12 +2956,13 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
     private void addTabs(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new CallFragment(), "");
+//        adapter.addFrag(new CallFragment(), "");
        // adapter.addFrag(new TrainingFragment(), "");
-//        adapter.addFrag(new NewTrainingFragment(), "");
-//        adapter.addFrag(new NewCallFragment(), "");
+        adapter.addFrag(new NewTrainingFragment(), "");
+        adapter.addFrag(new NewCallFragment(), "");
 
         viewPager.setAdapter(adapter);
+        progress.dismiss();
     }
 
     public void callDCR() {
@@ -3236,6 +3277,10 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 //        tv_reports.setText(resources.getString(R.string.report));
 
         addNavItem();
+        //hideNearMe();
+      //  hideTP();
+
+
 //        iv_reload.setVisibility(View.GONE);
 //        if (digital.equalsIgnoreCase("1")) {
 //            iv_reload.setVisibility(View.VISIBLE);
@@ -3305,7 +3350,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                 }
             }
         } else
-            hideNearMe();
+           // hideNearMe();
        /* Menu nav_Menu = navigationView.getMenu();
         nav_Menu.findItem(R.id.nav_quiz).setVisible(false);*/
 
@@ -3356,7 +3401,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             //navigationView.setNavigationItemSelectedListener(this);
             mCommonSharedPreference.setValueToPreference("geo_tag", "0");
             if (mCommonSharedPreference.getValueFromPreference("sf_type").equals("1")) {
-                hideItem();
+               // hideItem();
             }
             mCommonSharedPreference.setValueToPreference("visit_dr", "false");
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -3537,6 +3582,11 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                 }else if (arrayNav.get(i).getText().equals(resources.getString(R.string.Dashboard))){
 
                     CommonUtilsMethods.CommonIntentwithNEwTask(DashActivity.class);
+
+                }
+                else if (arrayNav.get(i).getText().equals(resources.getString(R.string.activity))){
+                    Intent i1 = new Intent(HomeDashBoard.this, DynamicActivity.class);
+                    startActivity(i1);
 
                 }
 
@@ -4282,19 +4332,70 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_clu_mnu, /*"Change Cluster"*/resources.getString(R.string.change_cluster)));
         arrayNav.add(new ModelNavDrawer(R.mipmap.calls, /*"Calls"*/resources.getString(R.string.calls)));
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_presentation, /*"Create Presentation"*/resources.getString(R.string.create_presentation)));
-        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_tourplan, /*"Tour Plan"*/resources.getString(R.string.tour_plan)));
+//        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_tourplan, /*"Tour Plan"*/resources.getString(R.string.tour_plan)));
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_tourplan, /*"Missed Date Entry"*/resources.getString(R.string.missed_date_entry)));
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_leaveappln, /*"Leave Application"*/resources.getString(R.string.leave_application)));
-        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_tourplan, /*"Approvals"*/resources.getString(R.string.approvals)));
-        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Reports"*/resources.getString(R.string.report)));
+        if (mCommonSharedPreference.getValueFromPreference("sf_type").equals("2")) {
+            arrayNav.add(new ModelNavDrawer(R.mipmap.nav_tourplan, /*"Approvals"*/resources.getString(R.string.approvals)));
+
+        }
+
+
+            arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Reports"*/resources.getString(R.string.report)));
         // arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports,"Quiz"));
-        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Near Me"*/resources.getString(R.string.near_me)));
+        if (mCommonSharedPreference.getValueFromPreference("GpsFilter").equalsIgnoreCase("0")) {
+            arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Near Me"*/resources.getString(R.string.near_me)));
+
+        }
+
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Detailing Report"*/resources.getString(R.string.detailing_report)));
+        arrayNav.add(new ModelNavDrawer(R.drawable.activity_img, /*"Logout"*/resources.getString(R.string.activity)));
+
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_logout, /*"Logout"*/resources.getString(R.string.logout)));
         //arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Dashboard"*/resources.getString(R.string.Dashboard)));
-        // arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, "Target Vs Sales"));
+        // arrayNav.add(new Mod        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_logout, /*"Logout"*/resources.getString(R.string.logout)));elNavDrawer(R.mipmap.nav_reports, "Target Vs Sales"));
+
         navAdpt = new NavigationItemAdapter(arrayNav, HomeDashBoard.this);
         nav_list.setAdapter(navAdpt);
+    }
+
+    public void checkingPermissionsNew(){
+        if (ContextCompat.checkSelfPermission(HomeDashBoard.this, MANAGE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            Log.v("permission_check","are_not_granted");
+            // Permission is not granted
+            if (ContextCompat.checkSelfPermission(HomeDashBoard.this,
+                    MANAGE_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                // Permission is not granted
+                // Should we show an explanation?
+                if (ActivityCompat.shouldShowRequestPermissionRationale(HomeDashBoard.this,
+                        MANAGE_EXTERNAL_STORAGE)) {
+                    // Show an explanation to the user *asynchronously* -- don't block
+                    // this thread waiting for the user's response! After the user
+                    // sees the explanation, try again to request the permission.
+                } else {
+                    // No explanation needed; request the permission
+                    Log.v("accessPermission","went_request");
+                    ActivityCompat.requestPermissions(HomeDashBoard.this,
+                            new String[]{MANAGE_EXTERNAL_STORAGE},
+                            12);
+
+                    // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                    // app-defined int constant. The callback method gets the
+                    // result of the request.
+                }
+            } else {
+                // Permission has already been granted
+                accessStorageAllowedNew=true;
+
+            }
+        }else {
+            // Permission has already been granted
+            accessStorageAllowedNew=true;
+
+        }
     }
 
 }

@@ -81,9 +81,9 @@
                     android:background="@drawable/rectangle"
                     android:elevation="10dp"
                     android:gravity="center"
-                    android:text="@string/allavail"
-                    android:textOn="@string/allavail"
-                    android:textOff="@string/allavail"
+                    android:text="@string/avail"
+                    android:textOn="@string/avail"
+                    android:textOff="@string/avail"
                     android:textColor="#000" />
 
                 <EditText
@@ -109,7 +109,8 @@
                     android:checked="false"
                     android:scaleX="1.8"
                     android:scaleY="1.8"
-                    android:theme="@style/MyCheckBox"
+                    android:enabled="false"
+                    android:button="@drawable/cb_selector"
 
                     />
             </RelativeLayout>

@@ -35,10 +35,17 @@ public class DetailingAdapter extends RecyclerView.Adapter<DetailingAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
-        holder.percenttext.setTextColor(Color.parseColor(lists.get(position).getLblClr()));
-        holder.nametxt.setText(lists.get(position).getBrand());
-        holder.percenttext.setText(lists.get(position).getPercnt()+"%");
-        holder.view.setBackgroundColor(Color.parseColor(lists.get(position).getBarclr()));
+        if(lists.get(position).getTag().matches("detail")) {
+            holder.percenttext.setTextColor(Color.parseColor(lists.get(position).getLblClr()));
+            holder.nametxt.setText(lists.get(position).getBrand());
+            holder.percenttext.setText(lists.get(position).getPercnt() + "%");
+            holder.view.setBackgroundColor(Color.parseColor(lists.get(position).getBarclr()));
+        }else{
+            holder.nametxt.setText(lists.get(position).getBrand());
+            holder.percenttext.setText(lists.get(position).getPercnt() + "%");
+           holder.view.setBackgroundColor(Color.parseColor(lists.get(position).getBarclr()));
+
+        }
     }
 
     @Override

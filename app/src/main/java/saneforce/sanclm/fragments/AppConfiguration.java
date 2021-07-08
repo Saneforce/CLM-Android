@@ -196,7 +196,7 @@ public class AppConfiguration extends Fragment implements View.OnClickListener {
             }
         }else {
             selected("en");
-            tv_language.setText("");
+            tv_language.setText("ENGLISH");
         }
 
 

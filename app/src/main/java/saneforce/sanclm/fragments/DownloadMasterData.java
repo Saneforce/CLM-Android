@@ -137,6 +137,10 @@ public class DownloadMasterData extends Fragment implements View.OnTouchListener
             sfCoding = SF_Code;
             updateTxt(mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_HQ));
         }
+       else if (sfType.equalsIgnoreCase("2")) {
+            sfCoding = SF_Code;
+            updateTxt(mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_HQ));
+        }
         sfCoding = mCommonSharedPreference.getValueFromPreference("sub_sf_code");
         Log.v("config_ip", pref.getString("input", "0"));
 

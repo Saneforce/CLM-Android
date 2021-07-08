@@ -4,6 +4,8 @@ public class DetailingList {
     String brand;
     String percnt;
     String barclr;
+    String lblClr;
+    String tag;
 
     public String getBrand() {
         return brand;
@@ -37,13 +39,21 @@ public class DetailingList {
         this.barclr = barclr;
     }
 
-    public DetailingList(String brand, String percnt, String lblClr, String barclr) {
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public DetailingList(String brand, String percnt, String lblClr, String barclr, String tag) {
         this.brand = brand;
         this.percnt = percnt;
         this.lblClr = lblClr;
         this.barclr=barclr;
+        this.tag=tag;
     }
 
-    String lblClr;
 
 }

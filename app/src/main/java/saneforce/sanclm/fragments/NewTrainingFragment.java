@@ -1,6 +1,7 @@
 package saneforce.sanclm.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -54,6 +55,7 @@ import retrofit2.Response;
 import saneforce.sanclm.Pojo_Class.DetailingList;
 import saneforce.sanclm.Pojo_Class.DoctorcoverageList;
 import saneforce.sanclm.R;
+import saneforce.sanclm.activities.DynamicActivity;
 import saneforce.sanclm.activities.HomeDashBoard;
 import saneforce.sanclm.activities.Model.Brandexpolist;
 import saneforce.sanclm.adapter_class.DetailingAdapter;
@@ -62,6 +64,7 @@ import saneforce.sanclm.api_Interface.Api_Interface;
 import saneforce.sanclm.api_Interface.RetroClient;
 import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
 import saneforce.sanclm.applicationCommonFiles.CommonUtils;
+import saneforce.sanclm.applicationCommonFiles.CommonUtilsMethods;
 import saneforce.sanclm.sqlite.DataBaseHandler;
 
 import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
@@ -97,6 +100,8 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
     ArrayList<String> colorlist;
     ArrayList<Brandexpolist>branlist;
     TextView reload1,reload2;
+    ProgressDialog progress;
+    CommonUtilsMethods commonUtilsMethods;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -106,7 +111,9 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
         db_connPath = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DB_URL);
         Log.v("sfcode",SF_Code);
         db = new DataBaseHandler(getActivity());
-
+        commonUtilsMethods = new CommonUtilsMethods(getActivity());
+        progress = commonUtilsMethods.createProgressDialog(getActivity());
+        progress.show();
        apiInterface= RetroClient.getClient(db_connPath).create(Api_Interface.class);
 
         try {
@@ -184,10 +191,13 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
         gettotalcalls();
         getbrandexpo();
         getdetailing();
+        detailingAdapter = new DetailingAdapter(getActivity(), detailingLists);
 
         reload1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progress.show();
+
                 db.open();
                 db.del_drcoverage();
                 db.del_pharmcoverage();
@@ -216,16 +226,20 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
         reload2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+               progress.show();
                 db.open();
                 db.del_brandexpose();
                 db.del_detailing();
                 branlist.clear();
                 detailingLists.clear();
+                pieData.clear();
+                detailingAdapter.notifyDataSetChanged();
+
                 detailingtmspent();
                 brandexposure();
                 getbrandexpo();
                 getdetailing();
+
                 db.close();
                 Intent intent=new Intent(getActivity(), HomeDashBoard.class);
                 startActivity(intent);
@@ -245,13 +259,15 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
 
         BarDataSet set = new BarDataSet(entries, "Visit Data");
         set.setColors(colors);
+
         BarData data = new BarData(set);
-        data.setBarWidth(0.7f);// set custom bar width
+        data.setBarWidth(0.5f);// set custom bar width
         data.setValueFormatter(new DecimalRemover(new DecimalFormat("###,###,##0.0")));
         barChart.setData(data);
         barChart.setDescription(null);
         barChart.getLegend().setEnabled(false);
         barChart.setFitBars(true); // make the x-axis fit exactly all bars
+
         XAxis xAxis = barChart.getXAxis();
 
         /*xAxis.setGranularity(1f);
@@ -264,6 +280,9 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
         xAxis.setLabelCount(xVals.size());
         xAxis.setValueFormatter(new IndexAxisValueFormatter(xVals));
         xAxis.setTextSize(9f);
+        xAxis.setLabelRotationAngle(45);
+        xAxis.setGranularityEnabled(true);
+        xAxis.setGranularity(1f);
         YAxis rightYAxis = barChart.getAxisRight();
         rightYAxis.setEnabled(false);
         YAxis rightYAxis1 = barChart.getAxisLeft();
@@ -543,7 +562,7 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
 //                        SliceValue sliceValue=new SliceValue(Float.parseFloat(js1.getString("Percnt")),Color.parseColor(js1.getString("barcolr")));
 //                        pieData.add(sliceValue);
 
-                        DetailingList list=new DetailingList(js1.getString("Brand"),js1.getString("Percnt"),js1.getString("lblClr"),js1.getString("barcolr"));
+                        DetailingList list=new DetailingList(js1.getString("Brand"),js1.getString("Percnt"),js1.getString("lblClr"),js1.getString("barcolr"),"detail");
                          detailingLists.add(list);
 
                          db.insertdetailingtime(js1.getString("Brand"),js1.getString("Percnt"),js1.getString("barcolr"),js1.getString("lblClr"));
@@ -662,6 +681,7 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
 
 
     public void getdrcoverage(){
+
         arrayList.clear();
         db.open();
         mCursor=db.select_drcoverager();
@@ -676,11 +696,13 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
             recyclerViewdoctor.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         }
+        progress.dismiss();
         mCursor.close();
         db.close();
     }
 
     public void getpharmcoverage(){
+
         pharmlists.clear();
         db.open();
         mCursor = db.select_pharmcoverager();
@@ -695,11 +717,14 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
             recyclerViewpharm.setAdapter(adapter1);
             adapter1.notifyDataSetChanged();
         }
+        progress.dismiss();
+
         mCursor.close();
         db.close();
     }
 
     public void gettotalcoverage() {
+
         totaldetlist.clear();
         db.open();
         mCursor = db.select_totalcoverager();
@@ -714,11 +739,14 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
             recyclerViewtotal.setAdapter(adapter2);
             adapter2.notifyDataSetChanged();
         }
+        progress.dismiss();
+
         mCursor.close();
         db.close();
     }
 
     public void getdetailing() {
+
         detailingLists.clear();
         db.open();
         mCursor = db.select_Detailingtime();
@@ -726,7 +754,8 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
             mCursor.moveToFirst();
             do {
                 Log.v("product_name_feed", mCursor.getString(0));
-                detailingLists.add(new DetailingList(mCursor.getString(0), mCursor.getString(1), mCursor.getString(2), mCursor.getString(3)));
+                detailingLists.add(new DetailingList(mCursor.getString(0), mCursor.getString(1), mCursor.getString(2), mCursor.getString(3),"detail"));
+
                 SliceValue sliceValue = new SliceValue(Float.parseFloat(mCursor.getString(1)), Color.parseColor(mCursor.getString(3)));
                 pieData.add(sliceValue);
 
@@ -740,11 +769,13 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
             detailingrecyclerview.setAdapter(detailingAdapter);
             detailingAdapter.notifyDataSetChanged();
         }
+        progress.dismiss();
         mCursor.close();
         db.close();
     }
 
     public void getbrandexpo(){
+
         branlist.clear();
         db.open();
         mCursor = db.select_brandexpo();
@@ -758,10 +789,12 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
 
 
         }
+        progress.dismiss();
         mCursor.close();
         db.close();
     }
     public void gettotalcalls(){
+
         db.open();
         mCursor = db.select_totalcalls();
         if (mCursor.getCount() != 0) {
@@ -779,6 +812,7 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
 
 
         }
+        progress.dismiss();
         mCursor.close();
         db.close();
     }

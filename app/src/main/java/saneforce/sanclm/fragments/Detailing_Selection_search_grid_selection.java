@@ -303,7 +303,7 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
         listViewItems.add(getResources().getString(R.string.spclwise));
         listViewItems.add(getResources().getString(R.string.allbrand));
         if (!checkActivity)
-            listViewItems.add(getResources().getString(R.string.customise));
+//            listViewItems.add(getResources().getString(R.string.customise));
         if (!TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("theraptic"))) {
             Log.v("therapticValue",mCommonSharedPreference.getValueFromPreference("theraptic"));
             if (mCommonSharedPreference.getValueFromPreference("theraptic").equalsIgnoreCase("0"))

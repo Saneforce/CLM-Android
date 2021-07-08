@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 public class DataBaseHandler {
 
     private DatabaseHelper dbHelper;
@@ -83,10 +85,29 @@ public class DataBaseHandler {
         db.execSQL("delete from " + TableEntry.TABLE_DETAILING_TIMESPENT +"  ");
 
     }
+    public void del_callvstsingle() {
+        db.execSQL("delete from " + TableEntry.TABLE_CALLVSTDETAILS_single +"  ");
+
+    }
+    public void del_callvstgroup() {
+        db.execSQL("delete from " + TableEntry.TABLE_CALLVSTDETAILS_group+"  ");
+
+    }
     public Cursor select_Detailingtime() {
         return db.rawQuery(" SELECT "+ TableEntry.COLUMN_BRAND+","+TableEntry.COLUMN_PERCENT+","+TableEntry.COLUMN_LBLCLR+","+TableEntry.COLUMN_BARCLR+" FROM "+TableEntry.TABLE_DETAILING_TIMESPENT,null);
 
     }
+
+    public Cursor select_callvstsingle() {
+        return db.rawQuery(" SELECT "+ TableEntry.COLUMN_NAME+","+TableEntry.COLUMN_PERCENT+","+TableEntry.COLUMN_LBLCLR+","+TableEntry.COLUMN_BARCLR+" FROM "+TableEntry.TABLE_CALLVSTDETAILS_single,null);
+
+    }
+
+    public Cursor select_callvstgroup() {
+        return db.rawQuery(" SELECT "+ TableEntry.COLUMN_NAME+","+TableEntry.COLUMN_PERCENT+","+TableEntry.COLUMN_LBLCLR+","+TableEntry.COLUMN_BARCLR+" FROM "+TableEntry.TABLE_CALLVSTDETAILS_group,null);
+
+    }
+
     public Cursor select_brandexpo() {
         return db.rawQuery(" SELECT "+ TableEntry.COLUMN_BRAND+","+TableEntry.COLUMN_TCOUNT+","+TableEntry.COLUMN_BARCLR+","+TableEntry.COLUMN_FLOAT+" FROM "+TableEntry.TABLE_BRAND_EXPOSURE,null);
 
@@ -101,6 +122,28 @@ public class DataBaseHandler {
 
         return db.insert(TableEntry.TABLE_DETAILING_TIMESPENT,null,values);
     }
+
+    public long insertcallvstdetailsingle(String brand, String percnt, String barcolr ,String lblClr) {
+
+        ContentValues values=new ContentValues();
+        values.put(TableEntry.COLUMN_NAME,brand);
+        values.put(TableEntry.COLUMN_PERCENT,percnt);
+        values.put(TableEntry.COLUMN_BARCLR,barcolr);
+        values.put(TableEntry.COLUMN_LBLCLR,lblClr);
+
+        return db.insert(TableEntry.TABLE_CALLVSTDETAILS_single,null,values);
+    }
+    public long insertcallvstdetailsgroup(String brand, String percnt, String barcolr ,String lblClr) {
+
+        ContentValues values=new ContentValues();
+        values.put(TableEntry.COLUMN_NAME,brand);
+        values.put(TableEntry.COLUMN_PERCENT,percnt);
+        values.put(TableEntry.COLUMN_BARCLR,barcolr);
+        values.put(TableEntry.COLUMN_LBLCLR,lblClr);
+
+        return db.insert(TableEntry.TABLE_CALLVSTDETAILS_group,null,values);
+    }
+
 
     public void del_brandexpose() {
         db.execSQL("delete from " + TableEntry.TABLE_BRAND_EXPOSURE +"  ");
@@ -552,6 +595,12 @@ public class DataBaseHandler {
 
         public static final String TABLE_SAMPLES_CODE="samplescode";
 
+        public static final String TABLE_DRTP="drtp";
+        public static final String TABLE_CHMTP="chmtp";
+
+        public static final String TABLE_CALLVSTDETAILS_single="callvistdetailsingle";
+        public static final String TABLE_CALLVSTDETAILS_group="callvistdetailgroup";
+
     }
 
         public Cursor select_urlconfiguration(){
@@ -606,8 +655,27 @@ public class DataBaseHandler {
         return db.insert(TableEntry.TABLE_MYDAYPLAN,TableEntry.COLUMN_NULLABLE, values);
     }
 
-
-
+    public long insert_Tpdcode(String sfCode) {
+        ContentValues values = new ContentValues();
+        values.put(TableEntry.COLUMN_DOCTOR_CODE, sfCode);
+        // Log.d("VALUES",values.toString());
+        return db.insert(TableEntry.TABLE_DRTP,TableEntry.COLUMN_NULLABLE, values);
+    }
+    public void deleteTPDR(){
+        db.execSQL("delete from " + TableEntry.TABLE_DRTP + "  ");
+    }
+    public Cursor select_DRTP(){
+        return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_DRTP,null);
+    }
+    public long insert_Tpchmcode(String sfCode) {
+        ContentValues values = new ContentValues();
+        values.put(TableEntry.COLUMN_CHEMIST_CODE, sfCode);
+        // Log.d("VALUES",values.toString());
+        return db.insert(TableEntry.TABLE_CHMTP,TableEntry.COLUMN_NULLABLE, values);
+    }
+    public void deleteTPCHM(){
+        db.execSQL("delete from " + TableEntry.TABLE_CHMTP + "  ");
+    }
     public long insert_worktype_master(String wtypeCd, String wtypeNm, String wtypeETabs, String wtypeFWFlg, String wtypeSFCd,String tpdcr) {
         ContentValues values = new ContentValues();
         values.put(TableEntry.COLUMN_WTYPE_CODE, wtypeCd);
@@ -1262,7 +1330,28 @@ public class DataBaseHandler {
             return db.rawQuery("SELECT *  FROM "
                     +TableEntry.TABLE_DOCTOR_MASTER_DETAILS+" A LEFT JOIN "+TableEntry.TABLE_STORE_REPORT+" T ON A."+TableEntry.COLUMN_DOCTOR_CODE+" = T."+TableEntry.COLUMN_DOCTOR_CODE+" WHERE "+TableEntry.COLUMN_YEAR+" = '"+yr+"' ",null);
         }
+        public Cursor Select_bydoccode(ArrayList<String>list){
 
+            String where = "";
+            for (int i = 0; i < list.size(); i++) {
+                where = where + TableEntry.COLUMN_DOCTOR_CODE + " =" + list.get(i).toString() + "";
+                if (i != (list.size() - 1))
+                    where = where  + "  or  ";
+            }
+
+            return db.query(TableEntry.TABLE_DOCTOR_MASTER_DETAILS, new String[] {TableEntry.COLUMN_DOCTOR_NAME,TableEntry.COLUMN_DOCTOR_CODE,TableEntry.COLUMN_DOCTOR_SPECIALITY_NAME,TableEntry.COLUMN_DOCTOR_CATEGORY_NAME,TableEntry.COLUMN_DOCTOR_TOWN_NAME,TableEntry.COLUMN_DOCTOR_TOWN_CODE}, where, null, null, null, null);
+        }
+    public Cursor Select_bychemcode(ArrayList<String>list){
+
+        String where = "";
+        for (int i = 0; i < list.size(); i++) {
+            where = where + TableEntry.COLUMN_CHEMIST_CODE + " =" + list.get(i).toString() + "";
+            if (i != (list.size() - 1))
+                where = where  + "  or  ";
+        }
+
+        return db.query(TableEntry.TABLE_CHEMIST_MASTER_DETAILS, new String[] {TableEntry.COLUMN_CHEMIST_NAME,TableEntry.COLUMN_CHEMIST_CODE,TableEntry.COLUMN_CHEMIST_MOBILE,TableEntry.COLUMN_CHEMIST_FAX,TableEntry.COLUMN_CHEMIST_TOWN_NAME,TableEntry.COLUMN_CHEMIST_TOWN_CODE}, where, null, null, null, null);
+    }
     public Cursor select_doctors_bySf(String sf_code,String twnCd) {
 
         return db.rawQuery("SELECT *  FROM "
@@ -1395,7 +1484,7 @@ public class DataBaseHandler {
     }
 
 
-    public Cursor select_Chemist_bySf(String sf_code,String twnCd) {
+    public Cursor  select_Chemist_bySf(String sf_code,String twnCd) {
         return db.rawQuery("SELECT *  FROM "
                 + TableEntry.TABLE_CHEMIST_MASTER_DETAILS + " WHERE "
                 + TableEntry.COLUMN_SF_CODE + " = '" + sf_code + "' GROUP BY "  +TableEntry.COLUMN_CHEMIST_CODE+"  ORDER BY  (CASE " + TableEntry.COLUMN_CHEMIST_TOWN_CODE + " WHEN '" + twnCd+"' THEN 1 ELSE 1000 END) ," + TableEntry.COLUMN_CHEMIST_NAME + " ASC", null);

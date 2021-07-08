@@ -235,7 +235,7 @@ public class DCRSTKCallsSelection extends Fragment implements AdapterView.OnItem
         Log.v("checking_sfcode_stck",SF_Code+"cluster"+mMydayWtypeCd);
         Log.v("stocklist_count", String.valueOf(mCursor.getCount()));
         while (mCursor.moveToNext()) {
-            _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2),mCursor.getString(1),mCursor.getString(10),mCursor.getString(9),mCursor.getString(4),mCursor.getString(3),mCursor.getString(14),mCursor.getString(15));
+            _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2),mCursor.getString(1),mCursor.getString(10),mCursor.getString(9),mCursor.getString(4),mCursor.getString(3),mCursor.getString(14),mCursor.getString(15),"","grey");
             stckList.add(_custom_DCR_GV_Dr_Contents);
         }
 
@@ -416,7 +416,7 @@ public class DCRSTKCallsSelection extends Fragment implements AdapterView.OnItem
                     stckList = new ArrayList<Custom_DCR_GV_Dr_Contents>();
                     stckList.clear();
                     while (mCursor.moveToNext()) {
-                        _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2),mCursor.getString(1),mCursor.getString(10),mCursor.getString(9),mCursor.getString(4),mCursor.getString(3),mCursor.getString(14),mCursor.getString(15));
+                        _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2),mCursor.getString(1),mCursor.getString(10),mCursor.getString(9),mCursor.getString(4),mCursor.getString(3),mCursor.getString(14),mCursor.getString(15),"","grey");
                         stckList.add(_custom_DCR_GV_Dr_Contents);
                     }
 
@@ -440,7 +440,7 @@ public class DCRSTKCallsSelection extends Fragment implements AdapterView.OnItem
                        Log.v("checking_sfcode_stck",SF_Code+"cluster"+mMydayWtypeCd);
                        Log.v("stocklist_count", String.valueOf(mCursor.getCount()));
                        while (mCursor.moveToNext()) {
-                           _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2),mCursor.getString(1),mCursor.getString(10),mCursor.getString(9),mCursor.getString(4),mCursor.getString(3),mCursor.getString(14),mCursor.getString(15));
+                           _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2),mCursor.getString(1),mCursor.getString(10),mCursor.getString(9),mCursor.getString(4),mCursor.getString(3),mCursor.getString(14),mCursor.getString(15),"","grey");
                            stckList.add(_custom_DCR_GV_Dr_Contents);
                        }
 

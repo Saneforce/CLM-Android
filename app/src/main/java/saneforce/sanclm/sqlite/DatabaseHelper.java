@@ -8,8 +8,8 @@ import saneforce.sanclm.sqlite.DataBaseHandler.*;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
 
-    public static final int DATABASE_VERSION = 13;
-    public static final String DATABASE_NAME = "Edetailing11.db";
+    public static final int DATABASE_VERSION = 15;
+    public static final String DATABASE_NAME = "Edetailingg.db";
     private static final String TEXT_TYPE = " TEXT";
     private static final String COMMA_SEP = ",";
 
@@ -460,6 +460,26 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             COMMA_SEP +
             TableEntry.COLUMN_FLOAT+ TEXT_TYPE +
             ")";
+
+    private static final String SQL_CREATE_CALLVSTDETAILSINGLE = "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.TABLE_CALLVSTDETAILS_single +" ("+
+            TableEntry.COLUMN_NAME+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_PERCENT+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_BARCLR+ TEXT_TYPE +
+            COMMA_SEP +
+            TableEntry.COLUMN_LBLCLR+ TEXT_TYPE +
+            ")";
+
+    private static final String SQL_CREATE_CALLVSTDETAILSGROUP = "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.TABLE_CALLVSTDETAILS_group +" ("+
+            TableEntry.COLUMN_NAME+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_PERCENT+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_BARCLR+ TEXT_TYPE +
+            COMMA_SEP +
+            TableEntry.COLUMN_LBLCLR+ TEXT_TYPE +
+            ")";
+
+
     private static final String SQL_CREATE_TOTAL_CALLS = "CREATE TABLE IF NOT EXISTS "+
             TableEntry.TABLE_TOTAL_CALLS +" ("+
             TableEntry.COLUMN_txt1+ TEXT_TYPE +COMMA_SEP +
@@ -490,6 +510,19 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             TableEntry.COLUMN_PLAN+ TEXT_TYPE +COMMA_SEP +
             TableEntry.COLUMN_ACTUAL+ TEXT_TYPE +
             ")";
+
+    private static final String SQL_CREATE_DRTP = "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.TABLE_DRTP +" ("+
+            TableEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
+            TableEntry.COLUMN_DOCTOR_CODE+ TEXT_TYPE +
+            ")";
+
+    private static final String SQL_CREATE_CHMTP = "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.TABLE_CHMTP +" ("+
+            TableEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
+            TableEntry.COLUMN_CHEMIST_CODE+ TEXT_TYPE +
+            ")";
+
 
     public DatabaseHelper(Context context)
     {
@@ -550,6 +583,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL(SQL_CREATE_TOTAL_CALLS);
         db.execSQL(SQL_CREATE_ACTIVITIES);
         db.execSQL(SQL_CREATE_SAMPLES);
+        db.execSQL(SQL_CREATE_DRTP);
+        db.execSQL(SQL_CREATE_CHMTP);
+        db.execSQL(SQL_CREATE_CALLVSTDETAILSINGLE);
+        db.execSQL(SQL_CREATE_CALLVSTDETAILSGROUP);
 
     }
 

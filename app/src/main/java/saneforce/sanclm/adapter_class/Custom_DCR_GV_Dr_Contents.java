@@ -8,7 +8,7 @@ public class Custom_DCR_GV_Dr_Contents {
     private String  mDocotrCategory;
     private String mDoctorTown;
     private String mDoctorTownCd;
-    private String max,tag,specCode;
+    private String max,tag,specCode,colorcode,color,colors;
 
     public Custom_DCR_GV_Dr_Contents(String mDoctorName, String mDoctorcode, String mDocotrSpeciality, String mDocotrCategory, String mDocotorTown, String mDocotorTownCd,String max,String tag) {
         this.mDoctorName = mDoctorName;
@@ -19,6 +19,29 @@ public class Custom_DCR_GV_Dr_Contents {
         this.mDoctorTownCd = mDocotorTownCd;
         this.max=max;
         this.tag=tag;
+
+    }
+
+    public String getColorcode() {
+        return colorcode;
+    }
+
+    public void setColorcode(String colorcode) {
+        this.colorcode = colorcode;
+    }
+
+    public Custom_DCR_GV_Dr_Contents(String mDoctorName, String mDoctorcode, String mDocotrSpeciality, String mDocotrCategory, String mDocotorTown, String mDocotorTownCd, String max, String tag, String colorcode, String color, String colors) {
+        this.mDoctorName = mDoctorName;
+        this.mDoctorcode = mDoctorcode;
+        this.mDocotrSpeciality = mDocotrSpeciality;
+        this.mDocotrCategory = mDocotrCategory;
+        this.mDoctorTown = mDocotorTown;
+        this.mDoctorTownCd = mDocotorTownCd;
+        this.max=max;
+        this.tag=tag;
+        this.colorcode=colorcode;
+        this.color=color;
+        this.colors=colors;
 
     }
     public Custom_DCR_GV_Dr_Contents(String mDoctorName, String mDoctorcode, String mDocotrSpeciality, String mDocotrCategory, String mDocotorTown, String mDocotorTownCd,String max,String tag,String specCode) {
@@ -33,7 +56,19 @@ public class Custom_DCR_GV_Dr_Contents {
         this.specCode=specCode;
 
     }
+    public Custom_DCR_GV_Dr_Contents(String mDoctorName, String mDoctorcode, String mDocotrSpeciality, String mDocotrCategory, String mDocotorTown, String mDocotorTownCd,String max,String tag,String specCode, String colorcode) {
+        this.mDoctorName = mDoctorName;
+        this.mDoctorcode = mDoctorcode;
+        this.mDocotrSpeciality = mDocotrSpeciality;
+        this.mDocotrCategory = mDocotrCategory;
+        this.mDoctorTown = mDocotorTown;
+        this.mDoctorTownCd = mDocotorTownCd;
+        this.max=max;
+        this.tag=tag;
+        this.specCode=specCode;
+        this.colorcode=colorcode;
 
+    }
     public String getSpecCode() {
         return specCode;
     }

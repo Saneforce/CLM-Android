@@ -79,6 +79,8 @@
         android:layout_below="@+id/l1_app_config">
 
     <EditText
+        android:selectAllOnFocus="true"
+        android:imeOptions="actionDone"
         android:id="@+id/et_searchDr"
         android:layout_width="match_parent"
         android:layout_height="46dp"
@@ -99,7 +101,6 @@
         android:textSize="14sp"
         android:windowSoftInputMode="stateAlwaysHidden">
 
-        <requestFocus />
     </EditText>
 
     <androidx.gridlayout.widget.GridLayout

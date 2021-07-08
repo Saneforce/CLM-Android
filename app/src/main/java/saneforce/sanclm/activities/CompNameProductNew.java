@@ -12,9 +12,6 @@ public class CompNameProductNew {
     String PName;
     String invqty;
 
-
-
-
     String ptp;
     String ptr;
     String sw;
@@ -22,6 +19,9 @@ public class CompNameProductNew {
     JSONArray feedback;
     String Fmessage;
     ArrayList<String> image;
+
+
+
 
 
     public ArrayList<String> getImage() {

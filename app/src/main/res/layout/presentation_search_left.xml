@@ -26,7 +26,8 @@
                     android:layout_weight="0.5"
                     android:gravity="center"
                     android:id="@+id/ll_txt">
-                    <TextView
+                     <TextView
+
                         android:id="@+id/tv_det_brdmatrix_set"
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"

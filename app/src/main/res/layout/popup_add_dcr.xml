@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="#DDDADA">
 
     <RelativeLayout
@@ -28,6 +28,12 @@
             android:layout_marginRight="8dp"
             android:id="@+id/img_close"/>
     </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlay_tool">
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -356,22 +362,23 @@
             </LinearLayout>
 
         </LinearLayout>
-
         <Button
+            android:layout_below="@+id/ll_btm_spin"
             android:layout_width="130dp"
             android:layout_height="40dp"
             android:text="@string/sv_prsn"
             android:background="#0427A8"
-            android:layout_below="@+id/ll_btm_spin"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="10dp"
             android:textColor="#ffffff"
             android:id="@+id/btn_save"
 
             />
-
-
     </RelativeLayout>
+
+    </ScrollView>
+
+
 
 
 </RelativeLayout>

@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -228,44 +229,77 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
                             tdayTP.enqueue(new Callback<ResponseBody>() {
                                 @Override
                                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                    InputStreamReader ip=null;
-                                    StringBuilder is=new StringBuilder();
-                                    String line=null;
+
                                     try {
-                                        ip = new InputStreamReader(response.body().byteStream());
-                                        BufferedReader bf = new BufferedReader(ip);
+                                        if(response.body()!=null) {
 
-                                        while ((line = bf.readLine()) != null) {
-                                            is.append(line);
+                                            InputStreamReader ip = null;
+                                            StringBuilder is = new StringBuilder();
+                                            String line = null;
+
+                                            ip = new InputStreamReader(response.body().byteStream());
+                                            BufferedReader bf = new BufferedReader(ip);
+
+                                            while ((line = bf.readLine()) != null) {
+                                                is.append(line);
+
+                                            }
+                                            JSONArray availArray = null;
+                                            JSONArray comArray = null;
+                                            JSONArray rcpaArray=null;
+                                            Log.v("printing_the_whole", is.toString() + " printing_type" + tdaycall.getVstTyp());
+                                            JSONObject jsonObject = new JSONObject(is.toString());
+                                            if (jsonObject.has("availability")) {
+                                                availArray = jsonObject.getJSONArray("availability");
+//
+                                            }
+                                            if (jsonObject.has("RCPAEntry")) {
+                                              rcpaArray = jsonObject.getJSONArray("RCPAEntry");
+                                                for (int i = 0; i < rcpaArray.length(); i++) {
+                                                    JSONObject rcpaobject = rcpaArray.getJSONObject(i);
+                                                    comArray = rcpaobject.getJSONArray("Competitors");
+
+                                                }
+//
+                                            }
+
+                                            JSONObject object = new JSONObject();
+                                            object.put("availability", availArray);
+                                            mCommonSharedPreference.setValueToPreference("availjson", String.valueOf(object));
+
+                                            JSONArray jsonArray = new JSONArray();
+                                            jsonArray.put(comArray);
+                                            JSONObject competitor = new JSONObject();
+                                            competitor.put("Competitors", String.valueOf(jsonArray));
+                                            mCommonSharedPreference.setValueToPreference("jsonarray", String.valueOf(rcpaArray));
+
+                                            SharedPreferences share = context.getSharedPreferences("feed_list", 0);
+                                            SharedPreferences.Editor edit = share.edit();
+                                            edit.putString("name", tdaycall.getDrName());
+                                            edit.putString("time", "00:00:00");
+                                            edit.putString("val", is.toString());
+                                            edit.putInt("columnid", -1);
+                                            if (tdaycall.getVstTyp().equalsIgnoreCase("1"))
+                                                edit.putString("type", "D");
+                                            else if (tdaycall.getVstTyp().equalsIgnoreCase("2"))
+                                                edit.putString("type", "C");
+                                            else if (tdaycall.getVstTyp().equalsIgnoreCase("4"))
+                                                edit.putString("type", "U");
+                                            else if (tdaycall.getVstTyp().equalsIgnoreCase("6"))
+                                                edit.putString("type", "I");
+                                            else
+                                                edit.putString("type", "S");
+                                            edit.putString("common", SF_Code);
+                                            edit.putString("code", tdaycall.getDrCode());
+                                            edit.commit();
+                                            Intent i = new Intent(context, FeedbackActivity.class);
+                                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            i.putExtra("feedpage", "edit");
+                                            i.putExtra("custype", tdaycall.getVstTyp());
+                                            context.startActivity(i);
                                         }
-                                        Log.v("printing_the_whole",is.toString()+" printing_type"+tdaycall.getVstTyp());
-
-                                        SharedPreferences share=context.getSharedPreferences("feed_list",0);
-                                        SharedPreferences.Editor edit=share.edit();
-                                        edit.putString("name",tdaycall.getDrName());
-                                        edit.putString("time","00:00:00");
-                                        edit.putString("val",is.toString());
-                                        edit.putInt("columnid",-1);
-                                        if(tdaycall.getVstTyp().equalsIgnoreCase("1"))
-                                        edit.putString("type","D");
-                                        else if(tdaycall.getVstTyp().equalsIgnoreCase("2"))
-                                            edit.putString("type","C");
-                                        else if(tdaycall.getVstTyp().equalsIgnoreCase("4"))
-                                            edit.putString("type","U");
-                                        else if(tdaycall.getVstTyp().equalsIgnoreCase("6"))
-                                            edit.putString("type","I");
-                                        else
-                                            edit.putString("type","S");
-                                        edit.putString("common",SF_Code);
-                                        edit.putString("code",tdaycall.getDrCode());
-                                        edit.commit();
-                                        Intent i=new Intent(context, FeedbackActivity.class);
-                                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        i.putExtra("feedpage","edit");
-                                        i.putExtra("custype",tdaycall.getVstTyp());
-                                        context.startActivity(i);
-
                                     }catch (Exception e){
+                                        Log.v("error>>",e.getMessage());
 
                                     }
                                 }
@@ -277,6 +311,7 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
                             });
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            Log.v("error>>",e.getMessage());
                         }
 
 

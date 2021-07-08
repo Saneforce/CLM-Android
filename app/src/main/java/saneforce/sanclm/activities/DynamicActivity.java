@@ -59,6 +59,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import id.zelory.compressor.Compressor;
+import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -537,6 +538,7 @@ public class DynamicActivity extends AppCompatActivity {
 
 
                         } catch (Exception e) {
+
                         }
 
                     }
@@ -544,11 +546,12 @@ public class DynamicActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                 progressDialog.dismiss();
                 }
             });
 
         } catch (Exception e) {
+
         }
 
     }
@@ -556,6 +559,8 @@ public class DynamicActivity extends AppCompatActivity {
     public void callsave(String json) {
 
         try {
+            progressDialog.dismiss();
+
 
             Call<ResponseBody> approval = apiService.svdcrAct(json);
 
@@ -593,6 +598,8 @@ public class DynamicActivity extends AppCompatActivity {
 
 
                         } catch (Exception e) {
+//                            Log.v("saveerror>>",e.getMessage());
+//                            Toast.makeText(context, "saving failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -600,11 +607,14 @@ public class DynamicActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    progressDialog.dismiss();
 
                 }
             });
 
         } catch (Exception e) {
+//            Log.v("saveerror>>",e.getMessage());
+//            Toast.makeText(context, "saving failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -868,21 +878,26 @@ public class DynamicActivity extends AppCompatActivity {
     public MultipartBody.Part convertimg(String tag, String path) {
         MultipartBody.Part yy = null;
         Log.v("full_profile", path);
+        MultipartBody.Part body = null;
         try {
             if (!TextUtils.isEmpty(path)) {
+                File file1 = new File(path);
+                RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file1);
+                body = MultipartBody.Part.createFormData("photo", file1.getName(), requestFile);
 
-                File file = new File(path);
-                if (path.contains(".png") || path.contains(".jpg") || path.contains(".jpeg"))
-                    file = new Compressor(getApplicationContext()).compressToFile(new File(path));
-                else
-                    file = new File(path);
-                RequestBody requestBody = RequestBody.create(MultipartBody.FORM, file);
-                yy = MultipartBody.Part.createFormData(tag, file.getName(), requestBody);
+
+//                File file = new File(path);
+//                if (path.contains(".png") || path.contains(".jpg") || path.contains(".jpeg"))
+//                    file = new Compressor(getApplicationContext()).compressToFile(new File(path));
+//                else
+//                    file = new File(path);
+//                RequestBody requestBody = RequestBody.create(MultipartBody.FORM, file);
+//                yy = MultipartBody.Part.createFormData(tag, file.getName(), requestBody);
             }
         } catch (Exception e) {
         }
         Log.v("full_profile", yy + "");
-        return yy;
+        return body;
     }
 
     public HashMap<String, RequestBody> field(String val) {
@@ -898,9 +913,11 @@ public class DynamicActivity extends AppCompatActivity {
     }
 
     public void CallApiImage(HashMap<String, RequestBody> values, MultipartBody.Part imgg, final int x) {
+        progressDialog.dismiss();
         Call<ResponseBody> Callto;
 
         Callto = apiService.uploadimg(values, imgg);
+        Log.v("image>>", String.valueOf(imgg));
 
         Callto.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -934,12 +951,14 @@ public class DynamicActivity extends AppCompatActivity {
 
 
                 } catch (Exception e) {
+
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.v("print_failure", "ggg" + t.getMessage());
+
+                progressDialog.dismiss();
             }
         });
     }
@@ -1037,6 +1056,7 @@ public class DynamicActivity extends AppCompatActivity {
             try {
                 finaljs.put("val", ja);
                 Log.v("printing_json_dynamic", finaljs.toString());
+
                 callsave(finaljs.toString());
             } catch (JSONException e) {
                 e.printStackTrace();

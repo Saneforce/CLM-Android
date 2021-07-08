@@ -63,7 +63,7 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
         holder.Reference = position;
 
 
-        if(availchecks.get(position).isIsoos()==true){
+        if(mFilterresult.get(position).isIsoos()==true){
 
             holder.oos.setBackgroundResource(R.drawable.rectangle_red);
             holder.oos.setTextColor(Color.WHITE);
@@ -75,26 +75,31 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
             holder.textView2.setTextColor(Color.parseColor("#F10505"));
         }
 
-        else  if(availchecks.get(position).isAvailis()==true){
+        else  if(mFilterresult.get(position).isAvailis()==true){
             holder.avail.setBackgroundResource(R.drawable.rectangle_green);
             holder.avail.setTextColor(Color.WHITE);
             holder.oos.setBackgroundResource(R.drawable.rectangle);
             holder.oos.setTextColor(Color.BLACK);
             holder.view.setVisibility(View.VISIBLE);
             holder.textView2.setTextColor(Color.parseColor("#228B22"));
+            holder.checkBox.setChecked(true);
+            holder.stock_et.setEnabled(true);
+
         }
         else{
+            holder.stock_et.setEnabled(false);
             holder.avail.setBackgroundResource(R.drawable.rectangle);
             holder.avail.setTextColor(Color.BLACK);
             holder.view.setVisibility(View.GONE);
             holder.textView2.setTextColor(Color.parseColor("#3F51B5"));
+            holder.checkBox.setChecked(true);
 
         }
 
       holder.textView1.setText(mFilterresult.get(position).getCode());
       holder.textView2.setText(mFilterresult.get(position).getName());
-      holder.checkBox.setChecked(availchecks.get(position).isAvailis()||availchecks.get(position).isIsoos());
-        holder.stock_et.setText(availchecks.get(position).getQuantity());
+      holder.checkBox.setChecked(mFilterresult.get(position).isAvailis()||mFilterresult.get(position).isIsoos());
+        holder.stock_et.setText(mFilterresult.get(position).getQuantity());
 
         holder.stock_et.addTextChangedListener(new TextWatcher() {
             @Override
@@ -109,7 +114,7 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
 
             @Override
             public void afterTextChanged(Editable s) {
-                availchecks.get(holder.Reference).setQuantity(s.toString());
+                mFilterresult.get(holder.Reference).setQuantity(s.toString());
 
 
             }
@@ -120,8 +125,8 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
           @Override
           public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
               if(isChecked){
-                  availchecks.get(position).setIsoos(true);
-                  availchecks.get(position).setAvailis(false);
+                  mFilterresult.get(position).setIsoos(true);
+                  mFilterresult.get(position).setAvailis(false);
                   holder.oos.setBackgroundResource(R.drawable.rectangle_red);
                   holder.oos.setTextColor(Color.WHITE);
                   holder.avail.setBackgroundResource(R.drawable.rectangle);
@@ -133,11 +138,11 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
                   holder.textView2.setTextColor(Color.parseColor("#F10505"));
 
               }else {
-                  availchecks.get(position).setIsoos(false);
-                  availchecks.get(position).setAvailis(false);
+                  mFilterresult.get(position).setIsoos(false);
+                  mFilterresult.get(position).setAvailis(false);
                   holder.oos.setBackgroundResource(R.drawable.rectangle);
                   holder.oos.setTextColor(Color.BLACK);
-                  holder.stock_et.setEnabled(true);
+                  holder.stock_et.setEnabled(false);
                   holder.checkBox.setChecked(false);
                   holder.view.setVisibility(View.GONE);
                   holder.textView2.setTextColor(Color.parseColor("#3F51B5"));
@@ -148,8 +153,8 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    availchecks.get(position).setAvailis(true);
-                    availchecks.get(position).setIsoos(false);
+                    mFilterresult.get(position).setAvailis(true);
+                    mFilterresult.get(position).setIsoos(false);
                     holder.avail.setBackgroundResource(R.drawable.rectangle_green);
                     holder.avail.setTextColor(Color.WHITE);
                     holder.oos.setBackgroundResource(R.drawable.rectangle);
@@ -160,11 +165,13 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
                     holder.textView2.setTextColor(Color.parseColor("#228B22"));
 
                 }else {
-                    availchecks.get(position).setAvailis(false);
-                    availchecks.get(position).setIsoos(false);
+                    mFilterresult.get(position).setAvailis(false);
+                    mFilterresult.get(position).setIsoos(false);
                     holder.avail.setBackgroundResource(R.drawable.rectangle);
                     holder.avail.setTextColor(Color.BLACK);
                     holder.checkBox.setChecked(false);
+                    holder.stock_et.setEnabled(false);
+                    holder.stock_et.setText("0");
                     holder.view.setVisibility(View.GONE);
                     holder.textView2.setTextColor(Color.parseColor("#3F51B5"));
 

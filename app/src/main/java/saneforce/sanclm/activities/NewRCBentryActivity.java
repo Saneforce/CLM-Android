@@ -51,7 +51,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import id.zelory.compressor.Compressor;
+import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -89,7 +89,7 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
     ListView list_comp, listView_feed_call, listview_audit_list;
     ArrayList<String> list = new ArrayList<>();
     ArrayList<CompNameProductNew> listComp = new ArrayList<CompNameProductNew>();
-    ArrayList<CompNameProduct> full_list_prd = new ArrayList<>();
+    ArrayList<CompNameProductNew> full_list_prd = new ArrayList<>();
     ArrayList<PopFeed> chem_select_list = new ArrayList<>();
     ArrayList<SlideDetail> prd_list = new ArrayList<>();
     ArrayList<String> prd_list_rate = new ArrayList<>();
@@ -180,11 +180,17 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
         if (extra != null) {
             String yy = extra.getString("json_val");
             dr_name.setText(extra.getString("name"));
-           jsonExtractionnew(yy);
-            jsonExtraction(yy);
+        // jsonExtractionnew(yy);
+           jsonExtraction(yy);
             Log.e("Doc_Name", extra.getString("name"));
             Log.v("extract_it_print", "ing_inside" + yy);
             Log.e("json_val", extra.getString("json_val"));
+            addBrandValues();
+
+        }else{
+
+
+            dr_name.setText(mCommonSharedPreference.getValueFromPreference("drName"));
 
         }
 
@@ -194,9 +200,8 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
 //        Log.e("Doc_Name_edt", getIntent().getSerializableExtra("name").toString());
 
 
-        else {
-            dr_name.setText(mCommonSharedPreference.getValueFromPreference("drName"));
-        }
+//        else {
+//        }
 
 /*
         new Handler().postDelayed(new Runnable() {
@@ -226,39 +231,25 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
         save_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(brandList.size()>0){
-                    addBrandValue();
+//                if(brandList.size()>0){
+//                    addBrandValue();
+//
+//                }
 
-                }
-
-               else if (brandList.size()==0&&chem_select_list.size() < 1) {
+              if (chem_select_list.size() < 1&&brandList.size()==0) {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.sclt_chmnm), Toast.LENGTH_LONG).show();
 
-                } else if (brandList.size()==0&&edt_search_brd.getText().toString().isEmpty()) {
+                } else if (edt_search_brd.getText().toString().isEmpty()&&brandList.size()==0) {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.sclt_prdnm), Toast.LENGTH_LONG).show();
 
-                } else if (brandList.size()==0&&edt_qty.getText().toString().isEmpty()) {
+                } else if (edt_qty.getText().toString().isEmpty()&&brandList.size()==0) {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.scltprdqty), Toast.LENGTH_LONG).show();
 
                 }
-//                else if(TextUtils.isEmpty(competitorName) || competitorName.equals("")||competitorName.equalsIgnoreCase("null"))
-//                {
-//                    Toast.makeText(getApplicationContext(),"Select Competitor Company Name ",Toast.LENGTH_LONG).show();
-//                } else if(competitorBrand.isEmpty())
-//                {
-//                    Toast.makeText(getApplicationContext(),"Select Competitor Brand Name ",Toast.LENGTH_LONG).show();
-//                }else if(competitorQnty.isEmpty())
-//                {
-//                    Toast.makeText(getApplicationContext(),"Enter Competitor Qty Details ",Toast.LENGTH_LONG).show();
-//                }
+
                 else {
                     addBrandValue();
-//                     jsonSave();
-//
-//                    Intent i = new Intent(BrandAuditActivity.this, FeedbackActivity.class);
-//                    setResult(6, i);
-//
-//                    finish();
+
                 }
 
             }
@@ -270,6 +261,8 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
             public void onClick(View view) {
 
                 addBrandValues();
+                listComp.clear();
+
 
 
             }
@@ -390,6 +383,8 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
             for(int i=0;i<jsonArray.length();i++){
                 JSONObject jsonObject=jsonArray.getJSONObject(i);
                 JSONArray array=jsonObject.getJSONArray("Competitors");
+                JSONArray jchem = jsonObject.getJSONArray("Chemists");
+
                 for(int j=0;j<array.length();j++){
                     JSONObject object=array.getJSONObject(j);
                     ModelBrandAuditList modelBrandAuditList=new ModelBrandAuditList(jsonObject.getString("OPName"),object.getString("CompName"),object.getString("CompPName"),
@@ -404,11 +399,36 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
                                         }
 
 
+
                 }
+
+
                 AdapterBrandAuditList2 adapter=new   AdapterBrandAuditList2(NewRCBentryActivity.this,brandList);
                 listview_audit_list.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
+
+                chem_select_list.clear();
+                for (int k = 0; k < jchem.length(); k++) {
+                    Log.v("model_brand_audi",jsonObject.getString("OPName"));
+
+                    JSONObject jsonchem = jchem.getJSONObject(k);
+                    chem_select_list.add(new PopFeed(jsonchem.getString("Name"), false, jsonchem.getString("Code")));
+                }
+                JSONObject jsonnn = new JSONObject();
+                jsonnn.put("Chemists", jchem);
+                choosenBrandList.add(new ModelBrandAuditList( "",jsonObject.getString("OPName"), jsonObject.getString("OPQty"), jsonObject.getString("OPptp"), jsonObject.getString("OPptr"), jsonObject.getString("CSw"), jsonObject.getString("CRx"), "1", jsonnn.toString()));
+
+
+
+
             }
+
+
+
+            feedCallJoinAdapter = new FeedCallJoinAdapter(NewRCBentryActivity.this, chem_select_list, true);
+            listView_feed_call.setAdapter(feedCallJoinAdapter);
+            feedCallJoinAdapter.notifyDataSetChanged();
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -521,6 +541,10 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
                 prd_rate = Float.parseFloat(prd_list_rate.get(i));
                 prdEnterCode = list.get(i).getIqty();
                 edt_qty.setText("");
+                edt_rate.setText("");
+                edt_rx.setText("");
+                edt_sw.setText("");
+                edt_val.setText("");
                 dialog.dismiss();
                 commonFun();
                 listComp.clear();
@@ -576,16 +600,23 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
 
     public void callCompAdapter() {
         full_list_prd.clear();
-        full_list_prd.add(new CompNameProduct("", "", false, "", "", "", "", "", ""));
-        full_list_prd.add(new CompNameProduct("", "", false, "", "", "", "", "", ""));
-        full_list_prd.add(new CompNameProduct("", "", false, "", "", "", "", "", ""));
-        full_list_prd.add(new CompNameProduct("", "", false, "", "", "", "", "", ""));
-        full_list_prd.add(new CompNameProduct("", "", false, "", "", "", "", "", ""));
-        full_list_prd.add(new CompNameProduct("", "", false, "", "", "", "", "", ""));
-        full_list_prd.add(new CompNameProduct("", "", false, "", "", "", "", "", ""));
+        CompNameProductNew compNameProductNew = new CompNameProductNew();
+
+        compNameProductNew.setCcode("");
+        compNameProductNew.setCName("");
+        compNameProductNew.setPCode("");
+        compNameProductNew.setPName("");
+        compNameProductNew.setInvqty("");
+        compNameProductNew.setPtp("");
+        compNameProductNew.setPtr("");
+        compNameProductNew.setSw("");
+        compNameProductNew.setRx("");
+        compNameProductNew.setFeedback(new JSONArray());
+        compNameProductNew.setFmessage("");
+        full_list_prd.add(compNameProductNew);
 
 
-        adapterBrandAuditComp = new AdapterBrandAuditComp2(NewRCBentryActivity.this, listComp);
+        adapterBrandAuditComp = new AdapterBrandAuditComp2(full_list_prd,NewRCBentryActivity.this, listComp,this);
         list_comp.setAdapter(adapterBrandAuditComp);
         // list_comp.setEmptyView(findViewById(R.id.list_comp));
         adapterBrandAuditComp.notifyDataSetChanged();
@@ -602,8 +633,20 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
     }
 
     public void addSingleCompAdapter() {
-        full_list_prd.add(new CompNameProduct("", "", false, "", "", "", "", "", ""));
-        adapterBrandAuditComp = new AdapterBrandAuditComp2(NewRCBentryActivity.this, listComp);
+        CompNameProductNew compNameProductNew = new CompNameProductNew();
+        compNameProductNew.setCcode("");
+        compNameProductNew.setCName("");
+        compNameProductNew.setPCode("");
+        compNameProductNew.setPName("");
+        compNameProductNew.setInvqty("");
+        compNameProductNew.setPtp("");
+        compNameProductNew.setPtr("");
+        compNameProductNew.setSw("");
+        compNameProductNew.setRx("");
+        compNameProductNew.setFeedback(new JSONArray());
+        compNameProductNew.setFmessage("");
+        full_list_prd.add(compNameProductNew);
+        adapterBrandAuditComp = new AdapterBrandAuditComp2(full_list_prd,NewRCBentryActivity.this, listComp,this);
         list_comp.setAdapter(adapterBrandAuditComp);
         adapterBrandAuditComp.notifyDataSetChanged();
     }
@@ -627,50 +670,57 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
 
             for (int k = 0; k < choosenBrandList.size(); k++) {
 
+
                 Log.v("choosenBrandList", String.valueOf(choosenBrandList.size()));
                 chemObj = new JSONObject();
                 ModelBrandAuditList ll = choosenBrandList.get(k);
                 chemObj = new JSONObject(ll.getJsonChem());
-                Log.v("chem_obj_inside", String.valueOf(chemObj));
-                chemObj.put("OPCode", ll.getCompPcode());
-                chemObj.put("OPName", ll.getComName());
-                chemObj.put("OPQty", ll.getQty());
-                chemObj.put("OPptp", ll.getRate());
-                chemObj.put("OPptr", ll.getVal());
-                chemObj.put("OPsw", ll.getSw());
-                chemObj.put("OPrx", ll.getRx());
-                Log.v("choosenBrandjson", String.valueOf(chemObj));
-                for (int i = 0; i < brandList.size(); i++) {
 
-                    ModelBrandAuditList mm = brandList.get(i);
-                    if (ll.getComName().equals(mm.getPrName())) {
-                        jsonObject = new JSONObject();
-                        jsonObject.put("CSw", mm.getSw());
-                        jsonObject.put("CRx", mm.getRx());
-                        jsonObject.put("CPQty", mm.getQty());
-                        jsonObject.put("CPptp", mm.getRate());
-                        jsonObject.put("CPptr", mm.getVal());
-                        jsonObject.put("CompCode", mm.getCompCode());
-                        jsonObject.put("CompName", mm.getComName());
-                        jsonObject.put("CompPCode", mm.getCompPcode());
-                        jsonObject.put("CompPName", mm.getComPrdName());
-                        jsonObject.put("feedback",mm.getFeedback());
-                        Log.v("choosenBrandprd", String.valueOf(jsonObject));
-                    } else {
-                        continue;
+
+                Log.v("chem_obj_inside", String.valueOf(chemObj));
+
+                    chemObj.put("OPCode", ll.getCompPcode());
+                    chemObj.put("OPName", ll.getComName());
+                    chemObj.put("OPQty", ll.getQty());
+                    chemObj.put("OPptp", ll.getRate());
+                    chemObj.put("OPptr", ll.getVal());
+                    chemObj.put("OPsw", ll.getSw());
+                    chemObj.put("OPrx", ll.getRx());
+                    Log.v("choosenBrandjson", String.valueOf(chemObj));
+                    for (int i = 0; i < brandList.size(); i++) {
+
+                        ModelBrandAuditList mm = brandList.get(i);
+                        if (ll.getComName().equals(mm.getPrName())) {
+                            jsonObject = new JSONObject();
+                            jsonObject.put("CSw", mm.getSw());
+                            jsonObject.put("CRx", mm.getRx());
+                            jsonObject.put("CPQty", mm.getQty());
+                            jsonObject.put("CPptp", mm.getRate());
+                            jsonObject.put("CPptr", mm.getVal());
+                            jsonObject.put("CompCode", mm.getCompCode());
+                            jsonObject.put("CompName", mm.getComName());
+                            jsonObject.put("CompPCode", mm.getCompPcode());
+                            jsonObject.put("CompPName", mm.getComPrdName());
+                            jsonObject.put("feedback", mm.getFeedback());
+                            Log.v("choosenBrandprd", String.valueOf(jsonObject));
+
+                        } else {
+                            continue;
+
+                        }
+                        MainchemArr.put(jsonObject);
 
                     }
-                    MainchemArr.put(jsonObject);
+
+                    chemObj.put("Competitors", MainchemArr);
+                    MainchemArr = new JSONArray();
+
+//                chemObj.put("FeedbackData",adapterBrandAuditComp.feedbackdata());
+                    chemArr.put(chemObj);
 
                 }
 
-                chemObj.put("Competitors", MainchemArr);
 
-//                chemObj.put("FeedbackData",adapterBrandAuditComp.feedbackdata());
-                chemArr.put(chemObj);
-
-
-            }
             Log.v("Printing_comp_prd", String.valueOf(chemArr));
             mCommonSharedPreference.setValueToPreference("jsonarray", String.valueOf(chemArr));
 
@@ -683,47 +733,67 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
     public void jsonExtraction(String jsonVal) {
 
         try {
-            JSONArray jsonArray = new JSONArray(jsonVal);
-            Log.v("json_array_turn", String.valueOf(jsonArray));
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jobj = jsonArray.getJSONObject(i);
-                JSONArray jarr = jobj.getJSONArray("Competitors");
+            JSONArray jsonArray=new JSONArray(jsonVal);
+            Log.v("json_array_turn", String.valueOf(jsonArray.length()));
 
-                for (int j = 0; j < jarr.length(); j++) {
-                    JSONObject jobj1 = jarr.getJSONObject(j);
+            for(int i=0;i<jsonArray.length();i++){
+                JSONObject jsonObject=jsonArray.getJSONObject(i);
+                String opname=jsonObject.getString("OPName");
+                JSONArray jchem = jsonObject.getJSONArray("Chemists");
+                JSONArray carray=jsonObject.getJSONArray("Competitors");
+                for(int j=0; j< carray.length(); j++) {
+
+                    JSONObject object = carray.getJSONObject(j);
+                    String opname1=jsonObject.getString("OPName");
 
 
+                    if (finalProduct.contains(object.getString("CompPName"))) {
 
-//                    if (finalProduct.contains(jobj1.getString("CompName"))) {
-//                    } else
-//                        brandList.add(new ModelBrandAuditList(jobj.getString("OPName"), jobj1.getString("CompName"), jobj1.getString("CompPName"), jobj1.getString("CPQty"), jobj1.getString("CPptp"), jobj1.getString("CPptr"), jobj1.getString("CSw"), jobj1.getString("CRx"), jobj1.getString("CompCode"), jobj1.getString("CompPCode"),jobj1.getJSONArray("feedback")));
-//                    finalProduct += jobj1.getString("CompName");
+                    } else {
 
-//                        brandList.add(new ModelBrandAuditList(jobj.getString("OPName"), jobj1.getString("CompName"), jobj1.getString("CompPName"), jobj1.getString("CPQty"), jobj1.getString("CPptp"), jobj1.getString("CPptr"), jobj1.getString("CSw"), jobj1.getString("CRx"), jobj1.getString("CompCode"), jobj1.getString("CompPCode"),jobj1.getJSONArray("feedback")));
-//                    finalProduct += jobj1.getString("CompName");
+                        ModelBrandAuditList modelBrandAuditList=new ModelBrandAuditList(opname,object.getString("CompName"),object.getString("CompPName")
+                                ,object.getString("CPQty"),object.getString("CPptp"),object.getString("CPptr"),object.getString("CRx"),object.getString("CSw"),
+                                object.getString("CompCode"),object.getString("CompPCode"), object.getJSONArray("feedback"));
 
+
+                        brandList.add(modelBrandAuditList);
+                        finalProduct += object.getString("CompPName");
+
+                    }
                 }
 
-                JSONArray jchem = jobj.getJSONArray("Chemists");
+                AdapterBrandAuditList2 adp = new AdapterBrandAuditList2(NewRCBentryActivity.this, brandList);
+                listview_audit_list.setAdapter(adp);
+                adp.notifyDataSetChanged();
+
                 chem_select_list.clear();
                 for (int k = 0; k < jchem.length(); k++) {
+                    Log.v("model_brand_audi",jsonObject.getString("OPName"));
+
                     JSONObject jsonchem = jchem.getJSONObject(k);
                     chem_select_list.add(new PopFeed(jsonchem.getString("Name"), false, jsonchem.getString("Code")));
                 }
                 JSONObject jsonnn = new JSONObject();
                 jsonnn.put("Chemists", jchem);
-                //Log.v("model_brand_audi",jobj.getString("OPCode"));
-                choosenBrandList.add(new ModelBrandAuditList("", jobj.getString("OPName"), jobj.getString("OPQty"), jobj.getString("OPptp"), jobj.getString("OPptr"), jobj.getString("CSw"), jobj.getString("CRx"), "1", jsonnn.toString()));
+                choosenBrandList.add(new ModelBrandAuditList( "",opname, jsonObject.getString("OPQty"), jsonObject.getString("OPptp"), jsonObject.getString("OPptr"), jsonObject.getString("OPsw"), jsonObject.getString("OPrx"), "1", jsonnn.toString()));
+
+
+
+
+
+
+
 
             }
 
-            AdapterBrandAuditList2 adp = new AdapterBrandAuditList2(NewRCBentryActivity.this, brandList);
-            listview_audit_list.setAdapter(adp);
-            adp.notifyDataSetChanged();
+
+
 
             feedCallJoinAdapter = new FeedCallJoinAdapter(NewRCBentryActivity.this, chem_select_list, true);
             listView_feed_call.setAdapter(feedCallJoinAdapter);
             feedCallJoinAdapter.notifyDataSetChanged();
+
+
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -735,9 +805,13 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
         for (int i = 0; i < AdapterBrandAuditComp2.list_prd1.size(); i++) {
             CompNameProductNew mm = AdapterBrandAuditComp2.list_prd1.get(i);
 
-            if (!TextUtils.isEmpty(mm.getCName()) && !TextUtils.isEmpty(mm.getPName()) && !TextUtils.isEmpty(mm.getInvqty())) {
-                Log.v("CompanyName", mm.getCName() + " edit_val " + edt_search_brd.getText().toString() + " chosenprd " + mm.getPName() + " compcod " + mm.getCcode() + " pcode " + mm.getPCode());
-                brandList.add(new ModelBrandAuditList(edt_search_brd.getText().toString(), mm.getCName(), mm.getPName(), mm.getInvqty(), mm.getPtp(), mm.getPtr(), mm.getSw(), mm.getRx(), mm.getCcode(), mm.getPCode(),mm.getFeedback()));
+
+            if (!TextUtils.isEmpty(mm.getInvqty())) {
+
+
+                    Log.v("CompanyName", mm.getCName() + " edit_val " + edt_search_brd.getText().toString() + " chosenprd " + mm.getPName() + " compcod " + mm.getCcode() + " pcode " + mm.getPCode());
+                    brandList.add(new ModelBrandAuditList(edt_search_brd.getText().toString(), mm.getCName(), mm.getPName(), mm.getInvqty(), mm.getPtp(), mm.getPtr(), mm.getSw(), mm.getRx(), mm.getCcode(), mm.getPCode(), mm.getFeedback()));
+
             }
         }
         Log.v("brandsize", String.valueOf(brandList.size()));
@@ -761,36 +835,41 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        choosenBrandList.add(new ModelBrandAuditList("", edt_search_brd.getText().toString(), edt_qty.getText().toString(), edt_rate.getText().toString(), edt_val.getText().toString(), edt_sw.getText().toString(), edt_rx.getText().toString(), prdEnterCode, chemlist.toString()));
+        choosenBrandList.add(new ModelBrandAuditList(edt_search_brd.getText().toString(), edt_search_brd.getText().toString(), edt_qty.getText().toString(), edt_rate.getText().toString(), edt_val.getText().toString(), edt_sw.getText().toString(), edt_rx.getText().toString(), prdEnterCode, chemlist.toString()));
 
         Log.v("brandsize", String.valueOf(choosenBrandList.size()));
 
-//        if(brandList.size()<1)
-//        {
-//            Toast.makeText(getApplicationContext(),"Select Competitor Details ",Toast.LENGTH_LONG).show();
-//            return;
-//        }  else {
-        jsonSave();
 
-        Intent i = new Intent(NewRCBentryActivity.this, FeedbackActivity.class);
-        i.putExtra("custype","0");
-        setResult(6, i);
 
-        finish();
-        //  }
+        AdapterBrandAuditList2 adp = new AdapterBrandAuditList2(NewRCBentryActivity.this, brandList);
+        listview_audit_list.setAdapter(adp);
+        adp.notifyDataSetChanged();
+
+        if (brandList.size() < 1) {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.sclt_compdetl), Toast.LENGTH_LONG).show();
+            return;
+        } else {
+            jsonSave();
+
+            Intent i = new Intent(NewRCBentryActivity.this, FeedbackActivity.class);
+            i.putExtra("custype", "0");
+            setResult(6, i);
+
+            finish();
+        }
+
+
+
 
         edt_search_brd.setText("");
         edt_qty.setText("");
         edt_rate.setText("");
         edt_val.setText("");
         edt_sw.setText("");
-       edt_rx.setText("");
-
+        edt_rx.setText("");
         callCompAdapter();
 
-        AdapterBrandAuditList2 adp = new AdapterBrandAuditList2(NewRCBentryActivity.this, brandList);
-        listview_audit_list.setAdapter(adp);
-        adp.notifyDataSetChanged();
+
     }
 
     public void addBrandValues() {
@@ -798,9 +877,15 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
         for (int i = 0; i < AdapterBrandAuditComp2.list_prd1.size(); i++) {
             CompNameProductNew mm = AdapterBrandAuditComp2.list_prd1.get(i);
 
-            if (!TextUtils.isEmpty(mm.getInvqty())) {
-                Log.v("CompanyName", mm.getCName() + " edit_val " + edt_search_brd.getText().toString() + " chosenprd " + mm.getPName() + " compcod " + mm.getCcode() + " pcode " + mm.getPCode());
-                brandList.add(new ModelBrandAuditList(edt_search_brd.getText().toString(), mm.getCName(), mm.getPName(), mm.getInvqty(), mm.getPtp(), mm.getPtr(), mm.getSw(), mm.getRx(), mm.getCcode(), mm.getPCode(),mm.getFeedback()));
+            if (!TextUtils.isEmpty(mm.getCName()) && !TextUtils.isEmpty(mm.getPName()) && !TextUtils.isEmpty(mm.getInvqty())) {
+                if (finalProduct.contains(mm.getPName() )) {
+                } else {
+                    finalProduct += mm.getPName();
+
+
+                    Log.v("CompanyName", mm.getCName() + " edit_val " + edt_search_brd.getText().toString() + " chosenprd " + mm.getPName() + " compcod " + mm.getCcode() + " pcode " + mm.getPCode());
+                    brandList.add(new ModelBrandAuditList(edt_search_brd.getText().toString(), mm.getCName(), mm.getPName(), mm.getInvqty(), mm.getPtp(), mm.getPtr(), mm.getSw(), mm.getRx(), mm.getCcode(), mm.getPCode(), mm.getFeedback()));
+                }
             }
         }
         Log.v("brandsize", String.valueOf(brandList));
@@ -823,9 +908,10 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        choosenBrandList.add(new ModelBrandAuditList("", edt_search_brd.getText().toString(), edt_qty.getText().toString(), edt_rate.getText().toString(), edt_val.getText().toString(), edt_sw.getText().toString(), edt_rx.getText().toString(), prdEnterCode, chemlist.toString()));
+        choosenBrandList.add(new ModelBrandAuditList( edt_search_brd.getText().toString(),edt_search_brd.getText().toString(), edt_qty.getText().toString(), edt_rate.getText().toString(), edt_val.getText().toString(), edt_sw.getText().toString(), edt_rx.getText().toString(), prdEnterCode, chemlist.toString()));
 
         Log.v("brandsize", String.valueOf(choosenBrandList.size()));
+
 
         edt_search_brd.setText("");
         edt_qty.setText("");
@@ -833,12 +919,13 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
         edt_val.setText("");
         edt_rx.setText("");
         edt_sw.setText("");
-        listComp.clear();
         callCompAdapter();
 
         AdapterBrandAuditList2 adp = new AdapterBrandAuditList2(NewRCBentryActivity.this, brandList);
         listview_audit_list.setAdapter(adp);
         adp.notifyDataSetChanged();
+
+
     }
 
 
@@ -962,10 +1049,12 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
         Spinner spinner;
         ArrayList<String> myList;
         EditText editTextfeedback;
-
-        public AdapterBrandAuditComp2(Activity context, ArrayList<CompNameProductNew> list_prd1) {
+        public static ArrayList<CompNameProductNew> full_list_prd;
+        public AdapterBrandAuditComp2(ArrayList<CompNameProductNew> full_list_prd, Activity context, ArrayList<CompNameProductNew> list_prd1, DataInterface dataInterface) {
             this.context = context;
             this.list_prd1 = list_prd1;
+            this.full_list_prd=full_list_prd;
+            this.dataInterface=dataInterface;
             commonUtilsMethods = new CommonUtilsMethods(this.context);
             arraylist = new ArrayList<>();
             mCommonSharedPreference = new CommonSharedPreference(context);
@@ -1299,35 +1388,35 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
 
             return view;
         }
-        public JSONArray composeJSON() throws JSONException {
-            ArrayList<HashMap<String, String>> wordList;
-            wordList = new ArrayList<HashMap<String, String>>();
-
-
-//            HashMap<String, String> map = new HashMap<String, String>();
-        JSONObject map = new JSONObject();
-            JSONObject jsonObject = new JSONObject();
-
-            JSONArray jsonArray = new JSONArray();
-            for (int i = 0; i < list_prd1.size(); i++) {
-                CompNameProductNew productNew = list_prd1.get(i);
-
-                map.put("Ccode", productNew.getCcode());
-                map.put("CName", productNew.getCName());
-                map.put("Pcode", productNew.getPCode());
-                map.put("PName", productNew.getPName());
-                map.put("qty", productNew.getInvqty());
-                map.put("ptp", productNew.getPtp());
-                map.put("ptr", productNew.getPtr());
-                map.put("sw", productNew.getSw());
-                map.put("rx", productNew.getRx());
-                map.put("feedbackData", String.valueOf(productNew.getFeedback()));
-                jsonArray.put(map);
-
-            }
-
-          return jsonArray;
-        }
+//        public JSONArray composeJSON() throws JSONException {
+//            ArrayList<HashMap<String, String>> wordList;
+//            wordList = new ArrayList<HashMap<String, String>>();
+//
+//
+////            HashMap<String, String> map = new HashMap<String, String>();
+//        JSONObject map = new JSONObject();
+//            JSONObject jsonObject = new JSONObject();
+//
+//            JSONArray jsonArray = new JSONArray();
+//            for (int i = 0; i < list_prd1.size(); i++) {
+//                CompNameProductNew productNew = list_prd1.get(i);
+//
+//                map.put("Ccode", productNew.getCcode());
+//                map.put("CName", productNew.getCName());
+//                map.put("Pcode", productNew.getPCode());
+//                map.put("PName", productNew.getPName());
+//                map.put("qty", productNew.getInvqty());
+//                map.put("ptp", productNew.getPtp());
+//                map.put("ptr", productNew.getPtr());
+//                map.put("sw", productNew.getSw());
+//                map.put("rx", productNew.getRx());
+//                map.put("feedbackData", String.valueOf(productNew.getFeedback()));
+//                jsonArray.put(map);
+//
+//            }
+//
+//          return jsonArray;
+//        }
 
 
         private void saveEntry() {
@@ -1356,22 +1445,27 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
         }
         public MultipartBody.Part convertimg(String tag, String path) {
             MultipartBody.Part yy = null;
+            MultipartBody.Part body = null;
+
             Log.v("full_profile", path);
             try {
                 if (!TextUtils.isEmpty(path)) {
+                    File file1 = new File(path);
+                    RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file1);
+                    body = MultipartBody.Part.createFormData("photo", file1.getName(), requestFile);
 
-                    File file = new File(path);
-                    if (path.contains(".png") || path.contains(".jpg") || path.contains(".jpeg"))
-                        file = new Compressor(context).compressToFile(new File(path));
-                    else
-                        file = new File(path);
-                    RequestBody requestBody = RequestBody.create(MultipartBody.FORM, file);
-                    yy = MultipartBody.Part.createFormData(tag, file.getName(), requestBody);
+//                    File file = new File(path);
+//                    if (path.contains(".png") || path.contains(".jpg") || path.contains(".jpeg"))
+//                        file = new Compressor(context).compressToFile(new File(path));
+//                    else
+//                        file = new File(path);
+//                    RequestBody requestBody = RequestBody.create(MultipartBody.FORM, file);
+//                    yy = MultipartBody.Part.createFormData(tag, file.getName(), requestBody);
                 }
             } catch (Exception e) {
             }
             Log.v("full_profile", yy + "");
-            return yy;
+            return body;
         }
 
         public HashMap<String, RequestBody> field(String val) {

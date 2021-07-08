@@ -58,6 +58,7 @@ public class Presentation_recycler_item extends Fragment {
     int j=0;
     LottieAnimationView animation_view;
     ProgressDialog dialog;
+
     PresentationRecycleAdapter adap;
     int i=0,i1=5;
     int dragFrom = -1;

@@ -4,17 +4,12 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e84f57cfc432a8c0e2ca8044861cf8c9/jetified-fab-1.6.4/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e84f57cfc432a8c0e2ca8044861cf8c9/jetified-fab-1.6.4/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e84f57cfc432a8c0e2ca8044861cf8c9/jetified-fab-1.6.4/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/Downloads/gradle-5.2.1/caches/transforms-2/files-2.1/e84f57cfc432a8c0e2ca8044861cf8c9/jetified-fab-1.6.4/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/Downloads/gradle-5.2.1/caches/transforms-2/files-2.1/e84f57cfc432a8c0e2ca8044861cf8c9/jetified-fab-1.6.4/AndroidManifest.xml" />
-      <root url="file://$USER_HOME$/Downloads/gradle-5.2.1/caches/transforms-2/files-2.1/e84f57cfc432a8c0e2ca8044861cf8c9/jetified-fab-1.6.4/res" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.clans/fab/1.6.4/9f4322ba4a76940484e06a05e98fa77457822f1c/fab-1.6.4-javadoc.jar!/" />
-      <root url="jar://$USER_HOME$/Downloads/gradle-5.2.1/caches/modules-2/files-2.1/com.github.clans/fab/1.6.4/9f4322ba4a76940484e06a05e98fa77457822f1c/fab-1.6.4-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.clans/fab/1.6.4/b2470845485e429cf879d98bc5bbcd3cf9578187/fab-1.6.4-sources.jar!/" />
-      <root url="jar://$USER_HOME$/Downloads/gradle-5.2.1/caches/modules-2/files-2.1/com.github.clans/fab/1.6.4/b2470845485e429cf879d98bc5bbcd3cf9578187/fab-1.6.4-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

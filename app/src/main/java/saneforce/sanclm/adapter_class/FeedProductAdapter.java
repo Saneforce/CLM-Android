@@ -35,6 +35,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.File;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import saneforce.sanclm.R;
@@ -379,7 +380,47 @@ public class FeedProductAdapter extends BaseAdapter {
             feed_icon.setVisibility(View.INVISIBLE);
         }
         prd_nam.setText(mm.getPrdNAme());
-        prd_time.setText(mm.getSt_end_time());
+
+        String currentString = mm.getSt_end_time();
+        String[] separated = currentString.split(" ");
+        String starttm=  separated[0];
+        String endtm= separated[1];
+
+        java.text.DateFormat df = new java.text.SimpleDateFormat("hh:mm:ss");
+        java.util.Date date1 = null;
+
+        try {
+            date1 = df.parse(endtm);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        java.util.Date date2 = null;
+        try {
+            date2 = df.parse(starttm);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        long diff = date1.getTime() - date2.getTime();
+        // seconds, minutes, hours, years,
+        // and days
+        long difference_In_Seconds
+                = (diff
+                / 1000)
+                % 60;
+
+        long difference_In_Minutes
+                = (diff
+                / (1000 * 60))
+                % 60;
+
+        long difference_In_Hours
+                = (diff
+                / (1000 * 60 * 60))
+                % 24;
+        prd_time.setText(mm.getSt_end_time()+" ("+difference_In_Minutes+":"+difference_In_Seconds+")");
+        Log.v("duration>>",""+difference_In_Hours+":"+difference_In_Minutes+":"+difference_In_Seconds);
+
+
         if (!TextUtils.isEmpty(mm.getRating()))
             rating.setRating(Float.parseFloat(mm.getRating()));
         edt_sample.setText(mm.getSample());
