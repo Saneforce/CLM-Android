@@ -28,6 +28,11 @@
             android:layout_marginRight="8dp"
             android:id="@+id/img_close"/>
     </RelativeLayout>
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlay_tool">
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -370,8 +375,9 @@
 
             />
 
-
     </RelativeLayout>
+    </ScrollView>
+
 
 
 </RelativeLayout>

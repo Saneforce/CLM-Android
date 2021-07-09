@@ -54,7 +54,7 @@
     android:background="@color/appConfigurationBg"
     android:orientation="vertical">
     <androidx.appcompat.widget.SearchView
-        android:visibility="gone"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
@@ -63,16 +63,18 @@
         android:background="@drawable/shape_user"
         android:searchIcon="@mipmap/search"
         android:clickable="true"
+        android:focusable="true"
         android:id="@+id/search_view"/>
 
     <EditText
+        android:visibility="gone"
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="25dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_user"
-        android:hint="@string/search_doctor"
+        android:hint="@string/search"
         android:textColorHint="#C3C0C0"
         android:id="@+id/et_search"
         android:paddingLeft="10dp"

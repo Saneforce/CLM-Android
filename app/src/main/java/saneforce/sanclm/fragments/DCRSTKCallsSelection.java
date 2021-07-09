@@ -11,7 +11,9 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -377,6 +379,32 @@ public class DCRSTKCallsSelection extends Fragment implements AdapterView.OnItem
                     startActivity(i);*/
                 }
                 //et_searchDr.setText("");
+            }
+        });
+
+        et_companyurl.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence cs, int arg1, int arg2,int arg3) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable cs) {
+                Log.v("filter_edt_txt", String.valueOf(cs.length()));
+              /*  if(cs.length()==0) {
+                    _DCR_GV_Selection_adapter.getFilter().filter(" ");
+                    _DCR_GV_Selection_adapter.notifyDataSetChanged();
+                }
+                else{*/
+                _DCR_GV_Selection_adapter.getFilter().filter(cs);
+                _DCR_GV_Selection_adapter.notifyDataSetChanged();
+                //   }
+
             }
         });
 

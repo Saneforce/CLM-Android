@@ -87,6 +87,7 @@ import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
 import saneforce.sanclm.applicationCommonFiles.CommonUtils;
 import saneforce.sanclm.applicationCommonFiles.CommonUtilsMethods;
 import saneforce.sanclm.applicationCommonFiles.ImageFilePath;
+import saneforce.sanclm.applicationCommonFiles.Utility;
 import saneforce.sanclm.fragments.DCRDRCallsSelection;
 import saneforce.sanclm.fragments.LocaleHelper;
 import saneforce.sanclm.sqlite.DataBaseHandler;
@@ -767,8 +768,8 @@ public class ProfilingActivity extends AppCompatActivity implements View.OnClick
                     array_view.get(pos).setValue("");
                     adp_view.notifyDataSetChanged();
                 }
-               // dialog.dismiss();
-                //commonFun();
+                dialog.dismiss();
+                commonFun();
             }
         });
 
@@ -875,7 +876,9 @@ public void genAdditionalFields(JSONArray jsonArray){
         adp_view = new AdapterDynamicView(array_view, ProfilingActivity.this);
         list=(ListView) findViewById(R.id.list);
         list.setAdapter(adp_view);
+        Utility.setListViewHeightBasedOnChildren(list);
         adp_view.notifyDataSetChanged();
+
         progressDialog.dismiss();
 
 

@@ -19,6 +19,7 @@ import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -425,17 +426,17 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
                 //locationUpdate.startUpdate();
             }
         });
-        et_companyurl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.v("edit_text_clicke","are_wrked");
-                showSoftKeyboard(et_companyurl);
-               /* et_companyurl.setCursorVisible(true);
-                et_companyurl.setSelection(et_companyurl.getText().toString().length());
-                showSoftKeyboard(et_companyurl);*/
-                //et_companyurl.setCursorVisible(true);
-            }
-        });
+//        et_companyurl .setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.v("edit_text_clicke","are_wrked");
+//                showSoftKeyboard(et_companyurl);
+//               /* et_companyurl.setCursorVisible(true);
+//                et_companyurl.setSelection(et_companyurl.getText().toString().length());
+//                showSoftKeyboard(et_companyurl);*/
+//                //et_companyurl.setCursorVisible(true);
+//            }
+//        });
 
         et_companyurl.addTextChangedListener(new TextWatcher() {
 
