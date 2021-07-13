@@ -330,7 +330,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             TableEntry.B_CODE + " TEXT ,"+
             TableEntry.B_NAME + " TEXT ,"+
             TableEntry.DEP_NAME + " TEXT ,"+
-            TableEntry.DEP_DIV_CODE + " TEXT "+" )";
+            TableEntry.DEP_DIV_CODE + " TEXT ,"+
+            TableEntry.TYPE + " TEXT "+" )";
     private static final String SQL_CREATE_TABLE_QUALITY = " CREATE TABLE IF NOT EXISTS "
             + TableEntry.TABLE_QUALITY + " (" + TableEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
             TableEntry.B_CODE + " TEXT ,"+

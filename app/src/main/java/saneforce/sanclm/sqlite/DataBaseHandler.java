@@ -398,6 +398,7 @@ public class DataBaseHandler {
         public static final String B_NAME="b_name";
         public static final String DEP_NAME="dep_name";
         public static final String DEP_DIV_CODE="dep_div_code";
+        public static final String TYPE="type";
         public static final String TABLE_JSON="tbl_json";
         public static final String TOTAL_VALUE="totl_vl";
         public static final String NAME="namee";
@@ -897,12 +898,13 @@ public class DataBaseHandler {
         values.put(TableEntry.DEP_DIV_CODE,divcode);
         return db.insert(TableEntry.TABLE_CATEGORY,null,values);
     }
-    public long insertClass(String code,String name,String depname,String divcode){
+    public long insertClass(String code,String name,String depname,String divcode,String type){
         ContentValues values=new ContentValues();
         values.put(TableEntry.B_CODE,code);
         values.put(TableEntry.B_NAME,name);
         values.put(TableEntry.DEP_NAME,depname);
         values.put(TableEntry.DEP_DIV_CODE,divcode);
+        values.put(TableEntry.TYPE,type);
         return db.insert(TableEntry.TABLE_CLASS,null,values);
     }
     public long insertQuality(String code,String name,String depname,String divcode){
@@ -1297,6 +1299,9 @@ public class DataBaseHandler {
     }
     public Cursor select_class_list(){
         return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_CLASS,null);
+    }
+    public Cursor select_class_listType(String type){
+        return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_CLASS+ " WHERE "+TableEntry.TYPE+" = '"+type+"' ",null);
     }
     public Cursor select_feedback_list(String prdname){
     return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_FEEDBACK+ " WHERE "+TableEntry.PRODUCT_NAME+" = '"+prdname+"' ",null);

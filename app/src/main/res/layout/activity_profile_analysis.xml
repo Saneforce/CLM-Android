@@ -73,6 +73,7 @@
                                 android:orientation="vertical">
 
                                 <LinearLayout
+                                    android:id="@+id/lay_gender"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal"
@@ -113,6 +114,7 @@
 
 
                                 <LinearLayout
+                                    android:id="@+id/lay_qual"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="15dp"
@@ -163,6 +165,7 @@
                                 </LinearLayout>
 
                                 <LinearLayout
+                                    android:id="@+id/lay_spl"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="15dp"
@@ -308,6 +311,7 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:id="@+id/lay_dob"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="15dp"
@@ -528,6 +532,7 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:id="@+id/lay_image"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="5dp"
@@ -673,7 +678,7 @@
                                     android:layout_height="30dp"
                                     android:layout_weight="1.5"
                                     android:background="@drawable/edit_inline_bg"
-                                    android:inputType="phone"
+                                    android:inputType="textEmailAddress"
                                     android:padding="5dp"
                                     android:textColor="@color/black"
                                     android:textSize="14sp" />

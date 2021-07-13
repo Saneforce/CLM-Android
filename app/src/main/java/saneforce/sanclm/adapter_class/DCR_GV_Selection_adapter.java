@@ -233,6 +233,33 @@ public class DCR_GV_Selection_adapter extends BaseAdapter implements Filterable{
                 break;
         }
 
+        switch(type){
+
+            case "D":
+                mViewHolder.drSpeciality.setText(row_pos.getmDocotrSpeciality());
+                mViewHolder.drCategory.setText(row_pos.getmDocotrCategory());
+                break;
+            case "C":
+                mViewHolder.drSpeciality.setText("");
+                mViewHolder.drCategory.setText("");
+                break;
+
+            case "S":
+                mViewHolder.drSpeciality.setText("");
+                mViewHolder.drCategory.setText("");
+                break;
+
+            case "U":
+                mViewHolder.drSpeciality.setText(row_pos.getmDocotrSpeciality());
+                mViewHolder.drCategory.setText(row_pos.getmDocotrCategory());
+                break;
+
+            case "H":
+                mViewHolder.drSpeciality.setText("");
+                mViewHolder.drCategory.setText("");
+                break;
+        }
+
         mydayclustrCd = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_CLUSTER_CODE);
             if(row_pos.getmDoctorTownCd().equalsIgnoreCase(mydayclustrCd)){
                 Log.v("Cluster_val_dis_",""+" share_Cluster "+"");

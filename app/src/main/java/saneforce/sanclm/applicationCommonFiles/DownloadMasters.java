@@ -1376,9 +1376,10 @@ public Callback<ResponseBody> NewComplist = new Callback<ResponseBody>() {
                         String bName = clsList.get(i).getName();
                         String depName = clsList.get(i).getUsername();
                         String depDivcode = clsList.get(i).getDv_code();
+                        String type = clsList.get(i).getType();
                         Log.v("clss_code: ", bName);
 
-                        dbh.insertClass(bNo, bName, depName, depDivcode);
+                        dbh.insertClass(bNo, bName, depName, depDivcode,type);
 
                     }
                     dbh.close();

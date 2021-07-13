@@ -30,6 +30,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -112,6 +113,7 @@ public class ProfilingActivity extends AppCompatActivity implements View.OnClick
     ArrayList<Custom_DCR_GV_Dr_Contents> chmList ;
     ArrayList<Custom_DCR_GV_Dr_Contents> stckList ;
     ArrayList<Custom_DCR_GV_Dr_Contents> UndrList ;
+    ArrayList<Custom_DCR_GV_Dr_Contents> hospList ;
     ArrayList<SlideDetail> list_dr;
     ArrayList<ModelDynamicList> array = new ArrayList<>();
     ArrayList<ModelDynamicView> array_view = new ArrayList<>();
@@ -141,6 +143,8 @@ public class ProfilingActivity extends AppCompatActivity implements View.OnClick
 //    Context context;
 //    Resources resources;
     AdapterDynamicView adp_view;
+    LinearLayout liGender,liQual,liSpl,liDob,liImg;
+    String selectedItem,typee;
 
 
 
@@ -202,6 +206,11 @@ public class ProfilingActivity extends AppCompatActivity implements View.OnClick
         check_male=(CheckBox) findViewById(R.id.check_male);
         check_female=(CheckBox) findViewById(R.id.check_female);
         list=(ListView) findViewById(R.id.list);
+        liGender=(LinearLayout) findViewById(R.id.lay_gender);
+        liQual=(LinearLayout) findViewById(R.id.lay_qual);
+        liSpl=(LinearLayout) findViewById(R.id.lay_spl);
+        liImg=(LinearLayout) findViewById(R.id.lay_image);
+        liDob=(LinearLayout) findViewById(R.id.lay_dob);
 
 
         api_interface = RetroClient.getClient(db_connPath).create(Api_Interface.class);
@@ -212,6 +221,7 @@ public class ProfilingActivity extends AppCompatActivity implements View.OnClick
         selectPosition.add(/*"Chemist"*/ getResources().getString(R.string.chem));
         selectPosition.add(/*"Stockist"*/ getResources().getString(R.string.stockist));
         selectPosition.add(/*"Unlisted Dr."*/ getResources().getString(R.string.unlisted_dr));
+        selectPosition.add(getResources().getString(R.string.hospital));
         dcrdrCallsSelection=new DCRDRCallsSelection();
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, selectPosition);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -345,6 +355,11 @@ public class ProfilingActivity extends AppCompatActivity implements View.OnClick
 //                    String item = parent.getItemAtPosition(position).toString();
 //
 //                }
+//                adp_view = new AdapterDynamicView(array_view, ProfilingActivity.this);
+//                array_view.clear();
+//                adp_view.notifyDataSetChanged();
+//                list_dr.clear();
+                 selectedItem = parent.getItemAtPosition(position).toString();
                 switch (position)
                 {
                     case 0:
@@ -370,7 +385,8 @@ public class ProfilingActivity extends AppCompatActivity implements View.OnClick
                         DCR_GV_Selection_adapter.bindListner(new DCRCallSelectionFilter() {
                             @Override
                             public void itemClick(String drname, String drcode) {
-                                OnItemClick(drname, drcode);
+                                typee="D";
+                                OnItemClick(drname, drcode,typee);
                             }
                         });
                                 break;
@@ -400,8 +416,8 @@ public class ProfilingActivity extends AppCompatActivity implements View.OnClick
                                 DCR_GV_Selection_adapter.bindListner(new DCRCallSelectionFilter() {
                                     @Override
                                     public void itemClick(String drname, String drcode) {
-
-                                        OnItemClick(drname, drcode);
+                                        typee="C";
+                                        OnItemClick(drname, drcode,typee);
                                     }
                                 });
 
@@ -426,7 +442,8 @@ public class ProfilingActivity extends AppCompatActivity implements View.OnClick
                                 DCR_GV_Selection_adapter.bindListner(new DCRCallSelectionFilter() {
                                     @Override
                                     public void itemClick(String drname, String drcode) {
-                                        OnItemClick(drname, drcode);
+                                        typee="S";
+                                        OnItemClick(drname, drcode,typee);
                                     }
                                 });
                         break;
@@ -448,9 +465,34 @@ public class ProfilingActivity extends AppCompatActivity implements View.OnClick
                          DCR_GV_Selection_adapter.bindListner(new DCRCallSelectionFilter() {
                                         @Override
                                         public void itemClick(String drname, String drcode) {
-                                            OnItemClick(drname, drcode);
+                                            typee="U";
+                                            OnItemClick(drname, drcode,typee);
                                         }
                          });
+                        break;
+
+                    case 4:
+                        et_searchDr.setHint("Search Listed "+ getResources().getString(R.string.hospital));
+                        dbh.open();
+                        hospList = new ArrayList<Custom_DCR_GV_Dr_Contents>();
+                        hospList.clear();
+                        mCursor = dbh.select_hospitalist(SF_Code);
+                        while (mCursor.moveToNext()) {
+                            _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(3),mCursor.getString(4),mCursor.getString(3),mCursor.getString(4),mCursor.getString(2),mCursor.getString(1),"","");
+                            hospList.add(_custom_DCR_GV_Dr_Contents);
+                        }
+
+
+                        _DCR_GV_Selection_adapter = new DCR_GV_Selection_adapter(getApplicationContext(),hospList,"H");
+                        gridView.setAdapter(_DCR_GV_Selection_adapter);
+
+                        DCR_GV_Selection_adapter.bindListner(new DCRCallSelectionFilter() {
+                            @Override
+                            public void itemClick(String drname, String drcode) {
+                                typee="H";
+                                OnItemClick(drname, drcode,typee);
+                            }
+                        });
                         break;
                 }
             }
@@ -475,13 +517,29 @@ public class ProfilingActivity extends AppCompatActivity implements View.OnClick
         res.updateConfiguration(conf, dm);
     }
 
-                    public void OnItemClick(String name, final String code) {
+                    public void OnItemClick(String name, final String code,String typ) {
                         selectedProductCode = code;
                         tv_drName.setText(name);
                         mCommonSharedPreference.setValueToPreference("drName", name);
                         mCommonSharedPreference.setValueToPreference("drCode", code);
                         rl_dcr_precall_analysisMain.setVisibility(View.VISIBLE);
                         dcr_drselection_gridview.setVisibility(View.GONE);
+
+                        if(typ.equals("H"))
+                        {
+                            liGender.setVisibility(View.GONE);
+                            liQual.setVisibility(View.GONE);
+                            liSpl.setVisibility(View.GONE);
+                            liDob.setVisibility(View.GONE);
+                            liImg.setVisibility(View.GONE);
+                        }else
+                        {
+                            liGender.setVisibility(View.VISIBLE);
+                            liQual.setVisibility(View.VISIBLE);
+                            liSpl.setVisibility(View.VISIBLE);
+                            liDob.setVisibility(View.VISIBLE);
+                            liImg.setVisibility(View.VISIBLE);
+                        }
 
                         CommonUtils.TAG_CHEM_CODE = code;
                         CommonUtils.TAG_CHEM_NAME = name;
@@ -491,7 +549,7 @@ public class ProfilingActivity extends AppCompatActivity implements View.OnClick
                         try {
                             jsonObject.put("SF", SF_Code);
                             jsonObject.put("CusCode", code);
-                            jsonObject.put("typ", "D");
+                            jsonObject.put("typ", typ);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -538,7 +596,6 @@ public class ProfilingActivity extends AppCompatActivity implements View.OnClick
                                            spec_code=js.getString("SpecCode");
                                            cat_code=js.getString("CatCode");
                                            qual_code=js.getString("QualCode");
-                                           class_code=js.getString("ClsCode");
                                            hosp_code=js.getString("HospCodes");
                                            terr_code=js.getString("TerrCode");
                                            class_code=js.getString("ClsCode");
@@ -596,21 +653,78 @@ public class ProfilingActivity extends AppCompatActivity implements View.OnClick
     @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
-        switch (v.getId())
+//        switch (v.getId())
+//        {
+//            case R.id.btn_reselect:
+//                rl_dcr_precall_analysisMain.setVisibility(View.GONE);
+//                dcr_drselection_gridview.setVisibility(View.VISIBLE);
+//
+////                txt_select_qua.setText("");
+////                txt_select_spec.setText("");
+//                txt_select_category.setText("");
+////                et_dobd.setText("");
+////                et_dobm.setText("");
+////                et_doby.setText("");
+////                et_dowd.setText("");
+////                et_dowm.setText("");
+////                et_dowy.setText("");
+//                at_district.setText("");
+//                at_addr.setText("");
+//                at_mobile.setText("");
+//                at_phone.setText("");
+//                at_email.setText("");
+//                cat_code="";
+//
+//
+//                break;
+//            case R.id.txt_select_qua:
+//                gettingTableValue(1);
+//                break;
+//            case R.id.txt_select_spec:
+//                gettingTableValue(2);
+//                break;
+//            case R.id.txt_select_category:
+//                gettingTableValue(3);
+//                break;
+//
+//        }
+
+        if(v.getId()==R.id.btn_reselect)
         {
-            case R.id.btn_reselect:
-                rl_dcr_precall_analysisMain.setVisibility(View.GONE);
-                dcr_drselection_gridview.setVisibility(View.VISIBLE);
-                break;
-            case R.id.txt_select_qua:
-                gettingTableValue(1);
-                break;
-            case R.id.txt_select_spec:
-                gettingTableValue(2);
-                break;
-            case R.id.txt_select_category:
+            rl_dcr_precall_analysisMain.setVisibility(View.GONE);
+            dcr_drselection_gridview.setVisibility(View.VISIBLE);
+
+
+            txt_select_category.setText("");
+            at_district.setText("");
+            at_addr.setText("");
+            at_mobile.setText("");
+            at_phone.setText("");
+            at_email.setText("");
+            cat_code="";
+            if(array_view.size()>0)
+            {
+                array_view.clear();
+                Utility.setListViewHeightBasedOnChildren(list);
+                adp_view.notifyDataSetChanged();
+            }
+
+
+        }else if(v.getId()==R.id.txt_select_qua)
+        {
+            gettingTableValue(1);
+        }
+        else if(v.getId()==R.id.txt_select_spec)
+        {
+            gettingTableValue(2);
+        }else if(v.getId()==R.id.txt_select_category)
+        {
+            if(typee.equals("D"))
+            {
                 gettingTableValue(3);
-                break;
+            } else if(typee.equals("H")) {
+                gettingTableValue(4);
+            }
 
         }
     }
@@ -625,6 +739,8 @@ public class ProfilingActivity extends AppCompatActivity implements View.OnClick
             cur=dbh.select_speciality_list();
         else if(x==3)
             cur=dbh.select_category_list();
+        else if(x==4)
+            cur=dbh.select_class_listType("H,");
 
         if(cur.getCount()>0){
             while(cur.moveToNext()){
@@ -683,7 +799,22 @@ public class ProfilingActivity extends AppCompatActivity implements View.OnClick
                     }
 
 
+                } else if(x==4) {
+                    txt_select_category.setText(list_dr.get(position).getInputName());
+                    cat_code =list_dr.get(position).getIqty();
+                    Log.v("Class_code",cat_code);
+                    String profileControls= mCommonSharedPreference.getValueFromPreference("Profiledynamic");
+                    JSONArray jsonArray= null;
+                    try {
+                        jsonArray = new JSONArray(profileControls);
+                        genAdditionalFields(jsonArray);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
                 }
+
 
                 dialog.dismiss();
             }
@@ -1248,35 +1379,36 @@ public void genAdditionalFields(JSONArray jsonArray){
             }
 
         try {
-            finaljs=new JSONObject();
-            finaljs.put("AdditionalCtrls",jsonAddtnlCtrls);
-            finaljs.put("ContactPerson", "");
-            finaljs.put("CustCode", selectedProductCode);
-            finaljs.put("CustName", tv_drName.getText().toString());
-            finaljs.put("DrAdd1", at_addr.getText().toString());
-            finaljs.put("DrAdd2", "");
-            finaljs.put("DrAdd3", "");
-            finaljs.put("DrAdd4", "");
-            finaljs.put("DrAdd5", "");
-            finaljs.put("DrCat",cat_code);
-            finaljs.put("DrClass", "");
-            finaljs.put("DrDOBD", et_dobd.getText().toString());
-            finaljs.put("DrDOBM", et_dobm.getText().toString());
-            finaljs.put("DrDOBY", et_doby.getText().toString());
-            finaljs.put("DrDOWD", et_dowd.getText().toString());
-            finaljs.put("DrDOWM", et_dowm.getText().toString());
-            finaljs.put("DrDOWY", et_dowy.getText().toString());
-            finaljs.put("DrEmail",at_email.getText().toString() );
-            finaljs.put("DrHosp", "");
-            finaljs.put("DrHospNm", "");
-            finaljs.put("DrMob",at_mobile.getText().toString() );
-            finaljs.put("DrPhone", at_phone.getText().toString());
-            finaljs.put("DrQual", qual_code);
-            finaljs.put("DrSpec",spec_code );
-            finaljs.put("DrTar", target);
-            finaljs.put("DrType", type);
+            if(typee.equals("D")) {
+                finaljs = new JSONObject();
+                finaljs.put("AdditionalCtrls", jsonAddtnlCtrls);
+                finaljs.put("ContactPerson", "");
+                finaljs.put("CustCode", selectedProductCode);
+                finaljs.put("CustName", tv_drName.getText().toString());
+                finaljs.put("DrAdd1", at_addr.getText().toString());
+                finaljs.put("DrAdd2", "");
+                finaljs.put("DrAdd3", "");
+                finaljs.put("DrAdd4", "");
+                finaljs.put("DrAdd5", "");
+                finaljs.put("DrCat", cat_code);
+                finaljs.put("DrClass", class_code);
+                finaljs.put("DrDOBD", et_dobd.getText().toString());
+                finaljs.put("DrDOBM", et_dobm.getText().toString());
+                finaljs.put("DrDOBY", et_doby.getText().toString());
+                finaljs.put("DrDOWD", et_dowd.getText().toString());
+                finaljs.put("DrDOWM", et_dowm.getText().toString());
+                finaljs.put("DrDOWY", et_dowy.getText().toString());
+                finaljs.put("DrEmail", at_email.getText().toString());
+                finaljs.put("DrHosp", "");
+                finaljs.put("DrHospNm", "");
+                finaljs.put("DrMob", at_mobile.getText().toString());
+                finaljs.put("DrPhone", at_phone.getText().toString());
+                finaljs.put("DrQual", qual_code);
+                finaljs.put("DrSpec", spec_code);
+                finaljs.put("DrTar", target);
+                finaljs.put("DrType", type);
 
-            JsonArray jProducts=new JsonArray();
+                JsonArray jProducts = new JsonArray();
 //            for(int i=0;i<jProducts.size();i++)
 //            {
 //                JSONObject jsonObject=new JSONObject();
@@ -1284,18 +1416,69 @@ public void genAdditionalFields(JSONArray jsonArray){
 //                jsonObject.put("Name", "");
 //            }
 
-            finaljs.put("Products",jProducts);
+                finaljs.put("Products", jProducts);
 
-            finaljs.put("ProfType","D");
+                finaljs.put("ProfType", "D");
 
-            JsonArray jvisitDays=new JsonArray();
-            finaljs.put("VisitDays",jvisitDays);
-            JsonArray jvstSession=new JsonArray();
-            finaljs.put("VstSess",jvstSession);
-            JsonArray jvstAvgDay=new JsonArray();
-            finaljs.put("vstAvgPDy",jvstAvgDay);
-            JsonArray jvstecoPats=new JsonArray();
-            finaljs.put("vstEcoPats",jvstecoPats);
+                JsonArray jvisitDays = new JsonArray();
+                finaljs.put("VisitDays", jvisitDays);
+                JsonArray jvstSession = new JsonArray();
+                finaljs.put("VstSess", jvstSession);
+                JsonArray jvstAvgDay = new JsonArray();
+                finaljs.put("vstAvgPDy", jvstAvgDay);
+                JsonArray jvstecoPats = new JsonArray();
+                finaljs.put("vstEcoPats", jvstecoPats);
+            } else if (typee.equals( "H")) {
+                finaljs = new JSONObject();
+                finaljs.put("AdditionalCtrls", jsonAddtnlCtrls);
+                finaljs.put("ContactPerson", "");
+                finaljs.put("CustCode", selectedProductCode);
+                finaljs.put("CustName", tv_drName.getText().toString());
+                finaljs.put("DrAdd1", at_addr.getText().toString());
+                finaljs.put("DrAdd2", "");
+                finaljs.put("DrAdd3", "");
+                finaljs.put("DrAdd4", "");
+                finaljs.put("DrAdd5", "");
+                finaljs.put("DrCat", cat_code);
+                finaljs.put("DrClass", class_code);
+                finaljs.put("DrDOBD", "1");
+                finaljs.put("DrDOBM", "1");
+                finaljs.put("DrDOBY","1900");
+                finaljs.put("DrDOWD", "1");
+                finaljs.put("DrDOWM","1");
+                finaljs.put("DrDOWY", "1900");
+                finaljs.put("DrEmail", at_email.getText().toString());
+                finaljs.put("DrHosp", "");
+                finaljs.put("DrHospNm", "");
+                finaljs.put("DrMob", at_mobile.getText().toString());
+                finaljs.put("DrPhone", at_phone.getText().toString());
+                finaljs.put("DrQual", qual_code);
+                finaljs.put("DrSpec", spec_code);
+                finaljs.put("DrTar", target);
+                finaljs.put("DrType", type);
+
+                JsonArray jProducts = new JsonArray();
+//            for(int i=0;i<jProducts.size();i++)
+//            {
+//                JSONObject jsonObject=new JSONObject();
+//                jsonObject.put("Code", "");
+//                jsonObject.put("Name", "");
+//            }
+
+                finaljs.put("Products", jProducts);
+
+                finaljs.put("ProfType", "H");
+
+                JsonArray jvisitDays = new JsonArray();
+                finaljs.put("VisitDays", jvisitDays);
+                JsonArray jvstSession = new JsonArray();
+                finaljs.put("VstSess", jvstSession);
+                JsonArray jvstAvgDay = new JsonArray();
+                finaljs.put("vstAvgPDy", jvstAvgDay);
+                JsonArray jvstecoPats = new JsonArray();
+                finaljs.put("vstEcoPats", jvstecoPats);
+
+            }
 
         }catch (Exception e)
         {
@@ -1336,7 +1519,17 @@ public void genAdditionalFields(JSONArray jsonArray){
                                 commonFun();
                                 Toast.makeText(ProfilingActivity.this, getResources().getString(R.string.datasave), Toast.LENGTH_SHORT).show();
                                 array_view.clear();
+                                Utility.setListViewHeightBasedOnChildren(list);
                                 adp_view.notifyDataSetChanged();
+                                at_addr.setText("");
+                                at_phone.setText("");
+                                at_mobile.setText("");
+                                at_email.setText("");
+                                //txt_select_category.setText("");
+                                txt_select_qua.setText("");
+                                //txt_select_spec.setText("");
+                                check_male.setChecked(false);
+                                check_female.setChecked(false);
                             } else {
                                 progressDialog.dismiss();
                                 commonFun();
