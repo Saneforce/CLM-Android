@@ -217,6 +217,7 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
                 db.close();
 
                 Intent intent=new Intent(getActivity(), HomeDashBoard.class);
+                intent.putExtra("tab","training");
                 startActivity(intent);
 
 
@@ -242,6 +243,7 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
 
                 db.close();
                 Intent intent=new Intent(getActivity(), HomeDashBoard.class);
+                intent.putExtra("tab","training");
                 startActivity(intent);
             }
         });
@@ -270,12 +272,8 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
 
         XAxis xAxis = barChart.getXAxis();
 
-        /*xAxis.setGranularity(1f);
-        xAxis.setGranularityEnabled(true);*/
 
-        //xAxis.setCenterAxisLabels(true);
         xAxis.setDrawGridLines(false);
-        //xAxis.setAxisMinimum(0f);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setLabelCount(xVals.size());
         xAxis.setValueFormatter(new IndexAxisValueFormatter(xVals));
@@ -289,20 +287,6 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
         rightYAxis1.setEnabled(false);
         barChart.animateY(1000);
         barChart.invalidate();
-
-
-//        pieData.add(new SliceValue(15, Color.parseColor("#FA1628")));
-//        pieData.add(new SliceValue(25, Color.parseColor("#1CAD53")));
-//        pieData.add(new SliceValue(10, Color.parseColor("#F8C131")));
-//        pieData.add(new SliceValue(30, Color.parseColor("#A8E055")));
-//        pieData.add(new SliceValue(20, Color.parseColor("#28ABE3")));
-//        pieData.add(new SliceValue(35, Color.parseColor("#BC0811")));
-
-
-
-
-
-
         return vv;
     }
 
@@ -348,6 +332,7 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
                     InputStreamReader ip = null;
                     StringBuilder is = new StringBuilder();
                     String line = null;
+                    progress.dismiss();
 
                     ip = new InputStreamReader(response.body().byteStream());
                     BufferedReader bf = new BufferedReader(ip);
@@ -371,6 +356,8 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
 
 
                 } catch (Exception e) {
+                    progress.dismiss();
+
                 }
             } else {
                 try {
@@ -397,6 +384,7 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
                     InputStreamReader ip = null;
                     StringBuilder is = new StringBuilder();
                     String line = null;
+                    progress.dismiss();
 
                     ip = new InputStreamReader(response.body().byteStream());
                     BufferedReader bf = new BufferedReader(ip);
@@ -417,6 +405,8 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
 
 
                 } catch (Exception e) {
+                    progress.dismiss();
+
                 }
             } else {
                 try {
@@ -439,6 +429,7 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
                 try {
                     db.open();
                     db.del_totalcalls();
+                    progress.dismiss();
 
                     InputStreamReader ip = null;
                     StringBuilder is = new StringBuilder();
@@ -471,6 +462,8 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
 
 
                 } catch (Exception e) {
+                    progress.dismiss();
+
                 }
             } else {
                 try {
@@ -497,6 +490,7 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
                     InputStreamReader ip = null;
                     StringBuilder is = new StringBuilder();
                     String line = null;
+                    progress.dismiss();
 
                     ip = new InputStreamReader(response.body().byteStream());
                     BufferedReader bf = new BufferedReader(ip);
@@ -521,6 +515,8 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
 
 
                 } catch (Exception e) {
+                    progress.dismiss();
+
                 }
             } else {
                 try {
@@ -543,6 +539,7 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
                 try {
                     db.open();
                     db.del_detailing();
+                    progress.dismiss();
 
                     InputStreamReader ip = null;
                     StringBuilder is = new StringBuilder();
@@ -558,6 +555,7 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
                     JSONArray ja = new JSONArray(is.toString());
                     for (int i = 0; i < ja.length(); i++) {
                         JSONObject js1 = ja.getJSONObject(i);
+                        Log.v("code1>>",js1.getString("Brand"));
 
 //                        SliceValue sliceValue=new SliceValue(Float.parseFloat(js1.getString("Percnt")),Color.parseColor(js1.getString("barcolr")));
 //                        pieData.add(sliceValue);
@@ -574,6 +572,8 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
 
                    db.close();
                 } catch (Exception e) {
+                    progress.dismiss();
+
                 }
             } else {
                 try {
@@ -597,6 +597,7 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
                 try {
                     db.open();
                     db.del_brandexpose();
+                    progress.dismiss();
 
                     String col="";
 
@@ -630,6 +631,8 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
 
                     db.close();
                 } catch (Exception e) {
+                    progress.dismiss();
+
                 }
             } else {
                 try {
@@ -762,6 +765,7 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
             } while (mCursor.moveToNext());
             PieChartData pieChartData = new PieChartData(pieData);
             pieChartData.setHasLabels(false);
+
             pieChartData.setHasCenterCircle(true).setCenterText1("Detailing Time Spent").setCenterText1FontSize(10).setCenterText1Color(Color.parseColor("#000000"));
             pieChartView.setPieChartData(pieChartData);
 
@@ -782,7 +786,7 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
         if (mCursor.getCount() != 0) {
             mCursor.moveToFirst();
             do {
-                Log.v("product_name_feed", mCursor.getString(0));
+              //  Log.v("product_name_feed", mCursor.getString(0));
                 Brandexpolist list = new Brandexpolist(mCursor.getString(0), mCursor.getString(1), mCursor.getString(2), mCursor.getString(3));
                 branlist.add(list);
             } while (mCursor.moveToNext());

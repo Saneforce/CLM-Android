@@ -22,7 +22,7 @@
                 android:fontFamily="@font/poppins_semibold"
                 android:gravity="center|left"
                 android:paddingLeft="15dp"
-                android:text="Competitor feedback"
+                android:text="@string/compfeed"
                 android:textAllCaps="true"
                 android:textColor="#ffffff"
                 android:textSize="18sp"
@@ -44,7 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:text="Template"
+        android:text="@string/Template"
         android:textColor="#000"
         android:textSize="20dp"
         android:layout_marginTop="20dp"/>
@@ -72,7 +72,7 @@
             android:gravity="center_vertical"
             android:paddingRight="20dp"
             android:singleLine="false"
-            android:text="Select Template"
+            android:text="@string/SelectTemplate"
             android:paddingLeft="10dp"
             android:textColor="#7E7C7C"
            />
@@ -95,13 +95,14 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:background="@drawable/rectangle"
-        android:hint="Feedback"
+        android:hint="@string/Feedback"
         android:textColorHint="#787575"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:paddingLeft="10dp"
         android:textColor="#000"
+
         android:textSize="15dp"/>
 
     <ImageView
@@ -121,7 +122,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/rectangle_red"
-        android:text="Save"
+        android:text="@string/sv_prsn"
         android:textAllCaps="false"
         android:textColor="#fff"
         android:textSize="20dp"

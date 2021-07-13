@@ -49,7 +49,8 @@
             android:screenOrientation="landscape"></activity>
         <activity
             android:name=".activities.NewRCBentryActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            />
         <activity android:name=".activities.LeaveActivity1" />
         <activity
             android:name=".activities.ReportOfDetailing"
@@ -208,7 +209,8 @@
 
         <activity
             android:name=".activities.FeedbackActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            />
         <activity
             android:name=".activities.PdfViewActivity"
             android:screenOrientation="landscape" />

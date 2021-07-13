@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -56,6 +57,7 @@ public class AdapterDownloadMaster extends BaseAdapter {
     String share_value = "";
     String digital="";
     HomeDashBoard homeDashBoard;
+    Cursor mCursor;
 
     public static void bindPAge(CallSlidePage callSlidePage11) {
         callSlidePage = callSlidePage11;
@@ -115,11 +117,20 @@ public class AdapterDownloadMaster extends BaseAdapter {
         final TextView field = (TextView) view.findViewById(R.id.field);
         LinearLayout ll_row = (LinearLayout) view.findViewById(R.id.ll_row);
         final LinearLayout ll_anim = (LinearLayout) view.findViewById(R.id.ll_anim);
+        dbh.open();
+        mCursor=dbh.select_tpcusdr();
 
 
         final ModelDownloadMaster mm = array.get(i);
-        txt_count.setText("(" + mm.getItemCount() + ")");
+
+
+            txt_count.setText("(" + mm.getItemCount() + ")");
         field.setText(mm.getItemName());
+//        if(mCursor.getCount()!=0&&mm.getItemName().equalsIgnoreCase("TP Customers")){
+//            field.setTextColor(Color.parseColor("#00D100"));
+//            txt_count.setVisibility(View.GONE);
+//        }
+        dbh.close();
         if (mm.isAnimCount()) {
             ll_anim.setVisibility(View.VISIBLE);
         } else {
@@ -175,6 +186,7 @@ public class AdapterDownloadMaster extends BaseAdapter {
                         break;
                     case 2:
                         dwnloadMasterData.copList();
+                        dwnloadMasterData.NewcopList();
                         share_value = "comp";
                         break;
                     case 3:
@@ -277,16 +289,20 @@ public class AdapterDownloadMaster extends BaseAdapter {
                         break;
 
                     case 23:
+                        dwnloadMasterData.loadtodayTPcus();
+                        share_value = "tpcus";
+
+                        break;
+
+
+                    case 24:
                         dwnloadMasterData = new DownloadMasters(context, db_connPath, db_slidedwnloadPath, DownloadMasterData.sfCoding, 8, SF_Code);
                         dwnloadMasterData.HosList();
                         share_value = "hos";
                         txt_count.setText("(0)");
                         break;
 
-                    case 24:
-                        dwnloadMasterData.NewcopList();
-                        share_value = "Newcomp";
-                        break;
+
                 }
 
 

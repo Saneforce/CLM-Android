@@ -227,6 +227,8 @@ public class DataBaseHandler {
         return db.insert(TableEntry.TABLE_SAMPLES_CODE,null,values);
     }
 
+
+
     /* Inner class that defines the table contents */
     public abstract class TableEntry implements BaseColumns {
 
@@ -601,6 +603,13 @@ public class DataBaseHandler {
         public static final String TABLE_CALLVSTDETAILS_single="callvistdetailsingle";
         public static final String TABLE_CALLVSTDETAILS_group="callvistdetailgroup";
 
+
+        public static final String TABLE_TPMNCUSTOMERDOCTORS="tomncustomerdoctors";
+        public static final String COLUMN_DRCODE="drcode";
+
+        public static final String TABLE_TPMNCUSTOMERCHEMIST="tomncustomerchemist";
+
+
     }
 
         public Cursor select_urlconfiguration(){
@@ -655,27 +664,31 @@ public class DataBaseHandler {
         return db.insert(TableEntry.TABLE_MYDAYPLAN,TableEntry.COLUMN_NULLABLE, values);
     }
 
-    public long insert_Tpdcode(String sfCode) {
+
+    public long insert_tpcusDR(String eDt,String drcode) {
         ContentValues values = new ContentValues();
-        values.put(TableEntry.COLUMN_DOCTOR_CODE, sfCode);
-        // Log.d("VALUES",values.toString());
-        return db.insert(TableEntry.TABLE_DRTP,TableEntry.COLUMN_NULLABLE, values);
+        values.put(TableEntry.COLUMN_DATE, eDt);
+        values.put(TableEntry.COLUMN_DRCODE,drcode);
+        return db.insert(TableEntry.TABLE_TPMNCUSTOMERDOCTORS,TableEntry.COLUMN_NULLABLE, values);
     }
-    public void deleteTPDR(){
-        db.execSQL("delete from " + TableEntry.TABLE_DRTP + "  ");
-    }
-    public Cursor select_DRTP(){
-        return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_DRTP,null);
-    }
-    public long insert_Tpchmcode(String sfCode) {
+
+    public long insert_tpcusCHM(String eDt,String chmcode) {
         ContentValues values = new ContentValues();
-        values.put(TableEntry.COLUMN_CHEMIST_CODE, sfCode);
-        // Log.d("VALUES",values.toString());
-        return db.insert(TableEntry.TABLE_CHMTP,TableEntry.COLUMN_NULLABLE, values);
+        values.put(TableEntry.COLUMN_DATE, eDt);
+        values.put(TableEntry.COLUMN_CHEMIST_CODE,chmcode);
+        return db.insert(TableEntry.TABLE_TPMNCUSTOMERCHEMIST,TableEntry.COLUMN_NULLABLE, values);
     }
-    public void deleteTPCHM(){
-        db.execSQL("delete from " + TableEntry.TABLE_CHMTP + "  ");
+
+
+    public void deleteTPMNWSDR(){
+        db.execSQL("delete from " + TableEntry.TABLE_TPMNCUSTOMERDOCTORS + "  ");
     }
+    public void deleteTPMNWSCHM(){
+        db.execSQL("delete from " + TableEntry.TABLE_TPMNCUSTOMERCHEMIST + "  ");
+    }
+
+
+
     public long insert_worktype_master(String wtypeCd, String wtypeNm, String wtypeETabs, String wtypeFWFlg, String wtypeSFCd,String tpdcr) {
         ContentValues values = new ContentValues();
         values.put(TableEntry.COLUMN_WTYPE_CODE, wtypeCd);
@@ -1383,6 +1396,15 @@ public class DataBaseHandler {
     public Cursor getDrCluster(String code){
         return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_DOCTOR_MASTER_DETAILS+ " WHERE "+TableEntry.COLUMN_DOCTOR_CODE+" = '"+code+"' ",null);
     }
+
+    public Cursor select_tpChm(String edt){
+        return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_TPMNCUSTOMERCHEMIST+ " WHERE "+TableEntry.COLUMN_DATE+" = '"+edt+"' ",null);
+    }
+
+    public Cursor select_tpdrs(String edt){
+        return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_TPMNCUSTOMERDOCTORS+ " WHERE "+TableEntry.COLUMN_DATE+" = '"+edt+"' ",null);
+    }
+
     public Cursor getChmCluster(String code){
         return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_CHEMIST_MASTER_DETAILS+ " WHERE "+TableEntry.COLUMN_CHEMIST_CODE+" = '"+code+"' ",null);
     }
@@ -1395,6 +1417,9 @@ public class DataBaseHandler {
 
     public Cursor select_MDP(){
         return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_MYDAYPLAN,null);
+    }
+    public Cursor select_tpcusdr(){
+        return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_TPMNCUSTOMERDOCTORS,null);
     }
     public Cursor select_getlat_lng_dr(){
         return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_DOCTOR_MASTER_DETAILS,null);

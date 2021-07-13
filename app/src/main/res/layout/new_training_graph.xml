@@ -21,13 +21,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp">
                     <TextView
+                        android:drawablePadding="10dp"
                         android:drawableLeft="@drawable/phone"
                         android:id="@+id/tv_monthly_summary_head"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_semibold"
                         android:gravity="center|left"
-                        android:text="   MTD Call Coverage &amp; Daily Call Average"
+                        android:text="@string/mtdcall"
                         android:textColor="#000"
                         android:textSize="15sp"
                         android:textStyle="normal"
@@ -48,7 +49,7 @@
                         android:layout_width="150dp"
                         android:layout_height="35dp"
                         android:background="@drawable/rectanle_rounded"
-                        android:text="Reload"
+                        android:text="@string/reload1"
                         android:gravity="center"
                         android:textStyle="bold"
                         android:drawableRight="@drawable/syncicon"
@@ -263,13 +264,14 @@
                     >
 
                     <TextView
+                        android:drawablePadding="10dp"
                         android:drawableLeft="@drawable/mileage"
                         android:id="@+id/tv_call_visit_details"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_semibold"
                         android:gravity="center|left"
-                        android:text="   Detailing Performance"
+                        android:text="@string/detailingperformance"
                         android:textColor="#000"
                         android:textSize="15sp"
                         android:textStyle="normal"
@@ -292,7 +294,7 @@
                         android:layout_width="150dp"
                         android:layout_height="35dp"
                         android:background="@drawable/rectanle_rounded"
-                        android:text="Reload"
+                        android:text="@string/reload1"
                         android:gravity="center"
                         android:textStyle="bold"
                         android:drawableRight="@drawable/syncicon"
@@ -344,7 +346,7 @@
                        android:fontFamily="@font/poppins_semibold"
                        android:gravity="center|left"
                        android:padding="5dp"
-                       android:text=" Detailing Time Spent"
+                       android:text="@string/detailtmspnt"
                        android:textColor="#000"
                        android:textSize="14sp" />
 
@@ -398,7 +400,7 @@
                        android:fontFamily="@font/poppins_semibold"
                        android:gravity="center|left"
                        android:padding="5dp"
-                       android:text=" Brand Exposure"
+                       android:text="@string/brndexpo"
                        android:textColor="#000"
                        android:textSize="14sp" />
 

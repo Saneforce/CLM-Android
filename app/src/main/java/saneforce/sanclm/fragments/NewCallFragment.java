@@ -1,6 +1,7 @@
 package saneforce.sanclm.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Build;
@@ -217,6 +218,9 @@ public class NewCallFragment extends Fragment {
                 getActivitiesfromlocal();
                 getSamplesfromlocal();
                 db.close();
+                Intent intent=new Intent(getActivity(), HomeDashBoard.class);
+                intent.putExtra("tab","call");
+                startActivity(intent);
 
             }
         });
@@ -238,7 +242,9 @@ public class NewCallFragment extends Fragment {
                 loadcalldetails();
                getCalldetails();
                 db.close();
-
+                Intent intent=new Intent(getActivity(), HomeDashBoard.class);
+                intent.putExtra("tab","call");
+                startActivity(intent);
             }
         });
 
@@ -315,6 +321,7 @@ return vv;
     }
 
     private void loadcalldetails() {
+
             Call<ResponseBody> chm5 = apiInterface.getCallvstdetails(String.valueOf(obj1));
             chm5.enqueue(calldetails);
 
@@ -534,6 +541,14 @@ return vv;
 
         }
     };
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        if ( progress!=null && progress.isShowing() ){
+            progress.cancel();
+        }
+    }
 
 
     public static void bindUpdateViewList(UpdateUi uu){

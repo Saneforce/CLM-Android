@@ -215,6 +215,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     Dialog mis_dialog;
     static Context mContext;
     String tpflag = "";
+    String tab="training";
 
     /**
      * downloading slides constatnts
@@ -314,6 +315,12 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_new_homepage);
 
 
+        Bundle extra = getIntent().getExtras();
+        if (extra != null) {
+            tab = extra.getString("tab");
+        }else {
+            tab="training";
+        }
 //          checkingPermissionsNew();
 
 
@@ -1459,11 +1466,20 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
 
                 //if (savedInstanceState == null) {
-                Intent intent = new Intent(this, DownloadingService.class);
-                intent.putParcelableArrayListExtra("files", new ArrayList<File1>(files));
-                startService(intent);
-                //}
-                registerReceiver();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    Intent intent = new Intent(this, DownloadingService.class);
+                    intent.putParcelableArrayListExtra("files", new ArrayList<File1>(files));
+                    startService(intent);
+                    //}
+                    registerReceiver();
+                }else {
+
+                    Intent intent = new Intent(this, DownloadingService.class);
+                    intent.putParcelableArrayListExtra("files", new ArrayList<File1>(files));
+                    startService(intent);
+                    //}
+                    registerReceiver();
+                }
 
             } else {
                //tb_dwnloadSlides.setVisibility(View.GONE);
@@ -1616,6 +1632,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
         private boolean mIsAlreadyRunning;
         private boolean mReceiversRegistered;
+
 
         private ExecutorService mExec;
         private CompletionService<NoResultType> mEcs;
@@ -2958,11 +2975,17 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 //        adapter.addFrag(new CallFragment(), "");
        // adapter.addFrag(new TrainingFragment(), "");
-        adapter.addFrag(new NewTrainingFragment(), "");
-        adapter.addFrag(new NewCallFragment(), "");
-
+        if(tab.equalsIgnoreCase("training")) {
+            adapter.addFrag(new NewTrainingFragment(), "");
+            adapter.addFrag(new NewCallFragment(), "");
+        }
+        else{
+            adapter.addFrag(new NewCallFragment(), "");
+            adapter.addFrag(new NewTrainingFragment(), "");
+        }
         viewPager.setAdapter(adapter);
         progress.dismiss();
+
     }
 
     public void callDCR() {
@@ -2984,7 +3007,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             }
         } else {
             //if (sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("Field Work")) {
-                CommonUtilsMethods.CommonIntentwithNEwTask(DCRCallSelectionActivity.class);
+            mCommonSharedPreference.setValueToPreference("missed", "false");
+            CommonUtilsMethods.CommonIntentwithNEwTask(DCRCallSelectionActivity.class);
             //}
         }
 

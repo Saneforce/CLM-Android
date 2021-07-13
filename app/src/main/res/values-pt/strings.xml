@@ -436,5 +436,19 @@
     <string name="select_the_territory">Selecione o Território</string>
     <string name="pincode">Pincode</string>
     <string name="add_chemist">Adicionar Químico</string>
+    <string name="tpcustomer">Clientes TP</string>
+    <string name="mtdcall">Cobertura de chamadas MTD &amp; Média Diária de Chamadas</string>
+    <string name="detailingperformance">Detalhando o Desempenho</string>
+    <string name="detailtmspnt">Detalhando o tempo gasto</string>
+    <string name="brndexpo">Exposição da Marca</string>
+    <string name="mad">Detalhes de atividades de marketing</string>
+    <string name="calvstdet">Detalhes de visita de chamada</string>
+    <string name="reload1">recarregar</string>
+    <string name="compfeed">Feedback do concorrente</string>
+    <string name="Template">Modelo</string>
+    <string name="SelectTemplate">Selecione o modelo</string>
+    <string name="Feedback">Comentários
+</string>
+
 
 </resources>

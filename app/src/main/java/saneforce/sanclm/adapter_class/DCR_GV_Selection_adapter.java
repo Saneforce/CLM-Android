@@ -268,14 +268,15 @@ public class DCR_GV_Selection_adapter extends BaseAdapter implements Filterable{
 
         }
 
-        try {
-            JSONArray jsonn = new JSONArray(mCommonSharedPreference.getValueFromPreference("missed_array").toString());
-            if(jsonn.length()!=0){
-                for(int i=0;i<jsonn.length();i++){
-                    JSONObject js=jsonn.getJSONObject(i);
-                    if(row_pos.getmDoctorcode().equalsIgnoreCase(js.getString("code"))){
-                        mViewHolder.btn_detail.setVisibility(View.VISIBLE);
-                        mViewHolder.img_tick.setVisibility(View.VISIBLE);
+        try {if(mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true")){
+                JSONArray jsonn = new JSONArray(mCommonSharedPreference.getValueFromPreference("missed_array").toString());
+                if(jsonn.length()!=0){
+                    for(int i=0;i<jsonn.length();i++){
+                        JSONObject js=jsonn.getJSONObject(i);
+                        if(row_pos.getmDoctorcode().equalsIgnoreCase(js.getString("code"))){
+                            mViewHolder.btn_detail.setVisibility(View.VISIBLE);
+                            mViewHolder.img_tick.setVisibility(View.VISIBLE);
+                        }
                     }
                 }
             }
@@ -418,7 +419,7 @@ public class DCR_GV_Selection_adapter extends BaseAdapter implements Filterable{
 
                         filteredList.clear();
                         for (Custom_DCR_GV_Dr_Contents row : DrListFiltered) {
-                            if (row.getmDoctorName().toLowerCase().contains(charString.toLowerCase()) || row.getmDoctorName().contains(charSequence)) {
+                            if (row.getmDoctorName().toLowerCase().contains(charString.toLowerCase())||row.getmDoctorName().contains(charSequence) ) {
                                 Log.v("lowercase_filter", row.getmDoctorName());
                                 filteredList.add(row);
                             }
@@ -428,7 +429,7 @@ public class DCR_GV_Selection_adapter extends BaseAdapter implements Filterable{
                             filteredList.addAll(DrListFiltered);
                         }*/
 
-                        //DrListFiltered = filteredList;
+                        row = filteredList;
                     }
 
 

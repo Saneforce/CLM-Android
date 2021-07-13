@@ -1,3 +1,7 @@
+
+
+
+
 package saneforce.sanclm.fragments;
 
 import android.app.Dialog;
@@ -220,7 +224,7 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
 
         Log.d("daataselec",mCommonSharedPreference.getValueFromPreference("ucap"));
 
-        et_companyurl.setHint(resources.getString(R.string.search)+" "+resources.getString(R.string.listed)+mCommonSharedPreference.getValueFromPreference("ucap"));
+        et_companyurl.setHint(resources.getString(R.string.search)+" "+resources.getString(R.string.listed)+" "+mCommonSharedPreference.getValueFromPreference("ucap"));
         if(mCommonSharedPreference.getValueFromPreference("addAct").equalsIgnoreCase("0"))
             btn_act.setVisibility(View.VISIBLE);
         Log.v("detailing_btn",mCommonSharedPreference.getValueFromPreference("Detailing_undr")+"hrjr");

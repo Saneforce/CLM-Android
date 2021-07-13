@@ -215,6 +215,30 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
             resources = context.getResources();
         }
 
+        currentDate = CommonUtilsMethods.getCurrentDayInstance();
+        Tp_Based="1";
+
+        apiInterface= RetroClient.getClient(db_connPath).create(Api_Interface.class);
+        try {
+            obj.put("SF", SF_Code);
+            obj.put("eDt",currentDate);
+            Log.v("code>>",currentDate);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+
+        if(Tp_Based.equalsIgnoreCase("1")) {
+            subSfCode=mCommonSharedPreference.getValueFromPreference("sub_sf_code");
+            mMydayWtypeCd = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_CLUSTER_CODE);
+
+            list1 = new ArrayList<>();
+            list2 = new ArrayList<>();
+            getTpCuSDR();
+        }else{
+
+        }
 
         rl_dcr_precall_analysisMain = (RelativeLayout) v.findViewById(R.id.rl_dcr_precall_analysis_main) ;
         dcr_drselection_gridview= (RelativeLayout) v.findViewById(R.id.rl_dcr_drgrid_selection) ;
@@ -253,8 +277,9 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
         fab_btn=(ImageView) v.findViewById(R.id.fab_btn);
 
         tv_pdt_promoted = (TextView)  v.findViewById(R.id.tv_pdtdetailed_set);
-        et_companyurl=(EditText)v.findViewById(R.id.et_companyurl);
-        et_companyurl.setHint(resources.getString(R.string.search)+" "+resources.getString(R.string.listed)+mCommonSharedPreference.getValueFromPreference("chmcap"));
+        et_companyurl=(EditText)v.findViewById(R.id.etserchchm);
+        et_companyurl.setText("");
+        et_companyurl.setHint(resources.getString(R.string.search)+" "+resources.getString(R.string.listed)+" "+mCommonSharedPreference.getValueFromPreference("chmcap"));
         tv_pdt_promoted.setMovementMethod(new ScrollingMovementMethod());
         dcr_drselection_gridview.setVisibility(View.VISIBLE);
         spinner = (Spinner) v.findViewById(R.id.spinner);
@@ -278,35 +303,9 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
         tv_rmks_set=(TextView)  v.findViewById(R.id.tv_remark_set) ;
         FullScreencall();
 
-        currentDate = CommonUtilsMethods.getCurrentInstance();
-
-        apiInterface= RetroClient.getClient(db_connPath).create(Api_Interface.class);
-        try {
-            obj.put("SF", SF_Code);
-            obj.put("eDt",currentDate);
-            Log.v("code>>",currentDate);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 //        Tp_Based=mCommonSharedPreference.getValueFromPreference("Tp_Based");
-        Tp_Based="1";
 
 
-
-        if(Tp_Based.equalsIgnoreCase("1")) {
-            list1 = new ArrayList<>();
-            list2 = new ArrayList<>();
-//         docCodelist.add("377");
-//         docCodelist.add("360");
-//         docCodelist.add("433");
-            docCodelist = new ArrayList<>();
-            docCodelist.clear();
-            loadtodaycus();
-
-
-        }else{
-
-        }
         CommonUtils.TAG_DR_SPEC="";
 
         if(SF_Type.equalsIgnoreCase("2")){
@@ -375,9 +374,9 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
         }
         Log.v("chmList_value",chmList.size()+"");
         GridView gridView = (GridView) v.findViewById(R.id.gridview_dcrselect);
-        _DCR_GV_Selection_adapter = new DCR_GV_Selection_adapter(getContext(),chmList,"C");
-        gridView.setAdapter(_DCR_GV_Selection_adapter);
-        _DCR_GV_Selection_adapter.notifyDataSetChanged();
+        //_DCR_GV_Selection_adapter = new DCR_GV_Selection_adapter(getContext(),chmList,"C");
+       // gridView.setAdapter(_DCR_GV_Selection_adapter);
+      //  _DCR_GV_Selection_adapter.notifyDataSetChanged();
         categories.clear();
         SF_coding.clear();
         mCursor=dbh.select_hqlist_manager();
@@ -480,6 +479,8 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
                         mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("false")){
                     OnItemClick(drname,drcode);
                     rlay_spin.setVisibility(View.GONE);
+                   et_companyurl.setText("");
+
                 }
 
                 else if(mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true")){
@@ -524,7 +525,6 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
             }
         });
         btn_Skip.setOnClickListener(this);
-
         rlay_spin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -535,7 +535,9 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
 
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
-                }
+
+
+            }
 
             @Override
             public void beforeTextChanged(CharSequence cs, int arg1, int arg2,int arg3) {
@@ -544,18 +546,21 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
 
             @Override
             public void afterTextChanged(Editable cs) {
-                Log.v("filter_edt_txt", String.valueOf(cs.length()));
-              /*  if(cs.length()==0) {
-                    _DCR_GV_Selection_adapter.getFilter().filter(" ");
+                Log.v("filter_edt_txt", String.valueOf(_DCR_GV_Selection_adapter.getCount()));
+
+                if(cs.length()==0) {
+                    _DCR_GV_Selection_adapter.getFilter().filter("");
                     _DCR_GV_Selection_adapter.notifyDataSetChanged();
                 }
-                else{*/
-                _DCR_GV_Selection_adapter.getFilter().filter(cs);
-                _DCR_GV_Selection_adapter.notifyDataSetChanged();
-                //   }
+                else{
+                    _DCR_GV_Selection_adapter.getFilter().filter(cs);
+                    _DCR_GV_Selection_adapter.notifyDataSetChanged();
+                }
 
             }
         });
+
+
 
         if(mCommonSharedPreference.getValueFromPreference("visit_dr").equalsIgnoreCase("true")){
             btn_re_select_doctor.setVisibility(View.INVISIBLE);
@@ -638,8 +643,8 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
 //                        chmList.add(_custom_DCR_GV_Dr_Contents);
 //                    }
 
-                    GridView gridView = (GridView) v.findViewById(R.id.gridview_dcrselect);
-                    _DCR_GV_Selection_adapter = new DCR_GV_Selection_adapter(getContext(),chmList,"C");
+//                    GridView gridView = (GridView) v.findViewById(R.id.gridview_dcrselect);
+//                    _DCR_GV_Selection_adapter = new DCR_GV_Selection_adapter(getContext(),chmList,"C");
 //                    gridView.setAdapter(_DCR_GV_Selection_adapter);
 //                    _DCR_GV_Selection_adapter.notifyDataSetChanged();
 
@@ -660,7 +665,7 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
                             chmList.add(_custom_DCR_GV_Dr_Contents);
                         }
 
-                        GridView gridView = (GridView) v.findViewById(R.id.gridview_dcrselect);
+    //                    GridView gridView = (GridView) v.findViewById(R.id.gridview_dcrselect);
 //                        _DCR_GV_Selection_adapter = new DCR_GV_Selection_adapter(getContext(),chmList,"C");
 //                        gridView.setAdapter(_DCR_GV_Selection_adapter);
                         getHospital(1);
@@ -763,117 +768,80 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
         return v;
     }
 
-    private void
+    private void getTpCuSDR() {
 
-    loadtodaycus() {
-        Call<ResponseBody> acti1 = apiInterface.gettodayCusdoc(String.valueOf(obj));
-        acti1.enqueue(samples);
-    }
-    public Callback<ResponseBody> samples = new Callback<ResponseBody>() {
-        @Override
-        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-            System.out.println("checkUser is sucessfuld :" + response.isSuccessful());
-            if (response.isSuccessful()) {
+        dbh.open();
+        mCursor = dbh.select_tpChm(currentDate);
+        Log.v("tpcountdr1>>", String.valueOf(mCursor.getCount()));
+        String drcode;
+        String sStr = "";
 
-                try {
-
-
-                    InputStreamReader ip = null;
-                    StringBuilder is = new StringBuilder();
-                    String line = null;
-
-                    ip = new InputStreamReader(response.body().byteStream());
-                    BufferedReader bf = new BufferedReader(ip);
-
-                    while ((line = bf.readLine()) != null) {
-                        is.append(line);
-                    }
-                    dbh.open();
-                    mCursor = dbh.select_Chemist_bySf(subSfCode, mMydayWtypeCd);
-                    String sStr="";
-
-                    JSONArray ja = new JSONArray(is.toString());
-                    Log.v("is>>>",is.toString());
-                    for (int i = 0; i < ja.length(); i++) {
-                        JSONObject js1 = ja.getJSONObject(i);
-                        JSONArray jsonArray=js1.getJSONArray("Chm");
-                        Log.v("newc>>>", String.valueOf(jsonArray));
-
-
-                        for (int j = 0; j < jsonArray.length(); j++) {
-
-                            docCodelist.add(String.valueOf(jsonArray.get(j)));
-                            Log.v("docsize>>>", String.valueOf(docCodelist.size()));
-                            sStr+=jsonArray.get(j)+";";
-
-                        }
-
-                    }
-                    while (mCursor.moveToNext()) {
-//             Log.v("Dr_detailing_Missed11", mCursor.getString(1)+" "+mCursor.getString(2));
-
-                        if((";"+sStr).indexOf(";"+mCursor.getString(1)+";")>-1) {
-                            _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(5), mCursor.getString(4), mCursor.getString(11), mCursor.getString(12), "red", "", "");
-
-                            list1.add(_custom_DCR_GV_Dr_Contents);
-
-                        }
-
-                        else {
-                            _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(5), mCursor.getString(4), mCursor.getString(11), mCursor.getString(12),"grey","","");
-
-                            list2.add(_custom_DCR_GV_Dr_Contents);
-                        }
-                    }
-//
-//                   if(docCodelist.size()>0) {
-//                       dbh.open();
-//                       list1.clear();
-//                       mCursor = dbh.Select_bychemcode(docCodelist);
-//                       Log.v("doccount", String.valueOf(mCursor.getCount()));
-//                       while (mCursor.moveToNext()) {
-//                           Log.v("Dr_detailing_Missed", mCursor.getString(1) + " " + mCursor.getString(0));
-//                           _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(0), mCursor.getString(1), mCursor.getString(2), mCursor.getString(3), mCursor.getString(4), mCursor.getString(5), mCursor.getString(0), mCursor.getString(1),"red","","");
-//                           list1.add(_custom_DCR_GV_Dr_Contents);
-//                       }
-//                       dbh.close();
-//                   }
-//                    dbh.open();
-//                    list2.clear();
-//                    mCursor = dbh.select_Chemist_bySf(subSfCode, mMydayWtypeCd);
-//                    while (mCursor.moveToNext()) {
-////                        Log.v("Dr_detailing_Missed", mCursor.getString(1) + " " + mCursor.getString(2));
-//                        _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(5), mCursor.getString(4), mCursor.getString(11), mCursor.getString(12),"grey","","");
-//                        list2.add(_custom_DCR_GV_Dr_Contents);
-//                    }
-//                    dbh.close();
-                    Set<Custom_DCR_GV_Dr_Contents> set = new
-                            LinkedHashSet<>(list1);
-                    set.addAll(list2);
-
-                    chmList = new ArrayList<>(set);
-
-
-                    GridView gridView = (GridView) v.findViewById(R.id.gridview_dcrselect);
-                    _DCR_GV_Selection_adapter = new DCR_GV_Selection_adapter(getContext(), chmList, "C");
-                    gridView.setAdapter(_DCR_GV_Selection_adapter);
-                    dbh.close();
-
-
-                } catch (Exception e) {
-                }
-            } else {
-                try {
-                    JSONObject jObjError = new JSONObject(response.toString());
-                } catch (Exception e) {
-                }
+        if (mCursor.getCount() != 0) {
+            mCursor.moveToFirst();
+            do {
+                sStr += mCursor.getString(1) + ";";
+//                Log.v("drcode1>>", sStr);
             }
+            while (mCursor.moveToNext());
+
+
+        } else {
+
         }
 
-        @Override
-        public void onFailure(Call<ResponseBody> call, Throwable t) {
+        dbh.close();
+
+        dbh.open();
+        mCursor = dbh.select_Chemist_bySf(subSfCode, mMydayWtypeCd);
+        try {
+
+
+            if (mCursor.getCount() != 0) {
+                while (mCursor.moveToNext()) {
+                    if ((";" + sStr).indexOf(";" + mCursor.getString(1) + ";") > -1) {
+
+                        _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(5), mCursor.getString(4), mCursor.getString(11), mCursor.getString(12), "", "red");
+
+                        list1.add(_custom_DCR_GV_Dr_Contents);
+                        Log.v("drlist>>", mCursor.getString(2) + " " + mCursor.getString(1));
+                        Collections.sort(list1, Custom_DCR_GV_Dr_Contents.StuNameComparator);
+
+
+                    } else {
+                        _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(5), mCursor.getString(4), mCursor.getString(11), mCursor.getString(12), "", "grey");
+
+                        list2.add(_custom_DCR_GV_Dr_Contents);
+                        Collections.sort(list2, Custom_DCR_GV_Dr_Contents.StuNameComparator);
+
+                    }
+                }
+
+                Log.v("drcode1>>", String.valueOf(list1.size()));
+
+                Set<Custom_DCR_GV_Dr_Contents> set = new LinkedHashSet<>(list1);
+                set.addAll(list2);
+
+
+                chmList = new ArrayList<>(set);
+
+
+                GridView gridView = (GridView) v.findViewById(R.id.gridview_dcrselect);
+                _DCR_GV_Selection_adapter = new DCR_GV_Selection_adapter(getContext(), chmList, "C");
+                gridView.setAdapter(_DCR_GV_Selection_adapter);
+                _DCR_GV_Selection_adapter.notifyDataSetChanged();
+                Log.v("drcode1>>", String.valueOf(chmList.size()));
+
+                dbh.close();
+
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.v("error>>",e.getMessage());
         }
-    };
+    }
+
 
     private void selected(String language) {
         Locale myLocale = new Locale(language);
@@ -1082,14 +1050,14 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
                             chmList = new ArrayList<Custom_DCR_GV_Dr_Contents>();
                             chmList.clear();
                             while (mCursor.moveToNext()) {
-                                _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2),mCursor.getString(1),mCursor.getString(10),mCursor.getString(9),mCursor.getString(5),mCursor.getString(4),mCursor.getString(11),mCursor.getString(12));
+                                _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2),mCursor.getString(1),mCursor.getString(10),mCursor.getString(9),mCursor.getString(5),mCursor.getString(4),mCursor.getString(11),mCursor.getString(12),"","grey");
                                 chmList.add(_custom_DCR_GV_Dr_Contents);
                             }
 
-                            GridView gridView = (GridView) v.findViewById(R.id.gridview_dcrselect);
-                            _DCR_GV_Selection_adapter = new DCR_GV_Selection_adapter(getContext(),chmList,"C");
-//                            gridView.setAdapter(_DCR_GV_Selection_adapter);
-//                            _DCR_GV_Selection_adapter.notifyDataSetChanged();
+//                            GridView gridView = (GridView) v.findViewById(R.id.gridview_dcrselect);
+//                            _DCR_GV_Selection_adapter = new DCR_GV_Selection_adapter(getContext(),chmList,"C");
+//                           gridView.setAdapter(_DCR_GV_Selection_adapter);
+//                           _DCR_GV_Selection_adapter.notifyDataSetChanged();
                             commonFun();
                             break;
                         }

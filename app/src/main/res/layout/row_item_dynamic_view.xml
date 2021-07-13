@@ -53,6 +53,8 @@
 
 
             <EditText
+                android:selectAllOnFocus="true"
+                android:imeOptions="actionNext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
@@ -64,6 +66,8 @@
                 android:visibility="gone"
                 android:background="@drawable/round_rect_light_grey"/>
             <EditText
+                android:selectAllOnFocus="true"
+                android:imeOptions="actionNext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
@@ -77,6 +81,8 @@
                 android:visibility="gone"
                 android:background="@drawable/round_rect_light_grey"/>
             <EditText
+                android:selectAllOnFocus="true"
+                android:imeOptions="actionNext"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:textColor="@color/black"
@@ -107,6 +113,8 @@
 
 
                     <EditText
+                        android:selectAllOnFocus="true"
+                        android:imeOptions="actionNext"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
@@ -131,6 +139,8 @@
                     android:layout_toRightOf="@+id/rlay_geo_lat">
 
                     <EditText
+                        android:selectAllOnFocus="true"
+                        android:imeOptions="actionNext"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
@@ -263,6 +273,7 @@
                     android:singleLine="true"/>
 
                 <EditText
+                    android:imeOptions="actionDone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"

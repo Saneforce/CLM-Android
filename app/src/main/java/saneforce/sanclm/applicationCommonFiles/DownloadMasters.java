@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 
 import android.util.Log;
+import android.widget.GridView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -22,8 +23,11 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -47,6 +51,9 @@ import saneforce.sanclm.Pojo_Class.SpecialityList;
 import saneforce.sanclm.Pojo_Class.Stockists;
 import saneforce.sanclm.Pojo_Class.UnListedDoctorList;
 import saneforce.sanclm.Pojo_Class.WorkType;
+import saneforce.sanclm.R;
+import saneforce.sanclm.adapter_class.Custom_DCR_GV_Dr_Contents;
+import saneforce.sanclm.adapter_class.DCR_GV_Selection_adapter;
 import saneforce.sanclm.api_Interface.Api_Interface;
 import saneforce.sanclm.api_Interface.RetroClient;
 import saneforce.sanclm.sqlite.DataBaseHandler;
@@ -54,7 +61,7 @@ import saneforce.sanclm.util.ManagerListLoading;
 
 public class DownloadMasters extends IntentService {
     Context context;
-    String db_connPath, db_slidedwnloadPath, SF_Code, appusercode;
+    String db_connPath, db_slidedwnloadPath, SF_Code, appusercode, currentDate;
     public DataBaseHandler dbh;
     public static CallSlideDownloader callSlideDownloader;
     public static FinishRefreshData finishRefreshData;
@@ -66,6 +73,7 @@ public class DownloadMasters extends IntentService {
     JSONObject obj = new JSONObject();
     static ManagerListLoading managerListLoading;
     CommonSharedPreference commonSharedPreference;
+    JSONObject objnew = new JSONObject();
 
 
     public DownloadMasters(Context context, String db_connPath, String db_slidedwnloadPath, String sfCode, String mrcode) {
@@ -135,6 +143,7 @@ public class DownloadMasters extends IntentService {
         try {
 
             map.clear();
+            currentDate = CommonUtilsMethods.getCurrentInstance();
 
             // map.put("SF", "MR4077");
             Log.v("common_utils_change", SF_Code);
@@ -153,6 +162,10 @@ public class DownloadMasters extends IntentService {
             // String sfc = loginToken.replace(":","=");
             // map.clear();
             //map.put("data",obj.toString());
+
+                objnew.put("SF", SF_Code);
+                objnew.put("eDt",currentDate);
+
 
 
             apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
@@ -673,8 +686,7 @@ public Callback<ResponseBody> NewComplist = new Callback<ResponseBody>() {
     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
         System.out.println("checkUser is sucessfuld :" + response.isSuccessful());
         if (response.isSuccessful()) {
-            JSONObject jsonObject = null;
-            String jsonData = null;
+
             try {
                 dbh.open();
                 dbh.del_comp_new();
@@ -694,22 +706,23 @@ public Callback<ResponseBody> NewComplist = new Callback<ResponseBody>() {
                 JSONArray ja = new JSONArray(is.toString());
                 for (int i = 0; i < ja.length(); i++) {
                     JSONObject js1 = ja.getJSONObject(i);
+
                     JSONArray jsonArray = js1.getJSONArray("Cmpt");
                     for (int j = 0; j < jsonArray.length(); j++) {
-                        JSONObject js = jsonArray.getJSONObject(i);
-
+                        JSONObject js = jsonArray.getJSONObject(j);
+                        String OProdCd = js1.getString("OProdCd");
                         String compSlNo = js.getString("CCode");
                         String compName = js.getString("CName");
-                        String compPrdSlNo= js.getString("PCode");
+                        String compPrdSlNo = js.getString("PCode");
                         String compPrdName = js.getString("PName");
 
-                        dbh.insertCompetitorTable(compSlNo, compName, compPrdSlNo, compPrdName);
-
+                        dbh.NewinsertCompetitorTable(compSlNo, compName, compPrdSlNo, compPrdName, OProdCd);
                         Log.v("printing_chompnew", compName);
 
 
                     }
                 }
+
                 dbh.close();
 
             } catch (Exception e) {
@@ -1685,6 +1698,7 @@ public Callback<ResponseBody> NewComplist = new Callback<ResponseBody>() {
         HosList();
         therapticList();
         CipList();
+        loadtodayTPcus();
         //SlideBrandList();
         //SlideSpecList();
         //SlidePrdList();
@@ -1849,8 +1863,8 @@ public Callback<ResponseBody> NewComplist = new Callback<ResponseBody>() {
     }
 
     public void NewcopList() {
-//        Call<ResponseBody> chm = apiService.getNewcompetitors(String.valueOf(obj));
-//        chm.enqueue(NewComplist);
+        Call<ResponseBody> chm = apiService.getNewcompetitors(String.valueOf(obj));
+       chm.enqueue(NewComplist);
     }
 
     public static void bindManagerListLoading(ManagerListLoading mManagerListLoading) {
@@ -1869,5 +1883,88 @@ public Callback<ResponseBody> NewComplist = new Callback<ResponseBody>() {
         }catch (Exception e){}
         return false;
     }
+
+
+
+
+
+   public void loadtodayTPcus() {
+        Call<ResponseBody> acti1 = apiService.getTpMonthwsCust(String.valueOf(objnew));
+        acti1.enqueue(samples);
+    }
+
+
+    public Callback<ResponseBody> samples = new Callback<ResponseBody>() {
+        @Override
+        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            System.out.println("checkUser is sucessfuld :" + response.isSuccessful());
+            if (response.isSuccessful()) {
+
+                try {
+
+
+                    InputStreamReader ip = null;
+                    StringBuilder is = new StringBuilder();
+                    String line = null;
+
+                    ip = new InputStreamReader(response.body().byteStream());
+                    BufferedReader bf = new BufferedReader(ip);
+
+                    while ((line = bf.readLine()) != null) {
+                        is.append(line);
+                    }
+                    dbh.open();
+                    dbh.deleteTPMNWSCHM();
+                    dbh.deleteTPMNWSDR();
+
+
+                    JSONArray ja = new JSONArray(is.toString());
+                    Log.v("is>>>",is.toString());
+                    for (int i = 0; i < ja.length(); i++) {
+                        JSONObject js1 = ja.getJSONObject(i);
+                        JSONArray jsonArray=js1.getJSONArray("Drs");
+                        JSONArray jsonchm=js1.getJSONArray("Chm");
+                        Log.v("newc>>>", String.valueOf(jsonArray));
+
+                        String Yr=js1.getString("Yr");
+                        String Mn=js1.getString("Mn");
+                        String Dy=js1.getString("Dy");
+                        String date=Yr+"-"+Mn+"-"+Dy;
+
+
+
+
+
+                        for(int j=0;j<jsonArray.length();j++){
+                            String drcode= jsonArray.getString(j);
+                            dbh.insert_tpcusDR(date,drcode);
+
+                        }
+                        for(int
+                            k=0;k<jsonchm.length();k++){
+                            String drcode= jsonchm.getString(k);
+                            dbh.insert_tpcusCHM(date,drcode);
+                        }
+
+                    }
+
+                    dbh.close();
+
+
+                } catch (Exception e) {
+                }
+            } else {
+                try {
+                    JSONObject jObjError = new JSONObject(response.toString());
+                } catch (Exception e) {
+                }
+            }
+        }
+
+        @Override
+        public void onFailure(Call<ResponseBody> call, Throwable t) {
+        }
+    };
+
 
 }

@@ -492,14 +492,14 @@ public class DCRCIPCallsSelection extends Fragment implements AdapterView.OnItem
             @Override
             public void afterTextChanged(Editable cs) {
                 Log.v("filter_edt_txt", String.valueOf(cs.length()));
-              /*  if(cs.length()==0) {
-                    _DCR_GV_Selection_adapter.getFilter().filter(" ");
+               if(cs.length()==0) {
+                    _DCR_GV_Selection_adapter.getFilter().filter("");
                     _DCR_GV_Selection_adapter.notifyDataSetChanged();
                 }
-                else{*/
+                else{
                 _DCR_GV_Selection_adapter.getFilter().filter(cs);
                 _DCR_GV_Selection_adapter.notifyDataSetChanged();
-                //   }
+                  }
 
             }
         });

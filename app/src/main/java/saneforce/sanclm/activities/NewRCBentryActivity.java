@@ -12,6 +12,9 @@ import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
@@ -21,6 +24,7 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +54,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -77,14 +82,19 @@ import saneforce.sanclm.api_Interface.RetroClient;
 import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
 import saneforce.sanclm.applicationCommonFiles.CommonUtils;
 import saneforce.sanclm.applicationCommonFiles.CommonUtilsMethods;
+import saneforce.sanclm.fragments.LocaleHelper;
 import saneforce.sanclm.sqlite.DataBaseHandler;
 import saneforce.sanclm.util.DataInterface;
 import saneforce.sanclm.util.UpdateUi;
+
+import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
+import static saneforce.sanclm.fragments.AppConfiguration.language_string;
 
 public class NewRCBentryActivity extends AppCompatActivity implements DataInterface {
     private static String compURL = "http://sanclm.info/";
     public static int PICK_IMAGE_MULTIPLE = 1;
     public static final int REQUEST_IMAGE_CAPTURE = 2;
+    Resources resources;
 
     ListView list_comp, listView_feed_call, listview_audit_list;
     ArrayList<String> list = new ArrayList<>();
@@ -131,6 +141,8 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
     public static ArrayList<ModelDynamicList> array = new ArrayList<>();
     public static ArrayList<ModelDynamicView> array_view = new ArrayList<>();
     int pos_upload_file = 0;
+    String language="";
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,14 +153,25 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
         mCommonSharedPreference = new CommonSharedPreference(this);
         SF_Code = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_CODE);
         db_connPath = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DB_URL);
-
+        SharedPreferences sharedPreferences = this.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        language = sharedPreferences.getString(language_string, "");
+        if (!language.equals("")){
+            Log.d("homelang",language);
+            selected(language);
+            context = LocaleHelper.setLocale(this, language);
+            resources = context.getResources();
+        }else {
+            selected("en");
+            context = LocaleHelper.setLocale(this, "en");
+            resources = context.getResources();
+        }
         apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
         try {
             obj.put("SF", SF_Code);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        NewcopList();
+      //  NewcopList();
         list_comp = (ListView) findViewById(R.id.list_comp);
         listView_feed_call = (ListView) findViewById(R.id.listView_feed_call);
         listview_audit_list = (ListView) findViewById(R.id.listview_audit_list);
@@ -237,7 +260,7 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
 //                }
 
               if (chem_select_list.size() < 1&&brandList.size()==0) {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.sclt_chmnm), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.sclt_doc), Toast.LENGTH_LONG).show();
 
                 } else if (edt_search_brd.getText().toString().isEmpty()&&brandList.size()==0) {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.sclt_prdnm), Toast.LENGTH_LONG).show();
@@ -449,7 +472,7 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
         ImageView iv_close_popup = (ImageView) dialog.findViewById(R.id.iv_close_popup);
         SearchView search_view = (SearchView) dialog.findViewById(R.id.search_view);
         TextView textView=dialog.findViewById(R.id.tv_todayplan_popup_head);
-        textView.setText("DOCTOR NAME");
+        textView.setText(resources.getString(R.string.docnm));
         EditText search_edit = (EditText) dialog.findViewById(R.id.et_search);
 
         final PopupAdapter popupAdapter = new PopupAdapter(NewRCBentryActivity.this, xx);
@@ -1725,5 +1748,12 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
     }
 
 
-
+    private void selected(String language) {
+        Locale myLocale = new Locale(language);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+    }
 }

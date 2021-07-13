@@ -8,8 +8,8 @@ import saneforce.sanclm.sqlite.DataBaseHandler.*;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
 
-    public static final int DATABASE_VERSION = 15;
-    public static final String DATABASE_NAME = "Edetailingg.db";
+    public static final int DATABASE_VERSION = 16;
+    public static final String DATABASE_NAME = "Edetailinggss.db";
     private static final String TEXT_TYPE = " TEXT";
     private static final String COMMA_SEP = ",";
 
@@ -524,6 +524,19 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             ")";
 
 
+    /*TP CUSTOMERS DOCTORS */
+    private static final String SQL_CREATE_TPMNCUSDOCTORS = "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.TABLE_TPMNCUSTOMERDOCTORS +" ("+
+            TableEntry.COLUMN_DATE + TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_DRCODE+ TEXT_TYPE +
+            ")";
+
+    /*TP CUSTOMERS CHEMIST */
+    private static final String SQL_CREATE_TPMNCUSCHEMIST = "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.TABLE_TPMNCUSTOMERCHEMIST +" ("+
+            TableEntry.COLUMN_DATE + TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_CHEMIST_CODE+ TEXT_TYPE +
+            ")";
     public DatabaseHelper(Context context)
     {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -587,7 +600,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL(SQL_CREATE_CHMTP);
         db.execSQL(SQL_CREATE_CALLVSTDETAILSINGLE);
         db.execSQL(SQL_CREATE_CALLVSTDETAILSGROUP);
-
+        db.execSQL(SQL_CREATE_TPMNCUSDOCTORS );
+        db.execSQL(SQL_CREATE_TPMNCUSCHEMIST);
     }
 
     @Override

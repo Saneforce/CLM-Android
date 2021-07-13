@@ -113,7 +113,11 @@ public class CommonUtilsMethods {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return sdf.format(c.getTimeInMillis());
     }
-
+    public static String getCurrentDayInstance() {
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d");
+        return sdf.format(c.getTimeInMillis());
+    }
     public static String getCurrentTime(){
         Date currentTime = Calendar.getInstance().getTime();
 
@@ -213,6 +217,8 @@ public class CommonUtilsMethods {
             e.printStackTrace();
         }
     }
+
+
 
 
 }

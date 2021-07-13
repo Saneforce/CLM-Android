@@ -401,26 +401,49 @@ public class FeedProductAdapter extends BaseAdapter {
             e.printStackTrace();
         }
         long diff = date1.getTime() - date2.getTime();
-        // seconds, minutes, hours, years,
-        // and days
-        long difference_In_Seconds
-                = (diff
-                / 1000)
-                % 60;
+        if(diff>0) {
+            // seconds, minutes, hours, years,
+            // and days
+            long difference_In_Seconds
+                    = (diff
+                    / 1000)
+                    % 60;
 
-        long difference_In_Minutes
-                = (diff
-                / (1000 * 60))
-                % 60;
+            long difference_In_Minutes
+                    = (diff
+                    / (1000 * 60))
+                    % 60;
 
-        long difference_In_Hours
-                = (diff
-                / (1000 * 60 * 60))
-                % 24;
-        prd_time.setText(mm.getSt_end_time()+" ("+difference_In_Minutes+":"+difference_In_Seconds+")");
-        Log.v("duration>>",""+difference_In_Hours+":"+difference_In_Minutes+":"+difference_In_Seconds);
+            long difference_In_Hours
+                    = (diff
+                    / (1000 * 60 * 60))
+                    % 24;
 
 
+            prd_time.setText(mm.getSt_end_time() + " (" + difference_In_Minutes + ":" + difference_In_Seconds + ")");
+            Log.v("duration>>", "" + difference_In_Hours + ":" + difference_In_Minutes + ":" + difference_In_Seconds);
+
+        }else{
+            long diff1 = date2.getTime() - date1.getTime();
+            long difference_In_Seconds
+                    = (diff1
+                    / 1000)
+                    % 60;
+
+            long difference_In_Minutes
+                    = (diff1
+                    / (1000 * 60))
+                    % 60;
+
+            long difference_In_Hours
+                    = (diff1
+                    / (1000 * 60 * 60))
+                    % 24;
+
+
+            prd_time.setText(mm.getSt_end_time() + " (" + difference_In_Minutes + ":" + difference_In_Seconds + ")");
+            Log.v("duration>>", "" + difference_In_Hours + ":" + difference_In_Minutes + ":" + difference_In_Seconds);
+        }
         if (!TextUtils.isEmpty(mm.getRating()))
             rating.setRating(Float.parseFloat(mm.getRating()));
         edt_sample.setText(mm.getSample());

@@ -203,7 +203,7 @@ public class DCRSTKCallsSelection extends Fragment implements AdapterView.OnItem
         txt_tool_header.setText(resources.getString(R.string.listed)+" "+mCommonSharedPreference.getValueFromPreference("stkcap")+" "+resources.getString(R.string.Selection));
         Log.d("daataselec",mCommonSharedPreference.getValueFromPreference("stkcap"));
 
-        et_companyurl.setHint(resources.getString(R.string.search)+" "+resources.getString(R.string.listed)+mCommonSharedPreference.getValueFromPreference("stkcap"));
+        et_companyurl.setHint(resources.getString(R.string.search)+" "+resources.getString(R.string.listed)+" "+mCommonSharedPreference.getValueFromPreference("stkcap"));
         if(mCommonSharedPreference.getValueFromPreference("addAct").equalsIgnoreCase("0"))
             btn_act.setVisibility(View.VISIBLE);
         if(mCommonSharedPreference.getValueFromPreference("Detailing_stk").equalsIgnoreCase("0"))

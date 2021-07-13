@@ -516,4 +516,9 @@ public interface Api_Interface {
     Call<ResponseBody>getCallvstdetails(@Field("data") String sf);
 
 
+    @FormUrlEncoded
+    @POST("db.php?axn=get/mndaywscus")
+    Call<ResponseBody>getTpMonthwsCust(@Field("data") String sfedt);
+
+
 }

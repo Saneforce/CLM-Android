@@ -409,6 +409,8 @@ public class DownloadMasterData extends Fragment implements View.OnTouchListener
                 array.add(new ModelDownloadMaster(resources.getString(R.string.hospital), String.valueOf(dbh.select_hospitalist(sfCoding).getCount()), false));
             }
             array.add(new ModelDownloadMaster("Cip",  String.valueOf(dbh.select_cip_sfcode(sfCoding).getCount()), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.tpcustomer), pref.getString("TP Customers", "0"), false));
+
         } else {
             array.add(new ModelDownloadMaster(resources.getString(R.string.worktype), pref.getString("work", "0"), false));
             array.add(new ModelDownloadMaster(resources.getString(R.string.headquater), pref.getString("hq", "0"), false));
@@ -427,6 +429,7 @@ public class DownloadMasterData extends Fragment implements View.OnTouchListener
             array.add(new ModelDownloadMaster(resources.getString(R.string.feedbacks), "0", false));
             array.add(new ModelDownloadMaster(resources.getString(R.string.theraptic), pref.getString("theraptic", "0"), false));
             array.add(new ModelDownloadMaster("Cip", pref.getString("cip", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.tpcustomer), pref.getString("TP Customers", "0"), false));
 
         }
 

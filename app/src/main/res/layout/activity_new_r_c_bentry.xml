@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.BrandAuditActivity"
+    android:fitsSystemWindows="true"
     android:background="#cfcdcd">
 
     <LinearLayout
@@ -33,7 +34,7 @@
                     android:layout_height="wrap_content"
                     android:background="#ffffff"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="@string/chmnm"
+                    android:text="@string/docnm"
                     android:textColor="@color/black"
                     android:layout_centerVertical="true"
                     android:textSize="18dp"
