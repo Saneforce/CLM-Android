@@ -610,8 +610,10 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
 
                 });
 
+                DownloadMasters dwnloadMasterData1 = new DownloadMasters(getActivity(), db_connPath, db_slidedwnloadPath, SF_coding.get(i),SF_Code);
+                dwnloadMasterData1.jointtList();
 
-//                spinner.setSelection(i);
+                //                spinner.setSelection(i);
 //                switch (i){
 //                    case 0:
 //                        Log.v("Spinner Selected:",adapterView.getSelectedItem().toString());

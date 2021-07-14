@@ -401,7 +401,8 @@ public class DayReportsActivity extends AppCompatActivity {
                 }
             });
 
-        }catch (Exception e){}
+        }catch (Exception e){
+            Log.v("DayReports Exception",e.getMessage());}
     }
     public void callApiMissed(String date){
         try{

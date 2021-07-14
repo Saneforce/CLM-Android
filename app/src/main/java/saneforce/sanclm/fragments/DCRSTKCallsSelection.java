@@ -479,7 +479,8 @@ public class DCRSTKCallsSelection extends Fragment implements AdapterView.OnItem
                        progressDialog.dismiss();
                    }
                });
-
+                DownloadMasters dwnloadMasterData1 = new DownloadMasters(getActivity(), db_connPath, db_slidedwnloadPath, SF_coding.get(i),SF_Code);
+                dwnloadMasterData1.jointtList();
                 // mCommonSharedPreference.setValueToPreference("sub_sf_code",SF_coding.get(i));
            /*   DownloadMasters  dwnloadMasterData = new DownloadMasters(getActivity(), db_connPath, db_slidedwnloadPath, SF_coding.get(i));
                 ll_anim.setVisibility(View.VISIBLE);

@@ -607,6 +607,8 @@ public class DCRCIPCallsSelection extends Fragment implements AdapterView.OnItem
                         progressDialog.dismiss();
                     }
                 });
+                DownloadMasters dwnloadMasterData1 = new DownloadMasters(getActivity(), db_connPath, db_slidedwnloadPath, SF_coding.get(i),SF_Code);
+                dwnloadMasterData1.jointtList();
 
             }
 

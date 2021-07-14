@@ -2512,6 +2512,10 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 //                        }
 //                        else
 //                            mCommonSharedPreference.setValueToPreference("Detailing_chem","1");
+                        if (jsonn.has("tp_need"))
+                            mCommonSharedPreference.setValueToPreference("tp_need", jsonn.getString("tp_need"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("tp_need", "");
 
                         getTodayCalls();
                     } catch (Exception e) {
@@ -4262,6 +4266,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_clu_mnu, /*"Change Cluster"*/resources.getString(R.string.change_cluster)));
         arrayNav.add(new ModelNavDrawer(R.mipmap.calls, /*"Calls"*/resources.getString(R.string.calls)));
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_presentation, /*"Create Presentation"*/resources.getString(R.string.create_presentation)));
+       // if(mCommonSharedPreference.getValueFromPreference("tp_need").equalsIgnoreCase("0"))
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_tourplan, /*"Tour Plan"*/resources.getString(R.string.tour_plan)));
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_tourplan, /*"Missed Date Entry"*/resources.getString(R.string.missed_date_entry)));
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_leaveappln, /*"Leave Application"*/resources.getString(R.string.leave_application)));

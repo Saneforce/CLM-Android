@@ -349,18 +349,18 @@ public class BrandAuditActivity extends AppCompatActivity implements DataInterfa
         popupAdapter.notifyDataSetChanged();
         EditText search_edit = (EditText) dialog.findViewById(R.id.et_search);
 
-//        search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String s) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String s) {
-//                popupAdapter.getFilter().filter(s);
-//                return false;
-//            }
-//        });
+        search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                popupAdapter.getFilter().filter(s);
+                return false;
+            }
+        });
 
         search_edit.addTextChangedListener(new TextWatcher() {
             @Override

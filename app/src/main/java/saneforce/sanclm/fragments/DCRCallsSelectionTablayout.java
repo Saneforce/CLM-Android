@@ -216,13 +216,15 @@ public class DCRCallsSelectionTablayout  extends Fragment implements TabHost.OnT
                     }
 
                 }catch (Exception e){
-
+                    Log.v("Exception missed",e.getMessage());
+                    progressDialog.dismiss();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                Log.v("missed_date_err",t.toString());
+                progressDialog.dismiss();
             }
         });
     }
