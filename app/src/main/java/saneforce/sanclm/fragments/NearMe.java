@@ -139,6 +139,7 @@ public class NearMe extends Fragment {
             lngy = mGPSTrack.getLongitude();
 
         }
+
         if (mapFragment == null) {
                         mapFragment = SupportMapFragment.newInstance();
                         mapFragment.getMapAsync(new OnMapReadyCallback() {

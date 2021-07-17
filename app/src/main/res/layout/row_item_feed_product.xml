@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:background="#ffffff">
+    android:background="#ffffff"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -95,6 +96,8 @@
                 android:inputType="number"
                 android:maxLength="6"
                 android:digits="1234567890."
+                android:imeOptions="actionDone"
+                android:selectAllOnFocus="true"
                 android:id="@+id/edt_sample"/>
 
         </LinearLayout>

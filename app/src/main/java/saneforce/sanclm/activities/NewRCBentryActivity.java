@@ -96,7 +96,8 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
     public static final int REQUEST_IMAGE_CAPTURE = 2;
     Resources resources;
 
-    ListView list_comp, listView_feed_call, listview_audit_list;
+    ListView list_comp, listView_feed_call;
+    RecyclerView listview_audit_list;
     ArrayList<String> list = new ArrayList<>();
     ArrayList<CompNameProductNew> listComp = new ArrayList<CompNameProductNew>();
     ArrayList<CompNameProductNew> full_list_prd = new ArrayList<>();
@@ -174,7 +175,9 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
       //  NewcopList();
         list_comp = (ListView) findViewById(R.id.list_comp);
         listView_feed_call = (ListView) findViewById(R.id.listView_feed_call);
-        listview_audit_list = (ListView) findViewById(R.id.listview_audit_list);
+        listview_audit_list = (RecyclerView) findViewById(R.id.listview_audit_list);
+        listview_audit_list.setHasFixedSize(true);
+        listview_audit_list.setLayoutManager(new LinearLayoutManager(this));
         chem_plus = (Button) findViewById(R.id.chem_plus);
         edt_search_brd = (TextView) findViewById(R.id.edt_search_brd);
         rl_search_brd = (RelativeLayout) findViewById(R.id.rl_search_brd);
@@ -701,7 +704,7 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
 
 
                 Log.v("chem_obj_inside", String.valueOf(chemObj));
-
+                if (!ll.getComName().isEmpty()) {
                     chemObj.put("OPCode", ll.getCompPcode());
                     chemObj.put("OPName", ll.getComName());
                     chemObj.put("OPQty", ll.getQty());
@@ -744,8 +747,9 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
                 }
 
 
-            Log.v("Printing_comp_prd", String.valueOf(chemArr));
-            mCommonSharedPreference.setValueToPreference("jsonarray", String.valueOf(chemArr));
+                Log.v("Printing_comp_prd", String.valueOf(chemArr));
+                mCommonSharedPreference.setValueToPreference("jsonarray", String.valueOf(chemArr));
+            }
 
         } catch (Exception e) {
         }
@@ -1027,8 +1031,8 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
                             String compPrdName = js.getString("PName");
 //                            listComp.add(new CompNameProductNew(compSlNo,compName,compPrdSlNo,compPrdName));
 
-                            dbh.NewinsertCompetitorTable(compSlNo, compName, compPrdSlNo, compPrdName, OProdCd);
-                            Log.v("printing_chompnew", compName);
+//                            dbh.NewinsertCompetitorTable(compSlNo, compName, compPrdSlNo, compPrdName, OProdCd);
+//                            Log.v("printing_chompnew", compName);
 
 
                         }
@@ -1370,7 +1374,9 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
                         @Override
                         public void onClick(View v) {
 
-                            showPictureDialog();
+                            //showPictureDialog();
+                            choosePhotoFromGallary();
+
 
                         }
                     });
@@ -1411,35 +1417,7 @@ public class NewRCBentryActivity extends AppCompatActivity implements DataInterf
 
             return view;
         }
-//        public JSONArray composeJSON() throws JSONException {
-//            ArrayList<HashMap<String, String>> wordList;
-//            wordList = new ArrayList<HashMap<String, String>>();
-//
-//
-////            HashMap<String, String> map = new HashMap<String, String>();
-//        JSONObject map = new JSONObject();
-//            JSONObject jsonObject = new JSONObject();
-//
-//            JSONArray jsonArray = new JSONArray();
-//            for (int i = 0; i < list_prd1.size(); i++) {
-//                CompNameProductNew productNew = list_prd1.get(i);
-//
-//                map.put("Ccode", productNew.getCcode());
-//                map.put("CName", productNew.getCName());
-//                map.put("Pcode", productNew.getPCode());
-//                map.put("PName", productNew.getPName());
-//                map.put("qty", productNew.getInvqty());
-//                map.put("ptp", productNew.getPtp());
-//                map.put("ptr", productNew.getPtr());
-//                map.put("sw", productNew.getSw());
-//                map.put("rx", productNew.getRx());
-//                map.put("feedbackData", String.valueOf(productNew.getFeedback()));
-//                jsonArray.put(map);
-//
-//            }
-//
-//          return jsonArray;
-//        }
+
 
 
         private void saveEntry() {

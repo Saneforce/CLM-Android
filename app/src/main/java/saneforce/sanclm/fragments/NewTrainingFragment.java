@@ -4,10 +4,13 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +47,7 @@ import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import lecho.lib.hellocharts.model.PieChartData;
 import lecho.lib.hellocharts.model.SliceValue;
@@ -107,6 +111,22 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View vv=inflater.inflate(R.layout.new_training_graph,container,false);
         mCommonSharedPreference = new CommonSharedPreference(getActivity());
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        language = sharedPreferences.getString(language_string, "");
+
+
+
+        if (!language.equals("")){
+            Log.d("homelang",language);
+            selected(language);
+            context = LocaleHelper.setLocale(getActivity(), language);
+            resources = context.getResources();
+        }else {
+            selected("en");
+            context = LocaleHelper.setLocale(getActivity(), "en");
+            resources = context.getResources();
+        }
+
         SF_Code = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_CODE);
         db_connPath = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DB_URL);
         Log.v("sfcode",SF_Code);
@@ -142,6 +162,7 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
         detailingrecyclerview=vv.findViewById(R.id.detailingrecycle);
         detailingrecyclerview.setHasFixedSize(true);
         detailingrecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         drcallstext=vv.findViewById(R.id.drcallstotal);
         drcallcount=vv.findViewById(R.id.drtotal);
         pharmcalltxt=vv.findViewById(R.id.pharmacycalls);
@@ -196,29 +217,34 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
         reload1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progress.show();
+                if (CommonUtilsMethods.isOnline(getActivity())) {
+                    progress.show();
+//
+//                    db.open();
+//                    db.del_drcoverage();
+//                    db.del_pharmcoverage();
+//                    db.del_totalcoverage();
+//                    db.del_totalcalls();
+                    arrayList.clear();
+                    pharmlists.clear();
+                    totaldetlist.clear();
+                    copList();
+                    pharmList();
+                    totaldaylist();
+                    totalcalls();
+                    getdrcoverage();
+                    getpharmcoverage();
+                    gettotalcoverage();
+                    gettotalcalls();
+                    db.close();
 
-                db.open();
-                db.del_drcoverage();
-                db.del_pharmcoverage();
-                db.del_totalcoverage();
-                db.del_totalcalls();
-                arrayList.clear();
-                pharmlists.clear();
-                totaldetlist.clear();
-                copList();
-                pharmList();
-                totaldaylist();
-                totalcalls();
-                getdrcoverage();
-                getpharmcoverage();
-                gettotalcoverage();
-                gettotalcalls();
-                db.close();
+                    Intent intent = new Intent(getActivity(), HomeDashBoard.class);
+                    intent.putExtra("tab", "training");
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getActivity(), resources.getString(R.string.offline), Toast.LENGTH_SHORT).show();
 
-                Intent intent=new Intent(getActivity(), HomeDashBoard.class);
-                intent.putExtra("tab","training");
-                startActivity(intent);
+                }
 
 
             }
@@ -227,66 +253,80 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
         reload2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               progress.show();
-                db.open();
-                db.del_brandexpose();
-                db.del_detailing();
-                branlist.clear();
-                detailingLists.clear();
-                pieData.clear();
-                detailingAdapter.notifyDataSetChanged();
+                if (CommonUtilsMethods.isOnline(getActivity())) {
+                    progress.show();
+                    db.open();
+//                    db.del_brandexpose();
+//                    db.del_detailing();
+                    branlist.clear();
+                   detailingLists.clear();
+                   pieData.clear();
+//                    detailingAdapter.notifyDataSetChanged();
 
-                detailingtmspent();
-                brandexposure();
-                getbrandexpo();
-                getdetailing();
+                    detailingtmspent();
+                    brandexposure();
+                    getbrandexpo();
+                    getdetailing();
 
-                db.close();
-                Intent intent=new Intent(getActivity(), HomeDashBoard.class);
-                intent.putExtra("tab","training");
-                startActivity(intent);
+                    db.close();
+                    Intent intent = new Intent(getActivity(), HomeDashBoard.class);
+                    intent.putExtra("tab", "training");
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getActivity(), resources.getString(R.string.offline), Toast.LENGTH_SHORT).show();
+
+                }
+
+
             }
         });
 
+        try {
 
-        int[] colors = new int[ branlist.size()];
-        for(int i=0;i<branlist.size();i++){
 
-            xVals.add(branlist.get(i).getBrand());
-            entries.add(new BarEntry(i, Float.parseFloat((branlist.get(i).getTcount()))));
-          String col=branlist.get(i).getBarclr();
-            colors[i]=Color.parseColor(col);
+            int[] colors = new int[branlist.size()];
+            for (int i = 0; i < branlist.size(); i++) {
 
+                xVals.add(branlist.get(i).getBrand());
+                entries.add(new BarEntry(i, Float.parseFloat((branlist.get(i).getTcount()))));
+                String col = branlist.get(i).getBarclr();
+                colors[i] = Color.parseColor(col);
+
+            }
+
+            BarDataSet set = new BarDataSet(entries, "Visit Data");
+            set.setColors(colors);
+
+            BarData data = new BarData(set);
+            data.setBarWidth(0.5f);// set custom bar width
+            data.setValueFormatter(new DecimalRemover(new DecimalFormat("###,###,##0.0")));
+            barChart.setData(data);
+            barChart.setDescription(null);
+            barChart.getLegend().setEnabled(false);
+            barChart.setFitBars(true); // make the x-axis fit exactly all bars
+
+            XAxis xAxis = barChart.getXAxis();
+
+
+            xAxis.setDrawGridLines(false);
+            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+            xAxis.setLabelCount(xVals.size());
+            xAxis.setValueFormatter(new IndexAxisValueFormatter(xVals));
+            xAxis.setTextSize(9f);
+            xAxis.setLabelRotationAngle(45);
+            xAxis.setGranularityEnabled(true);
+            xAxis.setGranularity(1f);
+            YAxis rightYAxis = barChart.getAxisRight();
+            rightYAxis.setEnabled(false);
+            YAxis rightYAxis1 = barChart.getAxisLeft();
+            rightYAxis1.setEnabled(false);
+            barChart.animateY(1000);
+           barChart.setHighlightFullBarEnabled(false);
+            barChart.invalidate();
+        } catch (NumberFormatException e) {
+            Log.v("er>>",e.getMessage());
+            e.printStackTrace();
         }
-
-        BarDataSet set = new BarDataSet(entries, "Visit Data");
-        set.setColors(colors);
-
-        BarData data = new BarData(set);
-        data.setBarWidth(0.5f);// set custom bar width
-        data.setValueFormatter(new DecimalRemover(new DecimalFormat("###,###,##0.0")));
-        barChart.setData(data);
-        barChart.setDescription(null);
-        barChart.getLegend().setEnabled(false);
-        barChart.setFitBars(true); // make the x-axis fit exactly all bars
-
-        XAxis xAxis = barChart.getXAxis();
-
-
-        xAxis.setDrawGridLines(false);
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setLabelCount(xVals.size());
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(xVals));
-        xAxis.setTextSize(9f);
-        xAxis.setLabelRotationAngle(45);
-        xAxis.setGranularityEnabled(true);
-        xAxis.setGranularity(1f);
-        YAxis rightYAxis = barChart.getAxisRight();
-        rightYAxis.setEnabled(false);
-        YAxis rightYAxis1 = barChart.getAxisLeft();
-        rightYAxis1.setEnabled(false);
-        barChart.animateY(1000);
-        barChart.invalidate();
         return vv;
     }
 
@@ -833,5 +873,16 @@ public class NewTrainingFragment extends Fragment implements OnChartValueSelecte
             if(value < 10) return "";
             return mFormat.format(value) ;
         }
+    }
+    private void selected(String language) {
+        Locale myLocale = new Locale(language);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+
+
+
     }
 }

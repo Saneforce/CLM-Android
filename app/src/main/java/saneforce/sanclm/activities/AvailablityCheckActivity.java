@@ -97,13 +97,20 @@ public class AvailablityCheckActivity extends AppCompatActivity {
 
                     availchecks.add(availcheck);
                 } while (mCursor.moveToNext());
+
+
             }
             mCursor.close();
             db.close();
 
         }
 
-
+        adapter=new AvailcheckAdapter(this,availchecks,false,false);
+        LinearLayoutManager manager=new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL,false);
+        availabilityRecyclerview.setLayoutManager(manager);
+        availabilityRecyclerview.setAdapter(adapter);
+        availabilityRecyclerview.setHasFixedSize(true);
+        adapter.notifyDataSetChanged();
 
 
 
@@ -159,12 +166,7 @@ public class AvailablityCheckActivity extends AppCompatActivity {
         });
 
 
-         adapter=new AvailcheckAdapter(this,availchecks,false,false);
-        LinearLayoutManager manager=new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL,false);
-        availabilityRecyclerview.setLayoutManager(manager);
-        availabilityRecyclerview.setAdapter(adapter);
-        availabilityRecyclerview.setHasFixedSize(true);
-        adapter.notifyDataSetChanged();
+
 
         allavailText.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

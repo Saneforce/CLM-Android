@@ -447,8 +447,9 @@
     <string name="compfeed">Commentaires des concurrents</string>
     <string name="Template">Modèle</string>
     <string name="SelectTemplate">Sélectionner un modèle</string>
-    <string name="Feedback">Retour
-</string>
+    <string name="Feedback">Retour</string>
+    <string name="NonFieldcall">Impossible de soumettre des appels pour le travail hors terrain</string>
+
 
 
 </resources>

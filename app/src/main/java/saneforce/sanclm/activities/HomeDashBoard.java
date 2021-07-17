@@ -482,13 +482,14 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
         map.clear();
         map.put("SF", SF_Code);
+      //  map.put("ReqDt", currentDate);
         try {
             json.put("SF", SF_Code);
-
+            json.put("ReqDt", currentDate);
             Call<List<TodayCalls>> tdaycalls = apiService.todaycalls(String.valueOf(json));
             tdaycalls.enqueue(Todaycalls);
             map.put("ReqDt", currentDate);
-            json.put("ReqDt", currentDate);
+
             Log.v("printing_request", json.toString());
         } catch (Exception e) {
 
@@ -1013,11 +1014,17 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         if (mCursor.getCount() > 0) {
             while (mCursor.moveToNext()) {
                 if (displayWrk && mCursor.getString(4).equalsIgnoreCase("Y")) {
+
                 }//other than fieldwork in missed date
                 else {
                     mWorktypeListID.put(mCursor.getString(1), mCursor.getString(2));
                     mWrktypelist.add(new ModelWorkType(mCursor.getString(2), mCursor.getString(1), mCursor.getString(4)));
                     worktypeNm.add(mCursor.getString(2));
+                    if(displayWrk==true) {
+                        worktypeNm.remove("Field Work");
+                    }
+                    Log.d("display_wrktype", mCursor.getString(2));
+
                     Log.d("display_wrktype", mCursor.getString(4));
                 }
             }
@@ -1224,7 +1231,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             @Override
             public void onClick(View view) {
                 Log.v("checking_for_enable", tv_clusterView.isEnabled() + "");
-                if (tv_worktype.getText().toString().equalsIgnoreCase(resources.getString(R.string.select_worktype))) {
+                if (tv_worktype.getText().toString().equalsIgnoreCase(resources.getString(R.string.select_worktype)))
+                {
                     Toast.makeText(HomeDashBoard.this, resources.getString(R.string.fill_the)+" "+resources.getString(R.string.worktype1)+" "+resources.getString(R.string.field_), Toast.LENGTH_SHORT).show();
 //                } else if (tv_clusterView.getText().toString().equalsIgnoreCase(resources.getString(R.string.select_cluster)) && !displayWrk && tv_clusterView.isEnabled()) {
 //                    Toast.makeText(HomeDashBoard.this, resources.getString(R.string.fill_the)+" "+resources.getString(R.string.cluster1)+" "+resources.getString(R.string.field_), Toast.LENGTH_SHORT).show();
@@ -2972,27 +2980,37 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     }
 
     private void addTabs(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        try {
+            ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 //        adapter.addFrag(new CallFragment(), "");
-       // adapter.addFrag(new TrainingFragment(), "");
-        if(tab.equalsIgnoreCase("training")) {
-            adapter.addFrag(new NewTrainingFragment(), "");
-            adapter.addFrag(new NewCallFragment(), "");
+            // adapter.addFrag(new TrainingFragment(), "");
+            if (tab.equalsIgnoreCase("training")) {
+                adapter.addFrag(new NewTrainingFragment(), "");
+                adapter.addFrag(new NewCallFragment(), "");
+            } else {
+                adapter.addFrag(new NewCallFragment(), "");
+                adapter.addFrag(new NewTrainingFragment(), "");
+            }
+            viewPager.setAdapter(adapter);
+            progress.dismiss();
+        } catch (Exception e) {
+            e.printStackTrace();
+            progress.dismiss();
+
         }
-        else{
-            adapter.addFrag(new NewCallFragment(), "");
-            adapter.addFrag(new NewTrainingFragment(), "");
-        }
-        viewPager.setAdapter(adapter);
-        progress.dismiss();
 
     }
 
     public void callDCR() {
         String wrkNAm = sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, null);
         String wrkcluNAm = sharedpreferences.getString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, null);
-        if (TextUtils.isEmpty(wrkNAm) || wrkNAm.equalsIgnoreCase("null")) {
-            Toast.makeText(HomeDashBoard.this, resources.getString(R.string.dplan_need), Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(wrkNAm) || wrkNAm.equalsIgnoreCase("null")||!wrkNAm.equalsIgnoreCase("Field Work")) {
+            if(wrkNAm.isEmpty()){
+                Toast.makeText(HomeDashBoard.this, resources.getString(R.string.dplan_need), Toast.LENGTH_SHORT).show();
+            }
+           else if(!wrkNAm.equalsIgnoreCase(resources.getString(R.string.field))) {
+                Toast.makeText(HomeDashBoard.this, resources.getString(R.string.NonFieldcall), Toast.LENGTH_SHORT).show();
+            }
             if (!tpflag.isEmpty() || !tpflag.equals("")) {
                 if (tpflag.equals("1")) {
                     if (tb_dwnloadSlides.getVisibility() != View.VISIBLE) {
@@ -3521,9 +3539,13 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     String wrkNAm = sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, null);
                     Log.v("testing", wrkNAm);
                     String wrkcluNAm = sharedpreferences.getString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, null);
-                    if (TextUtils.isEmpty(wrkNAm) || wrkNAm.equalsIgnoreCase("null")) {
+                    if(wrkNAm.isEmpty()){
                         Toast.makeText(HomeDashBoard.this, resources.getString(R.string.dplan_need), Toast.LENGTH_SHORT).show();
                         Worktype();
+                    }
+                    else if(!wrkNAm.equalsIgnoreCase(resources.getString(R.string.field))) {
+                        Toast.makeText(HomeDashBoard.this, resources.getString(R.string.NonFieldcall), Toast.LENGTH_SHORT).show();
+
                     }
 /*
                 if(TextUtils.isEmpty(wrkcluNAm)|| TextUtils.isEmpty(wrkNAm) || wrkNAm.equalsIgnoreCase("null")){
@@ -4372,7 +4394,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
         }
 
-        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Detailing Report"*/resources.getString(R.string.detailing_report)));
+//        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Detailing Report"*/resources.getString(R.string.detailing_report)));
         arrayNav.add(new ModelNavDrawer(R.drawable.activity_img, /*"Logout"*/resources.getString(R.string.activity)));
 
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_logout, /*"Logout"*/resources.getString(R.string.logout)));

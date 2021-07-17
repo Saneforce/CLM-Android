@@ -6,7 +6,8 @@ import android.view.inputmethod.InputMethodManager;
 
 import java.util.ArrayList;
 
-public class Dcrdatas {
+public class
+Dcrdatas {
     private static Dcrdatas dcrdata;
 
     public static int custlist = 0;

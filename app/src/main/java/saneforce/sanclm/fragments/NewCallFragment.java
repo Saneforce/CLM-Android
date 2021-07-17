@@ -1,11 +1,16 @@
 package saneforce.sanclm.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +36,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import lecho.lib.hellocharts.model.PieChartData;
 import lecho.lib.hellocharts.model.SliceValue;
@@ -52,6 +58,9 @@ import saneforce.sanclm.applicationCommonFiles.CommonUtils;
 import saneforce.sanclm.applicationCommonFiles.CommonUtilsMethods;
 import saneforce.sanclm.sqlite.DataBaseHandler;
 import saneforce.sanclm.util.UpdateUi;
+
+import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
+import static saneforce.sanclm.fragments.AppConfiguration.language_string;
 
 public class NewCallFragment extends Fragment {
     PieChart pie;
@@ -89,6 +98,9 @@ public class NewCallFragment extends Fragment {
     PieChartView schart,gchart;
     ArrayList<SliceValue>pieData;
     ArrayList<SliceValue>pieData1;
+    Resources resources;
+    String language;
+    Context context;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -98,6 +110,19 @@ public class NewCallFragment extends Fragment {
         View vv=inflater.inflate(R.layout.new_home_call_graph, container, false);
 
         call_visit_detailsReload=(ImageButton) vv.findViewById(R.id.call_visit_detailsReload);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        language = sharedPreferences.getString(language_string, "");
+
+        if (!language.equals("")){
+            Log.d("homelang",language);
+            selected(language);
+            context = LocaleHelper.setLocale(getActivity(), language);
+            resources = context.getResources();
+        }else {
+            selected("en");
+            context = LocaleHelper.setLocale(getActivity(), "en");
+            resources = context.getResources();
+        }
 
         HomeDashBoard.updateCallUI(new UpdateUi() {
             @Override
@@ -205,22 +230,28 @@ public class NewCallFragment extends Fragment {
         reload1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progress.show();
-                db.open();
-                acivityModelArrayList.clear();
-                sampleslist.clear();
-                db.del_samples();
-                db.del_activity();
-                adapter.notifyDataSetChanged();
-                adapter1.notifyDataSetChanged();
-                loadSamples();
-                loadActivities();
-                getActivitiesfromlocal();
-                getSamplesfromlocal();
-                db.close();
-                Intent intent=new Intent(getActivity(), HomeDashBoard.class);
-                intent.putExtra("tab","call");
-                startActivity(intent);
+                if (CommonUtilsMethods.isOnline(getActivity())) {
+
+                    progress.show();
+                    db.open();
+                    acivityModelArrayList.clear();
+                    sampleslist.clear();
+//                    db.del_samples();
+//                    db.del_activity();
+//                    adapter.notifyDataSetChanged();
+//                    adapter1.notifyDataSetChanged();
+                    loadSamples();
+                    loadActivities();
+                    getActivitiesfromlocal();
+                    getSamplesfromlocal();
+                    db.close();
+                    Intent intent = new Intent(getActivity(), HomeDashBoard.class);
+                    intent.putExtra("tab", "call");
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getActivity(), resources.getString(R.string.offline), Toast.LENGTH_SHORT).show();
+
+                }
 
             }
         });
@@ -228,23 +259,30 @@ public class NewCallFragment extends Fragment {
         reload2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progress.show();
-                db.open();
+                if (CommonUtilsMethods.isOnline(getActivity())) {
 
-                db.del_callvstsingle();
-                db.del_callvstgroup();
-                singlecalllist.clear();
-                groupcalllist.clear();
-                pieData.clear();
-                pieData1.clear();
-                detailingAdapter.notifyDataSetChanged();
-                detailingAdapter1.notifyDataSetChanged();
-                loadcalldetails();
-               getCalldetails();
-                db.close();
-                Intent intent=new Intent(getActivity(), HomeDashBoard.class);
-                intent.putExtra("tab","call");
-                startActivity(intent);
+                    progress.show();
+                    db.open();
+
+                 //   db.del_callvstsingle();
+                  //  db.del_callvstgroup();
+                    singlecalllist.clear();
+                    groupcalllist.clear();
+                   pieData.clear();
+                 pieData1.clear();
+//                    detailingAdapter.notifyDataSetChanged();
+//                    detailingAdapter1.notifyDataSetChanged();
+                    loadcalldetails();
+                    getCalldetails();
+                    db.close();
+                    Intent intent = new Intent(getActivity(), HomeDashBoard.class);
+                    intent.putExtra("tab", "call");
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(getActivity(), resources.getString(R.string.offline), Toast.LENGTH_SHORT).show();
+
+                }
             }
         });
 
@@ -554,5 +592,12 @@ return vv;
     public static void bindUpdateViewList(UpdateUi uu){
         updateUi=uu;
     }
-
+    private void selected(String language) {
+        Locale myLocale = new Locale(language);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+    }
 }

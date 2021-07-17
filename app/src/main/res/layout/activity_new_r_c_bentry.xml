@@ -375,7 +375,7 @@
                         android:layout_marginRight="8dp"
                         android:layout_below="@+id/audit_call"
                         android:id="@+id/view_audit"/>
-                    <ListView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/listview_audit_list"
@@ -386,7 +386,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_below="@+id/view_audit">
 
-                    </ListView>
+                    </androidx.recyclerview.widget.RecyclerView>
 
                 </RelativeLayout>
 

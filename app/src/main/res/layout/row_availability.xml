@@ -91,6 +91,7 @@
                     android:id="@+id/etstock"
                     android:singleLine="true"
                     android:selectAllOnFocus="true"
+                    android:imeOptions="actionDone"
                     android:layout_width="100dp"
                     android:layout_height="40dp"
                     android:layout_marginLeft="60dp"

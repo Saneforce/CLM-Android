@@ -378,6 +378,7 @@ public class FeedProductAdapter extends BaseAdapter {
             prd_time.setVisibility(View.INVISIBLE);
             rating.setVisibility(View.INVISIBLE);
             feed_icon.setVisibility(View.INVISIBLE);
+
         }
         prd_nam.setText(mm.getPrdNAme());
 

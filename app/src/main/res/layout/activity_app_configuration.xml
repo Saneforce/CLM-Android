@@ -95,6 +95,7 @@
             android:gravity="center|left"
             android:paddingLeft="10dp"
             android:singleLine="true"
+            android:imeOptions="actionNext"
             android:text=""
             android:textColor="#5e5e5e"
             android:textColorHint="#888888"
@@ -134,6 +135,7 @@
             android:paddingLeft="10dp"
             android:singleLine="true"
             android:textColor="#5e5e5e"
+            android:imeOptions="actionDone"
             android:textColorHint="#888888"
             android:textSize="14dp">
 

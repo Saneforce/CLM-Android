@@ -285,5 +285,14 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
         }
 
     }
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
 
 }
