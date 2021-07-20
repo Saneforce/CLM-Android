@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -312,7 +313,27 @@ public class FeedProductAdapter extends BaseAdapter {
         ImageView feed_icon = (ImageView) view.findViewById(R.id.feed_icon);
         RatingBar rating = (RatingBar) view.findViewById(R.id.rating);
         EditText edt_sample = (EditText) view.findViewById(R.id.edt_sample);
-        if (!TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("sampleMax")) && !mCommonSharedPreference.getValueFromPreference("sampleMax").equalsIgnoreCase("null")) {
+        LinearLayout lnsam=(LinearLayout)view.findViewById(R.id.lnsamp);
+        LinearLayout lnminus=(LinearLayout)view.findViewById(R.id.lnminus);
+
+        if (!product.get(i).getSt_end_time().equalsIgnoreCase("00:00:00 00:00:00")&&(val.contains(FeedbackActivity.TypePeople))) {
+
+            LinearLayout lnqty=(LinearLayout)view.findViewById(R.id.lnqty);
+            edt_sample.setVisibility(View.GONE);
+            img_minus.setVisibility(View.GONE);
+           EditText  edt_pob = (EditText) view.findViewById(R.id.edt_pob);
+           edt_pob.setVisibility(View.GONE);
+
+
+        }
+
+       else if (!product.get(i).getSt_end_time().equalsIgnoreCase("00:00:00 00:00:00")) {
+            edt_sample.setVisibility(View.GONE);
+            img_minus.setVisibility(View.GONE);
+
+        }
+
+            if (!TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("sampleMax")) && !mCommonSharedPreference.getValueFromPreference("sampleMax").equalsIgnoreCase("null")) {
             int maxLength = Integer.parseInt(mCommonSharedPreference.getValueFromPreference("sampleMax"));
             InputFilter[] FilterArray = new InputFilter[1];
             FilterArray[0] = new InputFilter.LengthFilter(maxLength);
@@ -378,6 +399,12 @@ public class FeedProductAdapter extends BaseAdapter {
             prd_time.setVisibility(View.INVISIBLE);
             rating.setVisibility(View.INVISIBLE);
             feed_icon.setVisibility(View.INVISIBLE);
+            lnsam.setBackgroundColor(Color.parseColor("#FFFEEA"));
+            if(val.contains(FeedbackActivity.TypePeople)){
+                LinearLayout lnqty=(LinearLayout)view.findViewById(R.id.lnqty);
+                lnsam.setBackgroundColor(Color.parseColor("#FFFEEA"));
+                lnqty.setBackgroundColor(Color.parseColor("#FFFEEA"));
+            }
 
         }
         prd_nam.setText(mm.getPrdNAme());

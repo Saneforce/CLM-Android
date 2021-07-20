@@ -94,9 +94,9 @@ public class Web_Activity extends AppCompatActivity {
         settings.setJavaScriptEnabled(true);
         dvalue.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
 
-        dvalue.getSettings().setBuiltInZoomControls(true);
-        dvalue.getSettings().setUseWideViewPort(true);
-        dvalue.getSettings().setLoadWithOverviewMode(true);
+//        dvalue.getSettings().setBuiltInZoomControls(true);
+//        dvalue.getSettings().setUseWideViewPort(true);
+//        dvalue.getSettings().setLoadWithOverviewMode(true);
 
         final ProgressDialog progressDialog = new ProgressDialog(Web_Activity.this);
         progressDialog.setCancelable(false);

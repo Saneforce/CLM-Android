@@ -754,8 +754,8 @@ case MotionEvent.ACTION_MOVE:
 
 
 
-                            webView.getSettings().setBuiltInZoomControls(true);
-                            webView.getSettings().setDisplayZoomControls(true);
+//                            webView.getSettings().setBuiltInZoomControls(true);
+//                            webView.getSettings().setDisplayZoomControls(true);
                             webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
                             webView.getSettings().setJavaScriptEnabled(true);
 

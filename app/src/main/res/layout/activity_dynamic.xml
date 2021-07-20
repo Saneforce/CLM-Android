@@ -8,6 +8,7 @@
     tools:context=".activities.ApprovalActivity"
     android:background="#DAD8D8"
     android:id="@+id/main_lays"
+    android:fitsSystemWindows="true"
     >
 
     <RelativeLayout

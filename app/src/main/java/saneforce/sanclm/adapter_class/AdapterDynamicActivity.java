@@ -1,3 +1,5 @@
+
+
 package saneforce.sanclm.adapter_class;
 
 import android.content.Context;
@@ -75,7 +77,10 @@ public class AdapterDynamicActivity extends BaseAdapter {
                 specialityListener.specialityCode(array.get(position).getId());
             }
         });
+
         return ll;
+
+
     }
     public Filter getFilter() {
 
