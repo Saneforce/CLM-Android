@@ -11,6 +11,7 @@ public class FeedbackProductDetail {
     String sample;
     String remTiming;
     String rxQty;
+    String stk_name;
     ArrayList<PopFeed> prodFb;
 
     public ArrayList<PopFeed> getProdFb() {
@@ -37,7 +38,7 @@ public class FeedbackProductDetail {
         this.remTiming = remTiming;
     }
 
-    public FeedbackProductDetail(String prdNAme, String st_end_time, String rating, String feedback, String date, String sample,String remTiming,String rxQty,ArrayList<PopFeed> prodFb) {
+    public FeedbackProductDetail(String prdNAme, String st_end_time, String rating, String feedback, String date, String sample,String remTiming,String rxQty,ArrayList<PopFeed> prodFb,String stk_name) {
         this.prdNAme = prdNAme;
         this.st_end_time = st_end_time;
         this.rating=rating;
@@ -47,6 +48,7 @@ public class FeedbackProductDetail {
         this.remTiming=remTiming;
         this.rxQty=rxQty;
         this.prodFb=prodFb;
+        this.stk_name=stk_name;
     }
     public FeedbackProductDetail(String sample,String feedback,String rating){
         this.sample=sample;
@@ -127,6 +129,14 @@ public class FeedbackProductDetail {
 
     public void setRxQty(String rxQty) {
         this.rxQty = rxQty;
+    }
+
+    public String getStk_name() {
+        return stk_name;
+    }
+
+    public void setStk_name(String stk_name) {
+        this.stk_name = stk_name;
     }
 }
 

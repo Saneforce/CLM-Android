@@ -129,7 +129,7 @@ public class FeedbackActivity extends AppCompatActivity {
     Button btn_query;
     ArrayList<StoreImageTypeUrl> storeList;
     Button btn_brand_audit, submit;
-    TextView txt_name, txt_pob;
+    TextView txt_name, txt_pob,txt_stockist,txt_stockist1;
     String drname;
     EditText edt_sample;
     int queryCount = 0;
@@ -167,7 +167,7 @@ public class FeedbackActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
 
     ArrayList<StoreImageTypeUrl> arrayStore = new ArrayList<>();
-    LinearLayout addcalllayout,availLayout;
+    LinearLayout addcalllayout,availLayout,ll_stkname,ll_stkname1;
    String availability=null,custype="0";
 
     @Override
@@ -223,6 +223,10 @@ public class FeedbackActivity extends AppCompatActivity {
         addcalllayout=findViewById(R.id.addcallLayout);
         availLayout=findViewById(R.id.availLayout);
         availcheckbutton=findViewById(R.id.availcheckbtn);
+        txt_stockist = (TextView) findViewById(R.id.txt_stockist);
+        txt_stockist1 = (TextView) findViewById(R.id.txt_stockist1);
+        ll_stkname = (LinearLayout) findViewById(R.id.ll_stockname);
+        ll_stkname1 = (LinearLayout) findViewById(R.id.ll_stkname1);
 
 
         mCommonSharedPreference = new CommonSharedPreference(FeedbackActivity.this);
@@ -238,8 +242,6 @@ public class FeedbackActivity extends AppCompatActivity {
         availability=mCommonSharedPreference.getValueFromPreference("availjson");
             Log.v("avail>>>1",availability);
         btn_brand_audit.setVisibility(View.VISIBLE);
-
-
 
         if(AvailableAduitNeeded.equals("1")&&feedOption.equals("chemist")){
             availLayout.setVisibility(View.VISIBLE);
@@ -432,10 +434,33 @@ public class FeedbackActivity extends AppCompatActivity {
         Log.v("printing_final_pob", peopleType + " val_pob" + val_pob);
         if (val_pob.contains(peopleType)) {
             ll_feed_prd2.setVisibility(View.VISIBLE);
+
+
+            if (peopleType.equalsIgnoreCase("S")) {
+                ll_stkname1.setVisibility(View.GONE);
+            }
+            else if(peopleType.equalsIgnoreCase("U")){
+                ll_stkname1.setVisibility(View.GONE);
+            }
+            else {
+                if(mCommonSharedPreference.getValueFromPreference("Product_Stockist").equals("0"))
+                    ll_stkname1.setVisibility(View.VISIBLE);
+            }
+
             ll_feed_prd.setVisibility(View.GONE);
         } else {
             ll_feed_prd2.setVisibility(View.GONE);
             ll_feed_prd.setVisibility(View.VISIBLE);
+
+
+             if (peopleType.equalsIgnoreCase("S")){
+                ll_stkname.setVisibility(View.GONE);}
+            else if(peopleType.equalsIgnoreCase("U")){
+                ll_stkname.setVisibility(View.GONE);}
+            else{
+                 if(mCommonSharedPreference.getValueFromPreference("Product_Stockist").equals("0")){
+                     ll_stkname.setVisibility(View.VISIBLE);}
+             }
         }
 
        /* Log.v("printing_people_code",peopleCode);
@@ -542,7 +567,7 @@ public class FeedbackActivity extends AppCompatActivity {
                 String time = gettingProductStartEndTime(arrayStore.get(j).getRemTime(), j);
                 Log.v("printing_all_time", time);
 
-                listFeedPrd.add(new FeedbackProductDetail(arrayStore.get(j - 1).getBrdName(), time, "", "", mCommonUtilsMethod.getCurrentDate(), "", "", "", gettingProductFB("")));
+                listFeedPrd.add(new FeedbackProductDetail(arrayStore.get(j - 1).getBrdName(), time, "", "", mCommonUtilsMethod.getCurrentDate(), "", "", "", gettingProductFB(""),"Stockist"));
                 finalPrdNam = arrayStore.get(j).getBrdName();
 
             }
@@ -551,7 +576,7 @@ public class FeedbackActivity extends AppCompatActivity {
             String time = gettingProductStartEndTime(arrayStore.get(arrayStore.size() - 1).getRemTime(), arrayStore.size() - 1);
             ArrayList<PopFeed> ff = new ArrayList<>();
             ff = arr_pfb;
-            listFeedPrd.add(new FeedbackProductDetail(arrayStore.get(arrayStore.size() - 1).getBrdName(), time, "", "", mCommonUtilsMethod.getCurrentDate(), "", "", "", gettingProductFB("")));
+            listFeedPrd.add(new FeedbackProductDetail(arrayStore.get(arrayStore.size() - 1).getBrdName(), time, "", "", mCommonUtilsMethod.getCurrentDate(), "", "", "", gettingProductFB(""),"Stockist"));
             Log.v("edet_feedback33", time + " print" + listFeedPrd.get(0).getSt_end_time());
         }
 
@@ -1067,8 +1092,6 @@ public class FeedbackActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
     private void selected(String language) {
@@ -1264,7 +1287,7 @@ public class FeedbackActivity extends AppCompatActivity {
                         } else {
 
                             if (!listFeedPrd.contains(new FeedbackProductDetail(popFeed.getTxt())))
-                                listFeedPrd.add(new FeedbackProductDetail(popFeed.getTxt(), "00:00:00 00:00:00", "", "", CommonUtilsMethods.getCurrentDate(), "", "", "", gettingProductFB("")));
+                                listFeedPrd.add(new FeedbackProductDetail(popFeed.getTxt(), "00:00:00 00:00:00", "", "", CommonUtilsMethods.getCurrentDate(), "", "", "", gettingProductFB(""),"Stockist"));
                         }
                     }
                 }
@@ -1587,6 +1610,7 @@ public class FeedbackActivity extends AppCompatActivity {
                                     if (!TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("productFB")) && mCommonSharedPreference.getValueFromPreference("productFB").equalsIgnoreCase("0"))
                                         json_joint.put("prdfeed", getProdFb(listFeedPrd.get(i).getProdFb()));
                                     json_joint.put("Type", peopleType);
+                                    json_joint.put("Stockist",listFeedPrd.get(i).getStk_name());
                                     Log.v("getting_Slide_list_size", String.valueOf(json_joint));
                                     Cursor mCursor1 = dbh.select_feedback_list(listFeedPrd.get(i).getPrdNAme());
                                     Log.v("getting_Slide_list_size", String.valueOf(mCursor1.getCount()));
@@ -1842,7 +1866,7 @@ public class FeedbackActivity extends AppCompatActivity {
                         Log.v("json_name", js.getString("Name") + " val_pb " + val_pob + " people " + peopleType);
                         if (funStringValidation(js.getString("Name")))
                             namee = js.getString("Name");
-                        String rat = "", feed = "", qty = "", STm = "", ETm = "", dt = "", pob = "";
+                        String rat = "", feed = "", qty = "", STm = "", ETm = "", dt = "", pob = "",prd_stk="";
                         if (funStringValidation(js.getString("Rating")))
                             rat = js.getString("Rating");
                         if (funStringValidation(js.getString("ProdFeedbk")))
@@ -1854,6 +1878,9 @@ public class FeedbackActivity extends AppCompatActivity {
                             else
                                 qty = js.getString("SmpQty");
                         }
+                        if (funStringValidation(js.getString("Stockist")))
+                            prd_stk = js.getString("Stockist");
+
                         if (val_pob.contains(peopleType)) {
                             if ((js.has("RxQty")) || (js.has("rx_pob"))) {
                                 if (mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true")) {
@@ -1880,10 +1907,10 @@ public class FeedbackActivity extends AppCompatActivity {
                             ETm = jsonTim.getString("eTm").substring((jsonTim.getString("eTm").indexOf(" ")) + 1);
                         Log.v("name_js_js", namee + " smqty " + js.getString("SmpQty"));
                         if(js.has("prdfeed")) {
-                            listFeedPrd.add(new FeedbackProductDetail(js.getString("Name"), STm.trim() + " " + ETm.trim(), rat, feed, dt, qty, "", pob, gettingProductFB(js.getString("prdfeed"))));
+                            listFeedPrd.add(new FeedbackProductDetail(js.getString("Name"), STm.trim() + " " + ETm.trim(), rat, feed, dt, qty, "", pob, gettingProductFB(js.getString("prdfeed")),prd_stk));
                         }else
                         {
-                            listFeedPrd.add(new FeedbackProductDetail(js.getString("Name"), STm.trim() + " " + ETm.trim(), rat, feed, dt, qty, "", pob, gettingProductFB("")));
+                            listFeedPrd.add(new FeedbackProductDetail(js.getString("Name"), STm.trim() + " " + ETm.trim(), rat, feed, dt, qty, "", pob, gettingProductFB(""),prd_stk));
                         }
 
 

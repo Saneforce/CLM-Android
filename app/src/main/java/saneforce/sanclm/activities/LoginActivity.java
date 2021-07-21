@@ -509,6 +509,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 mCommonSharedPreference.setValueToPreference("chmgeoneed","1");
 
                             mCommonSharedPreference.setValueToPreference("radius",jsonObject.getString("DisRad"));
+
+//                            if (jsonObject.has("tp_need"))
+//                                mCommonSharedPreference.setValueToPreference("tp_need", jsonObject.getString("tp_need"));
+//                            else
+//                                mCommonSharedPreference.setValueToPreference("tp_need", "");
+
                             progressDialog.dismiss();
 
                             boolean checkPer=false;

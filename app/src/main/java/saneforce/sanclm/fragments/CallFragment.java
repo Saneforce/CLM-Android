@@ -706,6 +706,12 @@ public class CallFragment extends Fragment {
                             else
                                 mCommonSharedPreference.setValueToPreference("DrProfile", "");
 
+                            if(js.has("Product_Stockist")){
+                                mCommonSharedPreference.setValueToPreference("Product_Stockist", js.getString("Product_Stockist"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("Product_Stockist", "");
+
                         } catch (Exception e) {
                         }
                     }

@@ -182,7 +182,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             TableEntry.COLUMN_STOCKIST_CONTACT+ TEXT_TYPE +COMMA_SEP +
             TableEntry.COLUMN_DIVISION_CODE + TEXT_TYPE +COMMA_SEP +
             TableEntry.COLUMN_MAXTAG + TEXT_TYPE +COMMA_SEP +
-            TableEntry.COLUMN_TAGCOUNT + TEXT_TYPE +
+            TableEntry.COLUMN_TAGCOUNT + TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_LATITUDE + TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_LONGITUDE + TEXT_TYPE +
             ")";
 
     /*CIP MASTER */
@@ -190,7 +192,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             TableEntry.TABLE_CIP_MASTER_DETAILS +" ("+
             TableEntry.COLUMN_SF_CODE + TEXT_TYPE +COMMA_SEP +
             TableEntry.COLUMN_CIP_ID+ TEXT_TYPE +COMMA_SEP +
-            TableEntry.COLUMN_NAME + TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_CIP_NAME + TEXT_TYPE +COMMA_SEP +
             TableEntry.COLUMN_HOSPITAL_CODE+ TEXT_TYPE +COMMA_SEP +
             TableEntry.COLUMN_HOSPITAL_NAME + TEXT_TYPE +COMMA_SEP +
             TableEntry.COLUMN_CIP_TOWN_CODE + TEXT_TYPE +COMMA_SEP +

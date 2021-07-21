@@ -50,6 +50,12 @@ public class Stockists {
     @SerializedName("MaxGeoMap")
     @Expose
     private String maxCnt;
+    @SerializedName("lat")
+    @Expose
+    private String lat;
+    @SerializedName("long")
+    @Expose
+    private String longi;
 
     public String getCode() {
         return code;
@@ -169,5 +175,21 @@ public class Stockists {
 
     public void setMaxCnt(String maxCnt) {
         this.maxCnt = maxCnt;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLongi() {
+        return longi;
+    }
+
+    public void setLongi(String longi) {
+        this.longi = longi;
     }
 }

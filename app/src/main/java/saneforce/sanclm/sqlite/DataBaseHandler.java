@@ -272,6 +272,7 @@ public class DataBaseHandler {
             public static final String COLUMN_STOCKIST_CREDIT_DAYS = "Stk_CrdDays";    //10
             public static final String COLUMN_STOCKIST_CREDIT_LIMIT = "Stk_CrdLimit";   //11
             public static final String COLUMN_STOCKIST_CONTACT = "Stk_contact_per";//12
+
             //public static final String COLUMN_DIVISION_CODE = "Div_Code"; //13
 
 
@@ -732,7 +733,7 @@ public class DataBaseHandler {
 
     public long insert_stockistMaster(String stkCode, String stkName, String stkaddr, String stkTwnCd, String stkTwnNm,
                                       String stkPh, String stkMob, String stkEmail, String stkContactPers, String stkCrdDt,
-                                      String stkCrdLmt, String sfCd,String max,String tag) {
+                                      String stkCrdLmt, String sfCd,String max,String tag,String lat,String longi) {
         ContentValues values = new ContentValues();
         values.put(TableEntry.COLUMN_STOCKIST_CODE, stkCode);
         values.put(TableEntry.COLUMN_STOCKIST_NAME, stkName);
@@ -748,6 +749,8 @@ public class DataBaseHandler {
         values.put(TableEntry.COLUMN_SF_CODE, sfCd);
         values.put(TableEntry.COLUMN_MAXTAG, max);
         values.put(TableEntry.COLUMN_TAGCOUNT, tag);
+        values.put(TableEntry.COLUMN_LATITUDE, lat);
+        values.put(TableEntry.COLUMN_LONGITUDE, longi);
         Log.v("doctorlist_values",stkEmail+"credit"+stkCode);
         return db.insert(TableEntry.TABLE_STOCKIST_MASTER_DETAILS,TableEntry.COLUMN_NULLABLE, values);
     }

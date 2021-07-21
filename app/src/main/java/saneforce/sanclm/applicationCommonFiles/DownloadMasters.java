@@ -756,9 +756,11 @@ public Callback<ResponseBody> NewComplist = new Callback<ResponseBody>() {
                         String SfCd = Stockists.get(i).getSFCode();
                         String max = Stockists.get(i).getMaxCnt();
                         String tag = Stockists.get(i).getTagCnt();
+                        String lat=Stockists.get(i).getLat();
+                        String longi=Stockists.get(i).getLongi();
 
 
-                        dbh.insert_stockistMaster(stkCode, stkName, stkaddr, stkTwnCd, stkTwnNm, stkPh, stkMob, stkEmail, stkContactPers, stkCrdDt, stkCrdLmt, SfCd, max, tag);
+                        dbh.insert_stockistMaster(stkCode, stkName, stkaddr, stkTwnCd, stkTwnNm, stkPh, stkMob, stkEmail, stkContactPers, stkCrdDt, stkCrdLmt, SfCd, max, tag,lat,longi);
                     }
 
                     dbh.close();
