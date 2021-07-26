@@ -72,6 +72,7 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
             holder.stock_et.setEnabled(false);
             holder.stock_et.setText("0");
             holder.view.setVisibility(View.GONE);
+            holder.checkBox.setChecked(true);
             holder.textView2.setTextColor(Color.parseColor("#F10505"));
         }
 
@@ -89,10 +90,12 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
         else{
             holder.stock_et.setEnabled(false);
             holder.avail.setBackgroundResource(R.drawable.rectangle);
+            holder.oos.setBackgroundResource(R.drawable.rectangle);
             holder.avail.setTextColor(Color.BLACK);
+            holder.oos.setTextColor(Color.BLACK);
             holder.view.setVisibility(View.GONE);
             holder.textView2.setTextColor(Color.parseColor("#3F51B5"));
-            holder.checkBox.setChecked(true);
+            holder.checkBox.setChecked(false);
 
         }
 
@@ -127,8 +130,9 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
               if(isChecked){
                   mFilterresult.get(position).setIsoos(true);
                   mFilterresult.get(position).setAvailis(false);
-                  holder.oos.setBackgroundResource(R.drawable.rectangle_red);
+
                   holder.oos.setTextColor(Color.WHITE);
+                  holder.oos.setBackgroundResource(R.drawable.rectangle_red);
                   holder.avail.setBackgroundResource(R.drawable.rectangle);
                   holder.avail.setTextColor(Color.BLACK);
                   holder.stock_et.setEnabled(false);
@@ -136,6 +140,7 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
                   holder.checkBox.setChecked(true);
                   holder.view.setVisibility(View.GONE);
                   holder.textView2.setTextColor(Color.parseColor("#F10505"));
+                  notifyDataSetChanged();
 
               }else {
                   mFilterresult.get(position).setIsoos(false);
@@ -146,6 +151,7 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
                   holder.checkBox.setChecked(false);
                   holder.view.setVisibility(View.GONE);
                   holder.textView2.setTextColor(Color.parseColor("#3F51B5"));
+                  notifyDataSetChanged();
               }
           }
       });
@@ -163,6 +169,7 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
                     holder.checkBox.setChecked(true);
                     holder.view.setVisibility(View.VISIBLE);
                     holder.textView2.setTextColor(Color.parseColor("#228B22"));
+                    notifyDataSetChanged();
 
                 }else {
                     mFilterresult.get(position).setAvailis(false);
@@ -174,6 +181,7 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
                     holder.stock_et.setText("0");
                     holder.view.setVisibility(View.GONE);
                     holder.textView2.setTextColor(Color.parseColor("#3F51B5"));
+                    notifyDataSetChanged();
 
                 }
             }
@@ -272,6 +280,7 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
+
             textView1=itemView.findViewById(R.id.text1);
             textView2=itemView.findViewById(R.id.text2);
             oos=itemView.findViewById(R.id.alloos1);
@@ -293,6 +302,13 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
     @Override
     public int getItemViewType(int position) {
         return position;
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(
+            RecyclerView recyclerView)
+    {
+        super.onAttachedToRecyclerView(recyclerView);
     }
 
 }

@@ -316,6 +316,7 @@ public class AvailablityCheckActivity extends AppCompatActivity {
                adapter.getFilter().filter(s);
                adapter.notifyDataSetChanged();
 
+
             }
 
             @Override

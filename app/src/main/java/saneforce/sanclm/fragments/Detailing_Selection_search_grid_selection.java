@@ -554,10 +554,9 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
             }else if (mSelectionList.equalsIgnoreCase(getResources().getString(R.string.allbrand))){
 
                 Log.v("all_brand_select", "all_brands_only_ss" + CommonUtils.TAG_DR_SPEC);
-                if (skipSpeciality.equalsIgnoreCase("0"))
                     mCursor = dbh.select_ProductBrdWiseSlide();
-                else
-                    mCursor = dbh.select_ProductBrdWiseSlideSpec(CommonUtils.TAG_DR_SPEC);
+//                else
+//                    mCursor = dbh.select_ProductBrdWiseSlideSpec(CommonUtils.TAG_DR_SPEC);
                 Log.v("Log_total", mCursor.getCount() + "");
 
                            /*  while(mCursor.moveToNext()){

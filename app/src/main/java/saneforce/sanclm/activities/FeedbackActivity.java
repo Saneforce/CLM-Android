@@ -101,7 +101,8 @@ import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
 import static saneforce.sanclm.fragments.AppConfiguration.language_string;
 import static saneforce.sanclm.fragments.AppConfiguration.licenceKey;
 
-public class FeedbackActivity extends AppCompatActivity {
+public class
+FeedbackActivity extends AppCompatActivity {
     TextView availcheckbutton;
     FeedProductAdapter feedProductAdapter;
     FeedInputAdapter feedInputAdapter;
@@ -1302,6 +1303,7 @@ public class FeedbackActivity extends AppCompatActivity {
                     feedProductAdapter = new FeedProductAdapter(FeedbackActivity.this, listFeedPrd);
                     listView_feed_product.setAdapter(feedProductAdapter);
                     feedProductAdapter.notifyDataSetChanged();
+
                 }
                 dialog.dismiss();
             }

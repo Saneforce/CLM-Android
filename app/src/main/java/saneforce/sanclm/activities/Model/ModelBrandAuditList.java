@@ -8,6 +8,7 @@ public class ModelBrandAuditList {
     String comPrdName;
     String qty,rate,val,compCode,compPcode,sw,rx;
     String jsonChem;
+    String prcode;
 
     public ModelBrandAuditList() {
     }
@@ -42,8 +43,7 @@ public class ModelBrandAuditList {
 
 
 
-    public ModelBrandAuditList(String prName, String comName, String comPrdName, String qty, String rate, String val, String sw, String rx, String compCode, String compPcode,JSONArray feedback) {
-
+    public ModelBrandAuditList(String prName, String comName, String comPrdName, String qty, String rate, String val, String sw, String rx, String compCode, String compPcode,JSONArray feedback,String prcode) {
         this.prName = prName;
         this.comName = comName;
         this.comPrdName = comPrdName;
@@ -55,6 +55,7 @@ public class ModelBrandAuditList {
         this.rx=rx;
         this.sw=sw;
         this.feedback=feedback;
+        this.prcode=prcode;
     }
     public ModelBrandAuditList(String prName, String comName, String comPrdName, String qty, String rate, String val, String compCode, String compPcode) {
 
@@ -78,7 +79,16 @@ public class ModelBrandAuditList {
         this.compCode = compCode;
         this.jsonChem=jsonChem;
     }
-    public ModelBrandAuditList(String prName, String comName, String qty, String rate, String val, String sw,String rx,String compCode,String jsonChem) {
+
+    public String getPrcode() {
+        return prcode;
+    }
+
+    public void setPrcode(String prcode) {
+        this.prcode = prcode;
+    }
+
+    public ModelBrandAuditList(String prName, String comName, String qty, String rate, String val, String sw, String rx, String compCode, String jsonChem,String prcode) {
 
         this.prName = prName;
         this.comName = comName;
@@ -89,6 +99,7 @@ public class ModelBrandAuditList {
         this.jsonChem=jsonChem;
         this.sw=sw;
         this.rx=rx;
+        this.prcode=prcode;
     }
     public String getPrName() {
         return prName;

@@ -205,6 +205,8 @@ public class Detailing_right_grid_view extends Fragment implements OnSelectGridV
                             Log.v("printing_full_path", mCursor.getString(4) + " brd_code " + mCursor.getString(0));
                             _products = new Custom_Products_GridView_Contents(mCursor.getString(2), mCursor.getString(0), mCursor.getString(1),
                                     mCursor.getString(4), selectionstatus, CommonUtils.PRODUCT_GRIDVIEW_ADAPTER_MODE_MAPPING_PRODUCTS, mCursor.getString(3), bb);
+
+
                             mProducts_GridView_Contents.add(_products);
                         }
                     } else {

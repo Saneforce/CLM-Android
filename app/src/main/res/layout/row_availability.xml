@@ -7,13 +7,16 @@
         android:background="#fff"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
+
+
+
         android:layout_marginTop="20dp"
         >
     <View
         android:visibility="gone"
         android:id="@+id/view"
         android:layout_width="5dp"
-        android:layout_height="93dp"
+        android:layout_height="90dp"
         android:background="#05c12b"
         />
         <LinearLayout

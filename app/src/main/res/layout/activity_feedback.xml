@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".activities.FeedbackActivity"
     android:fitsSystemWindows="true"
-    android:background="#ffffff">
+    android:background="#ffffff"
+    android:windowSoftInputMode="adjustResize"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"

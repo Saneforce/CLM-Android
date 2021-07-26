@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:background="#ffffff">
+    android:background="#ffffff"
+    android:fitsSystemWindows="true"
+    android:descendantFocusability="afterDescendants"
+   >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -84,6 +88,7 @@
             android:layout_height="match_parent"
             android:layout_weight="10.5">
             <EditText
+                android:imeOptions="actionNext"
                 android:layout_marginLeft="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="33dp"
@@ -91,8 +96,6 @@
                 android:background="@drawable/row_item_feed_edt_grey"
                 android:textSize="16sp"
                 android:singleLine="true"
-                android:imeOptions="actionNext"
-                android:selectAllOnFocus="true"
                 android:ems="3"
                 android:layout_gravity="center"
                 android:fontFamily="@font/poppins_medium"
@@ -112,7 +115,7 @@
            >
 
             <EditText
-
+                android:imeOptions="actionDone"
                 android:id="@+id/edt_pob"
                 android:layout_width="wrap_content"
                 android:layout_height="33dp"
@@ -121,11 +124,9 @@
                 android:digits="1234567890."
                 android:ems="3"
                 android:fontFamily="@font/poppins_medium"
-                android:imeOptions="actionDone"
                 android:inputType="number"
                 android:maxLength="6"
                 android:paddingLeft="5dp"
-                android:selectAllOnFocus="true"
                 android:singleLine="true"
                 android:textColor="#000000"
                 android:textSize="16sp"

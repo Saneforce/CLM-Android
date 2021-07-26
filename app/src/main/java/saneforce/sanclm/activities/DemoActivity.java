@@ -17,6 +17,7 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -229,6 +230,7 @@ public class DemoActivity extends AppCompatActivity {
         nxt_mnth=(ImageView)findViewById(R.id.nxt_mnth);
         CommonUtilsMethods = new CommonUtilsMethods(this);
         marker_progress=(ProgressBar)findViewById(R.id.marker_progress);
+
         /*btn_send.getBackground().setAlpha(225);*/
         /*btn1=(Button)findViewById(R.id.btn1);
         btn2=(Button)findViewById(R.id.btn2);
@@ -3086,9 +3088,6 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                                 if(status.equalsIgnoreCase("2"))
                                     showToast("Tp Rejected");*/
                                 JSONArray jjary = jjobj.getJSONArray("TPDatas");
-
-
-
                                 for (int i = 0; i < jjary.length(); i++) {
                                     JSONArray saveDayjson = new JSONArray();
                                     JSONObject saveDayjsonobj = new JSONObject();

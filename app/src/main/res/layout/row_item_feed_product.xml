@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="60dp"
     android:background="#ffffff"
-    android:fitsSystemWindows="true">
+  >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -84,16 +84,16 @@
             android:layout_weight="10.5"
             >
             <EditText
+                android:imeOptions="actionDone"
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="33dp"
-                android:textColor="#0000"
+                android:textColor="#000000"
                 android:background="@drawable/row_item_feed_edt_grey"
                 android:textSize="16sp"
                 android:singleLine="true"
                 android:ems="3"
                 android:layout_gravity="center"
-
                 android:gravity="center"
                 android:fontFamily="@font/poppins_medium"
                 android:typeface="serif"
@@ -101,8 +101,6 @@
                 android:inputType="number"
                 android:maxLength="6"
                 android:digits="1234567890."
-                android:imeOptions="actionDone"
-                android:selectAllOnFocus="true"
                 android:id="@+id/edt_sample"/>
 
         </LinearLayout>

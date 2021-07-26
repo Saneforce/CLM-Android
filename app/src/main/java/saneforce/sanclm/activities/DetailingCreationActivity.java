@@ -164,39 +164,39 @@ public class DetailingCreationActivity extends FragmentActivity implements View.
             }
         });
 
-        rlay_spin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Detailing_right_grid_view.bindSpecName(new PresentationRightUnselect() {
-                    @Override
-                    public void unSelecting(String prdname) {
-                        txt_spinner.setText(prdname);
-                    //if(prdname=="null")
-                        Log.v("DETAILG_DATA", txt_spinner.getText().toString());
-                    }
-                });
-                Detailing_right_grid_view.popupSpeciality();
-            }
-        });
-
-        if (TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("specCode")) || mCommonSharedPreference.getValueFromPreference("specCode") == "null"){
-            txt_spinner.setText(getResources().getString(R.string.sclt_spcl));
-        }
-
-    }
+//        rlay_spin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Detailing_right_grid_view.bindSpecName(new PresentationRightUnselect() {
+//                    @Override
+//                    public void unSelecting(String prdname) {
+//                        txt_spinner.setText(prdname);
+//                    //if(prdname=="null")
+//                        Log.v("DETAILG_DATA", txt_spinner.getText().toString());
+//                    }
+//                });
+//                Detailing_right_grid_view.popupSpeciality();
+//            }
+//        });
+//
+//        if (TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("specCode")) || mCommonSharedPreference.getValueFromPreference("specCode") == "null"){
+//            txt_spinner.setText(getResources().getString(R.string.sclt_spcl));
+//        }
+//
+   }
 
     @Override
     public void onResume() {
         CommonUtilsMethods.FullScreencall(this);
         super.onResume();
-        if (TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("specCode")) || mCommonSharedPreference.getValueFromPreference("specCode")=="null")
-            txt_spinner.setText(getResources().getString(R.string.sclt_spcl));
-        else {
-            txt_spinner.setText(mCommonSharedPreference.getValueFromPreference("specName"));
-            CommonUtils.TAG_DR_SPEC = mCommonSharedPreference.getValueFromPreference("specCode");
-            Log.v("pritning_spec_code12", CommonUtils.TAG_DR_SPEC);
-            specialityListener.specialityCode(mCommonSharedPreference.getValueFromPreference("specCode"));
-        }
+//        if (TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("specCode")) || mCommonSharedPreference.getValueFromPreference("specCode")=="null")
+//            txt_spinner.setText(getResources().getString(R.string.sclt_spcl));
+//        else {
+//            txt_spinner.setText(mCommonSharedPreference.getValueFromPreference("specName"));
+//            CommonUtils.TAG_DR_SPEC = mCommonSharedPreference.getValueFromPreference("specCode");
+//            Log.v("pritning_spec_code12", CommonUtils.TAG_DR_SPEC);
+//            specialityListener.specialityCode(mCommonSharedPreference.getValueFromPreference("specCode"));
+//        }
     }
 
 
