@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -74,6 +75,7 @@ import saneforce.sanclm.applicationCommonFiles.DownloadMasters;
 import saneforce.sanclm.fragments.LocaleHelper;
 import saneforce.sanclm.sqlite.DataBaseHandler;
 import saneforce.sanclm.util.GridSelectionList;
+import saneforce.sanclm.util.NetworkChangeReceiver;
 import saneforce.sanclm.util.ProductChangeListener;
 import saneforce.sanclm.util.SpecialityListener;
 import saneforce.sanclm.util.TwoTypeparameter;
@@ -93,7 +95,7 @@ public class DemoActivity extends AppCompatActivity {
     MyCustomTPPager pagerAdapter;
     GridView grid_cal;
     DataBaseHandler dbh;
-
+    NetworkChangeReceiver receiver;
     String currentMn,currentMnthNum,currentyr;
     JSONArray jsonArray=new JSONArray();
     JSONObject jsonObject=new JSONObject();
@@ -177,11 +179,22 @@ public class DemoActivity extends AppCompatActivity {
     String language;
     Context context;
     Resources resources;
-
+    IntentFilter intentFilter;
+    boolean curr_but = false;
+    boolean nxt_but = false;
+    public final static String CONNECTIVITY_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         commonFun();
         return super.dispatchKeyEvent(event);
+    }
+
+    @Override
+    public void onResume() {
+
+        CommonUtilsMethods.FullScreencall(this);
+        super.onResume();
+        registerReceiver(receiver, intentFilter);
     }
 
     @Override
@@ -196,7 +209,7 @@ public class DemoActivity extends AppCompatActivity {
             selected(language);
             context = LocaleHelper.setLocale(DemoActivity.this, language);
             resources = context.getResources();
-        }else {
+        }else{
             selected("en");
             context = LocaleHelper.setLocale(DemoActivity.this, "en");
             resources = context.getResources();
@@ -310,7 +323,9 @@ public class DemoActivity extends AppCompatActivity {
         viewpager.setAdapter (pagerAdapter);
         viewpager.setOffscreenPageLimit(1);
 
-
+        receiver = new NetworkChangeReceiver();
+        intentFilter = new IntentFilter();
+        intentFilter.addAction(CONNECTIVITY_ACTION);
 
         /*array.add("hello");
         array.add("hello");
@@ -649,10 +664,12 @@ public class DemoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.v("printing_the_net",mCommonSharedPreference.getValueFromPreference("net_con"));
-                if(CommonUtilsMethods.isOnline(DemoActivity.this))
-                    alertOnline();
-                else
-                    showToast(/*"Check network connection!!"*/ resources.getString(R.string.chk_nwcnctn));
+                if(CommonUtilsMethods.isOnline(DemoActivity.this)) {
+                    callOldDatas(currentMn);
+                }
+                else{
+                    marker_progress.setVisibility(View.GONE);
+                    showToast(/*"Check network connection!!"*/ resources.getString(R.string.chk_nwcnctn));}
             }
         });
 
@@ -1044,7 +1061,9 @@ public class DemoActivity extends AppCompatActivity {
         current_mnth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                curr_but = true;
+                nxt_but = false;
+                current_mnth.setVisibility(View.INVISIBLE);
                 marker_progress.setVisibility(View.VISIBLE);
                 array.clear();
                 jsonArray=new JSONArray();
@@ -1054,8 +1073,9 @@ public class DemoActivity extends AppCompatActivity {
                     if(mCommonSharedPreference.getValueFromPreference("mnth").equalsIgnoreCase(txt_mnth.getText().toString())){
                         btn_send.setVisibility(View.INVISIBLE);
                     }
-                    else
+                    else {
                         btn_send.setVisibility(View.VISIBLE);
+                    }
                 }
 
                 /* dayCal();*/
@@ -1078,24 +1098,47 @@ public class DemoActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
                         calAdapt = new CalendarAdapter(DemoActivity.this, cur2.getString(2));
                         grid_cal.setAdapter(calAdapt);
                         calAdapt.notifyDataSetChanged();
-                        if(mCommonSharedPreference.getValueFromPreference("net_con").equalsIgnoreCase("connect"))
+                        if(mCommonSharedPreference.getValueFromPreference("net_con").equalsIgnoreCase("connect")){
                             callOldDatas(currentMn);
-                        else
+                        }
+                        else{
                             marker_progress.setVisibility(View.GONE);
+                            button_hide();
+                        }
                         enableDisableSubmitButton();
-
                     }
+                }
+                else{
+                    marker_progress.setVisibility(View.GONE);
+                    button_hide();
+//                    JSONObject jj=new JSONObject();
+//                    //   jj.put("TPDatas","[]");
+//                    try {
+//                        jj.put("SF",mCommonSharedPreference.getValueFromPreference("subsf"));
+//                        jj.put("SFName",mCommonSharedPreference.getValueFromPreference("subsfname"));
+//                        jj.put("DivCode",div);
+//                        jj.put("TPMonth",fullDateDum.substring(5,7));
+//                        jj.put("TPYear",fullDateDum.substring(0,4));
+//                    } catch (JSONException exception) {
+//                        exception.printStackTrace();
+//                    }
+//
+//                    calAdapt = new CalendarAdapter(DemoActivity.this, jj.toString());
+//                    grid_cal.setAdapter(calAdapt);
+
                 }
 //                else{
 ////                    getInsertValue();
 ////                    loadData(SF_Code);
 //                      callOldDatas(currentMn);
 //                }
-                current_mnth.setVisibility(View.INVISIBLE);
-                nxt_mnth.setVisibility(View.VISIBLE);
+
+//                current_mnth.setVisibility(View.INVISIBLE);
+//                nxt_mnth.setVisibility(View.VISIBLE);
             }
         });
 
@@ -1103,7 +1146,9 @@ public class DemoActivity extends AppCompatActivity {
         nxt_mnth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                curr_but = false;
+                nxt_but = true;
+                nxt_mnth.setVisibility(View.INVISIBLE);
                 marker_progress.setVisibility(View.VISIBLE);
                 jsonArray=new JSONArray();
                 array.clear();
@@ -1119,6 +1164,7 @@ public class DemoActivity extends AppCompatActivity {
 
 
                 Cursor cur2=dbh.select_tp_list(currentMn);
+               Log.d("cur_json","--"+cur2.getCount());
                 if(cur2.getCount()>0){
                     while(cur2.moveToNext()) {
                         Log.v("cur_json_val", cur2.getString(1));
@@ -1127,7 +1173,7 @@ public class DemoActivity extends AppCompatActivity {
                             if(cur2.getString(  3).equalsIgnoreCase("1") || cur2.getString(  3).equalsIgnoreCase("3")
                                     || cur2.getString(  3).equalsIgnoreCase("2")){
                                 status=cur2.getString(3);
-                                Log.v("printing_Statuis22",cur2.getString(3));
+                                Log.v("printing_Statuis22",cur2.getString(3)+"---"+cur2.getString(2));
                             }
                             else
                                 status="0";
@@ -1136,20 +1182,43 @@ public class DemoActivity extends AppCompatActivity {
                         }
                         calAdapt = new CalendarAdapter(DemoActivity.this, cur2.getString(2));
                         grid_cal.setAdapter(calAdapt);
-                        if(mCommonSharedPreference.getValueFromPreference("net_con").equalsIgnoreCase("connect"))
+                        if(mCommonSharedPreference.getValueFromPreference("net_con").equalsIgnoreCase("connect")){
                             callOldDatas(currentMn);
-                        else
+                        }
+                        else{
                             marker_progress.setVisibility(View.GONE);
+                            button_hide();
+                        }
                         enableDisableSubmitButton();
+
                     }
+                }
+                else{
+                    marker_progress.setVisibility(View.GONE);
+                    button_hide();
+//                    JSONObject jj=new JSONObject();
+//                    //   jj.put("TPDatas","[]");
+//                    try {
+//                        jj.put("SF",mCommonSharedPreference.getValueFromPreference("subsf"));
+//                        jj.put("SFName",mCommonSharedPreference.getValueFromPreference("subsfname"));
+//                        jj.put("DivCode",div);
+//                        jj.put("TPMonth",currentMnthNum);
+//                        jj.put("TPYear",currentyr);
+//                    } catch (JSONException exception) {
+//                        exception.printStackTrace();
+//                    }
+//
+//                    calAdapt = new CalendarAdapter(DemoActivity.this, jj.toString());
+//                    grid_cal.setAdapter(calAdapt);
+
                 }
 //                else{
 ////                    getInsertValue();
 ////                   loadData(SF_Code);
 //                  callOldDatas(currentMn);
 //                }
-                current_mnth.setVisibility(View.VISIBLE);
-                nxt_mnth.setVisibility(View.INVISIBLE);
+//                current_mnth.setVisibility(View.VISIBLE);
+//                nxt_mnth.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -1390,18 +1459,23 @@ public class DemoActivity extends AppCompatActivity {
            btn_send.setVisibility(View.GONE);
            btn_approve.setVisibility(View.VISIBLE);
            btn_reject.setVisibility(View.VISIBLE);
+           sync_icon.setVisibility(View.INVISIBLE);
            btn_edit.setText(/*"Edit"*/ resources.getString(R.string.edit));
             getDateRangeDum(Integer.parseInt(mCommonSharedPreference.getValueFromPreference("tpmonth"))-1,Integer.parseInt(mCommonSharedPreference.getValueFromPreference("tpyear")));
             dayCaldumm();
             Log.v("jsonObject1",jsonObject1.toString());
             loadData(mCommonSharedPreference.getValueFromPreference("subsf"));
             marker_progress.setVisibility(View.VISIBLE);
-            retrieveOldDatas(mCommonSharedPreference.getValueFromPreference("approve"),currentMn);
+            if(CommonUtilsMethods.isOnline(DemoActivity.this)){
+                  retrieveOldDatas(mCommonSharedPreference.getValueFromPreference("approve"),currentMn);
+            }
         }
         else {
             getInsertValue();
             loadData(SF_Code);
-            callOldDatas(currentMn);
+            if(CommonUtilsMethods.isOnline(DemoActivity.this)) {
+                callOldDatas(currentMn);
+            }
         }
        // getDateRangeDum(3,2020);
         //dayCaldumm();
@@ -1471,7 +1545,6 @@ public class DemoActivity extends AppCompatActivity {
             }
         }
         enableDisableSubmitButton();
-
     }
 
 
@@ -1758,10 +1831,8 @@ public class DemoActivity extends AppCompatActivity {
     }
     public void loadData(String SF_Code){
         JSONArray jsonArrayData=new JSONArray();
-
         dbh.open();
         Cursor mCursor = dbh.select_TPworktypeList(SF_Code);
-
         if (mCursor.getCount() > 0) {
             while (mCursor.moveToNext()) {
                 list_wrk.add(new ModelWorkType(mCursor.getString(2),mCursor.getString(1),mCursor.getString(4)));
@@ -2918,7 +2989,20 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                             jssobj.put("DivCode",div);
 
                             Log.v("printined_single_save",jssobj.toString());
-                            saveSingleDay(jssobj.toString(),0);
+                            if(CommonUtilsMethods.isOnline(DemoActivity.this)) {
+                                saveSingleDay(jssobj.toString(), 0);
+                            }
+                            else{
+                                if(!dbh.checkOpen())
+                                    dbh.open();
+                                Log.v("printined_single_save11",jssobj.toString());
+                                 dbh.insertTPnew(jssobj.toString(),currentMn);
+                                 Cursor cur11 = dbh.select_tp_listnew();
+                                 while (cur11.moveToNext()){
+                                     Log.v("printined_single_save11",cur11.getInt(0)+"--"+cur11.getString(1));
+                                 }
+                                Log.v("printined_single_save11",cur11.getCount()+"--");
+                            }
 
                         }
                         i=jsA.length();
@@ -2936,6 +3020,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
     }
 
     public void saveSingleDay(String json, final int x){
+        Log.d("tp_singleday",json);
         Call<ResponseBody> drDetail;
         if(x==0)
         drDetail = apiService.svDayTp(json);
@@ -3052,8 +3137,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-
-
+                    Log.d("tpserver_data",response.body().toString());
                     InputStreamReader ip = null;
                     StringBuilder is = new StringBuilder();
                     String line = null;
@@ -3069,13 +3153,24 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                         JSONArray jsonArray=new JSONArray(is.toString());
                         if(jsonArray.length()==0) {
                             marker_progress.setVisibility(View.GONE);
-                           // dbh.deleteTP(month);
-                            //dayCal();
+                            button_hide();
+//                            dbh.deleteTP(month);
+//                            dayCal();
                             status = "0";
                             reject="";
                             btn_send.setVisibility(View.VISIBLE);
                             grid_cal.setAlpha(1f);
                             grid_cal.setEnabled(true);
+//                            JSONObject jj=new JSONObject();
+//                         //   jj.put("TPDatas","[]");
+//                            jj.put("SF",mCommonSharedPreference.getValueFromPreference("subsf"));
+//                            jj.put("SFName",mCommonSharedPreference.getValueFromPreference("subsfname"));
+//                            jj.put("DivCode",div);
+//                            jj.put("TPMonth",fullDateDum.substring(5,7));
+//                            jj.put("TPYear",fullDateDum.substring(0,4));
+//                            calAdapt = new CalendarAdapter(DemoActivity.this, jj.toString());
+//                            grid_cal.setAdapter(calAdapt);
+
                         }
                         else {
 
@@ -3088,8 +3183,6 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                                 if(status.equalsIgnoreCase("2"))
                                     showToast("Tp Rejected");*/
                                 JSONArray jjary = jjobj.getJSONArray("TPDatas");
-
-
 
                                 for (int i = 0; i < jjary.length(); i++) {
                                     JSONArray saveDayjson = new JSONArray();
@@ -3150,7 +3243,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                                             namearray = null;
                                             finalValue = "";
 
-                                            if(drNeed.equalsIgnoreCase("0")) {
+                                           // if(drNeed.equalsIgnoreCase("0")) {
                                                 code = jj.getString("Dr_Code");
                                                 name = jj.getString("Dr_Name");
 
@@ -3162,9 +3255,9 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                                                     Log.v("printing_finalval", finalValue);
                                                 }
                                                 saveDayjsonobj.put("dr", finalValue);
-                                            }
-                                            else
-                                                saveDayjsonobj.put("dr", "");
+//                                            }
+//                                            else
+//                                                saveDayjsonobj.put("dr", "");
 
                                            /* if (dayno.equalsIgnoreCase("14")) {
                                                 Log.v("printing_approval_", jj.getString("Dr_Code") + " finalval " + finalValue);
@@ -3173,7 +3266,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                                             codearray = null;
                                             namearray = null;
                                             finalValue = "";
-                                            if(chmNeed.equalsIgnoreCase("0")) {
+                                          //  if(chmNeed.equalsIgnoreCase("0")) {
                                                 code = jj.getString("Chem_Code");
                                                 name = jj.getString("Chem_Name");
 
@@ -3184,9 +3277,9 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                                                     Log.v("printing_finalval", finalValue);
                                                 }
                                                 saveDayjsonobj.put("chem", finalValue);
-                                            }
-                                            else
-                                                saveDayjsonobj.put("chem", "");
+//                                            }
+//                                            else
+//                                                saveDayjsonobj.put("chem", "");
                                             codearray = null;
                                             namearray = null;
                                             finalValue = "";
@@ -3233,7 +3326,6 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                                         }
                                     }
 
-
                                 }
                            /* }
                             else {
@@ -3252,10 +3344,11 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                 }
 
             }
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                marker_progress.setVisibility(View.GONE);
+                Toast.makeText(getApplicationContext(),"Please try again",Toast.LENGTH_SHORT).show();
+                button_hide();
             }
         });
     }
@@ -3270,11 +3363,9 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                 if (!TextUtils.isEmpty(js.getString("dayno"))) {
                     if (dayno.equalsIgnoreCase(js.getString("dayno"))) {
                         js.put("DayPlan1", dayplan);
-
                     }
                 }
                 FillArray.put(js);
-
             }
             Log.v("thirummmmmm",FillArray.toString());
             JSONObject jj=new JSONObject();
@@ -3315,6 +3406,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
             //enableDisableSubmitButton();
            // }
             marker_progress.setVisibility(View.GONE);
+            button_hide();
             /*jj.put("SF",SF_Code);
             jj.put("SFName",sfname);
             jj.put("DivCode",div);
@@ -3441,7 +3533,6 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
 
     public void alertOnline(){
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
         alertDialogBuilder.setMessage("Are you sure, You wanted send offline data");
                 alertDialogBuilder.setPositiveButton("yes",
                         new DialogInterface.OnClickListener() {
@@ -3570,8 +3661,10 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                         }
                         jjson.put("DayPlan", jsonDay);
                     }
-                    if(x==0)
-                        saveSingleDay(jsonObject1.toString(), 0);
+                    if(x==0){
+
+                    }
+                     //   saveSingleDay(jsonObject1.toString(), 0);
                 }
             }
             Log.v("printing_dayplan", jsonObject1.toString());
@@ -3851,6 +3944,21 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
         view.requestFocus();
         inputMethodManager.showSoftInput(view ,
                 InputMethodManager.SHOW_IMPLICIT);
+
+    }
+
+    public void button_hide(){
+        if((!curr_but)&&(!nxt_but)) {
+
+        }else{
+            if (curr_but) {
+                current_mnth.setVisibility(View.INVISIBLE);
+                nxt_mnth.setVisibility(View.VISIBLE);
+            } else {
+                current_mnth.setVisibility(View.VISIBLE);
+                nxt_mnth.setVisibility(View.INVISIBLE);
+            }
+        }
 
     }
 

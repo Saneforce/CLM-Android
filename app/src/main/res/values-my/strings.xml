@@ -377,7 +377,7 @@
     <string name="data_notsuccess">OOPS !! အချက်အလက်တင်သွင်းမှုမရှိပါ</string>
 
     <string name="leave_success">Leave အောင်မြင်စွာတင်သွင်းခဲ့သည် !!</string>
-    <string name="leave_already">ယခုပင် Leave Posted ဒီရက်စွဲကို!!  </string>
+    <string name="leave_already">ယခုပင် ထွက်ခွာမည် တင်ခဲ့သည် ဒီရက်စွဲကို!!  </string>
     <string name="click_again">ကျေးဇူးပြု၍ cl</string>
     <string name="check_us_ps">သုံးစွဲသူအမည်နှင့်စကားဝှက်ကိုစစ်ဆေးပါ</string>
     <string name="strge_permis">ကျေးဇူးပြု၍ သိုလှောင်ခွင့်ပြုပါ</string>
@@ -397,6 +397,7 @@
     <string name="mock_loc">ပြောင်လှောင်သောတည်နေရာကိုတွေ့ရှိသည် </string>
     <string name="conf_succs">အောင်မြင်စွာပြုပြင်ပြီးပါပြီ</string>
     <string name="invalid_url">မမှန်ကန်သော URL</string>
+    <string name="invalid_licence">မမှန်ကန်သောလိုင်စင်သော့</string>
     <string name="app_data_clr">လျှောက်လွှာအချက်အလက်ရှင်းလင်းပြီး</string>
     <string name="some_field">အချို့လယ်ကွင်းများဗလာဖြစ်ကြသည်</string>
     <string name="pass_succed">စကားဝှက်ကိုအောင်မြင်စွာပြောင်းလဲပစ်လိုက်ပြီ !!</string>
@@ -413,7 +414,7 @@
     <string name="alert_entr_presnt">ကျေးဇူးပြု၍ Presentaion Name ကိုမထည့်ပါနှင့် !</string>
     <string name="alert_presentnm">တင်ပြချက်အမည်ရိုက်ထည့်ပါ !</string>
     <string name="save_present">တင်ဆက်မှုကိုသိမ်းဆည်းချင်ပါသလား?</string>
-    <string name="update_present">တင်ဆက်မှုကို update လိုပါသလား?</string>
+    <string name="update_present">တင်ဆက်မှုကို နောက်ဆုံးသတင်း လိုပါသလား?</string>
     <string name="delete_present">တင်ပြချက်ကိုဖျက်ချင်ပါသလား?</string>
     <string name="prd_mappg">မြေပုံအတွက်ထုတ်ကုန်များကိုရွေးချယ်ပါ!!</string>
     <string name="upd_prest_success">အဆင့်မြှင့်တင်တင်ဆက်မှုကိုအောင်မြင်စွာ!!</string>
@@ -429,13 +430,13 @@
     <string name="add_selct">အပိုဆောင်းဆရာဝန်ရွေးချယ်ရေး</string>
     <string name="joint_selct">ပူးတွဲအလုပ်ရွေးချယ်ရေး</string>
     <string name="prodct_selct">ထုတ်ကုန်များရွေးချယ်ခြင်း</string>
-    <string name="tourplan_entry">Tourplan Entry</string>
+    <string name="tourplan_entry">ဟိုတယ် ဝင်ပေါက်</string>
     <string name="feedback_details">တုံ့ပြန်ချက်အသေးစိတ်</string>
     <string name="feedback_here">ဤနေရာတွင်တုံ့ပြန်ချက်များ</string>
     <string name="duration">ကြာချိန်</string>
     <string name="current_month">လက်ရှိလ</string>
     <string name="next_month">နောက်လ</string>
-    <string name="search_unlisted_doctor">UNListed ဆရာဝန်ရှာပါ</string>
+    <string name="search_unlisted_doctor">စာရင်း ဆရာဝန်ရှာပါ</string>
     <string name="unlisted_doctor_selection">စာရင်းမပါသောဆရာဝန်ရွေးချယ်ရေး</string>
     <string name="additional_doctor">နောက်ထပ်ဆရာဝန်</string>
     <string name="select_the_category">အမျိုးအစားရွေးပါ</string>

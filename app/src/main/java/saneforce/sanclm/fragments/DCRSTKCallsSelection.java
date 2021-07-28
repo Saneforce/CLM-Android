@@ -220,7 +220,7 @@ public class DCRSTKCallsSelection extends Fragment implements AdapterView.OnItem
         db_slidedwnloadPath =  mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SLIDES_DOWNLOAD_URL);
         SF_Type =  mCommonSharedPreference.getValueFromPreference("sf_type");
         db_connPath =  mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DB_URL);
-        geoFencing =  mCommonSharedPreference.getValueFromPreference("chmgeoneed");
+        geoFencing =  mCommonSharedPreference.getValueFromPreference("stkgeoneed");
         gpsNeed =  mCommonSharedPreference.getValueFromPreference("GpsFilter");
         Log.v("gpsNeed",gpsNeed);
         limitKm = Double.parseDouble(mCommonSharedPreference.getValueFromPreference("radius"));
@@ -468,7 +468,10 @@ public class DCRSTKCallsSelection extends Fragment implements AdapterView.OnItem
             public void onItemSelected(AdapterView<?> adapterView, View view, final int i, long l) {
                 CommonUtilsMethods.avoidSpinnerDropdownFocus(spinner);
                 dbh.open();
+                if (mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true"))
+                mCommonSharedPreference.setValueToPreference("sub_sf_code",SF_coding.get(i));
                 mCursor = dbh.select_Stockist_bySf(SF_coding.get(i),mMydayWtypeCd);
+
                 if(stckList.size()==0 && mCursor.getCount()==0) {
                     if(commonUtilsMethods.isOnline(getActivity())) {
                         DownloadMasters dwnloadMasterData = new DownloadMasters(getActivity(), db_connPath, db_slidedwnloadPath, SF_coding.get(i),SF_Code);

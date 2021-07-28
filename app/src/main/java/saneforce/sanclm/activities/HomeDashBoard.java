@@ -2380,8 +2380,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
                         Log.v("specFilter_json", jsonn.getString("SpecFilter"));
                         mCommonSharedPreference.setValueToPreference("specFilter", jsonn.getString("SpecFilter"));
-                        Log.v("GpsFilter", jsonn.getString("GeoNeed"));
-                        mCommonSharedPreference.setValueToPreference("GpsFilter", jsonn.getString("GeoNeed"));
+                        Log.v("GpsFilter", jsonn.getString("GeoChk"));
+                        mCommonSharedPreference.setValueToPreference("GpsFilter", jsonn.getString("GeoChk"));
                         if (jsonn.getString("DrRxNd").equalsIgnoreCase("1")) {
                             mCommonSharedPreference.setValueToPreference("feed_pob", "D");
                             mCommonSharedPreference.setValueToPreference("DrRxNd", jsonn.getString("DrRxNd"));
@@ -2477,7 +2477,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                             mCommonSharedPreference.setValueToPreference("cip_det", "");
 
 
-                        GpsNeed = jsonn.getString("GeoNeed");
+                        GpsNeed = jsonn.getString("GeoChk");
 
                         //availableAdudit Needed
                         if(jsonn.has("NActivityNeed")) {
@@ -2516,6 +2516,26 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                             mCommonSharedPreference.setValueToPreference("tp_need", jsonn.getString("tp_need"));
                         else
                             mCommonSharedPreference.setValueToPreference("tp_need", "");
+
+                        if(jsonn.has("GEOTagNeed"))
+                            mCommonSharedPreference.setValueToPreference("geoneed",jsonn.getString("GEOTagNeed"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("geoneed","");
+
+                        if(jsonn.has("GEOTagNeedche"))
+                            mCommonSharedPreference.setValueToPreference("chmgeoneed",jsonn.getString("GEOTagNeedche"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("chmgeoneed" , "");
+
+                        if(jsonn.has("GEOTagNeedstock"))
+                            mCommonSharedPreference.setValueToPreference("stkgeoneed",jsonn.getString("GEOTagNeedstock"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("stkgeoneed" , "");
+
+                        if(jsonn.has("GeoTagNeedcip"))
+                            mCommonSharedPreference.setValueToPreference("cipgeoneed",jsonn.getString("GeoTagNeedcip"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("cipgeoneed" , "");
 
                         getTodayCalls();
                     } catch (Exception e) {

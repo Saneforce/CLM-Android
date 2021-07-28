@@ -245,7 +245,11 @@ public class AppConfiguration extends Fragment implements View.OnClickListener {
                 EtURL = eturl.replaceAll("\\s", ""); //Removing whitespaces
                 divname1 = et_company_id.getText().toString().trim();
                 divname = divname1.replaceAll("\\s", "");
-                Configuration(EtURL);
+
+                if(CommonUtilsMethods.isOnline(getActivity()))
+                    Configuration(EtURL);
+                else
+                    Toast.makeText(getActivity(), getResources().getString(R.string.offline), Toast.LENGTH_SHORT).show();
 
 
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
@@ -349,7 +353,7 @@ public class AppConfiguration extends Fragment implements View.OnClickListener {
                         }
                         clearCount = 0;
                     } else {
-                        Toast.makeText(getActivity(), getResources().getString(R.string.invalid_url), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.invalid_licence), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     Log.v("printing_excep", e.getMessage());
@@ -358,8 +362,8 @@ public class AppConfiguration extends Fragment implements View.OnClickListener {
                 Exception();
             }
         } catch (IOException e) {
-            Exception();
-            Log.v("printing_excep234", e.getMessage());
+             Exception();
+             Log.v("printing_excep234", e.getMessage());
         }
     }
 

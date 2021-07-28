@@ -414,6 +414,11 @@ public class DataBaseHandler {
         public static final String COLUMN_MNTH="clm_mnth";
         public static final String COLUMN_STATUS="clm_status";
 
+        public static final String TABLE_TOUR_PLANNEW="tbl_tpnew";
+        public static final String COLUMN_JSONNEW="clm_jsonnew";
+        public static final String COLUMN_MNTHNEW="clm_mnthnew";
+
+
         public static final String TABLE_SCRIB="tbl_scribble";
         public static final String PATH="clm_path";
         public static final String LIKE="clm_like";
@@ -865,6 +870,14 @@ public class DataBaseHandler {
         values.put(TableEntry.COLUMN_STATUS,status);
         return db.insert(TableEntry.TABLE_TOUR_PLAN,null,values);
     }
+
+    public long insertTPnew(String json,String mnth){
+        ContentValues values=new ContentValues();
+        values.put(TableEntry.COLUMN_JSONNEW,json);
+        values.put(TableEntry.COLUMN_MNTHNEW,mnth);
+        return db.insert(TableEntry.TABLE_TOUR_PLANNEW,null,values);
+    }
+
     public long insertType(String code,String name){
         ContentValues values=new ContentValues();
         values.put(TableEntry.BRAND_CODE,code);
@@ -1078,6 +1091,10 @@ public class DataBaseHandler {
         Log.d("VALUES_puttable",url);
         db.update(TableEntry.TABLE_SLIDES_MASTER, values,
                 TableEntry.COLUMN_FILE_NAME + "= ?", new String[] {fileName});
+    }
+
+    public void delete_tpnew(int sfcode) {
+        db.execSQL("delete from "+ TableEntry.TABLE_TOUR_PLANNEW +" WHERE "+TableEntry.COLUMN_ID+" = "+ sfcode ) ;
     }
 
     public void delete_json(int sfcode) {
@@ -1330,6 +1347,10 @@ public class DataBaseHandler {
     }
     public Cursor select_theraptic_list(){
         return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_THERAPTIC,null);
+    }
+
+    public Cursor select_tp_listnew(){
+        return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_TOUR_PLANNEW,null);
     }
 
     public Cursor select_tp_list(String mnth){

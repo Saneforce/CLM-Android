@@ -499,10 +499,12 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, final int i, long l) {
-               CommonUtilsMethods.avoidSpinnerDropdownFocus(spinner);
+                CommonUtilsMethods.avoidSpinnerDropdownFocus(spinner);
                 dbh.open();
                 Log.v("printing_item_sele",commonUtilsMethods.isOnline(getActivity())+" ");
                 mCommonSharedPreference.setValueToPreference("hq_code",SF_coding.get(i));
+                if (mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true"))
+                    mCommonSharedPreference.setValueToPreference("sub_sf_code",SF_coding.get(i));
                 mCursor = dbh.select_doctors_bySf(SF_coding.get(i),mMydayWtypeCd);
                 if(drList.size()==0 && mCursor.getCount()==0) {
                     if(commonUtilsMethods.isOnline(getActivity())) {

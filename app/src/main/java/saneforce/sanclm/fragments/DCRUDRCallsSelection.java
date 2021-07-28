@@ -478,6 +478,8 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
                 CommonUtilsMethods.avoidSpinnerDropdownFocus(spinner);
                 dbh.open();
                 spinnerpostion=i;
+                if (mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true"))
+                    mCommonSharedPreference.setValueToPreference("sub_sf_code",SF_coding.get(i));
                 mCursor = dbh.select_unListeddoctors_bySf(SF_coding.get(i),mMydayWtypeCd);
                 if(drList.size()==0 && mCursor.getCount()==0) {
                     if(commonUtilsMethods.isOnline(getActivity())) {

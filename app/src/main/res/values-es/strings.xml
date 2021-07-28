@@ -396,6 +396,7 @@
     <string name="mock_loc">Se detectó una ubicación simulada </string>
     <string name="conf_succs">Configurado exitosamente</string>
     <string name="invalid_url">URL invalida</string>
+    <string name="invalid_licence">Clave de licencia no válida</string>
     <string name="app_data_clr">Se borraron los datos de la aplicación</string>
     <string name="some_field">algunos campos están vacíos</string>
     <string name="pass_succed">Contraseña cambiada con éxito !!</string>

@@ -502,13 +502,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             else
                                 mCommonSharedPreference.setValueToPreference("sf_emp_id","");
 
+                            mCommonSharedPreference.setValueToPreference("radius",jsonObject.getString("DisRad"));
 
                             if(jsonObject.has("GEOTagNeedche"))
                             mCommonSharedPreference.setValueToPreference("chmgeoneed",jsonObject.getString("GEOTagNeedche"));
                             else
-                                mCommonSharedPreference.setValueToPreference("chmgeoneed","1");
+                                mCommonSharedPreference.setValueToPreference("chmgeoneed" , "");
 
-                            mCommonSharedPreference.setValueToPreference("radius",jsonObject.getString("DisRad"));
+                            if(jsonObject.has("GEOTagNeedstock"))
+                                mCommonSharedPreference.setValueToPreference("stkgeoneed",jsonObject.getString("GEOTagNeedstock"));
+                            else
+                                mCommonSharedPreference.setValueToPreference("stkgeoneed" , "");
+
+                            if(jsonObject.has("GeoTagNeedcip"))
+                                mCommonSharedPreference.setValueToPreference("cipgeoneed",jsonObject.getString("GeoTagNeedcip"));
+                            else
+                                mCommonSharedPreference.setValueToPreference("cipgeoneed" , "");
+
+
 
 //                            if (jsonObject.has("tp_need"))
 //                                mCommonSharedPreference.setValueToPreference("tp_need", jsonObject.getString("tp_need"));
@@ -519,8 +530,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                             boolean checkPer=false;
                             Log.v("value_of_sfcode",sharedpreferences.getString(CommonUtils.TAG_SF_CODE,null)+" usernameee "+CommonUtils.TAG_USERNME);
-                            mCommonSharedPreference.setValueToPreference("GpsFilter",jsonObject.getString("GeoNeed"));
-                            if(jsonObject.getString("GeoNeed").equalsIgnoreCase("0")) {
+                            mCommonSharedPreference.setValueToPreference("GpsFilter",jsonObject.getString("GeoChk"));
+                            if(jsonObject.getString("GeoChk").equalsIgnoreCase("0")) {
 
                                 if(startLocationButtonClick()) {
                                     checkPer=true;

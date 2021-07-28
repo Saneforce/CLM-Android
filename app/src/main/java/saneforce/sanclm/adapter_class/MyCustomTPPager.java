@@ -543,6 +543,8 @@ public class MyCustomTPPager extends PagerAdapter {
             @Override
             public void onClick(View view) {
                 if(!TextUtils.isEmpty(getValueforField(tp.getWrk()))) {
+                    txt_cluster.setText(/*"Select Cluster"*/ context.getResources().getString(R.string.sclt_clst));
+                    tp.setCluster("");
                     selectorpos = 1;
                     selector.checkPosition(1);
                 }

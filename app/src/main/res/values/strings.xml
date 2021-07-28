@@ -396,6 +396,7 @@
     <string name="mock_loc">Mock location detected </string>
     <string name="conf_succs">Configured Successfully</string>
     <string name="invalid_url">Invalid URL</string>
+    <string name="invalid_licence">Invalid Licence Key</string>
     <string name="app_data_clr">Application data cleared</string>
     <string name="some_field">some fields are empty</string>
     <string name="pass_succed">Password changed successfully !!</string>

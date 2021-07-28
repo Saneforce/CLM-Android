@@ -285,7 +285,7 @@
     <string name="ptp">点对点</string>
     <string name="ptr">PTR</string>
     <string name="sw">平均S/W</string>
-    <string name="shalinaprd">Shalina 产品品牌</string>
+    <string name="shalinaprd">莎莉娜 产品品牌</string>
     <string name="signature">签名在这里</string>
     <string name="typehere">在此输入</string>
     <string name="sandigital">SAN 数字细节</string>
@@ -396,6 +396,7 @@
     <string name="mock_loc">检测到模拟位置 </string>
     <string name="conf_succs">配置成功</string>
     <string name="invalid_url">无效的网址</string>
+    <string name="invalid_licence">无效的许可证密钥</string>
     <string name="app_data_clr">申请资料已清除</string>
     <string name="some_field">有些字段是空的</string>
     <string name="pass_succed">密码更换成功 !!</string>

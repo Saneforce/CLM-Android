@@ -544,6 +544,8 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
                 spinnerpostion=i;
                 dbh.open();
                 mCommonSharedPreference.setValueToPreference("hq_code",SF_coding.get(i));
+                if (mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true"))
+                    mCommonSharedPreference.setValueToPreference("sub_sf_code",SF_coding.get(i));
                 mCursor = dbh.select_Chemist_bySf(SF_coding.get(i),mMydayWtypeCd);
 
                 if(chmList.size()==0 && mCursor.getCount()==0) {

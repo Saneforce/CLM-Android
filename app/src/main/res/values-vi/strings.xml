@@ -396,6 +396,7 @@
     <string name="mock_loc">Đã phát hiện vị trí mô phỏng </string>
     <string name="conf_succs">Đã cấu hình thành công</string>
     <string name="invalid_url">URL không hợp lệ</string>
+    <string name="invalid_licence">Khóa cấp phép không hợp lệ</string>
     <string name="app_data_clr">Dữ liệu ứng dụng đã bị xóa</string>
     <string name="some_field">một số trường trống</string>
     <string name="pass_succed">Mật khẩu đã thay đổi thành công !!</string>

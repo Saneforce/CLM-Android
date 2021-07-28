@@ -248,7 +248,7 @@ public class DCRCIPCallsSelection extends Fragment implements AdapterView.OnItem
         SF_Type =  mCommonSharedPreference.getValueFromPreference("sf_type");
         db_connPath =  mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DB_URL);
         addChm=mCommonSharedPreference.getValueFromPreference("addChm");
-        geoFencing =  mCommonSharedPreference.getValueFromPreference("chmgeoneed");
+        geoFencing =  mCommonSharedPreference.getValueFromPreference("cipgeoneed");
         gpsNeed =  mCommonSharedPreference.getValueFromPreference("GpsFilter");
         Log.v("gpsNeed",gpsNeed);
         limitKm = Double.parseDouble(mCommonSharedPreference.getValueFromPreference("radius"));
@@ -533,6 +533,8 @@ public class DCRCIPCallsSelection extends Fragment implements AdapterView.OnItem
                 CommonUtilsMethods.avoidSpinnerDropdownFocus(spinner);
                 spinnerpostion=i;
                 dbh.open();
+            if (mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true"))
+                    mCommonSharedPreference.setValueToPreference("sub_sf_code",SF_coding.get(i));
                 mCursor = dbh.select_Cip_bySf(SF_coding.get(i),mMydayWtypeCd);
 
                 if(cipList.size()==0 && mCursor.getCount()==0) {

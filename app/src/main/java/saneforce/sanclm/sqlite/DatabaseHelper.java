@@ -363,6 +363,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             TableEntry.COLUMN_JSON + " TEXT ,"+
             TableEntry.COLUMN_STATUS + " TEXT "+" )";
 
+    private static final String SQL_CREATE_TABLE_TPNEW = " CREATE TABLE IF NOT EXISTS "
+            + TableEntry.TABLE_TOUR_PLANNEW + " (" + TableEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
+            TableEntry.COLUMN_JSONNEW + " TEXT ,"+
+            TableEntry.COLUMN_MNTHNEW + " TEXT "+ " )";
+
     private static final String SQL_CREATE_TABLE_TRACK=" CREATE TABLE IF NOT EXISTS "
             + TableEntry.TABLE_TRACK + " ("+TableEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + TableEntry.COLUMN_LATITUDE + " TEXT ,"
@@ -535,6 +540,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL(SQL_CREATE_DETAILING_TIMESPENT);
         db.execSQL(SQL_CREATE_BRAND_EXPOSURE);
         db.execSQL(SQL_CREATE_TOTAL_CALLS);
+        db.execSQL(SQL_CREATE_TABLE_TPNEW);
 
     }
 

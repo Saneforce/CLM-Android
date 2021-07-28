@@ -399,6 +399,7 @@
     <string name="mock_loc">Emplacement fictif détecté</string>
     <string name="conf_succs">Configuré avec succès</string>
     <string name="invalid_url">URL invalide</string>
+    <string name="invalid_licence">Clé de licence invalide</string>
     <string name="app_data_clr">Données d application effacées</string>
     <string name="some_field">certains champs sont vides</string>
     <string name="pass_succed">Le mot de passe a été changé avec succès !!</string>
