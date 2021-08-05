@@ -1,3 +1,4 @@
+
 package saneforce.sanclm.adapter_class;
 
 import android.content.Context;
@@ -56,6 +57,9 @@ public class PopupAdapter extends BaseAdapter {
     public long getItemId(int i) {
         return i;
     }
+
+
+
 
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {

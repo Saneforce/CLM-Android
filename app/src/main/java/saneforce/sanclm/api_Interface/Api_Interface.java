@@ -436,7 +436,8 @@ public interface Api_Interface {
     Call<ResponseBody> getHospital(@Field("data") String sf);
     @FormUrlEncoded
     @POST("db.php?axn=save/dcract")
-    Call<ResponseBody> svdcrAct(@Field("data") String sf);
+    Call<ResponseBody>
+    svdcrAct(@Field("data") String sf);
     @Multipart
     @POST("db.php?axn=upload/sign")
     Call<ResponseBody> uploadimg(@PartMap() HashMap<String, RequestBody> values, @Part MultipartBody.Part file);

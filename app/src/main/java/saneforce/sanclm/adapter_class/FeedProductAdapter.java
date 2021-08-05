@@ -346,6 +346,7 @@ public class FeedProductAdapter extends BaseAdapter {
             prd_nam.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     popupSpinner(0, mm.getProdFb(), i);
                 }
             });
@@ -796,6 +797,7 @@ public class FeedProductAdapter extends BaseAdapter {
         tv_todayplan_popup_head.setText("Feedback");
         ImageView iv_close_popup = (ImageView) dialog.findViewById(R.id.iv_close_popup);
         Button ok = (Button) dialog.findViewById(R.id.ok);
+        EditText searchedit=dialog.findViewById(R.id.et_search);
 
         if (array_selection.contains(new PopFeed(true))) {
             isEmpty = false;
@@ -826,7 +828,24 @@ public class FeedProductAdapter extends BaseAdapter {
                 return false;
             }
         });
+        searchedit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapt.getFilter().filter(s);
+                adapt.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         iv_close_popup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

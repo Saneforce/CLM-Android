@@ -21,7 +21,9 @@ import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +32,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -710,6 +713,7 @@ public class DynamicActivity extends AppCompatActivity {
         tv_todayplan_popup_head.setText(array_view.get(pos).getFieldname());
         ImageView iv_close_popup = (ImageView) dialog.findViewById(R.id.iv_close_popup);
         Button ok = (Button) dialog.findViewById(R.id.ok);
+        EditText searchedit=dialog.findViewById(R.id.et_search);
 
         if (array_selection.contains(new PopFeed(true))) {
             isEmpty = false;
@@ -740,7 +744,24 @@ public class DynamicActivity extends AppCompatActivity {
                 return false;
             }
         });
+        searchedit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+               adapt.getFilter().filter(s);
+               adapt.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         iv_close_popup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

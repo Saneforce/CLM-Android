@@ -340,13 +340,14 @@ public class AppConfiguration extends Fragment implements View.OnClickListener {
                         }
                         clearCount = 0;
                     } else {
-                        Toast.makeText(getActivity(), getResources().getString(R.string.invalid_url), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.invalid_lcnkey), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     Log.v("printing_excep", e.getMessage());
                 }
             } else {
                 Exception();
+
             }
         } catch (IOException e) {
             Exception();

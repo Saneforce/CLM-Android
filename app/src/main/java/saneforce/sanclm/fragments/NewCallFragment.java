@@ -268,8 +268,8 @@ public class NewCallFragment extends Fragment {
                   //  db.del_callvstgroup();
                     singlecalllist.clear();
                     groupcalllist.clear();
-                   pieData.clear();
-                 pieData1.clear();
+                    pieData.clear();
+                    pieData1.clear();
 //                    detailingAdapter.notifyDataSetChanged();
 //                    detailingAdapter1.notifyDataSetChanged();
                     loadcalldetails();

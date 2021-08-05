@@ -139,18 +139,21 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
                         holder.iv_del.setVisibility(View.INVISIBLE);
                     holder.iv_sync.setVisibility(View.INVISIBLE);
                 }
-                if(tdaycall.getDrName().indexOf("_")!=-1){
+                if(tdaycall.getDrName().indexOf("_")!=-1&&tdaycall.isLocal()){
                     dr_name=tdaycall.getDrName().substring(0,tdaycall.getDrName().indexOf("_"));
                     Log.v("printing_dr_name",dr_name);
                     holder.iv_edit.setVisibility(View.INVISIBLE);
                     holder.iv_del.setVisibility(View.INVISIBLE);
                     holder.iv_sync.setVisibility(View.VISIBLE);
+                    visitTime+="  [Offline]";
                 }
-                if(tdaycall.isLocal()){
+               else if(tdaycall.isLocal()){
                     holder.DrName.setTextColor(Color.RED);
                     visitTime+="  [Draft]";
                 }
-
+                else{
+                    holder.DrName.setTextColor(Color.BLACK);
+                }
 
             holder.DrName.setText(dr_name);
             holder.DrVst.setText(visitTime);
@@ -360,9 +363,9 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
 
                                         JSONObject jj=new JSONObject(is.toString());
                                         if(jj.getString("success").equalsIgnoreCase("true")){
-                                            dbh.open();
-                                            dbh.del_json();
-                                            dbh.close();
+//                                            dbh.open();
+//                                            dbh.del_json(tdaycall.getDrCode());
+//                                            dbh.close();
                                             custom_todaycalls_contents.remove(position);
                                             HomeDashBoard.tv_todaycall_count.setText(resources.getString(R.string.total)+" "+ custom_todaycalls_contents.size() + " "+resources.getString(R.string.calls));
                                             notifyDataSetChanged();
@@ -386,7 +389,7 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
                     }
                     else {
                         dbh.open();
-                        dbh.del_json();
+                        dbh.del_json(tdaycall.getDrCode());
                         dbh.close();
                         custom_todaycalls_contents.remove(position);
                         HomeDashBoard.tv_todaycall_count.setText(resources.getString(R.string.total)+" " + custom_todaycalls_contents.size() + " "+resources.getString(R.string.calls));

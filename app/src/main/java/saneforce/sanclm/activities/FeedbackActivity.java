@@ -825,7 +825,10 @@ FeedbackActivity extends AppCompatActivity {
                         signPath = captureCanvasScreen(sign_lay);
                     } catch (Exception e) {
                     }
-                    dbFunctionToSave();
+//
+                        dbFunctionToSave();
+
+
                     String finalValue = mCommonSharedPreference.getValueFromPreference("jsonsave");
                     Log.v("final_value_draft", finalValue);
 
@@ -867,6 +870,7 @@ FeedbackActivity extends AppCompatActivity {
                             if (mCommonSharedPreference.getValueFromPreference("DrSmpQMd").equals("1") && peopleType.equalsIgnoreCase("D")) {
                                 for (int jj = 0; jj < listFeedPrd.size(); jj++) {
                                     String rxqty = listFeedPrd.get(jj).getSample();
+
                                     if (rxqty.equalsIgnoreCase("")) {
                                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.entr_sample_val), Toast.LENGTH_LONG).show();
                                         return;
@@ -1374,7 +1378,6 @@ FeedbackActivity extends AppCompatActivity {
                     String codeVal = mCommonSharedPreference.getValueFromPreference("drCode");
                     String divCode = sharedpreferences.getString(CommonUtils.TAG_DIVISION, null);
                     String SF_Code = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_CODE);
-
 
                     JSONObject json = new JSONObject();
                     json.put("QryDt", mCommonUtilsMethod.getCurrentInstance());

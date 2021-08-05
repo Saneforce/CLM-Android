@@ -128,6 +128,7 @@ public class AvailcheckAdapter extends  Adapter<AvailcheckAdapter.Viewholder> im
           @Override
           public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
               if(isChecked){
+
                   mFilterresult.get(position).setIsoos(true);
                   mFilterresult.get(position).setAvailis(false);
 

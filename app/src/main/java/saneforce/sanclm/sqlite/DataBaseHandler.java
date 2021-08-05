@@ -1214,8 +1214,8 @@ public class DataBaseHandler {
     public void del_joint(){
         db.execSQL("delete from " + TableEntry.TABLE_JOINWORK_USER_DETAILS + "  ");
     }
-    public void del_json(){
-        db.execSQL("delete from " + TableEntry.TABLE_JSON + "  ");
+    public void del_json(String drcode){
+        db.execSQL("delete from " + TableEntry.TABLE_JSON + " WHERE "+TableEntry.PCODE+"="+drcode);
     }
     public void del_wrk(){
         db.execSQL("delete from " + TableEntry.TABLE_WORKTYPE_MASTER_DETAILS + "  ");

@@ -214,9 +214,9 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     AdapterForCluster clu_adpt;
     Dialog mis_dialog;
     static Context mContext;
-    String tpflag = "";
+    String tpflag = "",rmrks="";
     String tab="training";
-
+     EditText et_remark;
     /**
      * downloading slides constatnts
      */
@@ -624,11 +624,13 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                 String jsonData = null;
                 try {
                     todaytp = response.body();
-                    Log.e("Tday_tp_Calling ", "dp " + todaytp.get(0).getPlNm() + " wrik_type " + todaytp.get(0).getWTNm() + " " + todaytp.get(0).getHQNm() + " " + todaytp.get(0).getFWFlg() + " " + todaytp.get(0).getTpVwFlg());
+                    Log.e("Tday_tp_Calling ", "dp " + todaytp.get(0).getPlNm() + " wrik_type " + todaytp.get(0).getWTNm() + " " + todaytp.get(0).getHQNm() + " " + todaytp.get(0).getFWFlg() + " " + todaytp.get(0).getTpVwFlg()+" "+todaytp.get(0).getRem());
 
                     tv_worktype.setText(resources.getString(R.string.worktype)+" : " + todaytp.get(0).getWTNm());
                     tv_cluster.setText(resources.getString(R.string.cluster)+" : " + todaytp.get(0).getPlNm());
                     tpflag = todaytp.get(0).getTpVwFlg();
+                    rmrks=todaytp.get(0).getRem();
+                    //et_remark.setText(rmrks);
 
                     if (todaytp.get(0).getWTNm().contains(",")) {
                         String ss = todaytp.get(0).getWTNm();
@@ -643,6 +645,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     editor.putString(CommonUtils.TAG_WORKTYPE_CLUSTER_CODE, todaytp.get(0).getPl());
                     editor.putString(CommonUtils.TAG_SF_CODE, todaytp.get(0).getSFCode());
                     editor.putString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, todaytp.get(0).getPlNm());
+                    editor.putString("remrk",rmrks);
                     if (SF_Type.equalsIgnoreCase("2")) {
                         editor.putString(CommonUtils.TAG_SF_HQ, todaytp.get(0).getHQNm());
                         editor.putString("sub_sf_code", todaytp.get(0).getSFMem());
@@ -676,6 +679,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     editor.putString(CommonUtils.TAG_WORKTYPE_CODE, "");
                     editor.putString(CommonUtils.TAG_WORKTYPE_CLUSTER_CODE, "");
                     editor.putString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, "");
+                    editor.putString("remrk","");
+
                     editor.commit();
                 }
             } else {
@@ -947,7 +952,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         TextView tv_headquater = (TextView) dialog.findViewById(R.id.et_mydaypln_HQ);
         tv_clusterView = (TextView) dialog.findViewById(R.id.et_mydaypln_cluster);
         final ImageView Close = (ImageView) dialog.findViewById(R.id.iv_close);
-        final EditText et_remark = (EditText) dialog.findViewById(R.id.et_mydaypln_remarks);
+         et_remark = (EditText) dialog.findViewById(R.id.et_mydaypln_remarks);
         final ListView rv_wtype = (ListView) dialog.findViewById(R.id.rv_worktypelist);
         final ListView rv_cluster = (ListView) dialog.findViewById(R.id.rv_clusterlist);
         final ListView rv_hqlist = (ListView) dialog.findViewById(R.id.rv_hqlist);
