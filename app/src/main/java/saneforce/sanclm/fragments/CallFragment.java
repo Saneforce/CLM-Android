@@ -453,6 +453,11 @@ public class CallFragment extends Fragment {
                         List<MontlyVistDetail> details=response.body();
                         Log.v("details_length", String.valueOf(details.size()));
                         int maxVal=0;
+//                        for(int i=0;i<details.size();i++) {
+//                            if(details.get(i).getCnt().equals("") || details.get(i).getCnt().equals(null))
+//                                details.get(i).setCnt("0");
+//                        }
+
                         for(int i=0;i<details.size();i++){
                             if(maxVal>=Integer.parseInt(details.get(i).getCnt())){
 
@@ -711,6 +716,12 @@ public class CallFragment extends Fragment {
                             }
                             else
                                 mCommonSharedPreference.setValueToPreference("Product_Stockist", "");
+
+                            if(js.has("undr_hs_nd")){
+                                mCommonSharedPreference.setValueToPreference("undr_hs_nd", js.getString("undr_hs_nd"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("undr_hs_nd", "");
 
                         } catch (Exception e) {
                         }

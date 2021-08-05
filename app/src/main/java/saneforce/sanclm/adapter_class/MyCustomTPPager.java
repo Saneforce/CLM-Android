@@ -620,7 +620,8 @@ public class MyCustomTPPager extends PagerAdapter {
             return "";
         int pos=s.indexOf("$");
         int pos1=s.indexOf("#");
-        if(!getCounts.contains(s.substring(0,pos)))
+        Log.d("the_logg",s.substring(0,pos));
+       // if(!getCounts.contains(s.substring(0,pos)))
         getCounts.add(s.substring(0,pos));
       /*  if(x==0)
         getCode.add(s.substring(pos+1,pos1));*/

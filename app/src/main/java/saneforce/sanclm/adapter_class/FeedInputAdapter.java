@@ -62,7 +62,7 @@ public class FeedInputAdapter extends BaseAdapter  {
             }
         });
 
-            edt_qty.setText(mm.getIqty());
+        edt_qty.setText(mm.getIqty());
 
 
         edt_qty.addTextChangedListener(new TextWatcher() {

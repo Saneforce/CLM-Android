@@ -70,7 +70,7 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
                 }
             }
 
-                }
+        }
         HomeDashBoard.addLogText(status);
 
     }

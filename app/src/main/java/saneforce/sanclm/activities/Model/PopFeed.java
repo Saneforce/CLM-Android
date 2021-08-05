@@ -5,6 +5,10 @@ public class PopFeed{
     boolean isClick;
     String code;
 
+    public PopFeed() {
+
+    }
+
     public PopFeed(String txt, boolean isClick) {
         this.txt = txt;
         this.isClick = isClick;

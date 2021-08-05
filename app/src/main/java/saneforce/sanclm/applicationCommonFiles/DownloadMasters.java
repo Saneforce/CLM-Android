@@ -292,7 +292,7 @@ public class DownloadMasters extends IntentService {
                     callSlideDownloader.callDownload();
 
                 } catch (Exception e) {
-                    Log.d("Download Error",e.getMessage());
+                  //  Log.d("Download Error",e.getMessage());
                 }
             } else {
                 try {
@@ -812,8 +812,10 @@ public Callback<ResponseBody> NewComplist = new Callback<ResponseBody>() {
                         String Drqual = UlDr.get(i).getQual();
                         String max = UlDr.get(i).getMaxCnt();
                         String tag = UlDr.get(i).getTagCnt();
+                        String DrHoscd=UlDr.get(i).getDoc_hospcode();
+                        String DrHosNm=UlDr.get(i).getDoc_hospname();
 
-                        dbh.insert_unlisted_doctormaster(DrCode, DrName, DrTwnCd, DrTwnNm, DrCatNm, DrSpecNm, DrCatCd, DrSpecCd, SfCd, Addr, Dremail, Drmobile, Drphone, Drqual, max, tag);
+                        dbh.insert_unlisted_doctormaster(DrCode, DrName, DrTwnCd, DrTwnNm, DrCatNm, DrSpecNm, DrCatCd, DrSpecCd, SfCd, Addr, Dremail, Drmobile, Drphone, Drqual, max, tag,DrHoscd,DrHosNm);
                     }
                     dbh.close();
                     edit.commit();

@@ -1668,6 +1668,8 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
         tv_todayplan_popup_head.setText(getResources().getString(R.string.selctlist));
         ImageView   iv_close_popup=(ImageView)dialog.findViewById(R.id.iv_close_popup);
         Button   ok=(Button)dialog.findViewById(R.id.ok);
+        EditText search_edit=(EditText)  dialog.findViewById(R.id.et_search);
+
 
         if (hospital_array.contains(new PopFeed(true))) {
             isEmpty=false;
@@ -1697,6 +1699,25 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
                 Log.v("search_view_str",s);
                 adapt.getFilter().filter(s);
                 return false;
+            }
+        });
+
+        search_edit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapt.getFilter().filter(s);
+                adapt.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 

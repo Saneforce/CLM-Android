@@ -689,7 +689,7 @@ public class DataBaseHandler {
 
 
     public long insert_unlisted_doctormaster(String drCode, String drName, String drTwnCd, String drTwnNm, String drCatNm, String drSpecNm, String drCatCd, String drSpecCd, String sfCd, String addr,
-                                             String dremail, String drmobile, String drphone, String drQual,String max,String tag) {
+                                             String dremail, String drmobile, String drphone, String drQual,String max,String tag,String DrHoscd,String DrhosNm) {
         ContentValues values = new ContentValues();
         values.put(TableEntry.COLUMN_DOCTOR_CODE, drCode);
         values.put(TableEntry.COLUMN_DOCTOR_NAME, drName);
@@ -707,6 +707,8 @@ public class DataBaseHandler {
         values.put(TableEntry.COLUMN_DOCTOR_QUALIFICATION_CODE, drQual);
         values.put(TableEntry.COLUMN_MAXTAG, max);
         values.put(TableEntry.COLUMN_TAGCOUNT, tag);
+        values.put(TableEntry.COLUMN_HOS_CODE,DrHoscd);
+        values.put(TableEntry.COLUMN_HOS_NAME,DrhosNm);
         Log.v("SFCode_udr",sfCd+" categrynam "+drCatCd);
        // Log.d("VALUES",values.toString());
         return db.insert(TableEntry.TABLE_UNLISTED_DOCTOR_MASTER_DETAILS,TableEntry.COLUMN_NULLABLE, values);
@@ -1319,6 +1321,9 @@ public class DataBaseHandler {
     }
     public Cursor select_class_list(){
         return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_CLASS,null);
+    }
+    public Cursor select_hospital_list() {
+        return db.rawQuery(" SELECT * FROM " +TableEntry.TABLE_HOSPITAL,null);
     }
     public Cursor select_class_listType(String type){
         return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_CLASS+ " WHERE "+TableEntry.TYPE+" = '"+type+"' ",null);

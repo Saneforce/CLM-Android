@@ -69,8 +69,8 @@ public class FeedProductAdapter extends BaseAdapter {
     JSONArray jsonFeed;
     boolean isEmpty;
     ListView list_slide;
-     Dialog dialog;
-     Cursor mCursor;
+    Dialog dialog;
+    Cursor mCursor;
     ArrayList<PopFeed> stockist = new ArrayList<>();
     TextView stk_nam;
     LinearLayout ll_stock;
@@ -117,8 +117,6 @@ public class FeedProductAdapter extends BaseAdapter {
             String slideur = mCommonSharedPreference.getValueFromPreferenceFeed("slide_url" + i);
             Log.v("time_ValuePadap",timevalue+"edutOption"+editOption);
             tempArray.add(new StoreImageTypeUrl(slidenam,slidetyp,slideur,prdName,timevalue));
-
-
             }
 */
 
@@ -126,7 +124,6 @@ public class FeedProductAdapter extends BaseAdapter {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-
                         String endTim = "";
                         for (int i = 0; i < tempArray.size(); i++) {
                             String sTime = "", eTime = "";
@@ -134,19 +131,16 @@ public class FeedProductAdapter extends BaseAdapter {
                             StoreImageTypeUrl mm2 = null;
                             boolean checkProduct=false;
                             for (int k = 0; k < storeList.size(); k++) {
-
                                 if (storeList.get(k).getBrdName().equalsIgnoreCase(prdNm))
                                     checkProduct=true;
                             }
                             Log.v("checkProductDifference",checkProduct+"");
                             if (TextUtils.isEmpty(prdNm) || checkProduct==false) {
-
                                 if (i != (tempArray.size() - 1)) {
                                     mm2 = tempArray.get(i + 1);
                                     sTime = mm.getTiming();
                                     eTime = mm2.getTiming();
                                     Log.v("startTime", sTime + " endTime " + eTime);
-
                                 } else {
                                     sTime = mm.getTiming();
                                     FeedbackProductDetail pp = null;
@@ -157,25 +151,19 @@ public class FeedProductAdapter extends BaseAdapter {
                                     if(i==0){
                                         pp = product.get(0);
                                     }
-
                                     eTime = pp.getSt_end_time().substring(9);
                                 }
-
                                 prdNm = mm.getBrdName();
                                 prdCount++;
-
                                 JSONArray jsonArray = new JSONArray();
                                 JSONObject js = new JSONObject();
-
                                 try {
-
                                     Log.v("Start_Time", sTime + " endTime " + eTime);
                                     js.put("ST", sTime);
                                     js.put("ET", eTime);
                                     jsonArray.put(js);
                                     mm.setRemTime(jsonArray.toString());
                                     storeList.add(new StoreImageTypeUrl(mm.getSlideNam(), mm.getSlideTyp(), mm.getSlideUrl(), "", "", jsonArray.toString(), prdNm, false));
-
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -183,9 +171,7 @@ public class FeedProductAdapter extends BaseAdapter {
                                 StoreImageTypeUrl sT = null;
                                 if (storeList.contains(new StoreImageTypeUrl(mm.getSlideNam()))) {
                                     Log.v("storeList_sae", "patterns_are_here");
-
                                     for (int k = 0; k < storeList.size(); k++) {
-
                                         if (storeList.get(k).getSlideNam().equalsIgnoreCase(mm.getSlideNam()))
                                             sT = storeList.get(k);
                                     }
@@ -193,7 +179,6 @@ public class FeedProductAdapter extends BaseAdapter {
                                         mm2 = tempArray.get(i + 1);
                                         sTime = mm.getTiming();
                                         eTime = mm2.getTiming();
-
                                     } else {
                                         sTime = mm.getTiming();
                                         FeedbackProductDetail pp = null;
@@ -217,20 +202,16 @@ public class FeedProductAdapter extends BaseAdapter {
                                                 jss.put("ET", eTime);
                                                 jja.put(jss);
                                             }
-
                                         }
                                         sT.setRemTime(jja.toString());
                                     } catch (Exception e) {
-
                                     }
-
                                 } else {
                                     Log.v("storeList_sae", "patterns_are_not_here");
                                     if (i != (tempArray.size() - 1)) {
                                         mm2 = tempArray.get(i + 1);
                                         sTime = mm.getTiming();
                                         eTime = mm2.getTiming();
-
                                     } else {
                                         sTime = mm.getTiming();
                                         FeedbackProductDetail pp = null;
@@ -241,31 +222,23 @@ public class FeedProductAdapter extends BaseAdapter {
                                         endTim = pp.getSt_end_time().substring(9);
                                         eTime = pp.getSt_end_time().substring(9);
                                     }
-
                                     prdNm = mm.getBrdName();
                                     prdCount++;
-
                                     JSONArray jsonArray = new JSONArray();
                                     JSONObject js = new JSONObject();
-
                                     try {
-
                                         Log.v("Start_Time", sTime + " endTime " + eTime);
                                         js.put("ST", sTime);
                                         js.put("ET", eTime);
                                         jsonArray.put(js);
                                         mm.setRemTime(jsonArray.toString());
                                         storeList.add(new StoreImageTypeUrl(mm.getSlideNam(), mm.getSlideTyp(), mm.getSlideUrl(), "", "", jsonArray.toString(), prdNm, false));
-
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
                                 }
-
                             }
-
                         }
-
                         for (int j = 0; j < storeList.size(); j++) {
                             StoreImageTypeUrl ss = storeList.get(j);
                             Log.v("store_list_pr", storeList.get(j).getSlideNam() + "rem_time " + storeList.get(j).getRemTime());
@@ -273,7 +246,6 @@ public class FeedProductAdapter extends BaseAdapter {
                             for(int k=0;k<jsonFeed.length();k++){
                                 try {
                                     JSONObject jsonObject=jsonFeed.getJSONObject(k);
-
                                     if(jsonObject.getString("id").equalsIgnoreCase(ss.getSlideUrl())){
                                         slideRemark=jsonObject.getString("feedBack");
                                     }
@@ -319,7 +291,7 @@ public class FeedProductAdapter extends BaseAdapter {
         }
 
         stk_nam = (TextView) view.findViewById(R.id.stk_nam);
-         ll_stock=(LinearLayout) view.findViewById(R.id.ll_stock);
+        ll_stock=(LinearLayout) view.findViewById(R.id.ll_stock);
         TextView prd_nam = (TextView) view.findViewById(R.id.prd_nam);
         TextView prd_time = (TextView) view.findViewById(R.id.prd_time);
         Button img_minus = (Button) view.findViewById(R.id.img_minus);
@@ -442,7 +414,7 @@ public class FeedProductAdapter extends BaseAdapter {
             rating.setRating(Float.parseFloat(mm.getRating()));
         edt_sample.setText(mm.getSample());
         if (!TextUtils.isEmpty(mm.getStk_name()))
-        stk_nam.setText(mm.getStk_name());
+            stk_nam.setText(mm.getStk_name());
 
 
         img_minus.setOnClickListener(new View.OnClickListener() {
@@ -469,7 +441,6 @@ public class FeedProductAdapter extends BaseAdapter {
                     final FeedbackProductDetail mm=product.get(i+1);
                      endTime=mm.getSt_end_time().trim();
                      endTime=endTime.substring(0,endTime.indexOf(" "));
-
                     Log.v("passing_endTime",endTime);
                 }*/
 
@@ -515,7 +486,7 @@ public class FeedProductAdapter extends BaseAdapter {
                 }
                 else{
                     mCursor = dbh.select_stock_sfcode(SFCode);
-                    }
+                }
 
                 if (mCursor.getCount() != 0) {
                     mCursor.moveToFirst();
@@ -649,7 +620,7 @@ public class FeedProductAdapter extends BaseAdapter {
         dialog.show();
         final FeedbackProductDetail mm = product.get(pos);
 
-         list_slide = (ListView) dialog.findViewById(R.id.list_slide);
+        list_slide = (ListView) dialog.findViewById(R.id.list_slide);
         edit_feed = (EditText) dialog.findViewById(R.id.edit_feed);
         edit_feed.setText(mm.getFeedback());
         LinearLayout ll_edt_bg = (LinearLayout) dialog.findViewById(R.id.ll_edt_bg);
@@ -732,7 +703,6 @@ public class FeedProductAdapter extends BaseAdapter {
             try {
                 JSONArray jss=new JSONArray(mm1.getRemTime());
                 for(int j=0;j<jss.length();j++){
-
                     JSONObject json=jss.getJSONObject(j);
                     if(j==0)
                         sT=json.getString("ST");
@@ -743,8 +713,6 @@ public class FeedProductAdapter extends BaseAdapter {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-
         }
 */
         dataselection();
@@ -927,7 +895,7 @@ public class FeedProductAdapter extends BaseAdapter {
                         notifyDataSetChanged();
 
                     }
-                    }
+                }
                 dialog.dismiss();
             }
         });

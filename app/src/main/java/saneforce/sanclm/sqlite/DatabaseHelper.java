@@ -140,7 +140,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             TableEntry.COLUMN_DOCTOR_PHONE + TEXT_TYPE +COMMA_SEP +
             TableEntry.COLUMN_DOCTOR_QUALIFICATION_CODE + TEXT_TYPE +COMMA_SEP +
             TableEntry.COLUMN_MAXTAG + TEXT_TYPE +COMMA_SEP +
-            TableEntry.COLUMN_TAGCOUNT + TEXT_TYPE +
+            TableEntry.COLUMN_TAGCOUNT + TEXT_TYPE +COMMA_SEP+
+            TableEntry.COLUMN_HOS_CODE+TEXT_TYPE+COMMA_SEP+
+            TableEntry.COLUMN_HOS_NAME+TEXT_TYPE+
             ")";
 
     /*CHEMIST MASTER */

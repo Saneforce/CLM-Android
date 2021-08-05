@@ -2,6 +2,7 @@ package saneforce.sanclm.fragments;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -97,6 +99,7 @@ public class NearMe extends Fragment {
     Api_Interface apiService;
     ImageView back_img;
     TextView txt_tag,txt_cat;
+    ProgressBar marker_progress;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -109,6 +112,8 @@ public class NearMe extends Fragment {
         switch_view.setImageResource(R.drawable.icon_refresh);
         commonSharedPreference=new CommonSharedPreference(getActivity());
         back_img=(ImageView)vv.findViewById(R.id.back_img);
+
+        marker_progress=(ProgressBar)vv.findViewById(R.id.marker_progress);
 
         fab1=(FloatingActionButton)vv.findViewById(R.id.menu_item);
         fab2=(FloatingActionButton)vv.findViewById(R.id.menu_item1);
@@ -211,6 +216,7 @@ public class NearMe extends Fragment {
                 commonSharedPreference.setValueToPreference("cat","D");
                 // getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.map, new DCRDRCallsSelection()).commit();
                 chooseDep="D";
+                marker_progress.setVisibility(View.VISIBLE);
                 getTagDetail("D");
                 fb_menu.close(true);
 
@@ -225,6 +231,7 @@ public class NearMe extends Fragment {
                 commonSharedPreference.setValueToPreference("geo_tag", "1");
                 //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.map, new DCRCHMCallsSelection()).commit();
                 chooseDep="C";
+                marker_progress.setVisibility(View.VISIBLE);
                 getTagDetail("C");
                 fb_menu.close(true);
 
@@ -238,6 +245,7 @@ public class NearMe extends Fragment {
                 commonSharedPreference.setValueToPreference("cat","S");
                 //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.map, new DCRCHMCallsSelection()).commit();
                 chooseDep="S";
+                marker_progress.setVisibility(View.VISIBLE);
                 getTagDetail("S");
                 fb_menu.close(true);
 
@@ -251,6 +259,7 @@ public class NearMe extends Fragment {
                 commonSharedPreference.setValueToPreference("cat","U");
                 //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.map, new DCRCHMCallsSelection()).commit();
                 chooseDep="U";
+                marker_progress.setVisibility(View.VISIBLE);
                 getTagDetail("U");
                 fb_menu.close(true);
 
@@ -528,6 +537,7 @@ public class NearMe extends Fragment {
                     Log.v("printing_responsee",response.body().byteStream()+"");
                     JSONObject jsonObject = null;
                     String jsonData = null;
+                    marker_progress.setVisibility(View.GONE);
 
                     InputStreamReader ip = null;
                     StringBuilder is = new StringBuilder();
@@ -579,7 +589,8 @@ public class NearMe extends Fragment {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                marker_progress.setVisibility(View.GONE);
+             Log.e("on failure",t.getMessage());
             }
         });
     }

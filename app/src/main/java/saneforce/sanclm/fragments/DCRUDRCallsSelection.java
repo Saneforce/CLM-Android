@@ -33,6 +33,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -128,12 +129,14 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
     String txt_qua,txt_cat,txt_class,txt_spec,txt_terr,div_codee;
     DownloadMasters dwnloadMasterData;
     int spinnerpostion=0;
-    String selectedProductCode="";
+    String selectedProductCode="",hospitaltxt;
     String  addDrr="0";
     TextView txt_tool_header;
     String language;
     Context context;
     Resources resources;
+    LinearLayout ln_hospital;
+    TextView tv_hospital,txt_select_hospital;
 
 
     @Override
@@ -213,7 +216,10 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
         ibtn_btn_go=(ImageButton)v.findViewById(R.id.btn_go);
         ibtn_skip=(ImageButton)v.findViewById(R.id.btn_skip);
         btn_act = (Button)  v.findViewById(R.id.btn_act) ;
+        tv_hospital=v.findViewById(R.id.tv_hospital_txt1);
+        ln_hospital=v.findViewById(R.id.lnhospital);
         txt_tool_header.setText(mCommonSharedPreference.getValueFromPreference("ucap")+" "+resources.getString(R.string.Selection));
+
 
 
         Log.d("daataselec",mCommonSharedPreference.getValueFromPreference("ucap"));
@@ -631,6 +637,8 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
         et_companyurl.requestFocus();
         rl_dcr_precall_analysisMain.setVisibility(View.VISIBLE);
         dcr_drselection_gridview.setVisibility(View.INVISIBLE);
+        if(mCommonSharedPreference.getValueFromPreference("undr_hs_nd").equalsIgnoreCase("0"))
+            ln_hospital.setVisibility(View.VISIBLE);
 
         try{
             dbh.open();
@@ -647,6 +655,7 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
                 tv_drtown.setText(mCursor.getString(6));
                 tv_dremail.setText(mCursor.getString(12));
                 tv_draddr.setText(mCursor.getString(11));
+                tv_hospital.setText(mCursor.getString(19));
             }
 
         }catch(Exception e){
@@ -774,6 +783,8 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
         rl_chmPrecallanalysis.setVisibility(View.GONE);
         rl_dcr_precall_analysisMain.setVisibility(View.VISIBLE);
         dcr_drselection_gridview.setVisibility(View.GONE);
+        if(mCommonSharedPreference.getValueFromPreference("undr_hs_nd").equalsIgnoreCase("0"))
+            ln_hospital.setVisibility(View.VISIBLE);
         String sfMCode;
         CommonUtils.TAG_UNDR_CODE=code;
         CommonUtils.TAG_UNDR_NAME=name;
@@ -968,6 +979,7 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
                 tv_drtown.setText(mCursor.getString(6));
                 tv_dremail.setText(mCursor.getString(12));
                 tv_draddr.setText(mCursor.getString(11));
+                tv_hospital.setText(mCursor.getString(19));
             }
         }catch (Exception e){
 
@@ -1033,6 +1045,13 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
         final EditText edt_mob=(EditText)dialog.findViewById(R.id.edt_mob);
         final EditText edt_code=(EditText)dialog.findViewById(R.id.edt_code);
         final EditText edt_phone=(EditText)dialog.findViewById(R.id.edt_phone);
+        RelativeLayout hos_dropdown=(RelativeLayout) dialog.findViewById(R.id.lnhosdropdown);
+        txt_select_hospital=(TextView)dialog.findViewById(R.id.txt_select_hospitals);
+
+        if(mCommonSharedPreference.getValueFromPreference("undr_hs_nd").equalsIgnoreCase("0"))
+            hos_dropdown.setVisibility(View.VISIBLE);
+        else
+            hos_dropdown.setVisibility(View.GONE);
 
         save_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1066,6 +1085,10 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
                         json.put("DrPincd", edt_code.getText().toString());
                         json.put("DrPhone", edt_phone.getText().toString());
                         json.put("DrMob", edt_mob.getText().toString());
+                        if(mCommonSharedPreference.getValueFromPreference("undr_hs_nd").equalsIgnoreCase("0")) {
+                            json.put("DrHosNm", txt_select_hospital.getText().toString());
+                            json.put("DrHosCd", hospitaltxt.substring(hospitaltxt.indexOf(",") + 1));
+                        }
 
                         Log.v("printing_add_dr",json.toString());
 
@@ -1121,6 +1144,13 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
                 gettingTableValue(5);
             }
         });
+        txt_select_hospital.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gettingTableValue(6);
+            }
+        });
+
     }
     public void commonFun(){
         getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -1144,7 +1174,15 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
             cur=dbh.select_class_list();
         else if(x==4)
             cur=dbh.select_speciality_list();
-        else
+        else if(x==6) {
+            cur = dbh.select_hospital_list();
+            if (cur.getCount() > 0) {
+                while (cur.moveToNext()) {
+                    list_dr.add(new SlideDetail(cur.getString(3), cur.getString(4)));
+
+                }
+            }
+        }else
             cur=dbh.select_ClusterList();
 
         if(cur.getCount()>0){
@@ -1197,6 +1235,10 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
                 else if(x==4) {
                     txt_select_spec.setText(list_dr.get(position).getInputName());
                     txt_spec=list_dr.get(position).getInputName()+","+list_dr.get(position).getIqty();
+                }else if(x==6){
+                    txt_select_hospital.setText(list_dr.get(position).getInputName());
+                    hospitaltxt=list_dr.get(position).getInputName()+","+list_dr.get(position).getIqty();
+
                 }
                 else {
                     txt_select_terr.setText(list_dr.get(position).getInputName());

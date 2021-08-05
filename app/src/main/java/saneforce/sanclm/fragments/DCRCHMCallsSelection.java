@@ -899,6 +899,8 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
         final AdapterForDynamicSelectionList adapt=new AdapterForDynamicSelectionList(getActivity(),hospital_array,0);
         popup_list.setAdapter(adapt);
         final SearchView search_view=(SearchView)dialog.findViewById(R.id.search_view);
+        EditText search_edit=(EditText)  dialog.findViewById(R.id.et_search);
+
         search_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -918,6 +920,25 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
                 Log.v("search_view_str",s);
                 adapt.getFilter().filter(s);
                 return false;
+            }
+        });
+
+        search_edit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapt.getFilter().filter(s);
+                adapt.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 

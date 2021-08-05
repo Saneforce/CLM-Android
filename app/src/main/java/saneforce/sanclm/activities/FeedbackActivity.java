@@ -29,7 +29,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.content.FileProvider;
 
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -82,6 +84,7 @@ import saneforce.sanclm.activities.Model.PopFeed;
 import saneforce.sanclm.activities.Model.SlideDetail;
 import saneforce.sanclm.activities.Model.StoreImageTypeUrl;
 import saneforce.sanclm.adapter_class.FeedCallJoinAdapter;
+import saneforce.sanclm.adapter_class.FeedCallJoinAdapter1;
 import saneforce.sanclm.adapter_class.FeedInputAdapter;
 import saneforce.sanclm.adapter_class.FeedProductAdapter;
 import saneforce.sanclm.adapter_class.PopupAdapter;
@@ -100,10 +103,11 @@ import static saneforce.sanclm.fragments.AppConfiguration.language_string;
 import static saneforce.sanclm.fragments.AppConfiguration.licenceKey;
 
 public class FeedbackActivity extends AppCompatActivity {
-    TextView availcheckbutton;
+    TextView availcheckbutton,txt_signature;
     FeedProductAdapter feedProductAdapter;
     FeedInputAdapter feedInputAdapter;
     FeedCallJoinAdapter feedCallJoinAdapter;
+    FeedCallJoinAdapter1 feedCallJoinAdapter1;
     ArrayList<String> prd_value = new ArrayList<>();
     ArrayList<SlideDetail> input_array = new ArrayList<>();
     ArrayList<String> joint_array = new ArrayList<>();
@@ -119,6 +123,12 @@ public class FeedbackActivity extends AppCompatActivity {
     String filePath = "";
     Button bt_cancel, prd_plus, prd_plus1;
     ArrayList<PopFeed> xx = new ArrayList<>();
+    ArrayList<PopFeed> product = new ArrayList<>();
+    ArrayList<PopFeed> product1 = new ArrayList<>();
+
+    ArrayList<PopFeed> input = new ArrayList<>();
+    ArrayList<PopFeed> addcall = new ArrayList<>();
+
     DataBaseHandler dbh;
     Cursor mCursor;
     int detectCount = 0;
@@ -144,8 +154,8 @@ public class FeedbackActivity extends AppCompatActivity {
     String peopleType, peopleCode, commonSFCode, SFCode,SF_Type;
     public static String TypePeople = "D";
     LocationTrack locationTrack;
-    static RelativeLayout sign_lay;
-    SignatureCanva sign_canva;
+    static RelativeLayout sign_lay,sign_laynew;
+    SignatureCanva sign_canva,sign_canvanew;
     String signPath = "";
     String defaulttime = "00:00:00";
     int val;
@@ -164,11 +174,12 @@ public class FeedbackActivity extends AppCompatActivity {
     Context context;
     Resources resources;
 
+
     SharedPreferences sharedPreferences;
 
     ArrayList<StoreImageTypeUrl> arrayStore = new ArrayList<>();
     LinearLayout addcalllayout,availLayout,ll_stkname,ll_stkname1;
-   String availability=null,custype="0";
+    String availability=null,custype="0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -227,6 +238,14 @@ public class FeedbackActivity extends AppCompatActivity {
         txt_stockist1 = (TextView) findViewById(R.id.txt_stockist1);
         ll_stkname = (LinearLayout) findViewById(R.id.ll_stockname);
         ll_stkname1 = (LinearLayout) findViewById(R.id.ll_stkname1);
+//        txt_signature=findViewById(R.id.txt_sign);
+//        txt_signature.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                PopupSignature();
+//
+//            }
+//        });
 
 
         mCommonSharedPreference = new CommonSharedPreference(FeedbackActivity.this);
@@ -237,45 +256,12 @@ public class FeedbackActivity extends AppCompatActivity {
         SF_Type = mCommonSharedPreference.getValueFromPreference("sf_type");
         workType=mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_NAME);
         AvailableAduitNeeded = mCommonSharedPreference.getValueFromPreference("AvailableAduitNeeded");
-        RcpaNeeded= mCommonSharedPreference.getValueFromPreference("RcpaNeeded");
-       // RcpaNeeded="1";
+        RcpaNeeded= mCommonSharedPreference.getValueFromPreference("RcpaNd");
+        // RcpaNeeded="1";
         availability=mCommonSharedPreference.getValueFromPreference("availjson");
-            Log.v("avail>>>1",availability);
+        Log.v("avail>>>1",availability);
         btn_brand_audit.setVisibility(View.VISIBLE);
 
-        if(AvailableAduitNeeded.equals("1")&&feedOption.equals("chemist")){
-            availLayout.setVisibility(View.VISIBLE);
-            addcalllayout.setVisibility(View.GONE);
-            btn_brand_audit.setVisibility(View.VISIBLE);
-
-        }else if(AvailableAduitNeeded.equals("1")&&feedOption.equals("edit")&&custype.equals("2")) {
-            availLayout.setVisibility(View.VISIBLE);
-            btn_brand_audit.setVisibility(View.VISIBLE);
-            addcalllayout.setVisibility(View.GONE);
-        }
-
-       else  if(RcpaNeeded.equals("1")&&feedOption.equals("dr")){
-            btn_brand_audit.setVisibility(View.GONE);
-
-        }else if(RcpaNeeded.equals("1")&&feedOption.equals("edit")&&custype.equals("1")) {
-            btn_brand_audit.setVisibility(View.GONE);
-        }
-
-        else{
-            availLayout.setVisibility(View.GONE);
-            addcalllayout.setVisibility(View.VISIBLE);
-            btn_brand_audit.setVisibility(View.VISIBLE);
-
-        }
-
-        availcheckbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(FeedbackActivity.this,AvailablityCheckActivity.class);
-                intent.putExtra("availjson",availability);
-                startActivity(intent);
-            }
-        });
         Log.v("toshow_sharepref", val_pob);
 
         if (mCommonSharedPreference.getValueFromPreference("addAct").equalsIgnoreCase("0"))
@@ -453,14 +439,14 @@ public class FeedbackActivity extends AppCompatActivity {
             ll_feed_prd.setVisibility(View.VISIBLE);
 
 
-             if (peopleType.equalsIgnoreCase("S")){
+            if (peopleType.equalsIgnoreCase("S")){
                 ll_stkname.setVisibility(View.GONE);}
             else if(peopleType.equalsIgnoreCase("U")){
                 ll_stkname.setVisibility(View.GONE);}
             else{
-                 if(mCommonSharedPreference.getValueFromPreference("Product_Stockist").equals("0")){
-                     ll_stkname.setVisibility(View.VISIBLE);}
-             }
+                if(mCommonSharedPreference.getValueFromPreference("Product_Stockist").equals("0")){
+                    ll_stkname.setVisibility(View.VISIBLE);}
+            }
         }
 
        /* Log.v("printing_people_code",peopleCode);
@@ -890,20 +876,24 @@ public class FeedbackActivity extends AppCompatActivity {
                             return;
                         }
 
-                            if (mCommonSharedPreference.getValueFromPreference("DrSmpQMd").equals("1") && peopleType.equalsIgnoreCase("D")) {
-                                for (int jj = 0; jj < listFeedPrd.size(); jj++) {
+                        if (mCommonSharedPreference.getValueFromPreference("DrSmpQMd").equals("1") && peopleType.equalsIgnoreCase("D")) {
+                            for (int jj = 0; jj < listFeedPrd.size(); jj++) {
+                                if(listFeedPrd.get(jj).getSt_end_time().equals("00:00:00 00:00:00")) {
                                     String rxqty = listFeedPrd.get(jj).getSample();
                                     if (rxqty.equalsIgnoreCase("")) {
                                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.entr_sample_val), Toast.LENGTH_LONG).show();
                                         return;
                                     }
+
                                     Log.v("rxqty", rxqty);
                                 }
-
                             }
-                            if (ll_feed_prd2.getVisibility() == View.VISIBLE) {
-                                if (mCommonSharedPreference.getValueFromPreference("DrRxNd").equals("1") && mCommonSharedPreference.getValueFromPreference("DrRxQMd").equals("1") && peopleType.equalsIgnoreCase("D")) {
-                                    for (int jj = 0; jj < listFeedPrd.size(); jj++) {
+
+                        }
+                        if (ll_feed_prd2.getVisibility() == View.VISIBLE) {
+                            if (mCommonSharedPreference.getValueFromPreference("DrRxNd").equals("1") && mCommonSharedPreference.getValueFromPreference("DrRxQMd").equals("1") && peopleType.equalsIgnoreCase("D")) {
+                                for (int jj = 0; jj < listFeedPrd.size(); jj++) {
+                                    if (listFeedPrd.get(jj).getSt_end_time().equals("00:00:00 00:00:00")) {
                                         String rxqty = listFeedPrd.get(jj).getRxQty();
                                         if (rxqty.equalsIgnoreCase("")) {
                                             Toast.makeText(getApplicationContext(), getResources().getString(R.string.entr_rx_val), Toast.LENGTH_LONG).show();
@@ -913,33 +903,34 @@ public class FeedbackActivity extends AppCompatActivity {
                                     }
                                 }
                             }
+                        }
 
-                            if (mCommonSharedPreference.getValueFromPreference("DrInpMd").equals("1") && peopleType.equalsIgnoreCase("D")) {
-                                if (input_array.size() < 1) {
-                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.sclt_input), Toast.LENGTH_LONG).show();
-                                    return;
-                                }
-                                for (int jj = 0; jj < input_array.size(); jj++) {
-                                    String inputName = input_array.get(jj).getInputName();
-                                    String inputQty = input_array.get(jj).getIqty();
-
-                                    if (inputName.equalsIgnoreCase("") && inputQty.equalsIgnoreCase("")) {
-                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.entr_input_val), Toast.LENGTH_LONG).show();
-                                        return;
-                                    }
-                                }
-
+                        if (mCommonSharedPreference.getValueFromPreference("DrInpMd").equals("1") && peopleType.equalsIgnoreCase("D")) {
+                            if (input_array.size() < 1) {
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.sclt_input), Toast.LENGTH_LONG).show();
+                                return;
                             }
-                            if (mCommonSharedPreference.getValueFromPreference("RcpaNd").equals("1") && peopleType.equalsIgnoreCase("D") && workType.equalsIgnoreCase("Field Work")) {
-                                String rcpa = mCommonSharedPreference.getValueFromPreference("jsonarray");
-                                if (rcpa.equalsIgnoreCase("")) {
-                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.entr_rcpa_val), Toast.LENGTH_LONG).show();
-                                    return;
+                            for (int jj = 0; jj < input_array.size(); jj++) {
+                                String inputName = input_array.get(jj).getInputName();
+                                String inputQty = input_array.get(jj).getIqty();
 
+                                if (inputName.equalsIgnoreCase("") && inputQty.equalsIgnoreCase("")) {
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.entr_input_val), Toast.LENGTH_LONG).show();
+                                    return;
                                 }
                             }
 
-                            finalSubmission(finalValue);
+                        }
+                        if (mCommonSharedPreference.getValueFromPreference("RcpaNd").equals("1") && peopleType.equalsIgnoreCase("D") && workType.equalsIgnoreCase("Field Work")) {
+                            String rcpa = mCommonSharedPreference.getValueFromPreference("jsonarray");
+                            if (rcpa.equalsIgnoreCase("")) {
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.entr_rcpa_val), Toast.LENGTH_LONG).show();
+                                return;
+
+                            }
+                        }
+
+                        finalSubmission(finalValue);
 
                     } else {
                         Calendar calander = Calendar.getInstance();
@@ -951,6 +942,32 @@ public class FeedbackActivity extends AppCompatActivity {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+
+                        if (mCommonSharedPreference.getValueFromPreference("DrInpMd").equals("1") && peopleType.equalsIgnoreCase("D")) {
+                            if (input_array.size() < 1) {
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.sclt_input), Toast.LENGTH_LONG).show();
+                                return;
+                            }
+                            for (int jj = 0; jj < input_array.size(); jj++) {
+                                String inputName = input_array.get(jj).getInputName();
+                                String inputQty = input_array.get(jj).getIqty();
+
+                                if (inputName.equalsIgnoreCase("") && inputQty.equalsIgnoreCase("")) {
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.entr_input_val), Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                            }
+
+                        }
+                        if (mCommonSharedPreference.getValueFromPreference("RcpaNd").equals("1") && peopleType.equalsIgnoreCase("D") && workType.equalsIgnoreCase("Field Work")) {
+                            String rcpa = mCommonSharedPreference.getValueFromPreference("jsonarray");
+                            if (rcpa.equalsIgnoreCase("")) {
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.entr_rcpa_val), Toast.LENGTH_LONG).show();
+                                return;
+
+                            }
+                        }
+
                         dbh.open();
                         dbh.deleteFeed();
                         dbh.delete_groupName("customised");
@@ -982,113 +999,157 @@ public class FeedbackActivity extends AppCompatActivity {
         prd_plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                xx.clear();
-                dbh.open();
-                mCursor = dbh.select_product_content_master();
 
-                if (mCursor.getCount() != 0) {
-                    mCursor.moveToFirst();
-                    do {
-                        Log.v("product_name_feed", mCursor.getString(0));
-                        xx.add(new PopFeed(mCursor.getString(0), false));
+                    product.clear();
+                    dbh.open();
+                    mCursor = dbh.select_product_content_master();
 
-                    } while (mCursor.moveToNext());
-                    popUpAlertFeed(xx, "p");
+                    if (mCursor.getCount() != 0) {
+                        mCursor.moveToFirst();
+                        do {
+                            Log.v("product_name_feed", mCursor.getString(0));
+                            product.add(new PopFeed(mCursor.getString(0), false));
+
+                        } while (mCursor.moveToNext());
+                        popUpAlertFeed(product, "p");
+                    }
+                    mCursor.close();
+                    dbh.close();
                 }
-                mCursor.close();
-                dbh.close();
 
-
-            }
         });
         prd_plus1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                xx.clear();
-                dbh.open();
-                mCursor = dbh.select_product_content_master();
 
-                if (mCursor.getCount() != 0) {
-                    mCursor.moveToFirst();
-                    do {
-                        Log.v("product_name_feed", mCursor.getString(0));
-                        xx.add(new PopFeed(mCursor.getString(0), false));
+                    product1.clear();
+                    dbh.open();
+                    mCursor = dbh.select_product_content_master();
 
-                    } while (mCursor.moveToNext());
-                    popUpAlertFeed(xx, "p");
+                    if (mCursor.getCount() != 0) {
+                        mCursor.moveToFirst();
+                        do {
+                            Log.v("product_name_feed", mCursor.getString(0));
+                            product1.add(new PopFeed(mCursor.getString(0), false));
+
+                        } while (mCursor.moveToNext());
+                        popUpAlertFeed(product1, "p");
+                    }
+                    mCursor.close();
+                    dbh.close();
                 }
-                mCursor.close();
-                dbh.close();
 
 
-            }
         });
         ip_plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                xx.clear();
-                dbh.open();
-                mCursor = dbh.select_input_list();
 
-                if (mCursor.getCount() != 0) {
-                    mCursor.moveToFirst();
-                    do {
-                        Log.v("input_name_feed", mCursor.getString(0));
-                        xx.add(new PopFeed(mCursor.getString(0), false));
-                    } while (mCursor.moveToNext());
-                    popUpAlertFeed(xx, "i");
-                } else {
-                    Toast.makeText(FeedbackActivity.this, getResources().getString(R.string.no_input), Toast.LENGTH_SHORT).show();
+                    input.clear();
+                    dbh.open();
+                    mCursor = dbh.select_input_list();
+
+                    if (mCursor.getCount() != 0) {
+                        mCursor.moveToFirst();
+                        do {
+                            Log.v("input_name_feed", mCursor.getString(0));
+                            input.add(new PopFeed(mCursor.getString(0), false));
+                        } while (mCursor.moveToNext());
+                        popUpAlertFeed(input, "i");
+                    } else {
+                        Toast.makeText(FeedbackActivity.this, getResources().getString(R.string.no_input), Toast.LENGTH_SHORT).show();
+                    }
+                    mCursor.close();
+                    dbh.close();
+
                 }
-                mCursor.close();
-                dbh.close();
 
-
-            }
         });
         call_plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                xx.clear();
 
-                dbh.open();
-                mCursor = dbh.select_doctor_list();
+                    addcall.clear();
 
-                if (mCursor.getCount() != 0) {
-                    mCursor.moveToFirst();
-                    do {
-                        Log.v("plus_name_feed", mCursor.getString(0));
-                        xx.add(new PopFeed(mCursor.getString(0), false));
-                    } while (mCursor.moveToNext());
-                    popUpAlertFeed(xx, "a");
+                    dbh.open();
+                    mCursor = dbh.select_doctor_list();
+
+                    if (mCursor.getCount() != 0) {
+                        mCursor.moveToFirst();
+                        do {
+                            Log.v("plus_name_feed", mCursor.getString(0));
+                            addcall.add(new PopFeed(mCursor.getString(0), false));
+                        } while (mCursor.moveToNext());
+                        popUpAlertFeed(addcall, "a");
+                    }
+                    mCursor.close();
+                    dbh.close();
                 }
-                mCursor.close();
-                dbh.close();
 
-            }
         });
 
 
         join_plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                xx.clear();
-                dbh.open();
-                mCursor = dbh.select_joint_list();
+
+                    xx.clear();
+                    dbh.open();
+                    mCursor = dbh.select_joint_list();
 
 
-                if (mCursor.getCount() != 0) {
-                    mCursor.moveToFirst();
-                    do {
-                        Log.v("plus_name_feed", mCursor.getString(0));
-                        if (!SFCode.equalsIgnoreCase(mCursor.getString(1)))
-                            xx.add(new PopFeed(mCursor.getString(0), false));
-                    } while (mCursor.moveToNext());
-                    popUpAlertFeed(xx, "j");
+                    if (mCursor.getCount() != 0) {
+                        mCursor.moveToFirst();
+                        do {
+                            Log.v("plus_name_feed", mCursor.getString(0));
+                            if (!SFCode.equalsIgnoreCase(mCursor.getString(1))) {
+                                // xx.add(new PopFeed(mCursor.getString(0), false));
+                                PopFeed popFeed = new PopFeed();
+                                popFeed.setTxt(mCursor.getString(0));
+                                popFeed.setClick(false);
+                                xx.add(popFeed);
+                            }
+                        } while (mCursor.moveToNext());
+                        popUpAlertFeed(xx, "j");
+                    }
+                    mCursor.close();
+                    dbh.close();
+
                 }
-                mCursor.close();
-                dbh.close();
 
+        });
+    }
+
+    private void PopupSignature() {
+
+        final Dialog dialog=new Dialog(FeedbackActivity.this,R.style.AlertDialogCustom);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.popup_signature);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+        sign_canvanew = (SignatureCanva) dialog.findViewById(R.id.sign_canva);
+        sign_laynew = (RelativeLayout) dialog.findViewById(R.id.sign_lay);
+        sign_canvanew.checkingForSign();
+
+        if (!TextUtils.isEmpty(signPath)) {
+            if (signPath.substring(0, 1).equalsIgnoreCase("s")) {
+                new DownloadingImage(baseurl + signPath).execute();
+            } else {
+                Drawable d = Drawable.createFromPath(signPath);
+                sign_laynew.setBackground(d);
+            }
+        }
+        ImageView img_close=(ImageView)dialog.findViewById(R.id.iv_close_popup);
+        img_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sign_canvanew.checkingForSign();
+                try {
+                    signPath = captureCanvasScreen(sign_laynew);
+                } catch (Exception e) {
+                }
+                txt_signature.setText(getResources().getString(R.string.signature));
+                dialog.dismiss();
 
             }
         });
@@ -1231,6 +1292,9 @@ public class FeedbackActivity extends AppCompatActivity {
         ImageView iv_close_popup = (ImageView) dialog.findViewById(R.id.iv_close_popup);
         TextView tv_todayplan_popup_head = (TextView) dialog.findViewById(R.id.tv_todayplan_popup_head);
         final SearchView search_view = (SearchView) dialog.findViewById(R.id.search_view);
+        EditText search_edit=(EditText)  dialog.findViewById(R.id.et_search);
+
+
         search_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1244,6 +1308,19 @@ public class FeedbackActivity extends AppCompatActivity {
         popup_list.setAdapter(popupAdapter);
         popupAdapter.notifyDataSetChanged();
 
+//        popup_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                if(xx.get(position).isClick()){
+//                    xx.get(position).setClick(false);
+//                }else {
+//                    xx.get(position).setClick(true);
+//
+//                }
+//                Log.d("jj", ""+xx.get(position).getTxt());
+//                popupAdapter.notifyDataSetChanged();
+//            }
+//        });
         if (x.equals("i")) {
             tv_todayplan_popup_head.setText(resources.getString(R.string.inp_selct));
         } else if (x.equals("a")) {
@@ -1263,6 +1340,25 @@ public class FeedbackActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String s) {
                 popupAdapter.getFilter().filter(s);
                 return false;
+            }
+        });
+
+        search_edit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                popupAdapter.getFilter().filter(s);
+                popupAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
@@ -1422,6 +1518,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Toast.makeText(FeedbackActivity.this, getResources().getString(R.string.query_notsuccs), Toast.LENGTH_SHORT).show();
 
                         }
                     });
@@ -1713,9 +1810,9 @@ public class FeedbackActivity extends AppCompatActivity {
                 jointObj.put("CateCode", "");
                 if (peopleType.equalsIgnoreCase("C"))
                     jointObj.put("CusType", "2");
-              else  if (peopleType.equalsIgnoreCase("I"))
+                else  if (peopleType.equalsIgnoreCase("I"))
                     jointObj.put("CusType", "6");
-              else
+                else
                     jointObj.put("CusType", "3");
                 jointObj.put("CustCode", peopleCode);
                 jointObj.put("CustName", txt_name.getText().toString());

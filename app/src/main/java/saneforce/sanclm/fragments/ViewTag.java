@@ -2,6 +2,7 @@ package saneforce.sanclm.fragments;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -72,6 +74,8 @@ public class ViewTag extends Fragment {
     GPSTrack mGPSTrack;
     double laty = 0.0, lngy = 0.0;
     private int currentApiVersion;
+    ProgressBar marker_progress;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -88,8 +92,10 @@ public class ViewTag extends Fragment {
         back_img = (ImageView) vv.findViewById(R.id.back_img);
         txt_cat = (TextView) vv.findViewById(R.id.txt_cat);
         txt_tag = (TextView) vv.findViewById(R.id.txt_tag);
+        marker_progress=(ProgressBar)vv.findViewById(R.id.marker_progress);
 
         apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
+
 
         SF_Code = commonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_CODE);
         db_connPath = commonSharedPreference.getValueFromPreference(CommonUtils.TAG_DB_URL);
@@ -106,6 +112,7 @@ public class ViewTag extends Fragment {
                 public void onMapReady(GoogleMap googleMap) {
                     mMap = googleMap;
                     if (commonSharedPreference.getValueFromPreference("switch_fragment").equalsIgnoreCase("false"))
+                        marker_progress.setVisibility(View.VISIBLE);
                         getTagDetail(commonSharedPreference.getValueFromPreference("cat"));
                     Log.v("map_fragment_are123", "_equal_" + commonSharedPreference.getValueFromPreference("switch_fragment"));
                     commonSharedPreference.setValueToPreference("geo_tag", "1");
@@ -165,6 +172,7 @@ public class ViewTag extends Fragment {
                 commonSharedPreference.setValueToPreference("geo_tag", "1");
                // getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.map, new DCRDRCallsSelection()).commit();
                 chooseDep="D";
+                marker_progress.setVisibility(View.VISIBLE);
                 getTagDetail("D");
                 fb_menu.close(true);
                 commonSharedPreference.setValueToPreference("cat","D");
@@ -180,6 +188,7 @@ public class ViewTag extends Fragment {
                 commonSharedPreference.setValueToPreference("geo_tag", "1");
                 //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.map, new DCRCHMCallsSelection()).commit();
                 chooseDep="C";
+                marker_progress.setVisibility(View.VISIBLE);
                 getTagDetail("C");
                 fb_menu.close(true);
                 commonSharedPreference.setValueToPreference("cat","C");
@@ -195,6 +204,7 @@ public class ViewTag extends Fragment {
                 commonSharedPreference.setValueToPreference("geo_tag", "1");
                 //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.map, new DCRCHMCallsSelection()).commit();
                 chooseDep="S";
+                marker_progress.setVisibility(View.VISIBLE);
                 getTagDetail("S");
                 fb_menu.close(true);
                 commonSharedPreference.setValueToPreference("cat","S");
@@ -209,6 +219,7 @@ public class ViewTag extends Fragment {
                 commonSharedPreference.setValueToPreference("geo_tag", "1");
                 //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.map, new DCRCHMCallsSelection()).commit();
                 chooseDep="U";
+                marker_progress.setVisibility(View.VISIBLE);
                 getTagDetail("U");
                 fb_menu.close(true);
                 commonSharedPreference.setValueToPreference("cat","U");
@@ -412,7 +423,7 @@ public class ViewTag extends Fragment {
             marker= mMap.addMarker(new MarkerOptions().position(latLng)
                     .title(mm.getName()));
             // mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng),15.0f);
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
+           // mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
             Log.v("map_camera_tt", mm.getLat());
         }
 //        if(NearTagActivity.list.size() == 0){
@@ -515,6 +526,7 @@ public class ViewTag extends Fragment {
                     Log.v("printing_responsee",response.body().byteStream()+"");
                     JSONObject jsonObject = null;
                     String jsonData = null;
+                    marker_progress.setVisibility(View.GONE);
 
                     InputStreamReader ip = null;
                     StringBuilder is = new StringBuilder();
@@ -566,7 +578,8 @@ public class ViewTag extends Fragment {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                marker_progress.setVisibility(View.GONE);
+                Log.e("on failure",t.getMessage());
             }
         });
     }

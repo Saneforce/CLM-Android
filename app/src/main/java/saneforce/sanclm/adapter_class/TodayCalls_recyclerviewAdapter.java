@@ -138,16 +138,20 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
                         holder.iv_del.setVisibility(View.INVISIBLE);
                     holder.iv_sync.setVisibility(View.INVISIBLE);
                 }
-                if(tdaycall.getDrName().indexOf("_")!=-1){
+                if(tdaycall.getDrName().indexOf("_")!=-1 && tdaycall.isLocal()){
                     dr_name=tdaycall.getDrName().substring(0,tdaycall.getDrName().indexOf("_"));
                     Log.v("printing_dr_name",dr_name);
                     holder.iv_edit.setVisibility(View.INVISIBLE);
                     holder.iv_del.setVisibility(View.INVISIBLE);
                     holder.iv_sync.setVisibility(View.VISIBLE);
-                }
-                if(tdaycall.isLocal()){
+                    visitTime+="  [Offline]";
+                }else if(tdaycall.isLocal()){
                     holder.DrName.setTextColor(Color.RED);
                     visitTime+="  [Draft]";
+                }else
+                {
+                    holder.DrName.setTextColor(Color.BLACK);
+
                 }
 
 

@@ -116,6 +116,7 @@ public class DemoActivity extends AppCompatActivity {
     CommonSharedPreference mCommonSharedPreference;
     ArrayList<PopFeed> nameCode=new ArrayList<>();
     ArrayList<ExpandModel> nameCodeExpand=new ArrayList<>();
+    String load_Data="";
 
     String SF_Code,SF_Type;
     String db_connPath,db_slidedwnloadPath;
@@ -703,7 +704,12 @@ public class DemoActivity extends AppCompatActivity {
                 aa.clear();
                 aa.addAll(viewTp);
                 if(!mCommonSharedPreference.getValueFromPreference("approve").equalsIgnoreCase("null")) {
-                    loadData(mCommonSharedPreference.getValueFromPreference("subsf"));
+                   loadData(mCommonSharedPreference.getValueFromPreference("subsf"));
+//                    if (SF_Type.equalsIgnoreCase("2")){
+//                        loaddatanew(load_Data);
+//                    }else{
+//                        loadData(mCommonSharedPreference.getValueFromPreference("subsf"));
+//                    }
                     btn_save.setVisibility(View.VISIBLE);
                 }
               //  Log.v("soln_arr_inside",aa.get(0).getDr());
@@ -1270,6 +1276,7 @@ public class DemoActivity extends AppCompatActivity {
                         Log.v("grid_final_val",CalendarAdapter.arr_json.get(i).getCode());
                         checkSession=false;
                         aa.clear();
+                       // load_Data=CalendarAdapter.arr_json.get(i).getCode();
                         pagerAdapter.notifyDataSetChanged();
                         try {
                             JSONArray jarray=new JSONArray(CalendarAdapter.arr_json.get(i).getCode());
@@ -2014,6 +2021,165 @@ public class DemoActivity extends AppCompatActivity {
             jsonArrayData=new JSONArray();
             Log.v("printing_hsp_type",hospLoader);
         }
+    }
+
+    public void loaddatanew(String data){
+
+        JSONArray jarray= null;
+        try {
+            jarray = new JSONArray(data);
+            for(int k=0;k<jarray.length();k++){
+                JSONObject joss=jarray.getJSONObject(k);
+                String  hos="";
+                String work="";
+                String hq="";
+                String cluster="";
+                String joint="";
+                String dr="";
+                String chem="";
+                //String remrk="";
+                work =joss.getString("work");
+                hq=joss.getString("hq");
+                cluster=joss.getString("cluster");
+                joint=joss.getString("joint");
+                dr=joss.getString("dr");
+                chem=joss.getString("chem");
+                if(joss.has("hos"))
+                    hos=joss.getString("hos");
+
+                JSONArray jsonArrayData=new JSONArray();
+                work = work.replaceAll("#$","");
+                String[] checkdata = work.split("#");
+
+                for(int ff=0;ff<checkdata.length;ff++){
+                    String[] checkdata1 = checkdata[0].split("\\$");
+
+                    JSONObject jsonObjectData=new JSONObject();
+                    jsonObjectData.put("name",checkdata1[0]);
+                    jsonObjectData.put("code",checkdata1[1]);
+                    jsonArrayData.put(jsonObjectData);
+                }
+                wrkLoader=jsonArrayData.toString();
+                jsonArrayData=new JSONArray();
+                Log.d("jjaa",wrkLoader);
+
+                //JSONArray jsonArrayData=new JSONArray();
+                if(!hq.equals("")){
+                    hq = hq.replaceAll("#$","");
+                    String[] checkdatahq = hq.split("#");
+
+                    for(int ff=0;ff<checkdatahq.length;ff++){
+                        String[] checkdata1 = checkdatahq[0].split("\\$");
+
+                        JSONObject jsonObjectData=new JSONObject();
+                        jsonObjectData.put("name",checkdata1[0]);
+                        jsonObjectData.put("code",checkdata1[1]);
+                        jsonArrayData.put(jsonObjectData);
+                    }
+                    hqLoader=jsonArrayData.toString();
+                }
+
+                jsonArrayData=new JSONArray();
+                Log.d("jjaa",hqLoader);
+
+                if(!cluster.equals("")){
+                    cluster=cluster.replaceAll("#$","");
+                    String[] checkdataclus = cluster.split("#");
+
+                    for(int qq=0;qq<checkdataclus.length;qq++){
+                        String[] checkdataclus1 = checkdataclus[qq].split("\\$");
+                        JSONObject jsonObjectData1=new JSONObject();
+                        jsonObjectData1.put("name",checkdataclus1[0]);
+                        jsonObjectData1.put("code",checkdataclus1[1]);
+                        jsonArrayData.put(jsonObjectData1);
+                    }
+
+                    clusterLoader=jsonArrayData.toString();
+                }
+
+
+                jsonArrayData=new JSONArray();
+                Log.d("jjaa",clusterLoader);
+
+                if(!joint.equals("")){
+                    joint=joint.replaceAll("#$","");
+                    String[] checkdatajoint = joint.split("#");
+
+                    for(int qq=0;qq<checkdatajoint.length;qq++){
+                        String[] checkdataclus1 = checkdatajoint[qq].split("\\$");
+                        JSONObject jsonObjectData1=new JSONObject();
+                        jsonObjectData1.put("name",checkdataclus1[0]);
+                        jsonObjectData1.put("code",checkdataclus1[1]);
+                        jsonArrayData.put(jsonObjectData1);
+                    }
+
+                    jointLoader=jsonArrayData.toString();
+                }
+
+
+                jsonArrayData=new JSONArray();
+                Log.d("jjaa",jointLoader);
+
+                if(!dr.equals("")){
+                    dr=dr.replaceAll("#$","");
+                    String[] checkdatadr = dr.split("#");
+
+                    for(int qq=0;qq<checkdatadr.length;qq++){
+                        String[] checkdataclus1 = checkdatadr[qq].split("\\$");
+                        JSONObject jsonObjectData1=new JSONObject();
+                        jsonObjectData1.put("name",checkdataclus1[0]);
+                        jsonObjectData1.put("code",checkdataclus1[1]);
+                        jsonArrayData.put(jsonObjectData1);
+                    }
+
+                    drLoader=jsonArrayData.toString();
+                }
+                jsonArrayData=new JSONArray();
+                Log.d("jjaa",drLoader);
+
+                if(!chem.equals("")){
+                    chem=chem.replaceAll("#$","");
+                    String[] checkdatachem = chem.split("#");
+
+                    for(int qq=0;qq<checkdatachem.length;qq++){
+                        String[] checkdataclus1 = checkdatachem[qq].split("\\$");
+                        JSONObject jsonObjectData1=new JSONObject();
+                        jsonObjectData1.put("name",checkdataclus1[0]);
+                        jsonObjectData1.put("code",checkdataclus1[1]);
+                        jsonArrayData.put(jsonObjectData1);
+                    }
+
+                    chemistLoader=jsonArrayData.toString();
+                }
+
+                jsonArrayData=new JSONArray();
+                Log.d("jjaa",chemistLoader);
+
+                if(joss.has("hos")){
+                    hos=chem.replaceAll("#$","");
+                    String[] checkdatahos = hos.split("#");
+
+                    for(int qq=0;qq<checkdatahos.length;qq++){
+                        String[] checkdataclus1 = checkdatahos[qq].split("\\$");
+                        JSONObject jsonObjectData1=new JSONObject();
+                        jsonObjectData1.put("name",checkdataclus1[0]);
+                        jsonObjectData1.put("code",checkdataclus1[1]);
+                        jsonArrayData.put(jsonObjectData1);
+                    }
+
+                    hospLoader=jsonArrayData.toString();
+                    jsonArrayData=new JSONArray();
+                    Log.d("jjaa",hospLoader);
+                }
+
+
+
+            }
+        } catch (JSONException exception) {
+            exception.printStackTrace();
+        }
+
+
     }
 
     public static void bindListenerHideUI(GridSelectionList grid){
@@ -3208,7 +3374,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                                             namearray = separateCodeandName(name);
                                             finalValue = attachCodeandName(codearray, namearray);
                                             saveDayjsonobj.put("work", finalValue);
-
+                                            Log.v("printing_work", finalValue);
                                             codearray = null;
                                             namearray = null;
                                             finalValue = "";
@@ -3220,7 +3386,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                                                 codearray = separateCodeandName(code);
                                                 namearray = separateCodeandName(name);
                                                 finalValue = attachCodeandName(codearray, namearray);
-                                                Log.v("printing_finalval", finalValue);
+                                                Log.v("printing_cluster", finalValue);
                                             }
                                             saveDayjsonobj.put("cluster", finalValue);
 
@@ -3235,7 +3401,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                                                 codearray = separateCodeandName(code);
                                                 namearray = separateCodeandName(name);
                                                 finalValue = attachCodeandName(codearray, namearray);
-                                                Log.v("printing_finalval", finalValue);
+                                                Log.v("printing_finaljoint", finalValue);
                                             }
                                             saveDayjsonobj.put("joint", finalValue);
 
@@ -3252,7 +3418,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                                                     namearray = separateCodeandName(name);
                                                     Log.v("printing_finalnam", codearray.length+"   name"+namearray.length);
                                                     finalValue = attachCodeandName(codearray, namearray);
-                                                    Log.v("printing_finalval", finalValue);
+                                                    Log.v("printing_finavaldoc", finalValue);
                                                 }
                                                 saveDayjsonobj.put("dr", finalValue);
 //                                            }
@@ -3274,7 +3440,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                                                     codearray = separateCodeandName(code);
                                                     namearray = separateCodeandName(name);
                                                     finalValue = attachCodeandName(codearray, namearray);
-                                                    Log.v("printing_finalval", finalValue);
+                                                    Log.v("printing_finalchem", finalValue);
                                                 }
                                                 saveDayjsonobj.put("chem", finalValue);
 //                                            }
@@ -3291,7 +3457,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                                                 codearray = separateCodeandName(code);
                                                 namearray = separateCodeandName(name);
                                                 finalValue = attachCodeandName(codearray, namearray);
-                                                Log.v("printing_finalval", finalValue);
+                                                Log.v("printing_finalhq", finalValue);
                                             }
                                             saveDayjsonobj.put("hq", finalValue);
 
@@ -3309,7 +3475,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                                                     Log.v("printing_finalfull", name);
                                                     Log.v("printing_finalnam_hos", codearray.length + "   name" + namearray.length);
                                                     finalValue = attachCodeandName(codearray, namearray);
-                                                    Log.v("printing_finalval", finalValue);
+                                                    Log.v("printing_finalvalhos", finalValue);
                                                 }
 
                                             saveDayjsonobj.put("hos", finalValue);
@@ -3709,6 +3875,13 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
 
     @Override
     protected void onDestroy() {
+        try{
+            if(receiver!=null)
+                unregisterReceiver(receiver);
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         super.onDestroy();
         mCommonSharedPreference.setValueToPreference("approve","null");
     }

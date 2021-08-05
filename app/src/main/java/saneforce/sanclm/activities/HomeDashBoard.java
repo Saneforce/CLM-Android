@@ -1533,16 +1533,22 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         {
             tb_dwnloadSlides.setVisibility(View.VISIBLE);
         }
-        int first = listView.getFirstVisiblePosition();
-        int last = listView.getLastVisiblePosition();
-        mAdapter.getItem(position).progress = progress > 100 ? 100 : progress;
-        mAdapter.getItem(position).recsize = recsize;
-        mAdapter.getItem(position).totsize = totsize;
-        mAdapter.getItem(position).size = size;
-        if (position < first || position > last) {
-        } else {
-            View convertView = listView.getChildAt(position - first);
-            updateRow(mAdapter.getItem(position), convertView, size);
+
+        try {
+            int first = listView.getFirstVisiblePosition();
+            int last = listView.getLastVisiblePosition();
+            mAdapter.getItem(position).progress = progress > 100 ? 100 : progress;
+            mAdapter.getItem(position).recsize = recsize;
+            mAdapter.getItem(position).totsize = totsize;
+            mAdapter.getItem(position).size = size;
+            if (position < first || position > last) {
+            } else {
+                View convertView = listView.getChildAt(position - first);
+                updateRow(mAdapter.getItem(position), convertView, size);
+            }
+        }catch (Exception e)
+        {
+          e.printStackTrace();
         }
     }
 
@@ -1636,50 +1642,53 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         }
 
         @Override
-        protected void onHandleIntent(Intent intent) {
+        protected void onHandleIntent(Intent intent)  {
             if (mIsAlreadyRunning) {
                 return;
             }
             mIsAlreadyRunning = true;
 
+
             ArrayList<File1> files = intent.getParcelableArrayListExtra("files");
             final Collection<DownloadTask> tasks = mTasks;
             int index = 0;
-            for (File1 file : files) {
-                int totsize = file.totsize;
-                DownloadTask yt1 = new DownloadTask(index++, file, totsize);
-                tasks.add(yt1);
-            }
-
-            for (DownloadTask t : tasks) {
-                mEcs.submit(t);
-            }
-
-            // wait for finish
-            int n = tasks.size();
-            int dwnloadsize = 0;
-
-            for (int i = 0; i < n; ++i) {
-                NoResultType r;
-                try {
-                    r = mEcs.take().get();
-                    if (r != null) {
-                        dwnloadsize = dwnloadsize + 1;
-                        if (dwnloadsize == n) {
-
-                            closeactivity();
-
-                        }
-                        Log.d("TASK_SIZE", "" + dwnloadsize + "TOT SIZE " + n);
-                        //11
-                    }
-                } catch (InterruptedException e) {
-                    Log.d("TASK_SIZE_interrupt", "" + e);
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    Log.d("TASK_SIZE_excep", "" + e);
-                    e.printStackTrace();
+            try {
+                for (File1 file : files) {
+                    int totsize = file.totsize;
+                    DownloadTask yt1 = new DownloadTask(index++, file, totsize);
+                    tasks.add(yt1);
                 }
+
+                for (DownloadTask t : tasks) {
+                    mEcs.submit(t);
+                }
+
+                // wait for finish
+                int n = tasks.size();
+                int dwnloadsize = 0;
+
+                for (int i = 0; i < n; ++i) {
+                    NoResultType r;
+
+                    try {
+                        r = mEcs.take().get();
+                        if (r != null) {
+                            dwnloadsize = dwnloadsize + 1;
+                            if (dwnloadsize == n) {
+
+                                closeactivity();
+
+                            }
+                            Log.d("TASK_SIZE", "" + dwnloadsize + "TOT SIZE " + n);
+                            //11
+                        }
+                    } catch (InterruptedException | ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            catch (Exception e ){
+                e.printStackTrace();
             }
             // send a last broadcast
             //publishCurrentProgressOneShot(true);
