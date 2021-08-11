@@ -4303,7 +4303,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Reports"*/resources.getString(R.string.report)));
         // arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports,"Quiz"));
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Near Me"*/resources.getString(R.string.near_me)));
-        if(mCommonSharedPreference.getValueFromPreference("DrProfile").equalsIgnoreCase("1"))
+        if(mCommonSharedPreference.getValueFromPreference("DrProfile").equalsIgnoreCase("0"))
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Profiling"*/resources.getString(R.string.profiling)));
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Detailing Report"*/resources.getString(R.string.detailing_report)));
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_logout, /*"Logout"*/resources.getString(R.string.logout)));

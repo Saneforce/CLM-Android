@@ -34,7 +34,7 @@
         android:largeHeap="true"
         android:logo="@drawable/san_clm_logo"
         android:requestLegacyExternalStorage="true"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/san_clm_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"

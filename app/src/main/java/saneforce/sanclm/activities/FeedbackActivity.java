@@ -1007,7 +1007,7 @@ public class FeedbackActivity extends AppCompatActivity {
                     if (mCursor.getCount() != 0) {
                         mCursor.moveToFirst();
                         do {
-                            Log.v("product_name_feed", mCursor.getString(0));
+                           Log.v("product_name_feed", mCursor.getString(0));
                             product.add(new PopFeed(mCursor.getString(0), false));
 
                         } while (mCursor.moveToNext());
@@ -1029,7 +1029,7 @@ public class FeedbackActivity extends AppCompatActivity {
                     if (mCursor.getCount() != 0) {
                         mCursor.moveToFirst();
                         do {
-                            Log.v("product_name_feed", mCursor.getString(0));
+                           Log.v("product_name_feed", mCursor.getString(0));
                             product1.add(new PopFeed(mCursor.getString(0), false));
 
                         } while (mCursor.moveToNext());
@@ -1699,7 +1699,7 @@ public class FeedbackActivity extends AppCompatActivity {
                                     json_date.put("sTm", listFeedPrd.get(i).getDate() + " " + listFeedPrd.get(i).getSt_end_time().substring(0, (listFeedPrd.get(i).getSt_end_time().indexOf(" "))));
                                     json_date.put("eTm", listFeedPrd.get(i).getDate() + " " + listFeedPrd.get(i).getSt_end_time().substring((listFeedPrd.get(i).getSt_end_time().indexOf(" ")) + 1));
                                     json_joint.put("Timesline", json_date);
-                                    json_joint.put("Appver", "V1.2");
+                                    json_joint.put("Appver","V1.8.8");
                                     json_joint.put("Mod", "Edet");
                                     json_joint.put("SmpQty", listFeedPrd.get(i).getSample());
                                     if (val_pob.contains(peopleType))
@@ -1975,8 +1975,11 @@ public class FeedbackActivity extends AppCompatActivity {
                             else
                                 qty = js.getString("SmpQty");
                         }
-                        if (funStringValidation(js.getString("Stockist")))
-                            prd_stk = js.getString("Stockist");
+                        if ((js.has("Stockist")))
+                        {
+                            if (funStringValidation(js.getString("Stockist")))
+                                prd_stk = js.getString("Stockist");
+                        }
 
                         if (val_pob.contains(peopleType)) {
                             if ((js.has("RxQty")) || (js.has("rx_pob"))) {
