@@ -67,7 +67,9 @@ import saneforce.sanclm.util.ProductChangeListener;
 import saneforce.sanclm.util.SpecialityListener;
 import saneforce.sanclm.util.UpdateUi;
 
-public class DetailingFullScreenImageViewActivity extends FragmentActivity implements Detailing_Selection_search_grid_selection.Communicator{
+public class
+
+DetailingFullScreenImageViewActivity extends FragmentActivity implements Detailing_Selection_search_grid_selection.Communicator{
 
 
     saneforce.sanclm.applicationCommonFiles.CommonUtilsMethods CommonUtilsMethods;
@@ -508,6 +510,7 @@ public class DetailingFullScreenImageViewActivity extends FragmentActivity imple
             public void onClick(View view) {
 
                 mCommonSharedPreference.setValueToPreference("slide_endtime",CommonUtilsMethods.getCurrentTime());
+                Log.v("slide_endtime",CommonUtilsMethods.getCurrentTime());
 
                // progressDialog.show();
 

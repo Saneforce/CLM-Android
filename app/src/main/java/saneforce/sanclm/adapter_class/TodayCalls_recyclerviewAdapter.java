@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Color;
 
 import android.text.TextUtils;
@@ -46,6 +47,7 @@ import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
 import saneforce.sanclm.applicationCommonFiles.CommonUtils;
 import saneforce.sanclm.fragments.LocaleHelper;
 import saneforce.sanclm.sqlite.DataBaseHandler;
+import saneforce.sanclm.util.UpdateUi;
 
 import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
 import static saneforce.sanclm.fragments.AppConfiguration.language_string;
@@ -64,6 +66,9 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
     String language;
 //    Context context;
     Resources resources;
+    static UpdateUi
+            mUpdateUi;
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView DrName, DrVst;
@@ -157,6 +162,25 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
 
             holder.DrName.setText(dr_name);
             holder.DrVst.setText(visitTime);
+
+            holder.iv_sync.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dbh.open();
+                    Cursor cur1 = dbh.select_json_list1(tdaycall.getDrCode());
+
+                    if (cur1.getCount() > 0) {
+                        while (cur1.moveToNext()) {
+                            if (cur1.getString(2).indexOf("_") != -1) {
+                                Log.v("printing_totla_val", cur1.getString(1) + " id_here " + cur1.getInt(0));
+                                finalSubmission(cur1.getString(1), cur1.getInt(0),cur1.getString(4));
+                            }
+                        }
+                    }
+                    dbh.close();
+                }
+            });
 
 //            if(dr_name.equals("DocName"))
 //            {
@@ -363,6 +387,7 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
 
                                         JSONObject jj=new JSONObject(is.toString());
                                         if(jj.getString("success").equalsIgnoreCase("true")){
+
 //                                            dbh.open();
 //                                            dbh.del_json(tdaycall.getDrCode());
 //                                            dbh.close();
@@ -400,6 +425,54 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
             });
             //   holder.DrCallSync.setText(movie.getYear());
         }
+
+    public void finalSubmission(String val, final int id,String drcode){
+        Call<ResponseBody> query=apiService.finalSubmit(val);
+        query.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                InputStreamReader ip=null;
+                StringBuilder is=new StringBuilder();
+                String line=null;
+                try {
+                    ip = new InputStreamReader(response.body().byteStream());
+                    BufferedReader bf = new BufferedReader(ip);
+
+                    while ((line = bf.readLine()) != null) {
+                        is.append(line);
+                    }
+
+                    Log.v("final_submit_working",is.toString());
+                    JSONObject js=new JSONObject(is.toString());
+                    if(js.getString("success").equals("true")){
+                        Log.v("final_submit_working","success");
+                        dbh.open();
+                        dbh.delete_json1(drcode);
+                        if(mUpdateUi!=null)
+                            mUpdateUi.updatingui();
+
+                        custom_todaycalls_contents.remove(pos);
+                        notifyDataSetChanged();
+
+
+
+                        // Toast.makeText(FeedbackActivity.this, "Data Submitted Successfully", Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        // Toast.makeText(FeedbackActivity.this, js.getString("Msg"), Toast.LENGTH_SHORT).show();
+
+                    }
+                }catch (Exception e){
+                    Log.v("error>>",e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
 
     private void selected(String language) {
         Locale myLocale = new Locale(language);

@@ -1,4 +1,4 @@
-package saneforce.sanclm.activities;
+    package saneforce.sanclm.activities;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -63,6 +63,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -70,6 +71,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -453,7 +455,7 @@ FeedbackActivity extends AppCompatActivity {
         }
 
         val = mCommonSharedPreference.getValueFromPreferenceFeed("timeCount", 0);
-        Log.v("val",String.valueOf(val));
+        Log.v("val>>",String.valueOf(val));
         for (int i = 0; i < val; i++) {
             String timevalue = mCommonSharedPreference.getValueFromPreferenceFeed("timeVal" + i);
             String prdName = mCommonSharedPreference.getValueFromPreferenceFeed("slide_nam" + i);
@@ -479,6 +481,18 @@ FeedbackActivity extends AppCompatActivity {
                         //Log.v("jsonarray_putting34",jk.toString());
                     }
                     js = new JSONObject();
+                    if(eTime.equalsIgnoreCase(timevalue)){
+                        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+                        df.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+                        Date   d1 = df.parse(eTime);
+                       Date d2 = df.parse("00:00:02");
+
+                        Long sumtime= d1.getTime()+d2.getTime();
+                        eTime= df.format(new Date(sumtime));
+                        Log.v("timenew>>",eTime);
+
+                    }
                     js.put("sT", timevalue);
                     js.put("eT", eTime);
                     jk.put(js);
@@ -494,9 +508,20 @@ FeedbackActivity extends AppCompatActivity {
                 JSONObject jsonObject = new JSONObject();
                 JSONArray jsonArray = new JSONArray();
                 try {
+                    if(eTime.equalsIgnoreCase(timevalue)){
+                        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+                        df.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+                        Date   d1 = df.parse(eTime);
+                        Date d2 = df.parse("00:00:02");
+
+                        Long sumtime= d1.getTime()+d2.getTime();
+                        eTime= df.format(new Date(sumtime));
+                        Log.v("timenew>>",eTime);
+                    }
                     jsonObject.put("sT", timevalue);
                     jsonObject.put("eT", eTime);
-                } catch (JSONException e) {
+                } catch (JSONException | ParseException e) {
                     e.printStackTrace();
                 }
                 jsonArray.put(jsonObject);
@@ -533,6 +558,10 @@ FeedbackActivity extends AppCompatActivity {
             dbh.open();
             dbh.insertFeed(model.getBrdName(), model.getSlideNam(), model.getSlideTyp(), model.getSlideUrl(), model.getTiming(), model.getRemTime(), slideRemark);
 
+
+
+
+
             if (j == 0) {
                 gettingProductStartEndTime(arrayStore.get(j).getRemTime(), j);
                 finalPrdNam = arrayStore.get(j).getBrdName();
@@ -541,9 +570,10 @@ FeedbackActivity extends AppCompatActivity {
             } else {
                 //  Log.v("getting_prd_dif","inside");
                 String time = gettingProductStartEndTime(arrayStore.get(j).getRemTime(), j);
-                Log.v("printing_all_time", time);
+              //  Log.v("printing_all_time", time);
 
-                listFeedPrd.add(new FeedbackProductDetail(arrayStore.get(j - 1).getBrdName(), time, "", "", mCommonUtilsMethod.getCurrentDate(), "", "", "", gettingProductFB("")));
+
+             //   listFeedPrd.add(new FeedbackProductDetail(arrayStore.get(j - 1).getBrdName(), time, "", "", mCommonUtilsMethod.getCurrentDate(), "", "", "", gettingProductFB("")));
                 finalPrdNam = arrayStore.get(j).getBrdName();
 
             }
@@ -552,133 +582,41 @@ FeedbackActivity extends AppCompatActivity {
             String time = gettingProductStartEndTime(arrayStore.get(arrayStore.size() - 1).getRemTime(), arrayStore.size() - 1);
             ArrayList<PopFeed> ff = new ArrayList<>();
             ff = arr_pfb;
-            listFeedPrd.add(new FeedbackProductDetail(arrayStore.get(arrayStore.size() - 1).getBrdName(), time, "", "", mCommonUtilsMethod.getCurrentDate(), "", "", "", gettingProductFB("")));
-            Log.v("edet_feedback33", time + " print" + listFeedPrd.get(0).getSt_end_time());
+         //   listFeedPrd.add(new FeedbackProductDetail(arrayStore.get(arrayStore.size() - 1).getBrdName(), time, "", "", mCommonUtilsMethod.getCurrentDate(), "", "", "", gettingProductFB("")));
+           // Log.v("edet_feedback33", time + " print" + listFeedPrd.get(0).getSt_end_time());
         }
+if(!feedOption.equalsIgnoreCase("edit")) {
+    dbh.open();
+    Cursor cursor = dbh.select_feedback_listfull();
+    if (cursor.getCount() > 0) {
+        String prdname = "ee";
+        cursor.moveToFirst();
+        do {
+            Log.v("Printing_prd_name", cursor.getString(2) + " url " + cursor.getString(4));
+            String seTime = "";
+            try {
+                JSONArray jsonArray = new JSONArray(cursor.getString(5));
+                JSONObject js = jsonArray.getJSONObject(0);
+                String sTT = js.getString("sT");
+                String eTT = js.getString("eT");
+                seTime = sTT + " " + eTT;
 
-//        Log.v("edet_feedback",listFeedPrd.size()+" print"+listFeedPrd.get(0).getSt_end_time());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            if (prdname.contains(cursor.getString(1))) {
 
-       /* String timeCal="";
-                String endTime="00:00:00";
-                String dateVal = null;
-                int val=mCommonSharedPreference.getValueFromPreferenceFeed("timeCount",0);
-        for(int i=0;i<val;i++){
-            String timevalue=mCommonSharedPreference.getValueFromPreferenceFeed("timeVal"+i);
-            String prdName=mCommonSharedPreference.getValueFromPreferenceFeed("brd_nam"+i);
-            Log.v("prdName_show",prdName);
-            dateVal=mCommonSharedPreference.getValueFromPreferenceFeed("dateVal"+i);
-            if(TextUtils.isEmpty(prdNameDiff)){
-                timeCal=timevalue;
+            } else {
+                listFeedPrd.add(new FeedbackProductDetail(cursor.getString(1), seTime, "", "", mCommonUtilsMethod.getCurrentDate(), "", cursor.getString(5), "", gettingProductFB("")));
+                prdname += cursor.getString(1);
 
             }
-            else if(prdName.equals(prdNameDiff)){
+        } while (cursor.moveToNext());
 
-               endTime=timevalue;
-               Log.v("endtime_prdnam",endTime);
-            }
-            else{
+    }
+    dbh.close();
 
-                if(sampleValue.size()==0){
-                    if(endTime.equalsIgnoreCase("00:00:00"))
-                        endTime=timeCal;
-                    else
-                        endTime=timevalue;
-                    timeCal=timeCal+" "+endTime;
-                    boolean yy=true;
-                    for(int j=0;j<listFeedPrd.size();j++){
-                        FeedbackProductDetail mm=listFeedPrd.get(j);
-                        if(listFeedPrd.get(j).getPrdNAme().equalsIgnoreCase(prdNameDiff)){
-                            try{
-                                JSONArray jj=new JSONArray(mm.getRemTiming());
-                                JSONArray jk=new JSONArray();
-                                JSONObject js = null;
-                                for(int k=0;k<jj.length();k++){
-                                     js=jj.getJSONObject(k);
-                                }
-                                js.put("ST",timeCal);
-                                js.put("ET",endTime);
-                                jk.put(js);
-                                Log.v("jk_sending",jk.toString());
-                                mm.setRemTiming(jk.toString());
-                            }catch (Exception e){}
-
-                            String dateee=mm.getSt_end_time();
-                            mm.setSt_end_time(dateee.substring(0,8)+" "+endTime);
-                            yy=false;
-                        }
-                    }
-                    if(yy==true && !TextUtils.isEmpty(prdNameDiff))
-                    {
-                        JSONArray jj=new JSONArray();
-                        JSONObject js=new JSONObject();
-                        try{
-                        js.put("ST",timeCal);
-                        js.put("ET",endTime);
-                        jj.put(js);}catch (Exception e){}
-                        listFeedPrd.add(new FeedbackProductDetail(prdNameDiff,timeCal,"","",dateVal,"",jj.toString()));
-
-                    }
-
-                    timeCal="";
-                    timeCal+=timevalue;
-                }
-                else{
-                    Log.v("endtime_prdnam_last",timevalue);
-                    timeCal=timeCal+" "+timevalue;
-                   // Log.v("printing_the_sampleee",sampleValue.get(repitationCount).getSample());
-                    listFeedPrd.add(new FeedbackProductDetail(prdNameDiff,timeCal,sampleValue.get(repitationCount).getRating(),sampleValue.get(repitationCount).getFeedback(),dateVal,sampleValue.get(repitationCount).getSample(),""));
-                    timeCal="";
-                    timeCal+=timevalue;
-                    ++repitationCount;
-                }
-
-            }
-            prdNameDiff=prdName;
-
-            Log.v("time_Value",timevalue+" prd_name"+prdName);
-
-        }
-        timeCal=timeCal+" "+endTime;
-       boolean yy=true;
-        for(int j=0;j<listFeedPrd.size();j++){
-            FeedbackProductDetail mm=listFeedPrd.get(j);
-            if(listFeedPrd.get(j).getPrdNAme().equalsIgnoreCase(prdNameDiff)){
-                try{
-                    JSONArray jj=new JSONArray(mm.getRemTiming());
-                    JSONArray jk=new JSONArray();
-                    JSONObject js = null;
-                    for(int k=0;k<jj.length();k++){
-                        js=jj.getJSONObject(k);
-                    }
-                    js.put("ST",timeCal);
-                    js.put("ET",endTime);
-                    jk.put(js);
-                    Log.v("jk_sending",jk.toString());
-                    mm.setRemTiming(jk.toString());
-                }catch (Exception e){}
-
-                String dateee=mm.getSt_end_time();
-                mm.setSt_end_time(dateee.substring(0,8)+" "+endTime);
-                yy=false;
-            }
-        }
-
-        Log.v("time_Value_print",timeCal);
-        if(sampleValue.size()==0) {
-            if(yy==true && !TextUtils.isEmpty(prdNameDiff)) {
-                JSONArray jj=new JSONArray();
-                JSONObject js=new JSONObject();
-                try{
-                    js.put("ST",timeCal);
-                    js.put("ET",endTime);
-                    jj.put(js);}catch (Exception e){}
-                listFeedPrd.add(new FeedbackProductDetail(prdNameDiff, timeCal, "", "", dateVal, "", jj.toString()));
-            }
-        }
-        else{
-            listFeedPrd.add(new FeedbackProductDetail(prdNameDiff,timeCal,sampleValue.get(sampleValue.size()-1).getRating(),sampleValue.get(sampleValue.size()-1).getFeedback(),dateVal,sampleValue.get(sampleValue.size()-1).getSample(),""));
-
-        }*/
+}
 
         feedProductAdapter = new FeedProductAdapter(FeedbackActivity.this, listFeedPrd);
         listView_feed_product.setAdapter(feedProductAdapter);
@@ -1136,36 +1074,43 @@ FeedbackActivity extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    signPath = captureCanvasScreen(sign_lay);
-                } catch (Exception e) {
-                }
-                dbFunctionToSave();
-                String jsonValue = mCommonSharedPreference.getValueFromPreference("jsonsave");
-                dbh.open();
 
-                if (!feedOption.equalsIgnoreCase("edit")) {
-                    Calendar calander = Calendar.getInstance();
-                    SimpleDateFormat sdf = new SimpleDateFormat("d/M/yyyy hh:mm:ss");
-                    String d = null;
-                    try {
-                        d = sdf.format(calander.getTime());
-                        Log.v("date_value_conver", d + " ");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-
-                    dbh.insertJson(String.valueOf(jsonValue), txt_name.getText().toString(), String.valueOf(d), peopleCode, peopleType, commonSFCode);
+                if (txt_name.getText().toString().equalsIgnoreCase("DocName") || txt_name.getText().toString().equalsIgnoreCase("")) {
+                    Log.v("DocName", txt_name.toString());
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.invalid_cus), Toast.LENGTH_LONG).show();
+                    return;
                 } else {
-                    dbh.updateJson(colId, jsonValue);
+                    try {
+                        signPath = captureCanvasScreen(sign_lay);
+                    } catch (Exception e) {
+                    }
+                    dbFunctionToSave();
+                    String jsonValue = mCommonSharedPreference.getValueFromPreference("jsonsave");
+                    dbh.open();
+
+                    if (!feedOption.equalsIgnoreCase("edit")) {
+                        Calendar calander = Calendar.getInstance();
+                        SimpleDateFormat sdf = new SimpleDateFormat("d/M/yyyy hh:mm:ss");
+                        String d = null;
+                        try {
+                            d = sdf.format(calander.getTime());
+                            Log.v("date_value_conver", d + " ");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+
+                        dbh.insertJson(String.valueOf(jsonValue), txt_name.getText().toString(), String.valueOf(d), peopleCode, peopleType, commonSFCode);
+                    } else {
+                        dbh.updateJson(colId, jsonValue);
+                    }
+                    mCommonSharedPreference.clearFeedShare();
+                    dbh.deleteFeed();
+                    dbh.close();
+                    mCommonSharedPreference.setValueToPreference("jsonarray", "");
+                    Intent i = new Intent(FeedbackActivity.this, HomeDashBoard.class);
+                    startActivity(i);
                 }
-                mCommonSharedPreference.clearFeedShare();
-                dbh.deleteFeed();
-                dbh.close();
-                mCommonSharedPreference.setValueToPreference("jsonarray", "");
-                Intent i = new Intent(FeedbackActivity.this, HomeDashBoard.class);
-                startActivity(i);
             }
         });
 
@@ -1840,6 +1785,7 @@ FeedbackActivity extends AppCompatActivity {
 
 
     public void jsonExtract() {
+        listFeedPrd.clear();
         String namee = null;
         int count = 0;
         try {
@@ -1903,7 +1849,7 @@ FeedbackActivity extends AppCompatActivity {
                             listFeedPrd.add(new FeedbackProductDetail(js.getString("Name"), STm.trim() + " " + ETm.trim(), rat, feed, dt, qty, "", pob, gettingProductFB("")));
                         }
 
-
+                        Log.v("list>>", String.valueOf(listFeedPrd.size()));
                         //Log.v("Product_extract22", namee);
                         JSONArray jsonArray = js.getJSONArray("Slides");
 
@@ -2250,17 +2196,22 @@ FeedbackActivity extends AppCompatActivity {
 
     public String findingEndTime(int k) {
         if (checkForLastSlide(k)) {
-            Log.v("calling_default", defaulttime);
+            Log.v("calling_default1",defaulttime);
+
             return defaulttime;
+
         } else {
             int j = k + 1;
 
-            String eTime = mCommonSharedPreference.getValueFromPreferenceFeed("timeVal" + j);
+            String eTime = mCommonSharedPreference.getValueFromPreferenceFeed("timeVal"+j );
+            Log.v("calling_default", eTime);
+
             return eTime;
-        }
+       }
     }
 
     public boolean checkForLastSlide(int k) {
+        Log.v("values>>",""+k+" "+val);
         if (k == val - 1)
             return true;
         else
@@ -2283,6 +2234,7 @@ FeedbackActivity extends AppCompatActivity {
         try {
             JSONArray json = new JSONArray(jsonvalue);
             if (i != 0) {
+
                /* if(i==arrayStore.size()-1){
                     mm1=arrayStore.get(i);
                 }

@@ -582,6 +582,7 @@
                         android:id="@+id/edt_report"
                         android:hint="@string/typehere"
                         android:enabled="false"
+                        android:inputType="text"
                         />
 
                 </LinearLayout>

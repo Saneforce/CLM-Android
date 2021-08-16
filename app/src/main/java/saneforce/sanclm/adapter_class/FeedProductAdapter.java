@@ -34,6 +34,7 @@ import androidx.appcompat.widget.SearchView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.text.ParseException;
@@ -85,198 +86,10 @@ public class FeedProductAdapter extends BaseAdapter {
             e.printStackTrace();
         }
         final ArrayList<StoreImageTypeUrl> tempArray = new ArrayList<>();
-/*
-        for(int i=0;i<val;i++) {
-            String timevalue = mCommonSharedPreference.getValueFromPreferenceFeed("timeVal" + i);
-            String prdName = mCommonSharedPreference.getValueFromPreferenceFeed("brd_nam" + i);
-            dbh.open();
-            Cursor cur=dbh.select_feedback_list(prdName);
-            if(cur.getCount()>0) {
-                cur.moveToFirst();
-                Log.v("cursor_move_frst",cur.getString(1));
-                editOption = true;
-                i=val;
-            }
-            else{
-                editOption=false;
-            }
-            String slidenam = mCommonSharedPreference.getValueFromPreferenceFeed("slide_nam" + i);
-            if(TextUtils.isEmpty(slidenam))
-                editOption=true;
-            String slidetyp = mCommonSharedPreference.getValueFromPreferenceFeed("slide_typ" + i);
-            String slideur = mCommonSharedPreference.getValueFromPreferenceFeed("slide_url" + i);
-            Log.v("time_ValuePadap",timevalue+"edutOption"+editOption);
-            tempArray.add(new StoreImageTypeUrl(slidenam,slidetyp,slideur,prdName,timevalue));
 
 
-            }
-*/
+        if (editOption == false)
 
-        if (editOption == false) /*{
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        String endTim = "";
-                        for (int i = 0; i < tempArray.size(); i++) {
-                            String sTime = "", eTime = "";
-                            StoreImageTypeUrl mm = tempArray.get(i);
-                            StoreImageTypeUrl mm2 = null;
-                            boolean checkProduct=false;
-                            for (int k = 0; k < storeList.size(); k++) {
-
-                                if (storeList.get(k).getBrdName().equalsIgnoreCase(prdNm))
-                                    checkProduct=true;
-                            }
-                            Log.v("checkProductDifference",checkProduct+"");
-                            if (TextUtils.isEmpty(prdNm) || checkProduct==false) {
-
-                                if (i != (tempArray.size() - 1)) {
-                                    mm2 = tempArray.get(i + 1);
-                                    sTime = mm.getTiming();
-                                    eTime = mm2.getTiming();
-                                    Log.v("startTime", sTime + " endTime " + eTime);
-
-                                } else {
-                                    sTime = mm.getTiming();
-                                    FeedbackProductDetail pp = null;
-                                    for (int g = 0; g < product.size(); g++) {
-                                        if (product.get(g).getPrdNAme().equalsIgnoreCase(prdNm))
-                                            pp = product.get(g);
-                                    }
-                                    if(i==0){
-                                        pp = product.get(0);
-                                    }
-
-                                    eTime = pp.getSt_end_time().substring(9);
-                                }
-
-                                prdNm = mm.getBrdName();
-                                prdCount++;
-
-                                JSONArray jsonArray = new JSONArray();
-                                JSONObject js = new JSONObject();
-
-                                try {
-
-                                    Log.v("Start_Time", sTime + " endTime " + eTime);
-                                    js.put("ST", sTime);
-                                    js.put("ET", eTime);
-                                    jsonArray.put(js);
-                                    mm.setRemTime(jsonArray.toString());
-                                    storeList.add(new StoreImageTypeUrl(mm.getSlideNam(), mm.getSlideTyp(), mm.getSlideUrl(), "", "", jsonArray.toString(), prdNm, false));
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            } else {
-                                StoreImageTypeUrl sT = null;
-                                if (storeList.contains(new StoreImageTypeUrl(mm.getSlideNam()))) {
-                                    Log.v("storeList_sae", "patterns_are_here");
-
-                                    for (int k = 0; k < storeList.size(); k++) {
-
-                                        if (storeList.get(k).getSlideNam().equalsIgnoreCase(mm.getSlideNam()))
-                                            sT = storeList.get(k);
-                                    }
-                                    if (i != (tempArray.size() - 1)) {
-                                        mm2 = tempArray.get(i + 1);
-                                        sTime = mm.getTiming();
-                                        eTime = mm2.getTiming();
-
-                                    } else {
-                                        sTime = mm.getTiming();
-                                        FeedbackProductDetail pp = null;
-                                        for (int g = 0; g < product.size(); g++) {
-                                            if (product.get(g).getPrdNAme().equalsIgnoreCase(prdNm))
-                                                pp = product.get(g);
-                                        }
-                                        endTim = pp.getSt_end_time().substring(9);
-                                        eTime = pp.getSt_end_time().substring(9);
-                                    }
-                                    Log.v("storeList_checking", "contain");
-                                    JSONArray jja = new JSONArray();
-                                    try {
-                                        JSONArray jA = new JSONArray(sT.getRemTime().toString());
-                                        JSONObject jss = null;
-                                        for (int k = 0; k < jA.length(); k++) {
-                                            jss = jA.getJSONObject(k);
-                                            jja.put(jss);
-                                            if (jA.length() - 1 == k) {
-                                                jss.put("ST", sTime);
-                                                jss.put("ET", eTime);
-                                                jja.put(jss);
-                                            }
-
-                                        }
-                                        sT.setRemTime(jja.toString());
-                                    } catch (Exception e) {
-
-                                    }
-
-                                } else {
-                                    Log.v("storeList_sae", "patterns_are_not_here");
-                                    if (i != (tempArray.size() - 1)) {
-                                        mm2 = tempArray.get(i + 1);
-                                        sTime = mm.getTiming();
-                                        eTime = mm2.getTiming();
-
-                                    } else {
-                                        sTime = mm.getTiming();
-                                        FeedbackProductDetail pp = null;
-                                        for (int g = 0; g < product.size(); g++) {
-                                            if (product.get(g).getPrdNAme().equalsIgnoreCase(prdNm))
-                                                pp = product.get(g);
-                                        }
-                                        endTim = pp.getSt_end_time().substring(9);
-                                        eTime = pp.getSt_end_time().substring(9);
-                                    }
-
-                                    prdNm = mm.getBrdName();
-                                    prdCount++;
-
-                                    JSONArray jsonArray = new JSONArray();
-                                    JSONObject js = new JSONObject();
-
-                                    try {
-
-                                        Log.v("Start_Time", sTime + " endTime " + eTime);
-                                        js.put("ST", sTime);
-                                        js.put("ET", eTime);
-                                        jsonArray.put(js);
-                                        mm.setRemTime(jsonArray.toString());
-                                        storeList.add(new StoreImageTypeUrl(mm.getSlideNam(), mm.getSlideTyp(), mm.getSlideUrl(), "", "", jsonArray.toString(), prdNm, false));
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                            }
-
-                        }
-
-                        for (int j = 0; j < storeList.size(); j++) {
-                            StoreImageTypeUrl ss = storeList.get(j);
-                            Log.v("store_list_pr", storeList.get(j).getSlideNam() + "rem_time " + storeList.get(j).getRemTime());
-                            String slideRemark="";
-                            for(int k=0;k<jsonFeed.length();k++){
-                                try {
-                                    JSONObject jsonObject=jsonFeed.getJSONObject(k);
-
-                                    if(jsonObject.getString("id").equalsIgnoreCase(ss.getSlideUrl())){
-                                        slideRemark=jsonObject.getString("feedBack");
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                            dbh.open();
-                            dbh.insertFeed(ss.getBrdName(), ss.getSlideNam(), ss.getSlideTyp(), ss.getSlideUrl(), ss.getTiming(), ss.getRemTime(),slideRemark);
-                        }
-                    }
-                }).start();
-            }*/
 
             dbh.close();
     }
@@ -315,6 +128,7 @@ public class FeedProductAdapter extends BaseAdapter {
         EditText edt_sample = (EditText) view.findViewById(R.id.edt_sample);
         LinearLayout lnsam=(LinearLayout)view.findViewById(R.id.lnsamp);
         LinearLayout lnminus=(LinearLayout)view.findViewById(R.id.lnminus);
+
 
         if (!product.get(i).getSt_end_time().equalsIgnoreCase("00:00:00 00:00:00")&&(val.contains(FeedbackActivity.TypePeople))) {
 
@@ -492,21 +306,7 @@ public class FeedProductAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 storeList.clear();
-               /* String endTime = null;
-                if(i==product.size()-1){
-                    endTime=mm.getSt_end_time().trim();
-                    endTime=endTime.substring(endTime.indexOf(" "));
-                    Log.v("passing_endTime11",endTime);
-                }
-                else{
-                    final FeedbackProductDetail mm=product.get(i+1);
-                     endTime=mm.getSt_end_time().trim();
-                     endTime=endTime.substring(0,endTime.indexOf(" "));
 
-                    Log.v("passing_endTime",endTime);
-                }*/
-
-                // Log.v("passing_endTime",endTime);
                 popupFeedbackIcon(mm.getPrdNAme(), "", i);
             }
         });
@@ -725,53 +525,10 @@ public class FeedProductAdapter extends BaseAdapter {
         mCursor.close();
 
         ArrayList<String> slideNm = new ArrayList<>();
-/*
-        for(int i=0;i<storeList.size();i++){
-            StoreImageTypeUrl mm1=storeList.get(i);
-            String sT="",eT="";
-            try {
-                JSONArray jss=new JSONArray(mm1.getRemTime());
-                for(int j=0;j<jss.length();j++){
 
-                    JSONObject json=jss.getJSONObject(j);
-                    if(j==0)
-                        sT=json.getString("ST");
-                    if(j==jss.length()-1)
-                        eT=json.getString("ET");
-                }
-                mm1.setTiming(sT+" "+eT);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-        }
-*/
         dataselection();
 
     }
-//    private class AsyncTaskExample extends AsyncTask<String, String, String> {
-//        final ProgressDialog mProgressDialog = new ProgressDialog(context);
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            dialog.show();
-//            mProgressDialog.setMessage("Loading");
-//            mProgressDialog.setIndeterminate(false);
-//            mProgressDialog.setCancelable(false);
-//            mProgressDialog.show();
-//        }
-//        @Override
-//        protected String doInBackground(String... strings) {
-//
-//            return null;
-//        }
-//        @Override
-//        protected void onPostExecute(String result) {
-//            mProgressDialog.dismiss();
-//        }
-//
-//    }
 
     public void dataselection(){
         Adapter_feedproduct_feedicon adp = new Adapter_feedproduct_feedicon(context, storeList);

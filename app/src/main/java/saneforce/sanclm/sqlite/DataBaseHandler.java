@@ -965,7 +965,7 @@ public class DataBaseHandler {
         values.put(TableEntry.SLIDE_TIME_JSON,json);
         values.put(TableEntry.SLIDE_REM,sliderem);
 
-        Log.v("divcoe",slideurl);
+        Log.v("divcoe",json);
         return db.insert(TableEntry.TABLE_FEEDBACK,null,values);
     }
     public long insertBrand(String code,String name){
@@ -1210,7 +1210,9 @@ public class DataBaseHandler {
     public void delete_json(int sfcode) {
         db.execSQL("delete from "+ TableEntry.TABLE_JSON +" WHERE "+TableEntry.COLUMN_ID+" = "+ sfcode ) ;
     }
-
+    public void delete_json1(String sfcode) {
+        db.execSQL("delete from "+ TableEntry.TABLE_JSON +" WHERE "+TableEntry.PCODE+" = "+ sfcode );
+    }
     public void del_joint(){
         db.execSQL("delete from " + TableEntry.TABLE_JOINWORK_USER_DETAILS + "  ");
     }
@@ -1466,6 +1468,9 @@ public class DataBaseHandler {
     public Cursor select_feedback_list(String prdname){
     return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_FEEDBACK+ " WHERE "+TableEntry.PRODUCT_NAME+" = '"+prdname+"' ",null);
     }
+    public Cursor select_feedback_listfull(){
+        return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_FEEDBACK,null);
+    }
     public Cursor select_doctor_list(){
         return db.rawQuery(" SELECT "+ TableEntry.COLUMN_DOCTOR_NAME+" FROM "+TableEntry.TABLE_DOCTOR_MASTER_DETAILS,null);
     }
@@ -1482,9 +1487,13 @@ public class DataBaseHandler {
     public Cursor select_json_list(){
         return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_JSON,null);
     }
+    public Cursor select_json_list1(String drcode){
+        return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_JSON+" WHERE "+TableEntry.PCODE+" = '"+drcode+"' ",null);
+    }
     public Cursor select_speciality_list(){
         return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_SPECIALITY,null);
     }
+
     public Cursor select_theraptic_list(){
         return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_THERAPTIC,null);
     }

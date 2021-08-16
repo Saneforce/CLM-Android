@@ -570,6 +570,7 @@ public class DCR_GV_Selection_adapter extends BaseAdapter implements Filterable{
                         return true;
                     }
 
+
                 }
                 mCommonSharedPreference.setValueToPreference("missed_array",newJson.toString());
             } catch (JSONException e) {

@@ -29,13 +29,7 @@ public class FeedbackProductDetail {
         this.date = date;
     }
 
-    public String getRemTiming() {
-        return remTiming;
-    }
 
-    public void setRemTiming(String remTiming) {
-        this.remTiming = remTiming;
-    }
 
     public FeedbackProductDetail(String prdNAme, String st_end_time, String rating, String feedback, String date, String sample,String remTiming,String rxQty,ArrayList<PopFeed> prodFb) {
         this.prdNAme = prdNAme;
@@ -72,7 +66,13 @@ public class FeedbackProductDetail {
 
         return false;
     }
+    public String getRemTiming() {
+        return remTiming;
+    }
 
+    public void setRemTiming(String remTiming) {
+        this.remTiming = remTiming;
+    }
     public String getPrdNAme() {
         return prdNAme;
     }
