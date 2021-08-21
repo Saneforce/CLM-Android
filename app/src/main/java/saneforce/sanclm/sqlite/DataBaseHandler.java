@@ -227,7 +227,14 @@ public class DataBaseHandler {
         return db.insert(TableEntry.TABLE_SAMPLES_CODE,null,values);
     }
 
+    public void del_slidenew(String brndcode){
+        db.execSQL("delete from " + TableEntry.TABLE_SLIDES_MASTER+ " WHERE "+TableEntry.COLUMN_SLIDE_ID+"="+brndcode);
+    }
 
+    public Cursor select_slidesUrlPathnew() {
+        return db.rawQuery("SELECT *  FROM "
+                + TableEntry.TABLE_SLIDES_MASTER+ " WHERE "+TableEntry.COLUMN_SYNC_STATUS+" = '1' " , null);
+    }
 
     /* Inner class that defines the table contents */
     public abstract class TableEntry implements BaseColumns {

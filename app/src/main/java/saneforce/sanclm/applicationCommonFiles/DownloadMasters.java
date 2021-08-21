@@ -24,6 +24,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -254,12 +255,22 @@ public class DownloadMasters extends IntentService {
             if (response.isSuccessful()) {
                 try {
                     dbh.open();
-                    dbh.del_slide();
+                    //  dbh.del_slide();
                     dbh.del_sep();
 
                     dbh.del_therap();
+                    String bndcode="";
 
                     Cursor cu = dbh.select_slidesUrlPathDuplicate();
+                    if(cu.getCount()>0){
+                        while (cu.moveToNext()){
+                            bndcode+=cu.getString(1)+";";
+                            Log.v("brnd>>",bndcode);
+                        }
+
+                    }
+                    //  dbh.del_slide();
+
                     Log.d("countslide", "" + cu.getCount());
                     List<SlidesList> slideslist = response.body();
                     Log.v("slide_counttt", String.valueOf(slideslist.size()));
@@ -275,8 +286,12 @@ public class DownloadMasters extends IntentService {
                         Log.v("Background_Services", "Empty LIST");
 
                     }
+                    String slideid="";
+
                     for (int i = 0; i < slideslist.size(); i++) {
                         Log.v("Background_Services", String.valueOf(i));
+                        slideid+=slideslist.get(i).getSlideId()+",";
+
                         String slideId = slideslist.get(i).getSlideId();
                         String pdtBrdCd = slideslist.get(i).getCode();
                         String pdtBrdNm = slideslist.get(i).getName();
@@ -289,7 +304,18 @@ public class DownloadMasters extends IntentService {
                         String Camp = slideslist.get(i).getCamp();
                         int OrdNo = slideslist.get(i).getOrdNo();
                         Log.v("printing_insert_File", specCd + "prdCode" + pdtCd);
-                        dbh.insert_slideList(slideId, pdtBrdCd, pdtBrdNm, pdtCd, filePath, filetyp, specCd, catCd, Grp, Camp, OrdNo);
+
+                        bndcode = bndcode.replaceAll(";$","");
+                        String [] data22= bndcode.split(";");
+                        ArrayList<String> data2 = new ArrayList<>();
+                        data2.clear();
+                        data2.addAll(Arrays.asList(data22));
+
+                        if(data2.contains(slideId)){
+
+                        }else {
+                            dbh.insert_slideList(slideId, pdtBrdCd, pdtBrdNm, pdtCd, filePath, filetyp, specCd, catCd, Grp, Camp, OrdNo);
+                        }
 
 
                         Log.v("Background_Details", filePath);
@@ -298,6 +324,23 @@ public class DownloadMasters extends IntentService {
 
 
                     }
+                    Cursor cu1 = dbh.select_slidesUrlPathDuplicate();
+                    String slideId1="";
+                    if(cu1.getCount()>0){
+                        slideid = slideid.replaceAll(",$","");
+                        String [] data= slideid.split(",");
+                        ArrayList<String> data1 = new ArrayList<>();
+                        data1.clear();
+                        data1.addAll(Arrays.asList(data));
+                        while (cu1.moveToNext()){
+                            slideId1=cu1.getString(1);
+                            if (!data1.contains(slideId1)) {
+                                dbh.del_slidenew(slideId1);
+                            }
+                        }
+
+                    }
+
                     spesList();
                     therapticList();
 

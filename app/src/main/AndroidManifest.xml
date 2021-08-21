@@ -29,9 +29,9 @@
 
     <application
         android:allowBackup="false"
-        android:hardwareAccelerated="true"
         android:icon="@drawable/san_clm_logo"
         android:label="@string/app_name"
+        android:hardwareAccelerated="true"
         android:largeHeap="true"
         android:logo="@drawable/san_clm_logo"
         android:requestLegacyExternalStorage="true"
@@ -42,7 +42,6 @@
         android:usesCleartextTraffic="true"
         android:windowSoftInputMode="stateHidden"
         android:installLocation="auto"
-
         tools:node="replace"
         tools:replace="android:icon">
         <activity android:name=".activities.ImageActivity"

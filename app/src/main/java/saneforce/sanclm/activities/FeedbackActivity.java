@@ -423,6 +423,7 @@ FeedbackActivity extends AppCompatActivity {
         }
         else {
             txt_name.setText(CommonUtils.TAG_DOCTOR_NAME);
+          //  txt_name.setText(mCommonSharedPreference.getValueFromPreference("drName"));
             peopleType = "D";
             peopleCode = CommonUtils.TAG_DOCTOR_CODE;
             commonSFCode = CommonUtils.TAG_FEED_SF_CODE;
@@ -854,9 +855,14 @@ if(!feedOption.equalsIgnoreCase("edit")) {
 
                                 }
                             }
+                        if (txt_name.getText().toString().equalsIgnoreCase("DocName")||txt_name.getText().toString().equalsIgnoreCase("")) {
+                            Log.v("DocName", txt_name.toString());
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.invalid_cus), Toast.LENGTH_LONG).show();
+                            return;
+                        }else {
 
                             finalSubmission(finalValue);
-
+                        }
                     } else {
                         Calendar calander = Calendar.getInstance();
                         SimpleDateFormat sdf = new SimpleDateFormat("d/M/yyyy hh:mm:ss");
@@ -867,6 +873,7 @@ if(!feedOption.equalsIgnoreCase("edit")) {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+
                         dbh.open();
                         dbh.deleteFeed();
                         dbh.delete_groupName("customised");

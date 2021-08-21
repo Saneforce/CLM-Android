@@ -148,6 +148,7 @@ public class Detailing_right_grid_view extends Fragment implements OnSelectGridV
             String selMode=detailingTrackerPOJO.getmDetListview_Selection();
             if(selMode==getResources().getString(R.string.spclwise)) { //"Speciality Wise":
                 mCursor = dbh.select_AllSlides_specialitywise(ProductBrdCode, speciality);
+                Log.v("spec>>",speciality);
             }else if(selMode==getResources().getString(R.string.theraptic)){ //"Theraptic":
                 mCursor = dbh.select_AllSlides_therapticwise(ProductBrdCode, theraptic);
             }else if(selMode==getResources().getString(R.string.brandmatrix)){ //"Brand Matrix":
@@ -156,19 +157,20 @@ public class Detailing_right_grid_view extends Fragment implements OnSelectGridV
                 mCursor = dbh.select_AllSlides_brandwise(ProductBrdCode);
                 else
                     mCursor = dbh.select_AllSlides_brandwiseSpec(ProductBrdCode,CommonUtils.TAG_DR_SPEC);*/
-                if (skipSpeciality.equalsIgnoreCase("0"))
-                    mCursor = dbh.select_AllSlides_brandwiseWithoutSpecProd(ProductBrdCode, commonSharedPreference.getValueFromPreference("prdCodee"));
-                else
-                    mCursor = dbh.select_AllSlides_brandwiseSpecProd(ProductBrdCode, CommonUtils.TAG_DR_SPEC, commonSharedPreference.getValueFromPreference("prdCodee"));
+                mCursor = dbh.select_AllSlides_brandwiseWithoutSpecProd(ProductBrdCode, commonSharedPreference.getValueFromPreference("prdCodee"));
+
+//                if (skipSpeciality.equalsIgnoreCase("0"))
+//                else
+//                    mCursor = dbh.select_AllSlides_brandwiseSpecProd(ProductBrdCode, CommonUtils.TAG_DR_SPEC, commonSharedPreference.getValueFromPreference("prdCodee"));
             }else if(selMode==getResources().getString(R.string.allbrand)){ //"All Brands":
                 //if(TextUtils.isEmpty(CommonUtils.TAG_DR_SPEC))
-                if (skipSpeciality.equalsIgnoreCase("0")) {
+//                if (skipSpeciality.equalsIgnoreCase("0")) {
                     mCursor = dbh.select_AllSlides_brandwise(ProductBrdCode);
                     Log.e("Tagme", mCursor.toString());
-                }
-                else { Log.e("Tagme1", mCursor.toString());
-                    mCursor = dbh.select_AllSlides_brandwiseSpec(ProductBrdCode, CommonUtils.TAG_DR_SPEC);
-                }
+//                }
+//                else { Log.e("Tagme1", mCursor.toString());
+//                    mCursor = dbh.select_AllSlides_brandwiseSpec(ProductBrdCode, CommonUtils.TAG_DR_SPEC);
+//                }
                /* else
                     mCursor = dbh.select_AllSlides_brandwiseSpec(ProductBrdCode,CommonUtils.TAG_DR_SPEC);*/
 
@@ -223,9 +225,12 @@ public class Detailing_right_grid_view extends Fragment implements OnSelectGridV
                                 bb = StringToBitMap(mCursor.getString(6));
                             Log.v("printing_ful899", "choosing");
                         }
-                        _products = new Custom_Products_GridView_Contents(mCursor.getString(2), mCursor.getString(0), mCursor.getString(1),
-                                mCursor.getString(4), selectionstatus, CommonUtils.PRODUCT_GRIDVIEW_ADAPTER_MODE_MAPPING_PRODUCTS, mCursor.getString(3), bb);
-                        mProducts_GridView_Contents.add(_products);
+
+
+                               _products = new Custom_Products_GridView_Contents(mCursor.getString(2), mCursor.getString(0), mCursor.getString(1),
+                                       mCursor.getString(4), selectionstatus, CommonUtils.PRODUCT_GRIDVIEW_ADAPTER_MODE_MAPPING_PRODUCTS, mCursor.getString(3), bb);
+                               mProducts_GridView_Contents.add(_products);
+
                     }
                 }
             }
@@ -304,6 +309,7 @@ public class Detailing_right_grid_view extends Fragment implements OnSelectGridV
         // "RECREATE" THE NEW BITMAP
         Bitmap resizedBitmap = Bitmap.createBitmap(
                 bm, 0, 0, width, height, matrix, false);
+        if(resizedBitmap!=bm)
         bm.recycle();
         return resizedBitmap;
     }

@@ -307,6 +307,7 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
         if (!TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("theraptic"))) {
             Log.v("therapticValue",mCommonSharedPreference.getValueFromPreference("theraptic"));
             if (mCommonSharedPreference.getValueFromPreference("theraptic").equalsIgnoreCase("0"))
+
                 listViewItems.add(getResources().getString(R.string.theraptic));
         }
         ArrayList<String> PresentationName = new ArrayList<String>();
@@ -945,11 +946,11 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
                     ProductBrdSLidesJson.put("BrdName", BrdNameArray.get(j));
 
                     Log.e("Brand_Name", BrdNameArray.get(j));
+                    mCursor = dbh.select_AllSlides_brandwise(BrdCodeArray.get(j));
 
-                    if (skipSpeciality.equalsIgnoreCase("0"))
-                        mCursor = dbh.select_AllSlides_brandwise(BrdCodeArray.get(j));
-                    else
-                        mCursor = dbh.select_AllSlides_brandwiseSpec(BrdCodeArray.get(j), CommonUtils.TAG_DR_SPEC);
+//                    if (skipSpeciality.equalsIgnoreCase("0"))
+//                    else
+//                        mCursor = dbh.select_AllSlides_brandwiseSpec(BrdCodeArray.get(j), CommonUtils.TAG_DR_SPEC);
 
                         /*if(TextUtils.isEmpty(CommonUtils.TAG_DR_SPEC))
                         mCursor = dbh.select_AllSlides_brandwise(BrdCodeArray.get(j));

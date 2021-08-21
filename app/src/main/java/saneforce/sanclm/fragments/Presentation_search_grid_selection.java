@@ -233,10 +233,10 @@ public class Presentation_search_grid_selection extends Fragment implements Adap
             Custom_Products_GridView_Contents _products = null;
             Log.v("printing_spec_prese",CommonUtils.TAG_DR_SPEC+" present "+mCommonSharedPreference.getValueFromPreference("present"));
             Boolean selectionstatus = false;
-            if(mCommonSharedPreference.getValueFromPreference("present").equalsIgnoreCase("yes") || skipSpeciality.equalsIgnoreCase("0"))
+            if(mCommonSharedPreference.getValueFromPreference("present").equalsIgnoreCase("yes") )
                 mCursor=dbh.select_ProductBrdWiseSlide();
-            else
-                mCursor=dbh.select_ProductBrdWiseSlideSpec(CommonUtils.TAG_DR_SPEC);
+//            else
+//                mCursor=dbh.select_ProductBrdWiseSlideSpec(CommonUtils.TAG_DR_SPEC);
             Log.v("in_presentation",mCursor.getCount()+" printing");
                 if(mCursor!=null)
                     if(mCursor.getCount()>0) {

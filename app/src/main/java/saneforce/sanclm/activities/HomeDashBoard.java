@@ -1,6 +1,4 @@
 package saneforce.sanclm.activities;
-
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -38,6 +36,7 @@ import android.os.Parcelable;
 import android.provider.Settings;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -108,10 +107,12 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletionService;
 import java.util.concurrent.ExecutionException;
@@ -216,7 +217,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     static Context mContext;
     String tpflag = "",rmrks="";
     String tab="training";
-     EditText et_remark;
+    EditText et_remark;
     /**
      * downloading slides constatnts
      */
@@ -230,6 +231,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     static String Size;
     ArrayList<String> tempList = new ArrayList<String>();
     ArrayList<File1> files = new ArrayList<File1>();
+    static ArrayList<File1> list1 = new ArrayList<File1>();
+    ArrayList<File1> list2 = new ArrayList<File1>();
     static ProgressBar bar;
     public static final String ID = "id";
     ProgressBar pBar;
@@ -288,6 +291,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     TextView tv_todaycall_head,tv_calls,tv_presentation,tv_reports;
     ProgressDialog progress;
     boolean accessStorageAllowedNew = false;
+    private ProgressDialog pDialog;
+    LocalBroadcastManager mBroadcastManager;
 
     @Override
     protected void onPause() {
@@ -313,7 +318,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         }
 
         setContentView(R.layout.activity_new_homepage);
-
+        pDialog = new ProgressDialog(this);
+      //  mBroadcastManager = LocalBroadcastManager.getInstance(this);
 
         Bundle extra = getIntent().getExtras();
         if (extra != null) {
@@ -347,7 +353,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         tv_reports=findViewById(R.id.tv_reports);
 
         tb_dwnloadSlides = (TableLayout) findViewById(R.id.tableLayout1);
-     // tb_dwnloadSlides.setVisibility(View.GONE);
+        // tb_dwnloadSlides.setVisibility(View.GONE);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         intentFilter = new IntentFilter();
         intentFilter.addAction(CONNECTIVITY_ACTION);
@@ -367,28 +373,28 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
 
         digital=mCommonSharedPreference.getValueFromPreference("Digital_offline");
-              Intent intent=getIntent();
-              digitalOff=intent.getStringExtra("masters");
-              //Log.v("dashboard",digitalOff);
-              if(digitalOff!=null && !digitalOff.isEmpty() )
-              {
-                  Log.d("dashboard",digitalOff);
-
-              }else
-              {
-                  digitalOff="0";
-              }
-
-              if (digitalOff.equalsIgnoreCase("0")) {
-                  Log.d("dashboard",digitalOff);
+        Intent intent=getIntent();
+        digitalOff=intent.getStringExtra("masters");
+        //Log.v("dashboard",digitalOff);
+        if(digitalOff!=null && !digitalOff.isEmpty() )
+        {
+            Log.d("dashboard",digitalOff);
 
         }else
-       {
-           mainDashbrd.setVisibility(View.GONE);
-           menuDashbrd.setVisibility(View.GONE);
-           layoutBottomSheet.setVisibility(View.GONE);
-           l1_app_config.setVisibility(View.GONE);
-       }
+        {
+            digitalOff="0";
+        }
+
+        if (digitalOff.equalsIgnoreCase("0")) {
+            Log.d("dashboard",digitalOff);
+
+        }else
+        {
+            mainDashbrd.setVisibility(View.GONE);
+            menuDashbrd.setVisibility(View.GONE);
+            layoutBottomSheet.setVisibility(View.GONE);
+            l1_app_config.setVisibility(View.GONE);
+        }
         mContext = getBaseContext();
         addLogText(NetworkUtil.getConnectivityStatusString(HomeDashBoard.this));
 
@@ -482,7 +488,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
         map.clear();
         map.put("SF", SF_Code);
-      //  map.put("ReqDt", currentDate);
+        //  map.put("ReqDt", currentDate);
         try {
             json.put("SF", SF_Code);
             json.put("ReqDt", currentDate);
@@ -503,11 +509,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             tv_cluster.setText(resources.getString(R.string.worktype)+" : " + mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME));
         }
        /* if(mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_NAME)=="null" || mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_NAME).trim().isEmpty()) {
-
-
         }
         else{
-
         }*/
 
     }
@@ -668,7 +671,6 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                         String UserNm = jointwork.get(i).getUsrDfdUserName();
                         String SfType = jointwork.get(i).getSfType();
                         String Desig = jointwork.get(i).getDesig();
-
                         dbh.insert_jointworkManagers(sfCode,Name,sfName,RptSf,OwnDiv,DivCd,SfStatus,ActFlg,UserNm,SfType,Desig);
                     }*/
                     dbh.close();
@@ -952,7 +954,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         TextView tv_headquater = (TextView) dialog.findViewById(R.id.et_mydaypln_HQ);
         tv_clusterView = (TextView) dialog.findViewById(R.id.et_mydaypln_cluster);
         final ImageView Close = (ImageView) dialog.findViewById(R.id.iv_close);
-         et_remark = (EditText) dialog.findViewById(R.id.et_mydaypln_remarks);
+        et_remark = (EditText) dialog.findViewById(R.id.et_mydaypln_remarks);
         final ListView rv_wtype = (ListView) dialog.findViewById(R.id.rv_worktypelist);
         final ListView rv_cluster = (ListView) dialog.findViewById(R.id.rv_clusterlist);
         final ListView rv_hqlist = (ListView) dialog.findViewById(R.id.rv_hqlist);
@@ -1361,7 +1363,6 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
                         //https://stackoverflow.com/questions/31175601/how-can-i-change-default-toast-message-color-and-background-color-in-android
                         /*view.getBackground().setColorFilter(YOUR_BACKGROUND_COLOUR, PorterDuff.Mode.SRC_IN);
-
 //Gets the TextView from the Toast so it can be editted
                         TextView text = view.findViewById(android.R.id.message);
                         text.setTextColor(YOUR_TEXT_COLOUR);*/
@@ -1395,19 +1396,16 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     jsonData = response.body().string();
                     jsonObject = new JSONObject(jsonData);
                     Log.v("json_object_printing", String.valueOf(jsonObject));
-
                     if (jsonObject.getString("success").equals("true")) {
                         Toast.makeText(getApplicationContext(),"TodayCAlls"+ jsonObject.getString("Msg"), Toast.LENGTH_SHORT).show();
                         mCommonSharedPreference.setValueToPreference("workType","true");
                         dialog.dismiss();
                     }else{
                         Toast.makeText(getApplicationContext(),"TodayCAlls22"+jsonObject.getString("Msg"), Toast.LENGTH_SHORT).show();
-
                     }*/
                     //  Log.e("Tday ","dp "+todaytp.get(0).getPlNm());
                     /*tv_worktype.setText("Work Type : "+todaytp.get(0).getWTNm());
                     tv_cluster.setText("Cluster : "+todaytp.get(0).getPlNm());
-
                     editor.putString(CommonUtils.TAG_WORKTYPE_NAME, todaytp.get(0).getWTNm());
                     editor.putString(CommonUtils.TAG_WORKTYPE_CODE, todaytp.get(0).getWT());
                     editor.putString(CommonUtils.TAG_WORKTYPE_CLUSTER_CODE,todaytp.get(0).getPl());
@@ -1428,19 +1426,30 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
         @Override
         public void onFailure(Call<ResponseBody> call, Throwable t) {
-             Toast.makeText(context, "On Failure " +t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "On Failure " +t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
         }
     };
 
 
     public void SlidesDownloader(int x) {
 
-        Log.v("CLEAR_DATA","CHECKING_DATA");
+        Log.v("CLEAR_DATA", "CHECKING_DATA");
         files.clear();
+        list2.clear();
+        list1.clear();
 
         try {
-            dbh.open();
+            Cursor cur1 = dbh.select_slidesUrlPathnew();
 
+            if ((cur1.getCount() > 0)) {
+                while (cur1.moveToNext()) {
+                    //if(downloadFilepath.contains(cur.getString(5))){}else{
+                    list1.add(new File1(db_slidedwnloadPath + cur1.getString(5), cur1.getString(13)));
+                    Log.v("slide_downloder_12344", "are_activated_in" + db_slidedwnloadPath + cur1.getString(5) + "----" + cur1.getString(13));
+                    downloadFilepath += cur1.getString(5) + ",";
+                    // }
+                }
+            }
             Cursor cur = dbh.select_slidesUrlPath();
             if (cur.getCount() == 0) {
                 Log.v("slide_downloder_1", "are_activated");
@@ -1449,19 +1458,60 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             if ((cur.getCount() > 0)) {
                 while (cur.moveToNext()) {
                     //if(downloadFilepath.contains(cur.getString(5))){}else{
-                    files.add(new File1(db_slidedwnloadPath + cur.getString(5)));
-                    Log.v("slide_downloder_123", "are_activated_in" + db_slidedwnloadPath + cur.getString(5));
+                    files.add(new File1(db_slidedwnloadPath + cur.getString(5), cur.getString(13)));
+                    Log.v("slide_downloder_123", "are_activated_in" + db_slidedwnloadPath + cur.getString(5) + "--" + cur.getString(13));
                     downloadFilepath += cur.getString(5) + ",";
                     // }
                 }
-                SharedPreferences slide = getSharedPreferences("slide", 0);
-                SharedPreferences.Editor edit = slide.edit();
-                edit.putString("slide_download", "1");
-                edit.commit();
-                Log.v("slide_downloder", "are_activated");
-                if (x == 0)
-                    tb_dwnloadSlides.setVisibility(View.VISIBLE);
-                listView.setAdapter(mAdapter = new ArrayAdapter<File1>(this, R.layout.custom_download_row, R.id.tv_setfilename, files) {
+            }
+            Set<File1> set = new LinkedHashSet<>(files);
+            set.addAll(list1);
+            list2 = new ArrayList<>(set);
+
+            SharedPreferences slide = getSharedPreferences("slide", 0);
+            SharedPreferences.Editor edit = slide.edit();
+            edit.putString("slide_download", "1");
+            edit.commit();
+            Log.v("slide_downloder", "are_activated");
+            if (x == 0)
+                tb_dwnloadSlides.setVisibility(View.VISIBLE);
+            if (list2.size() > 0) {
+                listView.setAdapter(mAdapter = new ArrayAdapter<File1>(this, R.layout.custom_download_row, R.id.tv_setfilename, list2) {
+
+
+                    @Override
+                    public int getCount() {
+                        return list2.size();
+                    }
+
+                    @Nullable
+                    @Override
+                    public File1 getItem(int position) {
+                        return super.getItem(position);
+                    }
+
+                    @Override
+                    public int getPosition(@Nullable File1 item) {
+                        return super.getPosition(item);
+                    }
+
+                    @Override
+                    public long getItemId(int position) {
+                        return super.getItemId(position);
+                    }
+
+                    @Override
+                    public int getViewTypeCount() {
+
+                        return getCount();
+                    }
+
+                    @Override
+                    public int getItemViewType(int position) {
+
+                        return position;
+                    }
+
                     @Override
                     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -1469,42 +1519,37 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                         View v = super.getView(position, convertView, parent);
 
                         /*CHECKING*/
-                       // tb_dwnloadSlides.setVisibility(View.VISIBLE);
+                        // tb_dwnloadSlides.setVisibility(View.VISIBLE);
 
 
-                        updateRow(getItem(position), v, files.get(position).size);
+                        updateRow(getItem(position), v, list2.get(position).size, position);
+                        notifyDataSetChanged();
+
                         return v;
                     }
                 });
 
 
                 //if (savedInstanceState == null) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    Intent intent = new Intent(this, DownloadingService.class);
-                    intent.putParcelableArrayListExtra("files", new ArrayList<File1>(files));
-                    startService(intent);
-                    //}
-                    registerReceiver();
-                }else {
+                Intent intent = new Intent(this, DownloadingService.class);
+                intent.putParcelableArrayListExtra("files", new ArrayList<File1>(files));
+                intent.putExtra("place", "multiple");
+                startService(intent);
+                //}
+                registerReceiver();
 
-                    Intent intent = new Intent(this, DownloadingService.class);
-                    intent.putParcelableArrayListExtra("files", new ArrayList<File1>(files));
-                    startService(intent);
-                    //}
-                    registerReceiver();
-                }
+                //tb_dwnloadSlides.setVisibility(View.GONE);
+                if (cur.getCount() > 0 || cur1.getCount() > 0) {
 
-            } else {
-               //tb_dwnloadSlides.setVisibility(View.GONE);
-                if (digitalOff.equalsIgnoreCase("0"))
-                {
-                    tb_dwnloadSlides.setVisibility(View.GONE);
-                }else
-                {
-                    tb_dwnloadSlides.setVisibility(View.VISIBLE);
+                } else {
+                    if (digitalOff.equalsIgnoreCase("0")) {
+                        tb_dwnloadSlides.setVisibility(View.GONE);
+                    } else {
+                        tb_dwnloadSlides.setVisibility(View.VISIBLE);
+
+                    }
                 }
             }
-            dbh.close();;
         } catch (Exception e) {
             Log.v("Excetion_slipe", e.getMessage());
             dbh.open();
@@ -1536,44 +1581,90 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     }
 
     @SuppressLint("ResourceAsColor")
-    private void updateRow(final File1 file, View v, String size) {
-       // if (digital.equalsIgnoreCase("1"))  tb_dwnloadSlides.setVisibility(View.VISIBLE);
-        if (digitalOff.equalsIgnoreCase("0"))
-        {
-            Log.d("dashboard",digitalOff);
+    private void updateRow(final File1 file, View v, String size,int position) {
+        // if (digital.equalsIgnoreCase("1"))  tb_dwnloadSlides.setVisibility(View.VISIBLE);
+        if (digitalOff.equalsIgnoreCase("0")) {
+            Log.d("dashboard", digitalOff);
 
-        }else
-        {
+        } else {
             tb_dwnloadSlides.setVisibility(View.VISIBLE);
         }
         Log.v("Update_Slide", String.valueOf(tb_dwnloadSlides.getVisibility()));
-        bar = (ProgressBar) v.findViewById(R.id.progressBar);
-        bar.getProgressDrawable().setColorFilter(Color.RED, android.graphics.PorterDuff.Mode.SRC_IN);
-        bar.setProgress(file.progress);
-        String fileName = file.toString().substring(file.toString().lastIndexOf('/') + 1, file.toString().length());
-        TextView tv_progress = (TextView) v.findViewById(R.id.tv_progress);
-        TextView tv_filesize = (TextView) v.findViewById(R.id.tv_filesize);
-        TextView tv = (TextView) v.findViewById(R.id.tv_setfilename);
+        try {
+            ProgressBar bar = v.findViewById(R.id.progressBar1);
+            bar.getProgressDrawable().setColorFilter(Color.RED, android.graphics.PorterDuff.Mode.SRC_IN);
+            bar.setProgress(file.progress);
+            String fileName = file.toString().substring(file.toString().lastIndexOf('/') + 1, file.toString().length());
+            TextView tv_progress = (TextView) v.findViewById(R.id.tv_progress);
+            TextView tv_filesize = (TextView) v.findViewById(R.id.tv_filesize);
+            TextView tv = (TextView) v.findViewById(R.id.tv_setfilename);
+            ImageView imageView = v.findViewById(R.id.tick);
+            ImageView downloadimg = v.findViewById(R.id.download);
 
 
-        tv_progress.setText(" " + String.valueOf(file.progress) + "%");
-        tv_filesize.setText(size);
-        tv.setText(fileName);
+            if (file.getSync().equalsIgnoreCase("1")) {
+                bar.getProgressDrawable().setColorFilter(Color.GREEN, android.graphics.PorterDuff.Mode.SRC_IN);
+                bar.setProgress(100);
+                tv_progress.setText("");
+                tv_filesize.setVisibility(View.GONE);
+                downloadimg.setVisibility(View.VISIBLE);
+                imageView.setVisibility(View.VISIBLE);
+                downloadimg.setOnClickListener(new View.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.P)
+                    @Override
+                    public void onClick(View v) {
+                        pDialog.setProgress(0);
+                        list2.get(position).setSync("2");
+                        tv_filesize.setText("");
+                        ArrayList<File1> files1 = new ArrayList<>();
+                        files1.clear();
+                        files1.add(new File1(file.getUrl(), "0"));
+                        downloadimg.setVisibility(View.GONE);
 
-        v.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent();
-                i.setAction(DownloadingService.ACTION_CANCEL_DOWNLOAD);
-                // i.putExtra(ID, file.getId());
-                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(i);
+                        tv_progress.setText("");
+                        tv_filesize.setText("");
+                        new DownloadFileFromURL().execute(file.getUrl(), String.valueOf(position));
+
+                    }
+
+                });
+
+
+            } else if (file.getSync().equalsIgnoreCase("0")) {
+                bar.getProgressDrawable().setColorFilter(Color.RED, android.graphics.PorterDuff.Mode.SRC_IN);
+                bar.setProgress(file.progress);
+                tv_progress.setText(" " + String.valueOf(file.progress) + "%");
+                tv_filesize.setText(size);
+
+            } else {
+                bar.getProgressDrawable().setColorFilter(Color.GREEN, android.graphics.PorterDuff.Mode.SRC_IN);
+                bar.setProgress(100);
+                tv_progress.setText("");
+                tv_filesize.setVisibility(View.GONE);
+                imageView.setVisibility(View.GONE);
+                downloadimg.setVisibility(View.VISIBLE);
             }
-        });
+
+            tv.setText(fileName);
+
+            v.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent();
+                    i.setAction(DownloadingService.ACTION_CANCEL_DOWNLOAD);
+                    // i.putExtra(ID, file.getId());
+                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(i);
+                }
+
+            });
+        }catch (Exception e){
+
+        }
     }
 
 
     protected void onProgressUpdate(int position, int progress, int recsize, int totsize, String size) {
-      //  if (digital.equalsIgnoreCase("1"))  tb_dwnloadSlides.setVisibility(View.VISIBLE);
+        //  if (digital.equalsIgnoreCase("1"))  tb_dwnloadSlides.setVisibility(View.VISIBLE);
         if (digitalOff.equalsIgnoreCase("0"))
         {
             Log.d("dashboard",digitalOff);
@@ -1587,15 +1678,22 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         mAdapter.getItem(position).recsize = recsize;
         mAdapter.getItem(position).totsize = totsize;
         mAdapter.getItem(position).size = size;
-        if (position < first || position > last) {
-        } else {
-            View convertView = listView.getChildAt(position - first);
-            updateRow(mAdapter.getItem(position), convertView, size);
+        if( mAdapter.getItem(position).progress ==100) {
+            list2.get(position).setSync("1");
         }
+        View convertView = listView.getChildAt(position - first);
+        updateRow(mAdapter.getItem(position),
+                convertView, size,position);
+
+//        if (position < first || position > last) {
+//        } else {
+//            View convertView = listView.getChildAt(position - first);
+//            updateRow(mAdapter.getItem(position), convertView, size,);
+//        }
     }
 
     protected void onProgressUpdateOneShot(int[] positions, int[] progresses, int[] recsize, int[] totsize) {
-    //    if (digital.equalsIgnoreCase("1"))  tb_dwnloadSlides.setVisibility(View.VISIBLE);
+        //    if (digital.equalsIgnoreCase("1"))  tb_dwnloadSlides.setVisibility(View.VISIBLE);
         if (digitalOff.equalsIgnoreCase("0"))
         {
             Log.d("dashboard",digitalOff);
@@ -1657,7 +1755,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
         public DownloadingService() {
             super("DownloadingService");
-            mExec = Executors.newFixedThreadPool( /* only 5 at a time */3);
+            mExec = Executors.newFixedThreadPool( /* only 5 at a time */1);
             mEcs = new ExecutorCompletionService<NoResultType>(mExec);
             mBroadcastManager = LocalBroadcastManager.getInstance(this);
             dbh.open();
@@ -1715,9 +1813,9 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     if (r != null) {
                         dwnloadsize = dwnloadsize + 1;
                         if (dwnloadsize == n) {
-
-                            closeactivity();
-
+                            if( list1.size()==0) {
+                                closeactivity();
+                            }
                         }
                         Log.d("TASK_SIZE", "" + dwnloadsize + "TOT SIZE " + n);
                         //11
@@ -2106,7 +2204,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             // "RECREATE" THE NEW BITMAP
             Bitmap resizedBitmap = Bitmap.createBitmap(
                     bm, 0, 0, width, height, matrix, false);
-            if (bm != null && !bm.isRecycled())
+//            if (bm != null && !bm.isRecycled())
+            if(resizedBitmap!=bm)
                 bm.recycle();
 
             return resizedBitmap;
@@ -2210,10 +2309,20 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         private int totsize;
         private String size;
 
-        public File1(String url) {
-            this.url = url;
+        private String sync;
+
+        public String getSync() {
+            return sync;
         }
 
+        public void setSync(String sync) {
+            this.sync = sync;
+        }
+
+        public File1(String url, String sync) {
+            this.url = url;
+            this.sync=sync;
+        }
         public String getUrl() {
             return url;
         }
@@ -2340,7 +2449,6 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             // RESIZE THE BIT MAP
             matrix.postScale(scaleWidth, scaleHeight);
             bmp = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.RGB_565);
-
             Canvas canvas = new Canvas(bmp);
             Paint paint = new Paint();
             paint.setTextSize(24);
@@ -2356,9 +2464,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             }
         }catch (OutOfMemoryError e){
             // Log.v("out_of_memory_excep",e.getMessage());
-
         }
-
         return bmp;
     }
 */
@@ -2587,15 +2693,15 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                         else
                             mCommonSharedPreference.setValueToPreference("Detailing_chem","");
                         if(jsonn.has("Detailing_stk")){
-                                mCommonSharedPreference.setValueToPreference("Detailing_stk",jsonn.getString("Detailing_stk"));
-                            }
-                            else
-                                mCommonSharedPreference.setValueToPreference("Detailing_stk","");
-                            if(jsonn.has("Detailing_undr")){
-                                mCommonSharedPreference.setValueToPreference("Detailing_undr",jsonn.getString("Detailing_undr"));
-                            }
-                            else
-                                mCommonSharedPreference.setValueToPreference("Detailing_undr","");
+                            mCommonSharedPreference.setValueToPreference("Detailing_stk",jsonn.getString("Detailing_stk"));
+                        }
+                        else
+                            mCommonSharedPreference.setValueToPreference("Detailing_stk","");
+                        if(jsonn.has("Detailing_undr")){
+                            mCommonSharedPreference.setValueToPreference("Detailing_undr",jsonn.getString("Detailing_undr"));
+                        }
+                        else
+                            mCommonSharedPreference.setValueToPreference("Detailing_undr","");
 
 
                         if(jsonn.has("Tp_Based")){
@@ -2740,7 +2846,6 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                             finalSubmission(cur1.getString(1), cur1.getInt(0));
                         }
                     }
-
                 }
                 else{
                     submitoffline=false;
@@ -3013,7 +3118,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             if(wrkNAm.isEmpty()){
                 Toast.makeText(HomeDashBoard.this, resources.getString(R.string.dplan_need), Toast.LENGTH_SHORT).show();
             }
-           else if(!wrkNAm.equalsIgnoreCase(resources.getString(R.string.field))) {
+            else if(!wrkNAm.equalsIgnoreCase(resources.getString(R.string.field))) {
                 Toast.makeText(HomeDashBoard.this, resources.getString(R.string.NonFieldcall), Toast.LENGTH_SHORT).show();
             }
             if (!tpflag.isEmpty() || !tpflag.equals("")) {
@@ -3113,7 +3218,6 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     adp.notifyDataSetChanged();
 
                    /* ArrayList<String> msg=new ArrayList<>();
-
                     JSONArray jsonArray=new JSONArray(is.toString());
                     for(int i=0;i<jsonArray.length();i++){
                         JSONObject jj=jsonArray.getJSONObject(i);
@@ -3325,7 +3429,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
         addNavItem();
         //hideNearMe();
-      //  hideTP();
+        //  hideTP();
 
 
 //        iv_reload.setVisibility(View.GONE);
@@ -3397,11 +3501,11 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                 }
             }
         } else
-           // hideNearMe();
+            // hideNearMe();
        /* Menu nav_Menu = navigationView.getMenu();
         nav_Menu.findItem(R.id.nav_quiz).setVisible(false);*/
 
-        mCommonSharedPreference.setValueToPreference("missed", "false");
+            mCommonSharedPreference.setValueToPreference("missed", "false");
         mCommonSharedPreference.setValueToPreference("missed_array", "[]");
         mCommonSharedPreference.setValueToPreference("miss_select", "0");
         mCommonSharedPreference.setValueToPreference("display_brand", getResources().getString(R.string.brandmatrix));
@@ -3448,7 +3552,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             //navigationView.setNavigationItemSelectedListener(this);
             mCommonSharedPreference.setValueToPreference("geo_tag", "0");
             if (mCommonSharedPreference.getValueFromPreference("sf_type").equals("1")) {
-               // hideItem();
+                // hideItem();
             }
             mCommonSharedPreference.setValueToPreference("visit_dr", "false");
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -3559,8 +3663,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                 }
 */
                     else {
-                       // if (sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("Field Work"))
-                            CommonUtilsMethods.CommonIntentwithNEwTask(DCRCallSelectionActivity.class);
+                        // if (sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("Field Work"))
+                        CommonUtilsMethods.CommonIntentwithNEwTask(DCRCallSelectionActivity.class);
                     }
 
                 }else if (arrayNav.get(i).getText().equals(resources.getString(R.string.create_presentation))){
@@ -3588,7 +3692,6 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     String wrkcluNAm1 = sharedpreferences.getString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, null);
                     /*if (TextUtils.isEmpty(wrkcluNAm1) || TextUtils.isEmpty(wrkNAm1) || wrkNAm1.equalsIgnoreCase("null")) {
                         Toast.makeText(HomeDashBoard.this, " My Day plan is Needed ", Toast.LENGTH_SHORT).show();
-
                     }
                     else*/
                     missedDate();
@@ -3782,7 +3885,6 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     layoutBottomSheet.setLayoutParams(lay);
                 }
                 else{
-
                     sheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
                     // sheetBehavior.setHideable(false);
                     sheetBehavior.setState(BottomSheetBehavior.STATE_DRAGGING);
@@ -3790,7 +3892,6 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                 //  getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DashBoardMenu()).commit();
                 //popupScribbling(2,slideDescribe.get(presentSlidePos).getSlideUrl());
             }
-
             public void onSwipeBottom(){
                 Log.v("swiping_top","are_clciek_bottom");
                 CoordinatorLayout.LayoutParams lay=new CoordinatorLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -3803,7 +3904,6 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                 layoutBottomSheet.setLayoutParams(lay);
                 sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                 swipeFun=false;*//*
-
                 swipeFun=true;
                 layoutBottomSheet.post(new Runnable() {
                     @Override
@@ -3877,7 +3977,6 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
             //https://stackoverflow.com/questions/31175601/how-can-i-change-default-toast-message-color-and-background-color-in-android
                         /*view.getBackground().setColorFilter(YOUR_BACKGROUND_COLOUR, PorterDuff.Mode.SRC_IN);
-
 //Gets the TextView from the Toast so it can be editted
                         TextView text = view.findViewById(android.R.id.message);
                         text.setTextColor(YOUR_TEXT_COLOUR);*/
@@ -4392,7 +4491,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         }
 
 
-            arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Reports"*/resources.getString(R.string.report)));
+        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Reports"*/resources.getString(R.string.report)));
         // arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports,"Quiz"));
         if (mCommonSharedPreference.getValueFromPreference("GpsFilter").equalsIgnoreCase("0")) {
             arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Near Me"*/resources.getString(R.string.near_me)));
@@ -4447,6 +4546,304 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             accessStorageAllowedNew=true;
 
         }
+    }
+
+    /**
+     * Background Async Task to download file
+     * */
+    class DownloadFileFromURL extends AsyncTask<String, String, String> {
+        private int mProgress;
+        private int mrecsize;
+        private int mtotsize;
+        private int mPosition;
+        LocalBroadcastManager mBroadcastManager;
+        /**
+         * Before starting background thread
+         * Show Progress Bar Dialog
+         * */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog.setMessage("Downloading file. Please wait...");
+            pDialog.setIndeterminate(false);
+            pDialog.setMax(100);
+            pDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            pDialog.setCancelable(false);
+            pDialog.show();
+
+        }
+
+        /**
+         * Downloading file in background thread
+         * */
+        @Override
+        protected String doInBackground(String... f_url) {
+            try {
+
+                URL url = new URL(f_url[0]);
+                mPosition= Integer.parseInt(f_url[1]);
+                Log.d("FILE ANBME ",f_url[0]);
+                URLConnection conexion = url.openConnection();
+                conexion.connect();
+                int lenghtOfFile = conexion.getContentLength();
+
+                int count = 0;
+                File mydir = getApplicationContext().getDir("private_dir", Context.MODE_PRIVATE);
+                //File file = new File(mydir.getAbsoluteFile().toString()+"/Products");
+                File file = new File(Environment.getExternalStorageDirectory() + "/Products"); /*Internal Storage*/
+                File file11 = new File(Environment.getExternalStorageDirectory() + "/Productsss"); /*Internal Storage*/
+
+
+                if (!file.exists()) {
+                    if (!file.mkdirs()) {
+                        Log.d("IMAGE_DIRECTORY_NAME", "Oops! Failed create IMAGE_DIRECTORY_NAME directory");
+                    }
+                }
+                if (!file11.exists()) {
+                    if (!file11.mkdirs()) {
+                        Log.d("IMAGE_DIRECTORY_NAME", "Oops! Failed create IMAGE_DIRECTORY_NAME directory");
+                    }
+                }
+                String fileName = f_url[0].substring(f_url[0].lastIndexOf('/') + 1, f_url[0].length());
+                File targetLocation = new File(file.getPath() + File.separator + fileName);
+                File targetLocationnn = new File(file11.getPath() + File.separator + fileName);
+                InputStream input = new BufferedInputStream(url.openStream());
+
+
+                Log.e("length_of_file", String.valueOf(lenghtOfFile));
+
+                String fileType = fileName.toString();
+                String ZipFile = fileType.substring(fileType.lastIndexOf(".") + 1);
+                byte data[] = new byte[1024];
+                int total = 0;
+                int Status;
+
+                Log.v("intern_sto_target:", targetLocation + "");
+                if (ZipFile.equalsIgnoreCase("zip")) {
+
+                    String zipFile = targetLocation.toString();
+                    String unzipLocation = file.getPath() + File.separator;
+                    OutputStream output = new FileOutputStream(targetLocation);
+                    OutputStream output1 = new FileOutputStream(targetLocationnn);
+                    try {
+                        while ((count = input.read(data)) != -1) {
+                            total += count;
+                            Status = (int) ((total * 100) / lenghtOfFile);
+                            mProgress += Status;//mRand.nextInt(5);
+                            mrecsize += total;
+                            mtotsize += lenghtOfFile;
+                            df = new DecimalFormat("#.##");
+                            //File1 ff=files.get(mPosition);
+                            dtaSize = lenghtOfFile;
+                            if (dtaSize > 1024) {
+                                dtaSize = dtaSize / 1024;
+                                tszflg = 1;
+                            }
+                            if (dtaSize > 1024) {
+                                dtaSize = dtaSize / 1024;
+                                tszflg = 2;
+                            }
+                            if (dtaSize > 1024) {
+                                dtaSize = dtaSize / 1024;
+                                tszflg = 3;
+                            }
+
+                            RDSize = total;
+                            if (RDSize > 1024) {
+                                RDSize = RDSize / 1024;
+                                rszflg = 1;
+                            }
+                            if (RDSize > 1024) {
+                                RDSize = RDSize / 1024;
+                                rszflg = 2;
+                            }
+                            if (RDSize > 1024) {
+                                RDSize = RDSize / 1024;
+                                rszflg = 3;
+                            }
+
+                            Size = df.format(RDSize) + " " + ((rszflg == 0) ? "B" : (rszflg == 1) ? "KB" : (rszflg == 2) ? "MB" : "GB") + " / " + df.format(dtaSize) + " " + ((tszflg == 0) ? "B" : (tszflg == 1) ? "KB" : (tszflg == 2) ? "MB" : "GB");
+
+                            // System.out.println("STATUS : "+Status +"LENGTH OF FILE >"+lenghtOfFile +"Total >>"+total);
+                            // publishProgress1(mPosition, Status, total, lenghtOfFile, Size);
+                            publishProgress(""+(int)((total*100)/lenghtOfFile));
+
+                            output.write(data, 0, count);
+                            output1.write(data, 0, count);
+
+                        }
+                        output.flush();
+                        output.close();
+                        output1.flush();
+                        output1.close();
+
+                        Log.v("unzip_location_are", unzipLocation);
+                        Decompress d = new Decompress(zipFile, unzipLocation);
+                        d.unzip();
+                        File file1 = new File(file.getPath() + File.separator + fileName.toString());
+                        Log.v("file_one_print", file1 + "");
+                        //boolean deleted = file1.delete();
+
+                        String HTMLPath = targetLocation.toString().replaceAll(".zip", "");
+                        Log.v("Presentation_dragss", "adapter_called" + HTMLPath);
+                        File f = new File(HTMLPath);
+                        File[] files = f.listFiles(new FilenameFilter() {
+                            @Override
+                            public boolean accept(File dir, String filename) {
+                                return filename.contains(".png") || filename.contains(".jpg");
+                            }
+                        });
+                        String urll = "";
+                        Log.v("files_length_here", files.length + " are here");
+                        if (files.length > 0) urll = files[0].getAbsolutePath();
+                        Uri imageUri = Uri.fromFile(new File(urll));
+
+                        Log.v("Presentation_drag_ht", "adapter_called" + imageUri + "url" + urll);
+                        //imageUri= Uri.parse("/storage/emulated/0/Products/IndianImmunologicals/preview.png");
+                        Log.v("Presentation_drag_ht", "adapter_called" + imageUri);
+                        //Log.v("Presentation_drag_ht","adapter_called"+imageUri);
+
+
+                        String bit = BitMapToString(getResizedBitmap(String.valueOf(imageUri).substring(7), 150, 150));
+                        File compressedImageFile = new Compressor(getApplicationContext()).compressToFile(new File(urll));
+                        // dbh.update_product_Content_Url(targetLocation.toString(),fileName,bit);
+
+
+                        dbh.update_product_Content_Url(targetLocation.toString(), fileName, bit, compressedImageFile.toString());
+
+                        Log.v("targetLocation_1", targetLocation.toString() + "compress");
+                    } catch (NullPointerException e) {
+                        Log.d("TASK_SIZE_dwnd_exe", "" + e + url);
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        Log.d("TASK_SIZE_dwnd_exec", "" + e);
+                        e.printStackTrace();
+                    }
+
+
+                } else {
+                    //System.out.println("intetnal storege targetLocation: "+targetLocation.toString());
+                    OutputStream output = new FileOutputStream(targetLocation);
+                    try {
+                        while ((count = input.read(data)) != -1) {
+                            total += count;
+                            Status = (int) ((total * 100) / lenghtOfFile);
+                            // System.out.println("lenghtOfFile>>>/"+lenghtOfFile +"POSITION "+mPosition);
+                            mProgress += Status;//mRand.nextInt(5);
+                            mrecsize += total;
+                            mtotsize += lenghtOfFile;
+                            df = new DecimalFormat("#.##");
+                            dtaSize = lenghtOfFile;
+                            if (dtaSize > 1024) {
+                                dtaSize = dtaSize / 1024;
+                                tszflg = 1;
+                            }
+                            if (dtaSize > 1024) {
+                                dtaSize = dtaSize / 1024;
+                                tszflg = 2;
+                            }
+                            if (dtaSize > 1024) {
+                                dtaSize = dtaSize / 1024;
+                                tszflg = 3;
+                            }
+
+                            RDSize = total;
+                            if (RDSize > 1024) {
+                                RDSize = RDSize / 1024;
+                                rszflg = 1;
+                            }
+                            if (RDSize > 1024) {
+                                RDSize = RDSize / 1024;
+                                rszflg = 2;
+                            }
+                            if (RDSize > 1024) {
+                                RDSize = RDSize / 1024;
+                                rszflg = 3;
+                            }
+
+                            Size = df.format(RDSize) + " " + ((rszflg == 0) ? "B" : (rszflg == 1) ? "KB" : (rszflg == 2) ? "MB" : "GB") + " / " + df.format(dtaSize) + " " + ((tszflg == 0) ? "B" : (tszflg == 1) ? "KB" : (tszflg == 2) ? "MB" : "GB");
+                            //   publishProgress1(mPosition, Status, total, lenghtOfFile, Size);
+                            publishProgress(""+(int)((total*100)/lenghtOfFile));
+
+                            output.write(data, 0, count);
+                        }
+
+                        output.flush();
+                        output.close();
+                        System.out.println("lenghtOfFile>>>/" + fileName);
+                        String bit = "";
+                        if (ZipFile.equalsIgnoreCase("pdf")) {
+                            /*Drawable myDrawable = getApplicationContext().getResources().getDrawable(R.mipmap.pdf_logo);
+                            Bitmap bm = ((BitmapDrawable) myDrawable).getBitmap();
+                            bit = BitMapToString(scaleDown(bm, 200, true));*/
+                            Log.v("printing_target_", targetLocation.toString() + " zip " + ZipFile);
+                            Bitmap bm = getResizedBitmapForPdf(getBitmap(new File(targetLocation.toString())), 150, 150);
+                            bit = BitMapToString(scaleDown(bm, 200, true));
+                        } else if (ZipFile.equalsIgnoreCase("mp4")) {
+                            MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
+                            mediaMetadataRetriever.setDataSource(targetLocation.toString());
+                            Bitmap bm = mediaMetadataRetriever.getFrameAtTime(5000000);
+                            bit = BitMapToString(bm);
+                            /*dbh.update_product_Content_Url(targetLocation.toString(),fileName,bit,"empty");*/
+                        } else if (!targetLocation.toString().contains("avi")) {
+                            bit = BitMapToString(getResizedBitmap(targetLocation.toString(), 150, 150));
+                        }
+
+                        if (targetLocation.toString().contains("png") || targetLocation.toString().contains("jpg")) {
+                            File compressedImageFile = new Compressor(getApplicationContext()).compressToFile(targetLocation);
+
+                            dbh.update_product_Content_Url(compressedImageFile.toString(), fileName, bit, compressedImageFile.toString());
+
+                            Log.v("compressed_Filesss", compressedImageFile.toString());
+                        } else
+                            dbh.update_product_Content_Url(targetLocation.toString(), fileName, bit, "empty");
+
+                        Log.v("targetLocation_2", targetLocation.toString());
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        dbh.close();
+                    }
+                }
+
+
+            } catch (Exception e) {
+                Log.e("Error: ", e.getMessage());
+            }
+
+            return null;
+        }
+
+        /**
+         * Updating progress bar
+         * */
+        protected void onProgressUpdate(String... progress) {
+            // setting progress percentage
+            pDialog.setProgress(Integer.parseInt(progress[0]));
+
+
+        }
+
+        /**
+         * After completing background task
+         * Dismiss the progress dialog
+         * **/
+        @Override
+        protected void onPostExecute(String file_url) {
+            // dismiss the dialog after the file was downloaded
+            pDialog.setProgress(0);
+            pDialog.dismiss();
+            list2.get(mPosition).setSync("1");
+            mAdapter.notifyDataSetChanged();
+            // Displaying downloaded image into image view
+            // Reading image path from sdcard
+            String imagePath = Environment.getExternalStorageDirectory().toString() + "/downloadedfile.jpg";
+            // setting downloaded into image view
+        }
+
+
     }
 
 }

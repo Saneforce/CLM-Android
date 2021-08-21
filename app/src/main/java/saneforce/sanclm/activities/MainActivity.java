@@ -1,5 +1,6 @@
 package saneforce.sanclm.activities;
 
+import android.annotation.SuppressLint;
 import android.app.IntentService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -363,6 +364,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.v("file_in_post",file+"");
             }
 
+            @SuppressLint("LongLogTag")
             @Override
             public NoResultType call() throws Exception {
 
