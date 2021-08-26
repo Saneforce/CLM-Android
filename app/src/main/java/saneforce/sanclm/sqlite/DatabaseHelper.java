@@ -8,8 +8,8 @@ import saneforce.sanclm.sqlite.DataBaseHandler.*;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
 
-    public static final int DATABASE_VERSION = 16;
-    public static final String DATABASE_NAME = "Edetailinggss.db";
+    public static final int DATABASE_VERSION = 17;
+    public static final String DATABASE_NAME = "Edetailinggsss.db";
     private static final String TEXT_TYPE = " TEXT";
     private static final String COMMA_SEP = ",";
 
@@ -274,7 +274,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             TableEntry.SLIDE_URL + " TEXT ,"+
             TableEntry.SLIDE_TIME_JSON + " TEXT ,"+
             TableEntry.SLIDE_TIME + " TEXT ,"+
-            TableEntry.SLIDE_REM + " TEXT "+" )";
+            TableEntry.SLIDE_REM + " TEXT ,"+
+            TableEntry.COLUMN_PRODUCT_CODE + " TEXT "+" )";
 
     private static final String SQL_CREATE_TABLE_BRAND = " CREATE TABLE IF NOT EXISTS "
             + TableEntry.TABLE_BRAND + " (" + TableEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+

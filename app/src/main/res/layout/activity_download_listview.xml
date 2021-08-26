@@ -38,7 +38,7 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="610dp"
+        android:layout_height="wrap_content"
         android:layout_weight="0.1"
         android:background="@color/white"
         android:orientation="horizontal" >
@@ -49,7 +49,6 @@
             android:id="@+id/listView_slides"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="vertical"
             >
         </ListView>
 

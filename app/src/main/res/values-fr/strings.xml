@@ -450,6 +450,8 @@
     <string name="SelectTemplate">Sélectionner un modèle</string>
     <string name="Feedback">Retour</string>
     <string name="NonFieldcall">Impossible de soumettre des appels pour le travail hors terrain</string>
+    <string name="slidecomplete">Diapositives téléchargées avec succès</string>
+    <string name="timezoneon">Activez la date et l\'heure automatiques dans les paramètres.</string>
 
 
 

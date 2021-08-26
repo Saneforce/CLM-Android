@@ -1680,9 +1680,6 @@ public Callback<ResponseBody> NewComplist = new Callback<ResponseBody>() {
                         String email = js.getString("Email_Work");
                         String desn_name = js.getString("Designation_Name");
                         String dept_name = js.getString("Department_Name");
-
-
-
                         Log.v("cip_info", js.toString());
                         dbh.insert_cipMaster(sf_code, id, name,hoscode, hosname, cipTwnCd,cipTwnNm,mobile,address,email,desn_name,dept_name);
                     }

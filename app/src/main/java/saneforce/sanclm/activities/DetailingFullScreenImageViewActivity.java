@@ -67,6 +67,8 @@ import saneforce.sanclm.util.ProductChangeListener;
 import saneforce.sanclm.util.SpecialityListener;
 import saneforce.sanclm.util.UpdateUi;
 
+import static saneforce.sanclm.adapter_class.MyCustomPagerAdapter.deleteCache;
+
 public class
 
 DetailingFullScreenImageViewActivity extends FragmentActivity implements Detailing_Selection_search_grid_selection.Communicator{
@@ -289,7 +291,10 @@ DetailingFullScreenImageViewActivity extends FragmentActivity implements Detaili
         }
 */
         Log.v("total_slide_lenth", String.valueOf(Detailing_Selection_search_grid_selection.len_slide));
+
         myCustomPagerAdapter = new MyCustomPagerAdapter(DetailingFullScreenImageViewActivity.this, Detailing_Selection_search_grid_selection.len_slide,slidess);
+             deleteCache(context);
+
         viewPager.setAdapter(myCustomPagerAdapter);
         myCustomPagerAdapter.notifyDataSetChanged();
 
@@ -572,6 +577,7 @@ DetailingFullScreenImageViewActivity extends FragmentActivity implements Detaili
                                         while (cur.moveToNext()) {
                                             Log.v("printing_nextt", MyCustomPagerAdapter.storingSlide.get(i).getBrdName() + " " + MyCustomPagerAdapter.storingSlide.get(i).getTiming());
                                             // Toast.makeText(DetailingFullScreenImageViewActivity.this,String.valueOf(MyCustomPagerAdapter.storingSlide.get(i).getBrdName()),Toast.LENGTH_SHORT).show();
+                                            Log.v("cur_sor_count", cur.getString(4));
 
                                             mCommonSharedPreference.setValueToPreferenceFeed("timeVal" + timecount, MyCustomPagerAdapter.storingSlide.get(i).getTiming());
                                             mCommonSharedPreference.setValueToPreferenceFeed("dateVal" + timecount, MyCustomPagerAdapter.storingSlide.get(i).getDateVal());
@@ -579,7 +585,9 @@ DetailingFullScreenImageViewActivity extends FragmentActivity implements Detaili
                                             mCommonSharedPreference.setValueToPreferenceFeed("slide_nam" + timecount, MyCustomPagerAdapter.storingSlide.get(i).getBrdName());
                                             mCommonSharedPreference.setValueToPreferenceFeed("slide_typ" + timecount, cur.getString(6));
                                             mCommonSharedPreference.setValueToPreferenceFeed("slide_url" + timecount, cur.getString(12));
+                                            mCommonSharedPreference.setValueToPreferenceFeed("prodcode" + timecount, cur.getString(1));
                                             mCommonSharedPreference.setValueToPreferenceFeed("timeCount", ++timecount);
+
                                         }
                                     }
                                 }
@@ -1259,7 +1267,53 @@ DetailingFullScreenImageViewActivity extends FragmentActivity implements Detaili
         updateUi=uu;
     }
 
+
+
+
+
+    @Override
+    protected void onStop(){
+        super.onStop();
     }
 
+    //Fires after the OnStop() state
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            trimCache(this);
+            freeMemory();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public static void trimCache(Context context) {
+        try {
+            File dir = context.getCacheDir();
+            deleteDir(dir);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+            return dir.delete();
+        }
+        else {
+            return false;
+        }
+    }
+    public void freeMemory(){
+        System.runFinalization();
+        Runtime.getRuntime().gc();
+        System.gc();
+    }
+}

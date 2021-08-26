@@ -371,7 +371,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             // CommonUtilsMethods.CommonIntentwithNEwTask(HomeDashBoard.class);
 
                 try {
-                if (net.isInternetAvailable()) {
+                    if(CommonUtilsMethods.isOnline(LoginActivity.this)) {
                     progressDialog.setCancelable(false); // set cancelable to false
                     progressDialog.setMessage("Logging In"); // set message
 

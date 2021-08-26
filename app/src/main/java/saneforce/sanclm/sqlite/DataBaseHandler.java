@@ -962,7 +962,7 @@ public class DataBaseHandler {
         Log.v("divcoe",divcode);
         return db.insert(TableEntry.TABLE_INPUT,null,values);
     }
-    public long insertFeed(String prdname,String slidenam,String slidetype,String slideurl,String time,String json,String sliderem){
+    public long insertFeed(String prdname,String slidenam,String slidetype,String slideurl,String time,String json,String sliderem,String prcode){
         ContentValues values=new ContentValues();
         values.put(TableEntry.PRODUCT_NAME,prdname);
         values.put(TableEntry.SLIDE_NAME,slidenam);
@@ -971,8 +971,10 @@ public class DataBaseHandler {
         values.put(TableEntry.SLIDE_TIME,time);
         values.put(TableEntry.SLIDE_TIME_JSON,json);
         values.put(TableEntry.SLIDE_REM,sliderem);
-
+        values.put(TableEntry.COLUMN_PRODUCT_CODE,prcode);
         Log.v("divcoe",json);
+        Log.v("divcoe",prcode);
+
         return db.insert(TableEntry.TABLE_FEEDBACK,null,values);
     }
     public long insertBrand(String code,String name){

@@ -436,7 +436,7 @@
     <string name="select_the_territory">Select the Territory</string>
     <string name="pincode">Pincode</string>
     <string name="add_chemist">Add Chemist</string>
-    <string name="tpcustomer" >TP customers</string>
+    <string name="tpcustomer">TP customers</string>
     <string name="mtdcall">MTD Call Coverage &amp; Daily Call Average</string>
     <string name="detailingperformance">Detailing Performance</string>
     <string name="detailtmspnt">Detailing Time Spent</string>
@@ -445,9 +445,10 @@
     <string name="calvstdet">Call Visit Details</string>
     <string name="reload1">Reload</string>
     <string name="compfeed">Competitor feedback</string>
-     <string name="Template">Template</string>
+    <string name="Template">Template</string>
     <string name="SelectTemplate">Select Template</string>
     <string name="Feedback">Feedback</string>
     <string name="NonFieldcall">Unable to submit calls for Non Field Work</string>
-
+    <string name="slidecomplete">Slides downloaded sucessfully</string>
+    <string name="timezoneon">Turn on Automatic Date and Time in Settings.</string>
 </resources>

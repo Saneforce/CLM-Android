@@ -141,6 +141,7 @@ import saneforce.sanclm.adapter_class.TodayCalls_recyclerviewAdapter;
 import saneforce.sanclm.adapter_class.ViewPagerAdapter;
 import saneforce.sanclm.api_Interface.Api_Interface;
 import saneforce.sanclm.api_Interface.RetroClient;
+import saneforce.sanclm.applicationCommonFiles.Autotimezone;
 import saneforce.sanclm.applicationCommonFiles.CheckPermission;
 import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
 import saneforce.sanclm.applicationCommonFiles.CommonUtils;
@@ -318,6 +319,9 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         }
 
         setContentView(R.layout.activity_new_homepage);
+
+
+        startService(new Intent(HomeDashBoard.this, Autotimezone.class));
         pDialog = new ProgressDialog(this);
       //  mBroadcastManager = LocalBroadcastManager.getInstance(this);
 
@@ -328,8 +332,6 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             tab="training";
         }
 //          checkingPermissionsNew();
-
-
 
         CommonUtilsMethods = new CommonUtilsMethods(this);
         dbh = new DataBaseHandler(this);
@@ -370,7 +372,6 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 //        tv_calls.setText(resources.getString(R.string.calls));
 //        tv_presentation.setText(resources.getString(R.string.presentation));
 //        tv_reports.setText(resources.getString(R.string.report));
-
 
         digital=mCommonSharedPreference.getValueFromPreference("Digital_offline");
         Intent intent=getIntent();
@@ -1560,9 +1561,12 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.v("here_printg_destroy", "method_are_called");
-        // unregisterReceiver();
-
+        try {
+            trimCache(this);
+            freeMemory();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void registerReceiver() {
@@ -1601,7 +1605,6 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             ImageView imageView = v.findViewById(R.id.tick);
             ImageView downloadimg = v.findViewById(R.id.download);
 
-
             if (file.getSync().equalsIgnoreCase("1")) {
                 bar.getProgressDrawable().setColorFilter(Color.GREEN, android.graphics.PorterDuff.Mode.SRC_IN);
                 bar.setProgress(100);
@@ -1620,7 +1623,6 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                         files1.clear();
                         files1.add(new File1(file.getUrl(), "0"));
                         downloadimg.setVisibility(View.GONE);
-
                         tv_progress.setText("");
                         tv_filesize.setText("");
                         new DownloadFileFromURL().execute(file.getUrl(), String.valueOf(position));
@@ -1814,6 +1816,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                         dwnloadsize = dwnloadsize + 1;
                         if (dwnloadsize == n) {
                             if( list1.size()==0) {
+                                Toast.makeText(this, getResources().getString(R.string.slidecomplete), Toast.LENGTH_SHORT).show();
                                 closeactivity();
                             }
                         }
@@ -4845,5 +4848,41 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
 
     }
+    @Override
+    protected void onStop(){
+        super.onStop();
+    }
 
+    //Fires after the OnStop() state
+
+    public static void trimCache(Context context) {
+        try {
+            File dir = context.getCacheDir();
+            deleteDir(dir);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+            return dir.delete();
+        }
+        else {
+            return false;
+        }
+    }
+    public void freeMemory(){
+        System.runFinalization();
+        Runtime.getRuntime().gc();
+        System.gc();
+    }
 }
+

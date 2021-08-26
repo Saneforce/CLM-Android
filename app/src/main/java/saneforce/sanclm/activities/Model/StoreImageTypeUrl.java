@@ -15,6 +15,7 @@ public class StoreImageTypeUrl {
     int columnid;
     File ffile;
     String rating;
+    String prodcode;
     public StoreImageTypeUrl(String slideNam, String slideTyp, String slideUrl,String brdName,String timing) {
         this.slideNam = slideNam;
         this.slideTyp = slideTyp;
@@ -67,7 +68,16 @@ public class StoreImageTypeUrl {
         this.columnid=columnid;
         this.rating=rating;
     }
-    public StoreImageTypeUrl(String slideNam, String slideTyp, String slideUrl,String timing,String slideFeed,String remTime,String brdName,boolean xx) {
+
+    public String getProdcode() {
+        return prodcode;
+    }
+
+    public void setProdcode(String prodcode) {
+        this.prodcode = prodcode;
+    }
+
+    public StoreImageTypeUrl(String slideNam, String slideTyp, String slideUrl, String timing, String slideFeed, String remTime, String brdName, boolean xx, String prodcode) {
         this.slideNam = slideNam;
         this.slideTyp = slideTyp;
         this.slideUrl = slideUrl;
@@ -75,6 +85,7 @@ public class StoreImageTypeUrl {
         this.slideFeed=slideFeed;
         this.remTime=remTime;
         this.brdName=brdName;
+        this.prodcode=prodcode;
     }
     public StoreImageTypeUrl(String slideNam, String slideTyp, String slideUrl,String timing,String slideid,String brdName,String brdCode) {
         this.slideNam = slideNam;

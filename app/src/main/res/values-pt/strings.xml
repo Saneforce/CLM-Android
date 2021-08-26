@@ -449,8 +449,7 @@
     <string name="Template">Modelo</string>
     <string name="SelectTemplate">Selecione o modelo</string>
     <string name="Feedback">Comentários</string>
-        <string name="NonFieldcall">Incapaz de enviar chamadas para trabalho não de campo</string>
-
-
-
+    <string name="NonFieldcall">Incapaz de enviar chamadas para trabalho não de campo</string>
+    <string name="slidecomplete"> Slides baixados com sucesso</string>
+    <string name="timezoneon">Ative a data e hora automáticas nas configurações.</string>
 </resources>
