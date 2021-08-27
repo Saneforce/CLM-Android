@@ -723,6 +723,24 @@ public class CallFragment extends Fragment {
                             else
                                 mCommonSharedPreference.setValueToPreference("undr_hs_nd", "");
 
+                            if(js.has("PresentNd")){
+                                mCommonSharedPreference.setValueToPreference("PresentNd", js.getString("PresentNd"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("PresentNd", "");
+
+                            if(js.has("CustNd")){
+                                mCommonSharedPreference.setValueToPreference("CustNd", js.getString("CustNd"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("CustNd", "");
+
+                            if(js.has("yetrdy_call_del_Nd")){
+                                mCommonSharedPreference.setValueToPreference("yetrdy_call_del_Nd", js.getString("yetrdy_call_del_Nd"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("yetrdy_call_del_Nd", "");
+
                         } catch (Exception e) {
                         }
                     }

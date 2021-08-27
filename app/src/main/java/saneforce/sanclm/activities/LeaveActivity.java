@@ -344,10 +344,10 @@ public class LeaveActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               for (int i = 0; i < arrAva.size(); i++) {
-                    if (!txt_day.getText().toString().isEmpty()) {
-                        if(arrAva.get(i).getBrdName().equalsIgnoreCase(leaveType)) {
-                            if (Integer.parseInt(arrAva.get(i).getTiming()) >= Integer.parseInt(txt_day.getText().toString())) {
+//               for (int i = 0; i < arrAva.size(); i++) {
+//                    if (!txt_day.getText().toString().isEmpty()) {
+//                        if(arrAva.get(i).getBrdName().equalsIgnoreCase(leaveType)) {
+//                            if (Integer.parseInt(arrAva.get(i).getTiming()) >= Integer.parseInt(txt_day.getText().toString())) {
                                 svjson = new JSONObject();
 
                                 try {
@@ -473,13 +473,13 @@ public class LeaveActivity extends AppCompatActivity {
                                 } catch (Exception e) {
 
                                 }
-                            }
-                            else {
-                                Toast.makeText(LeaveActivity.this, "Your Not eligible to apply " + leaveType + " for " + txt_day.getText().toString() + " days", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }
-                }
+//                            }
+//                            else {
+//                                Toast.makeText(LeaveActivity.this, "Your Not eligible to apply " + leaveType + " for " + txt_day.getText().toString() + " days", Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//                    }
+//                }
 
             }
         });

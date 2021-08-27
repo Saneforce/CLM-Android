@@ -540,6 +540,7 @@ public class DynamicActivity extends AppCompatActivity {
 
 
                         } catch (Exception e) {
+                            progressDialog.dismiss();
                         }
 
                     }
@@ -547,7 +548,7 @@ public class DynamicActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                    progressDialog.dismiss();
                 }
             });
 

@@ -243,6 +243,7 @@ public class DemoActivity extends AppCompatActivity {
         nxt_mnth=(ImageView)findViewById(R.id.nxt_mnth);
         CommonUtilsMethods = new CommonUtilsMethods(this);
         marker_progress=(ProgressBar)findViewById(R.id.marker_progress);
+        marker_progress.setClickable(false);
         /*btn_send.getBackground().setAlpha(225);*/
         /*btn1=(Button)findViewById(R.id.btn1);
         btn2=(Button)findViewById(R.id.btn2);
@@ -1472,6 +1473,7 @@ public class DemoActivity extends AppCompatActivity {
             dayCaldumm();
             Log.v("jsonObject1",jsonObject1.toString());
             loadData(mCommonSharedPreference.getValueFromPreference("subsf"));
+           // current_mnth.setVisibility(View.INVISIBLE);
             marker_progress.setVisibility(View.VISIBLE);
             if(CommonUtilsMethods.isOnline(DemoActivity.this)){
                   retrieveOldDatas(mCommonSharedPreference.getValueFromPreference("approve"),currentMn);
@@ -3572,7 +3574,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
             //enableDisableSubmitButton();
            // }
             marker_progress.setVisibility(View.GONE);
-            button_hide();
+                button_hide();
             /*jj.put("SF",SF_Code);
             jj.put("SFName",sfname);
             jj.put("DivCode",div);
@@ -3691,6 +3693,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
             jso2.put("Month",currentMnthNum);
             jso2.put("Year",currentyr);
             Log.v("retrieve_old",jso2.toString());
+            current_mnth.setVisibility(View.INVISIBLE);
             marker_progress.setVisibility(View.VISIBLE);
             Log.v("retrievemnth",mnth);
             retrieveOldDatas(jso2.toString(),mnth);
@@ -3733,6 +3736,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
     }
 
     public void sendingOfflineTpData(int x){
+        //current_mnth.setVisibility(View.INVISIBLE);
         marker_progress.setVisibility(View.VISIBLE);
         try {
             JSONArray jsA = jsonObject1.getJSONArray("TPDatas");
@@ -4121,17 +4125,24 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
     }
 
     public void button_hide(){
-        if((!curr_but)&&(!nxt_but)) {
+         if(!mCommonSharedPreference.getValueFromPreference("approve").equalsIgnoreCase("null"))
+         {
+             current_mnth.setVisibility(View.INVISIBLE);
+             nxt_mnth.setVisibility(View.INVISIBLE);
 
-        }else{
-            if (curr_but) {
-                current_mnth.setVisibility(View.INVISIBLE);
-                nxt_mnth.setVisibility(View.VISIBLE);
-            } else {
-                current_mnth.setVisibility(View.VISIBLE);
-                nxt_mnth.setVisibility(View.INVISIBLE);
-            }
-        }
+         }else {
+             if ((!curr_but) && (!nxt_but)) {
+                 current_mnth.setVisibility(View.VISIBLE);
+             } else {
+                 if (curr_but) {
+                     current_mnth.setVisibility(View.INVISIBLE);
+                     nxt_mnth.setVisibility(View.VISIBLE);
+                 } else {
+                     current_mnth.setVisibility(View.VISIBLE);
+                     nxt_mnth.setVisibility(View.INVISIBLE);
+                 }
+             }
+         }
 
     }
 

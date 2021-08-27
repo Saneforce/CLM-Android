@@ -381,7 +381,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         JSONObject map=new JSONObject();
                         map.put("name", userName);
                         map.put("password", passWord);
-                        map.put("Appver", "V1.8.8");
+                        map.put("Appver", "V1.9");
                         map.put("Mod", "Edet");
                         map.put("dev_id", token_val);
                          Log.v("database_url",db_pathUrl.substring(0,db_pathUrl.lastIndexOf("/")+1));

@@ -66,6 +66,7 @@ public class DownloadMasters extends IntentService {
     JSONObject obj = new JSONObject();
     static ManagerListLoading managerListLoading;
     CommonSharedPreference commonSharedPreference;
+    String slideid="";
 
 
     public DownloadMasters(Context context, String db_connPath, String db_slidedwnloadPath, String sfCode, String mrcode) {
@@ -240,12 +241,25 @@ public class DownloadMasters extends IntentService {
             if (response.isSuccessful()) {
                 try {
                     dbh.open();
-                    dbh.del_slide();
+
+                    //dbh.del_slide();
+
                     dbh.del_sep();
 
                     dbh.del_therap();
 
+                    String bndcode="";
+
                     Cursor cu = dbh.select_slidesUrlPathDuplicate();
+                    if(cu.getCount()>0){
+                        while (cu.moveToNext()){
+                            bndcode+=cu.getString(1)+";";
+                            Log.v("brnd>>",bndcode);
+                        }
+
+                    }
+
+
                     Log.d("countslide", "" + cu.getCount());
                     List<SlidesList> slideslist = response.body();
                     Log.v("slide_counttt", String.valueOf(slideslist.size()));
@@ -262,6 +276,7 @@ public class DownloadMasters extends IntentService {
 
                     }
                     for (int i = 0; i < slideslist.size(); i++) {
+                        slideid+=slideslist.get(i).getSlideId()+";";
                         Log.v("Background_Services", String.valueOf(i));
                         String slideId = slideslist.get(i).getSlideId();
                         String pdtBrdCd = slideslist.get(i).getCode();
@@ -275,8 +290,12 @@ public class DownloadMasters extends IntentService {
                         String Camp = slideslist.get(i).getCamp();
                         int OrdNo = slideslist.get(i).getOrdNo();
                         Log.v("printing_insert_File", specCd + "prdCode" + pdtCd);
-                        dbh.insert_slideList(slideId, pdtBrdCd, pdtBrdNm, pdtCd, filePath, filetyp, specCd, catCd, Grp, Camp, OrdNo);
+                        //dbh.insert_slideList(slideId, pdtBrdCd, pdtBrdNm, pdtCd, filePath, filetyp, specCd, catCd, Grp, Camp, OrdNo);
+                        if(bndcode.contains(slideId)){
 
+                        }else {
+                            dbh.insert_slideList(slideId, pdtBrdCd, pdtBrdNm, pdtCd, filePath, filetyp, specCd, catCd, Grp, Camp, OrdNo);
+                        }
 
                         Log.v("Background_Details", filePath);
                         Log.v("Background_Details", pdtBrdCd);
@@ -284,6 +303,19 @@ public class DownloadMasters extends IntentService {
 
 
                     }
+                    Cursor cu1 = dbh.select_slidesUrlPathDuplicate();
+                    String slideId="";
+                    if(cu1.getCount()>0){
+                        while (cu1.moveToNext()){
+                            slideId=cu1.getString(1);
+                            if (!slideid.contains(slideId)) {
+                                dbh.del_slidenew(slideId);
+
+                            }
+                        }
+
+                    }
+
                     spesList();
                     therapticList();
 

@@ -293,6 +293,15 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
             laty= Double.parseDouble(shares.getString("lat","0.0"));
             lngy= Double.parseDouble(shares.getString("lng","0.0"));
             Log.v("Dr_selection_key",laty+" lngy "+lngy);
+            if(String.valueOf(laty).equals("0.0") && String.valueOf(lngy).equals("0.0"))
+            {
+                if(CurrentLoc())
+                {
+                    laty=mGPSTrack.getLatitude();
+                    lngy=mGPSTrack.getLongitude();
+                    Log.v("Dr_selection_key",laty+" lngy "+lngy);
+                }
+            }
         }
 
       /*  SharedPreferences shares=getActivity().getSharedPreferences("location",0);
@@ -1225,10 +1234,10 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
     public boolean CurrentLoc(){
 
         mGPSTrack=new GPSTrack(getActivity());
-        if(mGPSTrack.getLatitude()==0.0){
+        //if(mGPSTrack.getLatitude()==0.0){
             CheckLocation();
-            CurrentLoc();
-        }
+           // CurrentLoc();
+       // }
         return true;
     }
 

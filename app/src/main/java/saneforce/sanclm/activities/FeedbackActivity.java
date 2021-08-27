@@ -90,6 +90,7 @@ import saneforce.sanclm.adapter_class.FeedProductAdapter;
 import saneforce.sanclm.adapter_class.PopupAdapter;
 import saneforce.sanclm.api_Interface.Api_Interface;
 import saneforce.sanclm.api_Interface.RetroClient;
+import saneforce.sanclm.applicationCommonFiles.Autotimezone;
 import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
 import saneforce.sanclm.applicationCommonFiles.CommonUtils;
 import saneforce.sanclm.applicationCommonFiles.CommonUtilsMethods;
@@ -97,6 +98,7 @@ import saneforce.sanclm.applicationCommonFiles.ImageFilePath;
 import saneforce.sanclm.applicationCommonFiles.LocationTrack;
 import saneforce.sanclm.fragments.LocaleHelper;
 import saneforce.sanclm.sqlite.DataBaseHandler;
+import saneforce.sanclm.util.NetworkReceiver;
 
 import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
 import static saneforce.sanclm.fragments.AppConfiguration.language_string;
@@ -206,7 +208,7 @@ public class FeedbackActivity extends AppCompatActivity {
         custype=extra.getString("custype",null);
 //        Log.v("options>>>>", custype);
 
-
+        startService(new Intent(FeedbackActivity.this, Autotimezone.class));
 
         listView_feed_product = (ListView) findViewById(R.id.listView_feed_product);
         listView_feed_input = (ListView) findViewById(R.id.listView_feed_input);
@@ -229,7 +231,7 @@ public class FeedbackActivity extends AppCompatActivity {
         sign_canva = (SignatureCanva) findViewById(R.id.sign_canva);
         ll_feed_prd2 = (LinearLayout) findViewById(R.id.ll_feed_prd2);
         ll_feed_prd = (LinearLayout) findViewById(R.id.ll_feed_prd);
-        txt_sign = (TextView) findViewById(R.id.txt_sign);
+     //   txt_sign = (TextView) findViewById(R.id.txt_sign);
         img_capture = findViewById(R.id.img_capture);
         addcalllayout=findViewById(R.id.addcallLayout);
         availLayout=findViewById(R.id.availLayout);
@@ -238,14 +240,14 @@ public class FeedbackActivity extends AppCompatActivity {
         txt_stockist1 = (TextView) findViewById(R.id.txt_stockist1);
         ll_stkname = (LinearLayout) findViewById(R.id.ll_stockname);
         ll_stkname1 = (LinearLayout) findViewById(R.id.ll_stkname1);
-//        txt_signature=findViewById(R.id.txt_sign);
-//        txt_signature.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                PopupSignature();
-//
-//            }
-//        });
+        txt_signature=findViewById(R.id.txt_sign);
+        txt_signature.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupSignature();
+
+            }
+        });
 
 
         mCommonSharedPreference = new CommonSharedPreference(FeedbackActivity.this);
@@ -822,6 +824,7 @@ public class FeedbackActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                startService(new Intent(FeedbackActivity.this, Autotimezone.class));
                 boolean checkPer = false;
                 if (mCommonSharedPreference.getValueFromPreference("GpsFilter").equalsIgnoreCase("0")) {
                     if (CheckPermission()) {
@@ -832,11 +835,11 @@ public class FeedbackActivity extends AppCompatActivity {
                     checkPer = true;
                 }
                 if (checkPer) {
-                    sign_canva.checkingForSign();
-                    try {
-                        signPath = captureCanvasScreen(sign_lay);
-                    } catch (Exception e) {
-                    }
+//                    sign_canvanew.checkingForSign();
+//                    try {
+//                        signPath = captureCanvasScreen(sign_laynew);
+//                    } catch (Exception e) {
+//                    }
                     dbFunctionToSave();
                     String finalValue = mCommonSharedPreference.getValueFromPreference("jsonsave");
                     Log.v("final_value_draft", finalValue);
@@ -878,7 +881,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
                         if (mCommonSharedPreference.getValueFromPreference("DrSmpQMd").equals("1") && peopleType.equalsIgnoreCase("D")) {
                             for (int jj = 0; jj < listFeedPrd.size(); jj++) {
-                                if(listFeedPrd.get(jj).getSt_end_time().equals("00:00:00 00:00:00")) {
+                                if (listFeedPrd.get(jj).getSt_end_time().equals("00:00:00 00:00:00")) {
                                     String rxqty = listFeedPrd.get(jj).getSample();
                                     if (rxqty.equalsIgnoreCase("")) {
                                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.entr_sample_val), Toast.LENGTH_LONG).show();
@@ -929,69 +932,74 @@ public class FeedbackActivity extends AppCompatActivity {
 
                             }
                         }
-
                         finalSubmission(finalValue);
 
                     } else {
-                        Calendar calander = Calendar.getInstance();
-                        SimpleDateFormat sdf = new SimpleDateFormat("d/M/yyyy hh:mm:ss");
-                        String d = null;
-                        try {
-                            d = sdf.format(calander.getTime());
-                            Log.v("date_value_conver", d + " ");
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                        if (mCommonSharedPreference.getValueFromPreference("DrInpMd").equals("1") && peopleType.equalsIgnoreCase("D")) {
-                            if (input_array.size() < 1) {
-                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.sclt_input), Toast.LENGTH_LONG).show();
-                                return;
+                        if (mCommonSharedPreference.getValueFromPreference("yetrdy_call_del_Nd").equalsIgnoreCase("0")) {
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.offline), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Calendar calander = Calendar.getInstance();
+                            SimpleDateFormat sdf = new SimpleDateFormat("d/M/yyyy hh:mm:ss");
+                            String d = null;
+                            try {
+                                d = sdf.format(calander.getTime());
+                                Log.v("date_value_conver", d + " ");
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                            for (int jj = 0; jj < input_array.size(); jj++) {
-                                String inputName = input_array.get(jj).getInputName();
-                                String inputQty = input_array.get(jj).getIqty();
 
-                                if (inputName.equalsIgnoreCase("") && inputQty.equalsIgnoreCase("")) {
-                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.entr_input_val), Toast.LENGTH_LONG).show();
+                            if (mCommonSharedPreference.getValueFromPreference("DrInpMd").equals("1") && peopleType.equalsIgnoreCase("D")) {
+                                if (input_array.size() < 1) {
+
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.sclt_input), Toast.LENGTH_LONG).show();
                                     return;
+                                }
+                                for (int jj = 0; jj < input_array.size(); jj++) {
+                                    String inputName = input_array.get(jj).getInputName();
+                                    String inputQty = input_array.get(jj).getIqty();
+
+                                    if (inputName.equalsIgnoreCase("") && inputQty.equalsIgnoreCase("")) {
+                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.entr_input_val), Toast.LENGTH_LONG).show();
+                                        return;
+                                    }
+                                }
+
+                            }
+                            if (mCommonSharedPreference.getValueFromPreference("RcpaNd").equals("1") && peopleType.equalsIgnoreCase("D") && workType.equalsIgnoreCase("Field Work")) {
+                                String rcpa = mCommonSharedPreference.getValueFromPreference("jsonarray");
+                                if (rcpa.equalsIgnoreCase("")) {
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.entr_rcpa_val), Toast.LENGTH_LONG).show();
+                                    return;
+
                                 }
                             }
 
-                        }
-                        if (mCommonSharedPreference.getValueFromPreference("RcpaNd").equals("1") && peopleType.equalsIgnoreCase("D") && workType.equalsIgnoreCase("Field Work")) {
-                            String rcpa = mCommonSharedPreference.getValueFromPreference("jsonarray");
-                            if (rcpa.equalsIgnoreCase("")) {
-                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.entr_rcpa_val), Toast.LENGTH_LONG).show();
+                            dbh.open();
+                            dbh.deleteFeed();
+                            dbh.delete_groupName("customised");
+                            dbh.delete_json(colId);
+                            mCommonSharedPreference.setValueToPreference("slide_feed", "[]");
+
+                            if (txt_name.getText().toString().equalsIgnoreCase("DocName") || txt_name.getText().toString().equalsIgnoreCase("")) {
+                                Log.v("DocName", txt_name.toString());
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.invalid_cus), Toast.LENGTH_LONG).show();
                                 return;
-
+                            } else {
+                                dbh.insertJson(String.valueOf(finalValue), txt_name.getText().toString() + "_s_ync", String.valueOf(d), peopleCode, peopleType, commonSFCode);
+                                Intent i = new Intent(FeedbackActivity.this, HomeDashBoard.class);
+                                startActivity(i);
                             }
-                        }
 
+                        }
+                    }
+                        //if(feedOption.equalsIgnoreCase("edit"))
                         dbh.open();
                         dbh.deleteFeed();
                         dbh.delete_groupName("customised");
                         dbh.delete_json(colId);
+                        dbh.close();
                         mCommonSharedPreference.setValueToPreference("slide_feed", "[]");
 
-                        if (txt_name.getText().toString().equalsIgnoreCase("DocName")||txt_name.getText().toString().equalsIgnoreCase("")) {
-                            Log.v("DocName", txt_name.toString());
-                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.invalid_cus), Toast.LENGTH_LONG).show();
-                            return;
-                        } else {
-                            dbh.insertJson(String.valueOf(finalValue), txt_name.getText().toString() + "_s_ync", String.valueOf(d), peopleCode, peopleType, commonSFCode);
-                            Intent i = new Intent(FeedbackActivity.this, HomeDashBoard.class);
-                            startActivity(i);
-                        }
-
-                    }
-                    //if(feedOption.equalsIgnoreCase("edit"))
-                    dbh.open();
-                    dbh.deleteFeed();
-                    dbh.delete_groupName("customised");
-                    dbh.delete_json(colId);
-                    dbh.close();
-                    mCommonSharedPreference.setValueToPreference("slide_feed", "[]");
                 }
             }
         });
@@ -1219,7 +1227,7 @@ public class FeedbackActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    signPath = captureCanvasScreen(sign_lay);
+                    signPath = captureCanvasScreen(sign_laynew);
                 } catch (Exception e) {
                 }
                 dbFunctionToSave();
@@ -1699,7 +1707,7 @@ public class FeedbackActivity extends AppCompatActivity {
                                     json_date.put("sTm", listFeedPrd.get(i).getDate() + " " + listFeedPrd.get(i).getSt_end_time().substring(0, (listFeedPrd.get(i).getSt_end_time().indexOf(" "))));
                                     json_date.put("eTm", listFeedPrd.get(i).getDate() + " " + listFeedPrd.get(i).getSt_end_time().substring((listFeedPrd.get(i).getSt_end_time().indexOf(" ")) + 1));
                                     json_joint.put("Timesline", json_date);
-                                    json_joint.put("Appver","V1.8.8");
+                                    json_joint.put("Appver","V1.9");
                                     json_joint.put("Mod", "Edet");
                                     json_joint.put("SmpQty", listFeedPrd.get(i).getSample());
                                     if (val_pob.contains(peopleType))
@@ -2176,10 +2184,12 @@ public class FeedbackActivity extends AppCompatActivity {
             listView_feed_input.setAdapter(feedInputAdapter);
             feedInputAdapter.notifyDataSetChanged();
 
-            JSONArray jsonBrnd = json.getJSONArray("RCPAEntry");
-            Log.v("jsonBrnd_val", String.valueOf(jsonBrnd));
-            jsonBrandValue = String.valueOf(jsonBrnd);
-            mCommonSharedPreference.setValueToPreference("jsonarray", jsonBrnd.toString());
+            if(json.has("RCPAEntry")) {
+                JSONArray jsonBrnd = json.getJSONArray("RCPAEntry");
+                Log.v("jsonBrnd_val", String.valueOf(jsonBrnd));
+                jsonBrandValue = String.valueOf(jsonBrnd);
+                mCommonSharedPreference.setValueToPreference("jsonarray", jsonBrnd.toString());
+            }
 
             signPath = json.getString("sign_path");
             Log.v("sign_paths_fou", baseurl + signPath);
@@ -2188,7 +2198,8 @@ public class FeedbackActivity extends AppCompatActivity {
                     new DownloadingImage(baseurl + signPath).execute();
                 } else {
                     Drawable d = Drawable.createFromPath(signPath);
-                    sign_lay.setBackground(d);
+                    //sign_lay.setBackground(d);
+                    sign_laynew.setBackground(d);
                 }
             }
 
@@ -2327,7 +2338,7 @@ public class FeedbackActivity extends AppCompatActivity {
     }
 
     public String captureCanvasScreen(View layBg) {
-        txt_sign.setText("");
+      //  txt_sign.setText("");
         View content = layBg;
         content.setDrawingCacheEnabled(true);
         content.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
@@ -2352,7 +2363,9 @@ public class FeedbackActivity extends AppCompatActivity {
     }
 
     public static void clearLay() {
-        sign_lay.setBackgroundResource(0);
+        //sign_lay.setBackgroundResource(0);
+        sign_laynew.setBackgroundResource(0);
+
     }
 
 
@@ -2483,7 +2496,8 @@ public class FeedbackActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             Log.v("singanga_path", signPath);
             Drawable d = Drawable.createFromPath(signPath);
-            sign_lay.setBackground(d);
+            //sign_lay.setBackground(d);
+             sign_laynew.setBackground(d);
         }
     }
 
@@ -2510,7 +2524,8 @@ public class FeedbackActivity extends AppCompatActivity {
 
         protected void onPostExecute(Bitmap result) {
             Drawable d = new BitmapDrawable(getResources(), result);
-            sign_lay.setBackground(d);
+            //sign_lay.setBackground(d);
+              sign_laynew.setBackground(d);
             Log.v("finally_we_update", "imagesss");
             //saveImage(getApplicationContext(), result, "my_image.png");
 

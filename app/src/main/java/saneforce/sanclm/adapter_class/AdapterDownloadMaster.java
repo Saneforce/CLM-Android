@@ -163,29 +163,29 @@ public class AdapterDownloadMaster extends BaseAdapter {
                 }).start();
 */
                 dwnloadMasterData = new DownloadMasters(context, db_connPath, db_slidedwnloadPath, SF_Code, 8);
-                switch (i) {
-                    case 0:
+                switch (array.get(i).getRefname()) {
+                    case "worktype":
                         dwnloadMasterData.wrkkList();
                         share_value = "work";
                         txt_count.setText("(0)");
                         break;
-                    case 1:
+                    case "hq":
                         dwnloadMasterData.hqqList();
                         share_value = "hq";
                         break;
-                    case 2:
+                    case "competitors":
                         dwnloadMasterData.copList();
                         share_value = "comp";
                         break;
-                    case 3:
+                    case "inputs":
                         dwnloadMasterData.ipList();
                         share_value = "inputs";
                         break;
-                    case 4:
+                    case "products":
                         dwnloadMasterData.prdList();
                         share_value = "prd";
                         break;
-                    case 5:
+                    case "slides":
                       /*  Log.v("SLIDER_LIST", slideslist.toString());
                         Log.v("SLIDER_LIST", "SLIDE_LIST");
                  *//*       dwnloadMasterData.slideeList();*/
@@ -200,90 +200,90 @@ public class AdapterDownloadMaster extends BaseAdapter {
                         share_value = "slide";
 
                         break;
-                    case 6:
+                    case "brands":
                         dwnloadMasterData.brdList();
                         share_value = "Brands";
                         break;
-                    case 7:
+                    case "departments":
                         dwnloadMasterData.deppList();
                         share_value = "Departments";
                         break;
-                    case 8:
+                    case "speciality":
                         dwnloadMasterData.spesList();
                         share_value = "Speciality";
                         break;
-                    case 9:
+                    case "category":
                         dwnloadMasterData.categoryList();
                         share_value = "Category";
                         break;
-                    case 10:
+                    case "qualification":
                         dwnloadMasterData.QuaList();
                         share_value = "Qualifications";
                         break;
-                    case 11:
+                    case "class":
                         dwnloadMasterData.clsList();
                         share_value = "Class";
                         break;
-                    case 12:
+                    case "types":
                         dwnloadMasterData.typeeList();
                         share_value = "Types";
                         break;
-                    case 15:
+                    case "theraptic":
                         dwnloadMasterData.therapticList();
                         share_value = "theraptic";
                         break;
-                    case 16:
+                    case "cluster":
                         dwnloadMasterData = new DownloadMasters(context, db_connPath, db_slidedwnloadPath, DownloadMasterData.sfCoding, 8, SF_Code);
                         dwnloadMasterData.terrList();
                         share_value = "teri";
                         break;
-                    case 17:
+                    case "doctor":
                         Log.v("doctor_listtttt", "printinggg");
                         dwnloadMasterData = new DownloadMasters(context, db_connPath, db_slidedwnloadPath, DownloadMasterData.sfCoding, 8, SF_Code);
                         dwnloadMasterData.drList();
                         share_value = "dr";
                         txt_count.setText("(0)");
                         break;
-                    case 18:
+                    case "chemist":
                         dwnloadMasterData = new DownloadMasters(context, db_connPath, db_slidedwnloadPath, DownloadMasterData.sfCoding, 8, SF_Code);
                         dwnloadMasterData.chemsList();
                         share_value = "chem";
                         txt_count.setText("(0)");
                         break;
-                    case 19:
+                    case "stockist":
                         dwnloadMasterData = new DownloadMasters(context, db_connPath, db_slidedwnloadPath, DownloadMasterData.sfCoding, 8, SF_Code);
                         dwnloadMasterData.stckList();
                         share_value = "stock";
                         txt_count.setText("(0)");
                         break;
-                    case 20:
+                    case "unlisteddoctor":
                         dwnloadMasterData = new DownloadMasters(context, db_connPath, db_slidedwnloadPath, DownloadMasterData.sfCoding, 8, SF_Code);
                         dwnloadMasterData.unDrList();
                         share_value = "undr";
                         txt_count.setText("(0)");
                         break;
-                    case 21:
+                    case "jointwork":
                         dwnloadMasterData = new DownloadMasters(context, db_connPath, db_slidedwnloadPath, DownloadMasterData.sfCoding, 8, SF_Code);
                         dwnloadMasterData.jointtList();
                         share_value = "join";
                         txt_count.setText("(0)");
                         break;
 
-                    case 22:
+                    case "cip":
                         dwnloadMasterData = new DownloadMasters(context, db_connPath, db_slidedwnloadPath, DownloadMasterData.sfCoding, 8, SF_Code);
                         dwnloadMasterData.CipList();
                         share_value = "cip";
                         txt_count.setText("(0)");
                         break;
 
-                    case 23:
+                    case "hospital":
                         dwnloadMasterData = new DownloadMasters(context, db_connPath, db_slidedwnloadPath, DownloadMasterData.sfCoding, 8, SF_Code);
                         dwnloadMasterData.HosList();
                         share_value = "hos";
                         txt_count.setText("(0)");
                         break;
 
-                    case 24:
+                    case "24":
                         dwnloadMasterData.NewcopList();
                         share_value = "Newcomp";
                         break;

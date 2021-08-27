@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#fff">
+    <RelativeLayout
+        android:id="@+id/rl_popup_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/shape_login_button">
+
+        <TextView
+            android:id="@+id/tv_todayplan_popup_head"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_semibold"
+            android:gravity="center|left"
+            android:paddingLeft="15dp"
+            android:text="@string/signature"
+            android:textAllCaps="true"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            android:typeface="serif"
+            android:layout_centerVertical="true"
+            />
+
+        <ImageView
+            android:id="@+id/iv_close_popup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            app:srcCompat="@mipmap/close_btn" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_marginTop="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/sign_lay">
+        <saneforce.sanclm.activities.SignatureCanva
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/sign_canva">
+
+        </saneforce.sanclm.activities.SignatureCanva>
+
+
+    </RelativeLayout>
+</RelativeLayout>

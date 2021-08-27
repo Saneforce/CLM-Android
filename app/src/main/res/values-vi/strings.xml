@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SAN CLM</string>
-    <string name="app_version">Version 1.8.8</string>
+    <string name="app_version">Version 1.9</string>
 
     <string name="preference_name">saneforce.sanclm.preferencefile</string>
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
@@ -476,5 +476,8 @@
     <string name="chem">Nhà hóa học</string>
     <string name="stockist">Người dự trữ</string>
     <string name="unlisted_dr">Tiến sĩ không công khai.</string>
+
+    <string name="autotime">Bật Ngày và Giờ Tự động trong Cài đặt</string>
+    <string name="slides_download">Các trang trình bày được tải xuống thành công</string>
 
 </resources>

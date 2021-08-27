@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SAN CLM</string>
-    <string name="app_version">Version 1.8.8</string>
+    <string name="app_version">Version 1.9</string>
 
     <string name="preference_name">saneforce.sanclm.preferencefile</string>
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
@@ -477,4 +477,6 @@
     <string name="stockist">批发商</string>
     <string name="unlisted_dr">未上市博士.</string>
 
+    <string name="autotime">在設置中打開自動日期和時間。</string>
+    <string name="slides_download">幻燈片下載成功</string>
 </resources>

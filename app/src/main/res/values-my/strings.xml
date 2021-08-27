@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SAN CLM</string>
-    <string name="app_version">Version 1.8.8</string>
+    <string name="app_version">Version 1.9</string>
 
     <string name="preference_name">saneforce.sanclm.preferencefile</string>
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
@@ -15,7 +15,7 @@
 
     <string name="tab_option_listeddr">ဆရာဝန်</string>
     <string name="tab_option_chemist">ဓာတုဗေဒပညာရှင်</string>
-    <string name="tab_option_stockist">STOCKIST</string>
+    <string name="tab_option_stockist">စတော့ရှယ်ယာရောင်းသူ</string>
     <string name="tab_option_unlisteddr">စာရင်းမသွင်းထားသောဆရာဝန်</string>
     <string name="title_activity_main">အဓိကလှုပ်ရှားမှု</string>
     <string name="section_format">ကဏ္fromမှကမ္ဘာ့မင်္ဂလာပါ: %1$d</string>
@@ -145,7 +145,7 @@
     <string name="summary">အကျဉ်းချုပ်</string>
 
     <string name="totaldoc">စုစုပေါင်းဆရာဝန်</string>
-    <string name="missedcall">Missed ခေါ်ဆိုမှု</string>
+    <string name="missedcall">လွတ်သွားတယ် ခေါ်ဆိုမှု</string>
     <string name="docmet">ဆရာဝန်နဲ့တွေ့တယ်</string>
     <string name="docseen">ဆရာဝန်တွေ့ပြီ</string>
     <string name="fieldday">လယ်ကွင်းလုပ်ငန်းနေ့များ</string>
@@ -201,8 +201,8 @@
     <string name="lto">ရန်</string>
     <string name="reason">ထွက်ခွာရန်အကြောင်းပြချက်</string>
     <string name="nodays">ရက်အရေအတွက်</string>
-    <string name="leavetype">Leave အမျိုးအစား</string>
-    <string name="addrs_leave">Leave အပေါ်လိပ်စာ</string>
+    <string name="leavetype">ထားခဲ့ အမျိုးအစား</string>
+    <string name="addrs_leave">ထားခဲ့ အပေါ်လိပ်စာ</string>
     <string name="eligible">အကျုံးဝင်သည်</string>
     <string name="taken">ယူ</string>
     <string name="available">ရရှိနိုင်</string>
@@ -223,7 +223,7 @@
     <string name="nerme">Near Me</string>
     <string name="addrss">လိပ်စာ</string>
     <string name="tag">တဂ်</string>
-    <string name="refresh">Refresh</string>
+    <string name="refresh">ြန်လည်စတင်ပါ</string>
     <string name="findroute">လမ်းကြောင်းရှာပါ</string>
     <string name="visit">အလည်အပတ်</string>
     <string name="cutomer">ဖောက်သည်</string>
@@ -232,7 +232,7 @@
     <string name="pr_mnth">ပြီးခဲ့သည့်လ</string>
     <string name="custmz">စိတ်ကြိုက်ပြုလုပ်ပါ</string>
     <string name="nm_cust">သုံးစွဲသူ၏အမည်</string>
-    <string name="nm_ffc">FieldForce အမည်</string>
+    <string name="nm_ffc">လယ်ကွင်းအင်အား အမည်</string>
     <string name="type">အမျိုးအစား</string>
     <string name="territory">နယ်မြေ</string>
     <string name="detail_count">အသေးစိတ်အရေအတွက်</string>
@@ -240,7 +240,7 @@
     <string name="detail_graph1">ထိပ်ဆုံး ၅ ခု</string>
     <string name="detail_graph2">ထိပ်ဆုံး ၅ အချိန်အသေးစိတ်</string>
     <string name="filter">စစ်ထုတ်သည်</string>
-    <string name="fieldforce">Field Force</string>
+    <string name="fieldforce">လယ်ကွင်းအင်အား</string>
     <string name="selct">ရွေးချယ်ပါ</string>
     <string name="old_pass">စကားဝှက်အဟောင်း</string>
     <string name="new_pass">စကားဝှကိအသစ်</string>
@@ -376,7 +376,7 @@
     <string name="data_success">ဒေတာများကိုအောင်မြင်စွာတင်သွင်းခဲ့သည်</string>
     <string name="data_notsuccess">OOPS !! အချက်အလက်တင်သွင်းမှုမရှိပါ</string>
 
-    <string name="leave_success">Leave အောင်မြင်စွာတင်သွင်းခဲ့သည် !!</string>
+    <string name="leave_success">ထားခဲ့ အောင်မြင်စွာတင်သွင်းခဲ့သည် !!</string>
     <string name="leave_already">ယခုပင် ထွက်ခွာမည် တင်ခဲ့သည် ဒီရက်စွဲကို!!  </string>
     <string name="click_again">ကျေးဇူးပြု၍ cl</string>
     <string name="check_us_ps">သုံးစွဲသူအမည်နှင့်စကားဝှက်ကိုစစ်ဆေးပါ</string>
@@ -475,7 +475,10 @@
     <string name="additional_details">အပိုဆောင်းအသေးစိတ်</string>
     <string name="listed_dr">စာရင်းသွင်းဒေါက်တာ.</string>
     <string name="chem">ဓာတုဗေဒပညာရှင်</string>
-    <string name="stockist">Stockist</string>
+    <string name="stockist">စတော့ရှယ်ယာရောင်းသူ</string>
     <string name="unlisted_dr">စာရင်းမသွင်းထားသောဒေါက်တာ.</string>
+
+    <string name="autotime">ဆက်တင်များ တွင်အလိုအလျောက် ရက်စွဲ နှင့်အချိန် ကိုဖွင့်ပါ။</string>
+    <string name="slides_download">ဆလိုက်များကိုအောင်မြင်စွာဒေါင်းလုပ်ဆွဲပြီး</string>
 
 </resources>

@@ -1103,6 +1103,10 @@ public class DataBaseHandler {
         db.execSQL("delete from "+ TableEntry.TABLE_JSON +" WHERE "+TableEntry.COLUMN_ID+" = "+ sfcode ) ;
     }
 
+    public void delete_json1(String sfcode) {
+        db.execSQL("delete from "+ TableEntry.TABLE_JSON +" WHERE "+TableEntry.PCODE+" = "+ sfcode );
+    }
+
     public void del_joint(){
         db.execSQL("delete from " + TableEntry.TABLE_JOINWORK_USER_DETAILS + "  ");
     }
@@ -1126,6 +1130,9 @@ public class DataBaseHandler {
     }
     public void del_slide(){
         db.execSQL("delete from " + TableEntry.TABLE_SLIDES_MASTER+ "  ");
+    }
+    public void del_slidenew(String brndcode){
+        db.execSQL("delete from " + TableEntry.TABLE_SLIDES_MASTER+ " WHERE "+TableEntry.COLUMN_SLIDE_ID+"="+brndcode);
     }
     public void del_prd(){
         db.execSQL("delete from " + TableEntry.TABLE_PRODUCT_MASTER + "  ");
@@ -1347,6 +1354,9 @@ public class DataBaseHandler {
     public Cursor select_json_list(){
         return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_JSON,null);
     }
+    public Cursor select_json_list1(String drcode){
+        return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_JSON+" WHERE "+TableEntry.PCODE+" = '"+drcode+"' ",null);
+    }
     public Cursor select_speciality_list(){
         return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_SPECIALITY,null);
     }
@@ -1407,6 +1417,11 @@ public class DataBaseHandler {
     public Cursor select_slidesUrlPathDuplicate() {
         return db.rawQuery("SELECT *  FROM "
                 + TableEntry.TABLE_SLIDES_MASTER, null);
+    }
+
+    public Cursor select_slidesUrlPathnew() {
+        return db.rawQuery("SELECT * FROM "
+                + TableEntry.TABLE_SLIDES_MASTER+ " WHERE "+TableEntry.COLUMN_SYNC_STATUS+" = '1' " , null);
     }
     public Cursor select_mappingPrdName(String prd) {
         return db.rawQuery("SELECT *  FROM "

@@ -636,13 +636,30 @@
 
                         </saneforce.sanclm.activities.SignatureCanva>
 
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="@string/signature"-->
+<!--                            android:layout_centerHorizontal="true"-->
+<!--                            android:textColor="#e4e2e2"-->
+<!--                            android:layout_centerVertical="true"-->
+<!--                            android:fontFamily="@font/poppins_medium"-->
+<!--                            android:typeface="serif"-->
+<!--                            android:id="@+id/txt_sign"/>-->
+
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:gravity="center"
+                            android:layout_marginLeft="50dp"
+                            android:layout_marginRight="50dp"
                             android:text="@string/signature"
                             android:layout_centerHorizontal="true"
-                            android:textColor="#e4e2e2"
+                            android:textColor="#fff"
                             android:layout_centerVertical="true"
+                            android:background="@drawable/rectangle_green"
                             android:fontFamily="@font/poppins_medium"
                             android:typeface="serif"
                             android:id="@+id/txt_sign"/>

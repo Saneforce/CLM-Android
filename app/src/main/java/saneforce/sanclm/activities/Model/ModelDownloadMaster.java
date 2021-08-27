@@ -3,12 +3,16 @@ package saneforce.sanclm.activities.Model;
 public class ModelDownloadMaster {
     String itemName;
     String itemCount;
+    String refname;
+
+
     boolean animCount;
 
-    public ModelDownloadMaster(String itemName, String itemCount,boolean animCount) {
+    public ModelDownloadMaster(String itemName, String itemCount,boolean animCount,String refname) {
         this.itemName = itemName;
         this.itemCount = itemCount;
         this.animCount=animCount;
+        this.refname = refname;
     }
 
     public String getItemName() {
@@ -34,4 +38,13 @@ public class ModelDownloadMaster {
     public void setAnimCount(boolean animCount) {
         this.animCount = animCount;
     }
+
+    public String getRefname() {
+        return refname;
+    }
+
+    public void setRefname(String refname) {
+        this.refname = refname;
+    }
+
 }

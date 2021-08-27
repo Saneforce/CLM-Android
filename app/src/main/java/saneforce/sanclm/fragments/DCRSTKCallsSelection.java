@@ -1,9 +1,12 @@
 package saneforce.sanclm.fragments;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -11,12 +14,14 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -33,6 +38,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -76,6 +83,7 @@ import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
 import saneforce.sanclm.applicationCommonFiles.CommonUtils;
 import saneforce.sanclm.applicationCommonFiles.CommonUtilsMethods;
 import saneforce.sanclm.applicationCommonFiles.DownloadMasters;
+import saneforce.sanclm.applicationCommonFiles.GPSTrack;
 import saneforce.sanclm.sqlite.DataBaseHandler;
 import saneforce.sanclm.util.DCRCallSelectionFilter;
 import saneforce.sanclm.util.ManagerListLoading;
@@ -117,6 +125,7 @@ public class DCRSTKCallsSelection extends Fragment implements AdapterView.OnItem
     Resources resources;
     String gpsNeed,geoFencing;
     double laty=0.0,lngy=0.0,limitKm=0.5;
+    GPSTrack mGPSTrack;
 
     public static DCRSTKCallsSelection newInstance() {
         DCRSTKCallsSelection fragment = new DCRSTKCallsSelection();
@@ -244,6 +253,15 @@ public class DCRSTKCallsSelection extends Fragment implements AdapterView.OnItem
             laty= Double.parseDouble(shares.getString("lat","0.0"));
             lngy= Double.parseDouble(shares.getString("lng","0.0"));
             Log.v("Dr_selection_key",laty+" lngy "+lngy);
+            if(String.valueOf(laty).equals("0.0") && String.valueOf(lngy).equals("0.0"))
+            {
+                if(CurrentLoc())
+                {
+                    laty=mGPSTrack.getLatitude();
+                    lngy=mGPSTrack.getLongitude();
+                    Log.v("Dr_selection_key",laty+" lngy "+lngy);
+                }
+            }
         }
 
         dbh.open();
@@ -1205,7 +1223,52 @@ public class DCRSTKCallsSelection extends Fragment implements AdapterView.OnItem
 
         setData11(xVals, yVals, entries);
     }
+    public boolean CurrentLoc(){
 
+        mGPSTrack=new GPSTrack(getActivity());
+        //if(mGPSTrack.getLatitude()==0.0){
+        CheckLocation();
+        // CurrentLoc();
+        // }
+        return true;
+    }
+
+    public void CheckLocation(){
+        try {
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+                alertDialog.setTitle(getResources().getString(R.string.enable_location));
+                alertDialog.setCancelable(false);
+                alertDialog.setMessage(getResources().getString(R.string.alert_location));
+                alertDialog.setPositiveButton(getResources().getString(R.string.location_setting), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), 1);
+                    }
+                });
+           /* alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });*/
+                AlertDialog alert = alertDialog.create();
+                alert.show();
+
+
+            }
+        }catch (Exception e){
+            Toast toast=Toast.makeText(getActivity(), getResources().getString(R.string.loction_detcted), Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER,0,0);
+            toast.show();
+        }
+
+    }
     private double distance(double lat1, double lon1, double lat2, double lon2) {
         double theta = lon1 - lon2;
         double dist = Math.sin(deg2rad(lat1))
