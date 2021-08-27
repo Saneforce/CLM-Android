@@ -3728,6 +3728,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
         callSetUps();
         startService(new Intent(HomeDashBoard.this, Autotimezone.class));
+        
         //Autotimezone tt1 = new Autotimezone(HomeDashBoard.this);
 
         //tpValidate();
