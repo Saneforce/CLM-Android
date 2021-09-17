@@ -137,6 +137,7 @@ public class DetailingCreationActivity extends FragmentActivity implements View.
             rlay_spin.setVisibility(View.VISIBLE);
 
 
+
         Detailing_Selection_search_grid_selection.bindListenerCustomise(new CustomiseOption() {
             @Override
             public void isClicked() {

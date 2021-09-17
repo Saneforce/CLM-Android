@@ -209,119 +209,120 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
             holder.iv_edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    SharedPreferences share=context.getSharedPreferences("feed_list",0);
-                    SharedPreferences.Editor edit=share.edit();
-                    edit.putString("name",tdaycall.getDrName());
-                    edit.putString("time","00:00:00");
-                    edit.putString("val",tdaycall.getARCd());
-                    edit.putInt("columnid",Integer.parseInt(tdaycall.getVstTyp()));
-                    edit.putString("type",tdaycall.getType());
-                    edit.putString("common",tdaycall.getCommon());
-                    edit.putString("code",tdaycall.getDrCode());
-                    CommonUtils.TAG_DOCTOR_CODE=tdaycall.getDrCode();
-                    Log.v("Doc_Name_Hme",tdaycall.getVstTyp());
+                    String clustername = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_NAME);
+                    if (!clustername.equalsIgnoreCase(resources.getString(R.string.field))) {
+                        Toast.makeText(context, resources.getString(R.string.NonFieldedit), Toast.LENGTH_SHORT).show();
+                    } else {
+                        SharedPreferences share = context.getSharedPreferences("feed_list", 0);
+                        SharedPreferences.Editor edit = share.edit();
+                        edit.putString("name", tdaycall.getDrName());
+                        edit.putString("time", "00:00:00");
+                        edit.putString("val", tdaycall.getARCd());
+                        edit.putInt("columnid", Integer.parseInt(tdaycall.getVstTyp()));
+                        edit.putString("type", tdaycall.getType());
+                        edit.putString("common", tdaycall.getCommon());
+                        edit.putString("code", tdaycall.getDrCode());
+                        CommonUtils.TAG_DOCTOR_CODE = tdaycall.getDrCode();
+                        Log.v("Doc_Name_Hme", tdaycall.getVstTyp());
 
-                    edit.commit();
+                        edit.commit();
 
 
-                    if(!tdaycall.isLocal()){
-                        mCommonSharedPreference.setValueToPreference("Draft","false");
-                        JSONObject json=new JSONObject();
-                        try {
-                            Toast toast=Toast.makeText(context, "Processing Data", Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.CENTER,0,0);
-                            toast.show();
-                            json.put("detno",tdaycall.getARCd());
-                            json.put("sf_code",SF_Code);
-                            json.put("cusname",tdaycall.getDrName());
-                            json.put("custype",tdaycall.getVstTyp());
-                            String typ="";
-                            if(tdaycall.getVstTyp().equalsIgnoreCase("1"))
-                                typ="D";
-                            else if(tdaycall.getVstTyp().equalsIgnoreCase("2"))
-                                typ="C";
-                            else if(tdaycall.getVstTyp().equalsIgnoreCase("6"))
-                                typ="I";
-                            else
-                                typ="";
-                            if(mCommonSharedPreference.getValueFromPreference("feed_pob").contains(typ))
-                            json.put("pob","1");
-                            CommonUtils.TAG_DOCTOR_CODE=tdaycall.getDrCode();
-                            Log.v("json_values_are_today",json.toString());
-                            mCommonSharedPreference.setValueToPreference("detno",tdaycall.getARCd());
-                            mCommonSharedPreference.setValueToPreference("visit",tdaycall.getVstDt());
-                            apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
-                            Call<ResponseBody> tdayTP = apiService.editCall(String.valueOf(json));
-                            tdayTP.enqueue(new Callback<ResponseBody>() {
-                                @Override
-                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                    InputStreamReader ip=null;
-                                    StringBuilder is=new StringBuilder();
-                                    String line=null;
-                                    try {
-                                        ip = new InputStreamReader(response.body().byteStream());
-                                        BufferedReader bf = new BufferedReader(ip);
+                        if (!tdaycall.isLocal()) {
+                            mCommonSharedPreference.setValueToPreference("Draft", "false");
+                            JSONObject json = new JSONObject();
+                            try {
+                                Toast toast = Toast.makeText(context, "Processing Data", Toast.LENGTH_SHORT);
+                                toast.setGravity(Gravity.CENTER, 0, 0);
+                                toast.show();
+                                json.put("detno", tdaycall.getARCd());
+                                json.put("sf_code", SF_Code);
+                                json.put("cusname", tdaycall.getDrName());
+                                json.put("custype", tdaycall.getVstTyp());
+                                String typ = "";
+                                if (tdaycall.getVstTyp().equalsIgnoreCase("1"))
+                                    typ = "D";
+                                else if (tdaycall.getVstTyp().equalsIgnoreCase("2"))
+                                    typ = "C";
+                                else if (tdaycall.getVstTyp().equalsIgnoreCase("6"))
+                                    typ = "I";
+                                else
+                                    typ = "";
+                                if (mCommonSharedPreference.getValueFromPreference("feed_pob").contains(typ))
+                                    json.put("pob", "1");
+                                CommonUtils.TAG_DOCTOR_CODE = tdaycall.getDrCode();
+                                Log.v("json_values_are_today", json.toString());
+                                mCommonSharedPreference.setValueToPreference("detno", tdaycall.getARCd());
+                                mCommonSharedPreference.setValueToPreference("visit", tdaycall.getVstDt());
+                                apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
+                                Call<ResponseBody> tdayTP = apiService.editCall(String.valueOf(json));
+                                tdayTP.enqueue(new Callback<ResponseBody>() {
+                                    @Override
+                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                        InputStreamReader ip = null;
+                                        StringBuilder is = new StringBuilder();
+                                        String line = null;
+                                        try {
+                                            ip = new InputStreamReader(response.body().byteStream());
+                                            BufferedReader bf = new BufferedReader(ip);
 
-                                        while ((line = bf.readLine()) != null) {
-                                            is.append(line);
+                                            while ((line = bf.readLine()) != null) {
+                                                is.append(line);
+                                            }
+                                            Log.v("printing_the_whole", is.toString() + " printing_type" + tdaycall.getVstTyp());
+
+                                            SharedPreferences share = context.getSharedPreferences("feed_list", 0);
+                                            SharedPreferences.Editor edit = share.edit();
+                                            edit.putString("name", tdaycall.getDrName());
+                                            edit.putString("time", "00:00:00");
+                                            edit.putString("val", is.toString());
+                                            edit.putInt("columnid", -1);
+                                            if (tdaycall.getVstTyp().equalsIgnoreCase("1"))
+                                                edit.putString("type", "D");
+                                            else if (tdaycall.getVstTyp().equalsIgnoreCase("2"))
+                                                edit.putString("type", "C");
+                                            else if (tdaycall.getVstTyp().equalsIgnoreCase("4"))
+                                                edit.putString("type", "U");
+                                            else if (tdaycall.getVstTyp().equalsIgnoreCase("6"))
+                                                edit.putString("type", "I");
+                                            else
+                                                edit.putString("type", "S");
+                                            edit.putString("common", SF_Code);
+                                            edit.putString("code", tdaycall.getDrCode());
+                                            edit.commit();
+                                            Intent i = new Intent(context, FeedbackActivity.class);
+                                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            i.putExtra("feedpage", "edit");
+                                            i.putExtra("custype", tdaycall.getVstTyp());
+                                            context.startActivity(i);
+
+                                        } catch (Exception e) {
+
                                         }
-                                        Log.v("printing_the_whole",is.toString()+" printing_type"+tdaycall.getVstTyp());
+                                    }
 
-                                        SharedPreferences share=context.getSharedPreferences("feed_list",0);
-                                        SharedPreferences.Editor edit=share.edit();
-                                        edit.putString("name",tdaycall.getDrName());
-                                        edit.putString("time","00:00:00");
-                                        edit.putString("val",is.toString());
-                                        edit.putInt("columnid",-1);
-                                        if(tdaycall.getVstTyp().equalsIgnoreCase("1"))
-                                        edit.putString("type","D");
-                                        else if(tdaycall.getVstTyp().equalsIgnoreCase("2"))
-                                            edit.putString("type","C");
-                                        else if(tdaycall.getVstTyp().equalsIgnoreCase("4"))
-                                            edit.putString("type","U");
-                                        else if(tdaycall.getVstTyp().equalsIgnoreCase("6"))
-                                            edit.putString("type","I");
-                                        else
-                                            edit.putString("type","S");
-                                        edit.putString("common",SF_Code);
-                                        edit.putString("code",tdaycall.getDrCode());
-                                        edit.commit();
-                                        Intent i=new Intent(context, FeedbackActivity.class);
-                                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        i.putExtra("feedpage","edit");
-                                        i.putExtra("custype",tdaycall.getVstTyp());
-                                        context.startActivity(i);
-
-                                    }catch (Exception e){
+                                    @Override
+                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
 
                                     }
-                                }
+                                });
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
 
-                                @Override
-                                public void onFailure(Call<ResponseBody> call, Throwable t) {
 
-                                }
-                            });
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        } else {
+                            mCommonSharedPreference.setValueToPreference("Draft", "true");
+                            Intent i = new Intent(context, FeedbackActivity.class);
+                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            i.putExtra("feedpage", "edit");
+                            i.putExtra("custype", tdaycall.getVstTyp());
+
+                            context.startActivity(i);
                         }
 
 
-
                     }
-
-                    else{
-                        mCommonSharedPreference.setValueToPreference("Draft","true");
-                        Intent i=new Intent(context, FeedbackActivity.class);
-                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        i.putExtra("feedpage","edit");
-                        i.putExtra("custype",tdaycall.getVstTyp());
-
-                        context.startActivity(i);
-                    }
-
-
-
                 }
             });
             holder.iv_del.setOnClickListener(new View.OnClickListener() {

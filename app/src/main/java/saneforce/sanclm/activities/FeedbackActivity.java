@@ -985,7 +985,7 @@ public class FeedbackActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.invalid_cus), Toast.LENGTH_LONG).show();
                                 return;
                             } else {
-                                dbh.insertJson(String.valueOf(finalValue), txt_name.getText().toString() + "_s_ync", String.valueOf(d), peopleCode, peopleType, commonSFCode);
+                                dbh.insertJson(String.valueOf(finalValue), txt_name.getText().toString() + "_s_ync", String.valueOf(d), peopleCode, peopleType, commonSFCode,signPath);
                                 Intent i = new Intent(FeedbackActivity.this, HomeDashBoard.class);
                                 startActivity(i);
                             }
@@ -1246,7 +1246,7 @@ public class FeedbackActivity extends AppCompatActivity {
                     }
 
 
-                    dbh.insertJson(String.valueOf(jsonValue), txt_name.getText().toString(), String.valueOf(d), peopleCode, peopleType, commonSFCode);
+                    dbh.insertJson(String.valueOf(jsonValue), txt_name.getText().toString(), String.valueOf(d), peopleCode, peopleType, commonSFCode,signPath);
                 } else {
                     dbh.updateJson(colId, jsonValue);
                 }
@@ -1707,7 +1707,7 @@ public class FeedbackActivity extends AppCompatActivity {
                                     json_date.put("sTm", listFeedPrd.get(i).getDate() + " " + listFeedPrd.get(i).getSt_end_time().substring(0, (listFeedPrd.get(i).getSt_end_time().indexOf(" "))));
                                     json_date.put("eTm", listFeedPrd.get(i).getDate() + " " + listFeedPrd.get(i).getSt_end_time().substring((listFeedPrd.get(i).getSt_end_time().indexOf(" ")) + 1));
                                     json_joint.put("Timesline", json_date);
-                                    json_joint.put("Appver","V1.9");
+                                    json_joint.put("Appver","V1.9.1");
                                     json_joint.put("Mod", "Edet");
                                     json_joint.put("SmpQty", listFeedPrd.get(i).getSample());
                                     if (val_pob.contains(peopleType))
@@ -1928,7 +1928,10 @@ public class FeedbackActivity extends AppCompatActivity {
                 jointObj.put("AvailabilityAudit", jsonArrayavail);
             }
 
-
+            if(signPath.contains("signs")){
+                String sign[]=signPath.split("/");
+                signPath= "/storage/emulated/0/EDetails/Pictures/"+sign[1];
+            }
             Log.v("joint_wrk_print66", String.valueOf(jointObj));
             jointObj.put("sign_path", signPath);
             jointObj.put("filepath", filePath);
@@ -2190,18 +2193,22 @@ public class FeedbackActivity extends AppCompatActivity {
                 jsonBrandValue = String.valueOf(jsonBrnd);
                 mCommonSharedPreference.setValueToPreference("jsonarray", jsonBrnd.toString());
             }
-
-            signPath = json.getString("sign_path");
-            Log.v("sign_paths_fou", baseurl + signPath);
-            if (!TextUtils.isEmpty(signPath)) {
-                if (signPath.substring(0, 1).equalsIgnoreCase("s")) {
-                    new DownloadingImage(baseurl + signPath).execute();
-                } else {
-                    Drawable d = Drawable.createFromPath(signPath);
-                    //sign_lay.setBackground(d);
-                    sign_laynew.setBackground(d);
-                }
+            if(json.getString("sign_path").equalsIgnoreCase("null"))
+            {
+                signPath="";
+            }else {
+                signPath = json.getString("sign_path");
+                Log.v("sign_paths_fou", baseurl + signPath);
             }
+//            if (!TextUtils.isEmpty(signPath)) {
+//                if (signPath.substring(0, 1).equalsIgnoreCase("s")) {
+//                    new DownloadingImage(baseurl + signPath).execute();
+//                } else {
+//                    Drawable d = Drawable.createFromPath(signPath);
+//                    //sign_lay.setBackground(d);
+//                    sign_laynew.setBackground(d);
+//                }
+//            }
 
         } catch (Exception e) {
             Log.v("printing_exception", e.getMessage());
@@ -2364,7 +2371,12 @@ public class FeedbackActivity extends AppCompatActivity {
 
     public static void clearLay() {
         //sign_lay.setBackgroundResource(0);
-        sign_laynew.setBackgroundResource(0);
+        try {
+            sign_laynew.setBackgroundResource(0);
+        }catch(Exception exception)
+        {
+
+        }
 
     }
 
@@ -2497,7 +2509,11 @@ public class FeedbackActivity extends AppCompatActivity {
             Log.v("singanga_path", signPath);
             Drawable d = Drawable.createFromPath(signPath);
             //sign_lay.setBackground(d);
-             sign_laynew.setBackground(d);
+            try {
+                sign_laynew.setBackground(d);
+            }catch (Exception e){
+
+            }
         }
     }
 

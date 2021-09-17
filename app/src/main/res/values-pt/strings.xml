@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SAN CLM</string>
-    <string name="app_version">Version 1.9</string>
+    <string name="app_version">Version 1.9.1</string>
 
     <string name="preference_name">saneforce.sanclm.preferencefile</string>
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
@@ -480,6 +480,9 @@
 
     <string name="autotime">Ative a data e hora automáticas nas configurações</string>
     <string name="slides_download">Slides baixados com sucesso</string>
+    <string name="NonFieldcall">Incapaz de enviar chamadas para trabalho não de campo</string>
+    <string name="NonFieldedit">Incapaz de editar chamadas para trabalho não de campo</string>
+    <string name="NonFieldnearme">Perto de mim não disponível para trabalho não de campo</string>
 
 
 </resources>

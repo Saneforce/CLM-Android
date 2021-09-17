@@ -66,6 +66,7 @@ import saneforce.sanclm.api_Interface.Api_Interface;
 import saneforce.sanclm.api_Interface.RetroClient;
 import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
 import saneforce.sanclm.applicationCommonFiles.CommonUtils;
+import saneforce.sanclm.applicationCommonFiles.CommonUtilsMethods;
 import saneforce.sanclm.applicationCommonFiles.DirectionsJSONParser;
 import saneforce.sanclm.util.UpdateUi;
 
@@ -198,6 +199,12 @@ public class LeaveActivity extends AppCompatActivity {
                 return true;
             }
         });*/
+            if(CommonUtilsMethods.isOnline(LeaveActivity.this))
+           {
+
+           }else {
+                   Toast.makeText(LeaveActivity.this, getResources().getString(R.string.offline), Toast.LENGTH_SHORT).show();
+                 }
 
         edt_reason.setOnKeyListener(new View.OnKeyListener()
         {
@@ -344,83 +351,84 @@ public class LeaveActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(CommonUtilsMethods.isOnline(LeaveActivity.this)) {
 //               for (int i = 0; i < arrAva.size(); i++) {
 //                    if (!txt_day.getText().toString().isEmpty()) {
 //                        if(arrAva.get(i).getBrdName().equalsIgnoreCase(leaveType)) {
 //                            if (Integer.parseInt(arrAva.get(i).getTiming()) >= Integer.parseInt(txt_day.getText().toString())) {
-                                svjson = new JSONObject();
+                    svjson = new JSONObject();
 
+                    try {
+                        JSONObject json = new JSONObject();
+                        json.put("SF", SF_Code);
+                        json.put("Fdt", edt_from.getText().toString());
+                        json.put("Tdt", edt_to.getText().toString());
+                        json.put("LTy", leaveType);
+                        Log.v("dateValidation", json.toString());
+
+
+                        svjson.put("SF", SF_Code);
+                        svjson.put("FDate", edt_from.getText().toString());
+                        svjson.put("TDate", edt_to.getText().toString());
+                        svjson.put("LeaveType", leaveType);
+                        svjson.put("NOD", txt_day.getText().toString());
+                        svjson.put("LvOnAdd", edt_add.getText().toString());
+                        svjson.put("LvRem", edt_reason.getText().toString());
+
+
+                        Call<ResponseBody> dateVal = apiService.dateValidation(json.toString());
+                        dateVal.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                JSONObject jsonObject = null;
+
+                                InputStreamReader ip = null;
+                                StringBuilder is = new StringBuilder();
+                                String line = null;
                                 try {
-                                    JSONObject json = new JSONObject();
-                                    json.put("SF", SF_Code);
-                                    json.put("Fdt", edt_from.getText().toString());
-                                    json.put("Tdt", edt_to.getText().toString());
-                                    json.put("LTy", leaveType);
-                                    Log.v("dateValidation", json.toString());
+                                    ip = new InputStreamReader(response.body().byteStream());
+                                    BufferedReader bf = new BufferedReader(ip);
 
+                                    while ((line = bf.readLine()) != null) {
+                                        is.append(line);
+                                    }
+                                    Log.v("printing_date_valid", is.toString());
+                                    JSONArray js = new JSONArray(is.toString());
+                                    for (int i = 0; i < js.length(); i++) {
+                                        JSONObject jo = js.getJSONObject(i);
+                                        if (TextUtils.isEmpty(jo.getString("Msg"))) {
 
-                                    svjson.put("SF", SF_Code);
-                                    svjson.put("FDate", edt_from.getText().toString());
-                                    svjson.put("TDate", edt_to.getText().toString());
-                                    svjson.put("LeaveType", leaveType);
-                                    svjson.put("NOD", txt_day.getText().toString());
-                                    svjson.put("LvOnAdd", edt_add.getText().toString());
-                                    svjson.put("LvRem", edt_reason.getText().toString());
+                                            if (!TextUtils.isEmpty(txt_day.getText().toString())) {
+                                                Call<ResponseBody> dateVal = apiService.saveLeave(svjson.toString());
+                                                dateVal.enqueue(new Callback<ResponseBody>() {
+                                                    @Override
+                                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
+                                                        InputStreamReader ip = null;
+                                                        StringBuilder is = new StringBuilder();
+                                                        String line = null;
+                                                        try {
+                                                            ip = new InputStreamReader(response.body().byteStream());
+                                                            BufferedReader bf = new BufferedReader(ip);
 
-                                    Call<ResponseBody> dateVal = apiService.dateValidation(json.toString());
-                                    dateVal.enqueue(new Callback<ResponseBody>() {
-                                        @Override
-                                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                            JSONObject jsonObject = null;
+                                                            while ((line = bf.readLine()) != null) {
+                                                                is.append(line);
+                                                            }
+                                                            Log.v("printing_date_save", is.toString());
+                                                            JSONObject jj = new JSONObject(is.toString());
+                                                            if (jj.getString("success").equalsIgnoreCase("true")) {
 
-                                            InputStreamReader ip = null;
-                                            StringBuilder is = new StringBuilder();
-                                            String line = null;
-                                            try {
-                                                ip = new InputStreamReader(response.body().byteStream());
-                                                BufferedReader bf = new BufferedReader(ip);
-
-                                                while ((line = bf.readLine()) != null) {
-                                                    is.append(line);
-                                                }
-                                                Log.v("printing_date_valid", is.toString());
-                                                JSONArray js = new JSONArray(is.toString());
-                                                for (int i = 0; i < js.length(); i++) {
-                                                    JSONObject jo = js.getJSONObject(i);
-                                                    if (TextUtils.isEmpty(jo.getString("Msg"))) {
-
-                                                        if (!TextUtils.isEmpty(txt_day.getText().toString())) {
-                                                            Call<ResponseBody> dateVal = apiService.saveLeave(svjson.toString());
-                                                            dateVal.enqueue(new Callback<ResponseBody>() {
-                                                                @Override
-                                                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
-                                                                    InputStreamReader ip = null;
-                                                                    StringBuilder is = new StringBuilder();
-                                                                    String line = null;
-                                                                    try {
-                                                                        ip = new InputStreamReader(response.body().byteStream());
-                                                                        BufferedReader bf = new BufferedReader(ip);
-
-                                                                        while ((line = bf.readLine()) != null) {
-                                                                            is.append(line);
-                                                                        }
-                                                                        Log.v("printing_date_save", is.toString());
-                                                                        JSONObject jj = new JSONObject(is.toString());
-                                                                        if (jj.getString("success").equalsIgnoreCase("true")) {
-
-                                                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.leave_success), Toast.LENGTH_LONG).show();
-                                                                            txt_day.setText("");
-                                                                            edt_from.setText("");
-                                                                            edt_to.setText("");
-                                                                            edt_add.setText("");
-                                                                            edt_reason.setText("");
-                                                                            // selectedLeave.clear();
-                                                                            // arrayAdapter.notifyDataSetChanged();
-                                                                        } else {
-                                                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.leave_already), Toast.LENGTH_LONG).show();
-                                                                        }
+                                                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.leave_success), Toast.LENGTH_LONG).show();
+                                                                txt_day.setText("");
+                                                                edt_from.setText("");
+                                                                edt_to.setText("");
+                                                                edt_add.setText("");
+                                                                edt_reason.setText("");
+                                                                // selectedLeave.clear();
+                                                                // arrayAdapter.notifyDataSetChanged();
+                                                            } else {
+                                                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.leave_already), Toast.LENGTH_LONG).show();
+                                                            }
 
                                     /* JSONArray js=new JSONArray(is.toString());
                                      for(int i=0;i<js.length();i++){
@@ -435,48 +443,49 @@ public class LeaveActivity extends AppCompatActivity {
                                              //Toast.makeText(LeaveActivity.this,jo.getString("Msg"),Toast.LENGTH_SHORT).show();
                                          }
                                      }*/
-                                                                    } catch (Exception e) {
-
-                                                                    }
-                                                                }
-
-                                                                @Override
-                                                                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
-                                                                }
-                                                            });
-                                                        } else {
-                                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.choose_date), Toast.LENGTH_SHORT).show();
+                                                        } catch (Exception e) {
 
                                                         }
-
-
-                                                    } else {
-                                                        // Toast.makeText(getContext(),jo.getString("Msg"),Toast.LENGTH_SHORT).show();
-                                                        edt_to.setText("");
-                                                        txt_day.setText("");
-                                                        Toast.makeText(getApplicationContext(), jo.getString("Msg"), Toast.LENGTH_SHORT).show();
                                                     }
-                                                }
-                                            } catch (Exception e) {
-                                                Log.e("the vALID", "================" + e.getMessage());
+
+                                                    @Override
+                                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            } else {
+                                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.choose_date), Toast.LENGTH_SHORT).show();
+
                                             }
+
+
+                                        } else {
+                                            // Toast.makeText(getContext(),jo.getString("Msg"),Toast.LENGTH_SHORT).show();
+                                            edt_to.setText("");
+                                            txt_day.setText("");
+                                            Toast.makeText(getApplicationContext(), jo.getString("Msg"), Toast.LENGTH_SHORT).show();
                                         }
-
-                                        @Override
-                                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                                        }
-                                    });
-
-
+                                    }
                                 } catch (Exception e) {
-
+                                    Log.e("the vALID", "================" + e.getMessage());
                                 }
-//                            }
-//                            else {
-//                                Toast.makeText(LeaveActivity.this, "Your Not eligible to apply " + leaveType + " for " + txt_day.getText().toString() + " days", Toast.LENGTH_SHORT).show();
-//                            }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                            }
+                        });
+
+
+                    } catch (Exception e) {
+
+                    }
+
+                           }
+                         else {
+                              Toast.makeText(LeaveActivity.this, getResources().getString(R.string.offline), Toast.LENGTH_SHORT).show();
+                         }
 //                        }
 //                    }
 //                }

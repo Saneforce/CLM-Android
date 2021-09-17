@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SAN CLM</string>
-    <string name="app_version">Version 1.9</string>
+    <string name="app_version">Version 1.9.1</string>
 
     <string name="preference_name">saneforce.sanclm.preferencefile</string>
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
@@ -479,5 +479,8 @@
 
     <string name="autotime">Bật Ngày và Giờ Tự động trong Cài đặt</string>
     <string name="slides_download">Các trang trình bày được tải xuống thành công</string>
+    <string name="NonFieldcall">Không thể gửi cuộc gọi cho Công việc ngoài lĩnh vực</string>
+    <string name="NonFieldedit">Không thể chỉnh sửa lệnh gọi cho Công việc ngoài lĩnh vực</string>
+    <string name="NonFieldnearme">Gần tôi không khả dụng cho Công việc ngoài lĩnh vực</string>
 
 </resources>

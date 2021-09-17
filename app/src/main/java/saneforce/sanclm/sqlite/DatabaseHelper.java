@@ -349,7 +349,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             TableEntry.TIME + " TEXT ,"+
             TableEntry.PCODE + " TEXT ,"+
             TableEntry.PTYPE + " TEXT ,"+
-            TableEntry.COMMOMCODE + " TEXT "+")";
+            TableEntry.COMMOMCODE + " TEXT ,"+
+            TableEntry.SLIDE_URL + " TEXT "+")";
 
     private static final String SQL_CREATE_TABLE_SCRIBBLE= " CREATE TABLE IF NOT EXISTS "
             + TableEntry.TABLE_SCRIB + " (" + TableEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+

@@ -141,6 +141,10 @@ public class DataBaseHandler {
 
     }
 
+    public void delete_singleslide(String slideid) {
+        db.execSQL("delete from "+ TableEntry.TABLE_SLIDES_MASTER +" WHERE "+TableEntry.COLUMN_SLIDE_ID+" = '"+ slideid +"' " ) ;
+    }
+
     /* Inner class that defines the table contents */
     public abstract class TableEntry implements BaseColumns {
 
@@ -954,7 +958,7 @@ public class DataBaseHandler {
         return db.insert(TableEntry.TABLE_COMPETITOR_MASTER_NEW,null,values);
 
     }
-    public long insertJson(String value,String name,String time,String code,String type,String commonCode){
+    public long insertJson(String value,String name,String time,String code,String type,String commonCode,String url){
         ContentValues values=new ContentValues();
         values.put(TableEntry.TOTAL_VALUE,value);
         values.put(TableEntry.NAME,name);
@@ -962,6 +966,7 @@ public class DataBaseHandler {
         values.put(TableEntry.PCODE,code);
         values.put(TableEntry.PTYPE,type);
         values.put(TableEntry.COMMOMCODE,commonCode);
+        values.put(TableEntry.SLIDE_URL,url);
         return db.insert(TableEntry.TABLE_JSON,null,values);
     }
     public long insertScrible(String path,String like,String dis,String scibb,String feedback){
