@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SAN CLM</string>
-    <string name="app_version">Version 1.9.1</string>
+    <string name="app_version">Version 1.9.2</string>
 
     <string name="preference_name">saneforce.sanclm.preferencefile</string>
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
@@ -483,5 +483,8 @@
     <string name="NonFieldcall">ကွင်းဆင်းအလုပ်မဟုတ် အတွက်ခေါ်ဆိုမှုများမတင်ပြနိုင်ပါ</string>
     <string name="NonFieldedit">ကွင်းဆင်းအလုပ်မဟုတ် အတွက်ခေါ်ဆိုမှုများကိုတည်းဖြတ်။ မရပါ</string>
     <string name="NonFieldnearme">ကွင်းဆင်းအလုပ်မဟုတ် အတွက်ကျွန်ုပ်အနီးတွင်မရှိနိုင်ပါ</string>
+
+    <string name="DcrDate">DCR ရက်စွဲ</string>
+    <string name="DcrView">DCR အမြင်</string>
 
 </resources>

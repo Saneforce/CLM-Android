@@ -514,5 +514,20 @@ public interface Api_Interface {
     @POST("db.php?axn=get/leavetype")
     Call<ResponseBody> getLeaveType(@Field("data") String sf);
 
+    @FormUrlEncoded
+    @POST("db.php?axn=get/vwdcr")
+    Call<ResponseBody> getDCRlist(@Field("data") String sf);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=get/vwdcrone")
+    Call<ResponseBody> getDCRdetailedList(@Field("data") String sf);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=dcrapproval")
+    Call<ResponseBody> sendDCRapproval(@Field("data") String sf);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=dcrreject")
+    Call<ResponseBody> sendDCRreject(@Field("data") String sf);
 
 }

@@ -741,6 +741,12 @@ public class CallFragment extends Fragment {
                             else
                                 mCommonSharedPreference.setValueToPreference("yetrdy_call_del_Nd", "");
 
+                            if(js.has("DcrapprvNd")){
+                                mCommonSharedPreference.setValueToPreference("DcrapprvNd", js.getString("DcrapprvNd"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("DcrapprvNd", "");
+
                         } catch (Exception e) {
                         }
                     }

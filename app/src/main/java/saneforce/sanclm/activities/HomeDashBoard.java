@@ -288,7 +288,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     String digitalOff="0";
 
     SharedPreferences licencesharedPreferences;
-    String licence;
+    String licence,dstatus;
     String language;
     Context context;
     Resources resources;
@@ -3412,7 +3412,14 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     JSONArray jj = new JSONArray(is.toString());
                     for (int i = 0; i < jj.length(); i++) {
                         JSONObject js = jj.getJSONObject(i);
-                        arr.add(new MissedDate(js.getString("DMon") + " " + js.getString("DYr"), js.getString("DDate"), js.getString("DDay"), js.getString("id")));
+                        if(js.has("dstatus")) {
+                             dstatus = js.getString("dstatus");
+                        }else
+                        {
+                            dstatus =" ";
+                        }
+
+                        arr.add(new MissedDate(js.getString("DMon") + " " + js.getString("DYr"), js.getString("DDate"), js.getString("DDay"), js.getString("id"),dstatus));
                     }
                     Log.v("missed>>>", arr.toString());
                     AdapterMissedDate adp = new AdapterMissedDate(HomeDashBoard.this, arr);

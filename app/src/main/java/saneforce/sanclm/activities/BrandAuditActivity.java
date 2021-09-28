@@ -446,6 +446,8 @@ public class BrandAuditActivity extends AppCompatActivity implements DataInterfa
                 prd_rate = Float.parseFloat(prd_list_rate.get(i));
                 prdEnterCode = list.get(i).getIqty();
                 edt_qty.setText("");
+                edt_rate.setText("");
+                edt_val.setText("");
                 dialog.dismiss();
                 commonFun();
             }
