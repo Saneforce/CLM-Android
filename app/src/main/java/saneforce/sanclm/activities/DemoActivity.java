@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -74,6 +75,7 @@ import saneforce.sanclm.applicationCommonFiles.DownloadMasters;
 import saneforce.sanclm.fragments.LocaleHelper;
 import saneforce.sanclm.sqlite.DataBaseHandler;
 import saneforce.sanclm.util.GridSelectionList;
+import saneforce.sanclm.util.NetworkChangeReceiver;
 import saneforce.sanclm.util.ProductChangeListener;
 import saneforce.sanclm.util.SpecialityListener;
 import saneforce.sanclm.util.TwoTypeparameter;
@@ -93,7 +95,7 @@ public class DemoActivity extends AppCompatActivity {
     MyCustomTPPager pagerAdapter;
     GridView grid_cal;
     DataBaseHandler dbh;
-
+    NetworkChangeReceiver receiver;
     String currentMn,currentMnthNum,currentyr;
     JSONArray jsonArray=new JSONArray();
     JSONObject jsonObject=new JSONObject();
@@ -114,6 +116,7 @@ public class DemoActivity extends AppCompatActivity {
     CommonSharedPreference mCommonSharedPreference;
     ArrayList<PopFeed> nameCode=new ArrayList<>();
     ArrayList<ExpandModel> nameCodeExpand=new ArrayList<>();
+    String load_Data="";
 
     String SF_Code,SF_Type;
     String db_connPath,db_slidedwnloadPath;
@@ -177,11 +180,22 @@ public class DemoActivity extends AppCompatActivity {
     String language;
     Context context;
     Resources resources;
-
+    IntentFilter intentFilter;
+    boolean curr_but = false;
+    boolean nxt_but = false;
+    public final static String CONNECTIVITY_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         commonFun();
         return super.dispatchKeyEvent(event);
+    }
+
+    @Override
+    public void onResume() {
+
+        CommonUtilsMethods.FullScreencall(this);
+        super.onResume();
+        registerReceiver(receiver, intentFilter);
     }
 
     @Override
@@ -196,7 +210,7 @@ public class DemoActivity extends AppCompatActivity {
             selected(language);
             context = LocaleHelper.setLocale(DemoActivity.this, language);
             resources = context.getResources();
-        }else {
+        }else{
             selected("en");
             context = LocaleHelper.setLocale(DemoActivity.this, "en");
             resources = context.getResources();
@@ -229,6 +243,7 @@ public class DemoActivity extends AppCompatActivity {
         nxt_mnth=(ImageView)findViewById(R.id.nxt_mnth);
         CommonUtilsMethods = new CommonUtilsMethods(this);
         marker_progress=(ProgressBar)findViewById(R.id.marker_progress);
+        marker_progress.setClickable(false);
         /*btn_send.getBackground().setAlpha(225);*/
         /*btn1=(Button)findViewById(R.id.btn1);
         btn2=(Button)findViewById(R.id.btn2);
@@ -310,7 +325,9 @@ public class DemoActivity extends AppCompatActivity {
         viewpager.setAdapter (pagerAdapter);
         viewpager.setOffscreenPageLimit(1);
 
-
+        receiver = new NetworkChangeReceiver();
+        intentFilter = new IntentFilter();
+        intentFilter.addAction(CONNECTIVITY_ACTION);
 
         /*array.add("hello");
         array.add("hello");
@@ -407,7 +424,7 @@ public class DemoActivity extends AppCompatActivity {
                             list_selection.setVisibility(View.VISIBLE);
                             recurSeparatedPrdCode(aa.get(currentPos).getWrk());
                             jsonArray = new JSONArray(wrkLoader);
-                            dr_head.setText("Select Worktype");
+                            dr_head.setText(/*"Select Worktype"*/ resources.getString(R.string.sclt_work));
                             selectCategory = "w";
                         } else if (i == 1) {
                             if(!mCommonSharedPreference.getValueFromPreference("approve").equalsIgnoreCase("null")) {
@@ -418,7 +435,7 @@ public class DemoActivity extends AppCompatActivity {
                                 list_selection.setVisibility(View.VISIBLE);
                                 recurSeparatedPrdCode(aa.get(currentPos).getHq());
                                 jsonArray = new JSONArray(hqLoader);
-                                dr_head.setText("Select Hq");
+                                dr_head.setText(/*"Select Hq"*/ resources.getString(R.string.sclt_hq));
                                 selectCategory = "h";
                             }
                         } else if (i == 2) {
@@ -431,7 +448,7 @@ public class DemoActivity extends AppCompatActivity {
                             }
                             recurSeparatedPrdCode(aa.get(currentPos).getCluster());
                             jsonArray = new JSONArray(clusterLoader);
-                            dr_head.setText("Select Cluster");
+                            dr_head.setText(/*"Select Cluster"*/ resources.getString(R.string.sclt_clst));
                             selectCategory = "c";
                             clusterBased = "";
 
@@ -444,7 +461,7 @@ public class DemoActivity extends AppCompatActivity {
                             }
                             recurSeparatedPrdCode(aa.get(currentPos).getJoint());
                             jsonArray = new JSONArray(jointLoader);
-                            dr_head.setText("Select Jointwork");
+                            dr_head.setText(/*"Select Jointwork"*/ resources.getString(R.string.sclt_jw));
                             selectCategory = "j";
                         } else if (i == 4) {
                             expand_list.setVisibility(View.VISIBLE);
@@ -483,7 +500,7 @@ public class DemoActivity extends AppCompatActivity {
                             }
                             recurSeparatedPrdCode(aa.get(currentPos).getHosp());
                             jsonArray = new JSONArray(hospLoader);
-                            dr_head.setText("Select Hospital");
+                            dr_head.setText(/*"Select Hospital"*/ resources.getString(R.string.sclt_hosp));
                             selectCategory = "hos";
 
                         }
@@ -641,7 +658,7 @@ public class DemoActivity extends AppCompatActivity {
                     }
                 }
                 else
-                    showToast("Select the date");
+                    showToast(/*"Select the date"*/ resources.getString(R.string.slct_date));
             }
         });
 
@@ -649,10 +666,12 @@ public class DemoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.v("printing_the_net",mCommonSharedPreference.getValueFromPreference("net_con"));
-                if(CommonUtilsMethods.isOnline(DemoActivity.this))
-                    alertOnline();
-                else
-                    showToast("Check network connection!!");
+                if(CommonUtilsMethods.isOnline(DemoActivity.this)) {
+                    callOldDatas(currentMn);
+                }
+                else{
+                    marker_progress.setVisibility(View.GONE);
+                    showToast(/*"Check network connection!!"*/ resources.getString(R.string.chk_nwcnctn));}
             }
         });
 
@@ -686,7 +705,12 @@ public class DemoActivity extends AppCompatActivity {
                 aa.clear();
                 aa.addAll(viewTp);
                 if(!mCommonSharedPreference.getValueFromPreference("approve").equalsIgnoreCase("null")) {
-                    loadData(mCommonSharedPreference.getValueFromPreference("subsf"));
+                   loadData(mCommonSharedPreference.getValueFromPreference("subsf"));
+//                    if (SF_Type.equalsIgnoreCase("2")){
+//                        loaddatanew(load_Data);
+//                    }else{
+//                        loadData(mCommonSharedPreference.getValueFromPreference("subsf"));
+//                    }
                     btn_save.setVisibility(View.VISIBLE);
                 }
               //  Log.v("soln_arr_inside",aa.get(0).getDr());
@@ -787,7 +811,7 @@ public class DemoActivity extends AppCompatActivity {
                     String fillTheField = "";
                     int pos = 0;
                     if (txt_right_head.getText().toString().equalsIgnoreCase("Choose the date")) {
-                        showToast("Select the date");
+                        showToast(/*"Select the date"*/ resources.getString(R.string.slct_date));
                         checkSession = true;
                     }
                     else if (!TextUtils.isEmpty(work)) {
@@ -811,24 +835,24 @@ public class DemoActivity extends AppCompatActivity {
                                                     } else {
                                                         pos = i;
                                                         if (TextUtils.isEmpty(tp.getHq()))
-                                                            fillTheField = "Head quater";
+                                                            fillTheField = /*"Headquater"*/ resources.getString(R.string.headquater1);
                                                         else if (TextUtils.isEmpty(tp.getCluster()))
-                                                            fillTheField = "Cluster";
+                                                            fillTheField = /*"Cluster"*/ resources.getString(R.string.cluster1);
                                                         else
-                                                            fillTheField = "Doctor";
+                                                            fillTheField = /*"Doctor"*/ resources.getString(R.string.dr);
 
-                                                        if(fillTheField.equalsIgnoreCase("Cluster")){
+                                                        if(fillTheField.equalsIgnoreCase(/*"Cluster"*/ resources.getString(R.string.cluster1))){
                                                             if(hospNeed.equalsIgnoreCase("0")&&(!TextUtils.isEmpty(tp.getHosp()))){
                                                                 checkFilledValue = true;
                                                             }
                                                             else    if(hospNeed.equalsIgnoreCase("0")){
                                                                 checkFilledValue = false;
-                                                                fillTheField="hospital";
+                                                                fillTheField=/*"hospital"*/ resources.getString(R.string.hospital);
                                                             }
                                                             else
                                                                 checkFilledValue = false;
                                                         }
-                                                        else    if(fillTheField.equalsIgnoreCase("Doctor")){
+                                                        else    if(fillTheField.equalsIgnoreCase(/*"Doctor"*/ resources.getString(R.string.dr))){
                                                             if(drNeed.equalsIgnoreCase("1"))
                                                                 checkFilledValue = true;
                                                         }
@@ -841,11 +865,11 @@ public class DemoActivity extends AppCompatActivity {
                                                     if (TextUtils.isEmpty(tp.getCluster())) {
                                                         pos = i;
                                                         if (TextUtils.isEmpty(tp.getHq()))
-                                                            fillTheField = "Head quater";
+                                                            fillTheField = /*"Headquater"*/ resources.getString(R.string.headquater1);
                                                         else
-                                                            fillTheField = "Cluster";
+                                                            fillTheField = /*"Cluster"*/ resources.getString(R.string.cluster1);
 
-                                                        if(fillTheField.equalsIgnoreCase("Cluster")){
+                                                        if(fillTheField.equalsIgnoreCase(/*"Cluster"*/ resources.getString(R.string.cluster1))){
                                                             if(hospNeed.equalsIgnoreCase("0")&&(!TextUtils.isEmpty(tp.getHosp()))){
                                                                 checkFilledValue = true;
                                                             }
@@ -950,18 +974,18 @@ public class DemoActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                             work = "";
-                            txt_right_head.setText("Choose the date");
+                            txt_right_head.setText(/*"Choose the date"*/ resources.getString(R.string.choose_date));
                         } else {
                             viewpager.setCurrentItem(pos);
-                            showToast("Select " + fillTheField);
+                            showToast(/*"Select "*/ resources.getString(R.string.selct) + fillTheField);
                             jss = new JSONObject();
                             ja = new JSONArray();
                         }
                     } else
-                        showToast("Select worktype");
+                        showToast(/*"Select Worktype"*/ resources.getString(R.string.sclt_work));
                 }
                 else
-                    showToast("Already sent to approval");
+                    showToast(/*"Already sent to approval"*/ resources.getString(R.string.sent_appr));
             }
 
 
@@ -1044,7 +1068,9 @@ public class DemoActivity extends AppCompatActivity {
         current_mnth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                curr_but = true;
+                nxt_but = false;
+                current_mnth.setVisibility(View.INVISIBLE);
                 marker_progress.setVisibility(View.VISIBLE);
                 array.clear();
                 jsonArray=new JSONArray();
@@ -1054,8 +1080,9 @@ public class DemoActivity extends AppCompatActivity {
                     if(mCommonSharedPreference.getValueFromPreference("mnth").equalsIgnoreCase(txt_mnth.getText().toString())){
                         btn_send.setVisibility(View.INVISIBLE);
                     }
-                    else
+                    else {
                         btn_send.setVisibility(View.VISIBLE);
+                    }
                 }
 
                 /* dayCal();*/
@@ -1078,24 +1105,47 @@ public class DemoActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
                         calAdapt = new CalendarAdapter(DemoActivity.this, cur2.getString(2));
                         grid_cal.setAdapter(calAdapt);
                         calAdapt.notifyDataSetChanged();
-                        if(mCommonSharedPreference.getValueFromPreference("net_con").equalsIgnoreCase("connect"))
+                        if(mCommonSharedPreference.getValueFromPreference("net_con").equalsIgnoreCase("connect")){
                             callOldDatas(currentMn);
-                        else
+                        }
+                        else{
                             marker_progress.setVisibility(View.GONE);
+                            button_hide();
+                        }
                         enableDisableSubmitButton();
-
                     }
+                }
+                else{
+                    marker_progress.setVisibility(View.GONE);
+                    button_hide();
+//                    JSONObject jj=new JSONObject();
+//                    //   jj.put("TPDatas","[]");
+//                    try {
+//                        jj.put("SF",mCommonSharedPreference.getValueFromPreference("subsf"));
+//                        jj.put("SFName",mCommonSharedPreference.getValueFromPreference("subsfname"));
+//                        jj.put("DivCode",div);
+//                        jj.put("TPMonth",fullDateDum.substring(5,7));
+//                        jj.put("TPYear",fullDateDum.substring(0,4));
+//                    } catch (JSONException exception) {
+//                        exception.printStackTrace();
+//                    }
+//
+//                    calAdapt = new CalendarAdapter(DemoActivity.this, jj.toString());
+//                    grid_cal.setAdapter(calAdapt);
+
                 }
 //                else{
 ////                    getInsertValue();
 ////                    loadData(SF_Code);
 //                      callOldDatas(currentMn);
 //                }
-                current_mnth.setVisibility(View.INVISIBLE);
-                nxt_mnth.setVisibility(View.VISIBLE);
+
+//                current_mnth.setVisibility(View.INVISIBLE);
+//                nxt_mnth.setVisibility(View.VISIBLE);
             }
         });
 
@@ -1103,7 +1153,9 @@ public class DemoActivity extends AppCompatActivity {
         nxt_mnth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                curr_but = false;
+                nxt_but = true;
+                nxt_mnth.setVisibility(View.INVISIBLE);
                 marker_progress.setVisibility(View.VISIBLE);
                 jsonArray=new JSONArray();
                 array.clear();
@@ -1119,6 +1171,7 @@ public class DemoActivity extends AppCompatActivity {
 
 
                 Cursor cur2=dbh.select_tp_list(currentMn);
+               Log.d("cur_json","--"+cur2.getCount());
                 if(cur2.getCount()>0){
                     while(cur2.moveToNext()) {
                         Log.v("cur_json_val", cur2.getString(1));
@@ -1127,7 +1180,7 @@ public class DemoActivity extends AppCompatActivity {
                             if(cur2.getString(  3).equalsIgnoreCase("1") || cur2.getString(  3).equalsIgnoreCase("3")
                                     || cur2.getString(  3).equalsIgnoreCase("2")){
                                 status=cur2.getString(3);
-                                Log.v("printing_Statuis22",cur2.getString(3));
+                                Log.v("printing_Statuis22",cur2.getString(3)+"---"+cur2.getString(2));
                             }
                             else
                                 status="0";
@@ -1136,20 +1189,43 @@ public class DemoActivity extends AppCompatActivity {
                         }
                         calAdapt = new CalendarAdapter(DemoActivity.this, cur2.getString(2));
                         grid_cal.setAdapter(calAdapt);
-                        if(mCommonSharedPreference.getValueFromPreference("net_con").equalsIgnoreCase("connect"))
+                        if(mCommonSharedPreference.getValueFromPreference("net_con").equalsIgnoreCase("connect")){
                             callOldDatas(currentMn);
-                        else
+                        }
+                        else{
                             marker_progress.setVisibility(View.GONE);
+                            button_hide();
+                        }
                         enableDisableSubmitButton();
+
                     }
+                }
+                else{
+                    marker_progress.setVisibility(View.GONE);
+                    button_hide();
+//                    JSONObject jj=new JSONObject();
+//                    //   jj.put("TPDatas","[]");
+//                    try {
+//                        jj.put("SF",mCommonSharedPreference.getValueFromPreference("subsf"));
+//                        jj.put("SFName",mCommonSharedPreference.getValueFromPreference("subsfname"));
+//                        jj.put("DivCode",div);
+//                        jj.put("TPMonth",currentMnthNum);
+//                        jj.put("TPYear",currentyr);
+//                    } catch (JSONException exception) {
+//                        exception.printStackTrace();
+//                    }
+//
+//                    calAdapt = new CalendarAdapter(DemoActivity.this, jj.toString());
+//                    grid_cal.setAdapter(calAdapt);
+
                 }
 //                else{
 ////                    getInsertValue();
 ////                   loadData(SF_Code);
 //                  callOldDatas(currentMn);
 //                }
-                current_mnth.setVisibility(View.VISIBLE);
-                nxt_mnth.setVisibility(View.INVISIBLE);
+//                current_mnth.setVisibility(View.VISIBLE);
+//                nxt_mnth.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -1161,7 +1237,7 @@ public class DemoActivity extends AppCompatActivity {
                     sendingOfflineTpData(1);
                 }
                 else
-                    showToast("Check Network Connection");
+                    showToast(/*"Check network connection!!"*/ resources.getString(R.string.chk_nwcnctn));
             }
         });
 
@@ -1201,6 +1277,7 @@ public class DemoActivity extends AppCompatActivity {
                         Log.v("grid_final_val",CalendarAdapter.arr_json.get(i).getCode());
                         checkSession=false;
                         aa.clear();
+                       // load_Data=CalendarAdapter.arr_json.get(i).getCode();
                         pagerAdapter.notifyDataSetChanged();
                         try {
                             JSONArray jarray=new JSONArray(CalendarAdapter.arr_json.get(i).getCode());
@@ -1390,18 +1467,24 @@ public class DemoActivity extends AppCompatActivity {
            btn_send.setVisibility(View.GONE);
            btn_approve.setVisibility(View.VISIBLE);
            btn_reject.setVisibility(View.VISIBLE);
-           btn_edit.setText("Edit");
+           sync_icon.setVisibility(View.INVISIBLE);
+           btn_edit.setText(/*"Edit"*/ resources.getString(R.string.edit));
             getDateRangeDum(Integer.parseInt(mCommonSharedPreference.getValueFromPreference("tpmonth"))-1,Integer.parseInt(mCommonSharedPreference.getValueFromPreference("tpyear")));
             dayCaldumm();
             Log.v("jsonObject1",jsonObject1.toString());
             loadData(mCommonSharedPreference.getValueFromPreference("subsf"));
+           // current_mnth.setVisibility(View.INVISIBLE);
             marker_progress.setVisibility(View.VISIBLE);
-            retrieveOldDatas(mCommonSharedPreference.getValueFromPreference("approve"),currentMn);
+            if(CommonUtilsMethods.isOnline(DemoActivity.this)){
+                  retrieveOldDatas(mCommonSharedPreference.getValueFromPreference("approve"),currentMn);
+            }
         }
         else {
             getInsertValue();
             loadData(SF_Code);
-            callOldDatas(currentMn);
+            if(CommonUtilsMethods.isOnline(DemoActivity.this)) {
+                callOldDatas(currentMn);
+            }
         }
        // getDateRangeDum(3,2020);
         //dayCaldumm();
@@ -1471,7 +1554,6 @@ public class DemoActivity extends AppCompatActivity {
             }
         }
         enableDisableSubmitButton();
-
     }
 
 
@@ -1758,10 +1840,8 @@ public class DemoActivity extends AppCompatActivity {
     }
     public void loadData(String SF_Code){
         JSONArray jsonArrayData=new JSONArray();
-
         dbh.open();
         Cursor mCursor = dbh.select_TPworktypeList(SF_Code);
-
         if (mCursor.getCount() > 0) {
             while (mCursor.moveToNext()) {
                 list_wrk.add(new ModelWorkType(mCursor.getString(2),mCursor.getString(1),mCursor.getString(4)));
@@ -1945,6 +2025,165 @@ public class DemoActivity extends AppCompatActivity {
         }
     }
 
+    public void loaddatanew(String data){
+
+        JSONArray jarray= null;
+        try {
+            jarray = new JSONArray(data);
+            for(int k=0;k<jarray.length();k++){
+                JSONObject joss=jarray.getJSONObject(k);
+                String  hos="";
+                String work="";
+                String hq="";
+                String cluster="";
+                String joint="";
+                String dr="";
+                String chem="";
+                //String remrk="";
+                work =joss.getString("work");
+                hq=joss.getString("hq");
+                cluster=joss.getString("cluster");
+                joint=joss.getString("joint");
+                dr=joss.getString("dr");
+                chem=joss.getString("chem");
+                if(joss.has("hos"))
+                    hos=joss.getString("hos");
+
+                JSONArray jsonArrayData=new JSONArray();
+                work = work.replaceAll("#$","");
+                String[] checkdata = work.split("#");
+
+                for(int ff=0;ff<checkdata.length;ff++){
+                    String[] checkdata1 = checkdata[0].split("\\$");
+
+                    JSONObject jsonObjectData=new JSONObject();
+                    jsonObjectData.put("name",checkdata1[0]);
+                    jsonObjectData.put("code",checkdata1[1]);
+                    jsonArrayData.put(jsonObjectData);
+                }
+                wrkLoader=jsonArrayData.toString();
+                jsonArrayData=new JSONArray();
+                Log.d("jjaa",wrkLoader);
+
+                //JSONArray jsonArrayData=new JSONArray();
+                if(!hq.equals("")){
+                    hq = hq.replaceAll("#$","");
+                    String[] checkdatahq = hq.split("#");
+
+                    for(int ff=0;ff<checkdatahq.length;ff++){
+                        String[] checkdata1 = checkdatahq[0].split("\\$");
+
+                        JSONObject jsonObjectData=new JSONObject();
+                        jsonObjectData.put("name",checkdata1[0]);
+                        jsonObjectData.put("code",checkdata1[1]);
+                        jsonArrayData.put(jsonObjectData);
+                    }
+                    hqLoader=jsonArrayData.toString();
+                }
+
+                jsonArrayData=new JSONArray();
+                Log.d("jjaa",hqLoader);
+
+                if(!cluster.equals("")){
+                    cluster=cluster.replaceAll("#$","");
+                    String[] checkdataclus = cluster.split("#");
+
+                    for(int qq=0;qq<checkdataclus.length;qq++){
+                        String[] checkdataclus1 = checkdataclus[qq].split("\\$");
+                        JSONObject jsonObjectData1=new JSONObject();
+                        jsonObjectData1.put("name",checkdataclus1[0]);
+                        jsonObjectData1.put("code",checkdataclus1[1]);
+                        jsonArrayData.put(jsonObjectData1);
+                    }
+
+                    clusterLoader=jsonArrayData.toString();
+                }
+
+
+                jsonArrayData=new JSONArray();
+                Log.d("jjaa",clusterLoader);
+
+                if(!joint.equals("")){
+                    joint=joint.replaceAll("#$","");
+                    String[] checkdatajoint = joint.split("#");
+
+                    for(int qq=0;qq<checkdatajoint.length;qq++){
+                        String[] checkdataclus1 = checkdatajoint[qq].split("\\$");
+                        JSONObject jsonObjectData1=new JSONObject();
+                        jsonObjectData1.put("name",checkdataclus1[0]);
+                        jsonObjectData1.put("code",checkdataclus1[1]);
+                        jsonArrayData.put(jsonObjectData1);
+                    }
+
+                    jointLoader=jsonArrayData.toString();
+                }
+
+
+                jsonArrayData=new JSONArray();
+                Log.d("jjaa",jointLoader);
+
+                if(!dr.equals("")){
+                    dr=dr.replaceAll("#$","");
+                    String[] checkdatadr = dr.split("#");
+
+                    for(int qq=0;qq<checkdatadr.length;qq++){
+                        String[] checkdataclus1 = checkdatadr[qq].split("\\$");
+                        JSONObject jsonObjectData1=new JSONObject();
+                        jsonObjectData1.put("name",checkdataclus1[0]);
+                        jsonObjectData1.put("code",checkdataclus1[1]);
+                        jsonArrayData.put(jsonObjectData1);
+                    }
+
+                    drLoader=jsonArrayData.toString();
+                }
+                jsonArrayData=new JSONArray();
+                Log.d("jjaa",drLoader);
+
+                if(!chem.equals("")){
+                    chem=chem.replaceAll("#$","");
+                    String[] checkdatachem = chem.split("#");
+
+                    for(int qq=0;qq<checkdatachem.length;qq++){
+                        String[] checkdataclus1 = checkdatachem[qq].split("\\$");
+                        JSONObject jsonObjectData1=new JSONObject();
+                        jsonObjectData1.put("name",checkdataclus1[0]);
+                        jsonObjectData1.put("code",checkdataclus1[1]);
+                        jsonArrayData.put(jsonObjectData1);
+                    }
+
+                    chemistLoader=jsonArrayData.toString();
+                }
+
+                jsonArrayData=new JSONArray();
+                Log.d("jjaa",chemistLoader);
+
+                if(joss.has("hos")){
+                    hos=chem.replaceAll("#$","");
+                    String[] checkdatahos = hos.split("#");
+
+                    for(int qq=0;qq<checkdatahos.length;qq++){
+                        String[] checkdataclus1 = checkdatahos[qq].split("\\$");
+                        JSONObject jsonObjectData1=new JSONObject();
+                        jsonObjectData1.put("name",checkdataclus1[0]);
+                        jsonObjectData1.put("code",checkdataclus1[1]);
+                        jsonArrayData.put(jsonObjectData1);
+                    }
+
+                    hospLoader=jsonArrayData.toString();
+                    jsonArrayData=new JSONArray();
+                    Log.d("jjaa",hospLoader);
+                }
+
+
+
+            }
+        } catch (JSONException exception) {
+            exception.printStackTrace();
+        }
+
+
+    }
+
     public static void bindListenerHideUI(GridSelectionList grid){
         gridselection=grid;
     }
@@ -2021,7 +2260,7 @@ public class DemoActivity extends AppCompatActivity {
         }
     }
     public void showToast(String msg){
-        if(msg.equalsIgnoreCase("Doctor"))
+        if(msg.equalsIgnoreCase(/*"Doctor"*/ resources.getString(R.string.dr)))
             msg=mCommonSharedPreference.getValueFromPreference("drcap");
 
         try {
@@ -2693,7 +2932,9 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
 
                 }
             });
-        }catch (Exception e){}
+        }catch (Exception e){
+            Log.v("exceptionmsg",e.getMessage());
+        }
 
     }
 
@@ -2729,8 +2970,8 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
             }
             clusterneed=json.getString("ClusterNeed");
             drNeed=json.getString("DrNeed");
-            if(json.has("hospitalNeed"))
-                hospNeed=json.getString("hospitalNeed");
+            if(json.has("HospNeed"))
+                hospNeed=json.getString("HospNeed");
             else
                 hospNeed="1";
             drNeed=json.getString("DrNeed");
@@ -2916,7 +3157,20 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                             jssobj.put("DivCode",div);
 
                             Log.v("printined_single_save",jssobj.toString());
-                            saveSingleDay(jssobj.toString(),0);
+                            if(CommonUtilsMethods.isOnline(DemoActivity.this)) {
+                                saveSingleDay(jssobj.toString(), 0);
+                            }
+                            else{
+                                if(!dbh.checkOpen())
+                                    dbh.open();
+                                Log.v("printined_single_save11",jssobj.toString());
+                                 dbh.insertTPnew(jssobj.toString(),currentMn);
+                                 Cursor cur11 = dbh.select_tp_listnew();
+                                 while (cur11.moveToNext()){
+                                     Log.v("printined_single_save11",cur11.getInt(0)+"--"+cur11.getString(1));
+                                 }
+                                Log.v("printined_single_save11",cur11.getCount()+"--");
+                            }
 
                         }
                         i=jsA.length();
@@ -2934,6 +3188,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
     }
 
     public void saveSingleDay(String json, final int x){
+        Log.d("tp_singleday",json);
         Call<ResponseBody> drDetail;
         if(x==0)
         drDetail = apiService.svDayTp(json);
@@ -2963,12 +3218,12 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                             marker_progress.setVisibility(View.GONE);
 
                             if(x==1) {
-                                showToast("Successfully sent !!");
+                                showToast(/*"Successfully sent"*/ resources.getString(R.string.sent_suxs));
                                 btn_send.setVisibility(View.INVISIBLE);
                                 btn_save.setVisibility(View.INVISIBLE);
                             }
                             if(x==2){
-                                showToast("Successfully sent !!");
+                                showToast(/*"Successfully sent"*/ resources.getString(R.string.sent_suxs));
                                 Intent i=new Intent(DemoActivity.this,ApprovalActivity.class);
                                 startActivity(i);
                             }
@@ -3014,7 +3269,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                             Log.v("day_reject", is.toString());
                             JSONObject js = new JSONObject(is.toString());
                             if(js.getString("success").equalsIgnoreCase("true")) {
-                                showToast("Tour plan rejected !!");
+                                showToast(/*"Tour plan rejected"*/ resources.getString(R.string.tp_rjct));
                                 Intent i=new Intent(DemoActivity.this,ApprovalActivity.class);
                                 startActivity(i);
                             }
@@ -3045,13 +3300,12 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
 
     public void retrieveOldDatas(String json, final String month){
         Log.v("calendar_date_",json+"   "+jsonObject1.toString());
-        Call<ResponseBody> drDetail= apiService.getTP(json);
+        Call<ResponseBody> drDetail= apiService.getTP(json,"1");
         drDetail.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-
-
+                    Log.d("tpserver_data",response.body().toString());
                     InputStreamReader ip = null;
                     StringBuilder is = new StringBuilder();
                     String line = null;
@@ -3067,13 +3321,24 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                         JSONArray jsonArray=new JSONArray(is.toString());
                         if(jsonArray.length()==0) {
                             marker_progress.setVisibility(View.GONE);
-                           // dbh.deleteTP(month);
-                            //dayCal();
+                            button_hide();
+//                            dbh.deleteTP(month);
+//                            dayCal();
                             status = "0";
                             reject="";
                             btn_send.setVisibility(View.VISIBLE);
                             grid_cal.setAlpha(1f);
                             grid_cal.setEnabled(true);
+//                            JSONObject jj=new JSONObject();
+//                         //   jj.put("TPDatas","[]");
+//                            jj.put("SF",mCommonSharedPreference.getValueFromPreference("subsf"));
+//                            jj.put("SFName",mCommonSharedPreference.getValueFromPreference("subsfname"));
+//                            jj.put("DivCode",div);
+//                            jj.put("TPMonth",fullDateDum.substring(5,7));
+//                            jj.put("TPYear",fullDateDum.substring(0,4));
+//                            calAdapt = new CalendarAdapter(DemoActivity.this, jj.toString());
+//                            grid_cal.setAdapter(calAdapt);
+
                         }
                         else {
 
@@ -3086,8 +3351,6 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                                 if(status.equalsIgnoreCase("2"))
                                     showToast("Tp Rejected");*/
                                 JSONArray jjary = jjobj.getJSONArray("TPDatas");
-
-
 
                                 for (int i = 0; i < jjary.length(); i++) {
                                     JSONArray saveDayjson = new JSONArray();
@@ -3113,7 +3376,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                                             namearray = separateCodeandName(name);
                                             finalValue = attachCodeandName(codearray, namearray);
                                             saveDayjsonobj.put("work", finalValue);
-
+                                            Log.v("printing_work", finalValue);
                                             codearray = null;
                                             namearray = null;
                                             finalValue = "";
@@ -3125,7 +3388,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                                                 codearray = separateCodeandName(code);
                                                 namearray = separateCodeandName(name);
                                                 finalValue = attachCodeandName(codearray, namearray);
-                                                Log.v("printing_finalval", finalValue);
+                                                Log.v("printing_cluster", finalValue);
                                             }
                                             saveDayjsonobj.put("cluster", finalValue);
 
@@ -3140,7 +3403,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                                                 codearray = separateCodeandName(code);
                                                 namearray = separateCodeandName(name);
                                                 finalValue = attachCodeandName(codearray, namearray);
-                                                Log.v("printing_finalval", finalValue);
+                                                Log.v("printing_finaljoint", finalValue);
                                             }
                                             saveDayjsonobj.put("joint", finalValue);
 
@@ -3148,7 +3411,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                                             namearray = null;
                                             finalValue = "";
 
-                                            if(drNeed.equalsIgnoreCase("0")) {
+                                           // if(drNeed.equalsIgnoreCase("0")) {
                                                 code = jj.getString("Dr_Code");
                                                 name = jj.getString("Dr_Name");
 
@@ -3157,12 +3420,12 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                                                     namearray = separateCodeandName(name);
                                                     Log.v("printing_finalnam", codearray.length+"   name"+namearray.length);
                                                     finalValue = attachCodeandName(codearray, namearray);
-                                                    Log.v("printing_finalval", finalValue);
+                                                    Log.v("printing_finavaldoc", finalValue);
                                                 }
                                                 saveDayjsonobj.put("dr", finalValue);
-                                            }
-                                            else
-                                                saveDayjsonobj.put("dr", "");
+//                                            }
+//                                            else
+//                                                saveDayjsonobj.put("dr", "");
 
                                            /* if (dayno.equalsIgnoreCase("14")) {
                                                 Log.v("printing_approval_", jj.getString("Dr_Code") + " finalval " + finalValue);
@@ -3171,7 +3434,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                                             codearray = null;
                                             namearray = null;
                                             finalValue = "";
-                                            if(chmNeed.equalsIgnoreCase("0")) {
+                                          //  if(chmNeed.equalsIgnoreCase("0")) {
                                                 code = jj.getString("Chem_Code");
                                                 name = jj.getString("Chem_Name");
 
@@ -3179,12 +3442,12 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                                                     codearray = separateCodeandName(code);
                                                     namearray = separateCodeandName(name);
                                                     finalValue = attachCodeandName(codearray, namearray);
-                                                    Log.v("printing_finalval", finalValue);
+                                                    Log.v("printing_finalchem", finalValue);
                                                 }
                                                 saveDayjsonobj.put("chem", finalValue);
-                                            }
-                                            else
-                                                saveDayjsonobj.put("chem", "");
+//                                            }
+//                                            else
+//                                                saveDayjsonobj.put("chem", "");
                                             codearray = null;
                                             namearray = null;
                                             finalValue = "";
@@ -3196,7 +3459,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                                                 codearray = separateCodeandName(code);
                                                 namearray = separateCodeandName(name);
                                                 finalValue = attachCodeandName(codearray, namearray);
-                                                Log.v("printing_finalval", finalValue);
+                                                Log.v("printing_finalhq", finalValue);
                                             }
                                             saveDayjsonobj.put("hq", finalValue);
 
@@ -3204,9 +3467,9 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                                             namearray = null;
                                             finalValue = "";
 
-                                            if(jj.has("HOSCode")) {
-                                                code = jj.getString("HOSCode");
-                                                name = jj.getString("HOSName");
+                                            if(jj.has("HospCode")) {
+                                                code = jj.getString("HospCode");
+                                                name = jj.getString("HospName");
 
                                                 if (!TextUtils.isEmpty(code)) {
                                                     codearray = separateCodeandName(code);
@@ -3214,7 +3477,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                                                     Log.v("printing_finalfull", name);
                                                     Log.v("printing_finalnam_hos", codearray.length + "   name" + namearray.length);
                                                     finalValue = attachCodeandName(codearray, namearray);
-                                                    Log.v("printing_finalval", finalValue);
+                                                    Log.v("printing_finalvalhos", finalValue);
                                                 }
 
                                             saveDayjsonobj.put("hos", finalValue);
@@ -3230,7 +3493,6 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                                             setRetrieveValue(dayno, saveDayjson, jjary.length() - 1, i, month,jjary);
                                         }
                                     }
-
 
                                 }
                            /* }
@@ -3250,10 +3512,11 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                 }
 
             }
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                marker_progress.setVisibility(View.GONE);
+                Toast.makeText(getApplicationContext(),"Please try again",Toast.LENGTH_SHORT).show();
+                button_hide();
             }
         });
     }
@@ -3268,11 +3531,9 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                 if (!TextUtils.isEmpty(js.getString("dayno"))) {
                     if (dayno.equalsIgnoreCase(js.getString("dayno"))) {
                         js.put("DayPlan1", dayplan);
-
                     }
                 }
                 FillArray.put(js);
-
             }
             Log.v("thirummmmmm",FillArray.toString());
             JSONObject jj=new JSONObject();
@@ -3313,6 +3574,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
             //enableDisableSubmitButton();
            // }
             marker_progress.setVisibility(View.GONE);
+                button_hide();
             /*jj.put("SF",SF_Code);
             jj.put("SFName",sfname);
             jj.put("DivCode",div);
@@ -3340,14 +3602,14 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
            /* grid_cal.setAlpha(0.5f);
             grid_cal.setEnabled(false);*/
             notifi.setText("");
-            showToast("Already Approved");
-            btn_edit.setText("View");
+            showToast(/*"Already Approved"*/ resources.getString(R.string.tp_aprvd));
+            btn_edit.setText(/*"View"*/ resources.getString(R.string.view));
             btn_save.setVisibility(View.INVISIBLE);
             btn_send.setVisibility(View.INVISIBLE);
         }
         else if(status.equalsIgnoreCase("2")) {
             Log.v("printing_reject",reject+"kkk");
-            btn_edit.setText("Edit");
+            btn_edit.setText(/*"Edit"*/ resources.getString(R.string.edit));
             if(!TextUtils.isEmpty(reject)) {
                /* if(!alertshow)
                 alertForReject(1);*/
@@ -3358,12 +3620,12 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
             btn_save.setVisibility(View.VISIBLE);
             btn_send.getBackground().setAlpha(255);
             btn_send.setEnabled(true);
-            showToast("Tour plan got Rejected");
+            showToast(/*"Tour plan rejected"*/ resources.getString(R.string.tp_rjct));
 
         }
         else if(status.equalsIgnoreCase("0")) {
             btn_send.setVisibility(View.VISIBLE);
-            btn_edit.setText("Edit");
+            btn_edit.setText(/*"Edit"*/ resources.getString(R.string.edit));
             notifi.setText("");
             Log.v("startcount_are",CalendarAdapter.arr_json+"");
 
@@ -3431,6 +3693,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
             jso2.put("Month",currentMnthNum);
             jso2.put("Year",currentyr);
             Log.v("retrieve_old",jso2.toString());
+            current_mnth.setVisibility(View.INVISIBLE);
             marker_progress.setVisibility(View.VISIBLE);
             Log.v("retrievemnth",mnth);
             retrieveOldDatas(jso2.toString(),mnth);
@@ -3439,7 +3702,6 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
 
     public void alertOnline(){
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
         alertDialogBuilder.setMessage("Are you sure, You wanted send offline data");
                 alertDialogBuilder.setPositiveButton("yes",
                         new DialogInterface.OnClickListener() {
@@ -3456,7 +3718,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                                 sendingOfflineTpData(0);
 
                                 else
-                                showToast("Already sent to Approval");
+                                showToast(/*"Already sent to approval"*/ resources.getString(R.string.sent_appr));
                                 commonFun();
                             }
                         });
@@ -3474,6 +3736,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
     }
 
     public void sendingOfflineTpData(int x){
+        //current_mnth.setVisibility(View.INVISIBLE);
         marker_progress.setVisibility(View.VISIBLE);
         try {
             JSONArray jsA = jsonObject1.getJSONArray("TPDatas");
@@ -3568,8 +3831,10 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                         }
                         jjson.put("DayPlan", jsonDay);
                     }
-                    if(x==0)
-                        saveSingleDay(jsonObject1.toString(), 0);
+                    if(x==0){
+
+                    }
+                     //   saveSingleDay(jsonObject1.toString(), 0);
                 }
             }
             Log.v("printing_dayplan", jsonObject1.toString());
@@ -3614,6 +3879,13 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
 
     @Override
     protected void onDestroy() {
+        try{
+            if(receiver!=null)
+                unregisterReceiver(receiver);
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         super.onDestroy();
         mCommonSharedPreference.setValueToPreference("approve","null");
     }
@@ -3814,7 +4086,7 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                     rejectApproval(edt_feed.getText().toString());
                 }
                 else
-                    showToast("Message field is empty");
+                    showToast(/*"Message field is empty"*/ resources.getString(R.string.msg_empty));
 
                 commonFun();
             }
@@ -3849,6 +4121,28 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
         view.requestFocus();
         inputMethodManager.showSoftInput(view ,
                 InputMethodManager.SHOW_IMPLICIT);
+
+    }
+
+    public void button_hide(){
+         if(!mCommonSharedPreference.getValueFromPreference("approve").equalsIgnoreCase("null"))
+         {
+             current_mnth.setVisibility(View.INVISIBLE);
+             nxt_mnth.setVisibility(View.INVISIBLE);
+
+         }else {
+             if ((!curr_but) && (!nxt_but)) {
+                 current_mnth.setVisibility(View.VISIBLE);
+             } else {
+                 if (curr_but) {
+                     current_mnth.setVisibility(View.INVISIBLE);
+                     nxt_mnth.setVisibility(View.VISIBLE);
+                 } else {
+                     current_mnth.setVisibility(View.VISIBLE);
+                     nxt_mnth.setVisibility(View.INVISIBLE);
+                 }
+             }
+         }
 
     }
 

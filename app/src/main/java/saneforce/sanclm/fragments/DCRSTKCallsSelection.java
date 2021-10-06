@@ -1,9 +1,12 @@
 package saneforce.sanclm.fragments;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -11,10 +14,14 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 
+import android.provider.Settings;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -31,6 +38,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -74,6 +83,7 @@ import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
 import saneforce.sanclm.applicationCommonFiles.CommonUtils;
 import saneforce.sanclm.applicationCommonFiles.CommonUtilsMethods;
 import saneforce.sanclm.applicationCommonFiles.DownloadMasters;
+import saneforce.sanclm.applicationCommonFiles.GPSTrack;
 import saneforce.sanclm.sqlite.DataBaseHandler;
 import saneforce.sanclm.util.DCRCallSelectionFilter;
 import saneforce.sanclm.util.ManagerListLoading;
@@ -113,6 +123,9 @@ public class DCRSTKCallsSelection extends Fragment implements AdapterView.OnItem
     String language;
     Context context;
     Resources resources;
+    String gpsNeed,geoFencing;
+    double laty=0.0,lngy=0.0,limitKm=0.5;
+    GPSTrack mGPSTrack;
 
     public static DCRSTKCallsSelection newInstance() {
         DCRSTKCallsSelection fragment = new DCRSTKCallsSelection();
@@ -216,6 +229,12 @@ public class DCRSTKCallsSelection extends Fragment implements AdapterView.OnItem
         db_slidedwnloadPath =  mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SLIDES_DOWNLOAD_URL);
         SF_Type =  mCommonSharedPreference.getValueFromPreference("sf_type");
         db_connPath =  mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DB_URL);
+        geoFencing =  mCommonSharedPreference.getValueFromPreference("stkgeoneed");
+        gpsNeed =  mCommonSharedPreference.getValueFromPreference("GpsFilter");
+        Log.v("gpsNeed",gpsNeed);
+        limitKm = Double.parseDouble(mCommonSharedPreference.getValueFromPreference("radius"));
+
+
 
         FullScreencall();
 
@@ -226,17 +245,65 @@ public class DCRSTKCallsSelection extends Fragment implements AdapterView.OnItem
         }
         else
             spinner.setVisibility(View.GONE);
+        if(gpsNeed.equals("0")) {
+/* boolean locValue = CurrentLoc();
+ laty = mGPSTrack.getLatitude();
+ lngy = mGPSTrack.getLongitude();*/
+            SharedPreferences shares=getActivity().getSharedPreferences("location",0);
+            laty= Double.parseDouble(shares.getString("lat","0.0"));
+            lngy= Double.parseDouble(shares.getString("lng","0.0"));
+            Log.v("Dr_selection_key",laty+" lngy "+lngy);
+            if(String.valueOf(laty).equals("0.0") && String.valueOf(lngy).equals("0.0"))
+            {
+                if(CurrentLoc())
+                {
+                    laty=mGPSTrack.getLatitude();
+                    lngy=mGPSTrack.getLongitude();
+                    Log.v("Dr_selection_key",laty+" lngy "+lngy);
+                }
+            }
+        }
+
         dbh.open();
         stckList = new ArrayList<Custom_DCR_GV_Dr_Contents>();
         stckList.clear();
-
-        mCursor = dbh.select_Stockist_bySf(SF_Code,mMydayWtypeCd);
+        if(TextUtils.isEmpty(subSfCode) || subSfCode.equalsIgnoreCase("null"))
+            mCursor = dbh.select_Stockist_bySf(SF_Code,mMydayWtypeCd);
+        else
+            mCursor = dbh.select_Stockist_bySf(subSfCode,mMydayWtypeCd);
         //mCursor = dbh.select_Stockist_bySf("MR4077","Trivandrum");
         Log.v("checking_sfcode_stck",SF_Code+"cluster"+mMydayWtypeCd);
         Log.v("stocklist_count", String.valueOf(mCursor.getCount()));
         while (mCursor.moveToNext()) {
-            _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2),mCursor.getString(1),mCursor.getString(10),mCursor.getString(9),mCursor.getString(4),mCursor.getString(3),mCursor.getString(14),mCursor.getString(15));
-            stckList.add(_custom_DCR_GV_Dr_Contents);
+//            _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2),mCursor.getString(1),mCursor.getString(10),mCursor.getString(9),mCursor.getString(4),mCursor.getString(3),mCursor.getString(14),mCursor.getString(15));
+//            stckList.add(_custom_DCR_GV_Dr_Contents);
+
+            if (mCommonSharedPreference.getValueFromPreference("geo_tag").equalsIgnoreCase("0") && geoFencing.equalsIgnoreCase("1")) {
+                if (mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true")) {
+                    _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(4), mCursor.getString(3), mCursor.getString(14), mCursor.getString(15));
+                    stckList.add(_custom_DCR_GV_Dr_Contents);
+                } else {
+                    String yy = mCursor.getString(11);
+                    if (!TextUtils.isEmpty(mCursor.getString(16))) {
+                        Log.v("Dr_detailing_Print", mCursor.getString(2));
+                        if (distance(laty, lngy, Double.parseDouble(mCursor.getString(16)), Double.parseDouble(mCursor.getString(17))) < limitKm) {
+                            _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(4), mCursor.getString(3), mCursor.getString(14), mCursor.getString(15));
+
+                            Log.v("chemistDetails:", _custom_DCR_GV_Dr_Contents.toString());
+
+                            stckList.add(_custom_DCR_GV_Dr_Contents);
+                            Log.v("Dr_detailing_figure_dk", "lat_lng " + laty + " lngy " + lngy + "drnam " + mCursor.getString(2));
+
+                        } else {
+                            Log.v("Dr_detailing_figure", distance(laty, lngy, Double.parseDouble(mCursor.getString(16)), Double.parseDouble(mCursor.getString(17))) + "lat_lng " + laty + " lngy " + lngy + "drnam " + mCursor.getString(1) + "nn" + mCursor.getString(2));
+                        }
+                    }
+                }
+            }
+            else {
+                _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(4), mCursor.getString(3), mCursor.getString(14), mCursor.getString(15));
+                stckList.add(_custom_DCR_GV_Dr_Contents);
+            }
         }
 
         GridView gridView = (GridView) v.findViewById(R.id.gridview_dcrselect);
@@ -380,6 +447,32 @@ public class DCRSTKCallsSelection extends Fragment implements AdapterView.OnItem
             }
         });
 
+        et_companyurl.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence cs, int arg1, int arg2,int arg3) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable cs) {
+                Log.v("filter_edt_txt", String.valueOf(cs.length()));
+              /*  if(cs.length()==0) {
+                    _DCR_GV_Selection_adapter.getFilter().filter(" ");
+                    _DCR_GV_Selection_adapter.notifyDataSetChanged();
+                }
+                else{*/
+                _DCR_GV_Selection_adapter.getFilter().filter(cs);
+                _DCR_GV_Selection_adapter.notifyDataSetChanged();
+                //   }
+
+            }
+        });
+
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(),R.layout.textview_bg_spinner, categories);
 
         // Drop down layout style - list view with radio button
@@ -393,7 +486,10 @@ public class DCRSTKCallsSelection extends Fragment implements AdapterView.OnItem
             public void onItemSelected(AdapterView<?> adapterView, View view, final int i, long l) {
                 CommonUtilsMethods.avoidSpinnerDropdownFocus(spinner);
                 dbh.open();
+                if (mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true"))
+                mCommonSharedPreference.setValueToPreference("sub_sf_code",SF_coding.get(i));
                 mCursor = dbh.select_Stockist_bySf(SF_coding.get(i),mMydayWtypeCd);
+
                 if(stckList.size()==0 && mCursor.getCount()==0) {
                     if(commonUtilsMethods.isOnline(getActivity())) {
                         DownloadMasters dwnloadMasterData = new DownloadMasters(getActivity(), db_connPath, db_slidedwnloadPath, SF_coding.get(i),SF_Code);
@@ -416,8 +512,34 @@ public class DCRSTKCallsSelection extends Fragment implements AdapterView.OnItem
                     stckList = new ArrayList<Custom_DCR_GV_Dr_Contents>();
                     stckList.clear();
                     while (mCursor.moveToNext()) {
-                        _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2),mCursor.getString(1),mCursor.getString(10),mCursor.getString(9),mCursor.getString(4),mCursor.getString(3),mCursor.getString(14),mCursor.getString(15));
-                        stckList.add(_custom_DCR_GV_Dr_Contents);
+//                        _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2),mCursor.getString(1),mCursor.getString(10),mCursor.getString(9),mCursor.getString(4),mCursor.getString(3),mCursor.getString(14),mCursor.getString(15));
+//                        stckList.add(_custom_DCR_GV_Dr_Contents);
+                        if (mCommonSharedPreference.getValueFromPreference("geo_tag").equalsIgnoreCase("0") && geoFencing.equalsIgnoreCase("1")) {
+                            if (mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true")) {
+                                _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(4), mCursor.getString(3), mCursor.getString(14), mCursor.getString(15));
+                                stckList.add(_custom_DCR_GV_Dr_Contents);
+                            } else {
+                                String yy = mCursor.getString(11);
+                                if (!TextUtils.isEmpty(mCursor.getString(16))) {
+                                    Log.v("Dr_detailing_Print", mCursor.getString(2));
+                                    if (distance(laty, lngy, Double.parseDouble(mCursor.getString(16)), Double.parseDouble(mCursor.getString(17))) < limitKm) {
+                                        _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(4), mCursor.getString(3), mCursor.getString(14), mCursor.getString(15));
+
+                                        Log.v("chemistDetails:", _custom_DCR_GV_Dr_Contents.toString());
+
+                                        stckList.add(_custom_DCR_GV_Dr_Contents);
+                                        Log.v("Dr_detailing_figure_dk", "lat_lng " + laty + " lngy " + lngy + "drnam " + mCursor.getString(2));
+
+                                    } else {
+                                       Log.v("Dr_detailing_figure", distance(laty, lngy, Double.parseDouble(mCursor.getString(14)), Double.parseDouble(mCursor.getString(15))) + "lat_lng " + laty + " lngy " + lngy + "drnam " + mCursor.getString(1) + "nn" + mCursor.getString(2));
+                                    }
+                                }
+                            }
+                        }
+                        else {
+                            _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(4), mCursor.getString(3), mCursor.getString(14), mCursor.getString(15));
+                            stckList.add(_custom_DCR_GV_Dr_Contents);
+                        }
                     }
 
                     GridView gridView = (GridView) v.findViewById(R.id.gridview_dcrselect);
@@ -440,8 +562,32 @@ public class DCRSTKCallsSelection extends Fragment implements AdapterView.OnItem
                        Log.v("checking_sfcode_stck",SF_Code+"cluster"+mMydayWtypeCd);
                        Log.v("stocklist_count", String.valueOf(mCursor.getCount()));
                        while (mCursor.moveToNext()) {
-                           _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2),mCursor.getString(1),mCursor.getString(10),mCursor.getString(9),mCursor.getString(4),mCursor.getString(3),mCursor.getString(14),mCursor.getString(15));
-                           stckList.add(_custom_DCR_GV_Dr_Contents);
+                           if (mCommonSharedPreference.getValueFromPreference("geo_tag").equalsIgnoreCase("0") && geoFencing.equalsIgnoreCase("1")) {
+                               if (mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true")) {
+                                   _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(4), mCursor.getString(3), mCursor.getString(14), mCursor.getString(15));
+                                   stckList.add(_custom_DCR_GV_Dr_Contents);
+                               } else {
+                                   String yy = mCursor.getString(11);
+                                   if (!TextUtils.isEmpty(mCursor.getString(16))) {
+                                       Log.v("Dr_detailing_Print", mCursor.getString(2));
+                                       if (distance(laty, lngy, Double.parseDouble(mCursor.getString(16)), Double.parseDouble(mCursor.getString(17))) < limitKm) {
+                                           _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(4), mCursor.getString(3), mCursor.getString(14), mCursor.getString(15));
+
+                                           Log.v("chemistDetails:", _custom_DCR_GV_Dr_Contents.toString());
+
+                                           stckList.add(_custom_DCR_GV_Dr_Contents);
+                                           Log.v("Dr_detailing_figure_dk", "lat_lng " + laty + " lngy " + lngy + "drnam " + mCursor.getString(2));
+
+                                       } else {
+                                           Log.v("Dr_detailing_figure", distance(laty, lngy, Double.parseDouble(mCursor.getString(16)), Double.parseDouble(mCursor.getString(17))) + "lat_lng " + laty + " lngy " + lngy + "drnam " + mCursor.getString(1) + "nn" + mCursor.getString(2));
+                                       }
+                                   }
+                               }
+                           }
+                           else {
+                               _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(4), mCursor.getString(3), mCursor.getString(14), mCursor.getString(15));
+                               stckList.add(_custom_DCR_GV_Dr_Contents);
+                           }
                        }
 
                        GridView gridView = (GridView) v.findViewById(R.id.gridview_dcrselect);
@@ -451,7 +597,8 @@ public class DCRSTKCallsSelection extends Fragment implements AdapterView.OnItem
                        progressDialog.dismiss();
                    }
                });
-
+                DownloadMasters dwnloadMasterData1 = new DownloadMasters(getActivity(), db_connPath, db_slidedwnloadPath, SF_coding.get(i),SF_Code);
+                dwnloadMasterData1.jointtList();
                 // mCommonSharedPreference.setValueToPreference("sub_sf_code",SF_coding.get(i));
            /*   DownloadMasters  dwnloadMasterData = new DownloadMasters(getActivity(), db_connPath, db_slidedwnloadPath, SF_coding.get(i));
                 ll_anim.setVisibility(View.VISIBLE);
@@ -1076,7 +1223,72 @@ public class DCRSTKCallsSelection extends Fragment implements AdapterView.OnItem
 
         setData11(xVals, yVals, entries);
     }
+    public boolean CurrentLoc(){
 
+        mGPSTrack=new GPSTrack(getActivity());
+        //if(mGPSTrack.getLatitude()==0.0){
+        CheckLocation();
+        // CurrentLoc();
+        // }
+        return true;
+    }
+
+    public void CheckLocation(){
+        try {
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+                alertDialog.setTitle(getResources().getString(R.string.enable_location));
+                alertDialog.setCancelable(false);
+                alertDialog.setMessage(getResources().getString(R.string.alert_location));
+                alertDialog.setPositiveButton(getResources().getString(R.string.location_setting), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), 1);
+                    }
+                });
+           /* alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });*/
+                AlertDialog alert = alertDialog.create();
+                alert.show();
+
+
+            }
+        }catch (Exception e){
+            Toast toast=Toast.makeText(getActivity(), getResources().getString(R.string.loction_detcted), Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER,0,0);
+            toast.show();
+        }
+
+    }
+    private double distance(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1))
+                * Math.sin(deg2rad(lat2))
+                + Math.cos(deg2rad(lat1))
+                * Math.cos(deg2rad(lat2))
+                * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        return (dist);
+    }
+
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    private double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
+    }
 
 }
 

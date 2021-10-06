@@ -73,6 +73,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/lay_fw"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -100,6 +101,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/lay_others"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.9"

@@ -37,7 +37,7 @@ public class FeedCallJoinAdapter extends BaseAdapter {
         if(!brandModuleCheck)
             return productss.size();
         else
-        return product.size();
+            return product.size();
     }
 
     @Override
@@ -45,7 +45,7 @@ public class FeedCallJoinAdapter extends BaseAdapter {
         if(!brandModuleCheck)
             return productss.get(i);
         else
-        return product.get(i);
+            return product.get(i);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class FeedCallJoinAdapter extends BaseAdapter {
         if(!brandModuleCheck)
             return i;
         else
-        return i;
+            return i;
     }
 
     @Override

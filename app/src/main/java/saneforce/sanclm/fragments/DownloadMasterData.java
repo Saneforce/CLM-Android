@@ -136,6 +136,10 @@ public class DownloadMasterData extends Fragment implements View.OnTouchListener
         if (sfType.equalsIgnoreCase("1")) {
             sfCoding = SF_Code;
             updateTxt(mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_HQ));
+        }else if(sfType.equalsIgnoreCase("2"))
+        {
+            sfCoding = SF_Code;
+            updateTxt(mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_HQ));
         }
         sfCoding = mCommonSharedPreference.getValueFromPreference("sub_sf_code");
         Log.v("config_ip", pref.getString("input", "0"));
@@ -378,51 +382,53 @@ public class DownloadMasterData extends Fragment implements View.OnTouchListener
         array.clear();
         dbh.open();
         if (headquaterSelection) {
-            array.add(new ModelDownloadMaster(resources.getString(R.string.worktype), pref.getString("work", "0"), false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.headquater), pref.getString("hq", "0"), false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.competitors), pref.getString("comp", "0"), false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.input), pref.getString("inputs", "0"), false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.product), pref.getString("prd", "0"), false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.slides), pref.getString("slide", "0"), false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.brands), pref.getString("Brands", "0"), false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.departments), pref.getString("Departments", "0"), false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.speciality), pref.getString("Speciality", "0"), false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.catogy), pref.getString("Category", "0"), false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.qualifications), pref.getString("Qualifications", "0"), false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.clases), pref.getString("Class", "0"), false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.types), pref.getString("Types", "0"), false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.details), "0", false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.feedbacks), "0", false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.theraptic), pref.getString("theraptic", "0"), false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.cluster), String.valueOf(dbh.select_cat_sfcode(sfCoding).getCount()), false));
-            array.add(new ModelDownloadMaster(mCommonSharedPreference.getValueFromPreference("drcap"), String.valueOf(dbh.select_dr_sfcode(sfCoding).getCount()), false));
-            array.add(new ModelDownloadMaster(mCommonSharedPreference.getValueFromPreference("chmcap"), String.valueOf(dbh.select_chem_sfcode(sfCoding).getCount()), false));
-            array.add(new ModelDownloadMaster(mCommonSharedPreference.getValueFromPreference("stkcap"), String.valueOf(dbh.select_stock_sfcode(sfCoding).getCount()), false));
-            array.add(new ModelDownloadMaster(mCommonSharedPreference.getValueFromPreference("ucap"), String.valueOf(dbh.select_undr_sfcode(sfCoding).getCount()), false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.jointwork), String.valueOf(dbh.select_joint_list().getCount()), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.wrk_types), pref.getString("work", "0"), false,"worktype"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.hqs), pref.getString("hq", "0"), false,"hq"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.competitors), pref.getString("comp", "0"), false,"competitors"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.input), pref.getString("inputs", "0"), false,"inputs"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.product), pref.getString("prd", "0"), false,"products"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.slides), pref.getString("slide", "0"), false,"slides"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.brands), pref.getString("Brands", "0"), false,"brands"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.departments), pref.getString("Departments", "0"), false,"departments"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.speciality), pref.getString("Speciality", "0"), false,"speciality"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.catogy), pref.getString("Category", "0"), false,"category"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.qualifications), pref.getString("Qualifications", "0"), false,"qualification"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.clases), pref.getString("Class", "0"), false,"class"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.types), pref.getString("Types", "0"), false,"types"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.details), "0", false,"details"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.feedbacks), "0", false,"feedback"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.theraptic), pref.getString("theraptic", "0"), false,"theraptic"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.cluster), String.valueOf(dbh.select_cat_sfcode(sfCoding).getCount()), false,"cluster"));
+            array.add(new ModelDownloadMaster(mCommonSharedPreference.getValueFromPreference("drcap"), String.valueOf(dbh.select_dr_sfcode(sfCoding).getCount()), false,"doctor"));
+            if(mCommonSharedPreference.getValueFromPreference("chem_need").equals("0"))
+            array.add(new ModelDownloadMaster(mCommonSharedPreference.getValueFromPreference("chmcap"), String.valueOf(dbh.select_chem_sfcode(sfCoding).getCount()), false,"chemist"));
+            array.add(new ModelDownloadMaster(mCommonSharedPreference.getValueFromPreference("stkcap"), String.valueOf(dbh.select_stock_sfcode(sfCoding).getCount()), false,"stockist"));
+            array.add(new ModelDownloadMaster(mCommonSharedPreference.getValueFromPreference("ucap"), String.valueOf(dbh.select_undr_sfcode(sfCoding).getCount()), false,"unlisteddoctor"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.jointwork), String.valueOf(dbh.select_joint_list().getCount()), false,"jointwork"));
             Log.v("total_dr_stck", dbh.select_joint_sfcode(sfCoding).getCount() + "");
             if (mCommonSharedPreference.getValueFromPreference("hosp_filter").equalsIgnoreCase("0")) {
-                array.add(new ModelDownloadMaster(resources.getString(R.string.hospital), String.valueOf(dbh.select_hospitalist(sfCoding).getCount()), false));
+                array.add(new ModelDownloadMaster(resources.getString(R.string.hospital), String.valueOf(dbh.select_hospitalist(sfCoding).getCount()), false,"hospital"));
             }
-            array.add(new ModelDownloadMaster("Cip",  String.valueOf(dbh.select_cip_sfcode(sfCoding).getCount()), false));
+            if(mCommonSharedPreference.getValueFromPreference("cip_need").equals("0"))
+            array.add(new ModelDownloadMaster("Cip",  String.valueOf(dbh.select_cip_sfcode(sfCoding).getCount()), false,"cip"));
         } else {
-            array.add(new ModelDownloadMaster(resources.getString(R.string.worktype), pref.getString("work", "0"), false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.headquater), pref.getString("hq", "0"), false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.competitors), pref.getString("comp", "0"), false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.input), pref.getString("inputs", "0"), false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.product), pref.getString("prd", "0"), false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.slides), pref.getString("slide", "0"), false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.brands), pref.getString("Brands", "0"), false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.departments), pref.getString("Departments", "0"), false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.speciality), pref.getString("Speciality", "0"), false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.catogy), pref.getString("Category", "0"), false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.qualifications), pref.getString("Qualifications", "0"), false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.clases), pref.getString("Class", "0"), false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.types), pref.getString("Types", "0"), false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.details), "0", false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.feedbacks), "0", false));
-            array.add(new ModelDownloadMaster(resources.getString(R.string.theraptic), pref.getString("theraptic", "0"), false));
-            array.add(new ModelDownloadMaster("Cip", pref.getString("cip", "0"), false));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.wrk_types), pref.getString("work", "0"), false,"worktype"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.hqs), pref.getString("hq", "0"), false,"hq"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.competitors), pref.getString("comp", "0"), false,"competitors"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.input), pref.getString("inputs", "0"), false,"inputs"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.product), pref.getString("prd", "0"), false,"products"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.slides), pref.getString("slide", "0"), false,"slides"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.brands), pref.getString("Brands", "0"), false,"brands"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.departments), pref.getString("Departments", "0"), false,"departments"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.speciality), pref.getString("Speciality", "0"), false,"speciality"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.catogy), pref.getString("Category", "0"), false,"category"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.qualifications), pref.getString("Qualifications", "0"), false,"qualification"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.clases), pref.getString("Class", "0"), false,"class"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.types), pref.getString("Types", "0"), false,"types"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.details), "0", false,"details"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.feedbacks), "0", false,"feedback"));
+            array.add(new ModelDownloadMaster(resources.getString(R.string.theraptic), pref.getString("theraptic", "0"), false,"theraptic"));
+            array.add(new ModelDownloadMaster("Cip", pref.getString("cip", "0"), false,"cip"));
 
         }
 

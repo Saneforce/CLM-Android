@@ -35,6 +35,11 @@ public class AdapterBrandAuditList extends BaseAdapter {
     }
 
     @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    @Override
     public long getItemId(int i) {
         return i;
     }

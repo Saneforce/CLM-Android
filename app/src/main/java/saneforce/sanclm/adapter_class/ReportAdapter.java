@@ -41,7 +41,14 @@ public class ReportAdapter extends BaseAdapter {
         view= LayoutInflater.from(context).inflate(R.layout.row_item_report,viewGroup,false);
         TextView text_menu=(TextView)view.findViewById(R.id.text_menu);
         LoadBitmap mm=list.get(i);
-        text_menu.setText(mm.getBrdName());
+        if(mm.getBrdName().equalsIgnoreCase("Dashboard"))
+        {
+            text_menu.setText(context.getResources().getString(R.string.Dashboard));
+        }
+        else
+        {
+            text_menu.setText(mm.getBrdName());
+        }
 
         return view;
     }

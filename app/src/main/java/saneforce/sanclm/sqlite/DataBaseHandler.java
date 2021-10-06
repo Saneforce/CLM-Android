@@ -141,6 +141,10 @@ public class DataBaseHandler {
 
     }
 
+    public void delete_singleslide(String slideid) {
+        db.execSQL("delete from "+ TableEntry.TABLE_SLIDES_MASTER +" WHERE "+TableEntry.COLUMN_SLIDE_ID+" = '"+ slideid +"' " ) ;
+    }
+
     /* Inner class that defines the table contents */
     public abstract class TableEntry implements BaseColumns {
 
@@ -272,6 +276,7 @@ public class DataBaseHandler {
             public static final String COLUMN_STOCKIST_CREDIT_DAYS = "Stk_CrdDays";    //10
             public static final String COLUMN_STOCKIST_CREDIT_LIMIT = "Stk_CrdLimit";   //11
             public static final String COLUMN_STOCKIST_CONTACT = "Stk_contact_per";//12
+
             //public static final String COLUMN_DIVISION_CODE = "Div_Code"; //13
 
 
@@ -398,6 +403,7 @@ public class DataBaseHandler {
         public static final String B_NAME="b_name";
         public static final String DEP_NAME="dep_name";
         public static final String DEP_DIV_CODE="dep_div_code";
+        public static final String TYPE="type";
         public static final String TABLE_JSON="tbl_json";
         public static final String TOTAL_VALUE="totl_vl";
         public static final String NAME="namee";
@@ -411,6 +417,11 @@ public class DataBaseHandler {
         public static final String COLUMN_JSON="clm_json";
         public static final String COLUMN_MNTH="clm_mnth";
         public static final String COLUMN_STATUS="clm_status";
+
+        public static final String TABLE_TOUR_PLANNEW="tbl_tpnew";
+        public static final String COLUMN_JSONNEW="clm_jsonnew";
+        public static final String COLUMN_MNTHNEW="clm_mnthnew";
+
 
         public static final String TABLE_SCRIB="tbl_scribble";
         public static final String PATH="clm_path";
@@ -682,7 +693,7 @@ public class DataBaseHandler {
 
 
     public long insert_unlisted_doctormaster(String drCode, String drName, String drTwnCd, String drTwnNm, String drCatNm, String drSpecNm, String drCatCd, String drSpecCd, String sfCd, String addr,
-                                             String dremail, String drmobile, String drphone, String drQual,String max,String tag) {
+                                             String dremail, String drmobile, String drphone, String drQual,String max,String tag,String DrHoscd,String DrhosNm) {
         ContentValues values = new ContentValues();
         values.put(TableEntry.COLUMN_DOCTOR_CODE, drCode);
         values.put(TableEntry.COLUMN_DOCTOR_NAME, drName);
@@ -700,6 +711,8 @@ public class DataBaseHandler {
         values.put(TableEntry.COLUMN_DOCTOR_QUALIFICATION_CODE, drQual);
         values.put(TableEntry.COLUMN_MAXTAG, max);
         values.put(TableEntry.COLUMN_TAGCOUNT, tag);
+        values.put(TableEntry.COLUMN_HOS_CODE,DrHoscd);
+        values.put(TableEntry.COLUMN_HOS_NAME,DrhosNm);
         Log.v("SFCode_udr",sfCd+" categrynam "+drCatCd);
        // Log.d("VALUES",values.toString());
         return db.insert(TableEntry.TABLE_UNLISTED_DOCTOR_MASTER_DETAILS,TableEntry.COLUMN_NULLABLE, values);
@@ -731,7 +744,7 @@ public class DataBaseHandler {
 
     public long insert_stockistMaster(String stkCode, String stkName, String stkaddr, String stkTwnCd, String stkTwnNm,
                                       String stkPh, String stkMob, String stkEmail, String stkContactPers, String stkCrdDt,
-                                      String stkCrdLmt, String sfCd,String max,String tag) {
+                                      String stkCrdLmt, String sfCd,String max,String tag,String lat,String longi) {
         ContentValues values = new ContentValues();
         values.put(TableEntry.COLUMN_STOCKIST_CODE, stkCode);
         values.put(TableEntry.COLUMN_STOCKIST_NAME, stkName);
@@ -747,6 +760,8 @@ public class DataBaseHandler {
         values.put(TableEntry.COLUMN_SF_CODE, sfCd);
         values.put(TableEntry.COLUMN_MAXTAG, max);
         values.put(TableEntry.COLUMN_TAGCOUNT, tag);
+        values.put(TableEntry.COLUMN_LATITUDE, lat);
+        values.put(TableEntry.COLUMN_LONGITUDE, longi);
         Log.v("doctorlist_values",stkEmail+"credit"+stkCode);
         return db.insert(TableEntry.TABLE_STOCKIST_MASTER_DETAILS,TableEntry.COLUMN_NULLABLE, values);
     }
@@ -861,6 +876,14 @@ public class DataBaseHandler {
         values.put(TableEntry.COLUMN_STATUS,status);
         return db.insert(TableEntry.TABLE_TOUR_PLAN,null,values);
     }
+
+    public long insertTPnew(String json,String mnth){
+        ContentValues values=new ContentValues();
+        values.put(TableEntry.COLUMN_JSONNEW,json);
+        values.put(TableEntry.COLUMN_MNTHNEW,mnth);
+        return db.insert(TableEntry.TABLE_TOUR_PLANNEW,null,values);
+    }
+
     public long insertType(String code,String name){
         ContentValues values=new ContentValues();
         values.put(TableEntry.BRAND_CODE,code);
@@ -897,12 +920,13 @@ public class DataBaseHandler {
         values.put(TableEntry.DEP_DIV_CODE,divcode);
         return db.insert(TableEntry.TABLE_CATEGORY,null,values);
     }
-    public long insertClass(String code,String name,String depname,String divcode){
+    public long insertClass(String code,String name,String depname,String divcode,String type){
         ContentValues values=new ContentValues();
         values.put(TableEntry.B_CODE,code);
         values.put(TableEntry.B_NAME,name);
         values.put(TableEntry.DEP_NAME,depname);
         values.put(TableEntry.DEP_DIV_CODE,divcode);
+        values.put(TableEntry.TYPE,type);
         return db.insert(TableEntry.TABLE_CLASS,null,values);
     }
     public long insertQuality(String code,String name,String depname,String divcode){
@@ -934,7 +958,7 @@ public class DataBaseHandler {
         return db.insert(TableEntry.TABLE_COMPETITOR_MASTER_NEW,null,values);
 
     }
-    public long insertJson(String value,String name,String time,String code,String type,String commonCode){
+    public long insertJson(String value,String name,String time,String code,String type,String commonCode,String url){
         ContentValues values=new ContentValues();
         values.put(TableEntry.TOTAL_VALUE,value);
         values.put(TableEntry.NAME,name);
@@ -942,6 +966,7 @@ public class DataBaseHandler {
         values.put(TableEntry.PCODE,code);
         values.put(TableEntry.PTYPE,type);
         values.put(TableEntry.COMMOMCODE,commonCode);
+        values.put(TableEntry.SLIDE_URL,url);
         return db.insert(TableEntry.TABLE_JSON,null,values);
     }
     public long insertScrible(String path,String like,String dis,String scibb,String feedback){
@@ -1075,8 +1100,16 @@ public class DataBaseHandler {
                 TableEntry.COLUMN_FILE_NAME + "= ?", new String[] {fileName});
     }
 
+    public void delete_tpnew(int sfcode) {
+        db.execSQL("delete from "+ TableEntry.TABLE_TOUR_PLANNEW +" WHERE "+TableEntry.COLUMN_ID+" = "+ sfcode ) ;
+    }
+
     public void delete_json(int sfcode) {
         db.execSQL("delete from "+ TableEntry.TABLE_JSON +" WHERE "+TableEntry.COLUMN_ID+" = "+ sfcode ) ;
+    }
+
+    public void delete_json1(String sfcode) {
+        db.execSQL("delete from "+ TableEntry.TABLE_JSON +" WHERE "+TableEntry.PCODE+" = "+ sfcode );
     }
 
     public void del_joint(){
@@ -1102,6 +1135,9 @@ public class DataBaseHandler {
     }
     public void del_slide(){
         db.execSQL("delete from " + TableEntry.TABLE_SLIDES_MASTER+ "  ");
+    }
+    public void del_slidenew(String brndcode){
+        db.execSQL("delete from " + TableEntry.TABLE_SLIDES_MASTER+ " WHERE "+TableEntry.COLUMN_SLIDE_ID+"="+brndcode);
     }
     public void del_prd(){
         db.execSQL("delete from " + TableEntry.TABLE_PRODUCT_MASTER + "  ");
@@ -1298,6 +1334,12 @@ public class DataBaseHandler {
     public Cursor select_class_list(){
         return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_CLASS,null);
     }
+    public Cursor select_hospital_list() {
+        return db.rawQuery(" SELECT * FROM " +TableEntry.TABLE_HOSPITAL,null);
+    }
+    public Cursor select_class_listType(String type){
+        return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_CLASS+ " WHERE "+TableEntry.TYPE+" = '"+type+"' ",null);
+    }
     public Cursor select_feedback_list(String prdname){
     return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_FEEDBACK+ " WHERE "+TableEntry.PRODUCT_NAME+" = '"+prdname+"' ",null);
     }
@@ -1317,11 +1359,18 @@ public class DataBaseHandler {
     public Cursor select_json_list(){
         return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_JSON,null);
     }
+    public Cursor select_json_list1(String drcode){
+        return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_JSON+" WHERE "+TableEntry.PCODE+" = '"+drcode+"' ",null);
+    }
     public Cursor select_speciality_list(){
         return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_SPECIALITY,null);
     }
     public Cursor select_theraptic_list(){
         return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_THERAPTIC,null);
+    }
+
+    public Cursor select_tp_listnew(){
+        return db.rawQuery(" SELECT * FROM "+TableEntry.TABLE_TOUR_PLANNEW,null);
     }
 
     public Cursor select_tp_list(String mnth){
@@ -1373,6 +1422,11 @@ public class DataBaseHandler {
     public Cursor select_slidesUrlPathDuplicate() {
         return db.rawQuery("SELECT *  FROM "
                 + TableEntry.TABLE_SLIDES_MASTER, null);
+    }
+
+    public Cursor select_slidesUrlPathnew() {
+        return db.rawQuery("SELECT * FROM "
+                + TableEntry.TABLE_SLIDES_MASTER+ " WHERE "+TableEntry.COLUMN_SYNC_STATUS+" = '1' " , null);
     }
     public Cursor select_mappingPrdName(String prd) {
         return db.rawQuery("SELECT *  FROM "

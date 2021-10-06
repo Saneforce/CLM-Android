@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,9 +24,11 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import saneforce.sanclm.Pojo_Class.DCRapplist;
 import saneforce.sanclm.R;
 import saneforce.sanclm.activities.Model.ModelForLeaveApproval;
 import saneforce.sanclm.activities.Model.ModelTpApproval;
+import saneforce.sanclm.adapter_class.AdapterForDCRApproval;
 import saneforce.sanclm.adapter_class.AdapterForLeaveApproval;
 import saneforce.sanclm.adapter_class.AdapterTpApproval;
 import saneforce.sanclm.api_Interface.Api_Interface;
@@ -43,7 +46,8 @@ public class ApprovalActivity extends AppCompatActivity {
     String SF_Code;
     ArrayList<ModelForLeaveApproval> leaveArray=new ArrayList<>();
     ArrayList<ModelTpApproval> tpArray=new ArrayList<>();
-    RelativeLayout lay_leave,lay_tp,lay_dcr;
+    //ArrayList<ModelDcrApproval> tdcrArray=new ArrayList<>();
+    RelativeLayout lay_leave,lay_tp,lay_dcr,lay_dcrappr;
     ImageView iv_dwnldmaster_back;
     ArrayList<String> aa=new ArrayList<>();
     LinearLayout lay_tp_header;
@@ -51,6 +55,8 @@ public class ApprovalActivity extends AppCompatActivity {
     String db_slidedwnloadPath;
     LinearLayout ll_anim;
     CommonUtilsMethods mCommonUtilsMethods;
+    TextView monthtxt,yeartxt;
+    ArrayList<DCRapplist> dcrarraylist=new ArrayList<>();
 
     @Override
     public void onBackPressed() {
@@ -81,6 +87,9 @@ public class ApprovalActivity extends AppCompatActivity {
         db_slidedwnloadPath =  mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SLIDES_DOWNLOAD_URL);
         ll_anim=(LinearLayout)findViewById(R.id.ll_anim);
         mCommonUtilsMethods=new CommonUtilsMethods(this);
+        lay_dcrappr=(RelativeLayout)findViewById(R.id.lay_dcrappr);
+        monthtxt=findViewById(R.id.txt_mnth);
+        yeartxt=findViewById(R.id.year_txt);
         FullScreencall();
 
         aa.add("hi");
@@ -88,6 +97,13 @@ public class ApprovalActivity extends AppCompatActivity {
         aa.add("hi");
         aa.add("hi");
 
+        Log.v("Dcrflag",mCommonSharedPreference.getValueFromPreference("DcrapprvNd"));
+
+        if(mCommonSharedPreference.getValueFromPreference("DcrapprvNd").equalsIgnoreCase("0"))
+        {
+            lay_dcrappr.setVisibility(View.VISIBLE);
+            getDcrList();
+        }
 
         getLvApproval();
         getTpApproval();
@@ -105,6 +121,9 @@ public class ApprovalActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 lay_tp_header.setVisibility(View.VISIBLE);
+                monthtxt.setText(getResources().getString(R.string.mnth));
+                yeartxt.setText(getResources().getString(R.string.year));
+                yeartxt.setVisibility(View.VISIBLE);
                 AdapterTpApproval tpadpt=new AdapterTpApproval(ApprovalActivity.this,tpArray);
                 list_view.setAdapter(tpadpt);
                 tpadpt.notifyDataSetChanged();
@@ -113,11 +132,14 @@ public class ApprovalActivity extends AppCompatActivity {
         lay_dcr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                lay_tp_header.setVisibility(View.GONE);
-
+                lay_tp_header.setVisibility(View.VISIBLE);
+                monthtxt.setText(getResources().getString(R.string.DcrDate));
+                yeartxt.setVisibility(View.GONE);
+                AdapterForDCRApproval adapterForDCRApproval=new AdapterForDCRApproval(ApprovalActivity.this,dcrarraylist);
+                list_view.setAdapter(adapterForDCRApproval);
+                adapterForDCRApproval.notifyDataSetChanged();
             }
         });
-
         iv_dwnldmaster_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -251,6 +273,57 @@ public class ApprovalActivity extends AppCompatActivity {
         }catch (Exception e){}
 
         }
+
+    private void getDcrList() {
+        JSONObject json=new JSONObject();
+        try {
+            json.put("sfCode", SF_Code);
+            Log.v("printing_sf_code",json.toString());
+            Call<ResponseBody> approval=apiService.getDCRlist(json.toString());
+
+            approval.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        dcrarraylist.clear();
+                        Log.v("printing_res_track", response.body().byteStream() + "");
+                        JSONObject jsonObject = null;
+                        String jsonData = null;
+
+                        InputStreamReader ip = null;
+                        StringBuilder is = new StringBuilder();
+                        String line = null;
+                        try {
+                            ip = new InputStreamReader(response.body().byteStream());
+                            BufferedReader bf = new BufferedReader(ip);
+
+                            while ((line = bf.readLine()) != null) {
+                                is.append(line);
+                            }
+                            Log.v("printing_here_tpapprove",is.toString());
+
+                            JSONArray jsonArray=new JSONArray(is.toString());
+                            for(int i=0;i<jsonArray.length();i++){
+                                JSONObject json=jsonArray.getJSONObject(i);
+                                dcrarraylist.add(new DCRapplist(json.getString("Trans_SlNo"),json.getString("Sf_Name"),json.getString("Activity_Date"),
+                                        json.getString("Plan_Name"),json.getString("WorkType_Name"),json.getString("Sf_Code"),json.getString("FieldWork_Indicator")));
+                            }
+
+                        } catch (Exception e) {
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                }
+            });
+
+        }catch (Exception e){}
+
+    }
 
   /*  public void Updatecluster(String subsfcode){
         dwnloadMasterData = new DownloadMasters(getApplicationContext(), db_connPath, db_slidedwnloadPath, subsfcode,SF_Code);

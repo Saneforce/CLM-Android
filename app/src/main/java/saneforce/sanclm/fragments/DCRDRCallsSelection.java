@@ -293,6 +293,15 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
             laty= Double.parseDouble(shares.getString("lat","0.0"));
             lngy= Double.parseDouble(shares.getString("lng","0.0"));
             Log.v("Dr_selection_key",laty+" lngy "+lngy);
+            if(String.valueOf(laty).equals("0.0") && String.valueOf(lngy).equals("0.0"))
+            {
+                if(CurrentLoc())
+                {
+                    laty=mGPSTrack.getLatitude();
+                    lngy=mGPSTrack.getLongitude();
+                    Log.v("Dr_selection_key",laty+" lngy "+lngy);
+                }
+            }
         }
 
       /*  SharedPreferences shares=getActivity().getSharedPreferences("location",0);
@@ -448,7 +457,7 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
                     setValueForFeed(drname,drcode);
 
                 }
-                else if(mCommonSharedPreference.getValueFromPreference("dr_profile").equalsIgnoreCase("false")){
+                else if(mCommonSharedPreference.getValueFromPreference("dr_profile").equalsIgnoreCase("true")){
                     mCommonSharedPreference.setValueToPreference("Pname",drname);
                     mCommonSharedPreference.setValueToPreference("Pcode",drcode);
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.app_config, new DrProfile()).commit();
@@ -499,9 +508,12 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, final int i, long l) {
-               CommonUtilsMethods.avoidSpinnerDropdownFocus(spinner);
+                CommonUtilsMethods.avoidSpinnerDropdownFocus(spinner);
                 dbh.open();
                 Log.v("printing_item_sele",commonUtilsMethods.isOnline(getActivity())+" ");
+                mCommonSharedPreference.setValueToPreference("hq_code",SF_coding.get(i));
+                if (mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true"))
+                    mCommonSharedPreference.setValueToPreference("sub_sf_code",SF_coding.get(i));
                 mCursor = dbh.select_doctors_bySf(SF_coding.get(i),mMydayWtypeCd);
                 if(drList.size()==0 && mCursor.getCount()==0) {
                     if(commonUtilsMethods.isOnline(getActivity())) {
@@ -610,8 +622,10 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
 
                 });
 
+                DownloadMasters dwnloadMasterData1 = new DownloadMasters(getActivity(), db_connPath, db_slidedwnloadPath, SF_coding.get(i),SF_Code);
+                dwnloadMasterData1.jointtList();
 
-//                spinner.setSelection(i);
+                //                spinner.setSelection(i);
 //                switch (i){
 //                    case 0:
 //                        Log.v("Spinner Selected:",adapterView.getSelectedItem().toString());
@@ -1220,10 +1234,10 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
     public boolean CurrentLoc(){
 
         mGPSTrack=new GPSTrack(getActivity());
-        if(mGPSTrack.getLatitude()==0.0){
+        //if(mGPSTrack.getLatitude()==0.0){
             CheckLocation();
-            CurrentLoc();
-        }
+           // CurrentLoc();
+       // }
         return true;
     }
 
@@ -1663,6 +1677,8 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
         tv_todayplan_popup_head.setText(getResources().getString(R.string.selctlist));
         ImageView   iv_close_popup=(ImageView)dialog.findViewById(R.id.iv_close_popup);
         Button   ok=(Button)dialog.findViewById(R.id.ok);
+        EditText search_edit=(EditText)  dialog.findViewById(R.id.et_search);
+
 
         if (hospital_array.contains(new PopFeed(true))) {
             isEmpty=false;
@@ -1692,6 +1708,25 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
                 Log.v("search_view_str",s);
                 adapt.getFilter().filter(s);
                 return false;
+            }
+        });
+
+        search_edit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapt.getFilter().filter(s);
+                adapt.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 

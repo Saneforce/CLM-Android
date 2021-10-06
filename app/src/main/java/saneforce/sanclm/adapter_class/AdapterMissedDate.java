@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -55,6 +56,8 @@ public class AdapterMissedDate  extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         convertView=LayoutInflater.from(context).inflate(R.layout.row_item_missed_date,parent,false);
+        LinearLayout lay_fw=(LinearLayout)convertView.findViewById(R.id.lay_fw);
+        LinearLayout lay_other=(LinearLayout)convertView.findViewById(R.id.lay_others);
         RelativeLayout mis_fw=(RelativeLayout)convertView.findViewById(R.id.mis_fw);
         RelativeLayout mis_other=(RelativeLayout)convertView.findViewById(R.id.mis_other);
         TextView txt_mnyr=(TextView)convertView.findViewById(R.id.txt_mnyr);
@@ -64,6 +67,16 @@ public class AdapterMissedDate  extends BaseAdapter {
         txt_mnyr.setText(mm.getMnthYr());
         txt_date.setText(mm.getDate());
         txt_day.setText(mm.getDay());
+
+        if(list.get(position).getStatus().equalsIgnoreCase("6"))
+        {
+            lay_fw.setBackgroundResource(R.color.color_grey);
+            lay_other.setBackgroundResource(R.color.color_grey);
+        }else
+        {
+            lay_fw.setBackgroundResource(R.color.white);
+            lay_other.setBackgroundResource(R.color.white);
+        }
 
         mis_other.setOnClickListener(new View.OnClickListener() {
             @Override

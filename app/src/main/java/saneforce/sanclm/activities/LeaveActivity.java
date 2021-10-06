@@ -16,6 +16,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -26,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatSpinner;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -63,6 +66,7 @@ import saneforce.sanclm.api_Interface.Api_Interface;
 import saneforce.sanclm.api_Interface.RetroClient;
 import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
 import saneforce.sanclm.applicationCommonFiles.CommonUtils;
+import saneforce.sanclm.applicationCommonFiles.CommonUtilsMethods;
 import saneforce.sanclm.applicationCommonFiles.DirectionsJSONParser;
 import saneforce.sanclm.util.UpdateUi;
 
@@ -86,17 +90,22 @@ public class LeaveActivity extends AppCompatActivity {
     EditText edt_add, edt_reason;
     ImageView iv_dwnldmaster_back;
     static String leaveType = "";
-    CommonSharedPreference mCommonSharedPreference;
-    static String SF_Code, Emp_Id;
+    static CommonSharedPreference mCommonSharedPreference;
+    static String SF_Code, Emp_Id,div_Code;
     String db_connPath;
     static Api_Interface apiService;
     Button submit;
     static UpdateUi updateUi;
 
     SharedPreferences sharedPreferences;
-    String licence;
+    String licence,leaveCode,leavetype,leaveName,aw_flag;
     String req = "0", empId;
     JSONObject svjson;
+    AppCompatSpinner spinner;
+    ArrayList<String> selectedLeave;
+    ArrayAdapter<String> arrayAdapter;
+
+
 
 
     @Override
@@ -155,18 +164,23 @@ public class LeaveActivity extends AppCompatActivity {
         iv_dwnldmaster_back = (ImageView) findViewById(R.id.iv_dwnldmaster_back);
         mCommonSharedPreference = new CommonSharedPreference(this);
         submit = (Button) findViewById(R.id.submit);
+        spinner=(AppCompatSpinner) findViewById(R.id.lv_spinner);
+        selectedLeave=new ArrayList<>();
 
-//        lay_el=(LinearLayout) findViewById(R.id.lay_el);
+
+
+        //        lay_el=(LinearLayout) findViewById(R.id.lay_el);
 //        txt_el=(TextView)findViewById(R.id.type_el);
 
-        txt_cl.setBackgroundColor(Color.BLACK);
-        txt_cl.setTextColor(Color.WHITE);
-
-        leaveType = "CL";
+//        txt_cl.setBackgroundColor(Color.BLACK);
+//        txt_cl.setTextColor(Color.WHITE);
+//
+//        leaveType = "CL";
 
 
         leavestatus = mCommonSharedPreference.getValueFromPreference("LeaveStatus");
         SF_Code = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_CODE);
+        div_Code=mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DIVISION);
 
 
         Emp_Id = mCommonSharedPreference.getValueFromPreference("sf_emp_id");
@@ -185,6 +199,12 @@ public class LeaveActivity extends AppCompatActivity {
                 return true;
             }
         });*/
+            if(CommonUtilsMethods.isOnline(LeaveActivity.this))
+           {
+
+           }else {
+                   Toast.makeText(LeaveActivity.this, getResources().getString(R.string.offline), Toast.LENGTH_SHORT).show();
+                 }
 
         edt_reason.setOnKeyListener(new View.OnKeyListener()
         {
@@ -250,6 +270,25 @@ public class LeaveActivity extends AppCompatActivity {
         db_connPath = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DB_URL);
         apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
 
+        leaveTypes();
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                  // ((TextView) adapterView.getChildAt(0)).setTextColor(Color.BLACK);
+                ((TextView)view).setTextColor(getResources().getColor(R.color.black));
+                 leaveType = adapterView.getItemAtPosition(i).toString();
+                 Log.v("leavetype",leaveType);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+
         try {
             JSONObject js = new JSONObject();
             js.put("SF", SF_Code);
@@ -312,77 +351,84 @@ public class LeaveActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                svjson = new JSONObject();
+                if(CommonUtilsMethods.isOnline(LeaveActivity.this)) {
+//               for (int i = 0; i < arrAva.size(); i++) {
+//                    if (!txt_day.getText().toString().isEmpty()) {
+//                        if(arrAva.get(i).getBrdName().equalsIgnoreCase(leaveType)) {
+//                            if (Integer.parseInt(arrAva.get(i).getTiming()) >= Integer.parseInt(txt_day.getText().toString())) {
+                    svjson = new JSONObject();
 
-                try {
-                    JSONObject json = new JSONObject();
-                    json.put("SF", SF_Code);
-                    json.put("Fdt", edt_from.getText().toString());
-                    json.put("Tdt", edt_to.getText().toString());
-                    json.put("LTy", leaveType);
-                    Log.v("dateValidation", json.toString());
-
-
-                    svjson.put("SF", SF_Code);
-                    svjson.put("FDate", edt_from.getText().toString());
-                    svjson.put("TDate", edt_to.getText().toString());
-                    svjson.put("LeaveType", leaveType);
-                    svjson.put("NOD", txt_day.getText().toString());
-                    svjson.put("LvOnAdd", edt_add.getText().toString());
-                    svjson.put("LvRem", edt_reason.getText().toString());
+                    try {
+                        JSONObject json = new JSONObject();
+                        json.put("SF", SF_Code);
+                        json.put("Fdt", edt_from.getText().toString());
+                        json.put("Tdt", edt_to.getText().toString());
+                        json.put("LTy", leaveType);
+                        Log.v("dateValidation", json.toString());
 
 
-                    Call<ResponseBody> dateVal = apiService.dateValidation(json.toString());
-                    dateVal.enqueue(new Callback<ResponseBody>() {
-                        @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            JSONObject jsonObject = null;
+                        svjson.put("SF", SF_Code);
+                        svjson.put("FDate", edt_from.getText().toString());
+                        svjson.put("TDate", edt_to.getText().toString());
+                        svjson.put("LeaveType", leaveType);
+                        svjson.put("NOD", txt_day.getText().toString());
+                        svjson.put("LvOnAdd", edt_add.getText().toString());
+                        svjson.put("LvRem", edt_reason.getText().toString());
 
-                            InputStreamReader ip = null;
-                            StringBuilder is = new StringBuilder();
-                            String line = null;
-                            try {
-                                ip = new InputStreamReader(response.body().byteStream());
-                                BufferedReader bf = new BufferedReader(ip);
 
-                                while ((line = bf.readLine()) != null) {
-                                    is.append(line);
-                                }
-                                Log.v("printing_date_valid", is.toString());
-                                JSONArray js = new JSONArray(is.toString());
-                                for (int i = 0; i < js.length(); i++) {
-                                    JSONObject jo = js.getJSONObject(i);
-                                    if (TextUtils.isEmpty(jo.getString("Msg"))) {
+                        Call<ResponseBody> dateVal = apiService.dateValidation(json.toString());
+                        dateVal.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                JSONObject jsonObject = null;
 
-                                        if (!TextUtils.isEmpty(txt_day.getText().toString())) {
-                                            Call<ResponseBody> dateVal = apiService.saveLeave(svjson.toString());
-                                            dateVal.enqueue(new Callback<ResponseBody>() {
-                                                @Override
-                                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                InputStreamReader ip = null;
+                                StringBuilder is = new StringBuilder();
+                                String line = null;
+                                try {
+                                    ip = new InputStreamReader(response.body().byteStream());
+                                    BufferedReader bf = new BufferedReader(ip);
 
-                                                    InputStreamReader ip = null;
-                                                    StringBuilder is = new StringBuilder();
-                                                    String line = null;
-                                                    try {
-                                                        ip = new InputStreamReader(response.body().byteStream());
-                                                        BufferedReader bf = new BufferedReader(ip);
+                                    while ((line = bf.readLine()) != null) {
+                                        is.append(line);
+                                    }
+                                    Log.v("printing_date_valid", is.toString());
+                                    JSONArray js = new JSONArray(is.toString());
+                                    for (int i = 0; i < js.length(); i++) {
+                                        JSONObject jo = js.getJSONObject(i);
+                                        if (TextUtils.isEmpty(jo.getString("Msg"))) {
 
-                                                        while ((line = bf.readLine()) != null) {
-                                                            is.append(line);
-                                                        }
-                                                        Log.v("printing_date_save", is.toString());
-                                                        JSONObject jj = new JSONObject(is.toString());
-                                                        if (jj.getString("success").equalsIgnoreCase("true")) {
+                                            if (!TextUtils.isEmpty(txt_day.getText().toString())) {
+                                                Call<ResponseBody> dateVal = apiService.saveLeave(svjson.toString());
+                                                dateVal.enqueue(new Callback<ResponseBody>() {
+                                                    @Override
+                                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
-                                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.leave_success), Toast.LENGTH_SHORT).show();
-                                                            txt_day.setText("");
-                                                            edt_from.setText("");
-                                                            edt_to.setText("");
-                                                            edt_add.setText("");
-                                                            edt_reason.setText("");
-                                                        } else {
-                                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.leave_already), Toast.LENGTH_SHORT).show();
-                                                        }
+                                                        InputStreamReader ip = null;
+                                                        StringBuilder is = new StringBuilder();
+                                                        String line = null;
+                                                        try {
+                                                            ip = new InputStreamReader(response.body().byteStream());
+                                                            BufferedReader bf = new BufferedReader(ip);
+
+                                                            while ((line = bf.readLine()) != null) {
+                                                                is.append(line);
+                                                            }
+                                                            Log.v("printing_date_save", is.toString());
+                                                            JSONObject jj = new JSONObject(is.toString());
+                                                            if (jj.getString("success").equalsIgnoreCase("true")) {
+
+                                                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.leave_success), Toast.LENGTH_LONG).show();
+                                                                txt_day.setText("");
+                                                                edt_from.setText("");
+                                                                edt_to.setText("");
+                                                                edt_add.setText("");
+                                                                edt_reason.setText("");
+                                                                // selectedLeave.clear();
+                                                                // arrayAdapter.notifyDataSetChanged();
+                                                            } else {
+                                                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.leave_already), Toast.LENGTH_LONG).show();
+                                                            }
 
                                     /* JSONArray js=new JSONArray(is.toString());
                                      for(int i=0;i<js.length();i++){
@@ -397,166 +443,174 @@ public class LeaveActivity extends AppCompatActivity {
                                              //Toast.makeText(LeaveActivity.this,jo.getString("Msg"),Toast.LENGTH_SHORT).show();
                                          }
                                      }*/
-                                                    } catch (Exception e) {
+                                                        } catch (Exception e) {
 
+                                                        }
                                                     }
-                                                }
 
-                                                @Override
-                                                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
+                                                    @Override
+                                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            } else {
+                                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.choose_date), Toast.LENGTH_SHORT).show();
+
+                                            }
+
+
                                         } else {
-                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.choose_date), Toast.LENGTH_SHORT).show();
-
+                                            // Toast.makeText(getContext(),jo.getString("Msg"),Toast.LENGTH_SHORT).show();
+                                            edt_to.setText("");
+                                            txt_day.setText("");
+                                            Toast.makeText(getApplicationContext(), jo.getString("Msg"), Toast.LENGTH_SHORT).show();
                                         }
-
-
-                                    } else {
-                                        // Toast.makeText(getContext(),jo.getString("Msg"),Toast.LENGTH_SHORT).show();
-                                        edt_to.setText("");
-                                        txt_day.setText("");
-                                        Toast.makeText(getApplicationContext(), jo.getString("Msg"), Toast.LENGTH_SHORT).show();
                                     }
+                                } catch (Exception e) {
+                                    Log.e("the vALID", "================" + e.getMessage());
                                 }
-                            } catch (Exception e) {
-                                Log.e("the vALID", "================"+e.getMessage());
                             }
-                        }
 
-                        @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
 
-                        }
-                    });
+                            }
+                        });
 
 
-                } catch (Exception e) {
+                    } catch (Exception e) {
 
-                }
+                    }
+
+                           }
+                         else {
+                              Toast.makeText(LeaveActivity.this, getResources().getString(R.string.offline), Toast.LENGTH_SHORT).show();
+                         }
+//                        }
+//                    }
+//                }
 
             }
         });
 
-        lay_cl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.v("txt_get_color", String.valueOf(txt_cl.getCurrentTextColor()));
-
-
-                if (txt_cl.getCurrentTextColor() == -16777216) {
-                    txt_cl.setBackgroundColor(Color.BLACK);
-                    txt_cl.setTextColor(Color.WHITE);
-                    txt_pl.setBackgroundColor(Color.TRANSPARENT);
-                    txt_sl.setBackgroundColor(Color.TRANSPARENT);
-                    txt_lop.setBackgroundColor(Color.TRANSPARENT);
-                    txt_pl.setTextColor(Color.BLACK);
-                    txt_sl.setTextColor(Color.BLACK);
-                    txt_lop.setTextColor(Color.BLACK);
-
-//                    txt_el.setBackgroundColor(Color.TRANSPARENT);
-//                    txt_el.setTextColor(Color.BLACK);
-
-
-                    leaveType = "CL";
-
-
-                } else {
-                    /*txt_cl.setBackgroundColor(Color.TRANSPARENT);
-                    txt_cl.setTextColor(Color.BLACK);*/
-                }
-            }
-        });
-
-        lay_pl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.v("txt_get_color", String.valueOf(txt_pl.getCurrentTextColor()));
-
-
-                if (txt_pl.getCurrentTextColor() == -16777216) {
-                    txt_pl.setBackgroundColor(Color.BLACK);
-                    txt_pl.setTextColor(Color.WHITE);
-                    txt_cl.setBackgroundColor(Color.TRANSPARENT);
-                    txt_sl.setBackgroundColor(Color.TRANSPARENT);
-                    txt_lop.setBackgroundColor(Color.TRANSPARENT);
-                    txt_cl.setTextColor(Color.BLACK);
-                    txt_sl.setTextColor(Color.BLACK);
-                    txt_lop.setTextColor(Color.BLACK);
-
-//                    txt_el.setBackgroundColor(Color.TRANSPARENT);
-//                    txt_el.setTextColor(Color.BLACK);
-
-
-                    leaveType = "PL";
-
-
-                } else {
-                    /*txt_pl.setBackgroundColor(Color.TRANSPARENT);
-                    txt_pl.setTextColor(Color.BLACK);*/
-                }
-            }
-        });
-
-        lay_sl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.v("txt_get_color", String.valueOf(txt_sl.getCurrentTextColor()));
-
-
-                if (txt_sl.getCurrentTextColor() == -16777216) {
-                    txt_sl.setBackgroundColor(Color.BLACK);
-                    txt_sl.setTextColor(Color.WHITE);
-                    txt_pl.setBackgroundColor(Color.TRANSPARENT);
-                    txt_pl.setTextColor(Color.BLACK);
-                    txt_cl.setBackgroundColor(Color.TRANSPARENT);
-                    txt_cl.setTextColor(Color.BLACK);
-                    txt_lop.setBackgroundColor(Color.TRANSPARENT);
-                    txt_lop.setTextColor(Color.BLACK);
-
-//                    txt_el.setBackgroundColor(Color.TRANSPARENT);
-//                    txt_el.setTextColor(Color.BLACK);
-
-
-                    leaveType = "SL";
-
-
-                } else {
-                    /*txt_sl.setBackgroundColor(Color.TRANSPARENT);
-                    txt_sl.setTextColor(Color.BLACK);*/
-                }
-            }
-        });
-
-        lay_lop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.v("txt_get_color", String.valueOf(txt_lop.getCurrentTextColor()));
-
-
-                if (txt_lop.getCurrentTextColor() == -16777216) {
-                    txt_lop.setBackgroundColor(Color.BLACK);
-                    txt_lop.setTextColor(Color.WHITE);
-                    txt_pl.setBackgroundColor(Color.TRANSPARENT);
-                    txt_sl.setBackgroundColor(Color.TRANSPARENT);
-                    txt_cl.setBackgroundColor(Color.TRANSPARENT);
-                    txt_cl.setTextColor(Color.BLACK);
-                    txt_sl.setTextColor(Color.BLACK);
-                    txt_pl.setTextColor(Color.BLACK);
-
-//                    txt_el.setBackgroundColor(Color.TRANSPARENT);
-//                    txt_el.setTextColor(Color.BLACK);
-
-
-                    leaveType = "LOP";
-
-                } else {
-                   /* txt_lop.setBackgroundColor(Color.TRANSPARENT);
-                    txt_lop.setTextColor(Color.BLACK);*/
-                }
-            }
-        });
+//        lay_cl.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.v("txt_get_color", String.valueOf(txt_cl.getCurrentTextColor()));
+//
+//
+//                if (txt_cl.getCurrentTextColor() == -16777216) {
+//                    txt_cl.setBackgroundColor(Color.BLACK);
+//                    txt_cl.setTextColor(Color.WHITE);
+//                    txt_pl.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_sl.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_lop.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_pl.setTextColor(Color.BLACK);
+//                    txt_sl.setTextColor(Color.BLACK);
+//                    txt_lop.setTextColor(Color.BLACK);
+//
+////                    txt_el.setBackgroundColor(Color.TRANSPARENT);
+////                    txt_el.setTextColor(Color.BLACK);
+//
+//
+//                    leaveType = "CL";
+//
+//
+//                } else {
+//                    /*txt_cl.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_cl.setTextColor(Color.BLACK);*/
+//                }
+//            }
+//        });
+//
+//        lay_pl.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.v("txt_get_color", String.valueOf(txt_pl.getCurrentTextColor()));
+//
+//
+//                if (txt_pl.getCurrentTextColor() == -16777216) {
+//                    txt_pl.setBackgroundColor(Color.BLACK);
+//                    txt_pl.setTextColor(Color.WHITE);
+//                    txt_cl.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_sl.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_lop.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_cl.setTextColor(Color.BLACK);
+//                    txt_sl.setTextColor(Color.BLACK);
+//                    txt_lop.setTextColor(Color.BLACK);
+//
+////                    txt_el.setBackgroundColor(Color.TRANSPARENT);
+////                    txt_el.setTextColor(Color.BLACK);
+//
+//
+//                    leaveType = "PL";
+//
+//
+//                } else {
+//                    /*txt_pl.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_pl.setTextColor(Color.BLACK);*/
+//                }
+//            }
+//        });
+//
+//        lay_sl.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.v("txt_get_color", String.valueOf(txt_sl.getCurrentTextColor()));
+//
+//
+//                if (txt_sl.getCurrentTextColor() == -16777216) {
+//                    txt_sl.setBackgroundColor(Color.BLACK);
+//                    txt_sl.setTextColor(Color.WHITE);
+//                    txt_pl.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_pl.setTextColor(Color.BLACK);
+//                    txt_cl.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_cl.setTextColor(Color.BLACK);
+//                    txt_lop.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_lop.setTextColor(Color.BLACK);
+//
+////                    txt_el.setBackgroundColor(Color.TRANSPARENT);
+////                    txt_el.setTextColor(Color.BLACK);
+//
+//
+//                    leaveType = "SL";
+//
+//
+//                } else {
+//                    /*txt_sl.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_sl.setTextColor(Color.BLACK);*/
+//                }
+//            }
+//        });
+//
+//        lay_lop.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.v("txt_get_color", String.valueOf(txt_lop.getCurrentTextColor()));
+//
+//
+//                if (txt_lop.getCurrentTextColor() == -16777216) {
+//                    txt_lop.setBackgroundColor(Color.BLACK);
+//                    txt_lop.setTextColor(Color.WHITE);
+//                    txt_pl.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_sl.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_cl.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_cl.setTextColor(Color.BLACK);
+//                    txt_sl.setTextColor(Color.BLACK);
+//                    txt_pl.setTextColor(Color.BLACK);
+//
+////                    txt_el.setBackgroundColor(Color.TRANSPARENT);
+////                    txt_el.setTextColor(Color.BLACK);
+//
+//
+//                    leaveType = "LOP";
+//
+//                } else {
+//                   /* txt_lop.setBackgroundColor(Color.TRANSPARENT);
+//                    txt_lop.setTextColor(Color.BLACK);*/
+//                }
+//            }
+//        });
 
 
         edt_from.setOnClickListener(new View.OnClickListener() {
@@ -606,6 +660,61 @@ public class LeaveActivity extends AppCompatActivity {
         });
     }
 
+    private void leaveTypes() {
+        try {
+            JSONObject jss = new JSONObject();
+            jss.put("div", div_Code);
+            Call<ResponseBody> leaveType = apiService.getLeaveType(jss.toString());
+            leaveType.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    InputStreamReader ip = null;
+                    StringBuilder is = new StringBuilder();
+                    String line = null;
+                    try {
+                        ip = new InputStreamReader(response.body().byteStream());
+                        BufferedReader bf = new BufferedReader(ip);
+
+                        while ((line = bf.readLine()) != null) {
+                            is.append(line);
+                        }
+                        Log.v("printing_leave_types", is.toString());
+                        JSONArray json = new JSONArray(is.toString());
+                        for (int i = 0; i < json.length(); i++) {
+                            JSONObject js = json.getJSONObject(i);
+
+                             leaveCode = js.getString("Leave_code");
+                             leavetype= js.getString("Leave_SName");
+                             leaveName = js.getString("Leave_Name");
+                             aw_flag = js.getString("Active_Flag");
+
+                             selectedLeave.add(leavetype);
+
+                             Log.v("getResults",js.toString());
+                        }
+//                        arrayAdapter = new ArrayAdapter<String>(LeaveActivity.this, android.R.layout.simple_spinner_item, selectedLeave);
+//                        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//                        spinner.setAdapter(arrayAdapter);
+
+                        arrayAdapter = new ArrayAdapter<String>(LeaveActivity.this,android.R.layout.simple_spinner_item, selectedLeave);
+                        arrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+                        spinner.setAdapter(arrayAdapter);
+
+                    } catch (Exception e) {
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                }
+            });
+
+        } catch (Exception e) {
+        }
+    }
+
     public void commonFun() {
         this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -648,10 +757,21 @@ public class LeaveActivity extends AppCompatActivity {
             if (from) {
                 year = calendar.get(Calendar.YEAR);
                 month = calendar.get(Calendar.MONTH);
-                day = calendar.get(Calendar.DAY_OF_MONTH);
+                //day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                if(!mCommonSharedPreference.getValueFromPreference(CommonUtils. TAG_WORKTYPE_NAME).isEmpty())
+
+                    day = calendar.get(Calendar.DAY_OF_MONTH)+1;
+                else
+                    day=calendar.get(Calendar.DAY_OF_MONTH);
+
                 DatePickerDialog datepickerdialog = new DatePickerDialog(getActivity(),
                         AlertDialog.THEME_HOLO_LIGHT, this, year, month, day);
                 datepickerdialog.getDatePicker().setCalendarViewShown(false);
+                if(!mCommonSharedPreference.getValueFromPreference(CommonUtils. TAG_WORKTYPE_NAME).isEmpty())
+                    datepickerdialog.getDatePicker().setMinDate(System.currentTimeMillis()+(24*60*60*1000)-1000);//where 24*60*60*1000 represents the total timestamp for one day
+                else
+                    datepickerdialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                 long value = System.currentTimeMillis();
                 Log.v("printing_time", value + "");
                 return datepickerdialog;

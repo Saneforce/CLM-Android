@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,9 +23,13 @@ public class AdapterForInnerReportDetailList extends RecyclerView.Adapter<Adapte
 
     Context context;
     ArrayList<ModelInnerReportDetail> array=new ArrayList<>();
+    String people_type,val_pob;
+    CommonSharedPreference commonSharedPreference;
 
-    public AdapterForInnerReportDetailList(Context context,String value) {
+    public AdapterForInnerReportDetailList(Context context,String value,String people_type) {
         this.context = context;
+        this.people_type=people_type;
+        commonSharedPreference=new CommonSharedPreference(this.context);
 
         if(!TextUtils.isEmpty(value)) {
             String[] values=value.split(",");
@@ -72,6 +77,9 @@ public class AdapterForInnerReportDetailList extends RecyclerView.Adapter<Adapte
         holder.txt_sqty.setText(mm.getSample());
         holder.txt_rqty.setText(mm.getRx());
 
+        val_pob = commonSharedPreference.getValueFromPreference("feed_pob");
+        if (val_pob.contains(people_type))
+            holder.ll_rxqty.setVisibility(View.VISIBLE);
 
     }
 
@@ -83,12 +91,14 @@ public class AdapterForInnerReportDetailList extends RecyclerView.Adapter<Adapte
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView txt_prd,txt_sqty,txt_rqty,txt_feed;
+        LinearLayout ll_rxqty;
         public MyViewHolder(View itemView) {
             super(itemView);
             txt_prd=(TextView)itemView.findViewById(R.id.txt_prd);
             txt_sqty=(TextView)itemView.findViewById(R.id.txt_sqty);
             txt_rqty=(TextView)itemView.findViewById(R.id.txt_rqty);
             txt_feed=(TextView)itemView.findViewById(R.id.txt_feed);
+            ll_rxqty=(LinearLayout) itemView.findViewById(R.id.ll_rxqty);
         }
     }
 

@@ -196,7 +196,7 @@ public interface Api_Interface {
 
     @FormUrlEncoded
     @POST("db.php?axn=get/tpdetail")
-    Call<ResponseBody> getTP(@Field("data") String sfc);
+    Call<ResponseBody> getTP(@Field("data") String sfc,@Query("mode") String mode);
 
     @FormUrlEncoded
     @POST("db.php?axn=save/expdetail")
@@ -498,4 +498,36 @@ public interface Api_Interface {
     @FormUrlEncoded
     @POST("db.php?axn=get/brndexpo")
     Call<ResponseBody>getBrndexpo(@Field("data") String sf);
+    @FormUrlEncoded
+    @POST("db.php?axn=get/drdets")
+    Call<ResponseBody> getDrDetails(@Field("data") String sf);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=get/custctrl")
+    Call<ResponseBody> getCustProfCtrls(@Field("data") String sf);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=save/DrProfile")
+    Call<ResponseBody> svdcrProfile(@Field("data") String sf);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=get/leavetype")
+    Call<ResponseBody> getLeaveType(@Field("data") String sf);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=get/vwdcr")
+    Call<ResponseBody> getDCRlist(@Field("data") String sf);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=get/vwdcrone")
+    Call<ResponseBody> getDCRdetailedList(@Field("data") String sf);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=dcrapproval")
+    Call<ResponseBody> sendDCRapproval(@Field("data") String sf);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=dcrreject")
+    Call<ResponseBody> sendDCRreject(@Field("data") String sf);
+
 }

@@ -6,13 +6,17 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -28,11 +32,13 @@ import saneforce.sanclm.sqlite.DataBaseHandler;
 public class NetworkReceiver extends BroadcastReceiver {
 
     CommonSharedPreference commonSharedPreference;
-    String baseurl;
+    String baseurl,d=null;
     Api_Interface apiService;
     DataBaseHandler dbh;
     HomeDashBoard homeDashBoard;
     static UpdateUi mUpdateUi;
+    static boolean result=false;
+
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -56,6 +62,15 @@ public class NetworkReceiver extends BroadcastReceiver {
                 Cursor cur2=dbh.select_MDP();
 
                 Cursor cur1 = dbh.select_json_list();
+
+                Calendar calander = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("d/M/yyyy");
+                try {
+                    d = sdf.format(calander.getTime());
+                    Log.v("date_value_conver", d + " ");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 if(isOnline(context)) {
                     Log.v("isOnlineee_print", String.valueOf(isOnline(context)));
                     if(cur2.getCount()>0){
@@ -68,9 +83,27 @@ public class NetworkReceiver extends BroadcastReceiver {
                     else{
                         if (cur1.getCount() > 0) {
                             while (cur1.moveToNext()) {
-                                if (cur1.getString(2).indexOf("_") != -1) {
-                                    Log.v("printing_totla_val", cur1.getString(1) + " id_here " + cur1.getInt(0));
-                                    finalSubmission(cur1.getString(1), cur1.getInt(0));
+
+                                if(commonSharedPreference.getValueFromPreference("yetrdy_call_del_Nd").equalsIgnoreCase("0")) {
+
+                                    String vistdate = cur1.getString(3);
+                                    String[] separated = vistdate.split(" ");
+                                    String vstdat = separated[0];
+                                    Log.v("printing_totla_val", cur1.getString(3) + " id_here " + cur1.getInt(0));
+
+                                    if (vstdat.equalsIgnoreCase(d)) {
+                                        if (cur1.getString(2).indexOf("_") != -1) {
+                                            finalSubmission(cur1.getString(1), cur1.getInt(0));
+                                        }
+                                    } else {
+                                        dbh.delete_json1(cur1.getString(4));
+                                    }
+                                }
+                                else {
+                                    if (cur1.getString(2).indexOf("_") != -1) {
+                                        Log.v("printing_totla_val", cur1.getString(1) + " id_here " + cur1.getInt(0));
+                                        finalSubmission(cur1.getString(1), cur1.getInt(0));
+                                    }
                                 }
                             }
                         }
@@ -215,5 +248,20 @@ public class NetworkReceiver extends BroadcastReceiver {
             recurFunction("Hello",9);
         return "";
     }
+
+    public static boolean isAutotimeON(Context context) {
+        try {
+            if (Settings.Global.getInt(context.getContentResolver(), Settings.Global.AUTO_TIME) == 1) {
+                result=false;
+            } else {
+                Toast.makeText(context, "Zone is On", Toast.LENGTH_SHORT).show();
+                result=true;
+            }
+        } catch (Settings.SettingNotFoundException e) {
+            e.printStackTrace();
+        }
+        return !result;
+    }
+
 
 }

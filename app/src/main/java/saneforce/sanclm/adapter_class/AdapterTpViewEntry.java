@@ -48,11 +48,11 @@ public class AdapterTpViewEntry extends BaseAdapter {
         TextView txt_cluster=(TextView)view.findViewById(R.id.txt_cluster);
         TextView txt_head_c=(TextView)view.findViewById(R.id.txt_head_c);
         ModelTpSave tp=array.get(i);
-        txt_session.setText("Session "+(i+1));
+        txt_session.setText(/*"Session "*/ context.getResources().getString(R.string.session) +(i+1));
         txt_wrk.setText(extractValues(tp.getWrk()));
         txt_hq.setText(extractValues(tp.getHq()));
         if(DemoActivity.hospNeed.equalsIgnoreCase("0")) {
-            txt_head_c.setText("Hosptial");
+            txt_head_c.setText(/*"Hospital"*/ context.getResources().getString(R.string.hospital));
             txt_cluster.setText(extractValues(tp.getHosp()));
         }
         else

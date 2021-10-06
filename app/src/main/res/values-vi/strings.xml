@@ -1,0 +1,489 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">SAN CLM</string>
+    <string name="app_version">Version 1.9.2</string>
+
+    <string name="preference_name">saneforce.sanclm.preferencefile</string>
+    <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+
+    <string name="tab_option_listeddr">BÁC SĨ</string>
+    <string name="tab_option_chemist">CHEMIST</string>
+    <string name="tab_option_stockist">KHO</string>
+    <string name="tab_option_unlisteddr">BÁC SĨ KHÔNG ĐĂNG KÝ</string>
+    <string name="title_activity_main">Hoạt động chủ yêu</string>
+    <string name="section_format">Xin chào thế giới từ phần: %1$d</string>
+    <string name="start_updates">BẮT ĐẦU CẬP NHẬT VỊ TRÍ</string>
+    <string name="stop_updates">DỪNG CẬP NHẬT VỊ TRÍ</string>
+    <string name="get_last_location">NHẬN VỊ TRÍ CUỐI CÙNG</string>
+
+    <string name="hnt_fcs_pdts">Sản phẩm tập trung</string>
+
+    <string name="sv_prsn">Tiết kiệm</string>
+    <string name="del_prsn">Xóa bản trình bày</string>
+
+    <string name="prsnt">trình bày</string>
+
+    <string-array name="Det_listsview_Items">
+        <item>Ma trận thương hiệu</item>
+        <item>Sự khôn ngoan đặc biệt</item>
+        <item>Tất cả các thương hiệu</item>
+    </string-array>
+    <string name="title_activity_maps">Bản đồ</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Xin chào đoạn trống</string>
+
+    <string name="App_Configuration">Cấu hình ứng dụng</string>
+    <string name="Web_URL">URL web ( eg: www.yoururl.com )</string>
+    <string name="License_Key">Mã bản quyền</string>
+    <string name="Your_Device_ID">ID thiết bị của bạn</string>
+    <string name="CLEAR_DATA">XÓA DỮ LIỆU</string>
+    <string name="SAVE_SETTINGS">LƯU CÁC THIẾT LẬP</string>
+    <string name="CLOSE">ĐÓNG</string>
+    <string name="language">Ngôn ngữ</string>
+    <string name="username">tên tài khoản</string>
+    <string name="password">Mật khẩu</string>
+    <string name="Login">ĐĂNG NHẬP</string>
+
+    <string name="worktype">LOẠI CÔNG VIỆC</string>
+    <string name="select_worktype">CHỌN LOẠI CÔNG TRÌNH</string>
+    <string name="select_cluster">CHỌN CỤM</string>
+    <string name="select_headquater">CHỌN THIẾT BỊ ĐẦU</string>
+    <string name="headquater">TRƯỞNG THÀNH</string>
+    <string name="cluster">CỤM</string>
+    <string name="remarks">NHẬN XÉT</string>
+    <string name="select">LỰA CHỌN</string>
+    <string name="todayworktype">KẾ HOẠCH LÀM VIỆC HÔM NAY</string>
+    <string name="go">Đi</string>
+
+    <string name="todaycall">Cuộc gọi hôm nay</string>
+    <string name="total">Toàn bộ</string>
+    <string name="calls">Cuộc gọi</string>
+    <string name="presentation">Bài thuyết trình</string>
+    <string name="report">Báo cáo</string>
+
+    <string name="monthly_average">Trung bình cuộc gọi hàng tháng</string>
+    <string name="current_visit">Chi tiết cuộc gọi tháng hiện tại</string>
+    <string name="category">Chi tiết lượt truy cập theo danh mục</string>
+    <string name="overall">Thông tin chi tiết về chuyến thăm tổng thể</string>
+
+    <string name="call">Gọi</string>
+    <string name="coverage">Phủ sóng</string>
+    <string name="daily">hằng ngày</string>
+    <string name="average">Trung bình cộng</string>
+    <string name="reload">Nạp lại</string>
+    <string name="detailing">Chi tiết</string>
+    <string name="performance">Hiệu suất</string>
+    <string name="time">Thời gian</string>
+    <string name="spent">Bỏ ra</string>
+    <string name="brand">Nhãn hiệu</string>
+    <string name="exposure">Sự phơi nhiễm</string>
+    <string name="pharmacy">Tiệm thuốc</string>
+
+    <string name="master">TẢI XUỐNG DANH SÁCH CHÍNH</string>
+    <string name="list">DANH SÁCH</string>
+    <string name="competitors">Đối thủ cạnh tranh</string>
+    <string name="input">Đầu vào</string>
+    <string name="product">Các sản phẩm</string>
+    <string name="slides">Trang trình bày</string>
+    <string name="brands">Nhãn hiệu</string>
+    <string name="departments">Các phòng ban</string>
+    <string name="speciality">Chuyên môn</string>
+    <string name="catogy">thể loại</string>
+    <string name="qualifications">Trình độ chuyên môn</string>
+    <string name="clases">Lớp học</string>
+    <string name="types">Các loại</string>
+    <string name="rating">Xếp hạng</string>
+    <string name="details">Chi tiết</string>
+    <string name="feedbacks">Phản hồi</string>
+    <string name="theraptic">Trị liệu</string>
+    <string name="jointwork">Làm việc</string>
+    <string name="hospital">Bệnh viện</string>
+    <string name="change_cluster">Thay đổi cụm</string>
+    <string name="activity">Hoạt động</string>
+    <string name="Slides_Downloader">Trình tải xuống trang trình bày</string>
+
+    <string name="create_presentation">Tạo bản trình bày</string>
+    <string name="tour_plan">Kế hoạch tham quan</string>
+    <string name="missed_date_entry">Mục nhập ngày bị nhỡ</string>
+    <string name="leave_application">Để lại ứng dụng</string>
+    <string name="approvals">Phê duyệt</string>
+    <string name="near_me">Gần tôi</string>
+    <string name="detailing_report">Báo cáo chi tiết</string>
+    <string name="logout">Đăng xuất</string>
+    <string name="Dashboard">bảng điều khiển</string>
+
+    <string name="worktype1">Loại công việc</string>
+    <string name="headquater1">Trụ sở chính</string>
+    <string name="cluster1">Cluster</string>
+    <string name="Selection">LỰA CHỌN</string>
+    <string name="search">Tìm kiếm</string>
+    <string name="listed">Liệt kê</string>
+    <string name="cancel">Huỷ bỏ</string>
+    <string name="presentation_name">Đặt tên cho bản trình bày của bạn</string>
+    <string name="dayreport">Báo cáo trong ngày</string>
+    <string name="monthlyreport">Báo cáo hàng tháng</string>
+    <string name="visitcontrol">Kiểm soát lượt truy cập</string>
+    <string name="missedreport">Báo cáo bị Bỏ lỡ</string>
+    <string name="change_password">Đổi mật khẩu</string>
+
+    <string name="halfdaywork">Làm việc nửa ngày</string>
+    <string name="remarks1">Nhận xét</string>
+    <string name="visit_time">Thời gian truy cập</string>
+    <string name="modified_time">Sửa đổi thời gian</string>
+    <string name="Products">Sản phẩm</string>
+    <string name="sampqty">Số lượng mẫu</string>
+    <string name="rxqty">Rx Qty</string>
+    <string name="feedback">Phản hồi</string>
+    <string name="input1">Đầu vào</string>
+    <string name="summary">Tóm lược</string>
+
+    <string name="totaldoc">Tổng số bác sĩ</string>
+    <string name="missedcall">Cuộc gọi nhỡ</string>
+    <string name="docmet">Gặp bác sĩ</string>
+    <string name="docseen">Bác sĩ nhìn thấy</string>
+    <string name="fieldday">Ngày làm việc tại hiện trường</string>
+    <string name="calaverage">Trung bình cuộc gọi</string>
+    <string name="savegallery">Lưu vào bộ sưu tập</string>
+
+    <string name="doctor">BÁC SĨ</string>
+    <string name="met">Gặp</string>
+    <string name="missed">Bỏ lỡ</string>
+    <string name="previosvst">Lượt truy cập trước</string>
+    <string name="apply">ỨNG DỤNG</string>
+    <string name="clear">THÔNG THOÁNG</string>
+
+    <string name="done">Làm xong</string>
+    <string name="sclt_clst">Chọn cụm</string>
+    <string name="sclt_work">Chọn loại công việc</string>
+    <string name="sclt_head">Chọn Trụ sở chính</string>
+    <string name="sclt_hq">Chọn Hq</string>
+    <string name="sclt_jw">Chọn công việc chung</string>
+    <string name="sclt_hosp">Chọn bệnh viện</string>
+    <string name="edit">Biên tập</string>
+    <string name="session">Phiên họp</string>
+    <string name="wrktype">Loại công việc</string>
+    <string name="tgt_sales">Mục tiêu Vs Doanh số</string>
+    <string name="sclt_cat">chọn danh mục</string>
+    <string name="sclt_spcl">Chọn Chuyên ngành</string>
+    <string name="sclt_qualy">Chọn Chứng chỉ</string>
+    <string name="sclt_class">Chọn lớp</string>
+    <string name="sclt_doc">Chọn Bác sĩ</string>
+    <string name="tour_entry">NHẬP KẾ HOẠCH TOUR</string>
+    <string name="choose_date">Chọn ngày</string>
+    <string name="send_apprve">  Gửi đến Phê duyệt  </string>
+    <string name="apprve">Phê duyệt</string>
+    <string name="rejct">Từ chối</string>
+
+    <string name="sunday">Chủ nhật</string>
+    <string name="monday">Thứ hai</string>
+    <string name="tuesday">Thứ ba</string>
+    <string name="wednesday">Thứ tư</string>
+    <string name="thursday">Thứ năm</string>
+    <string name="friday">Thứ sáu</string>
+    <string name="saturday">ngày thứ bảy</string>
+
+    <string name="add_session">Thêm phiên</string>
+    <string name="del_session">Xóa phiên</string>
+    <string name="misdate">LỰA CHỌN NGÀY BỊ BỎ LỠ</string>
+    <string name="field">Công việc hiện trường</string>
+    <string name="other">Khác</string>
+
+
+    <string name="leavecap">ĐỂ LẠI ĐƠN</string>
+    <string name="lfrom">Rời khỏi</string>
+    <string name="lto">Đến</string>
+    <string name="reason">Lý do nghỉ việc</string>
+    <string name="nodays">Số ngày</string>
+    <string name="leavetype">Loại bỏ</string>
+    <string name="addrs_leave">Địa chỉ nghỉ</string>
+    <string name="eligible">Đủ điều kiện</string>
+    <string name="taken">Lấy</string>
+    <string name="available">Có sẵn</string>
+    <string name="submit">Gửi đi</string>
+    <string name="tpapproval">Phê duyệt kế hoạch tham quan</string>
+    <string name="lvapproval">Rời khỏi phê duyệt</string>
+    <string name="dcrapproval">Phê duyệt DCR</string>
+    <string name="name">Tên</string>
+    <string name="ent_lvreason">Nhập lý do nghỉ việc</string>
+    <string name="ent_lvremarks">Nhập nhận xét</string>
+    <string name="day">ngày</string>
+    <string name="accpt">Chấp nhận</string>
+    <string name="frm">Từ</string>
+    <string name="mnth">tháng</string>
+    <string name="year">Năm</string>
+    <string name="view">Lượt xem</string>
+    <string name="taging">Gắn thẻ</string>
+    <string name="nerme">Gần tôi</string>
+    <string name="addrss">Địa chỉ</string>
+    <string name="tag">NHÃN</string>
+    <string name="refresh">Làm tươi</string>
+    <string name="findroute">Tìm tuyến đường</string>
+    <string name="visit">Chuyến thăm</string>
+    <string name="cutomer">khách hàng</string>
+
+    <string name="thimnth">Tháng này</string>
+    <string name="pr_mnth">Tháng trước</string>
+    <string name="custmz">Tùy chỉnh</string>
+    <string name="nm_cust">Tên của khách hàng</string>
+    <string name="nm_ffc">Tên của FieldForce</string>
+    <string name="type">Kiểu</string>
+    <string name="territory">Lãnh thổ</string>
+    <string name="detail_count">Số lượng chi tiết</string>
+    <string name="detail_duration">Thời lượng chi tiết</string>
+    <string name="detail_graph1">Tổng số 5 chi tiết hàng đầu</string>
+    <string name="detail_graph2">Top 5 thời gian chi tiết</string>
+    <string name="filter">Bộ lọc</string>
+    <string name="fieldforce">Lực lượng hiện trường</string>
+    <string name="selct">Lựa chọn</string>
+    <string name="old_pass">Mật khẩu cũ</string>
+    <string name="new_pass">Mật khẩu mới</string>
+    <string name="conf_pass">Xác nhận mật khẩu</string>
+    <string name="confirm">Xác nhận</string>
+    <string name="sclt_hospital">Chọn bệnh viện</string>
+
+    <string name="date_birth">Ngày sinh</string>
+    <string name="weddnig">Ngày cưới</string>
+    <string name="mobile">Di động</string>
+    <string name="email">EMail</string>
+    <string name="last_visit">Ngày ghé thăm cuối cùng</string>
+    <string name="product_promte">Sản phẩm được Quảng cáo</string>
+    <string name="reselect">Chọn lại</string>
+
+    <string name="contc_person">Người liên hệ</string>
+    <string name="phone">Điện thoại</string>
+    <string name="fax">Số fax</string>
+    <string name="precall">Phân tích cuộc gọi trước</string>
+
+    <string name="sendquies">Gửi truy vấn</string>
+    <string name="prd_nme">tên sản phẩm</string>
+    <string name="timline">Mốc thời gian</string>
+    <string name="samp">Mẫu</string>
+    <string name="rx">Rx</string>
+    <string name="qty">Qty</string>
+    <string name="add_cals">Cuộc gọi bổ sung</string>
+    <string name="rcpaenty">Mục nhập Rcpa</string>
+    <string name="finlsubmit">Gửi cuối cùng</string>
+
+    <string name="docnm">Tên bác sĩ</string>
+    <string name="chmnm">Tên nhà hóa học</string>
+    <string name="rcpalist">Danh sách Rcpa</string>
+    <string name="ourbrand">Thương hiệu sản phẩm của chúng tôi</string>
+    <string name="compnm">Đối thủ cạnh tranh Tên công ty</string>
+    <string name="brndnm">Tên thương hiệu của đối thủ cạnh tranh</string>
+    <string name="rate">Tỷ lệ</string>
+    <string name="value">Giá trị</string>
+    <string name="addcomp">Thêm đối thủ cạnh tranh</string>
+    <string name="antherbrnd">Thêm một thương hiệu khác</string>
+    <string name="compaudit">Kiểm tra đối thủ cạnh tranh</string>
+    <string name="inv">Inv.Qty</string>
+    <string name="ptp">PTP</string>
+    <string name="ptr">PTR</string>
+    <string name="sw">Tr.bình / W</string>
+    <string name="shalinaprd">Thương hiệu sản phẩm Shalina</string>
+    <string name="signature">Chữ ký Tại đây</string>
+    <string name="typehere">nhập ở đây</string>
+    <string name="sandigital">Chi tiết kỹ thuật số SAN</string>
+    <string name="alertmsg">Bạn có muốn Hủy cuộc gọi này mà không</string>
+    <string name="aleretmsg1">Gửi cuộc gọi</string>
+    <string name="savedft">Lưu bản nháp</string>
+    <string name="ok">Đồng ý</string>
+    <string name="brandmatrix">Ma trận thương hiệu</string>
+    <string name="spclwise">Sự khôn ngoan đặc biệt</string>
+    <string name="allbrand">Tất cả các thương hiệu</string>
+    <string name="customise">Tùy chỉnh</string>
+    <string name="customised">tùy chỉnh</string>
+
+    <string name="targetsales">Mục tiêu VS Chi tiết Bán hàng</string>
+    <string name="primary">Sơ cấp</string>
+    <string name="clearfilter">LÀm sạch bộ lọc</string>
+    <string name="brndcontry">Đóng góp thương hiệu</string>
+    <string name="home">Trang Chủ</string>
+    <string name="sfe">Lâm trường</string>
+    <string name="customfilter">Bộ lọc tùy chỉnh</string>
+    <string name="secondary">Thứ hai</string>
+    <string name="mtd">MTD</string>
+    <string name="qtd">QTD</string>
+    <string name="ytd">YTD</string>
+    <string name="customdate">Ngày tùy chỉnh</string>
+    <string name="selctdate">Chọn từ ngày</string>
+    <string name="todate">Chọn đến ngày</string>
+    <string name="selctlist">Danh sách lựa chọn</string>
+    <string name="avilablecheck">Kiểm tra tính khả dụng</string>
+
+    <string name="avilablesearch">Tìm kiếm theo mã Danh mục phụ / Mô tả </string>
+    <string name="allos">TẤT CẢ OOS </string>
+    <string name="allavail">TẤT CẢ CÓ SN </string>
+    <string name="availstock">CỔ PHẦN </string>
+    <string name="availoos">OOS </string>
+    <string name="avail">CÓ SN </string>
+    <string name="target">Mục tiêu </string>
+
+    <string name="sclt_chmnm">Chọn tên nhà hóa học</string>
+    <string name="sclt_prdnm">Chọn tên sản phẩm</string>
+    <string name="scltprdqty">Chọn Số lượng Sản phẩm</string>
+    <string name="sclt_compdetl">Chọn thông tin chi tiết về đối thủ cạnh tranh</string>
+
+    <string name="sclt_frm_to">Vui lòng điền Từ ngày và Đến ngày</string>
+    <string name="sclt_option">Vui lòng chọn các tùy chọn để lọc</string>
+    <string name="no_record">Không có dữ liệu được tìm thấy</string>
+    <string name="something_wrong">Đã xảy ra sự cố</string>
+    <string name="noprdsclt">Không có sản phẩm nào được chọn</string>
+    <string name="noprdavailable">Không có sản phẩm nào</string>
+    <string name="alarmset">Báo thức được đặt trong</string>
+    <string name="seconds">giây</string>
+    <string name="alarm">báo thức....</string>
+    <string name="submitsuccess">gửi thành công</string>
+    <string name="dplan_need">Kế hoạch Ngày của tôi là Cần thiết </string>
+    <string name="offline">Bạn đang TẮT - Dòng  </string>
+    <string name="filenotavailable">Tệp không sẵn có  </string>
+    <string name="filedownloading">Một tệp mới đang được tải xuống  </string>
+    <string name="downldsuccess">Một tệp mới được tải xuống thành công</string>
+    <string name="nofile">Không tìm thấy ứng dụng nào có thể mở tệp</string>
+
+    <string name="fillmand">Điền vào trường bắt buộc</string>
+    <string name="nonetwrk">Không có mạng</string>
+    <string name="datelesser">Từ ngày nên ít hơn</string>
+    <string name="filldate">Điền từ ngày</string>
+    <string name="togreater">Đến nay phải lớn hơn</string>
+    <string name="timelesser">Theo thời gian nên ít hơn</string>
+    <string name="filltime">Điền thời gian</string>
+    <string name="totimegreater">Đến thời gian phải lớn hơn</string>
+    <string name="datasave">Dữ liệu đã lưu thành công</string>
+    <string name="cannotload">Không thể tải dữ liệu</string>
+    <string name="filenot_support">Định dạng tệp này không được hỗ trợ</string>
+
+    <string name="expncelist">Danh sách chi phí</string>
+    <string name="rejectreson">Từ chối lý do</string>
+    <string name="surerejct">Bạn có chắc chắn từ chối không ?</string>
+    <string name="yesrject">Có, từ chối</string>
+
+    <string name="entr_sample_val">Nhập giá trị mẫu</string>
+    <string name="entr_rx_val">Nhập giá trị RxQty</string>
+    <string name="sclt_input">Chọn đầu vào</string>
+    <string name="entr_input_val">Nhập các giá trị đầu vào</string>
+    <string name="entr_rcpa_val">Nhập giá trị Rcpa</string>
+    <string name="invalid_cus">Lựa chọn khách hàng không hợp lệ</string>
+    <string name="no_input">Không có đầu vào</string>
+    <string name="query_succs">Đã gửi truy vấn thành công</string>
+    <string name="query_notsuccs">Truy vấn không được gửi thành công</string>
+    <string name="data_success">Đã gửi dữ liệu thành công</string>
+    <string name="data_notsuccess">GIÁO SƯ!! dữ liệu không được gửi</string>
+
+    <string name="leave_success">Đã gửi thành công !!</string>
+    <string name="leave_already">Đã rời khỏi Đã đăng vào ngày này!!  </string>
+    <string name="click_again">Vui lòng nhấp lại lần nữa để thoát</string>
+    <string name="check_us_ps">Kiểm tra tên người dùng và mật khẩu</string>
+    <string name="strge_permis">Vui lòng cho phép quyền Bộ nhớ</string>
+    <string name="mob_inter">Vui lòng kích hoạt Internet di động..</string>
+    <string name="onfail">Khi thất bại</string>
+    <string name="fill_the">Làm đầy</string>
+    <string name="field_">Cánh đồng</string>
+    <string name="tag_succs">Được gắn thẻ thành công !!</string>
+    <string name="hnt_pickimg">Bạn chưa chọn Hình ảnh</string>
+    <string name="nomrequiz">Không còn câu đố</string>
+    <string name="choose_ans">Chọn đáp án</string>
+    <string name="quiz_submitted">Đã gửi câu đố thành công</string>
+    <string name="quiz">Đố</string>
+    <string name="quiz_rmtime">Thời gian còn lại - </string>
+    <string name="quiz_info">Chọn một câu trả lời phù hợp nhất với bạn</string>
+    <string name="quiz_nxt">Kế tiếp</string>
+    <string name="mock_loc">Đã phát hiện vị trí mô phỏng </string>
+    <string name="conf_succs">Đã cấu hình thành công</string>
+    <string name="invalid_url">URL không hợp lệ</string>
+    <string name="invalid_licence">Khóa cấp phép không hợp lệ</string>
+    <string name="app_data_clr">Dữ liệu ứng dụng đã bị xóa</string>
+    <string name="some_field">một số trường trống</string>
+    <string name="pass_succed">Mật khẩu đã thay đổi thành công !!</string>
+    <string name="pass_new_same">Mật khẩu mới và mật khẩu xác nhận không giống nhau !! </string>
+    <string name="saved_sucs"> Đã lưu su</string>
+    <string name="del_sucs"> Đã xoá thành công</string>
+    <string name="invalid_cus_sclt">Lựa chọn khách hàng không hợp lệ</string>
+    <string name="fill_all">Vui lòng điền vào tất cả các trường</string>
+    <string name="network_req">Cần có mạng để lấy thông tin chi tiết</string>
+    <string name="loction_detcted"> Vị trí không thể được phát hiện </string>
+    <string name="succ_upd"> Cập nhật thành công </string>
+    <string name="alert">cảnh giác</string>
+    <string name="alert_already">Bản trình bày đã được lưu !! vui lòng nhập tên khác..</string>
+    <string name="alert_entr_presnt">Vui lòng nhập Tên người trình bày không phải là 1 !</string>
+    <string name="alert_presentnm">Vui lòng nhập tên bản trình bày !</string>
+    <string name="save_present">Bạn có muốn Lưu bản trình bày không?</string>
+    <string name="update_present">Bạn có muốn cập nhật bản trình bày không?</string>
+    <string name="delete_present">Bạn có muốn xóa bản trình bày không?</string>
+    <string name="prd_mappg">Chọn sản phẩm để lập bản đồ!!</string>
+    <string name="upd_prest_success">Đã cập nhật bản trình bày thành công!!</string>
+    <string name="update">Cập nhật</string>
+    <string name="enable_location">Cho phép vị trí</string>
+    <string name="alert_location">Cài đặt vị trí của bạn chưa được bật. Vui lòng bật nó trong menu cài đặt.</string>
+    <string name="location_setting">Cài đặt vị trí</string>
+    <string name="myplan_alert">Kế hoạch trong ngày của tôi đã được gửi ở đây</string>
+    <string name="overwrite">Ghi đè</string>
+    <string name="halfday">Nửa ngày</string>
+
+    <string name="inp_selct">Lựa chọn đầu vào</string>
+    <string name="add_selct">Lựa chọn bác sĩ bổ sung</string>
+    <string name="joint_selct">Lựa chọn công việc chung</string>
+    <string name="prodct_selct">Lựa chọn sản phẩm</string>
+    <string name="tourplan_entry">Mục nhập Tourplan</string>
+    <string name="feedback_details">Thông tin phản hồi</string>
+    <string name="feedback_here">Phản hồi tại đây</string>
+    <string name="duration">Thời lượng</string>
+    <string name="current_month">Tháng này</string>
+    <string name="next_month">Tháng tiếp theo</string>
+    <string name="search_unlisted_doctor">Tìm kiếm bác sĩ không có trong danh sách</string>
+    <string name="unlisted_doctor_selection">Lựa chọn bác sĩ không có trong danh sách</string>
+    <string name="additional_doctor">Bác sĩ bổ sung</string>
+    <string name="select_the_category">Chọn danh mục</string>
+    <string name="select_the_territory">Chọn lãnh thổ</string>
+    <string name="pincode">Mã PIN</string>
+    <string name="add_chemist">Thêm nhà hóa học</string>
+    <string name="search_doctor">Bác sĩ tìm kiếm</string>
+
+    <string name="slct_date">Chọn ngày</string>
+    <string name="chk_nwcnctn">Kiểm tra kết nối mạng!!</string>
+    <string name="dr">Bác sĩ</string>
+    <string name="sent_appr">Đã được gửi để phê duyệt</string>
+    <string name="sent_suxs">Đã gửi thành công</string>
+    <string name="tp_rjct">Kế hoạch tham quan bị từ chối</string>
+    <string name="tp_aprvd">Đã được phê duyệt</string>
+    <string name="msg_empty">Trường tin nhắn trống</string>
+    <string name="wrk_types">Các loại công việc</string>
+    <string name="hqs">HeadQuaters</string>
+    <string name="clusters">Cụm</string>
+    <string name="srch_lstd">Tìm kiếm bác sĩ được liệt kê</string>
+
+
+
+
+    <string name="profiling">Lập hồ sơ</string>
+    <string name="gender">Giới tính</string>
+    <string name="male">Nam giới</string>
+    <string name="female">Giống cái</string>
+    <string name="dob">DOB</string>
+    <string name="district">Huyện</string>
+    <string name="dow">DOW</string>
+    <string name="city">Tp</string>
+    <string name="address_details">Chi tiết địa chỉ</string>
+    <string name="main_address">Địa chỉ chính</string>
+    <string name="e_mail">E-mail</string>
+    <string name="additional_details">Chi tiết bổ sung</string>
+    <string name="listed_dr">Tiến sĩ được liệt kê.</string>
+    <string name="chem">Nhà hóa học</string>
+    <string name="stockist">Người dự trữ</string>
+    <string name="unlisted_dr">Tiến sĩ không công khai.</string>
+
+    <string name="autotime">Bật Ngày và Giờ Tự động trong Cài đặt</string>
+    <string name="slides_download">Các trang trình bày được tải xuống thành công</string>
+    <string name="NonFieldcall">Không thể gửi cuộc gọi cho Công việc ngoài lĩnh vực</string>
+    <string name="NonFieldedit">Không thể chỉnh sửa lệnh gọi cho Công việc ngoài lĩnh vực</string>
+    <string name="NonFieldnearme">Gần tôi không khả dụng cho Công việc ngoài lĩnh vực</string>
+
+    <string name="DcrDate">DCR Ngày</string>
+    <string name="DcrView">DCR Quan điểm</string>
+
+</resources>

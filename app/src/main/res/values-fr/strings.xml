@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SAN CLM</string>
-    <string name="app_version">Version 1.8.2</string>
+    <string name="app_version">Version 1.9.2</string>
 
     <string name="preference_name">saneforce.sanclm.preferencefile</string>
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
@@ -14,9 +14,9 @@
 
 
     <string name="tab_option_listeddr">DOCTOR</string>
-    <string name="tab_option_chemist">CHEMIST</string>
-    <string name="tab_option_stockist">STOCKIST</string>
-    <string name="tab_option_unlisteddr">UNLISTED DOCTOR</string>
+    <string name="tab_option_chemist">PHARMACIEN</string>
+    <string name="tab_option_stockist">GERANT DU STOCK</string>
+    <string name="tab_option_unlisteddr">NOUVEAU MEDECIN</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="start_updates">START LOCATION UPDATES</string>
@@ -53,24 +53,24 @@
 
     <string name="worktype">TYPE DE TRAVAIL</string>
     <string name="headquater">QUARTIER GÉNÉRAL</string>
-    <string name="cluster">GROUPE</string>
+    <string name="cluster">SECTEUR</string>
     <string name="remarks">REMARQUES</string>
     <string name="select">SÉLECTIONNER</string>
     <string name="todayworktype">PLAN DE TRAVAIL AUJOURDHUI</string>
     <string name="go">VA</string>
 
-    <string name="todaycall">APPELS AUJOURDHUI</string>
-    <string name="total">le total</string>
-    <string name="calls">Appels</string>
+    <string name="todaycall">CONTACTS JOUNALIERS</string>
+    <string name="total">TOTAL</string>
+    <string name="calls">Contacts</string>
     <string name="presentation">Présentation</string>
     <string name="report">RAPPORTS</string>
 
-    <string name="monthly_average">MOYENNE DAPPELS MENSUELS</string>
+    <string name="monthly_average">MOYENNE MENSUELLE DE CONTACTS</string>
     <string name="current_visit">DÉTAILS DE LA VISITE DU MOIS ACTUEL</string>
-    <string name="category">DÉTAILS DE LA VISITE CATÉGORIE</string>
+    <string name="category">DETAILD DE VISITE PAR CATEGORIE</string>
     <string name="overall">DÉTAILS GÉNÉRAUX DE LA VISITE</string>
 
-    <string name="call">Appel</string>
+    <string name="call">Contact</string>
     <string name="coverage">Couverture</string>
     <string name="daily">du quotidien</string>
     <string name="average">Moyenne</string>
@@ -86,7 +86,7 @@
     <string name="master">CHARGEUR VERS LE BAS DE LA LISTE MASTER</string>
     <string name="list">Lister</string>
     <string name="competitors">CONCURRENTS</string>
-    <string name="input">CONTRIBUTIONS</string>
+    <string name="input">SUPPORT</string>
     <string name="product">DES PRODUITS</string>
     <string name="slides">DIAPOSITIVES</string>
     <string name="brands">MARQUES</string>
@@ -94,20 +94,20 @@
     <string name="speciality">Spécialité</string>
     <string name="catogy">Categoria</string>
     <string name="qualifications">Qualification</string>
-    <string name="clases">CLASSER</string>
+    <string name="clases">CLASSE</string>
     <string name="types">LES TYPES</string>
-    <string name="rating">Notation</string>
+    <string name="rating">MERITE</string>
     <string name="details">DÉTAILS DE LÉVALUATION</string>
     <string name="feedbacks">COMMENTAIRES SUR LÉVALUATION</string>
-    <string name="theraptic">Thérapeutique</string>
-    <string name="jointwork">Travail conjoint</string>
+    <string name="theraptic">THERAPEUTIQUE</string>
+    <string name="jointwork">TRAVAIL AVEC</string>
     <string name="hospital">HÔPITAL</string>
-    <string name="change_cluster">CHANGER DE CLUSTER</string>
+    <string name="change_cluster">CHANGER DE SECTEUR</string>
 
     <string name="select_worktype">SÉLECTIONNER LE TYPE DE TRAVAIL</string>
     <string name="select_cluster">SÉLECTIONNER LE CLUSTER</string>
     <string name="select_headquater">SÉLECTIONNEZ LE SIÈGE</string>
-    <string name="activity">Activité</string>
+    <string name="activity">ACTVITE</string>
     <string name="Slides_Downloader">Téléchargeur de diapositives</string>
 
     <string name="create_presentation">CRÉER UNE PRÉSENTATION</string>
@@ -122,7 +122,7 @@
 
     <string name="worktype1">Type de travail</string>
     <string name="headquater1">Quartier général</string>
-    <string name="cluster1">Groupe</string>
+    <string name="cluster1">SECTEUR</string>
     <string name="Selection">SÉLECTION</string>
     <string name="search">Rechercher</string>
     <string name="listed">Listé</string>
@@ -142,28 +142,35 @@
     <string name="sampqty">Quantité déchantillon</string>
     <string name="rxqty">Qté Rx</string>
     <string name="feedback">Retour</string>
-    <string name="input1">Contribution</string>
+    <string name="input1">SUPPORT</string>
     <string name="summary">Résumé</string>
 
-    <string name="totaldoc">Médecin total</string>
-    <string name="missedcall">Appel manqué</string>
+    <string name="totaldoc">TOTAL MEDECINS</string>
+    <string name="missedcall">CONTACT MANQUE</string>
     <string name="docmet">Docteur rencontré</string>
     <string name="docseen">Docteur vu</string>
-    <string name="fieldday">Journées de travail sur le terrain</string>
-    <string name="calaverage">Moyenne des appels</string>
+    <string name="fieldday">JOURS DE TRAVAIL</string>
+    <string name="calaverage">CONTACT MOYEN</string>
     <string name="savegallery">Sauvegarder dans la gallerie</string>
 
     <string name="doctor">DOCTEUR</string>
     <string name="met">Rencontré</string>
     <string name="missed">Manquée</string>
-    <string name="previosvst">Visite précédente</string>
+    <string name="previosvst">VISITE PREVUE</string>
     <string name="apply">APPLIQUER</string>
     <string name="clear">DÉGAGER</string>
 
     <string name="done">Fait</string>
     <string name="sclt_clst">Sélectionnez un cluster</string>
     <string name="sclt_work">Sélectionnez le type de travail</string>
-    <string name="sclt_head">Sélectionnez Headquater</string>
+    <string name="sclt_head">Sélectionnez Siège social</string>
+    <string name="sclt_hq">Sélectionnez QG</string>
+    <string name="sclt_jw">Sélectionnez Jointure</string>
+    <string name="sclt_hosp">Sélectionnez l\'hôpital</string>
+    <string name="edit">Éditer</string>
+    <string name="session">Session</string>
+    <string name="wrktype">Type de travail</string>
+    <string name="tgt_sales">Cible Vs Ventes</string>
     <string name="sclt_cat">Choisir une catégorie</string>
     <string name="sclt_spcl">Sélectionnez une spécialité</string>
     <string name="sclt_qualy">Sélectionnez la qualification</string>
@@ -222,17 +229,17 @@
     <string name="visit">Visite</string>
     <string name="cutomer">Cliente</string>
 
-    <string name="thimnth">Ce mois-ci</string>
-    <string name="pr_mnth">Le mois précédent</string>
+    <string name="thimnth">Ce mois</string>
+    <string name="pr_mnth">PREVISION DU MOIS</string>
     <string name="custmz">Personnaliser</string>
     <string name="nm_cust">Nom du client</string>
-    <string name="nm_ffc">Nom de FieldForce</string>
-    <string name="type">Taper</string>
-    <string name="territory">Territoire</string>
-    <string name="detail_count">Décompte des détails</string>
-    <string name="detail_duration">Détail de la durée</string>
-    <string name="detail_graph1">Top 5 des décomptes détaillés</string>
-    <string name="detail_graph2">Top 5 des temps détaillés</string>
+    <string name="nm_ffc">Nom de FORCE DE VENTE</string>
+    <string name="type">Type</string>
+    <string name="territory">Secteur</string>
+    <string name="detail_count">DETAILS DU COMPTE</string>
+    <string name="detail_duration">DETAILS DE LA DUREE</string>
+    <string name="detail_graph1">COMPTE DETAILLE DE TOP 5</string>
+    <string name="detail_graph2">TEMPS DETAILLE DE TOP 5</string>
     <string name="filter">Filtre</string>
     <string name="fieldforce">Force de campagne</string>
     <string name="selct">Sélectionner</string>
@@ -244,34 +251,34 @@
 
     <string name="date_birth">Date de naissance</string>
     <string name="weddnig">Date de marriage</string>
-    <string name="mobile">Mobile</string>
+    <string name="mobile">Telephone</string>
     <string name="email">E-mail</string>
     <string name="last_visit">Date de la dernière visite</string>
     <string name="product_promte">Produits promus</string>
     <string name="reselect">Re - Sélectionner</string>
 
     <string name="contc_person">Personne de contact</string>
-    <string name="phone">Téléphoner</string>
+    <string name="phone">TELEPHONE</string>
     <string name="fax">Fax</string>
-    <string name="precall">Analyse préalable</string>
+    <string name="precall">ANALYSE PRE CONTACT</string>
 
-    <string name="sendquies">Envoyer des requêtes</string>
+    <string name="sendquies">ENVOYER LES PREOCCUPATIONS</string>
     <string name="prd_nme">Nom du produit</string>
-    <string name="timline">Chronologie</string>
-    <string name="samp">Échantillons</string>
+    <string name="timline">INTERVALLE DE TEMPS</string>
+    <string name="samp">ECHANTILLONS</string>
     <string name="rx">Rx</string>
     <string name="qty">Qté</string>
-    <string name="add_cals">Appels supplémentaires</string>
+    <string name="add_cals">CONTACTS SUPPLEMENTAIRES</string>
     <string name="rcpaenty">Entrée Rcpa</string>
     <string name="finlsubmit">Soumission finale</string>
 
     <string name="docnm">Nom du médecin</string>
-    <string name="chmnm">Nom du chimiste</string>
+    <string name="chmnm">PHARMACIE</string>
     <string name="rcpalist">Liste Rcpa</string>
     <string name="ourbrand">Notre marque de produit</string>
     <string name="compnm">Nom de la société concurrente</string>
     <string name="brndnm">Nom de marque du concurrent</string>
-    <string name="rate">Taux</string>
+    <string name="rate">COUT</string>
     <string name="value">Valeur</string>
     <string name="addcomp">Ajouter un concurrent</string>
     <string name="antherbrnd">Ajouter une autre marque</string>
@@ -288,10 +295,11 @@
     <string name="aleretmsg1">Soumettre lappel</string>
     <string name="savedft">Enregistrer le brouillon</string>
     <string name="ok">Daccord</string>
-    <string name="brandmatrix">Matrice de marque</string>
-    <string name="spclwise">Spécialité sage</string>
+    <string name="brandmatrix">GAMME DES PRODUITS</string>
+    <string name="spclwise">PAR SPECIALITE</string>
     <string name="allbrand">Toutes les marques</string>
     <string name="customise">Personnaliser</string>
+    <string name="customised">personnalisé</string>
 
     <string name="targetsales">Détails des ventes Target VS</string>
     <string name="primary">Primaire</string>
@@ -347,7 +355,7 @@
     <string name="togreater">À ce jour devrait être plus grand</string>
     <string name="timelesser">Du temps devrait être moindre</string>
     <string name="filltime">Remplissez le temps de départ</string>
-    <string name="totimegreater">Le temps devrait être plus grand</string>
+    <string name="totimegreater">A temps devrait être plus grand</string>
     <string name="datasave">Données enregistrées avec succès</string>
     <string name="cannotload">Impossible de charger les données</string>
     <string name="filenot_support">Ce format de fichier nest pas pris en charge</string>
@@ -391,6 +399,7 @@
     <string name="mock_loc">Emplacement fictif détecté</string>
     <string name="conf_succs">Configuré avec succès</string>
     <string name="invalid_url">URL invalide</string>
+    <string name="invalid_licence">Clé de licence invalide</string>
     <string name="app_data_clr">Données d application effacées</string>
     <string name="some_field">certains champs sont vides</string>
     <string name="pass_succed">Le mot de passe a été changé avec succès !!</string>
@@ -421,9 +430,9 @@
 
     <string name="inp_selct">Sélection des entrées</string>
     <string name="add_selct">Sélection de médecin supplémentaire</string>
-    <string name="joint_selct">Sélection du travail conjoint</string>
+    <string name="joint_selct">SELECTIONNER TRAVAIL AVEC</string>
     <string name="prodct_selct">Sélection de produits</string>
-    <string name="tourplan_entry">Plan de visite Entrée</string>
+    <string name="tourplan_entry">ENTRÉE PLAN DE VISITE</string>
     <string name="feedback_details">détails des commentaires</string>
     <string name="feedback_here">Commentaires ici</string>
     <string name="duration">Durée</string>
@@ -436,6 +445,47 @@
     <string name="select_the_territory">Sélectionnez le territoire</string>
     <string name="pincode">Code PIN</string>
     <string name="add_chemist">Ajouter un chimiste</string>
+
+    <string name="slct_date">Sélectionnez la date</string>
+    <string name="chk_nwcnctn">Vérifiez la connexion réseau !!</string>
+    <string name="dr">MEDECINS</string>
+    <string name="sent_appr">Déjà envoyé pour approbation</string>
+    <string name="sent_suxs">Envoyé avec succès</string>
+    <string name="tp_rjct">PLAN DE VISITE rejeté</string>
+    <string name="tp_aprvd">Déjà approuvé</string>
+    <string name="msg_empty">Le champ de message est vide</string>
+    <string name="wrk_types">Types de travail</string>
+    <string name="hqs">QUARTIER GÉNÉRAL</string>
+    <string name="clusters">SECTEUR</string>
+    <string name="srch_lstd">RECHERCHE MEDECIN</string>
+
+
+    <string name="profiling">Profilage</string>
+    <string name="gender">Genre</string>
+    <string name="male">Mâle</string>
+    <string name="female">Femelle</string>
+    <string name="dob">Date de naissance</string>
+    <string name="district">Quartier</string>
+    <string name="dow">DOW</string>
+    <string name="city">Ville</string>
+    <string name="address_details">Détails de l\'adresse</string>
+    <string name="main_address">Adresse principale</string>
+    <string name="e_mail">E-mail</string>
+    <string name="additional_details">Détails supplémentaires</string>
+    <string name="listed_dr">LISTE DES MEDECINS</string>
+    <string name="chem">PHARMACIEN</string>
+    <string name="stockist">GERANT DU STOCK</string>
+    <string name="unlisted_dr">Non répertorié Dr.</string>
+    <string name="search_doctor">Rechercher un médecin</string>
+
+    <string name="autotime">Activez la date et l\'heure automatiques dans les paramètres</string>
+    <string name="slides_download">Diapositives téléchargées avec succès</string>
+    <string name="NonFieldcall">Impossible de soumettre des appels pour le travail hors terrain</string>
+    <string name="NonFieldedit">Impossible de modifier les appels pour le travail hors terrain</string>
+    <string name="NonFieldnearme">Près de moi non disponible pour le travail hors terrain</string>
+
+    <string name="DcrDate">DCR Date</string>
+    <string name="DcrView">DCR Vue</string>
 
 
 </resources>

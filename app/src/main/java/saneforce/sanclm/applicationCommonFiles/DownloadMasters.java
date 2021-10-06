@@ -66,6 +66,7 @@ public class DownloadMasters extends IntentService {
     JSONObject obj = new JSONObject();
     static ManagerListLoading managerListLoading;
     CommonSharedPreference commonSharedPreference;
+    String slideid="";
 
 
     public DownloadMasters(Context context, String db_connPath, String db_slidedwnloadPath, String sfCode, String mrcode) {
@@ -240,12 +241,25 @@ public class DownloadMasters extends IntentService {
             if (response.isSuccessful()) {
                 try {
                     dbh.open();
-                    dbh.del_slide();
+
+                    //dbh.del_slide();
+
                     dbh.del_sep();
 
                     dbh.del_therap();
 
+                    String bndcode="";
+
                     Cursor cu = dbh.select_slidesUrlPathDuplicate();
+                    if(cu.getCount()>0){
+                        while (cu.moveToNext()){
+                            bndcode+=cu.getString(1)+";";
+                            Log.v("brnd>>",bndcode);
+                        }
+
+                    }
+
+
                     Log.d("countslide", "" + cu.getCount());
                     List<SlidesList> slideslist = response.body();
                     Log.v("slide_counttt", String.valueOf(slideslist.size()));
@@ -262,6 +276,7 @@ public class DownloadMasters extends IntentService {
 
                     }
                     for (int i = 0; i < slideslist.size(); i++) {
+                        slideid+=slideslist.get(i).getSlideId()+";";
                         Log.v("Background_Services", String.valueOf(i));
                         String slideId = slideslist.get(i).getSlideId();
                         String pdtBrdCd = slideslist.get(i).getCode();
@@ -275,8 +290,12 @@ public class DownloadMasters extends IntentService {
                         String Camp = slideslist.get(i).getCamp();
                         int OrdNo = slideslist.get(i).getOrdNo();
                         Log.v("printing_insert_File", specCd + "prdCode" + pdtCd);
-                        dbh.insert_slideList(slideId, pdtBrdCd, pdtBrdNm, pdtCd, filePath, filetyp, specCd, catCd, Grp, Camp, OrdNo);
+                        //dbh.insert_slideList(slideId, pdtBrdCd, pdtBrdNm, pdtCd, filePath, filetyp, specCd, catCd, Grp, Camp, OrdNo);
+                        if(bndcode.contains(slideId)){
 
+                        }else {
+                            dbh.insert_slideList(slideId, pdtBrdCd, pdtBrdNm, pdtCd, filePath, filetyp, specCd, catCd, Grp, Camp, OrdNo);
+                        }
 
                         Log.v("Background_Details", filePath);
                         Log.v("Background_Details", pdtBrdCd);
@@ -284,6 +303,19 @@ public class DownloadMasters extends IntentService {
 
 
                     }
+                    Cursor cu1 = dbh.select_slidesUrlPathDuplicate();
+                    String slideId="";
+                    if(cu1.getCount()>0){
+                        while (cu1.moveToNext()){
+                            slideId=cu1.getString(1);
+                            if (!slideid.contains(slideId)) {
+                                dbh.del_slidenew(slideId);
+
+                            }
+                        }
+
+                    }
+
                     spesList();
                     therapticList();
 
@@ -292,7 +324,7 @@ public class DownloadMasters extends IntentService {
                     callSlideDownloader.callDownload();
 
                 } catch (Exception e) {
-                    Log.d("Download Error",e.getMessage());
+                  //  Log.d("Download Error",e.getMessage());
                 }
             } else {
                 try {
@@ -756,9 +788,11 @@ public Callback<ResponseBody> NewComplist = new Callback<ResponseBody>() {
                         String SfCd = Stockists.get(i).getSFCode();
                         String max = Stockists.get(i).getMaxCnt();
                         String tag = Stockists.get(i).getTagCnt();
+                        String lat=Stockists.get(i).getLat();
+                        String longi=Stockists.get(i).getLongi();
 
 
-                        dbh.insert_stockistMaster(stkCode, stkName, stkaddr, stkTwnCd, stkTwnNm, stkPh, stkMob, stkEmail, stkContactPers, stkCrdDt, stkCrdLmt, SfCd, max, tag);
+                        dbh.insert_stockistMaster(stkCode, stkName, stkaddr, stkTwnCd, stkTwnNm, stkPh, stkMob, stkEmail, stkContactPers, stkCrdDt, stkCrdLmt, SfCd, max, tag,lat,longi);
                     }
 
                     dbh.close();
@@ -810,8 +844,10 @@ public Callback<ResponseBody> NewComplist = new Callback<ResponseBody>() {
                         String Drqual = UlDr.get(i).getQual();
                         String max = UlDr.get(i).getMaxCnt();
                         String tag = UlDr.get(i).getTagCnt();
+                        String DrHoscd=UlDr.get(i).getDoc_hospcode();
+                        String DrHosNm=UlDr.get(i).getDoc_hospname();
 
-                        dbh.insert_unlisted_doctormaster(DrCode, DrName, DrTwnCd, DrTwnNm, DrCatNm, DrSpecNm, DrCatCd, DrSpecCd, SfCd, Addr, Dremail, Drmobile, Drphone, Drqual, max, tag);
+                        dbh.insert_unlisted_doctormaster(DrCode, DrName, DrTwnCd, DrTwnNm, DrCatNm, DrSpecNm, DrCatCd, DrSpecCd, SfCd, Addr, Dremail, Drmobile, Drphone, Drqual, max, tag,DrHoscd,DrHosNm);
                     }
                     dbh.close();
                     edit.commit();
@@ -1376,9 +1412,10 @@ public Callback<ResponseBody> NewComplist = new Callback<ResponseBody>() {
                         String bName = clsList.get(i).getName();
                         String depName = clsList.get(i).getUsername();
                         String depDivcode = clsList.get(i).getDv_code();
+                        String type = clsList.get(i).getType();
                         Log.v("clss_code: ", bName);
 
-                        dbh.insertClass(bNo, bName, depName, depDivcode);
+                        dbh.insertClass(bNo, bName, depName, depDivcode,type);
 
                     }
                     dbh.close();

@@ -48,16 +48,27 @@ public class DCRCallsSelectionTablayout  extends Fragment implements TabHost.OnT
     String baseurl,SF_Code,Div_code;
     CommonUtilsMethods commonUtilsMethods;
     public static UpdateUi updateUi;
+    View decorView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+//        getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+//                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//                | View.SYSTEM_UI_FLAG_FULLSCREEN
+//                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+
+        decorView=getActivity().getWindow().getDecorView();
+        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+            @Override
+            public void onSystemUiVisibilityChange(int i) {
+                if(i==0){
+                    decorView.setSystemUiVisibility(hideSysBottomBar());
+                }
+            }
+        });
 
     }
 
@@ -202,27 +213,29 @@ public class DCRCallsSelectionTablayout  extends Fragment implements TabHost.OnT
                     if(js.getString("success").equalsIgnoreCase("true")){
                         progressDialog.dismiss();
                         updateUi.updatingui();
-                        if(js.has("msg"))
+                        if(js.has("Msg"))
                             Toast.makeText(getActivity(),js.getString("msg"),Toast.LENGTH_SHORT).show();
                         else
                         Toast.makeText(getActivity(),getResources().getString(R.string.submitsuccess),Toast.LENGTH_SHORT).show();
                     }
                     else{
                         progressDialog.dismiss();
-                        if(js.has("msg"))
-                            Toast.makeText(getActivity(),js.getString("msg"),Toast.LENGTH_SHORT).show();
+                        if(js.has("Msg"))
+                            Toast.makeText(getActivity(),js.getString("Msg"),Toast.LENGTH_SHORT).show();
 //                        else
 //                            Toast.makeText(getActivity(),"Please Update App",Toast.LENGTH_SHORT).show();
                     }
 
                 }catch (Exception e){
-
+                    Log.v("Exception missed",e.getMessage());
+                    progressDialog.dismiss();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                Log.v("missed_date_err",t.toString());
+                progressDialog.dismiss();
             }
         });
     }
@@ -252,6 +265,8 @@ public class DCRCallsSelectionTablayout  extends Fragment implements TabHost.OnT
                         jj.put("CusType", "2");
                     else    if(js.getString("type").equalsIgnoreCase("S"))
                         jj.put("CusType", "3");
+                    else    if(js.getString("type").equalsIgnoreCase("I"))
+                        jj.put("CusType", "6");
                     else
                         jj.put("CusType", "4");
                     jj.put("CustCode", js.getString("code"));
@@ -338,4 +353,13 @@ public class DCRCallsSelectionTablayout  extends Fragment implements TabHost.OnT
         public static void bindDcrBackPress(UpdateUi ui){
             updateUi=ui;
         }
+
+    public int hideSysBottomBar(){
+        return View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+    }
 }

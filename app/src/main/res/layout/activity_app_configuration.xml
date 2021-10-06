@@ -135,7 +135,8 @@
             android:singleLine="true"
             android:textColor="#5e5e5e"
             android:textColorHint="#888888"
-            android:textSize="14dp">
+            android:textSize="14dp"
+            android:imeOptions="actionDone">
 
         </EditText>
 

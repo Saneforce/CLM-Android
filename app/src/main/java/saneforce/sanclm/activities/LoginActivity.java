@@ -1,5 +1,6 @@
 package saneforce.sanclm.activities;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -18,6 +19,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.Settings;
 
@@ -64,6 +66,7 @@ import saneforce.sanclm.util.UpdateUi;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.MANAGE_EXTERNAL_STORAGE;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
@@ -144,6 +147,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         permissions.add(CAMERA);
         permissions.add(READ_EXTERNAL_STORAGE);
         permissions.add(WRITE_EXTERNAL_STORAGE);
+        if (Build.VERSION.SDK_INT >=Build.VERSION_CODES.R)
+        permissions.add(MANAGE_EXTERNAL_STORAGE);
         FirebaseApp.initializeApp(this);
         //permissions.add(READ_CONTACTS);
 
@@ -151,7 +156,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //get the permissions we have asked for before but are not granted..
         //we will store this in a global list to access later.
 
-        if(permissionsToRequest.size()>0){}else accessStorageAllowed=true;
+        if(permissionsToRequest.size()>0){}
+        else accessStorageAllowed=true;
+
+        if (Build.VERSION.SDK_INT >=Build.VERSION_CODES.R){
+            if(Environment.isExternalStorageManager()) {
+//todo when permission is granted
+            } else {
+//request for the permission
+                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                intent.setData(uri);
+                startActivity(intent);
+            }
+        }
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -365,7 +383,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         JSONObject map=new JSONObject();
                         map.put("name", userName);
                         map.put("password", passWord);
-                        map.put("Appver", "V1.3.0");
+                        map.put("Appver", "V1.9.2");
                         map.put("Mod", "Edet");
                         map.put("dev_id", token_val);
                          Log.v("database_url",db_pathUrl.substring(0,db_pathUrl.lastIndexOf("/")+1));
@@ -486,19 +504,36 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             else
                                 mCommonSharedPreference.setValueToPreference("sf_emp_id","");
 
+                            mCommonSharedPreference.setValueToPreference("radius",jsonObject.getString("DisRad"));
 
                             if(jsonObject.has("GEOTagNeedche"))
                             mCommonSharedPreference.setValueToPreference("chmgeoneed",jsonObject.getString("GEOTagNeedche"));
                             else
-                                mCommonSharedPreference.setValueToPreference("chmgeoneed","1");
+                                mCommonSharedPreference.setValueToPreference("chmgeoneed" , "");
 
-                            mCommonSharedPreference.setValueToPreference("radius",jsonObject.getString("DisRad"));
+                            if(jsonObject.has("GEOTagNeedstock"))
+                                mCommonSharedPreference.setValueToPreference("stkgeoneed",jsonObject.getString("GEOTagNeedstock"));
+                            else
+                                mCommonSharedPreference.setValueToPreference("stkgeoneed" , "");
+
+                            if(jsonObject.has("GeoTagNeedcip"))
+                                mCommonSharedPreference.setValueToPreference("cipgeoneed",jsonObject.getString("GeoTagNeedcip"));
+                            else
+                                mCommonSharedPreference.setValueToPreference("cipgeoneed" , "");
+
+
+
+//                            if (jsonObject.has("tp_need"))
+//                                mCommonSharedPreference.setValueToPreference("tp_need", jsonObject.getString("tp_need"));
+//                            else
+//                                mCommonSharedPreference.setValueToPreference("tp_need", "");
+
                             progressDialog.dismiss();
 
                             boolean checkPer=false;
                             Log.v("value_of_sfcode",sharedpreferences.getString(CommonUtils.TAG_SF_CODE,null)+" usernameee "+CommonUtils.TAG_USERNME);
-                            mCommonSharedPreference.setValueToPreference("GpsFilter",jsonObject.getString("GeoNeed"));
-                            if(jsonObject.getString("GeoNeed").equalsIgnoreCase("0")) {
+                            mCommonSharedPreference.setValueToPreference("GpsFilter",jsonObject.getString("GeoChk"));
+                            if(jsonObject.getString("GeoChk").equalsIgnoreCase("0")) {
 
                                 if(startLocationButtonClick()) {
                                     checkPer=true;
@@ -750,7 +785,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
 
-    @TargetApi(Build.VERSION_CODES.M)
+   // @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
@@ -764,21 +799,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
 
                 if (permissionsRejected.size() > 0) {
-
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         if (shouldShowRequestPermissionRationale((String) permissionsRejected.get(0))) {
-                            showMessageOKCancel("These permissions are mandatory for the application. Please allow access.",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                                requestPermissions((String[]) permissionsRejected.toArray(new String[permissionsRejected.size()]), ALL_PERMISSIONS_RESULT);
+                                showMessageOKCancel("These permissions are mandatory for the application. Please allow access.",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                    requestPermissions((String[]) permissionsRejected.toArray(new String[permissionsRejected.size()]), ALL_PERMISSIONS_RESULT);
+                                                }
                                             }
-                                        }
-                                    });
-                            return;
-                        }
+                                        });
+                                return;
+                            }
                     }
                 }
                 break;

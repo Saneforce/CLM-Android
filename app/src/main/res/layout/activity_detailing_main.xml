@@ -53,7 +53,7 @@
             android:layout_marginRight="18dp"
             android:id="@+id/rlay_spin"
             android:padding="8dp"
-            android:visibility="visible"
+            android:visibility="gone"
             >
 
             <TextView

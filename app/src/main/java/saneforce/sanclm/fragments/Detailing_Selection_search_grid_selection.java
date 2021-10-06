@@ -302,8 +302,13 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
         listViewItems.add(getResources().getString(R.string.brandmatrix));
         listViewItems.add(getResources().getString(R.string.spclwise));
         listViewItems.add(getResources().getString(R.string.allbrand));
+        if(mCommonSharedPreference.getValueFromPreference("CustNd").equalsIgnoreCase("1")){
+            listViewItems.remove(getResources().getString(R.string.customise));
+    }else {
         if (!checkActivity)
             listViewItems.add(getResources().getString(R.string.customise));
+    }
+
         if (!TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("theraptic"))) {
             Log.v("therapticValue",mCommonSharedPreference.getValueFromPreference("theraptic"));
             if (mCommonSharedPreference.getValueFromPreference("theraptic").equalsIgnoreCase("0"))
@@ -380,7 +385,7 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
                     DisplayProductGridView(parent.getItemAtPosition(position).toString());
                 }
                 if (parent.getItemAtPosition(position).toString().equalsIgnoreCase(getResources().getString(R.string.customise)))
-                    mCommonSharedPreference.setValueToPreference("display_brand", getResources().getString(R.string.customise));
+                    mCommonSharedPreference.setValueToPreference("display_brand", getResources().getString(R.string.customised));
                 else
                     mCommonSharedPreference.setValueToPreference("display_brand", parent.getItemAtPosition(position).toString());
             }
@@ -1273,7 +1278,7 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
                     JSONArray ja = new JSONArray(mCommonSharedPreference.getValueFromPreference("selection_product").toString());
                     len_slide = ja.length();
                     mCommonSharedPreference.setValueToPreference("ProductBrdWiseSlides_jsonArray", mCommonSharedPreference.getValueFromPreference("selection_product").toString());
-                } else if (DetailingTrackerPOJO.getmDetListview_Selection().equalsIgnoreCase(getResources().getString(R.string.customise))) {
+                } else if (DetailingTrackerPOJO.getmDetListview_Selection().equalsIgnoreCase(getResources().getString(R.string.customised))) {
                     JSONArray ja = new JSONArray(mCommonSharedPreference.getValueFromPreference("selection_product").toString());
                     len_slide = ja.length();
                     mCommonSharedPreference.setValueToPreference("ProductBrdWiseSlides_jsonArray", mCommonSharedPreference.getValueFromPreference("selection_product").toString());

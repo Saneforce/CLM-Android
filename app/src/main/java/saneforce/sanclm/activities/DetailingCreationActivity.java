@@ -137,6 +137,7 @@ public class DetailingCreationActivity extends FragmentActivity implements View.
             rlay_spin.setVisibility(View.VISIBLE);
 
 
+
         Detailing_Selection_search_grid_selection.bindListenerCustomise(new CustomiseOption() {
             @Override
             public void isClicked() {
@@ -219,7 +220,7 @@ public class DetailingCreationActivity extends FragmentActivity implements View.
                     Detailing_Selection_search_grid_selection.CustomClick = true;
                     savePresentation.saveDetail();
                     prdName = "";
-                    det_search_sel_fragment1.DisplayProductGridView(getResources().getString(R.string.customise));
+                    det_search_sel_fragment1.DisplayProductGridView(getResources().getString(R.string.customised));
                 }
                 String slideData = mCommonSharedPreference.getValueFromPreference("ProductBrdWiseSlides_jsonArray");
                 JSONArray jsonArray = null;

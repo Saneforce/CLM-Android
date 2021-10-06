@@ -453,6 +453,11 @@ public class CallFragment extends Fragment {
                         List<MontlyVistDetail> details=response.body();
                         Log.v("details_length", String.valueOf(details.size()));
                         int maxVal=0;
+//                        for(int i=0;i<details.size();i++) {
+//                            if(details.get(i).getCnt().equals("") || details.get(i).getCnt().equals(null))
+//                                details.get(i).setCnt("0");
+//                        }
+
                         for(int i=0;i<details.size();i++){
                             if(maxVal>=Integer.parseInt(details.get(i).getCnt())){
 
@@ -666,7 +671,7 @@ public class CallFragment extends Fragment {
                                 mCommonSharedPreference.setValueToPreference("addChm","1");
                             if(js.has("addAct")) {
                                 mCommonSharedPreference.setValueToPreference("addAct", js.getString("addAct"));
-                                updateUi.updatingui();
+                                //updateUi.updatingui();
                             }
                             else
                                 mCommonSharedPreference.setValueToPreference("addAct","1");
@@ -699,6 +704,48 @@ public class CallFragment extends Fragment {
                             }
                             else
                                 mCommonSharedPreference.setValueToPreference("Target_sales", "");
+
+                            if(js.has("DrProfile")){
+                                mCommonSharedPreference.setValueToPreference("DrProfile", js.getString("DrProfile"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("DrProfile", "");
+
+                            if(js.has("Product_Stockist")){
+                                mCommonSharedPreference.setValueToPreference("Product_Stockist", js.getString("Product_Stockist"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("Product_Stockist", "");
+
+                            if(js.has("undr_hs_nd")){
+                                mCommonSharedPreference.setValueToPreference("undr_hs_nd", js.getString("undr_hs_nd"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("undr_hs_nd", "");
+
+                            if(js.has("PresentNd")){
+                                mCommonSharedPreference.setValueToPreference("PresentNd", js.getString("PresentNd"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("PresentNd", "");
+
+                            if(js.has("CustNd")){
+                                mCommonSharedPreference.setValueToPreference("CustNd", js.getString("CustNd"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("CustNd", "");
+
+                            if(js.has("yetrdy_call_del_Nd")){
+                                mCommonSharedPreference.setValueToPreference("yetrdy_call_del_Nd", js.getString("yetrdy_call_del_Nd"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("yetrdy_call_del_Nd", "");
+
+                            if(js.has("DcrapprvNd")){
+                                mCommonSharedPreference.setValueToPreference("DcrapprvNd", js.getString("DcrapprvNd"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("DcrapprvNd", "");
 
                         } catch (Exception e) {
                         }

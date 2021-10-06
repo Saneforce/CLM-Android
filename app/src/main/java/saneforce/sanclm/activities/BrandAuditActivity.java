@@ -349,18 +349,31 @@ public class BrandAuditActivity extends AppCompatActivity implements DataInterfa
         popupAdapter.notifyDataSetChanged();
         EditText search_edit = (EditText) dialog.findViewById(R.id.et_search);
 
-//        search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String s) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String s) {
-//                popupAdapter.getFilter().filter(s);
-//                return false;
-//            }
-//        });
+        popup_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(xx.get(position).isClick()){
+                    xx.get(position).setClick(false);
+                }else {
+                    xx.get(position).setClick(true);
+
+                }
+                popupAdapter.notifyDataSetChanged();
+            }
+        });
+
+        search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                popupAdapter.getFilter().filter(s);
+                return false;
+            }
+        });
 
         search_edit.addTextChangedListener(new TextWatcher() {
             @Override
@@ -433,6 +446,8 @@ public class BrandAuditActivity extends AppCompatActivity implements DataInterfa
                 prd_rate = Float.parseFloat(prd_list_rate.get(i));
                 prdEnterCode = list.get(i).getIqty();
                 edt_qty.setText("");
+                edt_rate.setText("");
+                edt_val.setText("");
                 dialog.dismiss();
                 commonFun();
             }

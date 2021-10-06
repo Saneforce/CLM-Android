@@ -17,6 +17,10 @@ public class ClassList {
     @Expose
     private String username;
 
+    @SerializedName("Type")
+    @Expose
+    private String type;
+
     public String getCode() {
         return code;
     }
@@ -47,5 +51,13 @@ public class ClassList {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

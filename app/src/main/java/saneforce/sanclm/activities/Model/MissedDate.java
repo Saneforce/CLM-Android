@@ -1,13 +1,18 @@
 package saneforce.sanclm.activities.Model;
 
 public class MissedDate {
-    String mnthYr,date,day,td_date;
+    String mnthYr;
+    String date;
+    String day;
+    String td_date;
+    String status;
 
-    public MissedDate(String mnthYr, String date, String day,String td_date) {
+    public MissedDate(String mnthYr, String date, String day,String td_date,String status) {
         this.mnthYr = mnthYr;
         this.date = date;
         this.day = day;
         this.td_date = td_date;
+        this.status = status;
     }
 
     public String getTd_date() {
@@ -40,5 +45,13 @@ public class MissedDate {
 
     public void setDay(String day) {
         this.day = day;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

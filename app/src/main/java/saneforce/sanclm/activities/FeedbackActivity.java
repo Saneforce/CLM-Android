@@ -29,7 +29,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.content.FileProvider;
 
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -82,11 +84,13 @@ import saneforce.sanclm.activities.Model.PopFeed;
 import saneforce.sanclm.activities.Model.SlideDetail;
 import saneforce.sanclm.activities.Model.StoreImageTypeUrl;
 import saneforce.sanclm.adapter_class.FeedCallJoinAdapter;
+import saneforce.sanclm.adapter_class.FeedCallJoinAdapter1;
 import saneforce.sanclm.adapter_class.FeedInputAdapter;
 import saneforce.sanclm.adapter_class.FeedProductAdapter;
 import saneforce.sanclm.adapter_class.PopupAdapter;
 import saneforce.sanclm.api_Interface.Api_Interface;
 import saneforce.sanclm.api_Interface.RetroClient;
+import saneforce.sanclm.applicationCommonFiles.Autotimezone;
 import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
 import saneforce.sanclm.applicationCommonFiles.CommonUtils;
 import saneforce.sanclm.applicationCommonFiles.CommonUtilsMethods;
@@ -94,16 +98,18 @@ import saneforce.sanclm.applicationCommonFiles.ImageFilePath;
 import saneforce.sanclm.applicationCommonFiles.LocationTrack;
 import saneforce.sanclm.fragments.LocaleHelper;
 import saneforce.sanclm.sqlite.DataBaseHandler;
+import saneforce.sanclm.util.NetworkReceiver;
 
 import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
 import static saneforce.sanclm.fragments.AppConfiguration.language_string;
 import static saneforce.sanclm.fragments.AppConfiguration.licenceKey;
 
 public class FeedbackActivity extends AppCompatActivity {
-    TextView availcheckbutton;
+    TextView availcheckbutton,txt_signature;
     FeedProductAdapter feedProductAdapter;
     FeedInputAdapter feedInputAdapter;
     FeedCallJoinAdapter feedCallJoinAdapter;
+    FeedCallJoinAdapter1 feedCallJoinAdapter1;
     ArrayList<String> prd_value = new ArrayList<>();
     ArrayList<SlideDetail> input_array = new ArrayList<>();
     ArrayList<String> joint_array = new ArrayList<>();
@@ -119,6 +125,12 @@ public class FeedbackActivity extends AppCompatActivity {
     String filePath = "";
     Button bt_cancel, prd_plus, prd_plus1;
     ArrayList<PopFeed> xx = new ArrayList<>();
+    ArrayList<PopFeed> product = new ArrayList<>();
+    ArrayList<PopFeed> product1 = new ArrayList<>();
+
+    ArrayList<PopFeed> input = new ArrayList<>();
+    ArrayList<PopFeed> addcall = new ArrayList<>();
+
     DataBaseHandler dbh;
     Cursor mCursor;
     int detectCount = 0;
@@ -129,7 +141,7 @@ public class FeedbackActivity extends AppCompatActivity {
     Button btn_query;
     ArrayList<StoreImageTypeUrl> storeList;
     Button btn_brand_audit, submit;
-    TextView txt_name, txt_pob;
+    TextView txt_name, txt_pob,txt_stockist,txt_stockist1;
     String drname;
     EditText edt_sample;
     int queryCount = 0;
@@ -144,8 +156,8 @@ public class FeedbackActivity extends AppCompatActivity {
     String peopleType, peopleCode, commonSFCode, SFCode,SF_Type;
     public static String TypePeople = "D";
     LocationTrack locationTrack;
-    static RelativeLayout sign_lay;
-    SignatureCanva sign_canva;
+    static RelativeLayout sign_lay,sign_laynew;
+    SignatureCanva sign_canva,sign_canvanew;
     String signPath = "";
     String defaulttime = "00:00:00";
     int val;
@@ -159,16 +171,17 @@ public class FeedbackActivity extends AppCompatActivity {
     ImageView img_capture;
     Uri outputFileUri;
     String currentPhotoPath,AvailableAduitNeeded="",RcpaNeeded="";
-    String nn = null;
+    String nn = null,workType;
     String language;
     Context context;
     Resources resources;
 
+
     SharedPreferences sharedPreferences;
 
     ArrayList<StoreImageTypeUrl> arrayStore = new ArrayList<>();
-    LinearLayout addcalllayout,availLayout;
-   String availability=null,custype="0";
+    LinearLayout addcalllayout,availLayout,ll_stkname,ll_stkname1;
+    String availability=null,custype="0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -195,7 +208,7 @@ public class FeedbackActivity extends AppCompatActivity {
         custype=extra.getString("custype",null);
 //        Log.v("options>>>>", custype);
 
-
+        startService(new Intent(FeedbackActivity.this, Autotimezone.class));
 
         listView_feed_product = (ListView) findViewById(R.id.listView_feed_product);
         listView_feed_input = (ListView) findViewById(R.id.listView_feed_input);
@@ -218,11 +231,23 @@ public class FeedbackActivity extends AppCompatActivity {
         sign_canva = (SignatureCanva) findViewById(R.id.sign_canva);
         ll_feed_prd2 = (LinearLayout) findViewById(R.id.ll_feed_prd2);
         ll_feed_prd = (LinearLayout) findViewById(R.id.ll_feed_prd);
-        txt_sign = (TextView) findViewById(R.id.txt_sign);
+     //   txt_sign = (TextView) findViewById(R.id.txt_sign);
         img_capture = findViewById(R.id.img_capture);
         addcalllayout=findViewById(R.id.addcallLayout);
         availLayout=findViewById(R.id.availLayout);
         availcheckbutton=findViewById(R.id.availcheckbtn);
+        txt_stockist = (TextView) findViewById(R.id.txt_stockist);
+        txt_stockist1 = (TextView) findViewById(R.id.txt_stockist1);
+        ll_stkname = (LinearLayout) findViewById(R.id.ll_stockname);
+        ll_stkname1 = (LinearLayout) findViewById(R.id.ll_stkname1);
+        txt_signature=findViewById(R.id.txt_sign);
+        txt_signature.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupSignature();
+
+            }
+        });
 
 
         mCommonSharedPreference = new CommonSharedPreference(FeedbackActivity.this);
@@ -231,48 +256,14 @@ public class FeedbackActivity extends AppCompatActivity {
         SFCode = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_CODE);
         val_pob = mCommonSharedPreference.getValueFromPreference("feed_pob");
         SF_Type = mCommonSharedPreference.getValueFromPreference("sf_type");
+        workType=mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_NAME);
         AvailableAduitNeeded = mCommonSharedPreference.getValueFromPreference("AvailableAduitNeeded");
-//      RcpaNeeded= mCommonSharedPreference.getValueFromPreference("RcpaNeeded");
-        RcpaNeeded="1";
+        RcpaNeeded= mCommonSharedPreference.getValueFromPreference("RcpaNd");
+        // RcpaNeeded="1";
         availability=mCommonSharedPreference.getValueFromPreference("availjson");
-            Log.v("avail>>>1",availability);
+        Log.v("avail>>>1",availability);
         btn_brand_audit.setVisibility(View.VISIBLE);
 
-
-
-        if(AvailableAduitNeeded.equals("1")&&feedOption.equals("chemist")){
-            availLayout.setVisibility(View.VISIBLE);
-            addcalllayout.setVisibility(View.GONE);
-            btn_brand_audit.setVisibility(View.VISIBLE);
-
-        }else if(AvailableAduitNeeded.equals("1")&&feedOption.equals("edit")&&custype.equals("2")) {
-            availLayout.setVisibility(View.VISIBLE);
-            btn_brand_audit.setVisibility(View.VISIBLE);
-            addcalllayout.setVisibility(View.GONE);
-        }
-
-       else  if(RcpaNeeded.equals("1")&&feedOption.equals("dr")){
-            btn_brand_audit.setVisibility(View.GONE);
-
-        }else if(RcpaNeeded.equals("1")&&feedOption.equals("edit")&&custype.equals("1")) {
-            btn_brand_audit.setVisibility(View.GONE);
-        }
-
-        else{
-            availLayout.setVisibility(View.GONE);
-            addcalllayout.setVisibility(View.VISIBLE);
-            btn_brand_audit.setVisibility(View.VISIBLE);
-
-        }
-
-        availcheckbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(FeedbackActivity.this,AvailablityCheckActivity.class);
-                intent.putExtra("availjson",availability);
-                startActivity(intent);
-            }
-        });
         Log.v("toshow_sharepref", val_pob);
 
         if (mCommonSharedPreference.getValueFromPreference("addAct").equalsIgnoreCase("0"))
@@ -298,7 +289,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
             call_plus.setEnabled(false);
             call_plus.getBackground().setAlpha(128);
-//            btn_brand_audit.setVisibility(View.INVISIBLE);
+            btn_brand_audit.setVisibility(View.INVISIBLE);
             // txt_name.setText(extra.getString("customer"));
             txt_name.setText(CommonUtils.TAG_CHEM_NAME);
             peopleType = "C";
@@ -431,10 +422,33 @@ public class FeedbackActivity extends AppCompatActivity {
         Log.v("printing_final_pob", peopleType + " val_pob" + val_pob);
         if (val_pob.contains(peopleType)) {
             ll_feed_prd2.setVisibility(View.VISIBLE);
+
+
+            if (peopleType.equalsIgnoreCase("S")) {
+                ll_stkname1.setVisibility(View.GONE);
+            }
+            else if(peopleType.equalsIgnoreCase("U")){
+                ll_stkname1.setVisibility(View.GONE);
+            }
+            else {
+                if(mCommonSharedPreference.getValueFromPreference("Product_Stockist").equals("0"))
+                    ll_stkname1.setVisibility(View.VISIBLE);
+            }
+
             ll_feed_prd.setVisibility(View.GONE);
         } else {
             ll_feed_prd2.setVisibility(View.GONE);
             ll_feed_prd.setVisibility(View.VISIBLE);
+
+
+            if (peopleType.equalsIgnoreCase("S")){
+                ll_stkname.setVisibility(View.GONE);}
+            else if(peopleType.equalsIgnoreCase("U")){
+                ll_stkname.setVisibility(View.GONE);}
+            else{
+                if(mCommonSharedPreference.getValueFromPreference("Product_Stockist").equals("0")){
+                    ll_stkname.setVisibility(View.VISIBLE);}
+            }
         }
 
        /* Log.v("printing_people_code",peopleCode);
@@ -541,7 +555,7 @@ public class FeedbackActivity extends AppCompatActivity {
                 String time = gettingProductStartEndTime(arrayStore.get(j).getRemTime(), j);
                 Log.v("printing_all_time", time);
 
-                listFeedPrd.add(new FeedbackProductDetail(arrayStore.get(j - 1).getBrdName(), time, "", "", mCommonUtilsMethod.getCurrentDate(), "", "", "", gettingProductFB("")));
+                listFeedPrd.add(new FeedbackProductDetail(arrayStore.get(j - 1).getBrdName(), time, "", "", mCommonUtilsMethod.getCurrentDate(), "", "", "", gettingProductFB(""),"Stockist"));
                 finalPrdNam = arrayStore.get(j).getBrdName();
 
             }
@@ -550,7 +564,7 @@ public class FeedbackActivity extends AppCompatActivity {
             String time = gettingProductStartEndTime(arrayStore.get(arrayStore.size() - 1).getRemTime(), arrayStore.size() - 1);
             ArrayList<PopFeed> ff = new ArrayList<>();
             ff = arr_pfb;
-            listFeedPrd.add(new FeedbackProductDetail(arrayStore.get(arrayStore.size() - 1).getBrdName(), time, "", "", mCommonUtilsMethod.getCurrentDate(), "", "", "", gettingProductFB("")));
+            listFeedPrd.add(new FeedbackProductDetail(arrayStore.get(arrayStore.size() - 1).getBrdName(), time, "", "", mCommonUtilsMethod.getCurrentDate(), "", "", "", gettingProductFB(""),"Stockist"));
             Log.v("edet_feedback33", time + " print" + listFeedPrd.get(0).getSt_end_time());
         }
 
@@ -707,8 +721,10 @@ public class FeedbackActivity extends AppCompatActivity {
 
                 jsonBrandValue = mCommonSharedPreference.getValueFromPreference("jsonarray");
 
-
-                if(feedOption.equalsIgnoreCase("dr")){
+                if (TextUtils.isEmpty(jsonBrandValue)) {
+                    Intent i = new Intent(FeedbackActivity.this, BrandAuditActivity.class);
+                    startActivityForResult(i, 6);
+                }else if(feedOption.equalsIgnoreCase("edit")||feedOption.equalsIgnoreCase("dr")){
                     Intent i = new Intent(FeedbackActivity.this,BrandAuditActivity.class);
                     i.putExtra("json_val", jsonBrandValue);
                     i.putExtra("name", txt_name.getText().toString());
@@ -808,6 +824,7 @@ public class FeedbackActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                startService(new Intent(FeedbackActivity.this, Autotimezone.class));
                 boolean checkPer = false;
                 if (mCommonSharedPreference.getValueFromPreference("GpsFilter").equalsIgnoreCase("0")) {
                     if (CheckPermission()) {
@@ -818,11 +835,11 @@ public class FeedbackActivity extends AppCompatActivity {
                     checkPer = true;
                 }
                 if (checkPer) {
-                    sign_canva.checkingForSign();
-                    try {
-                        signPath = captureCanvasScreen(sign_lay);
-                    } catch (Exception e) {
-                    }
+//                    sign_canvanew.checkingForSign();
+//                    try {
+//                        signPath = captureCanvasScreen(sign_laynew);
+//                    } catch (Exception e) {
+//                    }
                     dbFunctionToSave();
                     String finalValue = mCommonSharedPreference.getValueFromPreference("jsonsave");
                     Log.v("final_value_draft", finalValue);
@@ -862,20 +879,24 @@ public class FeedbackActivity extends AppCompatActivity {
                             return;
                         }
 
-                            if (mCommonSharedPreference.getValueFromPreference("DrSmpQMd").equals("1") && peopleType.equalsIgnoreCase("D")) {
-                                for (int jj = 0; jj < listFeedPrd.size(); jj++) {
+                        if (mCommonSharedPreference.getValueFromPreference("DrSmpQMd").equals("1") && peopleType.equalsIgnoreCase("D")) {
+                            for (int jj = 0; jj < listFeedPrd.size(); jj++) {
+                                if (listFeedPrd.get(jj).getSt_end_time().equals("00:00:00 00:00:00")) {
                                     String rxqty = listFeedPrd.get(jj).getSample();
                                     if (rxqty.equalsIgnoreCase("")) {
                                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.entr_sample_val), Toast.LENGTH_LONG).show();
                                         return;
                                     }
+
                                     Log.v("rxqty", rxqty);
                                 }
-
                             }
-                            if (ll_feed_prd2.getVisibility() == View.VISIBLE) {
-                                if (mCommonSharedPreference.getValueFromPreference("DrRxNd").equals("1") && mCommonSharedPreference.getValueFromPreference("DrRxQMd").equals("1") && peopleType.equalsIgnoreCase("D")) {
-                                    for (int jj = 0; jj < listFeedPrd.size(); jj++) {
+
+                        }
+                        if (ll_feed_prd2.getVisibility() == View.VISIBLE) {
+                            if (mCommonSharedPreference.getValueFromPreference("DrRxNd").equals("1") && mCommonSharedPreference.getValueFromPreference("DrRxQMd").equals("1") && peopleType.equalsIgnoreCase("D")) {
+                                for (int jj = 0; jj < listFeedPrd.size(); jj++) {
+                                    if (listFeedPrd.get(jj).getSt_end_time().equals("00:00:00 00:00:00")) {
                                         String rxqty = listFeedPrd.get(jj).getRxQty();
                                         if (rxqty.equalsIgnoreCase("")) {
                                             Toast.makeText(getApplicationContext(), getResources().getString(R.string.entr_rx_val), Toast.LENGTH_LONG).show();
@@ -885,9 +906,51 @@ public class FeedbackActivity extends AppCompatActivity {
                                     }
                                 }
                             }
+                        }
+
+                        if (mCommonSharedPreference.getValueFromPreference("DrInpMd").equals("1") && peopleType.equalsIgnoreCase("D")) {
+                            if (input_array.size() < 1) {
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.sclt_input), Toast.LENGTH_LONG).show();
+                                return;
+                            }
+                            for (int jj = 0; jj < input_array.size(); jj++) {
+                                String inputName = input_array.get(jj).getInputName();
+                                String inputQty = input_array.get(jj).getIqty();
+
+                                if (inputName.equalsIgnoreCase("") && inputQty.equalsIgnoreCase("")) {
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.entr_input_val), Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                            }
+
+                        }
+                        if (mCommonSharedPreference.getValueFromPreference("RcpaNd").equals("1") && peopleType.equalsIgnoreCase("D") && workType.equalsIgnoreCase("Field Work")) {
+                            String rcpa = mCommonSharedPreference.getValueFromPreference("jsonarray");
+                            if (rcpa.equalsIgnoreCase("")) {
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.entr_rcpa_val), Toast.LENGTH_LONG).show();
+                                return;
+
+                            }
+                        }
+                        finalSubmission(finalValue);
+
+                    } else {
+                        if (mCommonSharedPreference.getValueFromPreference("yetrdy_call_del_Nd").equalsIgnoreCase("0")) {
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.offline), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Calendar calander = Calendar.getInstance();
+                            SimpleDateFormat sdf = new SimpleDateFormat("d/M/yyyy hh:mm:ss");
+                            String d = null;
+                            try {
+                                d = sdf.format(calander.getTime());
+                                Log.v("date_value_conver", d + " ");
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
 
                             if (mCommonSharedPreference.getValueFromPreference("DrInpMd").equals("1") && peopleType.equalsIgnoreCase("D")) {
                                 if (input_array.size() < 1) {
+
                                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.sclt_input), Toast.LENGTH_LONG).show();
                                     return;
                                 }
@@ -902,7 +965,7 @@ public class FeedbackActivity extends AppCompatActivity {
                                 }
 
                             }
-                            if (mCommonSharedPreference.getValueFromPreference("RcpaNd").equals("1") && peopleType.equalsIgnoreCase("D")) {
+                            if (mCommonSharedPreference.getValueFromPreference("RcpaNd").equals("1") && peopleType.equalsIgnoreCase("D") && workType.equalsIgnoreCase("Field Work")) {
                                 String rcpa = mCommonSharedPreference.getValueFromPreference("jsonarray");
                                 if (rcpa.equalsIgnoreCase("")) {
                                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.entr_rcpa_val), Toast.LENGTH_LONG).show();
@@ -911,42 +974,32 @@ public class FeedbackActivity extends AppCompatActivity {
                                 }
                             }
 
-                            finalSubmission(finalValue);
+                            dbh.open();
+                            dbh.deleteFeed();
+                            dbh.delete_groupName("customised");
+                            dbh.delete_json(colId);
+                            mCommonSharedPreference.setValueToPreference("slide_feed", "[]");
 
-                    } else {
-                        Calendar calander = Calendar.getInstance();
-                        SimpleDateFormat sdf = new SimpleDateFormat("d/M/yyyy hh:mm:ss");
-                        String d = null;
-                        try {
-                            d = sdf.format(calander.getTime());
-                            Log.v("date_value_conver", d + " ");
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                            if (txt_name.getText().toString().equalsIgnoreCase("DocName") || txt_name.getText().toString().equalsIgnoreCase("")) {
+                                Log.v("DocName", txt_name.toString());
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.invalid_cus), Toast.LENGTH_LONG).show();
+                                return;
+                            } else {
+                                dbh.insertJson(String.valueOf(finalValue), txt_name.getText().toString() + "_s_ync", String.valueOf(d), peopleCode, peopleType, commonSFCode,signPath);
+                                Intent i = new Intent(FeedbackActivity.this, HomeDashBoard.class);
+                                startActivity(i);
+                            }
+
                         }
+                    }
+                        //if(feedOption.equalsIgnoreCase("edit"))
                         dbh.open();
                         dbh.deleteFeed();
                         dbh.delete_groupName("customised");
                         dbh.delete_json(colId);
+                        dbh.close();
                         mCommonSharedPreference.setValueToPreference("slide_feed", "[]");
 
-                        if (txt_name.getText().toString().equalsIgnoreCase("DocName")||txt_name.getText().toString().equalsIgnoreCase("")) {
-                            Log.v("DocName", txt_name.toString());
-                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.invalid_cus), Toast.LENGTH_LONG).show();
-                            return;
-                        } else {
-                            dbh.insertJson(String.valueOf(finalValue), txt_name.getText().toString() + "_s_ync", String.valueOf(d), peopleCode, peopleType, commonSFCode);
-                            Intent i = new Intent(FeedbackActivity.this, HomeDashBoard.class);
-                            startActivity(i);
-                        }
-
-                    }
-                    //if(feedOption.equalsIgnoreCase("edit"))
-                    dbh.open();
-                    dbh.deleteFeed();
-                    dbh.delete_groupName("customised");
-                    dbh.delete_json(colId);
-                    dbh.close();
-                    mCommonSharedPreference.setValueToPreference("slide_feed", "[]");
                 }
             }
         });
@@ -954,117 +1007,160 @@ public class FeedbackActivity extends AppCompatActivity {
         prd_plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                xx.clear();
-                dbh.open();
-                mCursor = dbh.select_product_content_master();
 
-                if (mCursor.getCount() != 0) {
-                    mCursor.moveToFirst();
-                    do {
-                        Log.v("product_name_feed", mCursor.getString(0));
-                        xx.add(new PopFeed(mCursor.getString(0), false));
+                    product.clear();
+                    dbh.open();
+                    mCursor = dbh.select_product_content_master();
 
-                    } while (mCursor.moveToNext());
-                    popUpAlertFeed(xx, "p");
+                    if (mCursor.getCount() != 0) {
+                        mCursor.moveToFirst();
+                        do {
+                           Log.v("product_name_feed", mCursor.getString(0));
+                            product.add(new PopFeed(mCursor.getString(0), false));
+
+                        } while (mCursor.moveToNext());
+                        popUpAlertFeed(product, "p");
+                    }
+                    mCursor.close();
+                    dbh.close();
                 }
-                mCursor.close();
-                dbh.close();
 
-
-            }
         });
         prd_plus1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                xx.clear();
-                dbh.open();
-                mCursor = dbh.select_product_content_master();
 
-                if (mCursor.getCount() != 0) {
-                    mCursor.moveToFirst();
-                    do {
-                        Log.v("product_name_feed", mCursor.getString(0));
-                        xx.add(new PopFeed(mCursor.getString(0), false));
+                    product1.clear();
+                    dbh.open();
+                    mCursor = dbh.select_product_content_master();
 
-                    } while (mCursor.moveToNext());
-                    popUpAlertFeed(xx, "p");
+                    if (mCursor.getCount() != 0) {
+                        mCursor.moveToFirst();
+                        do {
+                           Log.v("product_name_feed", mCursor.getString(0));
+                            product1.add(new PopFeed(mCursor.getString(0), false));
+
+                        } while (mCursor.moveToNext());
+                        popUpAlertFeed(product1, "p");
+                    }
+                    mCursor.close();
+                    dbh.close();
                 }
-                mCursor.close();
-                dbh.close();
 
 
-            }
         });
         ip_plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                xx.clear();
-                dbh.open();
-                mCursor = dbh.select_input_list();
 
-                if (mCursor.getCount() != 0) {
-                    mCursor.moveToFirst();
-                    do {
-                        Log.v("input_name_feed", mCursor.getString(0));
-                        xx.add(new PopFeed(mCursor.getString(0), false));
-                    } while (mCursor.moveToNext());
-                    popUpAlertFeed(xx, "i");
-                } else {
-                    Toast.makeText(FeedbackActivity.this, getResources().getString(R.string.no_input), Toast.LENGTH_SHORT).show();
+                    input.clear();
+                    dbh.open();
+                    mCursor = dbh.select_input_list();
+
+                    if (mCursor.getCount() != 0) {
+                        mCursor.moveToFirst();
+                        do {
+                            Log.v("input_name_feed", mCursor.getString(0));
+                            input.add(new PopFeed(mCursor.getString(0), false));
+                        } while (mCursor.moveToNext());
+                        popUpAlertFeed(input, "i");
+                    } else {
+                        Toast.makeText(FeedbackActivity.this, getResources().getString(R.string.no_input), Toast.LENGTH_SHORT).show();
+                    }
+                    mCursor.close();
+                    dbh.close();
+
                 }
-                mCursor.close();
-                dbh.close();
 
-
-            }
         });
         call_plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                xx.clear();
 
-                dbh.open();
-                mCursor = dbh.select_doctor_list();
+                    addcall.clear();
 
-                if (mCursor.getCount() != 0) {
-                    mCursor.moveToFirst();
-                    do {
-                        Log.v("plus_name_feed", mCursor.getString(0));
-                        xx.add(new PopFeed(mCursor.getString(0), false));
-                    } while (mCursor.moveToNext());
-                    popUpAlertFeed(xx, "a");
+                    dbh.open();
+                    mCursor = dbh.select_doctor_list();
+
+                    if (mCursor.getCount() != 0) {
+                        mCursor.moveToFirst();
+                        do {
+                            Log.v("plus_name_feed", mCursor.getString(0));
+                            addcall.add(new PopFeed(mCursor.getString(0), false));
+                        } while (mCursor.moveToNext());
+                        popUpAlertFeed(addcall, "a");
+                    }
+                    mCursor.close();
+                    dbh.close();
                 }
-                mCursor.close();
-                dbh.close();
 
-            }
         });
 
 
         join_plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                xx.clear();
-                dbh.open();
-                mCursor = dbh.select_joint_list();
 
-                if (mCursor.getCount() != 0) {
-                    mCursor.moveToFirst();
-                    do {
-                        Log.v("plus_name_feed", mCursor.getString(0));
-                        if (!SFCode.equalsIgnoreCase(mCursor.getString(1)))
-                            xx.add(new PopFeed(mCursor.getString(0), false));
-                    } while (mCursor.moveToNext());
-                    popUpAlertFeed(xx, "j");
+                    xx.clear();
+                    dbh.open();
+                    mCursor = dbh.select_joint_list();
+
+
+                    if (mCursor.getCount() != 0) {
+                        mCursor.moveToFirst();
+                        do {
+                            Log.v("plus_name_feed", mCursor.getString(0));
+                            if (!SFCode.equalsIgnoreCase(mCursor.getString(1))) {
+                                // xx.add(new PopFeed(mCursor.getString(0), false));
+                                PopFeed popFeed = new PopFeed();
+                                popFeed.setTxt(mCursor.getString(0));
+                                popFeed.setClick(false);
+                                xx.add(popFeed);
+                            }
+                        } while (mCursor.moveToNext());
+                        popUpAlertFeed(xx, "j");
+                    }
+                    mCursor.close();
+                    dbh.close();
+
                 }
-                mCursor.close();
-                dbh.close();
 
+        });
+    }
+
+    private void PopupSignature() {
+
+        final Dialog dialog=new Dialog(FeedbackActivity.this,R.style.AlertDialogCustom);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.popup_signature);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+        sign_canvanew = (SignatureCanva) dialog.findViewById(R.id.sign_canva);
+        sign_laynew = (RelativeLayout) dialog.findViewById(R.id.sign_lay);
+        sign_canvanew.checkingForSign();
+
+        if (!TextUtils.isEmpty(signPath)) {
+            if (signPath.substring(0, 1).equalsIgnoreCase("s")) {
+                new DownloadingImage(baseurl + signPath).execute();
+            } else {
+                Drawable d = Drawable.createFromPath(signPath);
+                sign_laynew.setBackground(d);
+            }
+        }
+        ImageView img_close=(ImageView)dialog.findViewById(R.id.iv_close_popup);
+        img_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sign_canvanew.checkingForSign();
+                try {
+                    signPath = captureCanvasScreen(sign_laynew);
+                } catch (Exception e) {
+                }
+                txt_signature.setText(getResources().getString(R.string.signature));
+                dialog.dismiss();
 
             }
         });
-
-
     }
 
     private void selected(String language) {
@@ -1131,7 +1227,7 @@ public class FeedbackActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    signPath = captureCanvasScreen(sign_lay);
+                    signPath = captureCanvasScreen(sign_laynew);
                 } catch (Exception e) {
                 }
                 dbFunctionToSave();
@@ -1150,7 +1246,7 @@ public class FeedbackActivity extends AppCompatActivity {
                     }
 
 
-                    dbh.insertJson(String.valueOf(jsonValue), txt_name.getText().toString(), String.valueOf(d), peopleCode, peopleType, commonSFCode);
+                    dbh.insertJson(String.valueOf(jsonValue), txt_name.getText().toString(), String.valueOf(d), peopleCode, peopleType, commonSFCode,signPath);
                 } else {
                     dbh.updateJson(colId, jsonValue);
                 }
@@ -1204,6 +1300,9 @@ public class FeedbackActivity extends AppCompatActivity {
         ImageView iv_close_popup = (ImageView) dialog.findViewById(R.id.iv_close_popup);
         TextView tv_todayplan_popup_head = (TextView) dialog.findViewById(R.id.tv_todayplan_popup_head);
         final SearchView search_view = (SearchView) dialog.findViewById(R.id.search_view);
+        EditText search_edit=(EditText)  dialog.findViewById(R.id.et_search);
+
+
         search_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1217,6 +1316,19 @@ public class FeedbackActivity extends AppCompatActivity {
         popup_list.setAdapter(popupAdapter);
         popupAdapter.notifyDataSetChanged();
 
+//        popup_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                if(xx.get(position).isClick()){
+//                    xx.get(position).setClick(false);
+//                }else {
+//                    xx.get(position).setClick(true);
+//
+//                }
+//                Log.d("jj", ""+xx.get(position).getTxt());
+//                popupAdapter.notifyDataSetChanged();
+//            }
+//        });
         if (x.equals("i")) {
             tv_todayplan_popup_head.setText(resources.getString(R.string.inp_selct));
         } else if (x.equals("a")) {
@@ -1236,6 +1348,25 @@ public class FeedbackActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String s) {
                 popupAdapter.getFilter().filter(s);
                 return false;
+            }
+        });
+
+        search_edit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                popupAdapter.getFilter().filter(s);
+                popupAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
@@ -1260,7 +1391,7 @@ public class FeedbackActivity extends AppCompatActivity {
                         } else {
 
                             if (!listFeedPrd.contains(new FeedbackProductDetail(popFeed.getTxt())))
-                                listFeedPrd.add(new FeedbackProductDetail(popFeed.getTxt(), "00:00:00 00:00:00", "", "", CommonUtilsMethods.getCurrentDate(), "", "", "", gettingProductFB("")));
+                                listFeedPrd.add(new FeedbackProductDetail(popFeed.getTxt(), "00:00:00 00:00:00", "", "", CommonUtilsMethods.getCurrentDate(), "", "", "", gettingProductFB(""),"Stockist"));
                         }
                     }
                 }
@@ -1395,6 +1526,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Toast.makeText(FeedbackActivity.this, getResources().getString(R.string.query_notsuccs), Toast.LENGTH_SHORT).show();
 
                         }
                     });
@@ -1575,7 +1707,7 @@ public class FeedbackActivity extends AppCompatActivity {
                                     json_date.put("sTm", listFeedPrd.get(i).getDate() + " " + listFeedPrd.get(i).getSt_end_time().substring(0, (listFeedPrd.get(i).getSt_end_time().indexOf(" "))));
                                     json_date.put("eTm", listFeedPrd.get(i).getDate() + " " + listFeedPrd.get(i).getSt_end_time().substring((listFeedPrd.get(i).getSt_end_time().indexOf(" ")) + 1));
                                     json_joint.put("Timesline", json_date);
-                                    json_joint.put("Appver", "V1.2");
+                                    json_joint.put("Appver","V1.9.2");
                                     json_joint.put("Mod", "Edet");
                                     json_joint.put("SmpQty", listFeedPrd.get(i).getSample());
                                     if (val_pob.contains(peopleType))
@@ -1583,6 +1715,7 @@ public class FeedbackActivity extends AppCompatActivity {
                                     if (!TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("productFB")) && mCommonSharedPreference.getValueFromPreference("productFB").equalsIgnoreCase("0"))
                                         json_joint.put("prdfeed", getProdFb(listFeedPrd.get(i).getProdFb()));
                                     json_joint.put("Type", peopleType);
+                                    json_joint.put("Stockist",listFeedPrd.get(i).getStk_name());
                                     Log.v("getting_Slide_list_size", String.valueOf(json_joint));
                                     Cursor mCursor1 = dbh.select_feedback_list(listFeedPrd.get(i).getPrdNAme());
                                     Log.v("getting_Slide_list_size", String.valueOf(mCursor1.getCount()));
@@ -1685,9 +1818,9 @@ public class FeedbackActivity extends AppCompatActivity {
                 jointObj.put("CateCode", "");
                 if (peopleType.equalsIgnoreCase("C"))
                     jointObj.put("CusType", "2");
-              else  if (peopleType.equalsIgnoreCase("I"))
+                else  if (peopleType.equalsIgnoreCase("I"))
                     jointObj.put("CusType", "6");
-              else
+                else
                     jointObj.put("CusType", "3");
                 jointObj.put("CustCode", peopleCode);
                 jointObj.put("CustName", txt_name.getText().toString());
@@ -1795,7 +1928,10 @@ public class FeedbackActivity extends AppCompatActivity {
                 jointObj.put("AvailabilityAudit", jsonArrayavail);
             }
 
-
+            if(signPath.contains("signs")){
+                String sign[]=signPath.split("/");
+                signPath= "/storage/emulated/0/EDetails/Pictures/"+sign[1];
+            }
             Log.v("joint_wrk_print66", String.valueOf(jointObj));
             jointObj.put("sign_path", signPath);
             jointObj.put("filepath", filePath);
@@ -1838,7 +1974,7 @@ public class FeedbackActivity extends AppCompatActivity {
                         Log.v("json_name", js.getString("Name") + " val_pb " + val_pob + " people " + peopleType);
                         if (funStringValidation(js.getString("Name")))
                             namee = js.getString("Name");
-                        String rat = "", feed = "", qty = "", STm = "", ETm = "", dt = "", pob = "";
+                        String rat = "", feed = "", qty = "", STm = "", ETm = "", dt = "", pob = "",prd_stk="";
                         if (funStringValidation(js.getString("Rating")))
                             rat = js.getString("Rating");
                         if (funStringValidation(js.getString("ProdFeedbk")))
@@ -1850,13 +1986,24 @@ public class FeedbackActivity extends AppCompatActivity {
                             else
                                 qty = js.getString("SmpQty");
                         }
+                        if ((js.has("Stockist")))
+                        {
+                            if (funStringValidation(js.getString("Stockist")))
+                                prd_stk = js.getString("Stockist");
+                        }
+
                         if (val_pob.contains(peopleType)) {
-                            if (mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true")) {
-                                if (funStringValidation(js.getString("RxQty")))
-                                    pob = js.getString("RxQty");
-                            } else {
-                                if (funStringValidation(js.getString("rx_pob")))
-                                    pob = js.getString("rx_pob");
+                            if ((js.has("RxQty")) || (js.has("rx_pob"))) {
+                                if (mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true")) {
+                                    if (funStringValidation(js.getString("RxQty")))
+                                        pob = js.getString("RxQty");
+                                } else if (mCommonSharedPreference.getValueFromPreference("Draft").equalsIgnoreCase("true")) {
+                                    if (funStringValidation(js.getString("RxQty")))
+                                        pob = js.getString("RxQty");
+                                } else {
+                                    if (funStringValidation(js.getString("rx_pob")))
+                                        pob = js.getString("rx_pob");
+                                }
                             }
                         }
 
@@ -1871,10 +2018,10 @@ public class FeedbackActivity extends AppCompatActivity {
                             ETm = jsonTim.getString("eTm").substring((jsonTim.getString("eTm").indexOf(" ")) + 1);
                         Log.v("name_js_js", namee + " smqty " + js.getString("SmpQty"));
                         if(js.has("prdfeed")) {
-                            listFeedPrd.add(new FeedbackProductDetail(js.getString("Name"), STm.trim() + " " + ETm.trim(), rat, feed, dt, qty, "", pob, gettingProductFB(js.getString("prdfeed"))));
+                            listFeedPrd.add(new FeedbackProductDetail(js.getString("Name"), STm.trim() + " " + ETm.trim(), rat, feed, dt, qty, "", pob, gettingProductFB(js.getString("prdfeed")),prd_stk));
                         }else
                         {
-                            listFeedPrd.add(new FeedbackProductDetail(js.getString("Name"), STm.trim() + " " + ETm.trim(), rat, feed, dt, qty, "", pob, gettingProductFB("")));
+                            listFeedPrd.add(new FeedbackProductDetail(js.getString("Name"), STm.trim() + " " + ETm.trim(), rat, feed, dt, qty, "", pob, gettingProductFB(""),prd_stk));
                         }
 
 
@@ -2040,21 +2187,28 @@ public class FeedbackActivity extends AppCompatActivity {
             listView_feed_input.setAdapter(feedInputAdapter);
             feedInputAdapter.notifyDataSetChanged();
 
-            JSONArray jsonBrnd = json.getJSONArray("RCPAEntry");
-            Log.v("jsonBrnd_val", String.valueOf(jsonBrnd));
-            jsonBrandValue = String.valueOf(jsonBrnd);
-            mCommonSharedPreference.setValueToPreference("jsonarray", jsonBrnd.toString());
-
-            signPath = json.getString("sign_path");
-            Log.v("sign_paths_fou", baseurl + signPath);
-            if (!TextUtils.isEmpty(signPath)) {
-                if (signPath.substring(0, 1).equalsIgnoreCase("s")) {
-                    new DownloadingImage(baseurl + signPath).execute();
-                } else {
-                    Drawable d = Drawable.createFromPath(signPath);
-                    sign_lay.setBackground(d);
-                }
+            if(json.has("RCPAEntry")) {
+                JSONArray jsonBrnd = json.getJSONArray("RCPAEntry");
+                Log.v("jsonBrnd_val", String.valueOf(jsonBrnd));
+                jsonBrandValue = String.valueOf(jsonBrnd);
+                mCommonSharedPreference.setValueToPreference("jsonarray", jsonBrnd.toString());
             }
+            if(json.getString("sign_path").equalsIgnoreCase("null"))
+            {
+                signPath="";
+            }else {
+                signPath = json.getString("sign_path");
+                Log.v("sign_paths_fou", baseurl + signPath);
+            }
+//            if (!TextUtils.isEmpty(signPath)) {
+//                if (signPath.substring(0, 1).equalsIgnoreCase("s")) {
+//                    new DownloadingImage(baseurl + signPath).execute();
+//                } else {
+//                    Drawable d = Drawable.createFromPath(signPath);
+//                    //sign_lay.setBackground(d);
+//                    sign_laynew.setBackground(d);
+//                }
+//            }
 
         } catch (Exception e) {
             Log.v("printing_exception", e.getMessage());
@@ -2191,7 +2345,7 @@ public class FeedbackActivity extends AppCompatActivity {
     }
 
     public String captureCanvasScreen(View layBg) {
-        txt_sign.setText("");
+      //  txt_sign.setText("");
         View content = layBg;
         content.setDrawingCacheEnabled(true);
         content.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
@@ -2216,7 +2370,14 @@ public class FeedbackActivity extends AppCompatActivity {
     }
 
     public static void clearLay() {
-        sign_lay.setBackgroundResource(0);
+        //sign_lay.setBackgroundResource(0);
+        try {
+            sign_laynew.setBackgroundResource(0);
+        }catch(Exception exception)
+        {
+
+        }
+
     }
 
 
@@ -2347,7 +2508,12 @@ public class FeedbackActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             Log.v("singanga_path", signPath);
             Drawable d = Drawable.createFromPath(signPath);
-            sign_lay.setBackground(d);
+            //sign_lay.setBackground(d);
+            try {
+                sign_laynew.setBackground(d);
+            }catch (Exception e){
+
+            }
         }
     }
 
@@ -2374,7 +2540,8 @@ public class FeedbackActivity extends AppCompatActivity {
 
         protected void onPostExecute(Bitmap result) {
             Drawable d = new BitmapDrawable(getResources(), result);
-            sign_lay.setBackground(d);
+            //sign_lay.setBackground(d);
+              sign_laynew.setBackground(d);
             Log.v("finally_we_update", "imagesss");
             //saveImage(getApplicationContext(), result, "my_image.png");
 

@@ -227,7 +227,7 @@ public class MyCustomTPPager extends PagerAdapter {
 
         if(DemoActivity.hospNeed.equalsIgnoreCase("0")){
             //rlay_hosp.setVisibility(View.VISIBLE);
-            txt_cluster_head.setText("Hospital");
+            txt_cluster_head.setText(/*"Hospital"*/ context.getResources().getString(R.string.hospital));
         }
         else{
            // rlay_hosp.setVisibility(View.GONE);
@@ -338,9 +338,9 @@ public class MyCustomTPPager extends PagerAdapter {
             }
         });
         if(DemoActivity.hospNeed.equalsIgnoreCase("0"))
-            txt_cluster.setText("Select Hospital");
+            txt_cluster.setText(/*"Select Hospital"*/ context.getResources().getString(R.string.sclt_hosp));
         else
-            txt_cluster.setText("Select Cluster");
+            txt_cluster.setText(/*"Select Cluster"*/ context.getResources().getString(R.string.sclt_clst));
         if(DemoActivity.drNeed.equalsIgnoreCase("1")){
            // dr_img.setEnabled(false);
             //dr_img.setAlpha(.5f);
@@ -439,9 +439,9 @@ public class MyCustomTPPager extends PagerAdapter {
                 chem_img.setAlpha(.5f);
                 //hosp_img.setAlpha(.5f);
                 if(DemoActivity.hospNeed.equalsIgnoreCase("0"))
-                txt_cluster.setText("Select Hospital");
+                txt_cluster.setText(/*"Select Hospital"*/ context.getResources().getString(R.string.sclt_hosp));
                 else
-                txt_cluster.setText("Select Cluster");
+                txt_cluster.setText(/*"Select Cluster"*/ context.getResources().getString(R.string.sclt_clst));
                 txt_count_cluster.setText(" " + "0" + " ");
                 tp.setCluster("");
                 tp.setDr("");
@@ -543,6 +543,8 @@ public class MyCustomTPPager extends PagerAdapter {
             @Override
             public void onClick(View view) {
                 if(!TextUtils.isEmpty(getValueforField(tp.getWrk()))) {
+                    txt_cluster.setText(/*"Select Cluster"*/ context.getResources().getString(R.string.sclt_clst));
+                    tp.setCluster("");
                     selectorpos = 1;
                     selector.checkPosition(1);
                 }
@@ -618,7 +620,8 @@ public class MyCustomTPPager extends PagerAdapter {
             return "";
         int pos=s.indexOf("$");
         int pos1=s.indexOf("#");
-        if(!getCounts.contains(s.substring(0,pos)))
+        Log.d("the_logg",s.substring(0,pos));
+       // if(!getCounts.contains(s.substring(0,pos)))
         getCounts.add(s.substring(0,pos));
       /*  if(x==0)
         getCode.add(s.substring(pos+1,pos1));*/

@@ -63,6 +63,7 @@ import saneforce.sanclm.api_Interface.Api_Interface;
 import saneforce.sanclm.api_Interface.RetroClient;
 import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
 import saneforce.sanclm.applicationCommonFiles.CommonUtils;
+import saneforce.sanclm.applicationCommonFiles.CommonUtilsMethods;
 import saneforce.sanclm.applicationCommonFiles.DirectionsJSONParser;
 import saneforce.sanclm.util.UpdateUi;
 
@@ -488,12 +489,12 @@ public class LeaveActivity1 extends AppCompatActivity {
 
 
                     lvjson.put("EmpId",empId);
-                    lvjson.put("LeaveAppliedDate","");
+                    lvjson.put("LeaveAppliedDate", CommonUtilsMethods.getCurrentInstance()+" "+CommonUtilsMethods.getCurrentTime());
                     lvjson.put("LeaveTypeId","");
-                    lvjson.put("FromDate", edt_from.getText().toString()+ "00:00:00");
+                    lvjson.put("FromDate", edt_from.getText().toString()+ " " +"00:00:00");
                     lvjson.put("From1stSession",true);
                     lvjson.put("From2ndSession",true);
-                    lvjson.put("ToDate", edt_to.getText().toString()+ "00:00:00");
+                    lvjson.put("ToDate", edt_to.getText().toString()+" "+ "00:00:00");
                     lvjson.put("To1stSession",true);
                     lvjson.put("To2ndSession",true);
                     lvjson.put("No_Days", txt_day.getText().toString());

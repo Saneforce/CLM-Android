@@ -191,12 +191,21 @@ public class AppConfiguration extends Fragment implements View.OnClickListener {
                 tv_language.setText("PORTUGUESE");
             }else if (ldata.equals("fr")){
                 tv_language.setText("FRENCH");
-            }else {
+            }else if (ldata.equals("my")) {
+                tv_language.setText("BURMESE");
+            }else if (ldata.equals("vi")) {
+                tv_language.setText("VIETNAMESE");
+            }else if (ldata.equals("zh")) {
+                tv_language.setText("MANDARIN");
+            }else if (ldata.equals("es")) {
+                tv_language.setText("SPANISH");
+            }
+            else {
                 tv_language.setText("ENGLISH");
             }
         }else {
             selected("en");
-            tv_language.setText("");
+            tv_language.setText("ENGLISH");
         }
 
 
@@ -236,7 +245,11 @@ public class AppConfiguration extends Fragment implements View.OnClickListener {
                 EtURL = eturl.replaceAll("\\s", ""); //Removing whitespaces
                 divname1 = et_company_id.getText().toString().trim();
                 divname = divname1.replaceAll("\\s", "");
-                Configuration(EtURL);
+
+                if(CommonUtilsMethods.isOnline(getActivity()))
+                    Configuration(EtURL);
+                else
+                    Toast.makeText(getActivity(), getResources().getString(R.string.offline), Toast.LENGTH_SHORT).show();
 
 
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
@@ -340,7 +353,7 @@ public class AppConfiguration extends Fragment implements View.OnClickListener {
                         }
                         clearCount = 0;
                     } else {
-                        Toast.makeText(getActivity(), getResources().getString(R.string.invalid_url), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.invalid_licence), Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
                     Log.v("printing_excep", e.getMessage());
@@ -349,8 +362,8 @@ public class AppConfiguration extends Fragment implements View.OnClickListener {
                 Exception();
             }
         } catch (IOException e) {
-            Exception();
-            Log.v("printing_excep234", e.getMessage());
+             Exception();
+             Log.v("printing_excep234", e.getMessage());
         }
     }
 
@@ -567,7 +580,7 @@ public class AppConfiguration extends Fragment implements View.OnClickListener {
     }
 
     public void language_setup() {
-        final String[] Language = {"ENGLISH", "FRENCH", "PORTUGUESE"};
+        final String[] Language = {"ENGLISH", "FRENCH", "PORTUGUESE","BURMESE","VIETNAMESE","MANDARIN","SPANISH"};
         ArrayList<String> langlist = new ArrayList<>();
         langlist.clear();
         for (int i = 0; i < Language.length; ++i) {
@@ -630,6 +643,30 @@ public class AppConfiguration extends Fragment implements View.OnClickListener {
                         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString(language_string, "pt");
+                        editor.commit();
+                    }else if (selectedFromList.equalsIgnoreCase("BURMESE")) {
+                        selected("my");
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString(language_string, "my");
+                        editor.commit();
+                    }else if (selectedFromList.equalsIgnoreCase("VIETNAMESE")) {
+                        selected("vi");
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString(language_string, "vi");
+                        editor.commit();
+                    }else if (selectedFromList.equalsIgnoreCase("MANDARIN")) {
+                        selected("zh");
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString(language_string, "zh");
+                        editor.commit();
+                    }else if (selectedFromList.equalsIgnoreCase("SPANISH")) {
+                        selected("es");
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString(language_string, "es");
                         editor.commit();
                     }
                     tv_language.setText(selectedFromList);

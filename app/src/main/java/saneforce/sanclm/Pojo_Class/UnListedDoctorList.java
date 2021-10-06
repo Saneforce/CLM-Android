@@ -51,6 +51,14 @@ private String code;
     @SerializedName("MaxGeoMap")
     @Expose
     private String maxCnt;
+    @SerializedName("Doc_hospcode")
+    @Expose
+    private String Doc_hospcode;
+    @SerializedName("Doc_hospname")
+    @Expose
+    private String Doc_hospname;
+
+
 
     public String getCode() {
         return code;
@@ -179,5 +187,13 @@ private String code;
 
     public void setMaxCnt(String maxCnt) {
         this.maxCnt = maxCnt;
+    }
+
+    public String getDoc_hospcode() {
+        return Doc_hospcode;
+    }
+
+    public String getDoc_hospname() {
+        return Doc_hospname;
     }
 }

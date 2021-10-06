@@ -71,35 +71,35 @@ public class PopupAdapter extends BaseAdapter {
             rl_lay.setBackgroundColor(Color.GRAY);
         txt_content.setText(popFeed.getTxt());
 
-            if (popFeed.isClick()) {
-                popFeed.setClick(true);
-                tick.setVisibility(View.VISIBLE);
-            } else {
-                popFeed.setClick(false);
-                tick.setVisibility(View.INVISIBLE);
-            }
+        if (popFeed.isClick()) {
+            popFeed.setClick(true);
+            tick.setVisibility(View.VISIBLE);
+        } else {
+            popFeed.setClick(false);
+            tick.setVisibility(View.INVISIBLE);
+        }
 
-            rl_lay.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Log.v("rl_lay_ja", "are_clicked");
-
-
-                        if (popFeed.isClick()) {
-                            popFeed.setClick(false);
-                            tick.setVisibility(View.INVISIBLE);
-                        } else {
-                            popFeed.setClick(true);
-                            tick.setVisibility(View.VISIBLE);
-                        }
-                    if(posArr.size()!=0 && posArr.contains(i)) {
-                        popFeed.setClick(false);
-                        tick.setVisibility(View.INVISIBLE);
-                    }
+        rl_lay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.v("rl_lay_ja", "are_clicked");
 
 
+                if (popFeed.isClick()) {
+                    popFeed.setClick(false);
+                    tick.setVisibility(View.INVISIBLE);
+                } else {
+                    popFeed.setClick(true);
+                    tick.setVisibility(View.VISIBLE);
                 }
-            });
+                if(posArr.size()!=0 && posArr.contains(i)) {
+                    popFeed.setClick(false);
+                    tick.setVisibility(View.INVISIBLE);
+                }
+
+
+            }
+        });
 
         return view;
     }
@@ -159,4 +159,3 @@ public class PopupAdapter extends BaseAdapter {
 
 
 }
-

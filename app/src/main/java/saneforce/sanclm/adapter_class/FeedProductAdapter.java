@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -28,6 +29,7 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
 
@@ -36,13 +38,17 @@ import org.json.JSONException;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import saneforce.sanclm.R;
+import saneforce.sanclm.activities.BrandAuditActivity;
 import saneforce.sanclm.activities.FeedbackActivity;
 import saneforce.sanclm.activities.Model.FeedbackProductDetail;
 import saneforce.sanclm.activities.Model.PopFeed;
+import saneforce.sanclm.activities.Model.SlideDetail;
 import saneforce.sanclm.activities.Model.StoreImageTypeUrl;
 import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
+import saneforce.sanclm.applicationCommonFiles.CommonUtils;
 import saneforce.sanclm.applicationCommonFiles.CommonUtilsMethods;
 import saneforce.sanclm.sqlite.DataBaseHandler;
 
@@ -57,13 +63,17 @@ public class FeedProductAdapter extends BaseAdapter {
     public ArrayList<StoreImageTypeUrl> storeList = new ArrayList<>();
     EditText edit_feed;
     DataBaseHandler dbh;
-    String prdNm = "";
+    String prdNm = "",SFCode;
     int prdCount = 0;
     boolean editOption = false;
     JSONArray jsonFeed;
     boolean isEmpty;
     ListView list_slide;
-     Dialog dialog;
+    Dialog dialog;
+    Cursor mCursor;
+    ArrayList<PopFeed> stockist = new ArrayList<>();
+    TextView stk_nam;
+    LinearLayout ll_stock;
 
     public FeedProductAdapter(FeedbackActivity context, final ArrayList<FeedbackProductDetail> product) {
         this.context = context;
@@ -74,6 +84,7 @@ public class FeedProductAdapter extends BaseAdapter {
         File ff = new File("");
         int val = mCommonSharedPreference.getValueFromPreferenceFeed("timeCount", 0);
         Log.v("time_count_adapter", String.valueOf(val));
+        dbh = new DataBaseHandler(context);
 
 
         String slideFeedback = mCommonSharedPreference.getValueFromPreference("slide_feed");
@@ -83,6 +94,7 @@ public class FeedProductAdapter extends BaseAdapter {
             e.printStackTrace();
         }
         final ArrayList<StoreImageTypeUrl> tempArray = new ArrayList<>();
+        SFCode = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_CODE);
 /*
         for(int i=0;i<val;i++) {
             String timevalue = mCommonSharedPreference.getValueFromPreferenceFeed("timeVal" + i);
@@ -105,8 +117,6 @@ public class FeedProductAdapter extends BaseAdapter {
             String slideur = mCommonSharedPreference.getValueFromPreferenceFeed("slide_url" + i);
             Log.v("time_ValuePadap",timevalue+"edutOption"+editOption);
             tempArray.add(new StoreImageTypeUrl(slidenam,slidetyp,slideur,prdName,timevalue));
-
-
             }
 */
 
@@ -114,7 +124,6 @@ public class FeedProductAdapter extends BaseAdapter {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-
                         String endTim = "";
                         for (int i = 0; i < tempArray.size(); i++) {
                             String sTime = "", eTime = "";
@@ -122,19 +131,16 @@ public class FeedProductAdapter extends BaseAdapter {
                             StoreImageTypeUrl mm2 = null;
                             boolean checkProduct=false;
                             for (int k = 0; k < storeList.size(); k++) {
-
                                 if (storeList.get(k).getBrdName().equalsIgnoreCase(prdNm))
                                     checkProduct=true;
                             }
                             Log.v("checkProductDifference",checkProduct+"");
                             if (TextUtils.isEmpty(prdNm) || checkProduct==false) {
-
                                 if (i != (tempArray.size() - 1)) {
                                     mm2 = tempArray.get(i + 1);
                                     sTime = mm.getTiming();
                                     eTime = mm2.getTiming();
                                     Log.v("startTime", sTime + " endTime " + eTime);
-
                                 } else {
                                     sTime = mm.getTiming();
                                     FeedbackProductDetail pp = null;
@@ -145,25 +151,19 @@ public class FeedProductAdapter extends BaseAdapter {
                                     if(i==0){
                                         pp = product.get(0);
                                     }
-
                                     eTime = pp.getSt_end_time().substring(9);
                                 }
-
                                 prdNm = mm.getBrdName();
                                 prdCount++;
-
                                 JSONArray jsonArray = new JSONArray();
                                 JSONObject js = new JSONObject();
-
                                 try {
-
                                     Log.v("Start_Time", sTime + " endTime " + eTime);
                                     js.put("ST", sTime);
                                     js.put("ET", eTime);
                                     jsonArray.put(js);
                                     mm.setRemTime(jsonArray.toString());
                                     storeList.add(new StoreImageTypeUrl(mm.getSlideNam(), mm.getSlideTyp(), mm.getSlideUrl(), "", "", jsonArray.toString(), prdNm, false));
-
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -171,9 +171,7 @@ public class FeedProductAdapter extends BaseAdapter {
                                 StoreImageTypeUrl sT = null;
                                 if (storeList.contains(new StoreImageTypeUrl(mm.getSlideNam()))) {
                                     Log.v("storeList_sae", "patterns_are_here");
-
                                     for (int k = 0; k < storeList.size(); k++) {
-
                                         if (storeList.get(k).getSlideNam().equalsIgnoreCase(mm.getSlideNam()))
                                             sT = storeList.get(k);
                                     }
@@ -181,7 +179,6 @@ public class FeedProductAdapter extends BaseAdapter {
                                         mm2 = tempArray.get(i + 1);
                                         sTime = mm.getTiming();
                                         eTime = mm2.getTiming();
-
                                     } else {
                                         sTime = mm.getTiming();
                                         FeedbackProductDetail pp = null;
@@ -205,20 +202,16 @@ public class FeedProductAdapter extends BaseAdapter {
                                                 jss.put("ET", eTime);
                                                 jja.put(jss);
                                             }
-
                                         }
                                         sT.setRemTime(jja.toString());
                                     } catch (Exception e) {
-
                                     }
-
                                 } else {
                                     Log.v("storeList_sae", "patterns_are_not_here");
                                     if (i != (tempArray.size() - 1)) {
                                         mm2 = tempArray.get(i + 1);
                                         sTime = mm.getTiming();
                                         eTime = mm2.getTiming();
-
                                     } else {
                                         sTime = mm.getTiming();
                                         FeedbackProductDetail pp = null;
@@ -229,31 +222,23 @@ public class FeedProductAdapter extends BaseAdapter {
                                         endTim = pp.getSt_end_time().substring(9);
                                         eTime = pp.getSt_end_time().substring(9);
                                     }
-
                                     prdNm = mm.getBrdName();
                                     prdCount++;
-
                                     JSONArray jsonArray = new JSONArray();
                                     JSONObject js = new JSONObject();
-
                                     try {
-
                                         Log.v("Start_Time", sTime + " endTime " + eTime);
                                         js.put("ST", sTime);
                                         js.put("ET", eTime);
                                         jsonArray.put(js);
                                         mm.setRemTime(jsonArray.toString());
                                         storeList.add(new StoreImageTypeUrl(mm.getSlideNam(), mm.getSlideTyp(), mm.getSlideUrl(), "", "", jsonArray.toString(), prdNm, false));
-
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
                                 }
-
                             }
-
                         }
-
                         for (int j = 0; j < storeList.size(); j++) {
                             StoreImageTypeUrl ss = storeList.get(j);
                             Log.v("store_list_pr", storeList.get(j).getSlideNam() + "rem_time " + storeList.get(j).getRemTime());
@@ -261,7 +246,6 @@ public class FeedProductAdapter extends BaseAdapter {
                             for(int k=0;k<jsonFeed.length();k++){
                                 try {
                                     JSONObject jsonObject=jsonFeed.getJSONObject(k);
-
                                     if(jsonObject.getString("id").equalsIgnoreCase(ss.getSlideUrl())){
                                         slideRemark=jsonObject.getString("feedBack");
                                     }
@@ -305,18 +289,34 @@ public class FeedProductAdapter extends BaseAdapter {
             view = LayoutInflater.from(context).
                     inflate(R.layout.row_item_feed_product, viewGroup, false);
         }
+
+        stk_nam = (TextView) view.findViewById(R.id.stk_nam);
+        ll_stock=(LinearLayout) view.findViewById(R.id.ll_stock);
         TextView prd_nam = (TextView) view.findViewById(R.id.prd_nam);
         TextView prd_time = (TextView) view.findViewById(R.id.prd_time);
         Button img_minus = (Button) view.findViewById(R.id.img_minus);
         ImageView feed_icon = (ImageView) view.findViewById(R.id.feed_icon);
         RatingBar rating = (RatingBar) view.findViewById(R.id.rating);
         EditText edt_sample = (EditText) view.findViewById(R.id.edt_sample);
+        LinearLayout lnsam=(LinearLayout)view.findViewById(R.id.lnsamp);
+        LinearLayout img_minbagd=(LinearLayout)view.findViewById(R.id.img_minbagd);
+
+
         if (!TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("sampleMax")) && !mCommonSharedPreference.getValueFromPreference("sampleMax").equalsIgnoreCase("null")) {
             int maxLength = Integer.parseInt(mCommonSharedPreference.getValueFromPreference("sampleMax"));
             InputFilter[] FilterArray = new InputFilter[1];
             FilterArray[0] = new InputFilter.LengthFilter(maxLength);
             edt_sample.setFilters(FilterArray);
         }
+
+        if(mCommonSharedPreference.getValueFromPreference("Product_Stockist").equals("0"))
+            ll_stock.setVisibility(View.VISIBLE);
+
+        if (FeedbackActivity.TypePeople.equalsIgnoreCase("S"))
+            ll_stock.setVisibility(View.GONE);
+
+        if(FeedbackActivity.TypePeople.equalsIgnoreCase("U"))
+            ll_stock.setVisibility(View.GONE);
 
         EditText edt_pob;
         final FeedbackProductDetail mm = product.get(i);
@@ -327,6 +327,27 @@ public class FeedProductAdapter extends BaseAdapter {
                     popupSpinner(0, mm.getProdFb(), i);
                 }
             });
+        }
+
+        stk_nam.setText(mm.getStk_name());
+
+        if (!product.get(i).getSt_end_time().equalsIgnoreCase("00:00:00 00:00:00")&&(val.contains(FeedbackActivity.TypePeople))) {
+
+            LinearLayout lnqty=(LinearLayout)view.findViewById(R.id.lnqty);
+            edt_sample.setVisibility(View.GONE);
+            img_minus.setVisibility(View.GONE);
+            edt_pob = (EditText) view.findViewById(R.id.edt_pob);
+            edt_pob.setVisibility(View.GONE);
+            stk_nam.setVisibility(View.GONE);
+
+
+        }
+
+        else if (!product.get(i).getSt_end_time().equalsIgnoreCase("00:00:00 00:00:00")) {
+            edt_sample.setVisibility(View.GONE);
+            img_minus.setVisibility(View.GONE);
+            stk_nam.setVisibility(View.GONE);
+
         }
 
         if (val.contains(FeedbackActivity.TypePeople)) {
@@ -377,12 +398,23 @@ public class FeedProductAdapter extends BaseAdapter {
             prd_time.setVisibility(View.INVISIBLE);
             rating.setVisibility(View.INVISIBLE);
             feed_icon.setVisibility(View.INVISIBLE);
+            lnsam.setBackgroundColor(Color.parseColor("#FFFEEA"));
+            if(val.contains(FeedbackActivity.TypePeople)){
+                LinearLayout lnqty=(LinearLayout)view.findViewById(R.id.lnqty);
+                lnsam.setBackgroundColor(Color.parseColor("#FFFEEA"));
+                lnqty.setBackgroundColor(Color.parseColor("#FFFEEA"));
+                ll_stock.setBackgroundColor(Color.parseColor("#FFFEEA"));
+                img_minbagd.setBackgroundColor(Color.parseColor("#FFFEEA"));
+            }
+
         }
         prd_nam.setText(mm.getPrdNAme());
         prd_time.setText(mm.getSt_end_time());
         if (!TextUtils.isEmpty(mm.getRating()))
             rating.setRating(Float.parseFloat(mm.getRating()));
         edt_sample.setText(mm.getSample());
+        if (!TextUtils.isEmpty(mm.getStk_name()))
+            stk_nam.setText(mm.getStk_name());
 
 
         img_minus.setOnClickListener(new View.OnClickListener() {
@@ -409,7 +441,6 @@ public class FeedProductAdapter extends BaseAdapter {
                     final FeedbackProductDetail mm=product.get(i+1);
                      endTime=mm.getSt_end_time().trim();
                      endTime=endTime.substring(0,endTime.indexOf(" "));
-
                     Log.v("passing_endTime",endTime);
                 }*/
 
@@ -444,6 +475,38 @@ public class FeedProductAdapter extends BaseAdapter {
 
             }
         });
+
+        stk_nam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stockist.clear();
+                dbh.open();
+                if(mCommonSharedPreference.getValueFromPreference("sf_type").equalsIgnoreCase("2")) {
+                    mCursor = dbh.select_stock_sfcode(mCommonSharedPreference.getValueFromPreference("hq_code"));
+                }
+                else{
+                    mCursor = dbh.select_stock_sfcode(SFCode);
+                }
+
+                if (mCursor.getCount() != 0) {
+                    mCursor.moveToFirst();
+                    do {
+                        Log.v("stock_name_feed", mCursor.getString(2));
+                        stockist.add(new PopFeed(mCursor.getString(2), false));
+
+                    } while (mCursor.moveToNext());
+                    popUpAlertFeed(stockist,i);
+                }
+                else{
+                    Toast.makeText(context,"No stockist available",Toast.LENGTH_LONG).show();
+                }
+                mCursor.close();
+                dbh.close();
+
+
+            }
+        });
+
 
         return view;
     }
@@ -557,13 +620,14 @@ public class FeedProductAdapter extends BaseAdapter {
         dialog.show();
         final FeedbackProductDetail mm = product.get(pos);
 
-         list_slide = (ListView) dialog.findViewById(R.id.list_slide);
+        list_slide = (ListView) dialog.findViewById(R.id.list_slide);
         edit_feed = (EditText) dialog.findViewById(R.id.edit_feed);
         edit_feed.setText(mm.getFeedback());
         LinearLayout ll_edt_bg = (LinearLayout) dialog.findViewById(R.id.ll_edt_bg);
         RelativeLayout rl_feed = (RelativeLayout) dialog.findViewById(R.id.rl_feed);
         TextView txt_prd_name = (TextView) dialog.findViewById(R.id.txt_prd_name);
         txt_prd_name.setText(prd);
+
 
         edit_feed.addTextChangedListener(new TextWatcher() {
             @Override
@@ -639,7 +703,6 @@ public class FeedProductAdapter extends BaseAdapter {
             try {
                 JSONArray jss=new JSONArray(mm1.getRemTime());
                 for(int j=0;j<jss.length();j++){
-
                     JSONObject json=jss.getJSONObject(j);
                     if(j==0)
                         sT=json.getString("ST");
@@ -650,8 +713,6 @@ public class FeedProductAdapter extends BaseAdapter {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-
         }
 */
         dataselection();
@@ -770,6 +831,88 @@ public class FeedProductAdapter extends BaseAdapter {
                 }
                 dialog.dismiss();
 
+            }
+        });
+
+    }
+
+    public void popUpAlertFeed(final ArrayList<PopFeed> xx,int i) {
+        final FeedbackProductDetail mm=product.get(i);
+
+        final Dialog dialog = new Dialog(context, R.style.AlertDialogCustom);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.popup_feedback);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+        Log.v("joint_wrk_are", "called");
+
+        Button ok = (Button) dialog.findViewById(R.id.ok);
+        final ListView popup_list = (ListView) dialog.findViewById(R.id.popup_list);
+        ImageView iv_close_popup = (ImageView) dialog.findViewById(R.id.iv_close_popup);
+        TextView tv_todayplan_popup_head = (TextView) dialog.findViewById(R.id.tv_todayplan_popup_head);
+        final SearchView search_view = (SearchView) dialog.findViewById(R.id.search_view);
+        tv_todayplan_popup_head.setText("Stockist Selection");
+        search_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                search_view.setIconified(false);
+                InputMethodManager im = ((InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE));
+                im.showSoftInput(search_view, 0);
+            }
+        });
+
+        final PopupAdapterSingle popupAdapter = new PopupAdapterSingle(context, xx);
+        popup_list.setAdapter(popupAdapter);
+        popupAdapter.notifyDataSetChanged();
+
+
+        search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                popupAdapter.getFilter().filter(s);
+                return false;
+            }
+        });
+
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                for (int i = 0; i < xx.size(); i++) {
+                    PopFeed popFeed = xx.get(i);
+                    if (popFeed.isClick()) {
+                        Log.v("clicked", "here" + popFeed.getTxt());
+//                        ArrayList<String>arrayList=new ArrayList<>();
+//                        arrayList.add(popFeed.getTxt());
+//                        Log.v("arrr>>", Arrays.toString(arrayList.toArray()));
+                        mm.setStk_name(popFeed.getTxt());
+                        stk_nam.setText(mm.getStk_name());
+                        notifyDataSetChanged();
+
+                    }
+                }
+                dialog.dismiss();
+            }
+        });
+
+//        popup_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                mm.setStk_name(xx.get(i).getTxt());
+//                stk_nam.setText(mm.getStk_name());
+//                notifyDataSetChanged();
+//            }
+//        });
+
+        iv_close_popup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
             }
         });
 

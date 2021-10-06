@@ -101,7 +101,7 @@ public class DCR_GV_Selection_adapter extends BaseAdapter implements Filterable{
             mViewHolder.drName.setText(row_pos.getmDoctorName());
             mViewHolder.drCluster.setText(row_pos.getmDoctorTown());
 
-//           /* if(row_pos.getTag().equalsIgnoreCase("null"))
+            //           /* if(row_pos.getTag().equalsIgnoreCase("null"))
 //                row_pos.setTag("0");
 //            if(row_pos.getMax().equalsIgnoreCase("null"))
 //                row_pos.setMax("0");*/
@@ -113,10 +113,6 @@ public class DCR_GV_Selection_adapter extends BaseAdapter implements Filterable{
 //           }else{
 //               mViewHolder.tv_count.setText("");
 //           }
-
-
-
-
 
         if(mCommonSharedPreference.getValueFromPreference("geo_tag").equalsIgnoreCase("1")){
             mViewHolder.drSelCluster.setImageResource(R.drawable.pin_small);
@@ -146,7 +142,6 @@ public class DCR_GV_Selection_adapter extends BaseAdapter implements Filterable{
                     if (Integer.parseInt(row_pos.getMax()) > Integer.parseInt(row_pos.getTag())) {
                         mCommonSharedPreference.setValueToPreference("dr_pos",position);
                         dcrCallSelectionFilter.itemClick(row_pos.getmDoctorName(), row_pos.getmDoctorcode());
-
                         String  s=detailingTrackerPOJO.getTabSelection();
                         switch(s){
                             case    "0":
@@ -238,6 +233,33 @@ public class DCR_GV_Selection_adapter extends BaseAdapter implements Filterable{
                 break;
         }
 
+        switch(type){
+
+            case "D":
+                mViewHolder.drSpeciality.setText(row_pos.getmDocotrSpeciality());
+                mViewHolder.drCategory.setText(row_pos.getmDocotrCategory());
+                break;
+            case "C":
+                mViewHolder.drSpeciality.setText("");
+                mViewHolder.drCategory.setText("");
+                break;
+
+            case "S":
+                mViewHolder.drSpeciality.setText("");
+                mViewHolder.drCategory.setText("");
+                break;
+
+            case "U":
+                mViewHolder.drSpeciality.setText(row_pos.getmDocotrSpeciality());
+                mViewHolder.drCategory.setText(row_pos.getmDocotrCategory());
+                break;
+
+            case "H":
+                mViewHolder.drSpeciality.setText("");
+                mViewHolder.drCategory.setText("");
+                break;
+        }
+
         mydayclustrCd = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_CLUSTER_CODE);
             if(row_pos.getmDoctorTownCd().equalsIgnoreCase(mydayclustrCd)){
                 Log.v("Cluster_val_dis_",""+" share_Cluster "+"");
@@ -285,7 +307,7 @@ public class DCR_GV_Selection_adapter extends BaseAdapter implements Filterable{
                             filteredList.addAll(DrListFiltered);
                         }*/
 
-                        //DrListFiltered = filteredList;
+                        row = filteredList;
                     }
 
 

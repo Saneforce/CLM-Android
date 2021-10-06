@@ -1,6 +1,6 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SAN CLM</string>
-    <string name="app_version">Version 1.8.2</string>
+    <string name="app_version">Version 1.9.2</string>
 
     <string name="preference_name">saneforce.sanclm.preferencefile</string>
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
@@ -162,6 +162,13 @@
     <string name="sclt_clst">Select Cluster</string>
     <string name="sclt_work">Select Worktype</string>
     <string name="sclt_head">Select Headquater</string>
+    <string name="sclt_hq">Select Hq</string>
+    <string name="sclt_jw">Select Jointwork</string>
+    <string name="sclt_hosp">Select Hospital</string>
+    <string name="edit">Edit</string>
+    <string name="session">Session</string>
+    <string name="wrktype">Work Type</string>
+    <string name="tgt_sales">Target Vs Sales</string>
     <string name="sclt_cat">select Category</string>
     <string name="sclt_spcl">Select Speciality</string>
     <string name="sclt_qualy">Select Qualification</string>
@@ -290,6 +297,7 @@
     <string name="spclwise">Speciality Wise</string>
     <string name="allbrand">All Brands</string>
     <string name="customise">Customise</string>
+    <string name="customised">customised</string>
 
     <string name="targetsales">Target VS Sales Details</string>
     <string name="primary">Primary</string>
@@ -388,6 +396,7 @@
     <string name="mock_loc">Mock location detected </string>
     <string name="conf_succs">Configured Successfully</string>
     <string name="invalid_url">Invalid URL</string>
+    <string name="invalid_licence">Invalid Licence Key</string>
     <string name="app_data_clr">Application data cleared</string>
     <string name="some_field">some fields are empty</string>
     <string name="pass_succed">Password changed successfully !!</string>
@@ -433,6 +442,48 @@
     <string name="select_the_territory">Select the Territory</string>
     <string name="pincode">Pincode</string>
     <string name="add_chemist">Add Chemist</string>
+    <string name="search_doctor">Search Doctor</string>
+
+    <string name="slct_date">Select the date</string>
+    <string name="chk_nwcnctn">Check network connection!!</string>
+    <string name="dr">Doctor</string>
+    <string name="sent_appr">Already sent to approval</string>
+    <string name="sent_suxs">Successfully sent</string>
+    <string name="tp_rjct">Tour plan rejected</string>
+    <string name="tp_aprvd">Already Approved</string>
+    <string name="msg_empty">Message field is empty</string>
+    <string name="wrk_types">Work Types</string>
+    <string name="hqs">HeadQuaters</string>
+    <string name="clusters">Clusters</string>
+    <string name="srch_lstd">Search Listed Doctor</string>
+
+
+    <string name="profiling">Profiling</string>
+    <string name="gender">Gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="dob">DOB</string>
+    <string name="district">District</string>
+    <string name="dow">DOW</string>
+    <string name="city">City</string>
+    <string name="address_details">Address Details</string>
+    <string name="main_address">Main Address</string>
+    <string name="e_mail">E-mail</string>
+    <string name="additional_details">Additional Details</string>
+    <string name="listed_dr">Listed Dr.</string>
+    <string name="chem">Chemist</string>
+    <string name="stockist">Stockist</string>
+    <string name="unlisted_dr">Unlisted Dr.</string>
+
+    <string name="autotime">Turn on Automatic Date and Time in Settings</string>
+    <string name="slides_download">Slides downloaded sucessfully</string>
+    <string name="NonFieldcall">Unable to submit calls for Non Field Work</string>
+    <string name="NonFieldedit">Unable to edit calls for Non Field Work</string>
+    <string name="NonFieldnearme">NearMe not available for Non Field Work</string>
+
+
+    <string name="DcrDate">DCR Date</string>
+    <string name="DcrView">DCR View</string>
 
 
 </resources>

@@ -104,12 +104,29 @@ public class LocationTrack extends Service  {
     String db_connPath;
     CommonUtilsMethods mCommonUtilsMethod;
     DataBaseHandler dbh;
+    boolean isRunning=false;
 
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        isRunning = true;
+        return START_STICKY;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    public LocationTrack()
+    {
+
     }
 
     public LocationTrack(HomeDashBoard context,String sfcode){

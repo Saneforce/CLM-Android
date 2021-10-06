@@ -140,7 +140,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             TableEntry.COLUMN_DOCTOR_PHONE + TEXT_TYPE +COMMA_SEP +
             TableEntry.COLUMN_DOCTOR_QUALIFICATION_CODE + TEXT_TYPE +COMMA_SEP +
             TableEntry.COLUMN_MAXTAG + TEXT_TYPE +COMMA_SEP +
-            TableEntry.COLUMN_TAGCOUNT + TEXT_TYPE +
+            TableEntry.COLUMN_TAGCOUNT + TEXT_TYPE +COMMA_SEP+
+            TableEntry.COLUMN_HOS_CODE+TEXT_TYPE+COMMA_SEP+
+            TableEntry.COLUMN_HOS_NAME+TEXT_TYPE+
             ")";
 
     /*CHEMIST MASTER */
@@ -182,7 +184,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             TableEntry.COLUMN_STOCKIST_CONTACT+ TEXT_TYPE +COMMA_SEP +
             TableEntry.COLUMN_DIVISION_CODE + TEXT_TYPE +COMMA_SEP +
             TableEntry.COLUMN_MAXTAG + TEXT_TYPE +COMMA_SEP +
-            TableEntry.COLUMN_TAGCOUNT + TEXT_TYPE +
+            TableEntry.COLUMN_TAGCOUNT + TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_LATITUDE + TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_LONGITUDE + TEXT_TYPE +
             ")";
 
     /*CIP MASTER */
@@ -190,7 +194,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             TableEntry.TABLE_CIP_MASTER_DETAILS +" ("+
             TableEntry.COLUMN_SF_CODE + TEXT_TYPE +COMMA_SEP +
             TableEntry.COLUMN_CIP_ID+ TEXT_TYPE +COMMA_SEP +
-            TableEntry.COLUMN_NAME + TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_CIP_NAME + TEXT_TYPE +COMMA_SEP +
             TableEntry.COLUMN_HOSPITAL_CODE+ TEXT_TYPE +COMMA_SEP +
             TableEntry.COLUMN_HOSPITAL_NAME + TEXT_TYPE +COMMA_SEP +
             TableEntry.COLUMN_CIP_TOWN_CODE + TEXT_TYPE +COMMA_SEP +
@@ -330,7 +334,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             TableEntry.B_CODE + " TEXT ,"+
             TableEntry.B_NAME + " TEXT ,"+
             TableEntry.DEP_NAME + " TEXT ,"+
-            TableEntry.DEP_DIV_CODE + " TEXT "+" )";
+            TableEntry.DEP_DIV_CODE + " TEXT ,"+
+            TableEntry.TYPE + " TEXT "+" )";
     private static final String SQL_CREATE_TABLE_QUALITY = " CREATE TABLE IF NOT EXISTS "
             + TableEntry.TABLE_QUALITY + " (" + TableEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
             TableEntry.B_CODE + " TEXT ,"+
@@ -344,7 +349,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             TableEntry.TIME + " TEXT ,"+
             TableEntry.PCODE + " TEXT ,"+
             TableEntry.PTYPE + " TEXT ,"+
-            TableEntry.COMMOMCODE + " TEXT "+")";
+            TableEntry.COMMOMCODE + " TEXT ,"+
+            TableEntry.SLIDE_URL + " TEXT "+")";
 
     private static final String SQL_CREATE_TABLE_SCRIBBLE= " CREATE TABLE IF NOT EXISTS "
             + TableEntry.TABLE_SCRIB + " (" + TableEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
@@ -359,6 +365,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             TableEntry.COLUMN_MNTH + " TEXT ,"+
             TableEntry.COLUMN_JSON + " TEXT ,"+
             TableEntry.COLUMN_STATUS + " TEXT "+" )";
+
+    private static final String SQL_CREATE_TABLE_TPNEW = " CREATE TABLE IF NOT EXISTS "
+            + TableEntry.TABLE_TOUR_PLANNEW + " (" + TableEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"+
+            TableEntry.COLUMN_JSONNEW + " TEXT ,"+
+            TableEntry.COLUMN_MNTHNEW + " TEXT "+ " )";
 
     private static final String SQL_CREATE_TABLE_TRACK=" CREATE TABLE IF NOT EXISTS "
             + TableEntry.TABLE_TRACK + " ("+TableEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -532,6 +543,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL(SQL_CREATE_DETAILING_TIMESPENT);
         db.execSQL(SQL_CREATE_BRAND_EXPOSURE);
         db.execSQL(SQL_CREATE_TOTAL_CALLS);
+        db.execSQL(SQL_CREATE_TABLE_TPNEW);
 
     }
 

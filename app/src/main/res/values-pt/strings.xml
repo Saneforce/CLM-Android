@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SAN CLM</string>
-    <string name="app_version">Version 1.8.2</string>
+    <string name="app_version">Version 1.9.2</string>
 
     <string name="preference_name">saneforce.sanclm.preferencefile</string>
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
@@ -164,6 +164,13 @@
     <string name="sclt_clst">Selecione Cluster</string>
     <string name="sclt_work">Selecione o tipo de trabalho</string>
     <string name="sclt_head">Selecione a sede</string>
+    <string name="sclt_hq">Selecione Hq</string>
+    <string name="sclt_jw">Selecione Trabalho em Conjunto</string>
+    <string name="sclt_hosp">Selecione Hospital</string>
+    <string name="edit">Editar</string>
+    <string name="session">Sessão</string>
+    <string name="wrktype">Tipo de trabalho</string>
+    <string name="tgt_sales">Alvo Vs Vendas</string>
     <string name="sclt_cat">Selecione a Categoria</string>
     <string name="sclt_spcl">Selecione a especialidade</string>
     <string name="sclt_qualy">Selecione a qualificação</string>
@@ -292,6 +299,7 @@
     <string name="spclwise">Especialidade sábia</string>
     <string name="allbrand">Todas as marcas</string>
     <string name="customise">Customizar</string>
+    <string name="customised">personalizado</string>
 
     <string name="targetsales">Detalhes de vendas do VS-alvo</string>
     <string name="primary">Primária</string>
@@ -391,6 +399,7 @@
     <string name="mock_loc">Localização simulada detectada</string>
     <string name="conf_succs">Configurado com Sucesso</string>
     <string name="invalid_url">URL inválida</string>
+    <string name="invalid_licence">Clé de licence invalide</string>
     <string name="app_data_clr">Dados do aplicativo apagados</string>
     <string name="some_field">alguns campos estão vazios</string>
     <string name="pass_succed">Senha alterada com sucesso !!</string>
@@ -436,5 +445,45 @@
     <string name="select_the_territory">Selecione o Território</string>
     <string name="pincode">Pincode</string>
     <string name="add_chemist">Adicionar Químico</string>
+    <string name="search_doctor">Médico de pesquisa</string>
 
+    <string name="slct_date">Selecione a data</string>
+    <string name="chk_nwcnctn">Verifique a conexão de rede !!</string>
+    <string name="dr">Médico</string>
+    <string name="sent_appr">Já enviado para aprovação</string>
+    <string name="sent_suxs">Enviada com sucesso</string>
+    <string name="tp_rjct">Plano de viagem rejeitado</string>
+    <string name="tp_aprvd">Já aprovado</string>
+    <string name="msg_empty">O campo da mensagem está vazio</string>
+    <string name="wrk_types">Tipos de Trabalho</string>
+    <string name="hqs">Quartel general</string>
+    <string name="clusters">Grupo</string>
+    <string name="srch_lstd">Pesquisar médico listado</string>
+
+
+    <string name="profiling">Profiling</string>
+    <string name="gender">Gênero</string>
+    <string name="male">Macho</string>
+    <string name="female">Fêmea</string>
+    <string name="dob">DOB</string>
+    <string name="district">Distrito</string>
+    <string name="dow">DOW</string>
+    <string name="city">Cidade</string>
+    <string name="address_details">Detalhes do Endereço</string>
+    <string name="main_address">Endereço Principal</string>
+    <string name="e_mail">E-mail</string>
+    <string name="additional_details">detalhes adicionais</string>
+    <string name="listed_dr">Dr. listado</string>
+    <string name="chem">Químico</string>
+    <string name="stockist">Estoquista</string>
+    <string name="unlisted_dr">Dr. não listado</string>
+
+    <string name="autotime">Ative a data e hora automáticas nas configurações</string>
+    <string name="slides_download">Slides baixados com sucesso</string>
+    <string name="NonFieldcall">Incapaz de enviar chamadas para trabalho não de campo</string>
+    <string name="NonFieldedit">Incapaz de editar chamadas para trabalho não de campo</string>
+    <string name="NonFieldnearme">Perto de mim não disponível para trabalho não de campo</string>
+
+    <string name="DcrDate">DCR Encontro</string>
+    <string name="DcrView">DCR Visualizar</string>
 </resources>

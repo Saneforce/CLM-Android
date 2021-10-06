@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum="60"
+
         android:orientation="horizontal"
         android:layout_marginLeft="13dp"
         android:layout_marginRight="8dp"
@@ -16,7 +16,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="8.8">
+            android:layout_weight="9.4">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="9.2"
+            android:layout_weight="9.1"
             android:orientation="horizontal"
             android:gravity="start">
             <RatingBar
@@ -79,6 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="10.5"
+            android:id="@+id/lnsamp"
             >
             <EditText
                 android:layout_width="wrap_content"
@@ -94,14 +95,37 @@
                 android:paddingLeft="5dp"
                 android:inputType="number"
                 android:maxLength="6"
-                android:digits="1234567890."
+                android:digits="1234567890"
                 android:id="@+id/edt_sample"/>
 
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_stock"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:layout_weight="10">
+
+            <TextView
+                android:id="@+id/stk_nam"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/poppins_medium"
+                android:layout_marginStart="3dp"
+                android:text="@string/stockist"
+                android:textColor="#9e9c9c"
+                android:textSize="14sp"
+                android:typeface="serif" />
+        </LinearLayout>
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="11.5"
+            android:layout_weight="11"
+            android:id="@+id/img_minbagd"
             android:gravity="end">
             <Button
                 android:layout_width="35dp"
