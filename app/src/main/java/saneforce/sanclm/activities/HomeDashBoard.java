@@ -86,6 +86,7 @@ import android.widget.Toast;
 import com.github.mikephil.charting.charts.PieChart;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.shockwave.pdfium.PdfDocument;
 import com.shockwave.pdfium.PdfiumCore;
 
@@ -152,6 +153,7 @@ import saneforce.sanclm.applicationCommonFiles.CheckPermission;
 import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
 import saneforce.sanclm.applicationCommonFiles.CommonUtils;
 import saneforce.sanclm.applicationCommonFiles.CommonUtilsMethods;
+import saneforce.sanclm.applicationCommonFiles.DcrBlock;
 import saneforce.sanclm.applicationCommonFiles.Decompress;
 import saneforce.sanclm.applicationCommonFiles.DownloadMasters;
 import saneforce.sanclm.applicationCommonFiles.LocationTrack;
@@ -211,7 +213,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     ArrayList<String> hqNm = new ArrayList<String>();
     HashMap<String, String> mClusterListID = new HashMap<String, String>();
     HashMap<String, String> mHQListID = new HashMap<String, String>();
-    String mydaywTypCd, mydayclustrCd, currentDate;
+    String mydaywTypCd, mydayclustrCd, currentDate,todayDate;
     Dialog dialog;
     static String mydayhqCd, mydayhqname;
     CommonSharedPreference mCommonSharedPreference;
@@ -1267,7 +1269,28 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     Toast.makeText(HomeDashBoard.this, resources.getString(R.string.fill_the)+" "+resources.getString(R.string.cluster1)+" "+resources.getString(R.string.field_), Toast.LENGTH_SHORT).show();
                 } else if (tv_headquater.getText().toString().equalsIgnoreCase("null") || tv_headquater.getText().toString().equalsIgnoreCase(resources.getString(R.string.select_headquater))) {
                     Toast.makeText(HomeDashBoard.this, resources.getString(R.string.fill_the)+" "+resources.getString(R.string.headquater1)+" "+resources.getString(R.string.field_), Toast.LENGTH_SHORT).show();
-                } else {
+                } else if (tv_worktype.getText().toString().equalsIgnoreCase("Leave") ) {
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(HomeDashBoard.this,R.style.MyDialogTheme);
+                    alertDialog.setMessage(resources.getString(R.string.leave_confirmation));
+                    alertDialog.setCancelable(false);
+                    alertDialog.setPositiveButton(resources.getString(R.string.yes), new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            mCommonSharedPreference.setValueToPreference("todayDate",todayDate);
+                            Intent intent=new Intent(context, LeaveActivity.class);
+                            intent.putExtra("Missed","3");
+                            startActivity(intent);
+                        }
+                    }).setNegativeButton(resources.getString(R.string.no), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
+                    AlertDialog alert = alertDialog.create();
+                    alert.show();
+
+                   }
+                else {
 
                     JSONObject json = new JSONObject();
 
@@ -1656,6 +1679,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     protected void onDestroy() {
         super.onDestroy();
         Log.v("here_printg_destroy", "method_are_called");
+        stopService(new Intent(getBaseContext(), DcrBlock.class));
+        stopService(new Intent(this,Autotimezone.class));
         // unregisterReceiver();
 
     }
@@ -2004,6 +2029,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                                 if(list1.size()==0)
                                 closeactivity();
                                 Toast.makeText(this, getResources().getString(R.string.slides_download), Toast.LENGTH_SHORT).show();
+//                                Snackbar snackbar = Snackbar.make(tb_dwnloadSlides, getResources().getString(R.string.slides_download), Snackbar.LENGTH_SHORT);
+//                                snackbar.show();
                             }
                             Log.d("TASK_SIZE", "" + dwnloadsize + "TOT SIZE " + n);
 
@@ -2812,7 +2839,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                             mCommonSharedPreference.setValueToPreference("DrRxQMd", "");
 
                         if (jsonn.has("DrSmpQMd"))
-                            mCommonSharedPreference.setValueToPreference("DrSmpQMd", jsonn.getString("DrRxQMd"));
+                            mCommonSharedPreference.setValueToPreference("DrSmpQMd", jsonn.getString("DrSmpQMd"));
                         else
                             mCommonSharedPreference.setValueToPreference("DrSmpQMd", "");
 
@@ -2821,10 +2848,10 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 //                        else
 //                            mCommonSharedPreference.setValueToPreference("DrRxNd", "");
 
-                        if (jsonn.has("RcpaNd"))
-                            mCommonSharedPreference.setValueToPreference("RcpaNd", jsonn.getString("RcpaNd"));
+                        if (jsonn.has("RcpaMd"))
+                            mCommonSharedPreference.setValueToPreference("RcpaMd", jsonn.getString("RcpaMd"));
                         else
-                            mCommonSharedPreference.setValueToPreference("RcpaNd", "");
+                            mCommonSharedPreference.setValueToPreference("RcpaMd", "");
 
                         if (jsonn.has("DrInpMd"))
                             mCommonSharedPreference.setValueToPreference("DrInpMd", jsonn.getString("DrInpMd"));
@@ -2909,6 +2936,29 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                             mCommonSharedPreference.setValueToPreference("cipgeoneed",jsonn.getString("GeoTagNeedcip"));
                         else
                             mCommonSharedPreference.setValueToPreference("cipgeoneed" , "");
+
+                        if(jsonn.has("SFStat"))
+                            mCommonSharedPreference.setValueToPreference("SFStat",jsonn.getString("SFStat"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("SFStat" , "");
+
+                        Log.v("usractiveflg",jsonn.getString("SFStat"));
+
+                        if(jsonn.has("SurveyNd"))
+                            mCommonSharedPreference.setValueToPreference("SurveyNd",jsonn.getString("SurveyNd"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("SurveyNd" , "");
+
+                        if(jsonn.has("past_leave_post"))
+                            mCommonSharedPreference.setValueToPreference("past_leave_post",jsonn.getString("past_leave_post"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("past_leave_post" , "");
+
+                        if(jsonn.has("MCLDet"))
+                            mCommonSharedPreference.setValueToPreference("MCLDet",jsonn.getString("MCLDet"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("MCLDet" , "");
+
 
                         getTodayCalls();
                     } catch (Exception e) {
@@ -3514,6 +3564,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         Log.v("printing_req", "are_Called");
 
         switch (requestCode) {
@@ -3747,6 +3798,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             displayWrk = false;
 
             currentDate = CommonUtilsMethods.getCurrentInstance();
+            todayDate= CommonUtilsMethods.getCurrentInstance();
 
             Log.v("current_datee_home ", currentDate + " preference_date " + mCommonSharedPreference.getValueFromPreference("tpdate"));
 
@@ -3809,6 +3861,16 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
         callSetUps();
         startService(new Intent(HomeDashBoard.this, Autotimezone.class));
+
+        startService(new Intent(getBaseContext(), DcrBlock.class));
+
+        if(mCommonSharedPreference.getValueFromPreference("SFStat").equalsIgnoreCase("1"))
+        {
+            Intent intent=new Intent(HomeDashBoard.this, BlockActivity.class);
+            startActivity(intent);
+        }
+
+
         //Autotimezone tt1 = new Autotimezone(HomeDashBoard.this);
 
         //tpValidate();
@@ -3924,7 +3986,10 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     if (licence.equals("iil4420")) {
                         CommonUtilsMethods.CommonIntentwithNEwTask(LeaveActivity1.class);
                     } else {
-                        CommonUtilsMethods.CommonIntentwithNEwTask(LeaveActivity.class);
+                        //CommonUtilsMethods.CommonIntentwithNEwTask(LeaveActivity.class);
+                        Intent intent=new Intent(context, LeaveActivity.class);
+                        intent.putExtra("Missed","1");
+                        startActivity(intent);
                     }
 
                 }else if (arrayNav.get(i).getText().equals(resources.getString(R.string.approvals))){
@@ -3970,7 +4035,12 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
                     CommonUtilsMethods.CommonIntentwithNEwTask(DashActivity.class);
 
+                }else if (arrayNav.get(i).getText().equals(resources.getString(R.string.survey))){
+
+                    CommonUtilsMethods.CommonIntentwithNEwTask(SurveyActivity.class);
+
                 }
+
 
 //                switch (arrayNav.get(i).getText()) {
 //                    case "Change Cluster"  :
@@ -4723,8 +4793,10 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Reports"*/resources.getString(R.string.report)));
         // arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports,"Quiz"));
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Near Me"*/resources.getString(R.string.near_me)));
-        if(mCommonSharedPreference.getValueFromPreference("DrProfile").equalsIgnoreCase("0"))
+        if(mCommonSharedPreference.getValueFromPreference("MCLDet").equalsIgnoreCase("0"))
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Profiling"*/resources.getString(R.string.profiling)));
+        if(mCommonSharedPreference.getValueFromPreference("SurveyNd").equalsIgnoreCase("0"))
+            arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Survey"*/resources.getString(R.string.survey)));
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Detailing Report"*/resources.getString(R.string.detailing_report)));
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_logout, /*"Logout"*/resources.getString(R.string.logout)));
         //arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Dashboard"*/resources.getString(R.string.Dashboard)));

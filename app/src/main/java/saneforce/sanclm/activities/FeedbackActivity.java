@@ -924,7 +924,7 @@ public class FeedbackActivity extends AppCompatActivity {
                             }
 
                         }
-                        if (mCommonSharedPreference.getValueFromPreference("RcpaNd").equals("1") && peopleType.equalsIgnoreCase("D") && workType.equalsIgnoreCase("Field Work")) {
+                        if (mCommonSharedPreference.getValueFromPreference("RcpaMd").equals("0") && peopleType.equalsIgnoreCase("D") && workType.equalsIgnoreCase("Field Work")) {
                             String rcpa = mCommonSharedPreference.getValueFromPreference("jsonarray");
                             if (rcpa.equalsIgnoreCase("")) {
                                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.entr_rcpa_val), Toast.LENGTH_LONG).show();
@@ -965,7 +965,7 @@ public class FeedbackActivity extends AppCompatActivity {
                                 }
 
                             }
-                            if (mCommonSharedPreference.getValueFromPreference("RcpaNd").equals("1") && peopleType.equalsIgnoreCase("D") && workType.equalsIgnoreCase("Field Work")) {
+                            if (mCommonSharedPreference.getValueFromPreference("RcpaMd").equals("0") && peopleType.equalsIgnoreCase("D") && workType.equalsIgnoreCase("Field Work")) {
                                 String rcpa = mCommonSharedPreference.getValueFromPreference("jsonarray");
                                 if (rcpa.equalsIgnoreCase("")) {
                                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.entr_rcpa_val), Toast.LENGTH_LONG).show();
@@ -1707,7 +1707,7 @@ public class FeedbackActivity extends AppCompatActivity {
                                     json_date.put("sTm", listFeedPrd.get(i).getDate() + " " + listFeedPrd.get(i).getSt_end_time().substring(0, (listFeedPrd.get(i).getSt_end_time().indexOf(" "))));
                                     json_date.put("eTm", listFeedPrd.get(i).getDate() + " " + listFeedPrd.get(i).getSt_end_time().substring((listFeedPrd.get(i).getSt_end_time().indexOf(" ")) + 1));
                                     json_joint.put("Timesline", json_date);
-                                    json_joint.put("Appver","V1.9.2");
+                                    json_joint.put("Appver","V1.9.3");
                                     json_joint.put("Mod", "Edet");
                                     json_joint.put("SmpQty", listFeedPrd.get(i).getSample());
                                     if (val_pob.contains(peopleType))
@@ -2692,6 +2692,7 @@ public class FeedbackActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        stopService(new Intent(this,Autotimezone.class));
         //mCommonSharedPreference.clearFeedShare();
 
 //        dbh.open();
@@ -2717,6 +2718,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         String finalPath = "/storage/emulated/0";
         if (requestCode == 6) {
             Log.v("brandactivtiy", "are_back");

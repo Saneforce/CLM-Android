@@ -100,6 +100,15 @@ public class ViewTag extends Fragment {
         SF_Code = commonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_CODE);
         db_connPath = commonSharedPreference.getValueFromPreference(CommonUtils.TAG_DB_URL);
 
+        if(commonSharedPreference.getValueFromPreference("chem_need").equals("0"))
+        fab2.setVisibility(View.VISIBLE);
+
+        if(commonSharedPreference.getValueFromPreference("stk_need").equals("0"))
+        fab5.setVisibility(View.VISIBLE);
+
+        if(commonSharedPreference.getValueFromPreference("unl_need").equals("0"))
+        fab6.setVisibility(View.VISIBLE);
+
         fab1.setLabelText(commonSharedPreference.getValueFromPreference("drcap"));
         fab2.setLabelText(commonSharedPreference.getValueFromPreference("chmcap"));
         fab5.setLabelText(commonSharedPreference.getValueFromPreference("stkcap"));

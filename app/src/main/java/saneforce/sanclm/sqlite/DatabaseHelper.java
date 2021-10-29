@@ -163,7 +163,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             TableEntry.COLUMN_TAGCOUNT + TEXT_TYPE +COMMA_SEP +
             TableEntry.COLUMN_HOS_CODE + TEXT_TYPE +COMMA_SEP +
             TableEntry.COLUMN_LATITUDE + TEXT_TYPE +COMMA_SEP +
-            TableEntry.COLUMN_LONGITUDE + TEXT_TYPE +
+            TableEntry.COLUMN_LONGITUDE + TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_CHEMIST_Cat + TEXT_TYPE +
+
             ")";
 
     /*STOCKIST MASTER */

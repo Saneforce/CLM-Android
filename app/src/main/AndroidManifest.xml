@@ -200,6 +200,7 @@
         <service android:name=".activities.MainActivity$DownloadingService" />
         <service android:name=".applicationCommonFiles.LocationTrack" />
         <service android:name=".applicationCommonFiles.Autotimezone" />
+        <service android:name=".applicationCommonFiles.DcrBlock" />
         <!--
         <receiver android:name=".util.NetworkReceiver">
             <intent-filter>
@@ -300,6 +301,8 @@
         <activity
             android:name=".activities.AvailablityCheckActivity"
             android:screenOrientation="landscape" />
+        <activity android:name=".activities.SurveyActivity"
+            android:screenOrientation="landscape"/>
     </application>
 
 </manifest>

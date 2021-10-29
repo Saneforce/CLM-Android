@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SAN CLM</string>
-    <string name="app_version">Version 1.9.2</string>
+    <string name="app_version">Version 1.9.3</string>
 
     <string name="preference_name">saneforce.sanclm.preferencefile</string>
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
@@ -486,4 +486,20 @@
 
     <string name="DcrDate">DCR Encontro</string>
     <string name="DcrView">DCR Visualizar</string>
+    <string name="leave_confirmation">Você quer sumitir a Licença?</string>
+    <string name="id_lock">Seu Id está bloqueado. Contact Admin</string>
+    <string name="sync">Sincronizar</string>
+    <string name="yes">sim</string>
+    <string name="no">Não</string>
+    <string name="slct_lst_dr">Selecione Dr. Listado Dr.</string>
+    <string name="slct_chem">Selecione Químico</string>
+    <string name="slct_cust">Selecione o cliente</string>
+    <string name="search_lst_dr">Pesquisa listada Dr.</string>
+    <string name="search_chm">Pesquisar químico</string>
+    <string name="slt_cust_typ">Selecione o tipo de cliente</string>
+    <string name="slt_survey">Selecione pesquisa.</string>
+    <string name="enter_here">Entre aqui</string>
+    <string name="survey">Enquete</string>
+    <string name="search_customer">Customer de pesquisa</string>
+    <string name="survey_list">Lista de Enquetes</string>
 </resources>

@@ -383,7 +383,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         JSONObject map=new JSONObject();
                         map.put("name", userName);
                         map.put("password", passWord);
-                        map.put("Appver", "V1.9.2");
+                        map.put("Appver", "V1.9.3");
                         map.put("Mod", "Edet");
                         map.put("dev_id", token_val);
                          Log.v("database_url",db_pathUrl.substring(0,db_pathUrl.lastIndexOf("/")+1));
@@ -789,6 +789,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
 
             case ALL_PERMISSIONS_RESULT:
@@ -801,17 +802,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (permissionsRejected.size() > 0) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         if (shouldShowRequestPermissionRationale((String) permissionsRejected.get(0))) {
-                                showMessageOKCancel("These permissions are mandatory for the application. Please allow access.",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                                    requestPermissions((String[]) permissionsRejected.toArray(new String[permissionsRejected.size()]), ALL_PERMISSIONS_RESULT);
-                                                }
+                            showMessageOKCancel("These permissions are mandatory for the application. Please allow access.",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                requestPermissions((String[]) permissionsRejected.toArray(new String[permissionsRejected.size()]), ALL_PERMISSIONS_RESULT);
                                             }
-                                        });
-                                return;
-                            }
+                                        }
+                                    });
+                            return;
+                        }
                     }
                 }
                 break;

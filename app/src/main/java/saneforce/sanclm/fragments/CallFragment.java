@@ -747,6 +747,12 @@ public class CallFragment extends Fragment {
                             else
                                 mCommonSharedPreference.setValueToPreference("DcrapprvNd", "");
 
+                            if(js.has("Missed_leave")){
+                                mCommonSharedPreference.setValueToPreference("Missed_leave", js.getString("Missed_leave"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("Missed_leave", "");
+
                         } catch (Exception e) {
                         }
                     }

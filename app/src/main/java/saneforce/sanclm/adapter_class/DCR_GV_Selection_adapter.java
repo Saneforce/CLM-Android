@@ -68,6 +68,11 @@ public class DCR_GV_Selection_adapter extends BaseAdapter implements Filterable{
         return position;
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
     private class ViewHolder {
         TextView drName,drSpeciality,drCategory,drCluster,tv_count;
         ImageView drSelCluster,drUnSelCluster,img_tick;

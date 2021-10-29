@@ -530,9 +530,9 @@ public class DynamicActivity extends AppCompatActivity {
                             JSONArray jsonArray = new JSONArray(is.toString());
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject json = jsonArray.getJSONObject(i);
-                                array.add(new ModelDynamicList(json.getString("Activity_Name"), json.getString("Activity_SlNo"), false));
+                                array.add(new ModelDynamicList(json.getString("Activity_Name"), json.getString("Activity_SlNo"), false,"",""));
                             }
-                            adp = new AdapterDynamicActivity(DynamicActivity.this, array);
+                            adp = new AdapterDynamicActivity(DynamicActivity.this, array,"activity");
                             list_view.setAdapter(adp);
                             adp.notifyDataSetChanged();
                             progressDialog.dismiss();
@@ -800,6 +800,7 @@ public class DynamicActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // TODO Auto-generated method stub
 
+        super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
 
             case 7:

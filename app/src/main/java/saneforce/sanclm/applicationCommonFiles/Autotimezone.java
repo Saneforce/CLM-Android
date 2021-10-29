@@ -54,6 +54,7 @@ public class Autotimezone extends Service {
 
             } else {
                 Intent intent=new Intent(this, BlockActivity.class);
+                intent.putExtra("dcrblock","1");
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 result = true;

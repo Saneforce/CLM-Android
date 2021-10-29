@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SAN CLM</string>
-    <string name="app_version">Version 1.9.2</string>
+    <string name="app_version">Version 1.9.3</string>
 
     <string name="preference_name">saneforce.sanclm.preferencefile</string>
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
@@ -486,6 +486,21 @@
 
     <string name="DcrDate">DCR Date</string>
     <string name="DcrView">DCR Vue</string>
-
+    <string name="leave_confirmation">Voulez-vous sumit le congé?</string>
+    <string name="id_lock">Votre identifiant est verrouillé Contacter l\'administrateur</string>
+    <string name="sync">Synchroniser</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="slct_lst_dr">Sélectionnez la liste énumérée</string>
+    <string name="slct_chem">Sélectionnez Chimiste</string>
+    <string name="slct_cust">Sélectionnez le client</string>
+    <string name="search_lst_dr">Rechercher listé Dr</string>
+    <string name="search_chm">Chimiste de recherche</string>
+    <string name="slt_cust_typ">Sélectionnez Type de clientèle</string>
+    <string name="slt_survey">Sélectionner un sondage</string>
+    <string name="enter_here">Entrer ici</string>
+    <string name="survey">Enquête</string>
+    <string name="search_customer">Rechercher client</string>
+    <string name="survey_list">Liste de sondage</string>
 
 </resources>

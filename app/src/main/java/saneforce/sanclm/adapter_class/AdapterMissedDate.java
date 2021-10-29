@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 
 import saneforce.sanclm.R;
 import saneforce.sanclm.activities.DCRCallSelectionActivity;
+import saneforce.sanclm.activities.LeaveActivity;
 import saneforce.sanclm.activities.Model.MissedDate;
 import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
 import saneforce.sanclm.applicationCommonFiles.CommonUtils;
@@ -58,15 +60,21 @@ public class AdapterMissedDate  extends BaseAdapter {
         convertView=LayoutInflater.from(context).inflate(R.layout.row_item_missed_date,parent,false);
         LinearLayout lay_fw=(LinearLayout)convertView.findViewById(R.id.lay_fw);
         LinearLayout lay_other=(LinearLayout)convertView.findViewById(R.id.lay_others);
+        LinearLayout lay_leave=(LinearLayout)convertView.findViewById(R.id.lay_leave);
         RelativeLayout mis_fw=(RelativeLayout)convertView.findViewById(R.id.mis_fw);
         RelativeLayout mis_other=(RelativeLayout)convertView.findViewById(R.id.mis_other);
+        RelativeLayout mis_leave=(RelativeLayout)convertView.findViewById(R.id.mis_leave);
         TextView txt_mnyr=(TextView)convertView.findViewById(R.id.txt_mnyr);
         TextView txt_date=(TextView)convertView.findViewById(R.id.txt_date);
         TextView txt_day=(TextView)convertView.findViewById(R.id.txt_day);
+        Button btn_leave=(Button) convertView.findViewById(R.id.submit);
         MissedDate mm=list.get(position);
         txt_mnyr.setText(mm.getMnthYr());
         txt_date.setText(mm.getDate());
         txt_day.setText(mm.getDay());
+
+        if(mCommonSharedPreference.getValueFromPreference("Missed_leave").equalsIgnoreCase("0"))
+            lay_leave.setVisibility(View.VISIBLE);
 
         if(list.get(position).getStatus().equalsIgnoreCase("6"))
         {
@@ -83,6 +91,16 @@ public class AdapterMissedDate  extends BaseAdapter {
             public void onClick(View v) {
                 mCommonSharedPreference.setValueToPreference("mis_date",list.get(position).getTd_date());
                 updateUi.updatingui();
+            }
+        });
+
+        btn_leave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCommonSharedPreference.setValueToPreference("mis_date",list.get(position).getTd_date());
+                Intent intent=new Intent(context, LeaveActivity.class);
+                intent.putExtra("Missed","2");
+                context.startActivity(intent);
             }
         });
 

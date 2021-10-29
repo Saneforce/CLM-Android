@@ -259,6 +259,7 @@ public class DataBaseHandler {
             public static final String COLUMN_CHEMIST_FAX = "Chm_Fax";            //8
             public static final String COLUMN_CHEMIST_EMAIL = "Chm_email";       //9
             public static final String COLUMN_CHEMIST_CONTACT = "Chm_contact_per";//10
+            public static final String COLUMN_CHEMIST_Cat = "Chm_cat";//16
 
 
         /*STOCKIST MASTER DETAILS*/
@@ -720,7 +721,7 @@ public class DataBaseHandler {
 
 
     public long insert_chemistMaster(String chmCode, String chmName, String chmaddr, String chmTwnCd, String chmTwnNm, String chmPh, String chmMob,
-                                     String chmFax, String chmEmail, String chmContactPers, String sfCd,String max,String tag,String hoscode,String lat,String lng) {
+                                     String chmFax, String chmEmail, String chmContactPers, String sfCd,String max,String tag,String hoscode,String lat,String lng,String Chm_cat) {
         ContentValues values = new ContentValues();
         values.put(TableEntry.COLUMN_CHEMIST_CODE, chmCode);
         values.put(TableEntry.COLUMN_CHEMIST_NAME, chmName);
@@ -738,6 +739,7 @@ public class DataBaseHandler {
         values.put(TableEntry.COLUMN_HOS_CODE, hoscode);
         values.put(TableEntry.COLUMN_LATITUDE, lat);
         values.put(TableEntry.COLUMN_LONGITUDE, lng);
+        values.put(TableEntry.COLUMN_CHEMIST_Cat, Chm_cat);
         //Log.d("VALUES",values.toString());
         return db.insert(TableEntry.TABLE_CHEMIST_MASTER_DETAILS,TableEntry.COLUMN_NULLABLE, values);
     }

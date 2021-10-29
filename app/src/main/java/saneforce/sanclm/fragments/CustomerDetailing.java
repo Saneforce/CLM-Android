@@ -177,6 +177,7 @@ public class CustomerDetailing extends Fragment {
             @Override
             public void onClick(View view) {
                 Collections.sort(mainArray,DetailingOfReport.customerNameComparator);
+                if(adpt!=null)
                 adpt.notifyDataSetChanged();
             }
         });
@@ -184,6 +185,7 @@ public class CustomerDetailing extends Fragment {
             @Override
             public void onClick(View view) {
                 Collections.sort(mainArray,DetailingOfReport.fieldForceComparator);
+                if(adpt!=null)
                 adpt.notifyDataSetChanged();
             }
         });
@@ -191,6 +193,7 @@ public class CustomerDetailing extends Fragment {
             @Override
             public void onClick(View view) {
                 Collections.sort(mainArray,DetailingOfReport.typeComparator);
+                if(adpt!=null)
                 adpt.notifyDataSetChanged();
             }
         });
@@ -198,6 +201,7 @@ public class CustomerDetailing extends Fragment {
             @Override
             public void onClick(View view) {
                 Collections.sort(mainArray,DetailingOfReport.territoryComparator);
+                if(adpt!=null)
                 adpt.notifyDataSetChanged();
             }
         });
@@ -205,6 +209,7 @@ public class CustomerDetailing extends Fragment {
             @Override
             public void onClick(View view) {
                 Collections.sort(mainArray,DetailingOfReport.specComparator);
+                if(adpt!=null)
                 adpt.notifyDataSetChanged();
             }
         });
@@ -212,6 +217,7 @@ public class CustomerDetailing extends Fragment {
             @Override
             public void onClick(View view) {
                 Collections.sort(mainArray,DetailingOfReport.clsComparator);
+                if(adpt!=null)
                 adpt.notifyDataSetChanged();
             }
         });
@@ -219,6 +225,7 @@ public class CustomerDetailing extends Fragment {
             @Override
             public void onClick(View view) {
                 Collections.sort(mainArray,DetailingOfReport.countComparator);
+                if(adpt!=null)
                 adpt.notifyDataSetChanged();
             }
         });
@@ -226,6 +233,7 @@ public class CustomerDetailing extends Fragment {
             @Override
             public void onClick(View view) {
                 Collections.sort(mainArray,DetailingOfReport.totalsecComparator);
+                if(adpt!=null)
                 adpt.notifyDataSetChanged();
             }
         });

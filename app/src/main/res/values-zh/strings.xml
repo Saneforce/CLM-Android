@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SAN CLM</string>
-    <string name="app_version">Version 1.9.2</string>
+    <string name="app_version">Version 1.9.3</string>
 
     <string name="preference_name">saneforce.sanclm.preferencefile</string>
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
@@ -485,4 +485,20 @@
 
     <string name="DcrDate">DCR 日期</string>
     <string name="DcrView">DCR视图</string>
+    <string name="leave_confirmation">你想休假吗？</string>
+    <string name="id_lock">您的 ID 已锁定 联系管理员</string>
+    <string name="sync">同步</string>
+    <string name="yes">是的</string>
+    <string name="no">不</string>
+    <string name="slct_lst_dr">选择列出的Dr.</string>
+    <string name="slct_chem">选择化学家</string>
+    <string name="slct_cust">选择客户</string>
+    <string name="search_lst_dr">搜索列出的博士</string>
+    <string name="search_chm">搜索化学家</string>
+    <string name="slt_cust_typ">选择客户类型</string>
+    <string name="slt_survey">选择调查</string>
+    <string name="enter_here">在这里输入</string>
+    <string name="survey">民意调查</string>
+    <string name="search_customer">搜索客户</string>
+    <string name="survey_list">调查列表</string>
 </resources>

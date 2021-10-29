@@ -37,7 +37,7 @@ public class AdapterForReportList extends RecyclerView.Adapter<AdapterForReportL
     AdapterForInnerReportDetailList.AdapterReportGift gAdpt;
     String product,gift;
     CommonSharedPreference  commonSharedPreference;
-    String  typ,val_pob,people_type;
+    String  typ,val_pob,people_type=" ";
     String language;
 //    Context context;
     Resources resources;
@@ -89,6 +89,8 @@ public class AdapterForReportList extends RecyclerView.Adapter<AdapterForReportL
             people_type="S";
         } else if(typ.equalsIgnoreCase("4")) {
             people_type="U";
+        } else if(typ.equalsIgnoreCase("6")) {
+            people_type="I";
         }
         Log.v("val",val_pob);
         if (val_pob.contains(people_type))

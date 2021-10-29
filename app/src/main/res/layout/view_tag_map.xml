@@ -107,21 +107,32 @@
        android:layout_height="wrap_content"
        android:src="@drawable/icon_ff"
        fab:fab_size="mini"
-       fab:fab_label="Chemist" />
+       fab:fab_label="Chemist"
+       android:visibility="gone"/>
    <com.github.clans.fab.FloatingActionButton
        android:id="@+id/menu_item2"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
        android:src="@drawable/icon_ff"
        fab:fab_size="mini"
-       fab:fab_label="Stockist" />
+       fab:fab_label="Stockist"
+       android:visibility="gone"/>
    <com.github.clans.fab.FloatingActionButton
        android:id="@+id/menu_item3"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
        android:src="@drawable/icon_ff"
        fab:fab_size="mini"
-       fab:fab_label="Unlisted Dr" />
+       fab:fab_label="Unlisted Dr"
+       android:visibility="gone"/>
+      <com.github.clans.fab.FloatingActionButton
+          android:id="@+id/menu_item4"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:src="@drawable/icon_ff"
+          fab:fab_size="mini"
+          fab:fab_label="CIP"
+          android:visibility="gone"/>
 
   </com.github.clans.fab.FloatingActionMenu>
     <ProgressBar

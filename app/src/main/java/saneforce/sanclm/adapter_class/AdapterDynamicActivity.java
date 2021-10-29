@@ -19,6 +19,7 @@ import saneforce.sanclm.activities.Model.ModelDynamicList;
 import saneforce.sanclm.activities.Model.PopFeed;
 import saneforce.sanclm.util.ProductChangeListener;
 import saneforce.sanclm.util.SpecialityListener;
+import saneforce.sanclm.util.SpecialityListener1;
 
 public class AdapterDynamicActivity extends BaseAdapter {
     Context context;
@@ -26,14 +27,18 @@ public class AdapterDynamicActivity extends BaseAdapter {
     ArrayList<ModelDynamicList>   dummyList=new ArrayList<>();
     static SpecialityListener specialityListener;
     String latitude,longitude;
+    String activity="";
+    static SpecialityListener1 specialityListener1;
 
 
-    public AdapterDynamicActivity(Context context,ArrayList<ModelDynamicList>   array){
+    public AdapterDynamicActivity(Context context,ArrayList<ModelDynamicList>   array,String activity){
         this.context=context;
         this.array=array;
         this.latitude=latitude;
         this.longitude=longitude;
         this.dummyList.addAll(array);
+        this.activity=activity;
+
     }
 
     @Override
@@ -57,6 +62,16 @@ public class AdapterDynamicActivity extends BaseAdapter {
         TextView    txt_name=ll.findViewById(R.id.txt_name);
         final LinearLayout llay_head=ll.findViewById(R.id.llay_head);
         txt_name.setText(array.get(position).getName());
+        LinearLayout linearLayout=ll.findViewById(R.id.surveyln);
+        TextView fromdate=ll.findViewById(R.id.txt_fromdate);
+        TextView todate=ll.findViewById(R.id.txt_todate);
+        if(activity.equalsIgnoreCase("survey")){
+            linearLayout.setVisibility(View.VISIBLE);
+            fromdate.setText(array.get(position).getFromd());
+            todate.setText(array.get(position).getTod());
+
+        }
+
         if(array.get(position).isClick()){
             llay_head.setBackgroundColor(Color.parseColor("#EDECEC"));
         }
@@ -72,7 +87,11 @@ public class AdapterDynamicActivity extends BaseAdapter {
                 array.get(position).setClick(true);
 
                 notifyDataSetChanged();
-                specialityListener.specialityCode(array.get(position).getId());
+                if(activity.equalsIgnoreCase("activity"))
+                    specialityListener.specialityCode(array.get(position).getId());
+                else
+                    specialityListener1.specialityCode(array.get(position).getId(),array.get(position).getName());
+
             }
         });
         return ll;
@@ -132,4 +151,8 @@ public class AdapterDynamicActivity extends BaseAdapter {
     public static void  bindDynamicListListner(SpecialityListener   sp ){
         specialityListener=sp;
     }
+    public static void  bindDynamicListListner1(SpecialityListener1   sp ){
+        specialityListener1=sp;
+    }
+
 }

@@ -41,6 +41,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.lang.reflect.Array;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -99,7 +100,7 @@ public class LeaveActivity extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     String licence,leaveCode,leavetype,leaveName,aw_flag;
-    String req = "0", empId;
+    String req = "0", empId,mislvdate="",lvdate="",status="";
     JSONObject svjson;
     AppCompatSpinner spinner;
     ArrayList<String> selectedLeave;
@@ -167,6 +168,65 @@ public class LeaveActivity extends AppCompatActivity {
         spinner=(AppCompatSpinner) findViewById(R.id.lv_spinner);
         selectedLeave=new ArrayList<>();
 
+        status=getIntent().getStringExtra("Missed");
+
+
+
+        if(status.equalsIgnoreCase("2")) {
+
+            DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            DateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
+            mislvdate=mCommonSharedPreference.getValueFromPreference("mis_date");
+            Date date= null;
+            try {
+                date = inputFormat.parse(mislvdate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            assert date != null;
+            lvdate=outputFormat.format(date);
+            edt_from.setText(lvdate);
+            edt_to.setText(lvdate);
+
+
+//            if (edt_from != null && edt_to!=null) {
+//                edt_from.setEnabled(false);
+//                edt_to.setEnabled(false);
+//            }
+
+            if (!TextUtils.isEmpty(edt_from.getText().toString()) && !TextUtils.isEmpty(edt_to.getText().toString())) {
+                edt_from.setEnabled(false);
+                edt_to.setEnabled(false);
+                int count = getCountOfDays(edt_from.getText().toString(), edt_to.getText().toString());
+                if (count > 0) {
+                    txt_day.setText(String.valueOf(getCountOfDays(edt_from.getText().toString(), edt_to.getText().toString())));
+
+                } else {
+                    Toast.makeText(this, getResources().getString(R.string.togreater), Toast.LENGTH_SHORT).show();
+                    edt_to.setText("");
+                }
+            }
+
+        }else if(status.equalsIgnoreCase("3")) {
+
+            mislvdate=mCommonSharedPreference.getValueFromPreference("todayDate");
+            edt_from.setText(mislvdate);
+            edt_to.setText(mislvdate);
+
+            if (!TextUtils.isEmpty(edt_from.getText().toString()) && !TextUtils.isEmpty(edt_to.getText().toString())) {
+                edt_from.setEnabled(false);
+                edt_to.setEnabled(false);
+                int count = getCountOfDays(edt_from.getText().toString(), edt_to.getText().toString());
+                if (count > 0) {
+                    txt_day.setText(String.valueOf(getCountOfDays(edt_from.getText().toString(), edt_to.getText().toString())));
+
+                } else {
+                    Toast.makeText(this, getResources().getString(R.string.togreater), Toast.LENGTH_SHORT).show();
+                    edt_to.setText("");
+                }
+            }
+
+        }
 
 
         //        lay_el=(LinearLayout) findViewById(R.id.lay_el);
@@ -424,6 +484,8 @@ public class LeaveActivity extends AppCompatActivity {
                                                                 edt_to.setText("");
                                                                 edt_add.setText("");
                                                                 edt_reason.setText("");
+                                                                Intent intent=new Intent(LeaveActivity.this, HomeDashBoard.class);
+                                                                startActivity(intent);
                                                                 // selectedLeave.clear();
                                                                 // arrayAdapter.notifyDataSetChanged();
                                                             } else {
@@ -461,9 +523,14 @@ public class LeaveActivity extends AppCompatActivity {
 
                                         } else {
                                             // Toast.makeText(getContext(),jo.getString("Msg"),Toast.LENGTH_SHORT).show();
-                                            edt_to.setText("");
-                                            txt_day.setText("");
-                                            Toast.makeText(getApplicationContext(), jo.getString("Msg"), Toast.LENGTH_SHORT).show();
+                                            if(status.equalsIgnoreCase("2") || status.equalsIgnoreCase("3") )
+                                            {
+                                                Toast.makeText(getApplicationContext(), jo.getString("Msg"), Toast.LENGTH_SHORT).show();
+                                            }else {
+                                                edt_to.setText("");
+                                                txt_day.setText("");
+                                                Toast.makeText(getApplicationContext(), jo.getString("Msg"), Toast.LENGTH_SHORT).show();
+                                            }
                                         }
                                     }
                                 } catch (Exception e) {
@@ -755,26 +822,39 @@ public class LeaveActivity extends AppCompatActivity {
             final Calendar calendar = Calendar.getInstance();
             int year = 0, month = 0, day = 0;
             if (from) {
-                year = calendar.get(Calendar.YEAR);
-                month = calendar.get(Calendar.MONTH);
-                //day = calendar.get(Calendar.DAY_OF_MONTH);
+                if(mCommonSharedPreference.getValueFromPreference("past_leave_post").equalsIgnoreCase("0"))
+                {
+                    year = calendar.get(Calendar.YEAR);
+                    month = calendar.get(Calendar.MONTH);
+                    day = calendar.get(Calendar.DAY_OF_MONTH);
+                    DatePickerDialog datepickerdialog = new DatePickerDialog(getActivity(),
+                            AlertDialog.THEME_HOLO_LIGHT, this, year, month, day);
+                    datepickerdialog.getDatePicker().setCalendarViewShown(false);
+                    long value = System.currentTimeMillis();
+                    Log.v("printing_time", value + "");
+                    return datepickerdialog;
+                }else {
+                    year = calendar.get(Calendar.YEAR);
+                    month = calendar.get(Calendar.MONTH);
+                    //day = calendar.get(Calendar.DAY_OF_MONTH);
 
-                if(!mCommonSharedPreference.getValueFromPreference(CommonUtils. TAG_WORKTYPE_NAME).isEmpty())
+                    if (!mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_NAME).isEmpty())
 
-                    day = calendar.get(Calendar.DAY_OF_MONTH)+1;
-                else
-                    day=calendar.get(Calendar.DAY_OF_MONTH);
+                        day = calendar.get(Calendar.DAY_OF_MONTH) + 1;
+                    else
+                        day = calendar.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog datepickerdialog = new DatePickerDialog(getActivity(),
-                        AlertDialog.THEME_HOLO_LIGHT, this, year, month, day);
-                datepickerdialog.getDatePicker().setCalendarViewShown(false);
-                if(!mCommonSharedPreference.getValueFromPreference(CommonUtils. TAG_WORKTYPE_NAME).isEmpty())
-                    datepickerdialog.getDatePicker().setMinDate(System.currentTimeMillis()+(24*60*60*1000)-1000);//where 24*60*60*1000 represents the total timestamp for one day
-                else
-                    datepickerdialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-                long value = System.currentTimeMillis();
-                Log.v("printing_time", value + "");
-                return datepickerdialog;
+                    DatePickerDialog datepickerdialog = new DatePickerDialog(getActivity(),
+                            AlertDialog.THEME_HOLO_LIGHT, this, year, month, day);
+                    datepickerdialog.getDatePicker().setCalendarViewShown(false);
+                    if (!mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_NAME).isEmpty())
+                        datepickerdialog.getDatePicker().setMinDate(System.currentTimeMillis() + (24 * 60 * 60 * 1000) - 1000);//where 24*60*60*1000 represents the total timestamp for one day
+                    else
+                        datepickerdialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                    long value = System.currentTimeMillis();
+                    Log.v("printing_time", value + "");
+                    return datepickerdialog;
+                }
             } else {
                 String data = edt_from.getText().toString();
                 if (data.equals("")) {

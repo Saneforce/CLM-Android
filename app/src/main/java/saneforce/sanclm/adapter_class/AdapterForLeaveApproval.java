@@ -96,6 +96,7 @@ public class AdapterForLeaveApproval extends BaseAdapter {
                     jj.put("LvID",mm.getLeaveid());
                     jj.put("LvAPPFlag","0");
                     jj.put("RejRem","");
+                    Log.v("aooo>>",jj.toString());
                     saveLeaveApprove(jj.toString(),i);
 
                 }catch (Exception e){}
@@ -183,6 +184,7 @@ public class AdapterForLeaveApproval extends BaseAdapter {
                     jj.put("LvID",leaveid);
                     jj.put("LvAPPFlag","1");
                     jj.put("RejRem",edt_feed.getText().toString());
+                    Log.v("aooo>>",jj.toString());
                     saveLeaveApprove(jj.toString(),id);
 
                 }catch (Exception e){}

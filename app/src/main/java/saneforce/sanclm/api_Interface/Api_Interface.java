@@ -530,4 +530,12 @@ public interface Api_Interface {
     @POST("db.php?axn=dcrreject")
     Call<ResponseBody> sendDCRreject(@Field("data") String sf);
 
+    @FormUrlEncoded
+    @POST("db.php?axn=get/survey")
+    Call<ResponseBody> getSurveylist(@Field("data") String sf);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=save/survey")
+    Call<ResponseBody> saveSurveylist(@Field("data") String sf);
+
 }

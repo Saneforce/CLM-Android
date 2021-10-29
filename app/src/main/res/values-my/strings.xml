@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SAN CLM</string>
-    <string name="app_version">Version 1.9.2</string>
+    <string name="app_version">Version 1.9.3</string>
 
     <string name="preference_name">saneforce.sanclm.preferencefile</string>
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
@@ -486,5 +486,21 @@
 
     <string name="DcrDate">DCR ရက်စွဲ</string>
     <string name="DcrView">DCR အမြင်</string>
+    <string name="leave_confirmation">ထွက်ခွာခွင့်ကို ပြည့်မီလိုပါသလား။</string>
+    <string name="id_lock">သင်၏ ID ကို လော့ခ်ချထားပြီး ဆက်သွယ်ရန် စီမံခန့်ခွဲသူ</string>
+    <string name="sync">ထပ်တူကျသည်။</string>
+    <string name="yes">ဟုတ်ကဲ့</string>
+    <string name="no">မရှိ</string>
+    <string name="slct_lst_dr">စာရင်း dr ကိုရွေးချယ်ပါ</string>
+    <string name="slct_chem">ဓာတုဗေဒပညာရှင်ကိုရွေးချယ်ပါ</string>
+    <string name="slct_cust">ဖောက်သည်ကိုရွေးချယ်ပါ</string>
+    <string name="search_lst_dr">ရှာရန် စာရင်း Dr</string>
+    <string name="search_chm">ရှာဖွေရေးဓာဗေဒပညာရှင်</string>
+    <string name="slt_cust_typ">ဖောက်သည်အမျိုးအစားကိုရွေးပါ</string>
+    <string name="slt_survey">စစ်တမ်းကိုရွေးချယ်ပါ</string>
+    <string name="enter_here">ဒီမှာရိုက်ထည့်ပါ</string>
+    <string name="survey">မေးမြန်းခြင်</string>
+    <string name="search_customer">ဖောက်သည်ရှာဖွေပါ</string>
+    <string name="survey_list">စစ်တမ်းစာရင်</string>
 
 </resources>

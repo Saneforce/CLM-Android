@@ -652,7 +652,7 @@ public class DownloadMasters extends IntentService {
                     //  dbh.delete_All_tableDatas();
                     // List<Doctors> doctors = response.body();
 
-                    String hosname = "0", hoscode = "0";
+                    String hosname = "0", hoscode = "0",Chm_cat=" ";
                     JSONArray ja = new JSONArray(is.toString());
                     edit.putString("chem", String.valueOf(ja.length()));
                     for (int i = 0; i < ja.length(); i++) {
@@ -674,9 +674,11 @@ public class DownloadMasters extends IntentService {
                         String lng = js.getString("long");
                         if (js.has("Hospital_Code"))
                             hoscode = js.getString("Hospital_Code");
+                        if (js.has("Chm_cat"))
+                            Chm_cat = js.getString("Chm_cat");
                         Log.v("printing_chemist", chmName);
                         Log.v("chemist", js.toString());
-                        dbh.insert_chemistMaster(chmCode, chmName, chmaddr, chmTwnCd, chmTwnNm, chmPh, chmMob, chmFax, chmEmail, chmContactPers, SfCd, max, tag, hoscode, lat, lng);
+                        dbh.insert_chemistMaster(chmCode, chmName, chmaddr, chmTwnCd, chmTwnNm, chmPh, chmMob, chmFax, chmEmail, chmContactPers, SfCd, max, tag, hoscode, lat, lng,Chm_cat);
                     }
 
                     dbh.close();

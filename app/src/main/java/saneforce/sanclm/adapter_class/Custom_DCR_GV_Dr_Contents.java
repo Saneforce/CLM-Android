@@ -1,5 +1,7 @@
 package saneforce.sanclm.adapter_class;
 
+import java.util.Comparator;
+
 public class Custom_DCR_GV_Dr_Contents {
 
     private String mDoctorName;
@@ -105,4 +107,17 @@ public class Custom_DCR_GV_Dr_Contents {
     public void setmDoctorTownCd(String mDoctorTownCd) {
         this.mDoctorTownCd = mDoctorTownCd;
     }
+
+    /*Comparator for sorting the list by Student Name*/
+    public static Comparator<Custom_DCR_GV_Dr_Contents> StuNameComparator = new Comparator<Custom_DCR_GV_Dr_Contents>() {
+
+        @Override
+        public int compare(Custom_DCR_GV_Dr_Contents o1, Custom_DCR_GV_Dr_Contents o2) {
+            String drname1=o1.getmDoctorName().toUpperCase();
+            String drname2=o2.getmDoctorName().toUpperCase();
+
+            return drname1.compareTo(drname2);
+        }
+
+    };
 }
