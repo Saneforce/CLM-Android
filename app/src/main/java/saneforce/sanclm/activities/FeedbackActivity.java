@@ -824,7 +824,7 @@ public class FeedbackActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startService(new Intent(FeedbackActivity.this, Autotimezone.class));
+                //startService(new Intent(FeedbackActivity.this, Autotimezone.class));
                 boolean checkPer = false;
                 if (mCommonSharedPreference.getValueFromPreference("GpsFilter").equalsIgnoreCase("0")) {
                     if (CheckPermission()) {
@@ -1000,6 +1000,9 @@ public class FeedbackActivity extends AppCompatActivity {
                         dbh.close();
                         mCommonSharedPreference.setValueToPreference("slide_feed", "[]");
 
+                }else
+                {
+                    Toast.makeText(FeedbackActivity.this,"Location should be enabled",Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -1707,7 +1710,7 @@ public class FeedbackActivity extends AppCompatActivity {
                                     json_date.put("sTm", listFeedPrd.get(i).getDate() + " " + listFeedPrd.get(i).getSt_end_time().substring(0, (listFeedPrd.get(i).getSt_end_time().indexOf(" "))));
                                     json_date.put("eTm", listFeedPrd.get(i).getDate() + " " + listFeedPrd.get(i).getSt_end_time().substring((listFeedPrd.get(i).getSt_end_time().indexOf(" ")) + 1));
                                     json_joint.put("Timesline", json_date);
-                                    json_joint.put("Appver","V1.9.3");
+                                    json_joint.put("Appver","V1.9.4");
                                     json_joint.put("Mod", "Edet");
                                     json_joint.put("SmpQty", listFeedPrd.get(i).getSample());
                                     if (val_pob.contains(peopleType))
@@ -2300,6 +2303,7 @@ public class FeedbackActivity extends AppCompatActivity {
                     }
                 } catch (Exception e) {
                     Log.v("feedProduct",e.getMessage());
+                    Toast.makeText(FeedbackActivity.this,e.getMessage(),Toast.LENGTH_LONG).show();
                     progressDialog.dismiss();
 
                 }
@@ -2307,6 +2311,21 @@ public class FeedbackActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Calendar calander = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("d/M/yyyy hh:mm:ss");
+                String d = null;
+                try {
+                    d = sdf.format(calander.getTime());
+                    Log.v("date_value_conver", d + " ");
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                dbh.open();
+                dbh.insertJson(String.valueOf(val), txt_name.getText().toString() + "_s_ync", String.valueOf(d), peopleCode, peopleType, commonSFCode,signPath);
+                Intent i = new Intent(FeedbackActivity.this, HomeDashBoard.class);
+                startActivity(i);
+
+                Toast.makeText(FeedbackActivity.this,getResources().getString(R.string.network_issue),Toast.LENGTH_LONG).show();
                 progressDialog.dismiss();
 
             }

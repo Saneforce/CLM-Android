@@ -1,9 +1,11 @@
 package saneforce.sanclm.activities;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 
@@ -12,6 +14,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -27,6 +30,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
@@ -72,8 +76,8 @@ public class QuizActivity extends AppCompatActivity {
     String qid,sid,starttime,endtime;
     JSONArray ja=new JSONArray();
     ProgressDialog progressDialog;
-    String ss=getResources().getString(R.string.quiz_submitted);
-    String final_value="";
+    String ss="";
+    String final_value="",SF_Code,db_connPath;
     String attempt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +102,11 @@ public class QuizActivity extends AppCompatActivity {
         back_icon=(ImageView)findViewById(R.id.back_icon);
         commonSharedPreference=new CommonSharedPreference(this);
         starttime= CommonUtilsMethods.getCurrentInstance()+" "+CommonUtilsMethods.getCurrentTime();
+        db_connPath = commonSharedPreference.getValueFromPreference(CommonUtils.TAG_DB_URL);
+        SF_Code = commonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_CODE);
+        ss=getResources().getString(R.string.quiz_submitted);
+        //getQuiz();
+
         back_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -590,8 +599,149 @@ public class QuizActivity extends AppCompatActivity {
             sendQuiz();
         }catch (Exception e){}
         Log.v("printing_final_count",count_val+" out of "+quiz_array.size());
+        Log.v("saveQuiz",ja.toString());
         final_value="Result : "+count_val+" out of "+quiz_array.size();
     }
+
+    public void getQuiz() {
+
+        JSONObject paramObject = new JSONObject();
+        try {
+            paramObject.put("div", commonSharedPreference.getValueFromPreference(CommonUtils.TAG_DIVISION));
+            paramObject.put("SF", SF_Code);
+            paramObject.put("sfcode", commonSharedPreference.getValueFromPreference("sub_sf_code"));
+
+            Log.v("json_object_custom", paramObject.toString());
+            Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
+            Call<ResponseBody> reports = apiService.getQuiz(paramObject.toString());
+            reports.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        JSONObject jsonObject = null;
+                        String jsonData = null;
+
+                        InputStreamReader ip = null;
+                        StringBuilder is = new StringBuilder();
+                        String line = null;
+                        try {
+                            ip = new InputStreamReader(response.body().byteStream());
+                            BufferedReader bf = new BufferedReader(ip);
+
+                            while ((line = bf.readLine()) != null) {
+                                is.append(line);
+                            }
+                            Log.v("json_object_quiz", is.toString());
+                            commonSharedPreference.setValueToPreference("quizdata", is.toString());
+                            progressDialog.dismiss();
+
+
+                            JSONObject ja = new JSONObject(is.toString());
+                            if (ja.getString("success").equalsIgnoreCase("false"))
+                                Toast.makeText(QuizActivity.this, ja.getString("msg"), Toast.LENGTH_LONG).show();
+//                            else
+//                                popupQuiz("");
+
+
+                        } catch (Exception e) {
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                }
+            });
+        } catch (Exception e) {
+        }
+    }
+
+//    public void popupQuiz(String s) {
+//        final Dialog dialog = new Dialog(QuizActivity.this, R.style.AlertDialogCustom);
+//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+//        dialog.setContentView(R.layout.popup_quiz);
+//        dialog.show();
+//        int attempt = 0;
+//        Button btn_start = dialog.findViewById(R.id.btn_start);
+//        final Button btn_dwn = dialog.findViewById(R.id.btn_dwn);
+//        TextView txt_atmpt = dialog.findViewById(R.id.txt_atmpt);
+//        TextView txt_time = dialog.findViewById(R.id.txt_time);
+//        TextView txt_ques = dialog.findViewById(R.id.txt_ques);
+//        TextView txt_result = dialog.findViewById(R.id.txt_result);
+//
+//        try {
+//            JSONObject jj = new JSONObject(commonSharedPreference.getValueFromPreference("quizdata").toString());
+//            ja1 = jj.getJSONArray("quiztitle");
+//            JSONArray ja = jj.getJSONArray("processUser");
+//            JSONArray ques = jj.getJSONArray("questions");
+//            JSONObject jjs = ja.getJSONObject(0);
+//            attempt = Integer.parseInt(jjs.getString("NoOfAttempts")) - 1;
+//            txt_atmpt.setText("Attempt : " + jjs.getString("NoOfAttempts"));
+//            txt_time.setText("Time Limit : " + jjs.getString("timelimit"));
+//            txt_ques.setText("Questions : " + ques.length());
+//
+//
+//        } catch (Exception e) {
+//        }
+//        if (!TextUtils.isEmpty(s)) {
+//            txt_result.setText(s);
+//            try {
+//                JSONObject jj = new JSONObject(commonSharedPreference.getValueFromPreference("quizdata").toString());
+//                JSONArray ja = jj.getJSONArray("processUser");
+//                JSONObject jjs = ja.getJSONObject(0);
+//                jjs.put("NoOfAttempts", attempt);
+//                commonSharedPreference.setValueToPreference("quizdata", jj.toString());
+//            } catch (Exception e) {
+//            }
+//            txt_atmpt.setText("Attempt : " + attempt);
+//            if (attempt == 0) {
+//                btn_start.setVisibility(View.GONE);
+//            }
+//        }
+//        // Log.v("print_true_false",fileExist("/storage/emulated/0/Quiz/survey.png")+"");
+//        btn_start.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                dialog.dismiss();
+//                Intent ii = new Intent(QuizActivity.this, QuizActivity.class);
+//                startActivityForResult(ii, 678);
+//
+//            }
+//        });
+//        btn_dwn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                try {
+//                    final JSONObject jjj = ja1.getJSONObject(0);
+//                    if (TextUtils.isEmpty(jjj.getString("FileName"))) {
+//                        Toast.makeText(QuizActivity.this, resources.getString(R.string.filenotavailable),
+//                                Toast.LENGTH_LONG).show();
+//                    } else {
+//                        if (!fileExist("/storage/emulated/0/Quiz/" + jjj.getString("FileName"))) {
+//                            //btn_dwn.setEnabled(false);
+//                            Log.v("Printing_except_intt", db_connPath + quizPAth + jjj.getString("FileName") + " what " + db_connPath.substring(0, db_connPath.length() - 10));
+//
+//                            // down(db_connPath.substring(0, db_connPath.length() - 10) + quizPAth + jjj.getString("FileName"), jjj.getString("FileName"));
+//
+//
+//                            new HomeDashBoard.downloadAsync(db_connPath.substring(0, db_connPath.length() - 10) + quizPAth + jjj.getString("FileName"), jjj.getString("FileName")).execute();
+//                        } else {
+//                            File ff = new File("/storage/emulated/0/Quiz/" + jjj.getString("FileName"));
+//                            openFile(ff);
+//                        }
+//
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                    Log.v("Printing_except_intt", e.getLocalizedMessage() + "");
+//                }
+//
+//            }
+//        });
+//
+//    }
+
 
     public void sendQuiz(){
         if (progressDialog == null) {

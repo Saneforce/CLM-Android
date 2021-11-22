@@ -192,6 +192,9 @@ public class DataBaseHandler {
         /*HQ  DETAILS*/
         public static final String TABLE_HQ_DETAILS ="HQDetails";
         public static final String TABLE_HQ_ID ="hq_id";
+        public static final String COLUMN_HQ_SF_CODE = "id";         //0
+        public static final String COLUMN_HQ_SF_NAME = "name";         //1
+        public static final String COLUMN_STEPS = "steps"; //2
             //public static final String COLUMN_SF_CODE = "sfCode";         //0
             //public static final String COLUMN_SF_NAME = "sfname";         //1
             //public static final String COLUMN_OWN_DIV_CODE = "own_divCd"; //2
@@ -260,6 +263,7 @@ public class DataBaseHandler {
             public static final String COLUMN_CHEMIST_EMAIL = "Chm_email";       //9
             public static final String COLUMN_CHEMIST_CONTACT = "Chm_contact_per";//10
             public static final String COLUMN_CHEMIST_Cat = "Chm_cat";//16
+            public static final String COLUMN_Chem_Cat_SName = "Chem_Cat_SName";//17
 
 
         /*STOCKIST MASTER DETAILS*/
@@ -721,7 +725,7 @@ public class DataBaseHandler {
 
 
     public long insert_chemistMaster(String chmCode, String chmName, String chmaddr, String chmTwnCd, String chmTwnNm, String chmPh, String chmMob,
-                                     String chmFax, String chmEmail, String chmContactPers, String sfCd,String max,String tag,String hoscode,String lat,String lng,String Chm_cat) {
+                                     String chmFax, String chmEmail, String chmContactPers, String sfCd,String max,String tag,String hoscode,String lat,String lng,String Chm_cat,String chm_cat_name) {
         ContentValues values = new ContentValues();
         values.put(TableEntry.COLUMN_CHEMIST_CODE, chmCode);
         values.put(TableEntry.COLUMN_CHEMIST_NAME, chmName);
@@ -740,6 +744,7 @@ public class DataBaseHandler {
         values.put(TableEntry.COLUMN_LATITUDE, lat);
         values.put(TableEntry.COLUMN_LONGITUDE, lng);
         values.put(TableEntry.COLUMN_CHEMIST_Cat, Chm_cat);
+        values.put(TableEntry.COLUMN_Chem_Cat_SName,chm_cat_name);
         //Log.d("VALUES",values.toString());
         return db.insert(TableEntry.TABLE_CHEMIST_MASTER_DETAILS,TableEntry.COLUMN_NULLABLE, values);
     }
@@ -831,6 +836,16 @@ public class DataBaseHandler {
         values.put(TableEntry.COLUMN_OWN_DIV_CODE,owncode);
         Log.v("divcoe",divcode);
         return db.insert(TableEntry.TABLE_HQ_DETAILS,null,values);
+    }
+
+    public long insertHQMgr(String code,String name,String steps){
+        ContentValues values=new ContentValues();
+        values.put(TableEntry.COLUMN_HQ_SF_CODE,code);
+        values.put(TableEntry.COLUMN_HQ_SF_NAME,name);
+        values.put(TableEntry.COLUMN_STEPS,steps);
+
+        Log.v("divcoe",code);
+        return db.insert(TableEntry.TABLE_HQ_ID,null,values);
     }
     public long insertInput(String code,String name,String divcode){
         ContentValues values=new ContentValues();
@@ -1147,6 +1162,9 @@ public class DataBaseHandler {
     public void del_hq(){
         db.execSQL("delete from " + TableEntry.TABLE_HQ_DETAILS+ "  ");
     }
+    public void del_hqmgr(){
+        db.execSQL("delete from " + TableEntry.TABLE_HQ_ID+ "  ");
+    }
     public void del_teri(){
         db.execSQL("delete from " + TableEntry.TABLE_TERRITORY_MASTER_DETAILS +"  ");
     }
@@ -1222,6 +1240,7 @@ public class DataBaseHandler {
             db.execSQL("delete from " + TableEntry.TABLE_SLIDES_MASTER+ "  ");
             db.execSQL("delete from " + TableEntry.TABLE_PRODUCT_MASTER + "  ");
             db.execSQL("delete from " + TableEntry.TABLE_HQ_DETAILS+ "  ");
+            db.execSQL("delete from " + TableEntry.TABLE_HQ_ID+ "  ");
             db.execSQL("delete from " + TableEntry.TABLE_TERRITORY_MASTER_DETAILS +"  ");
             db.execSQL("delete from " + TableEntry.TABLE_INPUT +"  ");
             db.execSQL("delete from " + TableEntry.TABLE_COMPETITOR_MASTER +"  ");
@@ -1522,6 +1541,11 @@ public class DataBaseHandler {
         return db.rawQuery("SELECT *  FROM "
                 + TableEntry.TABLE_HQ_DETAILS , null);
     }
+    public Cursor select_hqlistmgr_manager() {
+        return db.rawQuery("SELECT *  FROM "
+                + TableEntry.TABLE_HQ_ID , null);
+    }
+
     public Cursor select_worktypeList(String sf_code,String wrkname) {
         return db.rawQuery("SELECT *  FROM "
                 + TableEntry.TABLE_WORKTYPE_MASTER_DETAILS + " WHERE "+TableEntry.COLUMN_SF_CODE+" = '"+sf_code+"' AND "+TableEntry.COLUMN_WTYPE_NAME+" = '"+wrkname+"' ", null);

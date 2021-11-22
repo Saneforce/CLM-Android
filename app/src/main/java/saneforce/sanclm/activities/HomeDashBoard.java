@@ -71,6 +71,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -79,6 +80,7 @@ import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
+import android.widget.Switch;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -722,7 +724,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                 }
             }
             String wrkNAm = sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, null);
-            Log.v("data1", wrkNAm);
+            Log.v("data1", ""+wrkNAm);
             String wrkcluNAm = sharedpreferences.getString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, null);
             if (TextUtils.isEmpty(wrkNAm) || wrkNAm.equalsIgnoreCase("null") || wrkNAm.equalsIgnoreCase("")) {
                 Log.v("checkme", "condition is working");
@@ -991,12 +993,22 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         final ListView rv_hqlist = (ListView) dialog.findViewById(R.id.rv_hqlist);
         btn_mydayplan_go = (Button) dialog.findViewById(R.id.btn_mydaypln_go);
         ll_anim = (LinearLayout) dialog.findViewById(R.id.ll_anim);
+        Switch deviate = (Switch) dialog.findViewById(R.id.deviate);
 
         TextView myplancap = (TextView)dialog.findViewById(R.id.tv_todayplan);
         TextView tv_mWorktype = (TextView)dialog.findViewById(R.id.tv_mydaypln_worktype);
         TextView tv_headquaters = (TextView)dialog.findViewById(R.id.tv_mydaypln_HQ);
         TextView tv_mworktype_cluster = (TextView)dialog.findViewById(R.id.tv_mydaypln_cluster);
         TextView tv_myremarks = (TextView)dialog.findViewById(R.id.tv_remarks);
+
+//        if(mCommonSharedPreference.getValueFromPreference("TPDCR_Deviation").equals("0"))
+//        {
+//            deviate.setVisibility(View.VISIBLE);
+//            tv_worktype.setEnabled(false);
+//            tv_headquater.setEnabled(false);
+//            tv_clusterView.setEnabled(false);
+//            et_remark.setEnabled(false);
+//        }
 
 //        context = LocaleHelper.setLocale(HomeDashBoard.this, language);
 //        resources = context.getResources();
@@ -1312,6 +1324,19 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                         json.put("location", "");
                         json.put("InsMode", "0");
                         json.put("TPDt", CommonUtilsMethods.getCurrentInstance() + " " + CommonUtilsMethods.getCurrentTime());
+//                        if(mCommonSharedPreference.getValueFromPreference("TPDCR_Deviation").equals("0"))
+//                        {
+//                            if(deviate.isChecked())
+//                            {
+//                                json.put("TpVwFlg", "0");
+//                            }else
+//                            {
+//                                json.put("TpVwFlg", "1");
+//                            }
+//                        }else
+//                        {
+//                            json.put("TpVwFlg", "0");
+//                        }
                     } catch (Exception e) {
 
                     }
@@ -1375,6 +1400,28 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                 dialog.dismiss();
             }
         });
+        deviate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(deviate.isChecked())
+                {
+                    Toast.makeText(HomeDashBoard.this, "jkgkhkgh", Toast.LENGTH_SHORT).show();
+                    tv_worktype.setEnabled(true);
+                    tv_headquater.setEnabled(true);
+                    tv_clusterView.setEnabled(true);
+                    et_remark.setEnabled(true);
+                    //tpflag = "1";
+                }else
+                {
+                    Toast.makeText(HomeDashBoard.this, "lobr", Toast.LENGTH_SHORT).show();
+                    tv_worktype.setEnabled(false);
+                    tv_headquater.setEnabled(false);
+                    tv_clusterView.setEnabled(false);
+                    et_remark.setEnabled(false);
+                }
+            }
+        });
+
 
     }
 
@@ -2959,6 +3006,11 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                         else
                             mCommonSharedPreference.setValueToPreference("MCLDet" , "");
 
+                        if(jsonn.has("TPDCR_Deviation"))
+                            mCommonSharedPreference.setValueToPreference("TPDCR_Deviation",jsonn.getString("TPDCR_Deviation"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("TPDCR_Deviation" , "");
+
 
                         getTodayCalls();
                     } catch (Exception e) {
@@ -4039,6 +4091,16 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
                     CommonUtilsMethods.CommonIntentwithNEwTask(SurveyActivity.class);
 
+                }else if (arrayNav.get(i).getText().equals(resources.getString(R.string.quiz))){
+
+                    if (progressDialog == null) {
+                            CommonUtilsMethods commonUtilsMethods = new CommonUtilsMethods(HomeDashBoard.this);
+                            progressDialog = commonUtilsMethods.createProgressDialog(HomeDashBoard.this);
+                            progressDialog.show();
+                        } else {
+                            progressDialog.show();
+                        }
+                    getQuiz();
                 }
 
 
@@ -4797,6 +4859,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Profiling"*/resources.getString(R.string.profiling)));
         if(mCommonSharedPreference.getValueFromPreference("SurveyNd").equalsIgnoreCase("0"))
             arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Survey"*/resources.getString(R.string.survey)));
+        //arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Quiz"*/resources.getString(R.string.quiz)));
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Detailing Report"*/resources.getString(R.string.detailing_report)));
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_logout, /*"Logout"*/resources.getString(R.string.logout)));
         //arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Dashboard"*/resources.getString(R.string.Dashboard)));

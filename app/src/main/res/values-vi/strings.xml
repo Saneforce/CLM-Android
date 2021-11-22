@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SAN CLM</string>
-    <string name="app_version">Version 1.9.3</string>
+    <string name="app_version">Version 1.9.4</string>
 
     <string name="preference_name">saneforce.sanclm.preferencefile</string>
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
@@ -501,4 +501,5 @@
     <string name="survey">Sự khảo sát</string>
     <string name="search_customer">Tìm kiếm khách hàng</string>
     <string name="survey_list">danh sách khảo sát</string>
+    <string name="network_issue">Do cuộc gọi vấn đề mạng được thiết lập cục bộ được đồng bộ hóa tại địa phương</string>
 </resources>

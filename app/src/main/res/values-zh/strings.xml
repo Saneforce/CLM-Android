@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SAN CLM</string>
-    <string name="app_version">Version 1.9.3</string>
+    <string name="app_version">Version 1.9.4</string>
 
     <string name="preference_name">saneforce.sanclm.preferencefile</string>
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
@@ -501,4 +501,5 @@
     <string name="survey">民意调查</string>
     <string name="search_customer">搜索客户</string>
     <string name="survey_list">调查列表</string>
+    <string name="network_issue">由于网络问题呼叫在稍后保存在本地同步</string>
 </resources>

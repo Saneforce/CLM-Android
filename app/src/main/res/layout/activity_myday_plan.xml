@@ -194,6 +194,25 @@
             android:textSize="14sp"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
+
+        <Switch
+            android:id="@+id/deviate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:fontFamily="@font/poppins"
+            android:layout_below="@+id/et_mydaypln_remarks"
+            android:text="DEVIATE"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:visibility="gone"
+            android:textAllCaps="true"
+            android:checked="false"
+            android:gravity="start"/>
+
+
         <Button
             android:id="@+id/btn_mydaypln_go"
             android:layout_width="178dp"

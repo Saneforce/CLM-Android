@@ -275,14 +275,19 @@ public class DayReportsActivity extends AppCompatActivity {
                 txt_hq.setText(commonSharedPreference.getValueFromPreference(CommonUtils.TAG_NAME));
                 lay_select.setVisibility(View.VISIBLE);
                 dbh.open();
-                Cursor mCursor=dbh.select_hqlist_manager();
+                Cursor mCursor=dbh.select_hqlistmgr_manager();
                 if(mCursor.getCount()!=0) {
                     if (mCursor.moveToFirst()) {
                         do {
                             Log.v("Name_hqlist", mCursor.getString(2)+" djkdj "+mCursor.getString(1));
-                            list.add(new SlideDetail(mCursor.getString(2),mCursor.getString(1)));
-
-
+                            if(!(sf_code.equals(mCursor.getString(1))))
+                                list.add(new SlideDetail(mCursor.getString(2),mCursor.getString(1)));
+//                            {
+//
+//                            }else
+//                             {
+//                            list.add(new SlideDetail(mCursor.getString(2),mCursor.getString(1)));
+//                             }
 
 
                         } while (mCursor.moveToNext());

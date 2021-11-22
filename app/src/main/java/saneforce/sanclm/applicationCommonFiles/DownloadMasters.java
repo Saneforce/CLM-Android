@@ -652,7 +652,7 @@ public class DownloadMasters extends IntentService {
                     //  dbh.delete_All_tableDatas();
                     // List<Doctors> doctors = response.body();
 
-                    String hosname = "0", hoscode = "0",Chm_cat=" ";
+                    String hosname = "0", hoscode = "0",Chm_cat=" ",Chem_Cat_SName="";
                     JSONArray ja = new JSONArray(is.toString());
                     edit.putString("chem", String.valueOf(ja.length()));
                     for (int i = 0; i < ja.length(); i++) {
@@ -676,9 +676,11 @@ public class DownloadMasters extends IntentService {
                             hoscode = js.getString("Hospital_Code");
                         if (js.has("Chm_cat"))
                             Chm_cat = js.getString("Chm_cat");
+                        if (js.has("Chem_Cat_SName"))
+                            Chem_Cat_SName = js.getString("Chem_Cat_SName");
                         Log.v("printing_chemist", chmName);
                         Log.v("chemist", js.toString());
-                        dbh.insert_chemistMaster(chmCode, chmName, chmaddr, chmTwnCd, chmTwnNm, chmPh, chmMob, chmFax, chmEmail, chmContactPers, SfCd, max, tag, hoscode, lat, lng,Chm_cat);
+                        dbh.insert_chemistMaster(chmCode, chmName, chmaddr, chmTwnCd, chmTwnNm, chmPh, chmMob, chmFax, chmEmail, chmContactPers, SfCd, max, tag, hoscode, lat, lng,Chm_cat,Chem_Cat_SName);
                     }
 
                     dbh.close();
@@ -956,6 +958,64 @@ public Callback<ResponseBody> NewComplist = new Callback<ResponseBody>() {
             Log.v("something_failure", "are_showingggg" + t.getMessage());
         }
     };
+
+    public Callback<ResponseBody> HqMgrlist = new Callback<ResponseBody>() {
+        @Override
+        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            System.out.println("checkUser is sucessfuld :" + response.isSuccessful());
+            if (response.isSuccessful()) {
+                try {
+                    dbh.open();
+                    dbh.del_hqmgr();
+                    InputStreamReader ip = null;
+                    StringBuilder is = new StringBuilder();
+                    String line = null;
+                    try {
+                        ip = new InputStreamReader(response.body().byteStream());
+                        BufferedReader bf = new BufferedReader(ip);
+
+                        while ((line = bf.readLine()) != null) {
+                            is.append(line);
+                        }
+                        Log.v("printing_hq_list", is.toString());
+                        JSONArray jsonArray = new JSONArray(is.toString());
+                        //edit.putString("Theraptic", String.valueOf(jsonArray.length()));
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jj = jsonArray.getJSONObject(i);
+                            if(jj.has("steps"))
+                            {
+                                dbh.insertHQMgr(jj.getString("id"), jj.getString("name"), jj.getString("steps"));
+                            }else
+                            {
+                                dbh.insertHQMgr(jj.getString("id"), jj.getString("name"), " ");
+                            }
+
+
+                        }
+                    } catch (Exception e) {
+                    }
+                    dbh.close();
+                    edit.commit();
+                    Log.v("Printing_input", pref.getString("inputs", "0"));
+                } catch (Exception e) {
+                }
+
+
+            } else {
+                try {
+                    JSONObject jObjError = new JSONObject(response.toString());
+                } catch (Exception e) {
+                }
+            }
+
+        }
+
+        @Override
+        public void onFailure(Call<ResponseBody> call, Throwable t) {
+            // Toast.makeText(context, "On Failure " , Toast.LENGTH_LONG).show();
+        }
+    };
+
 
 
     public Callback<List<InputList>> inputList1 = new Callback<List<InputList>>() {
@@ -1709,7 +1769,7 @@ public Callback<ResponseBody> NewComplist = new Callback<ResponseBody>() {
         prdList();
         brdList();
         copList();
-        NewcopList();
+        //NewcopList();
 
         clsList();
         typeeList();
@@ -1772,6 +1832,8 @@ public Callback<ResponseBody> NewComplist = new Callback<ResponseBody>() {
     public void hqqList() {
         Call<List<HQ>> HQ = apiService.gethq(String.valueOf(obj));
         HQ.enqueue(hq);
+        hqqListMgr();
+
     }
 
 
@@ -1886,9 +1948,9 @@ public Callback<ResponseBody> NewComplist = new Callback<ResponseBody>() {
         cipList.enqueue(CipList);
     }
 
-    public void NewcopList() {
-//        Call<ResponseBody> chm = apiService.getNewcompetitors(String.valueOf(obj));
-//        chm.enqueue(NewComplist);
+    public void hqqListMgr() {
+       Call<ResponseBody> hqmgr = apiService.gethqmgr(String.valueOf(obj));
+        hqmgr.enqueue(HqMgrlist);
     }
 
     public static void bindManagerListLoading(ManagerListLoading mManagerListLoading) {

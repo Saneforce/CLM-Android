@@ -1,6 +1,7 @@
 package saneforce.sanclm.fragments;
 
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -390,6 +391,7 @@ public class AppConfiguration extends Fragment implements View.OnClickListener {
             return logo;
         }
 
+        @SuppressLint("WrongThread")
         protected void onPostExecute(Bitmap result) {
             OutputStream outStream = null;
             try {

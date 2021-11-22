@@ -39,6 +39,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import saneforce.sanclm.Pojo_Class.DetailingTrackerPOJO;
 import saneforce.sanclm.Pojo_Class.SurveyQSlist;
 import saneforce.sanclm.R;
 import saneforce.sanclm.activities.Model.ModelDynamicList;
@@ -76,7 +77,7 @@ public class SurveyActivity extends AppCompatActivity {
     RelativeLayout  dcr_drselection_gridview;
     Api_Interface api_interface;
     LinearLayout rl_dcr_presurvey_analysisMain ;
-    ProgressDialog progressDialog = null;
+    ProgressDialog progressDialog = null,progress;
     AppCompatEditText et_searchDr;
     TextView et_selectcustomer,cancel_txt,choosensurveytxt;
     String selectedItem="",typee,SF_Type;
@@ -89,6 +90,8 @@ public class SurveyActivity extends AppCompatActivity {
     GridView gridView;
     Button save_btn;
     String custcode="";
+    int spinnerposition=0;
+    DetailingTrackerPOJO detailingTrackerPOJO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +119,11 @@ public class SurveyActivity extends AppCompatActivity {
         progressDialog = commonUtilsMethods.createProgressDialog(SurveyActivity.this);
         progressDialog.show();
 
+        progress = new ProgressDialog(this);
+        progress.setMessage("loading..");
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.setIndeterminate(true);
+
 
         spinner = (Spinner) findViewById(R.id.spinner);
         spinnercustomer=findViewById(R.id.spinnercustomer);
@@ -132,6 +140,7 @@ public class SurveyActivity extends AppCompatActivity {
         choosensurveytxt=findViewById(R.id.txt_choosen_survey);
         dynamiclistview=findViewById(R.id.list);
         save_btn=findViewById(R.id.btn_save);
+        detailingTrackerPOJO=new DetailingTrackerPOJO();
 
 
         cancel_txt.setOnClickListener(new View.OnClickListener() {
@@ -142,24 +151,113 @@ public class SurveyActivity extends AppCompatActivity {
             }
         });
 
+//        et_selectcustomer.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                if(selectedItem.equalsIgnoreCase(getResources().getString(R.string.selct))){
+//                    Toast.makeText(SurveyActivity.this, getResources().getString(R.string.slt_cust_typ), Toast.LENGTH_SHORT).show();
+//                }
+//                else if(selectedItem.equalsIgnoreCase(getResources().getString(R.string.listed_dr))) {
+//                    surveyQSlists.clear();
+//                    save_btn.setVisibility(View.GONE);
+//                    getDoctorlist();
+//                }else if(selectedItem.equalsIgnoreCase(getResources().getString(R.string.chem))) {
+//                    surveyQSlists.clear();
+//                    save_btn.setVisibility(View.GONE);
+//                    getChemistList();
+//
+//                }
+//            }
+//        });
+
         et_selectcustomer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if(selectedItem.equalsIgnoreCase(getResources().getString(R.string.selct))){
-                    Toast.makeText(SurveyActivity.this, getResources().getString(R.string.slt_cust_typ), Toast.LENGTH_SHORT).show();
-                }
-                else if(selectedItem.equalsIgnoreCase(getResources().getString(R.string.listed_dr))) {
+                if (selectedItem.equalsIgnoreCase("Select")) {
+                    Toast.makeText(SurveyActivity.this, "Select Customer type", Toast.LENGTH_SHORT).show();
+                } else if (selectedItem.equalsIgnoreCase(getResources().getString(R.string.listed_dr))) {
                     surveyQSlists.clear();
                     save_btn.setVisibility(View.GONE);
-                    getDoctorlist();
-                }else if(selectedItem.equalsIgnoreCase(getResources().getString(R.string.chem))) {
+                    chemlist.clear();
+                    drList.clear();
+                    mCursor = dbh.select_doctors_bySf(SF_coding.get(spinnerposition), mMydayWtypeCd);
+                    if (drList.size() == 0 && mCursor.getCount() == 0) {
+                        if (commonUtilsMethods.isOnline(SurveyActivity.this)) {
+                            DownloadMasters dwnloadMasterData = new DownloadMasters(SurveyActivity.this, db_connPath, db_slidedwnloadPath, SF_coding.get(spinnerposition), SF_Code);
+                            if (progressDialog == null) {
+                                CommonUtilsMethods commonUtilsMethods = new CommonUtilsMethods(SurveyActivity.this);
+                                progressDialog = commonUtilsMethods.createProgressDialog(SurveyActivity.this);
+                                progressDialog.show();
+                                //progress.show();
+                            } else {
+                                progressDialog.show();
+                                //progress.show();
+                            }
+//ll_anim.setVisibility(View.VISIBLE);
+                            subSfCode = SF_coding.get(spinnerposition);
+                            dwnloadMasterData.drList();
+
+                        } else {
+                            Toast.makeText(SurveyActivity.this, getResources().getString(R.string.network_req), Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        //detailingTrackerPOJO.setTabSelection("0");
+                        getDoctorlist();
+                    }
+
+                    DownloadMasters.bindManagerListLoading(new ManagerListLoading() {
+                        @Override
+                        public void ListLoading() {
+                            //detailingTrackerPOJO.setTabSelection("0");
+                            getDoctorlist();
+
+                        }
+                    });
+
+
+                }else if (selectedItem.equalsIgnoreCase(getResources().getString(R.string.chem))) {
                     surveyQSlists.clear();
                     save_btn.setVisibility(View.GONE);
-                    getChemistList();
+                    mCursor = dbh.select_Chemist_bySf(SF_coding.get(spinnerposition), mMydayWtypeCd);
+
+                    if (chemlist.size() == 0 && mCursor.getCount() == 0) {
+                        if (commonUtilsMethods.isOnline(SurveyActivity.this)) {
+                            DownloadMasters dwnloadMasterData = new DownloadMasters(SurveyActivity.this, db_connPath, db_slidedwnloadPath, SF_coding.get(spinnerposition), SF_Code);
+                            //ll_anim.setVisibility(View.VISIBLE);
+                            if (progressDialog == null) {
+                                CommonUtilsMethods commonUtilsMethods = new CommonUtilsMethods(SurveyActivity.this);
+                                progressDialog = commonUtilsMethods.createProgressDialog(SurveyActivity.this);
+                                progressDialog.show();
+                                //progress.show();
+                            } else {
+                                progressDialog.show();
+                                //progress.show();
+                            }
+                            dwnloadMasterData.chemsList();
+                        } else {
+                            Toast.makeText(SurveyActivity.this, getResources().getString(R.string.network_req), Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                       // detailingTrackerPOJO.setTabSelection("1");
+                        getChemistList();
+                    }
+
+                    DownloadMasters.bindManagerListLoading(new ManagerListLoading() {
+                        @Override
+                        public void ListLoading() {
+                           // detailingTrackerPOJO.setTabSelection("1");
+                            getChemistList();
+                        }
+
+
+                    });
+                    Log.v("call>>", SF_coding.get(spinnerposition));
 
                 }
+
             }
+
         });
 
         if(SF_Type.equalsIgnoreCase("2")){
@@ -212,12 +310,90 @@ public class SurveyActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                CommonUtilsMethods.avoidSpinnerDropdownFocus(spinner);
+                spinnerposition=position;
+                mCommonSharedPreference.setValueToPreference("sub_sf_code", SF_coding.get(spinnerposition));
+                mCommonSharedPreference.setValueToPreference("hq_code", SF_coding.get(spinnerposition));
+                subSfCode = SF_coding.get(spinnerposition);
                 dbh.open();
-                mCommonSharedPreference.setValueToPreference("sub_sf_code", SF_coding.get(position));
-                mCommonSharedPreference.setValueToPreference("hq_code", SF_coding.get(position));
-                subSfCode = SF_coding.get(position);
+                drList.clear();
+                chemlist.clear();
 
-               // mCursor = dbh.select_doctors_bySf(subSfCode, mMydayWtypeCd);
+
+                if (selectedItem.equalsIgnoreCase(getResources().getString(R.string.listed_dr)) || selectedItem.equalsIgnoreCase(getResources().getString(R.string.chem))) {
+                    if (typee.equalsIgnoreCase("D")) {
+                        mCursor = dbh.select_doctors_bySf(SF_coding.get(spinnerposition),mMydayWtypeCd);
+                        if(drList.size()==0 && mCursor.getCount()==0) {
+                            if(commonUtilsMethods.isOnline(SurveyActivity.this)) {
+                                DownloadMasters dwnloadMasterData = new DownloadMasters(SurveyActivity.this, db_connPath, db_slidedwnloadPath, SF_coding.get(spinnerposition),SF_Code);
+                                if (progressDialog== null) {
+                                    CommonUtilsMethods commonUtilsMethods = new CommonUtilsMethods(SurveyActivity.this);
+                                    progressDialog = commonUtilsMethods.createProgressDialog(SurveyActivity.this);
+                                    progressDialog.show();
+                                   // progress.show();
+                                } else {
+                                    progressDialog.show();
+                                   // progress.show();
+                                }
+                                subSfCode = SF_coding.get(spinnerposition);
+                                dwnloadMasterData.drList();
+
+                            }else{
+                                Toast.makeText(SurveyActivity.this,getResources().getString(R.string.network_req),Toast.LENGTH_SHORT).show();
+                            }
+                        }else {
+                           // detailingTrackerPOJO.setTabSelection("0");
+                            getDoctorlist();
+                        }
+
+                        DownloadMasters.bindManagerListLoading(new ManagerListLoading() {
+                            @Override
+                            public void ListLoading() {
+                                //detailingTrackerPOJO.setTabSelection("0");
+                                getDoctorlist();
+
+                            }
+                        });
+                    } else if (typee.equalsIgnoreCase("C")) {
+                        mCursor = dbh.select_Chemist_bySf(SF_coding.get(spinnerposition),mMydayWtypeCd);
+
+                        if(chemlist.size()==0 && mCursor.getCount()==0) {
+                            if(commonUtilsMethods.isOnline(SurveyActivity.this)) {
+                                DownloadMasters dwnloadMasterData = new DownloadMasters(SurveyActivity.this, db_connPath, db_slidedwnloadPath, SF_coding.get(spinnerposition),SF_Code);
+                                //ll_anim.setVisibility(View.VISIBLE);
+                                if (progressDialog== null) {
+                                    CommonUtilsMethods commonUtilsMethods = new CommonUtilsMethods(SurveyActivity.this);
+                                    progressDialog = commonUtilsMethods.createProgressDialog(SurveyActivity.this);
+                                    progressDialog.show();
+                                    //progress.show();
+                                } else {
+                                    progressDialog.show();
+                                    //progress.show();
+                                }
+                                dwnloadMasterData.chemsList();
+                            }
+                            else{
+                                Toast.makeText(SurveyActivity.this,getResources().getString(R.string.network_req),Toast.LENGTH_SHORT).show();
+                            }
+                        }else {
+                            //detailingTrackerPOJO.setTabSelection("1");
+                            getChemistList();
+                        }
+
+                        DownloadMasters.bindManagerListLoading(new ManagerListLoading() {
+                            @Override
+                            public void ListLoading() {
+                                //detailingTrackerPOJO.setTabSelection("1");
+                                getChemistList();
+                            }
+
+
+                        });
+                    }
+                }
+
+
+                // mCursor = dbh.select_doctors_bySf(subSfCode, mMydayWtypeCd);
 //
 //                if (selectedItem.equalsIgnoreCase(getResources().getString(R.string.listed_dr)) || selectedItem.equalsIgnoreCase(getResources().getString(R.string.chem))) {
 //                    if (typee.equalsIgnoreCase("D")) {
@@ -274,15 +450,6 @@ public class SurveyActivity extends AppCompatActivity {
 //                        }
 //                    }
 
-                if (selectedItem.equalsIgnoreCase("Listed Dr.") || selectedItem.equalsIgnoreCase("Chemist")) {
-                    if (typee.equalsIgnoreCase("D")) {
-                        getDoctorlist();
-                    } else if (typee.equalsIgnoreCase("C")) {
-                        getChemistList();
-                        Log.v("call>>", SF_coding.get(position));
-
-                    }
-                }
 
 //                DownloadMasters.bindManagerListLoading(new ManagerListLoading() {
 //                    @Override
@@ -580,7 +747,8 @@ public class SurveyActivity extends AppCompatActivity {
         while (mCursor.moveToNext()) {
             if (chemcatarrray.length > 0) {
                 if ((";" + strchem).indexOf(";" + mCursor.getString(16) + ";") > -1) {
-                    _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(5), mCursor.getString(4), mCursor.getString(11), mCursor.getString(12));
+                    Log.v("chemCn",mCursor.getString(17));
+                    _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(5), mCursor.getString(4), mCursor.getString(11), mCursor.getString(12),mCursor.getString(17));
                     chemlist.add(_custom_DCR_GV_Dr_Contents);
                     Collections.sort(chemlist, Custom_DCR_GV_Dr_Contents.StuNameComparator);
 
@@ -591,7 +759,8 @@ public class SurveyActivity extends AppCompatActivity {
             _DCR_GV_Selection_adapter = new DCR_GV_Selection_adapter(getApplicationContext(), chemlist, "C");
             gridView.setAdapter(_DCR_GV_Selection_adapter);
             _DCR_GV_Selection_adapter.notifyDataSetChanged();
-            if(progressDialog!=null) progressDialog.dismiss();
+            progressDialog.dismiss();
+            //progress.dismiss();
 
             DCR_GV_Selection_adapter.bindListner(new DCRCallSelectionFilter() {
                 @Override
@@ -670,6 +839,7 @@ public class SurveyActivity extends AppCompatActivity {
         gridView.setAdapter(_DCR_GV_Selection_adapter);
         _DCR_GV_Selection_adapter.notifyDataSetChanged();
         if(progressDialog!=null) progressDialog.dismiss();
+        //progress.dismiss();
 
         DCR_GV_Selection_adapter.bindListner(new DCRCallSelectionFilter() {
             @Override

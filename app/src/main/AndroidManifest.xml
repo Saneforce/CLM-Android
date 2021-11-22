@@ -302,7 +302,8 @@
             android:name=".activities.AvailablityCheckActivity"
             android:screenOrientation="landscape" />
         <activity android:name=".activities.SurveyActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>

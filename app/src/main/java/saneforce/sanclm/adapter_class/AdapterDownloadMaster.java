@@ -283,10 +283,10 @@ public class AdapterDownloadMaster extends BaseAdapter {
                         txt_count.setText("(0)");
                         break;
 
-                    case "24":
-                        dwnloadMasterData.NewcopList();
-                        share_value = "Newcomp";
-                        break;
+//                    case "24":
+//                        dwnloadMasterData.NewcopList();
+//                        share_value = "Newcomp";
+//                        break;
                 }
 
 

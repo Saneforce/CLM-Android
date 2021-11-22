@@ -289,6 +289,7 @@ public class DynamicActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String s) {
                 Log.v("search_view_str", s);
+                if(adp!=null)
                 adp.getFilter().filter(s);
                 return false;
             }
@@ -805,7 +806,7 @@ public class DynamicActivity extends AppCompatActivity {
 
             case 7:
 
-                if (resultCode == RESULT_OK) {
+                if (resultCode == RESULT_OK && data.getData()!=null) {
 
                     Uri uri = data.getData();
                     ImageFilePath filepath = new ImageFilePath();
@@ -879,6 +880,7 @@ public class DynamicActivity extends AppCompatActivity {
                     }
                 }
             }
+            saveValueEntry();
         } else {
             saveValueEntry();
         }
@@ -953,6 +955,11 @@ public class DynamicActivity extends AppCompatActivity {
                             if (adp_view.DynamicCount == x) {
                                 saveValueEntry();
                             }
+                        }else if(js.getString("success").equalsIgnoreCase("false"))
+                        {
+                            progressDialog.dismiss();
+                            Toast.makeText(context,js.getString("message"),Toast.LENGTH_LONG).show();
+
                         }
 
 

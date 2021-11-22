@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SAN CLM</string>
-    <string name="app_version">Version 1.9.3</string>
+    <string name="app_version">Version 1.9.4</string>
 
     <string name="preference_name">saneforce.sanclm.preferencefile</string>
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
@@ -502,5 +502,6 @@
     <string name="survey">Enquête</string>
     <string name="search_customer">Rechercher client</string>
     <string name="survey_list">Liste de sondage</string>
+    <string name="network_issue">En raison de l\'appel de numéro de réseau sauvegardé localement synchronisé plus tard</string>
 
 </resources>

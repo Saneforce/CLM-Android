@@ -8,7 +8,7 @@ import saneforce.sanclm.sqlite.DataBaseHandler.*;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
 
-    public static final int DATABASE_VERSION = 10;
+    public static final int DATABASE_VERSION = 11;
     public static final String DATABASE_NAME = "eghjjhEdetailing.db";
     private static final String TEXT_TYPE = " TEXT";
     private static final String COMMA_SEP = ",";
@@ -60,6 +60,13 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             TableEntry.COLUMN_SF_NAME + TEXT_TYPE +COMMA_SEP +
             TableEntry.COLUMN_OWN_DIV_CODE + TEXT_TYPE +COMMA_SEP +
             TableEntry.COLUMN_DIVISION_CODE + TEXT_TYPE +
+            ")";
+
+    private static final String SQL_CREATE_HQ_MGR_DETAILS = "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.TABLE_HQ_ID +" ("+TableEntry.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            TableEntry.COLUMN_HQ_SF_CODE + TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_HQ_SF_NAME + TEXT_TYPE +COMMA_SEP +
+            TableEntry.COLUMN_STEPS + TEXT_TYPE +
             ")";
 
     private static final String SQL_CREATE_TABLE_WORK_TYPE_MASTER="CREATE TABLE IF NOT EXISTS " +
@@ -164,8 +171,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             TableEntry.COLUMN_HOS_CODE + TEXT_TYPE +COMMA_SEP +
             TableEntry.COLUMN_LATITUDE + TEXT_TYPE +COMMA_SEP +
             TableEntry.COLUMN_LONGITUDE + TEXT_TYPE +COMMA_SEP +
-            TableEntry.COLUMN_CHEMIST_Cat + TEXT_TYPE +
-
+            TableEntry.COLUMN_CHEMIST_Cat + TEXT_TYPE +COMMA_SEP+
+            TableEntry.COLUMN_Chem_Cat_SName + TEXT_TYPE +
             ")";
 
     /*STOCKIST MASTER */
@@ -501,6 +508,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL(SQL_CREATE_LOGIN_USER_DETAILS);
         db.execSQL(SQL_CREATE_JOINTWORK_DETAILS);
         db.execSQL(SQL_CREATE_HQ_DETAILS);
+        db.execSQL(SQL_CREATE_HQ_MGR_DETAILS);
         db.execSQL(SQL_CREATE_TABLE_WORK_TYPE_MASTER);
         db.execSQL(SQL_CREATE_COMPETITOR_MASTER);
         db.execSQL(SQL_CREATE_COMPETITOR_MASTER_NEW);

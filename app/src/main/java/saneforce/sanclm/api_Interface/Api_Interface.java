@@ -87,12 +87,12 @@ public interface Api_Interface {
     Call<List<HQ>> gethq(@Field("data") String sf);
 
 
-/*
+
     @FormUrlEncoded
-    @POST("db.php?axn=get/hq")
+    @POST("db.php?axn=get/hqmgr")
    // Call<List<HQ>> gethq(@FieldMap HashMap<String, String> sf);
-    Call<List<HQ>> gethq(@Field("data") String data);
-*/
+    Call<ResponseBody> gethqmgr(@Field("data") String data);
+
 
     @FormUrlEncoded
     @POST("db.php?axn=get/doctors")
@@ -157,6 +157,10 @@ public interface Api_Interface {
     @FormUrlEncoded
     @POST("db.php?axn=get/todaytp")
     Call<List<TodayTp>> todayTP(@Field("data") String sf);
+
+    @FormUrlEncoded
+    @POST("db_test.php?axn=get/todaytp")
+    Call<List<TodayTp>> todayTPNew(@Field("data") String sf);
 
     @FormUrlEncoded
     @POST("db.php?axn=get/geotag")

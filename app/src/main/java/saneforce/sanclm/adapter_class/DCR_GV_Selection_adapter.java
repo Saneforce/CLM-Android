@@ -245,7 +245,7 @@ public class DCR_GV_Selection_adapter extends BaseAdapter implements Filterable{
                 mViewHolder.drCategory.setText(row_pos.getmDocotrCategory());
                 break;
             case "C":
-                mViewHolder.drSpeciality.setText("");
+                mViewHolder.drSpeciality.setText(row_pos.getSpecCode());
                 mViewHolder.drCategory.setText("");
                 break;
 
