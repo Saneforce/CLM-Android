@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@android:color/background_light"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/barchart_popup"
+        android:layout_width="340dp"
+        android:layout_height="350dp" />
+
+    <TextView
+        android:id="@+id/textvaluedetail"
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/red"
+        android:padding="10dp"
+        android:text="Values in Lakhs"
+        android:gravity="right">
+    </TextView>
+</LinearLayout>

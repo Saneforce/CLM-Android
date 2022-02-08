@@ -7,6 +7,17 @@ import android.view.inputmethod.InputMethodManager;
 import java.util.ArrayList;
 
 public class Dcrdatas {
+    public static int primarysalesselectedtdtag=0;
+    public static String TD_StartDate="";
+    public static String TD_EndDate="";
+    public static int page_position=1;
+    public static int IsSelectAll=0;
+    public static String primarysaleshqselectedHQ="";
+    public static int primarysaleshqselectedHQtag=0;
+    public static String SelectedSF="";
+    public static String FFBrandHQName="";
+    public static String primarysalesbrandselecteddivcode="";
+    public static int primarysalesbrandselecteddivtag=0;
     private static Dcrdatas dcrdata;
 
     public static int custlist = 0;

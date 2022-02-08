@@ -50,7 +50,7 @@ import saneforce.sanclm.applicationCommonFiles.CommonUtilsMethods;
 
 
 public class QuizActivity extends AppCompatActivity {
-    Button btn,btn1,sub_btn;
+    Button btn,btn1,sub_btn,prevbtn;
     RelativeLayout r_one,r_two,r_three,r_four,r_five,r_six,r_se,r_eight;
     LinearLayout scroll_lay;
     TextView txt_one,txt_two,txt_three,txt_four,txt_five,txt_six,txt_se,txt_eight,txt_ques,no_of,txt_timer;
@@ -79,14 +79,23 @@ public class QuizActivity extends AppCompatActivity {
     String ss="";
     String final_value="",SF_Code,db_connPath;
     String attempt;
+    boolean val;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sample_quiz);
 
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+
         btn=(Button)findViewById(R.id.btn);
 
         btn1=(Button)findViewById(R.id.btn1);
+        prevbtn=(Button)findViewById(R.id.prevbtn);
         sub_btn=(Button)findViewById(R.id.sub_btn);
         sub_btn.setEnabled(false);
         sub_btn.setAlpha(0.5f);
@@ -117,7 +126,19 @@ public class QuizActivity extends AppCompatActivity {
         sub_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                submitFinalValue();
+                val=false;
+                ArrayList<QuizOptionModel> aa=quiz_array.get(increment_value).getContent();
+                for(int j=0;j<aa.size();j++){
+                    if(aa.get(j).isCheck() || aa.get(j).isCheck2())
+                        val=true;
+                }
+                if(val){
+                    submitFinalValue();
+                }
+                else{
+                    Toast.makeText(QuizActivity.this,getResources().getString(R.string.choose_ans),Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         if(scrollCounting==0) {
@@ -161,10 +182,12 @@ public class QuizActivity extends AppCompatActivity {
                 if(quiz_array.size()-1==increment_value){
                     sub_btn.setEnabled(true);
                     sub_btn.setAlpha(1f);
-                    Toast.makeText(QuizActivity.this,getResources().getString(R.string.nomrequiz),Toast.LENGTH_SHORT).show();
+                   btn.setEnabled(false);
+                    btn.setAlpha(0.5f);
+                   // Toast.makeText(QuizActivity.this,getResources().getString(R.string.nomrequiz),Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    boolean val=false;
+                     val=false;
                     ArrayList<QuizOptionModel> aa=quiz_array.get(increment_value).getContent();
                     for(int j=0;j<aa.size();j++){
                         if(aa.get(j).isCheck() || aa.get(j).isCheck2())
@@ -205,10 +228,43 @@ public class QuizActivity extends AppCompatActivity {
                         no_of.setText("Question "+(increment_value+1)+" of "+quiz_array.size());
                         quiz_array.get(increment_value - 1).setClick(true);
                         changeQuestion(0);
+                        prevbtn.setEnabled(true);
+                        prevbtn.setAlpha(1f);
+                        if(quiz_array.size()==increment_value+1){
+                            sub_btn.setEnabled(true);
+                            sub_btn.setAlpha(1f);
+                            btn.setEnabled(false);
+                            btn.setAlpha(0.5f);
+                            // Toast.makeText(QuizActivity.this,getResources().getString(R.string.nomrequiz),Toast.LENGTH_SHORT).show();
+                        }
                     }
                     else
                         Toast.makeText(QuizActivity.this,getResources().getString(R.string.choose_ans),Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        prevbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               // Toast.makeText(QuizActivity.this,getResources().getString(R.string.choose_ans),Toast.LENGTH_SHORT).show();
+
+                    increment_value = increment_value - 1;
+                    btn.setEnabled(true);
+                    btn.setAlpha(1f);
+                    sub_btn.setEnabled(false);
+                    sub_btn.setAlpha(0.5f);
+                    Log.d("ddd", "--" + increment_value);
+                    no_of.setText("Question " + (increment_value+1) + " of " + quiz_array.size());
+                    quiz_array.get(increment_value).setClick(true);
+                    changeQuestion(0);
+                    if(increment_value==0){
+                        prevbtn.setEnabled(false);
+                        prevbtn.setAlpha(0.5f);
+                    }
+
+
+
             }
         });
 
@@ -399,7 +455,7 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     public void loadData(){
-        Log.v("calling_laod_data","are_here");
+        Log.v("calling_laod_data","are_here"+commonSharedPreference.getValueFromPreference("quizdata"));
         try{
             JSONObject jj=new JSONObject(commonSharedPreference.getValueFromPreference("quizdata"));
             JSONArray jjprocessor=jj.getJSONArray("processUser");
@@ -425,6 +481,8 @@ public class QuizActivity extends AppCompatActivity {
             mAdapter = new RecyclerQuizAdapter(this,quiz_array,0);
             list.setAdapter(mAdapter);
             no_of.setText("Question 1 of "+quiz_array.size());
+            prevbtn.setEnabled(false);
+            prevbtn.setAlpha(.5f);
             createDynamicView();
 
 
@@ -467,20 +525,21 @@ public class QuizActivity extends AppCompatActivity {
                 txt.setId(1000 + i);
                 txt.setTextColor(Color.parseColor("#000000"));
                 txt.setGravity(Gravity.CENTER);
-                ll.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Log.v("increment_value_print",increment_value+" id 1");
-
-                        no_of.setText("Question 1 of "+quiz_array.size());
-                        txt_ques.setText(quiz_array.get(0).getQuestion());
-                        mAdapter = new RecyclerQuizAdapter(QuizActivity.this, quiz_array, 0);
-                        list.setAdapter(mAdapter);
-                        mAdapter.notifyDataSetChanged();
-
-
-                    }
-                });
+//                ll.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        Log.v("increment_value_print",increment_value+" id 1");
+//
+//                        no_of.setText("Question 1 of "+quiz_array.size());
+//                        txt_ques.setText(quiz_array.get(0).getQuestion());
+//                       // increment_value = 1;
+//                        mAdapter = new RecyclerQuizAdapter(QuizActivity.this, quiz_array, 0);
+//                        list.setAdapter(mAdapter);
+//                        mAdapter.notifyDataSetChanged();
+//
+//
+//                    }
+//                });
                 ll.addView(txt, layoutParams);
                 scroll_lay.addView(ll);
 
@@ -508,22 +567,22 @@ public class QuizActivity extends AppCompatActivity {
                 txt.setId(1000 + i);
                 txt.setTextColor(Color.parseColor("#000000"));
                 txt.setGravity(Gravity.CENTER);
-                ll.setOnClickListener(new View.OnClickListener() {
-                    @SuppressLint("ResourceType")
-                    @Override
-                    public void onClick(View view) {
-                        Log.v("relativeLayout_id",ll.getId()+"");
-                        if(quiz_array.get(ll.getId()-2).isClick()){
-                            Log.v("increment_value_print",increment_value+" id "+ll.getId());
-                            increment_value=ll.getId()-1;
-                            no_of.setText("Question "+ll.getId()+" of "+quiz_array.size());
-                            txt_ques.setText(quiz_array.get(ll.getId()-1).getQuestion());
-                            mAdapter = new RecyclerQuizAdapter(QuizActivity.this, quiz_array, ll.getId()-1);
-                            list.setAdapter(mAdapter);
-                            mAdapter.notifyDataSetChanged();
-                        }
-                    }
-                });
+//                ll.setOnClickListener(new View.OnClickListener() {
+//                    @SuppressLint("ResourceType")
+//                    @Override
+//                    public void onClick(View view) {
+//                        Log.v("relativeLayout_id",ll.getId()+"");
+//                        if(quiz_array.get(ll.getId()-2).isClick()){
+//                            Log.v("increment_value_print",increment_value+" id "+ll.getId());
+//                            increment_value=ll.getId()-1;
+//                            no_of.setText("Question "+ll.getId()+" of "+quiz_array.size());
+//                            txt_ques.setText(quiz_array.get(ll.getId()-1).getQuestion());
+//                            mAdapter = new RecyclerQuizAdapter(QuizActivity.this, quiz_array, ll.getId()-1);
+//                            list.setAdapter(mAdapter);
+//                            mAdapter.notifyDataSetChanged();
+//                        }
+//                    }
+//                });
                 ll.addView(txt, layoutParams);
                 scroll_lay.addView(ll);
             }
@@ -552,7 +611,8 @@ public class QuizActivity extends AppCompatActivity {
                 runningTimer();
                 else {
                     ss="OOPS Time out,  Quiz submitted successfully";
-                    submitFinalValue();
+                    popupsubmit();
+                   // submitFinalValue();
                 }
             }
         }.start();
@@ -655,6 +715,32 @@ public class QuizActivity extends AppCompatActivity {
             });
         } catch (Exception e) {
         }
+    }
+    public void popupsubmit() {
+        final Dialog dialog = new Dialog(QuizActivity.this, R.style.AlertDialogCustom);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.quiz_timeup);
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+        Button btn_submit = dialog.findViewById(R.id.btn_start);
+        ImageView close=dialog.findViewById(R.id.close_qz);
+        btn_submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+              submitFinalValue();
+            }
+        });
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                Intent ii = new Intent(QuizActivity.this, HomeDashBoard.class);
+                startActivity(ii);
+            }
+        });
     }
 
 //    public void popupQuiz(String s) {

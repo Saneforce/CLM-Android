@@ -210,6 +210,148 @@ public class Shared_Common_Pref {
     public static final String spTP_hq = "SP_TP_HQ";
     public static final String tp_hq = "tour_hq";
     public static final String sub_id = "sub_id";
+
+    public static final String sp_primary_sales_report = "primary_sales_report";
+    public static final String sp_primary_sales_report_data = "primary_sales_report_data";
+    public static final String sp_primary_sales_report_data_avail = "primary_sales_report_data_avail";
+    public static final String sp_primary_sales_report_fetch_date = "primary_sales_report_fetch_date";
+
+    public static final String sp_primary_sales_report_mtd = "primary_sales_report_mtd";
+    public static final String sp_primary_sales_report_mtd_data = "primary_sales_report_mtd_data";
+    public static final String sp_primary_sales_report_mtd_data_avail = "primary_sales_report_mtd_data_avail";
+    public static final String sp_primary_sales_report_mtd_fetch_date1 = "primary_sales_report_mtd_fetch_date1";
+    public static final String sp_primary_sales_report_mtd_fetch_date2 = "primary_sales_report_mtd_fetch_date2";
+
+    public static final String sp_primary_sales_report_qtd = "primary_sales_report_qtd";
+    public static final String sp_primary_sales_report_qtd_data = "primary_sales_report_qtd_data";
+    public static final String sp_primary_sales_report_qtd_data_avail = "primary_sales_report_qtd_data_avail";
+    public static final String sp_primary_sales_report_qtd_fetch_date1 = "primary_sales_report_qtd_fetch_date1";
+    public static final String sp_primary_sales_report_qtd_fetch_date2 = "primary_sales_report_qtd_fetch_date2";
+
+    public static final String sp_primary_sales_report_ytd = "primary_sales_report_ytd";
+    public static final String sp_primary_sales_report_ytd_data = "primary_sales_report_ytd_data";
+    public static final String sp_primary_sales_report_ytd_data_avail = "primary_sales_report_ytd_data_avail";
+    public static final String sp_primary_sales_report_ytd_fetch_date1 = "primary_sales_report_ytd_fetch_date1";
+    public static final String sp_primary_sales_report_ytd_fetch_date2 = "primary_sales_report_ytd_fetch_date2";
+
+    public static final String sp_primary_sales_report_date_for_mtd = "sp_primary_sales_report_date_for_mtd";
+    public static final String sp_primary_sales_report_date_mtd = "sp_primary_sales_report_date_mtd";
+
+    public static final String sp_primary_sales_report_date_for_qtd = "sp_primary_sales_report_date_for_qtd";
+    public static final String sp_primary_sales_report_date_qtd = "sp_primary_sales_report_date_qtd";
+    public static final String sp_primary_sales_report_json_data_qtd = "primary_sales_report_json_data_qtd";
+    public static final String sp_primary_sales_report_fetch_date1_qtd = "primary_sales_report_fetch_date1_qtd";
+    public static final String sp_primary_sales_report_fetch_date2_qtd = "primary_sales_report_fetch_date2_qtd";
+
+    public static final String sp_primary_sales_report_date_for_ytd = "sp_primary_sales_report_date_for_ytd";
+    public static final String sp_primary_sales_report_date_ytd = "sp_primary_sales_report_date_ytd";
+
+    public static final String sp_primary_sales_hq_wise_report_mtd = "primary_sales_hq_wise_report_mtd";
+    public static final String sp_primary_sales_hq_wise_report_data_mtd = "primary_sales_hq_wise_report_data_mtd";
+    public static final String sp_primary_sales_hq_wise_report_data_avail_mtd = "primary_sales_hq_wise_report_data_avail_mtd";
+
+    public static final String sp_primary_sales_hq_wise_report_qtd = "primary_sales_hq_wise_report_qtd";
+    public static final String sp_primary_sales_hq_wise_report_data_qtd = "primary_sales_hq_wise_report_data_qtd";
+    public static final String sp_primary_sales_hq_wise_report_data_avail_qtd = "primary_sales_hq_wise_report_data_avail_qtd";
+
+    public static final String sp_primary_sales_hq_wise_report_ytd = "primary_sales_hq_wise_report_ytd";
+    public static final String sp_primary_sales_hq_wise_report_data_ytd = "primary_sales_hq_wise_report_data_ytd";
+    public static final String sp_primary_sales_hq_wise_report_data_avail_ytd = "primary_sales_hq_wise_report_data_avail_ytd";
+
+    public static final String sp_primary_sales_report_dtd = "primary_sales_report_dtd";
+    public static final String sp_primary_sales_report_date_dtd = "primary_sales_report_date_dtd";
+    public static final String sp_primary_sales_report_from_month_dtd = "primary_sales_report_from_month_dtd";
+    public static final String sp_primary_sales_report_from_year_dtd = "primary_sales_report_from_year_dtd";
+    public static final String sp_primary_sales_report_to_month_dtd = "primary_sales_report_to_month_dtd";
+    public static final String sp_primary_sales_report_to_year_dtd = "primary_sales_report_to_year_dtd";
+
+    public static final String sp_primary_sales_hq_wise_report_dtd = "primary_sales_hq_wise_report_dtd";
+    public static final String sp_primary_sales_hq_wise_report_data_dtd = "primary_sales_hq_wise_report_data_dtd";
+    public static final String sp_primary_sales_hq_wise_report_data_avail_dtd = "primary_sales_hq_wise_report_data_avail_dtd";
+
+    public static final String sp_primary_sales_brand_wise_report_mtd = "primary_sales_brand_wise_report_mtd";
+    public static final String sp_primary_sales_brand_wise_report_data_mtd = "primary_sales_brand_wise_report_data_mtd";
+    public static final String sp_primary_sales_brand_wise_report_data_avail_mtd = "primary_sales_brand_wise_report_data_avail_mtd";
+
+    public static final String sp_primary_sales_brand_wise_report_qtd = "primary_sales_brand_wise_report_qtd";
+    public static final String sp_primary_sales_brand_wise_report_data_qtd = "primary_sales_brand_wise_report_data_qtd";
+    public static final String sp_primary_sales_brand_wise_report_data_avail_qtd = "primary_sales_brand_wise_report_data_avail_qtd";
+
+    public static final String sp_primary_sales_brand_wise_report_ytd = "primary_sales_brand_wise_report_ytd";
+    public static final String sp_primary_sales_brand_wise_report_data_ytd = "primary_sales_brand_wise_report_data_ytd";
+    public static final String sp_primary_sales_brand_wise_report_data_avail_ytd = "primary_sales_brand_wise_report_data_avail_ytd";
+
+    public static final String sp_primary_sales_brand_wise_report_dtd = "primary_sales_brand_wise_report_dtd";
+    public static final String sp_primary_sales_brand_wise_report_data_dtd = "primary_sales_brand_wise_report_data_dtd";
+    public static final String sp_primary_sales_brand_wise_report_data_avail_dtd = "primary_sales_brand_wise_report_data_avail_dtd";
+
+    public static final String sp_primary_sales_report_json_data_mtd = "primary_sales_report_json_data_mtd";
+    public static final String sp_primary_sales_report_fetch_date1_mtd = "primary_sales_report_fetch_date1_mtd";
+    public static final String sp_primary_sales_report_fetch_date2_mtd = "primary_sales_report_fetch_date2_mtd";
+    public static final String sp_primary_sales_report_from_month_mtd = "primary_sales_report_from_month_mtd";
+    public static final String sp_primary_sales_report_from_year_mtd = "primary_sales_report_from_year_mtd";
+    public static final String sp_primary_sales_report_to_month_mtd = "primary_sales_report_to_month_mtd";
+    public static final String sp_primary_sales_report_to_year_mtd = "primary_sales_report_to_year_mtd";
+    public static final String sp_primary_sales_report_data_avail_mtd = "primary_sales_report_data_avail_mtd";
+
+    public static final String sp_primary_sales_report_from_month_qtd = "primary_sales_report_from_month_qtd";
+    public static final String sp_primary_sales_report_from_year_qtd = "primary_sales_report_from_year_qtd";
+    public static final String sp_primary_sales_report_to_month_qtd = "primary_sales_report_to_month_qtd";
+    public static final String sp_primary_sales_report_to_year_qtd = "primary_sales_report_to_year_qtd";
+    public static final String sp_primary_sales_report_data_avail_qtd = "primary_sales_report_data_avail_qtd";
+
+    public static final String sp_primary_sales_report_json_data_ytd = "primary_sales_report_json_data_ytd";
+    public static final String sp_primary_sales_report_fetch_date1_ytd = "primary_sales_report_fetch_date1_ytd";
+    public static final String sp_primary_sales_report_fetch_date2_ytd = "primary_sales_report_fetch_date2_ytd";
+    public static final String sp_primary_sales_report_from_month_ytd = "primary_sales_report_from_month_ytd";
+    public static final String sp_primary_sales_report_from_year_ytd = "primary_sales_report_from_year_ytd";
+    public static final String sp_primary_sales_report_to_month_ytd = "primary_sales_report_to_month_ytd";
+    public static final String sp_primary_sales_report_to_year_ytd = "primary_sales_report_to_year_ytd";
+    public static final String sp_primary_sales_report_data_avail_ytd = "primary_sales_report_data_avail_ytd";
+
+    public static final String sp_mcl_coverage = "mcl_coverage";
+    public static final String sp_mcl_coverage_data = "mcl_coverage_data";
+    public static final String sp_tp_mand = "SP_tp_mand";
+    public static final String sp_tpmand = "tpmand";
+
+    public static final String sp_primary_sales_Field_wise_report_mtd = "primary_sales_Field_wise_report_mtd";
+    public static final String sp_primary_sales_Field_wise_report_data_mtd = "primary_sales_Field_wise_report_data_mtd";
+    public static final String sp_primary_sales_Field_wise_report_data_avail_mtd = "primary_sales_Field_wise_report_data_avail_mtd";
+
+    public static final String sp_primary_sales_Field_wise_report_qtd = "primary_sales_Field_wise_report_qtd";
+    public static final String sp_primary_sales_Field_wise_report_data_qtd = "primary_sales_Field_wise_report_data_qtd";
+    public static final String sp_primary_sales_Field_wise_report_data_avail_qtd = "primary_sales_Field_wise_report_data_avail_qtd";
+
+    public static final String sp_primary_sales_Field_wise_report_ytd = "primary_sales_Field_wise_report_ytd";
+    public static final String sp_primary_sales_Field_wise_report_data_ytd = "primary_sales_Field_wise_report_data_ytd";
+    public static final String sp_primary_sales_Field_wise_report_data_avail_ytd = "primary_sales_Field_wise_report_data_avail_ytd";
+
+    public static final String sp_primary_sales_Field_wise_report_dtd = "primary_sales_Field_wise_report_dtd";
+    public static final String sp_primary_sales_Field_wise_report_data_dtd = "primary_sales_Field_wise_report_data_dtd";
+    public static final String sp_primary_sales_Field_wise_report_data_avail_dtd = "primary_sales_Field_wise_report_data_avail_dtd";
+
+    public static final String sp_primary_MCL_method = "primary_MCL_method";
+    public static final String sp_primary_MCL_data = "primary_MCL_data";
+
+    public static final String sp_doc_nxt_vst = "doc_nxt_vst";
+    public static final String sp_doc_nxt_vst_json = "doc_nxt_vst_json";
+    public static final String sp_doc_nxt_vst_last_sync = "doc_nxt_vst_last_sync";
+
+    public static final String sp_doc_rcpa_missed_data = "doc_rcpa_missed_data";
+    public static final String sp_doc_rcpa_miss_details = "doc_rcpa_miss_details";
+
+    public static final String sp_config_website = "config_website";
+    public static final String sp_config_weburl = "config_weburl";
+
+    public static final String sp_MVD_Report_MTDdata = "MVD_Report_MTDdata";
+    public static final String sp_MVD_Report_MTD = "MVD_Report_MTD";
+    public static final String sp_MVD_Report_QTDdata = "MVD_Report_QTDdata";
+    public static final String sp_MVD_Report_QTD = "MVD_Report_QTD";
+    public static final String sp_MVD_Report_YTDdata = "MVD_Report_YTDdata";
+    public static final String sp_MVD_Report_YTD = "MVD_Report_YTD";
+    public static final String sp_MVD_Report_DTDdata = "MVD_Report_DTDdata";
+    public static final String sp_MVD_Report_DTD = "MVD_Report_DTD";
+
     //Login
     public static void putParentLoginInfoToSP(Activity activity, String mobileNumber, String password, String username, boolean rememberMe) {
         SharedPreferences sp = activity.getSharedPreferences(spName, Context.MODE_PRIVATE);
@@ -1318,4 +1460,557 @@ public class Shared_Common_Pref {
         String subid = activity.getSharedPreferences(spTP_hq, Context.MODE_PRIVATE).getString(sub_id, "");
         return subid;
     }
+
+
+
+    public static void putPrimarySalesReportDate_DTD(Activity activity, String ReportDate, String FromMonth, String FromYear, String ToMonth, String ToYear) {
+        SharedPreferences sp = activity.getSharedPreferences(sp_primary_sales_report_dtd, Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putString(sp_primary_sales_report_date_dtd, ReportDate);
+        ed.putString(sp_primary_sales_report_from_month_dtd, FromMonth);
+        ed.putString(sp_primary_sales_report_from_year_dtd, FromYear);
+        ed.putString(sp_primary_sales_report_to_month_dtd, ToMonth);
+        ed.putString(sp_primary_sales_report_to_year_dtd, ToYear);
+        ed.commit();
+    }
+
+    public static String getPrimarySalesReportDate_DTD(Activity activity) {
+        String ReportDate = activity.getSharedPreferences(sp_primary_sales_report_dtd, Context.MODE_PRIVATE).getString(sp_primary_sales_report_date_dtd, "");
+        return ReportDate;
+    }
+
+    public static String getPrimarySalesReportFromMonth_DTD(Activity activity) {
+        String FromMonth = activity.getSharedPreferences(sp_primary_sales_report_dtd, Context.MODE_PRIVATE).getString(sp_primary_sales_report_from_month_dtd, "");
+        return FromMonth;
+    }
+
+    public static String getPrimarySalesReportFromYear_DTD(Activity activity) {
+        String FromYear = activity.getSharedPreferences(sp_primary_sales_report_dtd, Context.MODE_PRIVATE).getString(sp_primary_sales_report_from_year_dtd, "");
+        return FromYear;
+    }
+
+    public static String getPrimarySalesReportToMonth_DTD(Activity activity) {
+        String ToMonth = activity.getSharedPreferences(sp_primary_sales_report_dtd, Context.MODE_PRIVATE).getString(sp_primary_sales_report_to_month_dtd, "");
+        return ToMonth;
+    }
+
+    public static String getPrimarySalesReportToYear_DTD(Activity activity) {
+        String ToYear = activity.getSharedPreferences(sp_primary_sales_report_dtd, Context.MODE_PRIVATE).getString(sp_primary_sales_report_to_year_dtd, "");
+        return ToYear;
+    }
+
+    public static void putPrimarySalesReportDetails_MTD(Activity activity, String ReportJsonData, String ReportDate, String CurrentDateFormat1, String CurrentDateFormat2,
+                                                        String FromMonth, String FromYear, String ToMonth, String ToYear, Boolean DataAvail) {
+        SharedPreferences sp = activity.getSharedPreferences(sp_primary_sales_report_mtd, Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putString(sp_primary_sales_report_json_data_mtd, ReportJsonData);
+        ed.putString(sp_primary_sales_report_date_mtd, ReportDate);
+        ed.putString(sp_primary_sales_report_fetch_date1_mtd, CurrentDateFormat1);
+        ed.putString(sp_primary_sales_report_fetch_date2_mtd, CurrentDateFormat2);
+        ed.putString(sp_primary_sales_report_from_month_mtd, FromMonth);
+        ed.putString(sp_primary_sales_report_from_year_mtd, FromYear);
+        ed.putString(sp_primary_sales_report_to_month_mtd, ToMonth);
+        ed.putString(sp_primary_sales_report_to_year_mtd, ToYear);
+        ed.putBoolean(sp_primary_sales_report_data_avail_mtd, DataAvail);
+        ed.commit();
+    }
+
+    public static String getPrimarySalesReportJsonData_MTD(Activity activity) {
+        String SSData = activity.getSharedPreferences(sp_primary_sales_report_mtd, Context.MODE_PRIVATE).getString(sp_primary_sales_report_json_data_mtd, "");
+        return SSData;
+    }
+
+    public static String getPrimarySalesReportDate_MTD(Activity activity) {
+        String ReportDate = activity.getSharedPreferences(sp_primary_sales_report_mtd, Context.MODE_PRIVATE).getString(sp_primary_sales_report_date_mtd, "");
+        return ReportDate;
+    }
+
+    public static String getPrimarySalesReportFetchDate1_MTD(Activity activity) {
+        String mDate = activity.getSharedPreferences(sp_primary_sales_report_mtd, Context.MODE_PRIVATE).getString(sp_primary_sales_report_fetch_date1_mtd, "");
+        return mDate;
+    }
+
+    public static String getPrimarySalesReportFetchDate2_MTD(Activity activity) {
+        String mDate = activity.getSharedPreferences(sp_primary_sales_report_mtd, Context.MODE_PRIVATE).getString(sp_primary_sales_report_fetch_date2_mtd, "");
+        return mDate;
+    }
+
+    public static String getPrimarySalesReportFromMonth_MTD(Activity activity) {
+        String FromMonth = activity.getSharedPreferences(sp_primary_sales_report_mtd, Context.MODE_PRIVATE).getString(sp_primary_sales_report_from_month_mtd, "");
+        return FromMonth;
+    }
+
+    public static String getPrimarySalesReportFromYear_MTD(Activity activity) {
+        String FromYear = activity.getSharedPreferences(sp_primary_sales_report_mtd, Context.MODE_PRIVATE).getString(sp_primary_sales_report_from_year_mtd, "");
+        return FromYear;
+    }
+
+    public static String getPrimarySalesReportToMonth_MTD(Activity activity) {
+        String ToMonth = activity.getSharedPreferences(sp_primary_sales_report_mtd, Context.MODE_PRIVATE).getString(sp_primary_sales_report_to_month_mtd, "");
+        return ToMonth;
+    }
+
+    public static String getPrimarySalesReportToYear_MTD(Activity activity) {
+        String ToYear = activity.getSharedPreferences(sp_primary_sales_report_mtd, Context.MODE_PRIVATE).getString(sp_primary_sales_report_to_year_mtd, "");
+        return ToYear;
+    }
+
+    public static boolean getPrimarySalesReportJsonDataAvailable_MTD(Activity activity) {
+        boolean SSDataAvail = activity.getSharedPreferences(sp_primary_sales_report_mtd, Context.MODE_PRIVATE).getBoolean(sp_primary_sales_report_data_avail_mtd, false);
+        return SSDataAvail;
+    }
+
+    public static void putPrimarySalesReportDetails_QTD(Activity activity, String ReportJsonData, String ReportDate, String CurrentDateFormat1, String CurrentDateFormat2,
+                                                        String FromMonth, String FromYear, String ToMonth, String ToYear, Boolean DataAvail) {
+        SharedPreferences sp = activity.getSharedPreferences(sp_primary_sales_report_qtd, Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putString(sp_primary_sales_report_json_data_qtd, ReportJsonData);
+        ed.putString(sp_primary_sales_report_date_qtd, ReportDate);
+        ed.putString(sp_primary_sales_report_fetch_date1_qtd, CurrentDateFormat1);
+        ed.putString(sp_primary_sales_report_fetch_date2_qtd, CurrentDateFormat2);
+        ed.putString(sp_primary_sales_report_from_month_qtd, FromMonth);
+        ed.putString(sp_primary_sales_report_from_year_qtd, FromYear);
+        ed.putString(sp_primary_sales_report_to_month_qtd, ToMonth);
+        ed.putString(sp_primary_sales_report_to_year_qtd, ToYear);
+        ed.putBoolean(sp_primary_sales_report_data_avail_qtd, DataAvail);
+        ed.commit();
+    }
+
+    public static String getPrimarySalesReportJsonData_QTD(Activity activity) {
+        String SSData = activity.getSharedPreferences(sp_primary_sales_report_qtd, Context.MODE_PRIVATE).getString(sp_primary_sales_report_json_data_qtd, "");
+        return SSData;
+    }
+
+    public static String getPrimarySalesReportDate_QTD(Activity activity) {
+        String ReportDate = activity.getSharedPreferences(sp_primary_sales_report_qtd, Context.MODE_PRIVATE).getString(sp_primary_sales_report_date_qtd, "");
+        return ReportDate;
+    }
+
+    public static String getPrimarySalesReportFetchDate1_QTD(Activity activity) {
+        String mDate = activity.getSharedPreferences(sp_primary_sales_report_qtd, Context.MODE_PRIVATE).getString(sp_primary_sales_report_fetch_date1_qtd, "");
+        return mDate;
+    }
+
+    public static String getPrimarySalesReportFetchDate2_QTD(Activity activity) {
+        String mDate = activity.getSharedPreferences(sp_primary_sales_report_qtd, Context.MODE_PRIVATE).getString(sp_primary_sales_report_fetch_date2_qtd, "");
+        return mDate;
+    }
+
+    public static String getPrimarySalesReportFromMonth_QTD(Activity activity) {
+        String FromMonth = activity.getSharedPreferences(sp_primary_sales_report_qtd, Context.MODE_PRIVATE).getString(sp_primary_sales_report_from_month_qtd, "");
+        return FromMonth;
+    }
+
+    public static String getPrimarySalesReportFromYear_QTD(Activity activity) {
+        String FromYear = activity.getSharedPreferences(sp_primary_sales_report_qtd, Context.MODE_PRIVATE).getString(sp_primary_sales_report_from_year_qtd, "");
+        return FromYear;
+    }
+
+    public static String getPrimarySalesReportToMonth_QTD(Activity activity) {
+        String ToMonth = activity.getSharedPreferences(sp_primary_sales_report_qtd, Context.MODE_PRIVATE).getString(sp_primary_sales_report_to_month_qtd, "");
+        return ToMonth;
+    }
+
+    public static String getPrimarySalesReportToYear_QTD(Activity activity) {
+        String ToYear = activity.getSharedPreferences(sp_primary_sales_report_qtd, Context.MODE_PRIVATE).getString(sp_primary_sales_report_to_year_qtd, "");
+        return ToYear;
+    }
+
+    public static boolean getPrimarySalesReportJsonDataAvailable_QTD(Activity activity) {
+        boolean SSDataAvail = activity.getSharedPreferences(sp_primary_sales_report_qtd, Context.MODE_PRIVATE).getBoolean(sp_primary_sales_report_data_avail_qtd, false);
+        return SSDataAvail;
+    }
+
+    public static void putPrimarySalesReportDetails_YTD(Activity activity, String ReportJsonData, String ReportDate, String CurrentDateFormat1, String CurrentDateFormat2,
+                                                        String FromMonth, String FromYear, String ToMonth, String ToYear, Boolean DataAvail) {
+        SharedPreferences sp = activity.getSharedPreferences(sp_primary_sales_report_ytd, Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putString(sp_primary_sales_report_json_data_ytd, ReportJsonData);
+        ed.putString(sp_primary_sales_report_date_ytd, ReportDate);
+        ed.putString(sp_primary_sales_report_fetch_date1_ytd, CurrentDateFormat1);
+        ed.putString(sp_primary_sales_report_fetch_date2_ytd, CurrentDateFormat2);
+        ed.putString(sp_primary_sales_report_from_month_ytd, FromMonth);
+        ed.putString(sp_primary_sales_report_from_year_ytd, FromYear);
+        ed.putString(sp_primary_sales_report_to_month_ytd, ToMonth);
+        ed.putString(sp_primary_sales_report_to_year_ytd, ToYear);
+        ed.putBoolean(sp_primary_sales_report_data_avail_ytd, DataAvail);
+        ed.commit();
+    }
+
+    public static String getPrimarySalesReportJsonData_YTD(Activity activity) {
+        String SSData = activity.getSharedPreferences(sp_primary_sales_report_ytd, Context.MODE_PRIVATE).getString(sp_primary_sales_report_json_data_ytd, "");
+        return SSData;
+    }
+
+    public static String getPrimarySalesReportDate_YTD(Activity activity) {
+        String ReportDate = activity.getSharedPreferences(sp_primary_sales_report_ytd, Context.MODE_PRIVATE).getString(sp_primary_sales_report_date_ytd, "");
+        return ReportDate;
+    }
+
+    public static String getPrimarySalesReportFetchDate1_YTD(Activity activity) {
+        String mDate = activity.getSharedPreferences(sp_primary_sales_report_ytd, Context.MODE_PRIVATE).getString(sp_primary_sales_report_fetch_date1_ytd, "");
+        return mDate;
+    }
+
+    public static String getPrimarySalesReportFetchDate2_YTD(Activity activity) {
+        String mDate = activity.getSharedPreferences(sp_primary_sales_report_ytd, Context.MODE_PRIVATE).getString(sp_primary_sales_report_fetch_date2_ytd, "");
+        return mDate;
+    }
+
+    public static String getPrimarySalesReportFromMonth_YTD(Activity activity) {
+        String FromMonth = activity.getSharedPreferences(sp_primary_sales_report_ytd, Context.MODE_PRIVATE).getString(sp_primary_sales_report_from_month_ytd, "");
+        return FromMonth;
+    }
+
+    public static String getPrimarySalesReportFromYear_YTD(Activity activity) {
+        String FromYear = activity.getSharedPreferences(sp_primary_sales_report_ytd, Context.MODE_PRIVATE).getString(sp_primary_sales_report_from_year_ytd, "");
+        return FromYear;
+    }
+
+    public static String getPrimarySalesReportToMonth_YTD(Activity activity) {
+        String ToMonth = activity.getSharedPreferences(sp_primary_sales_report_ytd, Context.MODE_PRIVATE).getString(sp_primary_sales_report_to_month_ytd, "");
+        return ToMonth;
+    }
+
+    public static String getPrimarySalesReportToYear_YTD(Activity activity) {
+        String ToYear = activity.getSharedPreferences(sp_primary_sales_report_ytd, Context.MODE_PRIVATE).getString(sp_primary_sales_report_to_year_ytd, "");
+        return ToYear;
+    }
+
+    public static boolean getPrimarySalesReportJsonDataAvailable_YTD(Activity activity) {
+        boolean SSDataAvail = activity.getSharedPreferences(sp_primary_sales_report_ytd, Context.MODE_PRIVATE).getBoolean(sp_primary_sales_report_data_avail_ytd, false);
+        return SSDataAvail;
+    }
+
+    public static void putPrimarySalesHQWiseReport_MTD(Activity activity, String RecordSet, boolean IsDataAvail) {
+        SharedPreferences sp = activity.getSharedPreferences(sp_primary_sales_hq_wise_report_mtd, Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putString(sp_primary_sales_hq_wise_report_data_mtd, RecordSet);
+        ed.putBoolean(sp_primary_sales_hq_wise_report_data_avail_mtd, IsDataAvail);
+        ed.commit();
+    }
+
+    public static String getPrimarySalesHQWiseReportData_MTD(Activity activity) {
+        String Json_Data = activity.getSharedPreferences(sp_primary_sales_hq_wise_report_mtd, Context.MODE_PRIVATE).getString(sp_primary_sales_hq_wise_report_data_mtd, "");
+        return Json_Data;
+    }
+
+    public static boolean getPrimarySalesHQWiseReportDataAvail_MTD(Activity activity) {
+        boolean IsDataAvail = activity.getSharedPreferences(sp_primary_sales_hq_wise_report_mtd, Context.MODE_PRIVATE).getBoolean(sp_primary_sales_hq_wise_report_data_avail_mtd, false);
+        return IsDataAvail;
+    }
+
+    public static void putPrimarySalesHQWiseReport_QTD(Activity activity, String RecordSet, boolean IsDataAvail) {
+        SharedPreferences sp = activity.getSharedPreferences(sp_primary_sales_hq_wise_report_qtd, Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putString(sp_primary_sales_hq_wise_report_data_qtd, RecordSet);
+        ed.putBoolean(sp_primary_sales_hq_wise_report_data_avail_qtd, IsDataAvail);
+        ed.commit();
+    }
+
+    public static String getPrimarySalesHQWiseReportData_QTD(Activity activity) {
+        String Json_Data = activity.getSharedPreferences(sp_primary_sales_hq_wise_report_qtd, Context.MODE_PRIVATE).getString(sp_primary_sales_hq_wise_report_data_qtd, "");
+        return Json_Data;
+    }
+
+    public static boolean getPrimarySalesHQWiseReportDataAvail_QTD(Activity activity) {
+        boolean IsDataAvail = activity.getSharedPreferences(sp_primary_sales_hq_wise_report_qtd, Context.MODE_PRIVATE).getBoolean(sp_primary_sales_hq_wise_report_data_avail_qtd, false);
+        return IsDataAvail;
+    }
+
+    public static void putPrimarySalesHQWiseReport_YTD(Activity activity, String RecordSet, boolean IsDataAvail) {
+        SharedPreferences sp = activity.getSharedPreferences(sp_primary_sales_hq_wise_report_ytd, Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putString(sp_primary_sales_hq_wise_report_data_ytd, RecordSet);
+        ed.putBoolean(sp_primary_sales_hq_wise_report_data_avail_ytd, IsDataAvail);
+        ed.commit();
+    }
+
+    public static String getPrimarySalesHQWiseReportData_YTD(Activity activity) {
+        String Json_Data = activity.getSharedPreferences(sp_primary_sales_hq_wise_report_ytd, Context.MODE_PRIVATE).getString(sp_primary_sales_hq_wise_report_data_ytd, "");
+        return Json_Data;
+    }
+
+    public static boolean getPrimarySalesHQWiseReportDataAvail_YTD(Activity activity) {
+        boolean IsDataAvail = activity.getSharedPreferences(sp_primary_sales_hq_wise_report_ytd, Context.MODE_PRIVATE).getBoolean(sp_primary_sales_hq_wise_report_data_avail_ytd, false);
+        return IsDataAvail;
+    }
+
+    public static void putPrimarySalesHQWiseReport_DTD(Activity activity, String RecordSet, boolean IsDataAvail) {
+        SharedPreferences sp = activity.getSharedPreferences(sp_primary_sales_hq_wise_report_dtd, Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putString(sp_primary_sales_hq_wise_report_data_dtd, RecordSet);
+        ed.putBoolean(sp_primary_sales_hq_wise_report_data_avail_dtd, IsDataAvail);
+        ed.commit();
+    }
+
+    public static String getPrimarySalesHQWiseReportData_DTD(Activity activity) {
+        String Json_Data = activity.getSharedPreferences(sp_primary_sales_hq_wise_report_dtd, Context.MODE_PRIVATE).getString(sp_primary_sales_hq_wise_report_data_dtd, "");
+        return Json_Data;
+    }
+
+    public static boolean getPrimarySalesHQWiseReportDataAvail_DTD(Activity activity) {
+        boolean IsDataAvail = activity.getSharedPreferences(sp_primary_sales_hq_wise_report_dtd, Context.MODE_PRIVATE).getBoolean(sp_primary_sales_hq_wise_report_data_avail_dtd, false);
+        return IsDataAvail;
+    }
+
+    public static void putPrimarySalesBrandWiseReport_MTD(Activity activity, String RecordSet, boolean IsDataAvail) {
+        SharedPreferences sp = activity.getSharedPreferences(sp_primary_sales_brand_wise_report_mtd, Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putString(sp_primary_sales_brand_wise_report_data_mtd, RecordSet);
+        ed.putBoolean(sp_primary_sales_brand_wise_report_data_avail_mtd, IsDataAvail);
+        ed.commit();
+    }
+
+    public static String getPrimarySalesBrandWiseReportData_MTD(Activity activity) {
+        String Json_Data = activity.getSharedPreferences(sp_primary_sales_brand_wise_report_mtd, Context.MODE_PRIVATE).getString(sp_primary_sales_brand_wise_report_data_mtd, "");
+        return Json_Data;
+    }
+
+    public static boolean getPrimarySalesBrandWiseReportDataAvail_MTD(Activity activity) {
+        boolean IsDataAvail = activity.getSharedPreferences(sp_primary_sales_brand_wise_report_mtd, Context.MODE_PRIVATE).getBoolean(sp_primary_sales_brand_wise_report_data_avail_mtd, false);
+        return IsDataAvail;
+    }
+
+    public static void putPrimarySalesBrandWiseReport_QTD(Activity activity, String RecordSet, boolean IsDataAvail) {
+        SharedPreferences sp = activity.getSharedPreferences(sp_primary_sales_brand_wise_report_qtd, Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putString(sp_primary_sales_brand_wise_report_data_qtd, RecordSet);
+        ed.putBoolean(sp_primary_sales_brand_wise_report_data_avail_qtd, IsDataAvail);
+        ed.commit();
+    }
+
+    public static String getPrimarySalesBrandWiseReportData_QTD(Activity activity) {
+        String Json_Data = activity.getSharedPreferences(sp_primary_sales_brand_wise_report_qtd, Context.MODE_PRIVATE).getString(sp_primary_sales_brand_wise_report_data_qtd, "");
+        return Json_Data;
+    }
+
+    public static boolean getPrimarySalesBrandWiseReportDataAvail_QTD(Activity activity) {
+        boolean IsDataAvail = activity.getSharedPreferences(sp_primary_sales_brand_wise_report_qtd, Context.MODE_PRIVATE).getBoolean(sp_primary_sales_brand_wise_report_data_avail_qtd, false);
+        return IsDataAvail;
+    }
+
+    public static void putPrimarySalesBrandWiseReport_YTD(Activity activity, String RecordSet, boolean IsDataAvail) {
+        SharedPreferences sp = activity.getSharedPreferences(sp_primary_sales_brand_wise_report_ytd, Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putString(sp_primary_sales_brand_wise_report_data_ytd, RecordSet);
+        ed.putBoolean(sp_primary_sales_brand_wise_report_data_avail_ytd, IsDataAvail);
+        ed.commit();
+    }
+
+    public static String getPrimarySalesBrandWiseReportData_YTD(Activity activity) {
+        String Json_Data = activity.getSharedPreferences(sp_primary_sales_brand_wise_report_ytd, Context.MODE_PRIVATE).getString(sp_primary_sales_brand_wise_report_data_ytd, "");
+        return Json_Data;
+    }
+
+    public static boolean getPrimarySalesBrandWiseReportDataAvail_YTD(Activity activity) {
+        boolean IsDataAvail = activity.getSharedPreferences(sp_primary_sales_brand_wise_report_ytd, Context.MODE_PRIVATE).getBoolean(sp_primary_sales_brand_wise_report_data_avail_ytd, false);
+        return IsDataAvail;
+    }
+
+    public static void putPrimarySalesBrandWiseReport_DTD(Activity activity, String RecordSet, boolean IsDataAvail) {
+        SharedPreferences sp = activity.getSharedPreferences(sp_primary_sales_brand_wise_report_dtd, Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putString(sp_primary_sales_brand_wise_report_data_dtd, RecordSet);
+        ed.putBoolean(sp_primary_sales_brand_wise_report_data_avail_dtd, IsDataAvail);
+        ed.commit();
+    }
+
+    public static String getPrimarySalesBrandWiseReportData_DTD(Activity activity) {
+        String Json_Data = activity.getSharedPreferences(sp_primary_sales_brand_wise_report_dtd, Context.MODE_PRIVATE).getString(sp_primary_sales_brand_wise_report_data_dtd, "");
+        return Json_Data;
+    }
+
+    public static boolean getPrimarySalesBrandWiseReportDataAvail_DTD(Activity activity) {
+        boolean IsDataAvail = activity.getSharedPreferences(sp_primary_sales_brand_wise_report_dtd, Context.MODE_PRIVATE).getBoolean(sp_primary_sales_brand_wise_report_data_avail_dtd, false);
+        return IsDataAvail;
+    }
+
+    public static void putMCLCoverageData(Activity activity, String RecordSet) {
+        SharedPreferences sp = activity.getSharedPreferences(sp_mcl_coverage, Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putString(sp_mcl_coverage_data, RecordSet);
+        ed.commit();
+    }
+
+    public static String getMCLCoverageData(Activity activity) {
+        String Json_Data = activity.getSharedPreferences(sp_mcl_coverage, Context.MODE_PRIVATE).getString(sp_mcl_coverage_data, "");
+        return Json_Data;
+    }
+
+    public static void putPrimarySalesFieldReport_MTD(Activity activity, String RecordSet, boolean IsDataAvail) {
+        SharedPreferences sp = activity.getSharedPreferences(sp_primary_sales_Field_wise_report_mtd, Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putString(sp_primary_sales_Field_wise_report_data_mtd, RecordSet);
+        ed.putBoolean(sp_primary_sales_Field_wise_report_data_avail_mtd, IsDataAvail);
+        ed.commit();
+    }
+
+    public static String getPrimarySalesFieldWiseReportData_MTD(Activity activity) {
+        String Json_Data = activity.getSharedPreferences(sp_primary_sales_Field_wise_report_mtd, Context.MODE_PRIVATE).getString(sp_primary_sales_Field_wise_report_data_mtd, "");
+        return Json_Data;
+    }
+
+    public static boolean getPrimarySalesFieldWiseReportDataAvail_MTD(Activity activity) {
+        boolean IsDataAvail = activity.getSharedPreferences(sp_primary_sales_Field_wise_report_mtd, Context.MODE_PRIVATE).getBoolean(sp_primary_sales_Field_wise_report_data_avail_mtd, false);
+        return IsDataAvail;
+    }
+
+    public static void putPrimarySalesFieldReport_QTD(Activity activity, String RecordSet, boolean IsDataAvail) {
+        SharedPreferences sp = activity.getSharedPreferences(sp_primary_sales_Field_wise_report_qtd, Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putString(sp_primary_sales_Field_wise_report_data_qtd, RecordSet);
+        ed.putBoolean(sp_primary_sales_Field_wise_report_data_avail_qtd, IsDataAvail);
+        ed.commit();
+    }
+
+    public static String getPrimarySalesFieldWiseReportData_QTD(Activity activity) {
+        String Json_Data = activity.getSharedPreferences(sp_primary_sales_Field_wise_report_qtd, Context.MODE_PRIVATE).getString(sp_primary_sales_Field_wise_report_data_qtd, "");
+        return Json_Data;
+    }
+
+    public static boolean getPrimarySalesFieldWiseReportDataAvail_QTD(Activity activity) {
+        boolean IsDataAvail = activity.getSharedPreferences(sp_primary_sales_Field_wise_report_qtd, Context.MODE_PRIVATE).getBoolean(sp_primary_sales_Field_wise_report_data_avail_qtd, false);
+        return IsDataAvail;
+    }
+
+    public static void putPrimarySalesFieldReport_YTD(Activity activity, String RecordSet, boolean IsDataAvail) {
+        SharedPreferences sp = activity.getSharedPreferences(sp_primary_sales_Field_wise_report_ytd, Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putString(sp_primary_sales_Field_wise_report_data_ytd, RecordSet);
+        ed.putBoolean(sp_primary_sales_Field_wise_report_data_avail_ytd, IsDataAvail);
+        ed.commit();
+    }
+
+    public static String getPrimarySalesFieldWiseReportData_YTD(Activity activity) {
+        String Json_Data = activity.getSharedPreferences(sp_primary_sales_Field_wise_report_ytd, Context.MODE_PRIVATE).getString(sp_primary_sales_Field_wise_report_data_ytd, "");
+        return Json_Data;
+    }
+
+    public static boolean getPrimarySalesFieldWiseReportDataAvail_YTD(Activity activity) {
+        boolean IsDataAvail = activity.getSharedPreferences(sp_primary_sales_Field_wise_report_ytd, Context.MODE_PRIVATE).getBoolean(sp_primary_sales_Field_wise_report_data_avail_ytd, false);
+        return IsDataAvail;
+    }
+
+    public static void putPrimarySalesFieldReport_DTD(Activity activity, String RecordSet, boolean IsDataAvail) {
+        SharedPreferences sp = activity.getSharedPreferences(sp_primary_sales_Field_wise_report_dtd, Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putString(sp_primary_sales_Field_wise_report_data_dtd, RecordSet);
+        ed.putBoolean(sp_primary_sales_Field_wise_report_data_avail_dtd, IsDataAvail);
+        ed.commit();
+    }
+
+    public static String getPrimarySalesFieldWiseReportData_DTD(Activity activity) {
+        String Json_Data = activity.getSharedPreferences(sp_primary_sales_Field_wise_report_dtd, Context.MODE_PRIVATE).getString(sp_primary_sales_Field_wise_report_data_dtd, "");
+        return Json_Data;
+    }
+
+    public static boolean getPrimarySalesFieldWiseReportDataAvail_DTD(Activity activity) {
+        boolean IsDataAvail = activity.getSharedPreferences(sp_primary_sales_Field_wise_report_dtd, Context.MODE_PRIVATE).getBoolean(sp_primary_sales_Field_wise_report_data_avail_dtd, false);
+        return IsDataAvail;
+    }
+
+    public static void putPsalesMCL_Data(Activity activity, String Mcl_data) {
+        SharedPreferences sp = activity.getSharedPreferences(sp_primary_MCL_method, Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putString(sp_primary_MCL_data, Mcl_data);
+        ed.commit();
+    }
+
+    public static String getPsales_MCL_Coverage(Activity activity) {
+        String MCL_Data = activity.getSharedPreferences(sp_primary_MCL_method, Context.MODE_PRIVATE).getString(sp_primary_MCL_data, "");
+        return MCL_Data;
+    }
+
+    public static void putDocNxtVstDetails(Activity activity, String JsonDate, String LastSync) {
+        SharedPreferences sp = activity.getSharedPreferences(sp_doc_nxt_vst, Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putString(sp_doc_nxt_vst_json, JsonDate);
+        ed.putString(sp_doc_nxt_vst_last_sync, LastSync);
+        ed.commit();
+    }
+
+    public static String getDocNxtVstJsonData(Activity activity) {
+        String Json_Data = activity.getSharedPreferences(sp_doc_nxt_vst, Context.MODE_PRIVATE).getString(sp_doc_nxt_vst_json, "");
+        return Json_Data;
+    }
+
+    public static String getDocNxtVstLastSync(Activity activity) {
+        String LastSync = activity.getSharedPreferences(sp_doc_nxt_vst, Context.MODE_PRIVATE).getString(sp_doc_nxt_vst_last_sync, "");
+        return LastSync;
+    }
+
+    public static void putDocrcpamiseddDetails(Activity activity, String JsonDate) {
+        SharedPreferences sp = activity.getSharedPreferences(sp_doc_rcpa_missed_data, Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putString(sp_doc_rcpa_miss_details, JsonDate);
+        ed.commit();
+    }
+
+    public static String getrcpamissed_JsonData(Activity activity) {
+        String Json_Data = activity.getSharedPreferences(sp_doc_rcpa_missed_data, Context.MODE_PRIVATE).getString(sp_doc_rcpa_miss_details, "");
+        return Json_Data;
+    }
+
+    public static void putconfigdetail_url(Activity activity, String JsonDate) {
+        SharedPreferences sp = activity.getSharedPreferences(sp_config_website, Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putString(sp_config_weburl, JsonDate);
+        ed.commit();
+    }
+
+    public static String getconfig_url(Activity activity) {
+        String weburl = activity.getSharedPreferences(sp_config_website, Context.MODE_PRIVATE).getString(sp_config_weburl, "");
+        return weburl;
+    }
+
+    public static void putMVDjsondata_MTD(Activity activity, String JsonDate) {
+        SharedPreferences sp = activity.getSharedPreferences(sp_MVD_Report_MTDdata, Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putString(sp_MVD_Report_MTD, JsonDate);
+        ed.commit();
+    }
+
+    public static String getMVDjsondata_MTD(Activity activity) {
+        String MVD_MTD = activity.getSharedPreferences(sp_MVD_Report_MTDdata, Context.MODE_PRIVATE).getString(sp_MVD_Report_MTD, "");
+        return MVD_MTD;
+    }
+
+    public static void putMVDjsondata_QTD(Activity activity, String JsonDate) {
+        SharedPreferences sp = activity.getSharedPreferences(sp_MVD_Report_QTDdata, Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putString(sp_MVD_Report_QTD, JsonDate);
+        ed.commit();
+    }
+
+    public static String getMVDjsondata_QTD(Activity activity) {
+        String MVD_QTD = activity.getSharedPreferences(sp_MVD_Report_QTDdata, Context.MODE_PRIVATE).getString(sp_MVD_Report_QTD, "");
+        return MVD_QTD;
+    }
+
+    public static void putMVDjsondata_YTD(Activity activity, String JsonDate) {
+        SharedPreferences sp = activity.getSharedPreferences(sp_MVD_Report_YTDdata, Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putString(sp_MVD_Report_YTD, JsonDate);
+        ed.commit();
+    }
+
+    public static String getMVDjsondata_YTD(Activity activity) {
+        String MVD_YTD = activity.getSharedPreferences(sp_MVD_Report_YTDdata, Context.MODE_PRIVATE).getString(sp_MVD_Report_YTD, "");
+        return MVD_YTD;
+    }
+
+    public static void putMVDjsondata_DTD(Activity activity, String JsonDate) {
+        SharedPreferences sp = activity.getSharedPreferences(sp_MVD_Report_DTDdata, Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putString(sp_MVD_Report_DTD, JsonDate);
+        ed.commit();
+    }
+
+    public static String getMVDjsondata_DTD(Activity activity) {
+        String MVD_MTD = activity.getSharedPreferences(sp_MVD_Report_DTDdata, Context.MODE_PRIVATE).getString(sp_MVD_Report_DTD, "");
+        return MVD_MTD;
+    }
+
+
 }

@@ -319,7 +319,7 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
       /*  if(TextUtils.isEmpty(subSfCode) || subSfCode.equalsIgnoreCase("null"))
         mCursor = dbh.select_doctors_bySf(SF_Code,mMydayWtypeCd);
         else*/
-            mCursor = dbh.select_doctors_bySf(subSfCode,mMydayWtypeCd);
+        mCursor = dbh.select_doctors_bySf(subSfCode,mMydayWtypeCd);
         Log.v("cursor_count", String.valueOf(mCursor.getCount()));
         while (mCursor.moveToNext()) {
            /* if(distance(laty,lngy,lt,ln)<limitKm){
@@ -351,8 +351,17 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
            }
            else {
                Log.v("Dr_detailing_Print12366",mCursor.getString(2));
-               _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(6), mCursor.getString(5),mCursor.getString(22),mCursor.getString(23),mCursor.getString(8));
-               drList.add(_custom_DCR_GV_Dr_Contents);
+               if (mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0")) {
+                   if (mCursor.getString(5).equalsIgnoreCase(mMydayWtypeCd)) {
+                       Log.v("Dr_towncode", mCursor.getString(5));
+                       _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(6), mCursor.getString(5), mCursor.getString(22), mCursor.getString(23), mCursor.getString(8));
+                       drList.add(_custom_DCR_GV_Dr_Contents);
+                   } else{
+               }
+               }else {
+                   _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(6), mCursor.getString(5), mCursor.getString(22), mCursor.getString(23), mCursor.getString(8));
+                   drList.add(_custom_DCR_GV_Dr_Contents);
+               }
            }
         }
 
@@ -501,6 +510,8 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
 
         // attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
+        if (mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0"))
+            spinner.setEnabled(false);
 
 
 
@@ -562,8 +573,21 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
                         }
 
                         else {
-                            _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2),mCursor.getString(1),mCursor.getString(10),mCursor.getString(9),mCursor.getString(6),mCursor.getString(5),mCursor.getString(22),mCursor.getString(23),mCursor.getString(8));
-                            drList.add(_custom_DCR_GV_Dr_Contents);
+                            if (mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0")) {
+                                if (mCursor.getString(5).equalsIgnoreCase(mMydayWtypeCd)) {
+                                    Log.v("Dr_towncode", mCursor.getString(5));
+                                    _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(6), mCursor.getString(5), mCursor.getString(22), mCursor.getString(23), mCursor.getString(8));
+                                    drList.add(_custom_DCR_GV_Dr_Contents);
+                                    Log.v("Dr_towncode", String.valueOf(drList.size()));
+
+                                } else {
+                                }
+
+                            } else{
+
+                                    _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(6), mCursor.getString(5), mCursor.getString(22), mCursor.getString(23), mCursor.getString(8));
+                                    drList.add(_custom_DCR_GV_Dr_Contents);
+                                }
                         }
                     }
 
@@ -608,9 +632,21 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
                                 }
                             }
                             else {
-                                _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(6), mCursor.getString(5), mCursor.getString(22), mCursor.getString(23),mCursor.getString(8));
-                                drList.add(_custom_DCR_GV_Dr_Contents);
-                            }
+                                if (mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0")) {
+                                    if (mCursor.getString(5).equalsIgnoreCase(mMydayWtypeCd)) {
+                                        Log.v("Dr_towncode", mCursor.getString(5));
+                                        _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(6), mCursor.getString(5), mCursor.getString(22), mCursor.getString(23), mCursor.getString(8));
+                                        drList.add(_custom_DCR_GV_Dr_Contents);
+                                        Log.v("Dr_towncode", String.valueOf(drList.size()));
+
+                                    } else {
+                                    }
+                                }
+                                    else{
+                                        _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2), mCursor.getString(1), mCursor.getString(10), mCursor.getString(9), mCursor.getString(6), mCursor.getString(5), mCursor.getString(22), mCursor.getString(23), mCursor.getString(8));
+                                        drList.add(_custom_DCR_GV_Dr_Contents);
+                                    }
+                                }
                         }
 
                         GridView gridView = (GridView) v.findViewById(R.id.gridview_dcrselect);

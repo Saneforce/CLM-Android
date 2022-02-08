@@ -94,6 +94,7 @@ import saneforce.sanclm.applicationCommonFiles.Autotimezone;
 import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
 import saneforce.sanclm.applicationCommonFiles.CommonUtils;
 import saneforce.sanclm.applicationCommonFiles.CommonUtilsMethods;
+import saneforce.sanclm.applicationCommonFiles.GPSTrack;
 import saneforce.sanclm.applicationCommonFiles.ImageFilePath;
 import saneforce.sanclm.applicationCommonFiles.LocationTrack;
 import saneforce.sanclm.fragments.LocaleHelper;
@@ -164,7 +165,7 @@ public class FeedbackActivity extends AppCompatActivity {
     String startT, endT;
     String finalPrdNam;
     JSONArray jsonFeed;
-    String subDate = "";
+    String subDate = "",lat="",lng="";
     LinearLayout ll_feed_prd2, ll_feed_prd;
     String val_pob;
     TextView txt_sign;
@@ -175,6 +176,7 @@ public class FeedbackActivity extends AppCompatActivity {
     String language;
     Context context;
     Resources resources;
+    GPSTrack mGPSTrack;
 
 
     SharedPreferences sharedPreferences;
@@ -1710,7 +1712,7 @@ public class FeedbackActivity extends AppCompatActivity {
                                     json_date.put("sTm", listFeedPrd.get(i).getDate() + " " + listFeedPrd.get(i).getSt_end_time().substring(0, (listFeedPrd.get(i).getSt_end_time().indexOf(" "))));
                                     json_date.put("eTm", listFeedPrd.get(i).getDate() + " " + listFeedPrd.get(i).getSt_end_time().substring((listFeedPrd.get(i).getSt_end_time().indexOf(" ")) + 1));
                                     json_joint.put("Timesline", json_date);
-                                    json_joint.put("Appver","V1.9.4");
+                                    json_joint.put("Appver","V1.9.7");
                                     json_joint.put("Mod", "Edet");
                                     json_joint.put("SmpQty", listFeedPrd.get(i).getSample());
                                     if (val_pob.contains(peopleType))
@@ -1813,8 +1815,17 @@ public class FeedbackActivity extends AppCompatActivity {
             SharedPreferences sharedpreferences = getSharedPreferences(getResources().getString(R.string.preference_name), Context.MODE_PRIVATE);
             String divCode = sharedpreferences.getString(CommonUtils.TAG_DIVISION, null);
             SharedPreferences shares = getSharedPreferences("location", 0);
-            String lat = shares.getString("lat", "");
-            String lng = shares.getString("lng", "");
+            lat = shares.getString("lat", "");
+            lng = shares.getString("lng", "");
+//            if(lat.equals("")&&lng.equals(""))
+//            {
+//                if(CheckPermission())
+//                {
+//                    lat= String.valueOf(mGPSTrack.getLatitude());
+//                    lng= String.valueOf(mGPSTrack.getLongitude());
+//                    Log.v("Dr_selection_key",lat+" lngy "+lng);
+//                }
+//            }
 
             if (peopleType.equalsIgnoreCase("C") || peopleType.equalsIgnoreCase("S") || peopleType.equalsIgnoreCase("I")) {
 
@@ -2532,8 +2543,7 @@ public class FeedbackActivity extends AppCompatActivity {
                 sign_laynew.setBackground(d);
             }catch (Exception e){
 
-            }
-        }
+            }        }
     }
 
     private class DownloadImage extends AsyncTask<String, Void, Bitmap> {
@@ -2712,12 +2722,39 @@ public class FeedbackActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         stopService(new Intent(this,Autotimezone.class));
+        trimCache(this);
         //mCommonSharedPreference.clearFeedShare();
 
 //        dbh.open();
 //        dbh.deleteFeed();
 //        dbh.close();
 
+    }
+
+    public static void trimCache(Context context) {
+        try {
+            File dir = context.getCacheDir();
+            deleteDir(dir);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+            return dir.delete();
+        }
+        else {
+            return false;
+        }
     }
 
     @Override
@@ -2759,5 +2796,14 @@ public class FeedbackActivity extends AppCompatActivity {
         }
     }
 
+    public boolean CurrentLoc(){
+
+        mGPSTrack=new GPSTrack(context);
+        //if(mGPSTrack.getLatitude()==0.0){
+        CheckPermission();
+        // CurrentLoc();
+        // }
+        return true;
+    }
 
 }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="320dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_white">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tour Plan"
+        android:layout_centerHorizontal="true"
+        android:textColor="#000000"
+        android:padding="12dp"
+        android:id="@+id/txt_alert"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#f53c3c"
+        android:layout_below="@+id/txt_alert"
+        android:padding="5dp"
+        android:id="@+id/view_id"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Do you want to enter Tour plan?"
+        android:layout_centerHorizontal="true"
+        android:textColor="#000000"
+        android:padding="22dp"
+        android:id="@+id/txt_msg"
+        android:layout_below="@+id/view_id"
+        />
+    <Button
+        android:layout_width="165dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/ok"
+        android:text="@string/ok"
+        android:layout_below="@+id/txt_msg"/>
+    <Button
+        android:layout_width="165dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/cancel"
+        android:text="Skip"
+        android:layout_toRightOf="@+id/ok"
+        android:layout_below="@+id/txt_msg"/>
+
+</RelativeLayout>

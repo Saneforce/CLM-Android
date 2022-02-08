@@ -517,6 +517,68 @@ public class DataBaseHandler {
         public static final String COLUMN_count3="count3";
         public static final String COLUMN_Tcount3="Tcount3";
 
+        public static final String HQBasedBrand_MTD_Data = "HQBasedBrand_MTD_Table";
+        public static final String HQBasedBrand_MTD_Key  = "HQBasedBrand_MTD_Key";
+        public static final String HQBasedBrand_MTD_Value = "HQBasedBrand_MTD_Value";
+
+        public static final String HQBasedBrand_QTD_Data = "HQBasedBrand_QTD_Table";
+        public static final String HQBasedBrand_QTD_Key  = "HQBasedBrand_QTD_Key";
+        public static final String HQBasedBrand_QTD_Value = "HQBasedBrand_QTD_Value";
+
+        public static final String HQBasedBrand_YTD_Data = "HQBasedBrand_YTD_Table";
+        public static final String HQBasedBrand_YTD_Key  = "HQBasedBrand_YTD_Key";
+        public static final String HQBasedBrand_YTD_Value = "HQBasedBrand_YTD_Value";
+
+        public static final String BrandBasedBrand_MTD_Data = "BrandBasedBrand_MTD_Table";
+        public static final String BrandBasedBrand_MTD_Key  = "BrandBasedBrand_MTD_Key";
+        public static final String BrandBasedBrand_MTD_Value = "BrandBasedBrand_MTD_Value";
+
+        public static final String BrandBasedBrand_QTD_Data = "BrandBasedBrand_QTD_Table";
+        public static final String BrandBasedBrand_QTD_Key  = "BrandBasedBrand_QTD_Key";
+        public static final String BrandBasedBrand_QTD_Value = "BrandBasedBrand_QTD_Value";
+
+        public static final String BrandBasedBrand_YTD_Data = "BrandBasedBrand_YTD_Table";
+        public static final String BrandBasedBrand_YTD_Key  = "BrandBasedBrand_YTD_Key";
+        public static final String BrandBasedBrand_YTD_Value = "BrandBasedBrand_YTD_Value";
+
+        public static final String FFBasedBrand_MTD_Data = "FFBasedBrand_MTD_Table";
+        public static final String FFBasedBrand_MTD_Key  = "FFBasedBrand_MTD_Key";
+        public static final String FFBasedBrand_MTD_Value = "FFBasedBrand_MTD_Value";
+
+        public static final String FFBasedBrand_QTD_Data = "FFBasedBrand_QTD_Table";
+        public static final String FFBasedBrand_QTD_Key  = "FFBasedBrand_QTD_Key";
+        public static final String FFBasedBrand_QTD_Value = "FFBasedBrand_QTD_Value";
+
+        public static final String FFBasedBrand_YTD_Data = "FFBasedBrand_YTD_Table";
+        public static final String FFBasedBrand_YTD_Key  = "FFBasedBrand_YTD_Key";
+        public static final String FFBasedBrand_YTD_Value = "FFBasedBrand_YTD_Value";
+
+        public static final String FFBasedProd_MTD_Data = "FFBasedProd_MTD_Table";
+        public static final String FFBasedProd_MTD_Key  = "FFBasedProd_MTD_Key";
+        public static final String FFBasedProd_MTD_Value = "FFBasedProd_MTD_Value";
+
+        public static final String FFBasedProd_QTD_Data = "FFBasedProd_QTD_Table";
+        public static final String FFBasedProd_QTD_Key  = "FFBasedProd_QTD_Key";
+        public static final String FFBasedProd_QTD_Value = "FFBasedProd_QTD_Value";
+
+        public static final String FFBasedProd_YTD_Data = "FFBasedProd_YTD_Table";
+        public static final String FFBasedProd_YTD_Key  = "FFBasedProd_YTD_Key";
+        public static final String FFBasedProd_YTD_Value = "FFBasedProd_YTD_Value";
+
+        public static final String HQBasedProd_MTD_Data = "HQBasedProd_MTD_Table";
+        public static final String HQBasedProd_MTD_Key  = "HQBasedProd_MTD_Key";
+        public static final String HQBasedProd_MTD_Value = "HQBasedProd_MTD_Value";
+
+        public static final String HQBasedProd_QTD_Data = "HQBasedProd_QTD_Table";
+        public static final String HQBasedProd_QTD_Key  = "HQBasedProd_QTD_Key";
+        public static final String HQBasedProd_QTD_Value = "HQBasedProd_QTD_Value";
+
+        public static final String HQBasedProd_YTD_Data = "HQBasedProd_YTD_Table";
+        public static final String HQBasedProd_YTD_Key  = "HQBasedProd_YTD_Key";
+        public static final String HQBasedProd_YTD_Value = "HQBasedProd_YTD_Value";
+
+
+
     }
 
         public Cursor select_urlconfiguration(){
@@ -1027,6 +1089,191 @@ public class DataBaseHandler {
     }
 
 
+    public long insertBrandBasedBrand_MTD(String sf_code, String toString) {
+        ContentValues values=new ContentValues();
+        values.put(TableEntry.BrandBasedBrand_MTD_Key,sf_code);
+        values.put(TableEntry.BrandBasedBrand_MTD_Value,toString);
+        return db.insert(TableEntry.BrandBasedBrand_MTD_Data, null, values);
+    }
+
+    public long insertBrandBasedBrand_QTD(String sf_code, String toString) {
+        ContentValues values=new ContentValues();
+        values.put(TableEntry.BrandBasedBrand_QTD_Key,sf_code);
+        values.put(TableEntry.BrandBasedBrand_QTD_Value,toString);
+        return db.insert(TableEntry.BrandBasedBrand_QTD_Data, null, values);
+    }
+
+    public long insertBrandBasedBrand_YTD(String sf_code, String toString) {
+        ContentValues values=new ContentValues();
+        values.put(TableEntry.BrandBasedBrand_YTD_Key,sf_code);
+        values.put(TableEntry.BrandBasedBrand_YTD_Value,toString);
+        return db.insert(TableEntry.BrandBasedBrand_YTD_Data, null, values);
+    }
+
+    public long insertHQBasedBrand_MTD(String sf_code, String toString) {
+        ContentValues values=new ContentValues();
+        values.put(TableEntry.BrandBasedBrand_MTD_Key,sf_code);
+        values.put(TableEntry.BrandBasedBrand_MTD_Value,toString);
+        return db.insert(TableEntry.BrandBasedBrand_MTD_Data, null, values);
+    }
+
+    public long insertHQBasedBrand_QTD(String sf_code, String toString) {
+        ContentValues values=new ContentValues();
+        values.put(TableEntry.BrandBasedBrand_QTD_Key,sf_code);
+        values.put(TableEntry.BrandBasedBrand_QTD_Value,toString);
+        return db.insert(TableEntry.BrandBasedBrand_QTD_Data, null, values);
+    }
+
+    public long insertHQBasedBrand_YTD(String sf_code, String toString) {
+        ContentValues values=new ContentValues();
+        values.put(TableEntry.BrandBasedBrand_YTD_Key,sf_code);
+        values.put(TableEntry.BrandBasedBrand_YTD_Value,toString);
+        return db.insert(TableEntry.BrandBasedBrand_YTD_Data, null, values);
+    }
+
+    public long insertHQBasedProd_MTD(String sf_code, String toString) {
+        ContentValues values=new ContentValues();
+        values.put(TableEntry.BrandBasedBrand_MTD_Key,sf_code);
+        values.put(TableEntry.BrandBasedBrand_MTD_Value,toString);
+        return db.insert(TableEntry.BrandBasedBrand_MTD_Data, null, values);
+    }
+
+    public long insertHQBasedProd_QTD(String sf_code, String toString) {
+        ContentValues values=new ContentValues();
+        values.put(TableEntry.BrandBasedBrand_QTD_Key,sf_code);
+        values.put(TableEntry.BrandBasedBrand_QTD_Value,toString);
+        return db.insert(TableEntry.BrandBasedBrand_QTD_Data, null, values);
+    }
+
+    public long insertHQBasedProd_YTD(String sf_code, String toString) {
+        ContentValues values=new ContentValues();
+        values.put(TableEntry.BrandBasedBrand_YTD_Key,sf_code);
+        values.put(TableEntry.BrandBasedBrand_YTD_Value,toString);
+        return db.insert(TableEntry.BrandBasedBrand_YTD_Data, null, values);
+    }
+
+
+
+    public long insertFFBasedBrand_MTD(String sf_code, String toString) {
+        ContentValues values=new ContentValues();
+        values.put(TableEntry.FFBasedBrand_MTD_Key,sf_code);
+        values.put(TableEntry.FFBasedBrand_MTD_Value,toString);
+        return db.insert(TableEntry.FFBasedBrand_MTD_Data, null, values);
+    }
+
+    public long insertFFBasedBrand_QTD(String sf_code, String toString) {
+        ContentValues values=new ContentValues();
+        values.put(TableEntry.FFBasedBrand_QTD_Key,sf_code);
+        values.put(TableEntry.FFBasedBrand_QTD_Value,toString);
+        return db.insert(TableEntry.FFBasedBrand_QTD_Data, null, values);
+    }
+
+    public long insertFFBasedBrand_YTD(String sf_code, String toString) {
+        ContentValues values=new ContentValues();
+        values.put(TableEntry.FFBasedBrand_YTD_Key,sf_code);
+        values.put(TableEntry.FFBasedBrand_YTD_Value,toString);
+        return db.insert(TableEntry.FFBasedBrand_YTD_Data, null, values);
+    }
+
+    public long insertFFBasedProd_MTD(String sf_code, String toString) {
+        ContentValues values=new ContentValues();
+        values.put(TableEntry.FFBasedProd_MTD_Key,sf_code);
+        values.put(TableEntry.FFBasedProd_MTD_Value,toString);
+        return db.insert(TableEntry.FFBasedProd_MTD_Data, null, values);
+    }
+
+    public long insertFFBasedProd_QTD(String sf_code, String toString) {
+        ContentValues values=new ContentValues();
+        values.put(TableEntry.FFBasedProd_QTD_Key,sf_code);
+        values.put(TableEntry.FFBasedProd_QTD_Value,toString);
+        return db.insert(TableEntry.FFBasedProd_QTD_Data, null, values);
+    }
+
+    public long insertFFBasedProd_YTD(String sf_code, String toString) {
+        ContentValues values=new ContentValues();
+        values.put(TableEntry.FFBasedProd_YTD_Key,sf_code);
+        values.put(TableEntry.FFBasedProd_YTD_Value,toString);
+        return db.insert(TableEntry.FFBasedProd_YTD_Data, null, values);
+    }
+
+    public Cursor getBrandBasedBrandData_MTD(String SFCode)
+    {
+        return db.rawQuery(" SELECT * FROM "+TableEntry.BrandBasedBrand_MTD_Data+ " WHERE "+TableEntry.BrandBasedBrand_MTD_Key+" = '"+SFCode+"' ",null);
+    }
+
+    public Cursor getBrandBasedBrandData_QTD(String SFCode)
+    {
+        return db.rawQuery(" SELECT * FROM "+TableEntry.BrandBasedBrand_QTD_Data+ " WHERE "+TableEntry.BrandBasedBrand_QTD_Key+" = '"+SFCode+"' ",null);
+    }
+
+    public Cursor getBrandBasedBrandData_YTD(String SFCode)
+    {
+        return db.rawQuery(" SELECT * FROM "+TableEntry.BrandBasedBrand_YTD_Data+ " WHERE "+TableEntry.BrandBasedBrand_YTD_Key+" = '"+SFCode+"' ",null);
+    }
+
+    public Cursor getHQBasedBrandData_MTD(String SFCode)
+    {
+        return db.rawQuery(" SELECT * FROM "+TableEntry.HQBasedBrand_MTD_Data+ " WHERE "+TableEntry.HQBasedBrand_MTD_Key+" = '"+SFCode+"' ",null);
+    }
+
+    public Cursor getHQBasedBrandData_QTD(String SFCode)
+    {
+        return db.rawQuery(" SELECT * FROM "+TableEntry.HQBasedBrand_QTD_Data+ " WHERE "+TableEntry.HQBasedBrand_QTD_Key+" = '"+SFCode+"' ",null);
+    }
+
+    public Cursor getHQBasedBrandData_YTD(String SFCode)
+    {
+        return db.rawQuery(" SELECT * FROM "+TableEntry.HQBasedBrand_YTD_Data+ " WHERE "+TableEntry.HQBasedBrand_YTD_Key+" = '"+SFCode+"' ",null);
+    }
+
+    public Cursor getHQBasedProdData_MTD(String SFCode)
+    {
+        return db.rawQuery(" SELECT * FROM "+TableEntry.HQBasedProd_MTD_Data+ " WHERE "+TableEntry.HQBasedProd_MTD_Key+" = '"+SFCode+"' ",null);
+    }
+
+    public Cursor getHQBasedProdData_QTD(String SFCode)
+    {
+        return db.rawQuery(" SELECT * FROM "+TableEntry.HQBasedProd_QTD_Data+ " WHERE "+TableEntry.HQBasedProd_QTD_Key+" = '"+SFCode+"' ",null);
+    }
+
+    public Cursor getHQBasedProdData_YTD(String SFCode)
+    {
+        return db.rawQuery(" SELECT * FROM "+TableEntry.HQBasedProd_YTD_Data+ " WHERE "+TableEntry.HQBasedProd_YTD_Key+" = '"+SFCode+"' ",null);
+    }
+
+
+    public Cursor getFFBasedBrandData_MTD(String SFCode)
+    {
+        return db.rawQuery(" SELECT * FROM "+TableEntry.FFBasedBrand_MTD_Data+ " WHERE "+TableEntry.FFBasedBrand_MTD_Key+" = '"+SFCode+"' ",null);
+    }
+
+    public Cursor getFFBasedBrandData_QTD(String SFCode)
+    {
+        return db.rawQuery(" SELECT * FROM "+TableEntry.FFBasedBrand_QTD_Data+ " WHERE "+TableEntry.FFBasedBrand_QTD_Key+" = '"+SFCode+"' ",null);
+    }
+
+    public Cursor getFFBasedBrandData_YTD(String SFCode)
+    {
+        return db.rawQuery(" SELECT * FROM "+TableEntry.FFBasedBrand_YTD_Data+ " WHERE "+TableEntry.FFBasedBrand_YTD_Key+" = '"+SFCode+"' ",null);
+    }
+
+    public Cursor getFFBasedProdData_MTD(String SFCode)
+    {
+        return db.rawQuery(" SELECT * FROM "+TableEntry.FFBasedProd_MTD_Data+ " WHERE "+TableEntry.FFBasedProd_MTD_Key+" = '"+SFCode+"' ",null);
+    }
+
+    public Cursor getFFBasedProdData_QTD(String SFCode)
+    {
+        return db.rawQuery(" SELECT * FROM "+TableEntry.FFBasedProd_QTD_Data+ " WHERE "+TableEntry.FFBasedProd_QTD_Key+" = '"+SFCode+"' ",null);
+    }
+
+    public Cursor getFFBasedProdData_YTD(String SFCode)
+    {
+        return db.rawQuery(" SELECT * FROM "+TableEntry.FFBasedProd_YTD_Data+ " WHERE "+TableEntry.FFBasedProd_YTD_Key+" = '"+SFCode+"' ",null);
+    }
+
+
+
     public void updateJson(int columnid,String value){
         db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -1229,6 +1476,36 @@ public class DataBaseHandler {
         db.execSQL("delete from "+ TableEntry.TABLE_TRACK+" ") ;
     }
 
+    public void deletePSaleTables_MTD() {
+        db.execSQL("delete from "+ TableEntry.HQBasedBrand_MTD_Data);
+        db.execSQL("delete from "+ TableEntry.HQBasedProd_MTD_Data);
+        db.execSQL("delete from "+ TableEntry.BrandBasedBrand_MTD_Data);
+        db.execSQL("delete from "+ TableEntry.FFBasedBrand_MTD_Data);
+        db.execSQL("delete from "+ TableEntry.FFBasedProd_MTD_Data);
+        db.close();
+    }
+
+    public void deletePSaleTables_QTD() {
+
+        db.execSQL("delete from "+ TableEntry.HQBasedBrand_QTD_Data);
+        db.execSQL("delete from "+ TableEntry.HQBasedProd_QTD_Data);
+        db.execSQL("delete from "+ TableEntry.BrandBasedBrand_QTD_Data);
+        db.execSQL("delete from "+ TableEntry.FFBasedBrand_QTD_Data);
+        db.execSQL("delete from "+ TableEntry.FFBasedProd_QTD_Data);
+
+    }
+
+    public void deletePSaleTables_YTD() {
+
+        db.execSQL("delete from "+ TableEntry.HQBasedBrand_YTD_Data);
+        db.execSQL("delete from "+ TableEntry.HQBasedProd_YTD_Data);
+        db.execSQL("delete from "+ TableEntry.BrandBasedBrand_YTD_Data);
+        db.execSQL("delete from "+ TableEntry.FFBasedBrand_YTD_Data);
+        db.execSQL("delete from "+ TableEntry.FFBasedProd_YTD_Data);
+
+    }
+
+
 
         public void delete_All_tableDatas() {
             db.execSQL("delete from " + TableEntry.TABLE_JOINWORK_USER_DETAILS + "  ");
@@ -1257,6 +1534,25 @@ public class DataBaseHandler {
             db.execSQL("delete from " + TableEntry.TABLE_FEEDBACK +"  ");
             db.execSQL("delete from " + TableEntry.TABLE_COMPETITOR_MASTER_NEW +"  ");
             db.execSQL("delete from " + TableEntry.TABLE_CIP_MASTER_DETAILS+ "  ");
+
+            db.execSQL("delete from " + TableEntry.BrandBasedBrand_MTD_Data+ "  ");
+            db.execSQL("delete from " + TableEntry.BrandBasedBrand_QTD_Data+ "  ");
+            db.execSQL("delete from " + TableEntry.BrandBasedBrand_YTD_Data+ "  ");
+
+            db.execSQL("delete from " + TableEntry.HQBasedBrand_MTD_Data+ "  ");
+            db.execSQL("delete from " + TableEntry.HQBasedBrand_QTD_Data+ "  ");
+            db.execSQL("delete from " + TableEntry.HQBasedBrand_YTD_Data+ "  ");
+            db.execSQL("delete from " + TableEntry.HQBasedProd_MTD_Data+ "  ");
+            db.execSQL("delete from " + TableEntry.HQBasedProd_QTD_Data+ "  ");
+            db.execSQL("delete from " + TableEntry.HQBasedProd_YTD_Data+ "  ");
+
+            db.execSQL("delete from " + TableEntry.FFBasedBrand_MTD_Data+ "  ");
+            db.execSQL("delete from " + TableEntry.FFBasedBrand_QTD_Data+ "  ");
+            db.execSQL("delete from " + TableEntry.FFBasedBrand_YTD_Data+ "  ");
+            db.execSQL("delete from " + TableEntry.FFBasedProd_MTD_Data+ "  ");
+            db.execSQL("delete from " + TableEntry.FFBasedProd_QTD_Data+ "  ");
+            db.execSQL("delete from " + TableEntry.FFBasedProd_YTD_Data+ "  ");
+
         }
 
         public void deleteFeed(){

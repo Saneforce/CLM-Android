@@ -79,7 +79,7 @@ public class DayReportsActivity extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener date;
     String value,sf_type;
     RelativeLayout lay_filter,lay_select,lay_month,lay_missed;
-    String sf_code,sumdate;
+    String sf_code,sumdate,sf_codemnth;
     TextView txt_date,txt_count_dr,txt_count_chm,txt_count_stk,txt_count_ul,txt_hq,txt_count_dr_miss,txt_count_chm_miss,txt_count_stk_miss,txt_count_cip;
     DataBaseHandler dbh;
     ArrayList<SlideDetail> list=new ArrayList<>();
@@ -232,7 +232,33 @@ public class DayReportsActivity extends AppCompatActivity {
                 else if(value.equalsIgnoreCase("3")) {
                     int x=monthOfYear ;
                     txt_date.setText(ar[x]+"-"+String.valueOf(year));
-                    callApiMonth(sf_code, date);
+
+                    if(sf_type.equalsIgnoreCase("2")) {
+                        dbh.open();
+                        Cursor mCursor = dbh.select_hqlistmgr_manager();
+                        if (mCursor.getCount() > 0) {
+                            while (mCursor.moveToNext()) {
+
+                                    Log.v("Name_hqlist", mCursor.getString(2) + " djkdj " + mCursor.getString(1) + "name" + txt_hq.getText().toString());
+                                    if (txt_hq.getText().toString().equals(mCursor.getString(2)))
+                                        sf_codemnth = mCursor.getString(1);
+
+
+
+                            }
+
+                            }
+
+                        dbh.close();
+                        if(txt_hq.getText().toString().equals(commonSharedPreference.getValueFromPreference(CommonUtils.TAG_NAME)))
+                        callApiMonth(sf_code, date);
+                        else
+                            callApiMonth(sf_codemnth, date);
+                    }else
+                    {
+                        callApiMonth(sf_code, date);
+                    }
+
                 }
                 else
                     callApiMissed(date);

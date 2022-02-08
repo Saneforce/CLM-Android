@@ -288,6 +288,7 @@ public class DetailingFullScreenImageViewActivity extends FragmentActivity imple
 */
         Log.v("total_slide_lenth", String.valueOf(Detailing_Selection_search_grid_selection.len_slide));
         myCustomPagerAdapter = new MyCustomPagerAdapter(DetailingFullScreenImageViewActivity.this, Detailing_Selection_search_grid_selection.len_slide,slidess);
+        trimCache(this);
         viewPager.setAdapter(myCustomPagerAdapter);
         myCustomPagerAdapter.notifyDataSetChanged();
 
@@ -679,6 +680,38 @@ public class DetailingFullScreenImageViewActivity extends FragmentActivity imple
     public void onResume() { CommonUtilsMethods.FullScreencall(this);super.onResume(); }
     @Override
     public void onPause() { super.onPause(); }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        trimCache(this);
+    }
+
+    public static void trimCache(Context context) {
+        try {
+            File dir = context.getCacheDir();
+            deleteDir(dir);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+            return dir.delete();
+        }
+        else {
+            return false;
+        }
+    }
 
     @Override
     public void Message(String PdtBrdName, String productcode) {

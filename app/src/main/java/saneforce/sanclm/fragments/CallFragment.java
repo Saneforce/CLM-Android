@@ -108,7 +108,12 @@ public class CallFragment extends Fragment {
             @Override
             public void updatingui() {
                 Log.v("call_visit_fragment","are_called_her");
-                catVisitDetail();
+               // if(mCommonSharedPreference.getValueFromPreference("cat_visit_detail").equalsIgnoreCase("")) {
+                    catVisitDetail();
+//                }else
+//                {
+//                    LoadcatVisitDetail();
+//                }
               //  call_visit_detailsReload.setImageResource(R.mipmap.sync);
 
             }
@@ -170,8 +175,11 @@ public class CallFragment extends Fragment {
         
         return vv;
     }
-    
-   
+
+//    public void LoadcatVisitDetail() {
+//        String klerhjglerh=mCommonSharedPreference.getValueFromPreference("cat_visit_detail");
+//    }
+
 
     public void catVisitDetail(){
         HashMap<String,String> xx=new HashMap<>();
@@ -199,6 +207,7 @@ public class CallFragment extends Fragment {
                     StringBuilder is=new StringBuilder();
                     String line=null;
                     try{
+                    //    mCommonSharedPreference.setValueToPreference("cat_visit_detail","");
                         ip=new InputStreamReader(response.body().byteStream());
                         BufferedReader bf=new BufferedReader(ip);
 
@@ -212,6 +221,7 @@ public class CallFragment extends Fragment {
                         float totalSum=100;
                         float sumVal = 0;
                         JSONArray jas=new JSONArray(is.toString());
+                  //      mCommonSharedPreference.setValueToPreference("cat_visit_detail",is.toString());
                         Log.v("json_object_printing", String.valueOf(jas)+" leng"+jas.length());
                         for(int i=0;i<jas.length();i++){
                             JSONObject js=jas.getJSONObject(i);
@@ -386,6 +396,7 @@ public class CallFragment extends Fragment {
                     StringBuilder is=new StringBuilder();
                     String line=null;
                     try {
+          //              mCommonSharedPreference.setValueToPreference("overall_visit","");
                         ip = new InputStreamReader(response.body().byteStream());
                         BufferedReader bf = new BufferedReader(ip);
 
@@ -394,6 +405,7 @@ public class CallFragment extends Fragment {
                         }
 
                         JSONArray jsonObject1=new JSONArray(is.toString());
+                 //       mCommonSharedPreference.setValueToPreference("overall_visit",is.toString());
                         Log.v("overall_visit", String.valueOf(jsonObject1));
                         for(int i=0;i<jsonObject1.length();i++){
                             JSONObject js=jsonObject1.getJSONObject(i);
@@ -450,8 +462,10 @@ public class CallFragment extends Fragment {
                 public void onResponse(Call<List<MontlyVistDetail>> call, Response<List<MontlyVistDetail>> response) {
 
                     if(response.isSuccessful()){
+                    //    mCommonSharedPreference.setValueToPreference("monthly_detail","");
                         List<MontlyVistDetail> details=response.body();
                         Log.v("details_length", String.valueOf(details.size()));
+                     //   mCommonSharedPreference.setValueToPreference("monthly_detail",response.body().toString());
                         int maxVal=0;
 //                        for(int i=0;i<details.size();i++) {
 //                            if(details.get(i).getCnt().equals("") || details.get(i).getCnt().equals(null))
@@ -769,5 +783,4 @@ public class CallFragment extends Fragment {
     public static void bindUpdateViewList(UpdateUi uu){
         updateUi=uu;
     }
-
 }

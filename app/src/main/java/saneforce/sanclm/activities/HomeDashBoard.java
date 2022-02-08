@@ -109,11 +109,14 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -128,6 +131,7 @@ import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 import id.zelory.compressor.Compressor;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -137,6 +141,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import saneforce.sanclm.Pojo_Class.TodayCalls;
 import saneforce.sanclm.Pojo_Class.TodayTp;
+import saneforce.sanclm.Pojo_Class.TodayTpNew;
 import saneforce.sanclm.R;
 import saneforce.sanclm.activities.Model.MissedDate;
 import saneforce.sanclm.activities.Model.ModelNavDrawer;
@@ -223,7 +228,12 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     AdapterForCluster clu_adpt;
     Dialog mis_dialog;
     static Context mContext;
-    String tpflag = "",rmrks ="",d=null;
+    String rmrks ="",d=null,tp_cluster1="",tp_worktype1="",quizSuccess="",hqname="";
+    String [] tp_cluster,tp_worktype;
+    final ArrayList<PopFeed> array_cluster = new ArrayList<>();
+    Api_Interface apiService;
+    JSONObject json = new JSONObject();
+    public static String tpflag = "";
 
     /**
      * downloading slides constatnts
@@ -261,7 +271,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     static UpdateUi callFragmentUi;
     static String GpsNeed = "0";
     boolean displayWrk = false;
-    ArrayList<MissedDate> arr;
+    ArrayList<MissedDate> arr=new ArrayList<>();
     RelativeLayout rl_up,l1_app_config;
     LinearLayout layoutBottomSheet, rl_Expenses, rl_act,mainDashbrd,menuDashbrd;
     boolean swipeFun = false;
@@ -279,7 +289,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     boolean MissedClicked = false;
     protected LocationManager locationManager;
     protected LocationListener locationListener;
-    Button btn_mydayplan_go;
+    CircularProgressButton btn_mydayplan_go;
     TextView tv_clusterView;
     ProgressDialog progressDialog;
     public static int tpCount = 0;
@@ -299,6 +309,12 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     TextView tv_todaycall_head,tv_calls,tv_presentation,tv_reports;
     private ProgressDialog pDialog;
     boolean download=false,result=false;
+    String tpworktype = "", tpcluster = "",sfmem="",tpstatus="",tpstatus_flag="",tpstatus_msg="";
+    ListView missed_list;
+    EditText et_remark;
+    Switch deviate;
+    TextView tv_worktype1,tv_headquater1;
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -514,8 +530,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
     public void TodayCalls() {
         HashMap<String, String> map = new HashMap<String, String>();
-        JSONObject json = new JSONObject();
-        Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
+        //JSONObject json = new JSONObject();
+        apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
         map.clear();
         map.put("SF", SF_Code);
         try {
@@ -531,11 +547,19 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         }
 
         if (CommonUtilsMethods.isOnline(HomeDashBoard.this)) {
-            Call<List<TodayTp>> tdaytp = apiService.todayTP(String.valueOf(json));
-            tdaytp.enqueue(TodayTp);
+//            if (mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0")) {
+                Call<List<TodayTpNew>> tdaytp = apiService.todayTPNew(String.valueOf(json));
+                tdaytp.enqueue(TodayTpNew);
+//            }
+//            else
+//            {
+//                Call<List<TodayTp>> tdaytp = apiService.todayTP(String.valueOf(json));
+//                tdaytp.enqueue(TodayTp);
+//            }
+
         } else {
             tv_worktype.setText(resources.getString(R.string.worktype)+" : " + mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_NAME));
-            tv_cluster.setText(resources.getString(R.string.worktype)+" : " + mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME));
+            tv_cluster.setText(resources.getString(R.string.cluster)+" : " + mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME));
         }
        /* if(mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_NAME)=="null" || mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_NAME).trim().isEmpty()) {
 
@@ -545,6 +569,11 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
         }*/
 
+    }
+
+    private void getTodayTp(JSONObject json) {
+        Call<List<TodayTpNew>> tdaytp = apiService.todayTPNew(String.valueOf(json));
+        tdaytp.enqueue(TodayTpNew);
     }
 
 
@@ -639,13 +668,150 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         }
     };
 
-    public Callback<List<TodayTp>> TodayTp = new Callback<List<TodayTp>>() {
+//    public Callback<List<TodayTp>> TodayTp = new Callback<List<TodayTp>>() {
+//        @Override
+//        public void onResponse(Call<List<TodayTp>> call, Response<List<TodayTp>> response) {
+//            List<TodayTp> todaytp = null;
+//            sharedpreferences.edit().remove(CommonUtils.TAG_WORKTYPE_CLUSTER_CODE).commit();
+//            tv_worktype.setText(resources.getString(R.string.worktype) + " : ");
+//            tv_cluster.setText(resources.getString(R.string.cluster) + " : ");
+//
+////            tv_calls.setText(resources.getString(R.string.calls));
+////            tv_presentation.setText(resources.getString(R.string.presentation));
+////            tv_reports.setText(resources.getString(R.string.report));
+//
+//            Log.v("tagg", response.toString());
+//
+//            System.out.println("checkUser is sucessfuld :" + response.isSuccessful());
+//            if (response.isSuccessful()) {
+//                JSONObject jsonObject = null;
+//                String jsonData = null;
+//                try {
+//                    todaytp = response.body();
+//                    Log.v("todaytp",response.body().toString());
+//                    Log.e("Tday_tp_Calling ", "dp " + todaytp.get(0).getPlNm() + " wrik_type " + todaytp.get(0).getWTNm() + " " + todaytp.get(0).getHQNm() + " " + todaytp.get(0).getFWFlg() + " " + todaytp.get(0).getTpVwFlg() + " " + todaytp.get(0).getRem());
+//
+//                    tv_worktype.setText(resources.getString(R.string.worktype) + " : " + todaytp.get(0).getWTNm());
+//                    tv_cluster.setText(resources.getString(R.string.cluster) + " : " + todaytp.get(0).getPlNm());
+//                    tpflag = todaytp.get(0).getTpVwFlg();
+//                    rmrks = todaytp.get(0).getRem();
+//
+//
+//                    if (todaytp.get(0).getWTNm().contains(",")) {
+//                        String ss = todaytp.get(0).getWTNm();
+//                        ss = ss.replace(",", "");
+//                        // editor.putString(CommonUtils.TAG_WORKTYPE_NAME, "");
+//                        editor.putString(CommonUtils.TAG_WORKTYPE_NAME, ss);
+//                    } else
+//                        // editor.putString(CommonUtils.TAG_WORKTYPE_NAME, "");
+//                        editor.putString(CommonUtils.TAG_WORKTYPE_NAME, todaytp.get(0).getWTNm());
+//
+//                    editor.putString(CommonUtils.TAG_WORKTYPE_CODE, todaytp.get(0).getWT());
+//                    editor.putString(CommonUtils.TAG_WORKTYPE_CLUSTER_CODE, todaytp.get(0).getPl());
+//                    editor.putString(CommonUtils.TAG_SF_CODE, todaytp.get(0).getSFCode());
+//                    editor.putString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, todaytp.get(0).getPlNm());
+//                    editor.putString("remrk", todaytp.get(0).getRem());
+//                    if (SF_Type.equalsIgnoreCase("2")) {
+//                        editor.putString(CommonUtils.TAG_SF_HQ, todaytp.get(0).getHQNm());
+//                        editor.putString("sub_sf_code", todaytp.get(0).getSFMem());
+//                        Log.v("sf_meme_are", todaytp.get(0).getSFMem() + "jkl");
+//                    }
+//
+//                    Log.v("sfCode_check", todaytp.get(0).getSFCode() + "cluster" + todaytp.get(0).getPl());
+//                    editor.commit();
+//
+//
+//                   /* for (int i = 0; i < jointwork.size(); i++) {
+//                        String sfCode = jointwork.get(i).getCode();
+//                        String Name = jointwork.get(i).getName();
+//                        String sfName = jointwork.get(i).getSfName();
+//                        String RptSf = jointwork.get(i).getReportingToSF();
+//                        String OwnDiv = jointwork.get(i).getOwnDiv();
+//                        String DivCd = jointwork.get(i).getDivisionCode();
+//                        String SfStatus = jointwork.get(i).getSFStatus();
+//                        String ActFlg = jointwork.get(i).getActFlg();
+//                        String UserNm = jointwork.get(i).getUsrDfdUserName();
+//                        String SfType = jointwork.get(i).getSfType();
+//                        String Desig = jointwork.get(i).getDesig();
+//
+//                        dbh.insert_jointworkManagers(sfCode,Name,sfName,RptSf,OwnDiv,DivCd,SfStatus,ActFlg,UserNm,SfType,Desig);
+//                    }*/
+//                    dbh.close();
+//                } catch (Exception e) {
+//                }
+//                if (todaytp.size() == 0) {
+//                    editor.putString(CommonUtils.TAG_WORKTYPE_NAME, "");
+//                    editor.putString(CommonUtils.TAG_WORKTYPE_CODE, "");
+//                    editor.putString(CommonUtils.TAG_WORKTYPE_CLUSTER_CODE, "");
+//                    editor.putString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, "");
+//                    editor.putString("remrk", "");
+//                    editor.commit();
+//                }
+//            } else {
+//                try {
+//                    JSONObject jObjError = new JSONObject(response.toString());
+//                } catch (Exception e) {
+//                }
+//            }
+//            String wrkNAm = sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, null);
+//            if (mCommonSharedPreference.getValueFromPreference("TP_Mandatory_Need").equalsIgnoreCase("0") &&
+//                    !mCommonSharedPreference.getValueFromPreference("Tp_Start_Date").equalsIgnoreCase("0") &&
+//                    !mCommonSharedPreference.getValueFromPreference("Tp_End_Date").equalsIgnoreCase("0")&&
+//                    mCommonSharedPreference.getValueFromPreference("tpskip").equalsIgnoreCase("null")&&
+//                    (!mCommonSharedPreference.getValueFromPreference("tpstatus").equalsIgnoreCase("3")
+//                            || !mCommonSharedPreference.getValueFromPreference("tpstatus_flag").equalsIgnoreCase("3"))) {
+//
+//                getTpstatus(json);
+//
+//            }else if (arr.size() > 0 && mCommonSharedPreference.getValueFromPreference("MissedDateMand").equalsIgnoreCase("0")) {
+//                missedDate();
+//            }
+//            else if(mCommonSharedPreference.getValueFromPreference("quiz_need_mandt").equalsIgnoreCase("0")
+//                    && mCommonSharedPreference.getValueFromPreference("quizSuccess").equalsIgnoreCase("true"))
+//            {
+//                popupQuiz("");
+//            }
+//            else
+//            {
+//                Log.v("data1", "" + wrkNAm);
+//                String wrkcluNAm = sharedpreferences.getString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, null);
+//                if (TextUtils.isEmpty(wrkNAm) || wrkNAm.equalsIgnoreCase("null") || wrkNAm.equalsIgnoreCase("")) {
+//                    Log.v("checkme", "condition is working");
+//                    if (tb_dwnloadSlides.getVisibility() != View.VISIBLE)
+//                        if (!tpflag.isEmpty() || !tpflag.equals((""))) {
+//                            if (tpflag.equals("1")) {
+//                                Worktype();
+//                            }
+//                        }
+//                }
+//                if (!tpflag.isEmpty() || !tpflag.equals((""))) {
+//                    if (tpflag.equals("1")) {
+//                        if (tb_dwnloadSlides.getVisibility() != View.VISIBLE) {
+//                            Worktype();
+//                        }
+//
+//                    }
+//                } else {
+//                    if (tb_dwnloadSlides.getVisibility() != View.VISIBLE) {
+//                        Worktype();
+//                    }
+//                }
+//            }
+//        }
+//
+//        @Override
+//        public void onFailure(Call<List<TodayTp>> call, Throwable t) {
+//            Toast.makeText(context, t.getLocalizedMessage() , Toast.LENGTH_LONG).show();
+//        }
+//    };
+
+    public Callback<List<TodayTpNew>> TodayTpNew = new Callback<List<TodayTpNew>>() {
         @Override
-        public void onResponse(Call<List<TodayTp>> call, Response<List<TodayTp>> response) {
-            List<TodayTp> todaytp = null;
+        public void onResponse(Call<List<TodayTpNew>> call, Response<List<TodayTpNew>> response) {
+            List<TodayTpNew> todaytpnew = null;
             sharedpreferences.edit().remove(CommonUtils.TAG_WORKTYPE_CLUSTER_CODE).commit();
-            tv_worktype.setText(resources.getString(R.string.worktype)+" : ");
-            tv_cluster.setText(resources.getString(R.string.cluster)+" : ");
+            tv_worktype.setText(resources.getString(R.string.worktype) + " : ");
+            tv_cluster.setText(resources.getString(R.string.cluster) + " : ");
 
 //            tv_calls.setText(resources.getString(R.string.calls));
 //            tv_presentation.setText(resources.getString(R.string.presentation));
@@ -658,58 +824,131 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                 JSONObject jsonObject = null;
                 String jsonData = null;
                 try {
-                    todaytp = response.body();
-                    Log.e("Tday_tp_Calling ", "dp " + todaytp.get(0).getPlNm() + " wrik_type " + todaytp.get(0).getWTNm() + " " + todaytp.get(0).getHQNm() + " " + todaytp.get(0).getFWFlg() + " " + todaytp.get(0).getTpVwFlg() + " " + todaytp.get(0).getRem());
+                    todaytpnew = response.body();
+                    Log.v("klkk", todaytpnew.toString());
+                    Log.e("Tday_tp_Calling ", "dp " + todaytpnew.get(0).getPlNm() + " wrik_type " + todaytpnew.get(0).getWTNm() + " " + todaytpnew.get(0).getHQNm() + " " + todaytpnew.get(0).getFWFlg() + " " + todaytpnew.get(0).getTpVwFlg() + " " + todaytpnew.get(0).getRem());
 
-                    tv_worktype.setText(resources.getString(R.string.worktype)+" : " + todaytp.get(0).getWTNm());
-                    tv_cluster.setText(resources.getString(R.string.cluster)+" : " + todaytp.get(0).getPlNm());
-                    tpflag = todaytp.get(0).getTpVwFlg();
-                    rmrks =  todaytp.get(0).getRem();
+                    tv_worktype.setText(resources.getString(R.string.worktype) + " : " + todaytpnew.get(0).getWTNm());
+                    tv_cluster.setText(resources.getString(R.string.cluster) + " : " + todaytpnew.get(0).getPlNm());
+                    tpflag = todaytpnew.get(0).getTpVwFlg();
+                    rmrks = todaytpnew.get(0).getRem();
+
+                    sfmem = todaytpnew.get(0).getSFMem();
+                    tp_cluster1 = todaytpnew.get(0).getTP_cluster();
+                    tp_worktype1 = todaytpnew.get(0).getTP_worktype();
+                    tp_cluster = todaytpnew.get(0).getTP_cluster().split(",");
+                    tp_worktype = todaytpnew.get(0).getTP_worktype().split(",");
 
 
-                    if (todaytp.get(0).getWTNm().contains(",")) {
-                        String ss = todaytp.get(0).getWTNm();
+                    if (todaytpnew.size() != 0)
+                        mCommonSharedPreference.setValueToPreference("tpflag", tpflag);
+
+                    if (mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0")) {
+                        if (!tpflag.equals("0")) {
+                            for (String string : tp_worktype) {
+
+                                if (string.isEmpty()) {
+                                    Log.v("wlength", String.valueOf(string.length()));
+                                } else {
+                                    tpworktype += string + ";";
+                                }
+                            }
+                            worktypeNm.clear();
+                            dbh.open();
+                            mCursor = dbh.select_worktypeList(SF_Code);
+                            if (mCursor.getCount() != 0) {
+                                while (mCursor.moveToNext()) {
+                                    if (tpworktype.length() > 0) {
+                                        if ((";" + tpworktype).indexOf(";" + mCursor.getString(1) + ";") > -1)
+                                            worktypeNm.add(mCursor.getString(2));
+                                    }
+                                }
+                            }
+                            Log.v("tpwrknme", worktypeNm.toString() + tpworktype);
+
+                            for (String string : tp_cluster) {
+
+                                if (string.isEmpty()) {
+                                    Log.v("wlength", String.valueOf(string.length()));
+                                } else {
+                                    tpcluster += string + ";";
+                                }
+                            }
+
+                            if (SF_Type.equalsIgnoreCase("2")) {
+                                if (tpflag.equals("2"))
+                                    mCursor = dbh.select_ClusterList(sfmem);
+                                else
+                                    mCursor = dbh.select_ClusterList(mydayhqCd);
+                            } else
+                                mCursor = dbh.select_ClusterList();
+
+                            mClusterListID.clear();
+                            clusterNm.clear();
+                            if (mCursor.getCount() > 0) {
+                                while (mCursor.moveToNext()) {
+                                    mClusterListID.put(mCursor.getString(1), mCursor.getString(2));
+                                    if (tpcluster.length() > 0) {
+                                        if ((";" + tpcluster).indexOf(";" + mCursor.getString(1) + ";") > -1)
+                                            clusterNm.add(mCursor.getString(2));
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                    Log.v("tpclusnme", clusterNm.toString() + tpcluster);
+
+
+                    if (todaytpnew.get(0).getWTNm().contains(",")) {
+                        String ss = todaytpnew.get(0).getWTNm();
                         ss = ss.replace(",", "");
                         // editor.putString(CommonUtils.TAG_WORKTYPE_NAME, "");
                         editor.putString(CommonUtils.TAG_WORKTYPE_NAME, ss);
                     } else
                         // editor.putString(CommonUtils.TAG_WORKTYPE_NAME, "");
-                        editor.putString(CommonUtils.TAG_WORKTYPE_NAME, todaytp.get(0).getWTNm());
+                        editor.putString(CommonUtils.TAG_WORKTYPE_NAME, todaytpnew.get(0).getWTNm());
 
-                    editor.putString(CommonUtils.TAG_WORKTYPE_CODE, todaytp.get(0).getWT());
-                    editor.putString(CommonUtils.TAG_WORKTYPE_CLUSTER_CODE, todaytp.get(0).getPl());
-                    editor.putString(CommonUtils.TAG_SF_CODE, todaytp.get(0).getSFCode());
-                    editor.putString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, todaytp.get(0).getPlNm());
-                    editor.putString("remrk", todaytp.get(0).getRem());
+                    editor.putString(CommonUtils.TAG_WORKTYPE_CODE, todaytpnew.get(0).getWT());
+                    editor.putString(CommonUtils.TAG_WORKTYPE_CLUSTER_CODE, todaytpnew.get(0).getPl());
+                    editor.putString(CommonUtils.TAG_SF_CODE, todaytpnew.get(0).getSFCode());
+                    editor.putString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, todaytpnew.get(0).getPlNm());
+                    editor.putString("remrk", todaytpnew.get(0).getRem());
                     if (SF_Type.equalsIgnoreCase("2")) {
-                        editor.putString(CommonUtils.TAG_SF_HQ, todaytp.get(0).getHQNm());
-                        editor.putString("sub_sf_code", todaytp.get(0).getSFMem());
-                        Log.v("sf_meme_are", todaytp.get(0).getSFMem() + "jkl");
+                        if (todaytpnew.get(0).getSFMem().equalsIgnoreCase("null") || todaytpnew.get(0).getSFMem().equalsIgnoreCase("") || todaytpnew.get(0).getSFMem().isEmpty()) {
+                            editor.putString(CommonUtils.TAG_SF_HQ, todaytpnew.get(0).getHQNm());
+                        } else {
+                            dbh.open();
+                            mCursor = dbh.select_hqlist_manager();
+                            if (mCursor.getCount() != 0) {
+                                if (mCursor.moveToFirst()) {
+                                    do {
+                                        Log.v("Name_hqlist", mCursor.getString(2));
+                                        if (todaytpnew.get(0).getSFMem().equalsIgnoreCase(mCursor.getString(1))) {
+                                            hqname = mCursor.getString(2);
+                                        }
+                                    } while (mCursor.moveToNext());
+
+                                }
+                            }
+                            editor.putString(CommonUtils.TAG_SF_HQ, hqname);
+                        }
+                        editor.putString("sub_sf_code", todaytpnew.get(0).getSFMem());
+                        Log.v("sf_meme_are", todaytpnew.get(0).getSFMem() + "jkl");
                     }
 
-                    Log.v("sfCode_check", todaytp.get(0).getSFCode() + "cluster" + todaytp.get(0).getPl());
+                    Log.v("sfCode_check", todaytpnew.get(0).getSFCode() + "cluster" + todaytpnew.get(0).getPl());
                     editor.commit();
 
-
-                   /* for (int i = 0; i < jointwork.size(); i++) {
-                        String sfCode = jointwork.get(i).getCode();
-                        String Name = jointwork.get(i).getName();
-                        String sfName = jointwork.get(i).getSfName();
-                        String RptSf = jointwork.get(i).getReportingToSF();
-                        String OwnDiv = jointwork.get(i).getOwnDiv();
-                        String DivCd = jointwork.get(i).getDivisionCode();
-                        String SfStatus = jointwork.get(i).getSFStatus();
-                        String ActFlg = jointwork.get(i).getActFlg();
-                        String UserNm = jointwork.get(i).getUsrDfdUserName();
-                        String SfType = jointwork.get(i).getSfType();
-                        String Desig = jointwork.get(i).getDesig();
-
-                        dbh.insert_jointworkManagers(sfCode,Name,sfName,RptSf,OwnDiv,DivCd,SfStatus,ActFlg,UserNm,SfType,Desig);
-                    }*/
                     dbh.close();
                 } catch (Exception e) {
                 }
-                if (todaytp.size() == 0) {
+                if (todaytpnew.size() == 0) {
+                    if (mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0")) {
+                        getTpstatus(json);
+                    }
+                    tpflag = "";
+                    mCommonSharedPreference.setValueToPreference("tpflag", tpflag);
                     editor.putString(CommonUtils.TAG_WORKTYPE_NAME, "");
                     editor.putString(CommonUtils.TAG_WORKTYPE_CODE, "");
                     editor.putString(CommonUtils.TAG_WORKTYPE_CLUSTER_CODE, "");
@@ -724,36 +963,346 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                 }
             }
             String wrkNAm = sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, null);
-            Log.v("data1", ""+wrkNAm);
-            String wrkcluNAm = sharedpreferences.getString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, null);
-            if (TextUtils.isEmpty(wrkNAm) || wrkNAm.equalsIgnoreCase("null") || wrkNAm.equalsIgnoreCase("")) {
-                Log.v("checkme", "condition is working");
-                if (tb_dwnloadSlides.getVisibility() != View.VISIBLE)
-                    if (!tpflag.isEmpty() || !tpflag.equals((""))) {
-                        if (tpflag.equals("1")) {
+
+            Log.v("jkefahjkefh", mCommonSharedPreference.getValueFromPreference("TP_Mandatory_Need") + "jj" + mCommonSharedPreference.getValueFromPreference("Tp_Start_Date") + "h" + mCommonSharedPreference.getValueFromPreference("Tp_End_Date") + "tp" + mCommonSharedPreference.getValueFromPreference("tpstatus_flag"));
+
+
+            Log.v("true>>>", mCommonSharedPreference.getValueFromPreference("tpstatus") + "hh" +
+                    mCommonSharedPreference.getValueFromPreference("tpstatus_flag")+"tp"+ mCommonSharedPreference.getValueFromPreference("tpskip"));
+
+
+
+                if (mCommonSharedPreference.getValueFromPreference("TP_Mandatory_Need").equalsIgnoreCase("0") &&
+                        !mCommonSharedPreference.getValueFromPreference("Tp_Start_Date").equalsIgnoreCase("0") &&
+                        !mCommonSharedPreference.getValueFromPreference("Tp_End_Date").equalsIgnoreCase("0")&&
+                         mCommonSharedPreference.getValueFromPreference("tpskip").equalsIgnoreCase("null")&&
+                        (!mCommonSharedPreference.getValueFromPreference("tpstatus").equalsIgnoreCase("3")
+                        || !mCommonSharedPreference.getValueFromPreference("tpstatus_flag").equalsIgnoreCase("3"))) {
+
+                    getTpstatus(json);
+
+                    }else if (arr.size() > 0 && mCommonSharedPreference.getValueFromPreference("MissedDateMand").equalsIgnoreCase("0")) {
+                missedDate();
+            } else if (mCommonSharedPreference.getValueFromPreference("quiz_need_mandt").equalsIgnoreCase("0")
+                    && mCommonSharedPreference.getValueFromPreference("quizSuccess").equalsIgnoreCase("true")) {
+                popupQuiz("");
+            }
+//                        if (progressDialog == null) {
+//                            CommonUtilsMethods commonUtilsMethods = new CommonUtilsMethods(HomeDashBoard.this);
+//                            progressDialog = commonUtilsMethods.createProgressDialog(HomeDashBoard.this);
+//                            progressDialog.show();
+//                        } else {
+//                            progressDialog.show();
+//                        }
+//                        getQuiz();
+
+
+            else {
+                Log.v("data1", "" + wrkNAm);
+                String wrkcluNAm = sharedpreferences.getString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, null);
+                if (TextUtils.isEmpty(wrkNAm) || wrkNAm.equalsIgnoreCase("null") || wrkNAm.equalsIgnoreCase("")) {
+                    Log.v("checkme", "condition is working" + tpflag);
+                    if (tb_dwnloadSlides.getVisibility() != View.VISIBLE)
+                        if (!tpflag.isEmpty() || !tpflag.equals((""))) {
+                            if (mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0")) {
+                                if (tpflag.equals("2")) {
+                                    Worktype();
+                                }
+                            } else {
+                                if (tpflag.equals("2")) {
+                                    Worktype();
+                                }
+                            }
+                        }
+                }
+
+                if (!tpflag.isEmpty() || !tpflag.equals((""))) {
+                    if (mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0")) {
+                        if (tpflag.equals("2")) {
+                            Worktype();
+                        }
+                    } else {
+                        if (tpflag.equals("2")) {
                             Worktype();
                         }
                     }
-            }
-            if (!tpflag.isEmpty() || !tpflag.equals((""))) {
-                if (tpflag.equals("1")) {
+                } else {
                     if (tb_dwnloadSlides.getVisibility() != View.VISIBLE) {
                         Worktype();
                     }
+                }
+            }
 
+        }
+
+
+        @Override
+        public void onFailure(Call<List<TodayTpNew>> call, Throwable t) {
+             Toast.makeText(context, t.getLocalizedMessage() , Toast.LENGTH_LONG).show();
+        }
+    };
+
+
+    private void getTpstatus(JSONObject json) {
+       // apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
+        Call<ResponseBody> tpstatus=apiService.getTpStatus(String.valueOf(json));
+        tpstatus.enqueue(Tpstatus);
+    }
+
+    public Callback<ResponseBody> Tpstatus = new Callback<ResponseBody>() {
+        @Override
+        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            System.out.println("checkUser is sucessfuld :" + response.isSuccessful());
+            if (response.isSuccessful()) {
+                JSONObject jsonObject = null;
+                String jsonData = null;
+                try {
+                    InputStreamReader ip = null;
+                    StringBuilder is = new StringBuilder();
+                    String line = null;
+
+                    ip = new InputStreamReader(response.body().byteStream());
+                    BufferedReader bf = new BufferedReader(ip);
+
+                    while ((line = bf.readLine()) != null) {
+                        is.append(line);
+                    }
+                    Log.v("tpstaus",is.toString());
+                    jsonObject=new JSONObject(is.toString());
+                    if(jsonObject.getString("Success").equals("pending"))
+                    {
+                       tpstatus="1";
+                    }else if(jsonObject.getString("Success").equals("rejected"))
+                    {
+                       tpstatus="2";
+                    }else if(jsonObject.getString("Success").equals("notcompleted")||jsonObject.getString("Success").equals("nodata"))
+                    {
+                        tpstatus="0";
+                    }else if(jsonObject.getString("Success").equals("approved"))
+                    {
+                        tpstatus="3";
+                    }
+
+                    mCommonSharedPreference.setValueToPreference("tpstatus",tpstatus);
+
+                        Log.v("tpstatus","hjkhklhl"+tpstatus);
+
+
+                    if(mCommonSharedPreference.getValueFromPreference("TP_Mandatory_Need").equalsIgnoreCase("0")) {
+
+                        if (tpstatus.equals("0")) {
+                            mCommonSharedPreference.setValueToPreference("TPEntrySkipAndMandatory", "0");
+                            popupTourplan();
+                        } else if (tpstatus.equals("1")) {
+                            Toast.makeText(getApplicationContext(), "Approval pending contact Line manager", Toast.LENGTH_SHORT).show();
+                        } else if (tpstatus.equals("2")) {
+                            Toast.makeText(getApplicationContext(), "Tourplan Rejected Resubmit TP", Toast.LENGTH_SHORT).show();
+                        }else if (tpstatus.equals("3")) {
+
+                            String mMonth, mYear;
+                            Calendar mCal = Calendar.getInstance();
+                            SimpleDateFormat date = new SimpleDateFormat("dd");
+                            SimpleDateFormat month = new SimpleDateFormat("M");
+                            SimpleDateFormat year = new SimpleDateFormat("yyyy");
+                            String mCurrDate = date.format(mCal.getTime());
+
+                            Log.v("mCurrDate", "" + mCurrDate);
+
+                            int Start_Date = Integer.parseInt(mCommonSharedPreference.getValueFromPreference("Tp_Start_Date"));
+                            int End_Date = Integer.parseInt(mCommonSharedPreference.getValueFromPreference("Tp_End_Date"));
+                            int mCurrentDate = Integer.parseInt(mCurrDate);
+
+                            if ((mCurrentDate >= Start_Date) && (mCurrentDate <= End_Date)) {
+                                String mCurrentMonth = month.format(mCal.getTime());
+
+                                mCal.add(Calendar.MONTH, 1);
+                                mMonth = month.format(mCal.getTime());
+
+                                if (mCurrentMonth.equals("12")) {
+                                    mCal.add(Calendar.YEAR,0);
+                                    mYear = year.format(mCal.getTime());
+                                } else {
+                                    mYear = year.format(mCal.getTime());
+                                }
+                            } else {
+                                mMonth = month.format(mCal.getTime());
+                                mYear = year.format(mCal.getTime());
+                            }
+
+                            JSONObject jsontpstatus = new JSONObject();
+                            try {
+                                jsontpstatus.put("SF", SF_Code);
+                                jsontpstatus.put("month", mMonth);
+                                jsontpstatus.put("year", mYear);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                            Log.v("jsontpstatus", "" + jsontpstatus);
+
+                            Calendar mCal2 = Calendar.getInstance();
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                            String nCurrentDate = sdf.format(mCal2.getTime());
+
+                            Log.v("dates", mCommonSharedPreference.getValueFromPreference("tpskipdate") + "dif" + nCurrentDate);
+
+                if (!mCommonSharedPreference.getValueFromPreference("tpskipdate").equals(nCurrentDate)) {
+                    if (mCurrentDate < End_Date) {
+                                mCommonSharedPreference.setValueToPreference("TPEntrySkipAndMandatory", "1");
+                            } else {
+                                mCommonSharedPreference.setValueToPreference("TPEntrySkipAndMandatory", "0");
+                            }
+                            CheckTPStatus(jsontpstatus);
+                }
+
+                        }
+                    }
+
+                viewtdytpstatus();
+
+
+                } catch (Exception e) {
                 }
             } else {
-                if (tb_dwnloadSlides.getVisibility() != View.VISIBLE) {
-                    Worktype();
+                try {
+                    JSONObject jObjError = new JSONObject(response.toString());
+                } catch (Exception e) {
+                }
+            }
+        }
+
+
+
+        @Override
+        public void onFailure(Call<ResponseBody> call, Throwable t) {
+        }
+    };
+
+    private boolean viewtdytpstatus() {
+        if(mCommonSharedPreference.getValueFromPreference("tpstatus").equalsIgnoreCase("3")) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    private void CheckTPStatus(JSONObject json) {
+        Call<ResponseBody> checkTPStatus=apiService.checkTpStatus(String.valueOf(json));
+        checkTPStatus.enqueue(CheckTPStatus);
+    }
+
+    public Callback<ResponseBody> CheckTPStatus = new Callback<ResponseBody>() {
+        @Override
+        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            System.out.println("checkUser is sucessfuld :" + response.isSuccessful());
+            if (response.isSuccessful()) {
+
+
+                try {
+                    InputStreamReader ip = null;
+                    StringBuilder is = new StringBuilder();
+                    String line = null;
+
+                    ip = new InputStreamReader(response.body().byteStream());
+                    BufferedReader bf = new BufferedReader(ip);
+
+                    while ((line = bf.readLine()) != null) {
+                        is.append(line);
+                    }
+                    Log.v("checktpstaus",is.toString());
+                    JSONArray jsonArray=new JSONArray(is.toString());
+
+                    if(jsonArray.length()>0)
+                    {
+                        JSONObject jsonObject = jsonArray.getJSONObject(0);
+                        tpstatus_flag=jsonObject.getString("TP_Flag");
+                        tpstatus_msg=jsonObject.getString("TP_Status");
+
+                        mCommonSharedPreference.setValueToPreference("tpstatus_flag",tpstatus_flag);
+
+                        if(tpstatus_flag.equals("0"))
+                        {
+                            popupTourplan();
+
+                        }else if(tpstatus_flag.equals("1"))
+                        {
+                            Toast.makeText(getApplicationContext(), tpstatus_msg, Toast.LENGTH_SHORT).show();
+                        }else if(tpstatus_flag.equals("2"))
+                        {
+                            Toast.makeText(getApplicationContext(), tpstatus_msg, Toast.LENGTH_SHORT).show();
+                        }
+
+                    }else
+                    {
+                        popupTourplan();
+
+                    }
+
+                    viewnxttpstatus();
+
+
+                } catch (Exception e) {
+                }
+            } else {
+                try {
+                    JSONObject jObjError = new JSONObject(response.toString());
+                } catch (Exception e) {
                 }
             }
         }
 
         @Override
-        public void onFailure(Call<List<TodayTp>> call, Throwable t) {
-            // Toast.makeText(context, "On Failure " , Toast.LENGTH_LONG).show();
+        public void onFailure(Call<ResponseBody> call, Throwable t) {
         }
     };
+
+    private boolean viewnxttpstatus() {
+        if(  mCommonSharedPreference.getValueFromPreference("tpstatus_flag").equalsIgnoreCase("3")) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    private void popupTourplan() {
+        final Dialog dialog = new Dialog(HomeDashBoard.this, R.style.AlertDialogCustom);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.popup_tourplan);
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+        Button ok = dialog.findViewById(R.id.ok);
+        Button cancel=dialog.findViewById(R.id.cancel);
+        TextView textView=dialog.findViewById(R.id.txt_msg);
+
+        if(mCommonSharedPreference.getValueFromPreference("TPEntrySkipAndMandatory").equals("0"))
+        {
+            cancel.setEnabled(false);
+            cancel.setAlpha(.5f);
+            textView.setText("Tourplan Mandatory Enter and Submit");
+        }
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                Intent ii = new Intent(HomeDashBoard.this, DemoActivity.class);
+                startActivity(ii);
+
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCommonSharedPreference.setValueToPreference("tpskip","tpskip");
+                mCommonSharedPreference.setValueToPreference("tpdate", CommonUtilsMethods.getCurrentInstance());
+                mCommonSharedPreference.setValueToPreference("tpskipdate",todayDate);
+                dialog.dismiss();
+
+            }
+        });
+    }
 
 
     @Override
@@ -881,8 +1430,16 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     dbh.close();
                 } else {
                     Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
-                    Call<ResponseBody> tdayTP = apiService.SVtodayTP(String.valueOf(jso));
-                    tdayTP.enqueue(svTodayTP);
+                   // if (mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0")) {
+                        Call<ResponseBody> tdayTP = apiService.SVtodayTP1(String.valueOf(jso));
+                        tdayTP.enqueue(svTodayTP);
+//                    }
+//                    else
+//                    {
+//                        Call<ResponseBody> tdayTP = apiService.SVtodayTP(String.valueOf(jso));
+//                        tdayTP.enqueue(svTodayTP);
+//                    }
+
                 }
                 setMDPValue();
                 dia.cancel();
@@ -905,8 +1462,16 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     dbh.close();
                 } else {
                     Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
-                    Call<ResponseBody> tdayTP = apiService.SVtodayTP(String.valueOf(jso));
-                    tdayTP.enqueue(svTodayTP);
+                    //if (mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0")) {
+                        Call<ResponseBody> tdayTP = apiService.SVtodayTP1(String.valueOf(jso));
+                        tdayTP.enqueue(svTodayTP);
+//                    }
+//                    else
+//                    {
+//                        Call<ResponseBody> tdayTP = apiService.SVtodayTP(String.valueOf(jso));
+//                        tdayTP.enqueue(svTodayTP);
+//                    }
+
                 }
                 setMDPValue();
                 dia.cancel();
@@ -917,6 +1482,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                btn_mydayplan_go.revertAnimation();
                 dia.cancel();
             }
         });
@@ -981,34 +1547,56 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     }
 
     public void Worktype() {
-
         dialog.setContentView(R.layout.activity_myday_plan);
-        TextView tv_worktype = (TextView) dialog.findViewById(R.id.et_mydaypln_worktype);
-        TextView tv_headquater = (TextView) dialog.findViewById(R.id.et_mydaypln_HQ);
+         tv_worktype1 = (TextView) dialog.findViewById(R.id.et_mydaypln_worktype);
+         tv_headquater1 = (TextView) dialog.findViewById(R.id.et_mydaypln_HQ);
         tv_clusterView = (TextView) dialog.findViewById(R.id.et_mydaypln_cluster);
         final ImageView Close = (ImageView) dialog.findViewById(R.id.iv_close);
-        final EditText et_remark = (EditText) dialog.findViewById(R.id.et_mydaypln_remarks);
+        et_remark= (EditText) dialog.findViewById(R.id.et_mydaypln_remarks);
         final ListView rv_wtype = (ListView) dialog.findViewById(R.id.rv_worktypelist);
         final ListView rv_cluster = (ListView) dialog.findViewById(R.id.rv_clusterlist);
         final ListView rv_hqlist = (ListView) dialog.findViewById(R.id.rv_hqlist);
-        btn_mydayplan_go = (Button) dialog.findViewById(R.id.btn_mydaypln_go);
+        btn_mydayplan_go = (CircularProgressButton) dialog.findViewById(R.id.btn_mydaypln_go);
         ll_anim = (LinearLayout) dialog.findViewById(R.id.ll_anim);
-        Switch deviate = (Switch) dialog.findViewById(R.id.deviate);
+        deviate = (Switch) dialog.findViewById(R.id.deviate);
 
-        TextView myplancap = (TextView)dialog.findViewById(R.id.tv_todayplan);
-        TextView tv_mWorktype = (TextView)dialog.findViewById(R.id.tv_mydaypln_worktype);
-        TextView tv_headquaters = (TextView)dialog.findViewById(R.id.tv_mydaypln_HQ);
-        TextView tv_mworktype_cluster = (TextView)dialog.findViewById(R.id.tv_mydaypln_cluster);
-        TextView tv_myremarks = (TextView)dialog.findViewById(R.id.tv_remarks);
+        TextView myplancap = (TextView) dialog.findViewById(R.id.tv_todayplan);
+        TextView tv_mWorktype = (TextView) dialog.findViewById(R.id.tv_mydaypln_worktype);
+        TextView tv_headquaters = (TextView) dialog.findViewById(R.id.tv_mydaypln_HQ);
+        TextView tv_mworktype_cluster = (TextView) dialog.findViewById(R.id.tv_mydaypln_cluster);
+        TextView tv_myremarks = (TextView) dialog.findViewById(R.id.tv_remarks);
 
-//        if(mCommonSharedPreference.getValueFromPreference("TPDCR_Deviation").equals("0"))
-//        {
-//            deviate.setVisibility(View.VISIBLE);
-//            tv_worktype.setEnabled(false);
-//            tv_headquater.setEnabled(false);
-//            tv_clusterView.setEnabled(false);
-//            et_remark.setEnabled(false);
-//        }
+        Log.v("tpflag","hjhkhhh" + tpflag);
+
+        if (mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0")) {
+            if (!TextUtils.isEmpty(sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "")))
+                tv_headquater1.setEnabled(false);
+            if(mCommonSharedPreference.getValueFromPreference("tpflag").equals("0"))
+                tv_headquater1.setEnabled(true);
+
+        }
+
+
+        if (mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0") &&
+                mCommonSharedPreference.getValueFromPreference("TPDCR_Deviation").equals("0")) {
+            if(!TextUtils.isEmpty(sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "")))
+            tv_headquater1.setEnabled(false);
+            //et_remark.setEnabled(false);
+            deviate.setVisibility(View.VISIBLE);
+            if(mCommonSharedPreference.getValueFromPreference("tpflag").equals("0"))
+            {
+                deviate.setVisibility(View.GONE);
+                tv_headquater1.setEnabled(true);
+            }
+            // tv_worktype.setEnabled(false);
+            //tv_clusterView.setEnabled(false);
+
+        }
+
+
+        if(displayWrk)
+            myplancap.setText(resources.getString(R.string.missed_date_entry));
+
 
 //        context = LocaleHelper.setLocale(HomeDashBoard.this, language);
 //        resources = context.getResources();
@@ -1022,8 +1610,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 //        tv_headquater.setText(resources.getString(R.string.select)+""+resources.getString(R.string.headquater));
 //        tv_clusterView.setText(resources.getString(R.string.select)+""+resources.getString(R.string.cluster));
 
-        final ArrayList<PopFeed> array_cluster = new ArrayList<>();
-        tv_headquater.setText(sharedpreferences.getString(CommonUtils.TAG_SF_HQ, ""));
+       // final ArrayList<PopFeed> array_cluster = new ArrayList<>();
+        tv_headquater1.setText(sharedpreferences.getString(CommonUtils.TAG_SF_HQ, ""));
 
         Log.d("check_data", sharedpreferences.getString(CommonUtils.TAG_SF_HQ, ""));
 
@@ -1034,10 +1622,12 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                 if (!currr.getString(4).equalsIgnoreCase("Y")) {
                     tv_clusterView.setEnabled(false);
                     tv_clusterView.setAlpha(.5f);
+                    tv_headquater1.setEnabled(false);
+                    tv_headquater1.setAlpha(.5f);
                 }
             }
             dbh.close();
-            tv_worktype.setText(sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, ""));
+            tv_worktype1.setText(sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, ""));
             tv_clusterView.setText(sharedpreferences.getString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, ""));
 
 
@@ -1054,99 +1644,87 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             }
         }
 
-        dbh.open();
-        mCursor = dbh.select_worktypeList(SF_Code);
-        mWorktypeListID.clear();
-        mWrktypelist.clear();
-        worktypeNm.clear();
-        Log.d("sfcodes", "" + SF_Code);
-        Log.d("checkcurcount", "" + mCursor.getCount());
-        if (mCursor.getCount() > 0) {
-            while (mCursor.moveToNext()) {
-                if (displayWrk && mCursor.getString(4).equalsIgnoreCase("Y")) {
-                }//other than fieldwork in missed date
-                else {
-                    mWorktypeListID.put(mCursor.getString(1), mCursor.getString(2));
-                    mWrktypelist.add(new ModelWorkType(mCursor.getString(2), mCursor.getString(1), mCursor.getString(4)));
-                    worktypeNm.add(mCursor.getString(2));
-                    Log.d("display_wrktype", mCursor.getString(2));
-                }
-            }
-        }
 
-        if (SF_Type.equalsIgnoreCase("2"))
-            mCursor = dbh.select_ClusterList(mydayhqCd);
-        else
-            mCursor = dbh.select_ClusterList();
-        mClusterListID.clear();
-        clusterNm.clear();
-        if (mCursor.getCount() > 0) {
-            while (mCursor.moveToNext()) {
-                mClusterListID.put(mCursor.getString(1), mCursor.getString(2));
-                clusterNm.add(mCursor.getString(2));
-                array_cluster.add(new PopFeed(mCursor.getString(2), mCursor.getString(1)));
+        tpdcrdeviation();
 
-            }
-        }
 
-        if (SF_Type.equalsIgnoreCase("1")) {
+            if (SF_Type.equalsIgnoreCase("1")) {
            /* tv_headquater.setText(tv_userName.getText().toString());
             mCommonSharedPreference.setValueToPreference("hq_name",tv_userName.getText().toString());*/
-        } else {
+            } else {
                        /* if(!TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_HQ)))
             tv_headquater.setText(mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_HQ));*/
-            mHQListID.clear();
-            hqNm.clear();
-            mCursor = dbh.select_hqlist_manager();
-            if (mCursor.getCount() != 0) {
-                if (mCursor.moveToFirst()) {
-                    do {
-                        Log.v("Name_hqlist", mCursor.getString(2));
-                        mHQListID.put(mCursor.getString(1), mCursor.getString(2));
-                        hqNm.add(mCursor.getString(2));
-                    } while (mCursor.moveToNext());
+                mHQListID.clear();
+                hqNm.clear();
+                dbh.open();
+                mCursor = dbh.select_hqlist_manager();
+                if (mCursor.getCount() != 0) {
+                    if (mCursor.moveToFirst()) {
+                        do {
+                            Log.v("Name_hqlist", mCursor.getString(2));
+                            mHQListID.put(mCursor.getString(1), mCursor.getString(2));
+                            hqNm.add(mCursor.getString(2));
+                        } while (mCursor.moveToNext());
 
-                }
-            }
-        }
-
-        tv_worktype.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (rv_wtype.getVisibility() == View.VISIBLE) {
-                    rv_wtype.setVisibility(View.INVISIBLE);
-                } else {
-                    rv_wtype.setVisibility(View.VISIBLE);
-                    rv_wtype.setAdapter(new ArrayAdapter<String>(HomeDashBoard.this, R.layout.listview_items, worktypeNm));
-                }
-                Log.d("dataawise", worktypeNm.toString() + "-" + worktypeNm.size());
-            }
-        });
-
-        rv_wtype.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View arg1, int position, long id) {
-
-
-
-                tv_worktype.setText(parent.getItemAtPosition(position).toString());
-                rv_wtype.setVisibility(View.INVISIBLE);
-
-                for (int k = 0; k < mWrktypelist.size(); k++) {
-                    ModelWorkType kk = mWrktypelist.get(k);
-                    if (kk.getName().equalsIgnoreCase(parent.getItemAtPosition(position).toString())) {
-                        mydaywTypCd = kk.getCode();
-                        if (kk.getFlag().equalsIgnoreCase("Y")) {
-                            tv_clusterView.setEnabled(true);
-                            tv_clusterView.setAlpha(1f);
-                        } else {
-                            tv_clusterView.setEnabled(false);
-                            tv_clusterView.setAlpha(.5f);
-                        }
-                        k = mWrktypelist.size();
                     }
                 }
+            }
+
+
+            tv_worktype1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if (rv_wtype.getVisibility() == View.VISIBLE) {
+                        rv_wtype.setVisibility(View.INVISIBLE);
+                    } else {
+                        rv_wtype.setVisibility(View.VISIBLE);
+                        rv_wtype.setAdapter(new ArrayAdapter<String>(HomeDashBoard.this, R.layout.listview_items, worktypeNm));
+                    }
+                    Log.d("dataawise", worktypeNm.toString() + "-" + worktypeNm.size());
+                }
+            });
+
+            rv_wtype.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View arg1, int position, long id) {
+
+
+                    tv_worktype1.setText(parent.getItemAtPosition(position).toString());
+                    rv_wtype.setVisibility(View.INVISIBLE);
+
+                    for (int k = 0; k < mWrktypelist.size(); k++) {
+                        ModelWorkType kk = mWrktypelist.get(k);
+                        if (kk.getName().equalsIgnoreCase(parent.getItemAtPosition(position).toString())) {
+                            mydaywTypCd = kk.getCode();
+                            if (kk.getFlag().equalsIgnoreCase("Y")) {
+                                tv_clusterView.setEnabled(true);
+                                tv_clusterView.setAlpha(1f);
+                                if(deviate.getVisibility()==View.GONE) {
+                                    tv_headquater1.setEnabled(true);
+                                    tv_headquater1.setAlpha(1f);
+                                }else
+                                {
+                                    if(deviate.isChecked()) {
+                                        tv_headquater1.setEnabled(true);
+                                        tv_headquater1.setAlpha(1f);
+                                    }else
+                                    {
+                                        tv_headquater1.setEnabled(false);
+                                    }
+
+                                }
+                            } else {
+                                tv_clusterView.setEnabled(false);
+                                tv_clusterView.setAlpha(.5f);
+                                tv_clusterView.setText(resources.getString(R.string.select_cluster));
+                                tv_headquater1.setEnabled(false);
+                                tv_headquater1.setAlpha(.5f);
+                                tv_headquater1.setText(resources.getString(R.string.select_headquater));
+                            }
+                            k = mWrktypelist.size();
+                        }
+                    }
 /*
                             for (Map.Entry<String, String> entry : mWorktypeListID.entrySet()) {
                                 if (entry.getValue().equals(parent.getItemAtPosition(position).toString())) {
@@ -1162,97 +1740,121 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                                 }
                             }
 */
-            }
-        });
+                }
+            });
 
-        tv_clusterView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (rv_cluster.getVisibility() == View.VISIBLE) {
-                    rv_cluster.setVisibility(View.INVISIBLE);
-                    btn_mydayplan_go.setVisibility(View.VISIBLE);
-                } else {
+            tv_clusterView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (rv_cluster.getVisibility() == View.VISIBLE) {
+                        rv_cluster.setVisibility(View.INVISIBLE);
+                        btn_mydayplan_go.setVisibility(View.VISIBLE);
+                    } else {
+                        if (mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0")) {
+                            if (tpflag.equals("0")) {
+                                if (SF_Type.equalsIgnoreCase("2")) {
+                                    dbh.open();
+                                    Log.v("culster_name_printing", mydayhqCd + "");
+                                    mCursor = dbh.select_ClusterList(mydayhqCd);
+                                    mClusterListID.clear();
+                                    clusterNm.clear();
+                                    array_cluster.clear();
+                                    Log.v("culster_name_printing", mCursor.getCount() + "");
+                                    if (mCursor.getCount() > 0) {
+                                        while (mCursor.moveToNext()) {
+                                            mClusterListID.put(mCursor.getString(1), mCursor.getString(2));
+                                            clusterNm.add(mCursor.getString(2));
+                                            array_cluster.add(new PopFeed(mCursor.getString(2), mCursor.getString(1)));
 
-                    if (SF_Type.equalsIgnoreCase("2")) {
-                        dbh.open();
-                        Log.v("culster_name_printing", mydayhqCd + "");
-                        mCursor = dbh.select_ClusterList(mydayhqCd);
-                        mClusterListID.clear();
-                        clusterNm.clear();
-                        array_cluster.clear();
-                        Log.v("culster_name_printing", mCursor.getCount() + "");
-                        if (mCursor.getCount() > 0) {
-                            while (mCursor.moveToNext()) {
-                                mClusterListID.put(mCursor.getString(1), mCursor.getString(2));
-                                clusterNm.add(mCursor.getString(2));
-                                array_cluster.add(new PopFeed(mCursor.getString(2), mCursor.getString(1)));
+                                        }
+                                    }
+                                }
+                            }
+                        }else
+                        {
+                            if (SF_Type.equalsIgnoreCase("2")) {
+                                dbh.open();
+                                Log.v("culster_name_printing", mydayhqCd + "");
+                                mCursor = dbh.select_ClusterList(mydayhqCd);
+                                mClusterListID.clear();
+                                clusterNm.clear();
+                                array_cluster.clear();
+                                Log.v("culster_name_printing", mCursor.getCount() + "");
+                                if (mCursor.getCount() > 0) {
+                                    while (mCursor.moveToNext()) {
+                                        mClusterListID.put(mCursor.getString(1), mCursor.getString(2));
+                                        clusterNm.add(mCursor.getString(2));
+                                        array_cluster.add(new PopFeed(mCursor.getString(2), mCursor.getString(1)));
 
+                                    }
+                                }
                             }
                         }
-                    }
-                    //popupCluster(array_cluster);
-                    rv_cluster.setVisibility(View.VISIBLE);
-                    btn_mydayplan_go.setVisibility(View.INVISIBLE);
+                        //popupCluster(array_cluster);
+                        rv_cluster.setVisibility(View.VISIBLE);
+                        btn_mydayplan_go.setVisibility(View.INVISIBLE);
 
-                    Log.e("Home_dash_board", String.valueOf(clusterNm));
+                        Log.e("Home_dash_board", String.valueOf(clusterNm));
 
-                    rv_cluster.setAdapter(new ArrayAdapter<String>(HomeDashBoard.this, R.layout.listview_items, clusterNm));
-                }
-            }
-        });
-
-        rv_cluster.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View arg1, int position, long id) {
-                tv_clusterView.setText(parent.getItemAtPosition(position).toString());
-                rv_cluster.setVisibility(View.INVISIBLE);
-                btn_mydayplan_go.setVisibility(View.VISIBLE);
-                for (Map.Entry<String, String> entry : mClusterListID.entrySet()) {
-                    if (entry.getValue().equals(parent.getItemAtPosition(position).toString())) {
-                        mydayclustrCd = entry.getKey();
+                        rv_cluster.setAdapter(new ArrayAdapter<String>(HomeDashBoard.this, R.layout.listview_items, clusterNm));
+                        rv_cluster.deferNotifyDataSetChanged();
                     }
                 }
-            }
-        });
+            });
 
-        tv_headquater.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (SF_Type.equalsIgnoreCase("2")) {
-                    if (rv_hqlist.getVisibility() == View.VISIBLE) {
-                        rv_hqlist.setVisibility(View.INVISIBLE);
-                    } else {
-                        rv_hqlist.setVisibility(View.VISIBLE);
-                        rv_hqlist.setAdapter(new ArrayAdapter<String>(HomeDashBoard.this, R.layout.listview_items, hqNm));
-                    }
-                    tv_headquater.setText(mydayhqname);
-                } else {
-                    tv_headquater.setText(tv_userName.getText().toString());
-                    //    tv_headquater.setText("");
-                }
-            }
-
-        });
-
-        rv_hqlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View arg1, int position, long id) {
-                if (rv_cluster.getVisibility() == View.VISIBLE) {
+            rv_cluster.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View arg1, int position, long id) {
+                    tv_clusterView.setText(parent.getItemAtPosition(position).toString());
                     rv_cluster.setVisibility(View.INVISIBLE);
+                    btn_mydayplan_go.setVisibility(View.VISIBLE);
+                    for (Map.Entry<String, String> entry : mClusterListID.entrySet()) {
+                        if (entry.getValue().equals(parent.getItemAtPosition(position).toString())) {
+                            mydayclustrCd = entry.getKey();
+                        }
+                    }
+                    Log.v("nnmm",mydayclustrCd);
                 }
+            });
 
-                tv_clusterView.setText(resources.getString(R.string.select_cluster));
-                tv_headquater.setText(parent.getItemAtPosition(position).toString());
-                rv_hqlist.setVisibility(View.INVISIBLE);
-                for (Map.Entry<String, String> entry : mHQListID.entrySet()) {
-                    if (entry.getValue().equals(parent.getItemAtPosition(position).toString())) {
-                        mydayhqCd = entry.getKey();
-                        mydayhqname = entry.getValue();
+            tv_headquater1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (SF_Type.equalsIgnoreCase("2")) {
+                        if (rv_hqlist.getVisibility() == View.VISIBLE) {
+                            rv_hqlist.setVisibility(View.INVISIBLE);
+                        } else {
+                            rv_hqlist.setVisibility(View.VISIBLE);
+                            rv_hqlist.setAdapter(new ArrayAdapter<String>(HomeDashBoard.this, R.layout.listview_items, hqNm));
+                        }
+                       // tv_headquater.setText(mydayhqname);
+                    } else {
+                        tv_headquater1.setText(tv_userName.getText().toString());
+                        //    tv_headquater.setText("");
                     }
                 }
-                Log.v("printing_sF_code", mydayhqCd);
 
-                Updatecluster();
+            });
+
+            rv_hqlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View arg1, int position, long id) {
+                    if (rv_cluster.getVisibility() == View.VISIBLE) {
+                        rv_cluster.setVisibility(View.INVISIBLE);
+                    }
+
+                    tv_clusterView.setText(resources.getString(R.string.select_cluster));
+                    tv_headquater1.setText(parent.getItemAtPosition(position).toString());
+                    rv_hqlist.setVisibility(View.INVISIBLE);
+                    for (Map.Entry<String, String> entry : mHQListID.entrySet()) {
+                        if (entry.getValue().equals(parent.getItemAtPosition(position).toString())) {
+                            mydayhqCd = entry.getKey();
+                            mydayhqname = entry.getValue();
+                        }
+                    }
+                    Log.v("printing_sF_code", mydayhqCd);
+
+                    Updatecluster();
               /*  dwnloadMasterData = new DownloadMasters(getApplicationContext(), db_connPath, db_slidedwnloadPath, mydayhqCd,SF_Code);
                 ll_anim.setVisibility(View.VISIBLE);
                 MasterList=true;
@@ -1264,29 +1866,45 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                 dwnloadMasterData.jointwrkCall();
 */
 
+                }
+            });
+            try {
+                dialog.show();
+            } catch (Exception e) {
             }
-        });
-        try {
-            dialog.show();
-        } catch (Exception e) {
-        }
 
         btn_mydayplan_go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.v("checking_for_enable", tv_clusterView.isEnabled() + "");
-                if (tv_worktype.getText().toString().equalsIgnoreCase(resources.getString(R.string.select_worktype))) {
+                if (tv_worktype1.getText().toString().equalsIgnoreCase(resources.getString(R.string.select_worktype))) {
                     Toast.makeText(HomeDashBoard.this, resources.getString(R.string.fill_the)+" "+resources.getString(R.string.worktype1)+" "+resources.getString(R.string.field_), Toast.LENGTH_SHORT).show();
                 } else if (tv_clusterView.getText().toString().equalsIgnoreCase(resources.getString(R.string.select_cluster)) && !displayWrk && tv_clusterView.isEnabled()) {
                     Toast.makeText(HomeDashBoard.this, resources.getString(R.string.fill_the)+" "+resources.getString(R.string.cluster1)+" "+resources.getString(R.string.field_), Toast.LENGTH_SHORT).show();
-                } else if (tv_headquater.getText().toString().equalsIgnoreCase("null") || tv_headquater.getText().toString().equalsIgnoreCase(resources.getString(R.string.select_headquater))) {
+                } else if (tv_headquater1.getText().toString().equalsIgnoreCase("null") || tv_headquater1.getText().toString().equalsIgnoreCase(resources.getString(R.string.select_headquater)) && !displayWrk && tv_headquater1.isEnabled()) {
                     Toast.makeText(HomeDashBoard.this, resources.getString(R.string.fill_the)+" "+resources.getString(R.string.headquater1)+" "+resources.getString(R.string.field_), Toast.LENGTH_SHORT).show();
-                } else if (tv_worktype.getText().toString().equalsIgnoreCase("Leave") ) {
+                } else if (tv_worktype1.getText().toString().equalsIgnoreCase("Leave") ) {
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(HomeDashBoard.this,R.style.MyDialogTheme);
                     alertDialog.setMessage(resources.getString(R.string.leave_confirmation));
                     alertDialog.setCancelable(false);
                     alertDialog.setPositiveButton(resources.getString(R.string.yes), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
+                            if(displayWrk)
+                            {
+                                DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                DateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                Date date= null;
+                                try {
+                                    date = inputFormat.parse(mCommonSharedPreference.getValueFromPreference("mis_date"));
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                assert date != null;
+                                String lvdate = outputFormat.format(date);
+                                mCommonSharedPreference.setValueToPreference("todayDate", lvdate);
+                            }else {
+                                mCommonSharedPreference.setValueToPreference("todayDate", todayDate);
+                            }
                             mCommonSharedPreference.setValueToPreference("todayDate",todayDate);
                             Intent intent=new Intent(context, LeaveActivity.class);
                             intent.putExtra("Missed","3");
@@ -1301,102 +1919,47 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     AlertDialog alert = alertDialog.create();
                     alert.show();
 
-                   }
+                   } else if (mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0"))
+                {
+                    if(TextUtils.isEmpty(sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "")) && tpstatus.equals("0"))
+                    {
+                        Toast.makeText(getApplicationContext(), "Put Tourplan and Submit", Toast.LENGTH_SHORT).show();
+                    }else if(tpstatus.equals("1"))
+                    {
+                        Toast.makeText(getApplicationContext(), "Approval pending contact Line manager", Toast.LENGTH_SHORT).show();
+                    }else if(tpstatus.equals("2"))
+                    {
+                        Toast.makeText(getApplicationContext(), "Tourplan Rejected", Toast.LENGTH_SHORT).show();
+                    }else
+                    {
+                        mydayplan();
+                    }
+                }
+
                 else {
-
-                    JSONObject json = new JSONObject();
-
-                    try {
-                        json.put("SF", SF_Code);
-                        if (SF_Type.equalsIgnoreCase("2"))
-                            json.put("SFMem", mydayhqCd);
-                        else
-                            json.put("SFMem", SF_Code);
-                        json.put("Pl", mydayclustrCd);
-                        if (tv_clusterView.getText().toString().equalsIgnoreCase("SELECT CLUSTER"))
-                            json.put("PlNm", "");
-                        else
-                            json.put("PlNm", tv_clusterView.getText().toString());
-                        json.put("WT", mydaywTypCd);
-                        json.put("WTNMm", tv_worktype.getText().toString());
-                        json.put("Rem", et_remark.getText().toString());
-                        json.put("Div", mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DIVISION));
-                        json.put("location", "");
-                        json.put("InsMode", "0");
-                        json.put("TPDt", CommonUtilsMethods.getCurrentInstance() + " " + CommonUtilsMethods.getCurrentTime());
-//                        if(mCommonSharedPreference.getValueFromPreference("TPDCR_Deviation").equals("0"))
-//                        {
-//                            if(deviate.isChecked())
-//                            {
-//                                json.put("TpVwFlg", "0");
-//                            }else
-//                            {
-//                                json.put("TpVwFlg", "1");
-//                            }
-//                        }else
-//                        {
-//                            json.put("TpVwFlg", "0");
-//                        }
-                    } catch (Exception e) {
-
-                    }
-                    if (displayWrk) {//missed date
-
-                        sendMissedDateCall(tv_worktype.getText().toString(), mydaywTypCd, mydayhqCd, mydayhqname);
-
-                    } else {
-                        editor.putString(CommonUtils.TAG_WORKTYPE_NAME, tv_worktype.getText().toString());
-                        editor.putString(CommonUtils.TAG_WORKTYPE_CODE, mydaywTypCd);
-                        editor.putString(CommonUtils.TAG_WORKTYPE_CLUSTER_CODE, mydayclustrCd);
-                        editor.putString(CommonUtils.TAG_SF_CODE, SF_Code);
-                        editor.putString(CommonUtils.TAG_SF_HQ, tv_headquater.getText().toString());
-                        editor.putString("remrk", sharedpreferences.getString("remrk", ""));
-
-                        if (SF_Type.equalsIgnoreCase("1")) {
-                            mCommonSharedPreference.setValueToPreference("sub_sf_code", SF_Code);
-                            mCommonSharedPreference.setValueToPreference("tmp_sub_sf_code", SF_Code);
-                            mydayhqCd = SF_Code;
-                        } else {
-                            mCommonSharedPreference.setValueToPreference("sub_sf_code", mydayhqCd);
-                            mCommonSharedPreference.setValueToPreference("tmp_sub_sf_code", mydayhqCd);
-                        }
-                        if (tv_clusterView.getText().toString().equalsIgnoreCase("SELECT CLUSTER"))
-                            editor.putString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, "");
-                        else
-                            editor.putString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, tv_clusterView.getText().toString());
-                        editor.putString("remrk", et_remark.getText().toString());
-                        editor.putString(CommonUtils.TAG_TMP_WORKTYPE_NAME, tv_worktype.getText().toString());
-                        editor.putString(CommonUtils.TAG_TMP_WORKTYPE_CODE, mydaywTypCd);
-                        editor.putString(CommonUtils.TAG_TMP_WORKTYPE_CLUSTER_CODE, mydayclustrCd);
-                        editor.putString(CommonUtils.TAG_TMP_SF_CODE, SF_Code);
-                        editor.putString(CommonUtils.TAG_TMP_SF_HQ, tv_headquater.getText().toString());
-                        editor.putString(CommonUtils.TAG_TMP_MYDAY_WORKTYPE_CLUSTER_NAME, tv_clusterView.getText().toString());
-                    }
-
-                    Log.e("values_myday", json.toString() + "db_connPath " + db_connPath + "subsf" + mCommonSharedPreference.getValueFromPreference("sub_sf_code"));
-                    wrk_json = json.toString();
-                    if (displayWrk) {
-                        editor.commit();
-                        mCommonSharedPreference.setValueToPreference("missed", "true");
-                                   /* Intent i=new Intent(HomeDashBoard.this, DCRCallSelectionActivity.class);
-                                    startActivity(i);
-                                    dialog.dismiss();*/
-                    } else {
-                        if (mCommonSharedPreference.getValueFromPreference("net_con").equalsIgnoreCase("connect")) {
-                            Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
-                            Call<ResponseBody> tdayTP = apiService.SVtodayTP(String.valueOf(json));
-                            tdayTP.enqueue(svTodayTP);
-                        } else {
-                            saveOfflineMDP(json.toString());
-                        }
-                    }
-
+                    mydayplan();
                 }
             }
         });
 
         Close.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                if(mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0")) {
+                    switch (mCommonSharedPreference.getValueFromPreference("tpflag")) {
+                        case "2":
+                            tpflag = "2";
+                            break;
+                        case "1":
+                            tpflag = "1";
+                            break;
+                        case "0":
+                            tpflag = "0";
+                            break;
+                            case "":
+                            tpflag = "";
+                            break;
+                    }
+                }
                 dialog.dismiss();
             }
         });
@@ -1405,25 +1968,364 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(deviate.isChecked())
                 {
-                    Toast.makeText(HomeDashBoard.this, "jkgkhkgh", Toast.LENGTH_SHORT).show();
-                    tv_worktype.setEnabled(true);
-                    tv_headquater.setEnabled(true);
+                    tpflag="0";
+                    tpdcrdeviation();
+                    tv_worktype1.setEnabled(true);
+                    tv_headquater1.setEnabled(true);
                     tv_clusterView.setEnabled(true);
                     et_remark.setEnabled(true);
                     //tpflag = "1";
                 }else
                 {
-                    Toast.makeText(HomeDashBoard.this, "lobr", Toast.LENGTH_SHORT).show();
-                    tv_worktype.setEnabled(false);
-                    tv_headquater.setEnabled(false);
-                    tv_clusterView.setEnabled(false);
-                    et_remark.setEnabled(false);
+                   // getTodayTp(json);
+                    switch (mCommonSharedPreference.getValueFromPreference("tpflag")) {
+                        case "2":
+                            tpflag = "2";
+                            break;
+                        case "1":
+                            tpflag = "1";
+                            break;
+                        case "0":
+                            tpflag = "0";
+                            break;
+                    }
+                    Worktype();
+                    tv_headquater1.setEnabled(false);
+                    //et_remark.setEnabled(false);
                 }
             }
         });
 
+    }
+
+    private void tpdcrdeviation() {
+        Log.v("tpflag11","hjhkhhh" + tpflag);
+        if (mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0")) {
+            if (tpflag.equals("0")) {
+                dbh.open();
+                mCursor = dbh.select_worktypeList(SF_Code);
+                mWorktypeListID.clear();
+                mWrktypelist.clear();
+                worktypeNm.clear();
+                Log.d("sfcodes", "" + SF_Code);
+                Log.d("checkcurcount", "" + mCursor.getCount());
+                if (mCursor.getCount() > 0) {
+                    while (mCursor.moveToNext()) {
+                        if (displayWrk && mCursor.getString(4).equalsIgnoreCase("Y")) {
+                        }//other than fieldwork in missed date
+                        else {
+                            mWorktypeListID.put(mCursor.getString(1), mCursor.getString(2));
+                            mWrktypelist.add(new ModelWorkType(mCursor.getString(2), mCursor.getString(1), mCursor.getString(4)));
+                            worktypeNm.add(mCursor.getString(2));
+                            Log.d("display_wrktype", mCursor.getString(2));
+                        }
+                    }
+                }
+
+
+                if (SF_Type.equalsIgnoreCase("2"))
+                    mCursor = dbh.select_ClusterList(mydayhqCd);
+                else
+                    mCursor = dbh.select_ClusterList();
+                mClusterListID.clear();
+                clusterNm.clear();
+                if (mCursor.getCount() > 0) {
+                    while (mCursor.moveToNext()) {
+                        mClusterListID.put(mCursor.getString(1), mCursor.getString(2));
+                        clusterNm.add(mCursor.getString(2));
+                        array_cluster.add(new PopFeed(mCursor.getString(2), mCursor.getString(1)));
+
+                    }
+                }
+
+            } else if (tpflag.equals("2")) {
+                worktypeNm.clear();
+//            for (String string : tp_worktype) {
+//
+//                if (string.isEmpty()) {
+//                    Log.v("wlength", String.valueOf(string.length()));
+//                } else {
+//                    tpworktype += string + ";";
+//                }
+//            }
+                dbh.open();
+                mCursor = dbh.select_worktypeList(SF_Code);
+                if (mCursor.getCount() != 0) {
+                    while (mCursor.moveToNext()) {
+                        if (tpworktype.length() > 0) {
+                            if ((";" + tpworktype).indexOf(";" + mCursor.getString(1) + ";") > -1)
+                                worktypeNm.add(mCursor.getString(2));
+                        }
+                    }
+                }
+
+                if (SF_Type.equalsIgnoreCase("2")) {
+                    mCursor = dbh.select_ClusterList(sfmem);
+                } else
+                    mCursor = dbh.select_ClusterList();
+                mClusterListID.clear();
+                clusterNm.clear();
+                if (mCursor.getCount() > 0) {
+                    while (mCursor.moveToNext()) {
+                        mClusterListID.put(mCursor.getString(1), mCursor.getString(2));
+                        if (tpcluster.length() > 0) {
+                            if ((";" + tpcluster).indexOf(";" + mCursor.getString(1) + ";") > -1)
+                                clusterNm.add(mCursor.getString(2));
+                        }
+
+                    }
+                }
+
+            } else if (tpflag.equals("1")) {
+                worktypeNm.clear();
+                dbh.open();
+                mCursor = dbh.select_worktypeList(SF_Code);
+                if (mCursor.getCount() != 0) {
+                    while (mCursor.moveToNext()) {
+                        if (tpworktype.length() > 0) {
+                            if ((";" + tpworktype).indexOf(";" + mCursor.getString(1) + ";") > -1)
+                                worktypeNm.add(mCursor.getString(2));
+                        }
+                    }
+                }
+
+                if (SF_Type.equalsIgnoreCase("2")) {
+                    mCursor = dbh.select_ClusterList(mydayhqCd);
+                } else
+                    mCursor = dbh.select_ClusterList();
+                mClusterListID.clear();
+                clusterNm.clear();
+                if (mCursor.getCount() > 0) {
+                    while (mCursor.moveToNext()) {
+                        mClusterListID.put(mCursor.getString(1), mCursor.getString(2));
+                        if (tpcluster.length() > 0) {
+                            if ((";" + tpcluster).indexOf(";" + mCursor.getString(1) + ";") > -1)
+                                clusterNm.add(mCursor.getString(2));
+                        }
+
+                    }
+                }
+            } else  {
+                dbh.open();
+                mCursor = dbh.select_worktypeList(SF_Code);
+                mWorktypeListID.clear();
+                mWrktypelist.clear();
+                worktypeNm.clear();
+                Log.d("sfcodes", "" + SF_Code);
+                Log.d("checkcurcount", "" + mCursor.getCount());
+                if (mCursor.getCount() > 0) {
+                    while (mCursor.moveToNext()) {
+                        if (displayWrk && mCursor.getString(4).equalsIgnoreCase("Y")) {
+                        }//other than fieldwork in missed date
+                        else {
+                            mWorktypeListID.put(mCursor.getString(1), mCursor.getString(2));
+                            mWrktypelist.add(new ModelWorkType(mCursor.getString(2), mCursor.getString(1), mCursor.getString(4)));
+                            worktypeNm.add(mCursor.getString(2));
+                            Log.d("display_wrktype", mCursor.getString(2));
+                        }
+                    }
+                }
+
+
+                if (SF_Type.equalsIgnoreCase("2"))
+                    mCursor = dbh.select_ClusterList(mydayhqCd);
+                else
+                    mCursor = dbh.select_ClusterList();
+                mClusterListID.clear();
+                clusterNm.clear();
+                if (mCursor.getCount() > 0) {
+                    while (mCursor.moveToNext()) {
+                        mClusterListID.put(mCursor.getString(1), mCursor.getString(2));
+                        clusterNm.add(mCursor.getString(2));
+                        array_cluster.add(new PopFeed(mCursor.getString(2), mCursor.getString(1)));
+
+                    }
+                }
+
+            }
+        }else
+        {
+            dbh.open();
+            mCursor = dbh.select_worktypeList(SF_Code);
+            mWorktypeListID.clear();
+            mWrktypelist.clear();
+            worktypeNm.clear();
+            Log.d("sfcodes", "" + SF_Code);
+            Log.d("checkcurcount", "" + mCursor.getCount());
+            if (mCursor.getCount() > 0) {
+                while (mCursor.moveToNext()) {
+                    if (displayWrk && mCursor.getString(4).equalsIgnoreCase("Y")) {
+                    }//other than fieldwork in missed date
+                    else {
+                        mWorktypeListID.put(mCursor.getString(1), mCursor.getString(2));
+                        mWrktypelist.add(new ModelWorkType(mCursor.getString(2), mCursor.getString(1), mCursor.getString(4)));
+                        worktypeNm.add(mCursor.getString(2));
+                        Log.d("display_wrktype", mCursor.getString(2));
+                    }
+                }
+            }
+
+
+            if (SF_Type.equalsIgnoreCase("2"))
+                mCursor = dbh.select_ClusterList(mydayhqCd);
+            else
+                mCursor = dbh.select_ClusterList();
+            mClusterListID.clear();
+            clusterNm.clear();
+            if (mCursor.getCount() > 0) {
+                while (mCursor.moveToNext()) {
+                    mClusterListID.put(mCursor.getString(1), mCursor.getString(2));
+                    clusterNm.add(mCursor.getString(2));
+                    array_cluster.add(new PopFeed(mCursor.getString(2), mCursor.getString(1)));
+
+                }
+            }
+        }
 
     }
+
+    public void mydayplan()
+    {
+        btn_mydayplan_go.startAnimation();
+        JSONObject json = new JSONObject();
+
+        try {
+            json.put("SF", SF_Code);
+            if (SF_Type.equalsIgnoreCase("2")) {
+                if (tv_headquater1.isEnabled() && tv_clusterView.isEnabled())
+                    json.put("SFMem", mydayhqCd);
+                else
+                    json.put("SFMem", "");
+            }
+            else {
+                if (tv_headquater1.isEnabled() && tv_clusterView.isEnabled())
+                    json.put("SFMem", SF_Code);
+                else
+                    json.put("SFMem", "");
+            }
+            if (tv_clusterView.getText().toString().equalsIgnoreCase("SELECT CLUSTER"))
+                json.put("Pl", "");
+            else
+                json.put("Pl", mydayclustrCd);
+            if (tv_clusterView.getText().toString().equalsIgnoreCase("SELECT CLUSTER"))
+                json.put("PlNm", "");
+            else
+                json.put("PlNm", tv_clusterView.getText().toString());
+            json.put("WT", mydaywTypCd);
+            json.put("WTNMm", tv_worktype1.getText().toString());
+            json.put("Rem", et_remark.getText().toString());
+            json.put("Div", mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DIVISION));
+            json.put("location", "");
+            json.put("InsMode", "0");
+            json.put("TPDt", CommonUtilsMethods.getCurrentInstance() + " " + CommonUtilsMethods.getCurrentTime());
+            if(mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0") &&
+                    mCommonSharedPreference.getValueFromPreference("TPDCR_Deviation").equals("0"))
+            {
+                if(deviate.getVisibility()==View.GONE)
+                {
+                    tpflag="0";
+                    json.put("TpVwFlg", "0");
+                }else {
+                    if (deviate.isChecked()) {
+                        tpflag = "0";
+                        json.put("TpVwFlg", "0");
+                    } else {
+                        tpflag = "1";
+                        json.put("TpVwFlg", "1");
+                    }
+                }
+
+            }
+            else
+            {
+                tpflag="0";
+                json.put("TpVwFlg", "0");
+            }
+            if(mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0") &&
+                    mCommonSharedPreference.getValueFromPreference("TPDCR_Deviation").equals("0"))
+            {
+                if(!tpflag.equals("0"))
+                    json.put("TP_cluster", tp_cluster1);
+                else
+                    json.put("TP_cluster", "");
+            }
+
+
+            if(mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0") &&
+                    mCommonSharedPreference.getValueFromPreference("TPDCR_Deviation").equals("0")) {
+                if(!tpflag.equals("0"))
+                    json.put("TP_worktype", tp_worktype1);
+                else
+                    json.put("TP_worktype", "");
+            }
+            Log.v("mydyplanjson",json.toString());
+            if (mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0"))
+            mCommonSharedPreference.setValueToPreference("tpflag",tpflag);
+
+        } catch (Exception e) {
+
+        }
+        if (displayWrk) {//missed date
+
+            sendMissedDateCall(tv_worktype1.getText().toString(), mydaywTypCd, mydayhqCd, mydayhqname,et_remark.getText().toString());
+
+        } else {
+            editor.putString(CommonUtils.TAG_WORKTYPE_NAME, tv_worktype1.getText().toString());
+            editor.putString(CommonUtils.TAG_WORKTYPE_CODE, mydaywTypCd);
+            editor.putString(CommonUtils.TAG_WORKTYPE_CLUSTER_CODE, mydayclustrCd);
+            editor.putString(CommonUtils.TAG_SF_CODE, SF_Code);
+            editor.putString(CommonUtils.TAG_SF_HQ, tv_headquater1.getText().toString());
+            editor.putString("remrk", sharedpreferences.getString("remrk", ""));
+
+            if (SF_Type.equalsIgnoreCase("1")) {
+                mCommonSharedPreference.setValueToPreference("sub_sf_code", SF_Code);
+                mCommonSharedPreference.setValueToPreference("tmp_sub_sf_code", SF_Code);
+                mydayhqCd = SF_Code;
+            } else {
+                mCommonSharedPreference.setValueToPreference("sub_sf_code", mydayhqCd);
+                mCommonSharedPreference.setValueToPreference("tmp_sub_sf_code", mydayhqCd);
+            }
+            if (tv_clusterView.getText().toString().equalsIgnoreCase("SELECT CLUSTER"))
+                editor.putString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, "");
+            else
+                editor.putString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, tv_clusterView.getText().toString());
+            editor.putString("remrk", et_remark.getText().toString());
+            editor.putString(CommonUtils.TAG_TMP_WORKTYPE_NAME, tv_worktype1.getText().toString());
+            editor.putString(CommonUtils.TAG_TMP_WORKTYPE_CODE, mydaywTypCd);
+            editor.putString(CommonUtils.TAG_TMP_WORKTYPE_CLUSTER_CODE, mydayclustrCd);
+            editor.putString(CommonUtils.TAG_TMP_SF_CODE, SF_Code);
+            editor.putString(CommonUtils.TAG_TMP_SF_HQ, tv_headquater1.getText().toString());
+            editor.putString(CommonUtils.TAG_TMP_MYDAY_WORKTYPE_CLUSTER_NAME, tv_clusterView.getText().toString());
+        }
+
+        Log.e("values_myday", json.toString() + "db_connPath " + db_connPath + "subsf" + mCommonSharedPreference.getValueFromPreference("sub_sf_code"));
+        wrk_json = json.toString();
+        if (displayWrk) {
+            editor.commit();
+            mCommonSharedPreference.setValueToPreference("missed", "true");
+                                   /* Intent i=new Intent(HomeDashBoard.this, DCRCallSelectionActivity.class);
+                                    startActivity(i);
+                                    dialog.dismiss();*/
+        } else {
+            if (mCommonSharedPreference.getValueFromPreference("net_con").equalsIgnoreCase("connect")) {
+                Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
+               // if (mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0")) {
+                    Call<ResponseBody> tdayTP = apiService.SVtodayTP1(String.valueOf(json));
+                    tdayTP.enqueue(svTodayTP);
+//                }
+//                else
+//                {
+//                    Call<ResponseBody> tdayTP = apiService.SVtodayTP(String.valueOf(json));
+//                    tdayTP.enqueue(svTodayTP);
+//                }
+
+            } else {
+                saveOfflineMDP(json.toString());
+            }
+        }
+
+    }
+
 
     /*
      */
@@ -1468,6 +2370,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                             Intent i = new Intent(HomeDashBoard.this, DCRCallSelectionActivity.class);
                             startActivity(i);
                         } else {
+                            btn_mydayplan_go.stopAnimation();
                             Toast toast = Toast.makeText(getApplicationContext(), jsonObject.getString("Msg"), Toast.LENGTH_SHORT);
                             toast.setGravity(Gravity.CENTER, 0, 0);
                             toast.show();
@@ -1479,7 +2382,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                             tv_cluster.setText("Cluster : " + tv_cluster.getText().toString());*/
                         }
                         dialog.dismiss();
-                        tpflag = "0";
+                       // if (!mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0"))
+                        //tpflag = "0";
                     } else {
                         Log.v("work_plan_detail", jsonObject.getString("Msg"));
                         Toast.makeText(getApplicationContext(), jsonObject.getString("Msg"), Toast.LENGTH_SHORT).show();
@@ -1510,6 +2414,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
                     // dbh.close();
                 } catch (Exception e) {
+                    btn_mydayplan_go.stopAnimation();
                 }
             } else {
                 try {
@@ -1728,8 +2633,35 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         Log.v("here_printg_destroy", "method_are_called");
         stopService(new Intent(getBaseContext(), DcrBlock.class));
         stopService(new Intent(this,Autotimezone.class));
+        trimCache(this);
         // unregisterReceiver();
 
+    }
+
+    public static void trimCache(Context context) {
+        try {
+            File dir = context.getCacheDir();
+            deleteDir(dir);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+            return dir.delete();
+        }
+        else {
+            return false;
+        }
     }
 
     private void registerReceiver() {
@@ -2400,7 +3332,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                             bit = BitMapToString(getResizedBitmap(targetLocation.toString(), 150, 150));
                         }
 
-                        if (targetLocation.toString().contains("png") || targetLocation.toString().contains("jpg")) {
+                        if (targetLocation.toString().contains("png") || targetLocation.toString().contains("jpg") || targetLocation.toString().contains("gif")) {
                             File compressedImageFile = new Compressor(getApplicationContext()).compressToFile(targetLocation);
                             dbh.update_product_Content_Url(compressedImageFile.toString(), fileName, bit, compressedImageFile.toString());
                             Log.v("compressed_Filesss", compressedImageFile.toString());
@@ -3011,6 +3943,59 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                         else
                             mCommonSharedPreference.setValueToPreference("TPDCR_Deviation" , "");
 
+                        if(jsonn.has("TPbasedDCR"))
+                            mCommonSharedPreference.setValueToPreference("TPbasedDCR",jsonn.getString("TPbasedDCR"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("TPbasedDCR" , "");
+
+                        if(jsonn.has("TP_Mandatory_Need"))
+                            mCommonSharedPreference.setValueToPreference("TP_Mandatory_Need",jsonn.getString("TP_Mandatory_Need"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("TP_Mandatory_Need" , "");
+
+                        if(jsonn.has("Tp_Start_Date"))
+                            mCommonSharedPreference.setValueToPreference("Tp_Start_Date",jsonn.getString("Tp_Start_Date"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("Tp_Start_Date" , "");
+
+                        if(jsonn.has("Tp_End_Date"))
+                            mCommonSharedPreference.setValueToPreference("Tp_End_Date",jsonn.getString("Tp_End_Date"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("Tp_End_Date" , "");
+
+                        if(jsonn.has("MissedDateMand"))
+                            mCommonSharedPreference.setValueToPreference("MissedDateMand",jsonn.getString("MissedDateMand"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("MissedDateMand" , "");
+
+                        if(jsonn.has("quiz_need_mandt"))
+                            mCommonSharedPreference.setValueToPreference("quiz_need_mandt",jsonn.getString("quiz_need_mandt"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("quiz_need_mandt" , "");
+
+                        if(jsonn.has("quiz_need"))
+                            mCommonSharedPreference.setValueToPreference("quiz_need",jsonn.getString("quiz_need"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("quiz_need" , "");
+
+                        if(jsonn.has("Target_report_Nd"))
+                            mCommonSharedPreference.setValueToPreference("Target_report_Nd",jsonn.getString("Target_report_Nd"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("Target_report_Nd" , "");
+
+                        if(jsonn.has("DlyCtrl"))
+                            mCommonSharedPreference.setValueToPreference("DlyCtrl",jsonn.getString("DlyCtrl"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("DlyCtrl" , "");
+
+                        if(jsonn.has("DcrLockDays"))
+                            mCommonSharedPreference.setValueToPreference("DcrLockDays",jsonn.getString("DcrLockDays"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("DcrLockDays" , "");
+
+
+
+
 
                         getTodayCalls();
                     } catch (Exception e) {
@@ -3256,6 +4241,22 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                         }
 
                         TodayCalls();
+                        if (mCommonSharedPreference.getValueFromPreference("MissedDateMand").equalsIgnoreCase("0")) {
+                            getMissedDates();
+                        } else {
+
+                        }
+
+
+//                                if (progressDialog == null) {
+//                                    CommonUtilsMethods commonUtilsMethods = new CommonUtilsMethods(HomeDashBoard.this);
+//                                    progressDialog = commonUtilsMethods.createProgressDialog(HomeDashBoard.this);
+//                                    progressDialog.show();
+//                                } else {
+//                                    progressDialog.show();
+//                                }
+//                                getQuiz();
+//                            }
 
                         // Toast.makeText(FeedbackActivity.this, "Data Submitted Successfully", Toast.LENGTH_LONG).show();
                     } else {
@@ -3306,6 +4307,23 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             }
         } else
             TodayCalls();
+        if (mCommonSharedPreference.getValueFromPreference("MissedDateMand").equalsIgnoreCase("0")) {
+            getMissedDates();
+        } else {
+
+        }
+
+        if (mCommonSharedPreference.getValueFromPreference("quiz_need_mandt").equalsIgnoreCase("0")) {
+                if (progressDialog == null) {
+                    CommonUtilsMethods commonUtilsMethods = new CommonUtilsMethods(HomeDashBoard.this);
+                    progressDialog = commonUtilsMethods.createProgressDialog(HomeDashBoard.this);
+                    progressDialog.show();
+                } else {
+                    progressDialog.show();
+                }
+                getQuiz();
+            }
+
     }
 
     public void alertDialoggg(ArrayList<String> list) {
@@ -3419,30 +4437,93 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     }
 
     public void callDCR() {
-        String wrkNAm = sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, null);
-        String wrkcluNAm = sharedpreferences.getString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, null);
-        if (TextUtils.isEmpty(wrkNAm) || wrkNAm.equalsIgnoreCase("null")) {
-            Toast.makeText(HomeDashBoard.this, resources.getString(R.string.dplan_need), Toast.LENGTH_SHORT).show();
-            if (!tpflag.isEmpty() || !tpflag.equals("")) {
-                if (tpflag.equals("1")) {
-                    if (tb_dwnloadSlides.getVisibility() != View.VISIBLE) {
-                        Worktype();
-                    }
-
-                }
-            } else {
-                if (tb_dwnloadSlides.getVisibility() != View.VISIBLE) {
-                    Worktype();
-                }
-            }
-        } else {
-            if (sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("Field Work") ||sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("CoronaWFH-With Drs")) {
-                CommonUtilsMethods.CommonIntentwithNEwTask(DCRCallSelectionActivity.class);
-            }else
-            {
-                Toast.makeText(this,getResources().getString(R.string.NonFieldcall),Toast.LENGTH_LONG).show();
-            }
+        if(mCommonSharedPreference.getValueFromPreference("MissedDateMand").equalsIgnoreCase("0")) {
+            getMissedDates();
+        }else{
         }
+
+        if (mCommonSharedPreference.getValueFromPreference("TP_Mandatory_Need").equalsIgnoreCase("0") &&
+                !mCommonSharedPreference.getValueFromPreference("Tp_Start_Date").equalsIgnoreCase("0") &&
+                !mCommonSharedPreference.getValueFromPreference("Tp_End_Date").equalsIgnoreCase("0")&&
+                mCommonSharedPreference.getValueFromPreference("tpskip").equalsIgnoreCase("null")&&
+                (!mCommonSharedPreference.getValueFromPreference("tpstatus").equalsIgnoreCase("3")
+                        || !mCommonSharedPreference.getValueFromPreference("tpstatus_flag").equalsIgnoreCase("3"))) {
+
+            getTpstatus(json);
+
+        } else if (arr.size() > 0 && mCommonSharedPreference.getValueFromPreference("MissedDateMand").equalsIgnoreCase("0")) {
+                missedDate();
+            }
+        else if(mCommonSharedPreference.getValueFromPreference("quiz_need_mandt").equalsIgnoreCase("0")
+                && mCommonSharedPreference.getValueFromPreference("quizSuccess").equalsIgnoreCase("true"))
+                {
+                    popupQuiz("");
+                }
+
+            else {
+                String wrkNAm = sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, null);
+                String wrkcluNAm = sharedpreferences.getString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, null);
+                if (TextUtils.isEmpty(wrkNAm) || wrkNAm.equalsIgnoreCase("null")) {
+                    Toast.makeText(HomeDashBoard.this, resources.getString(R.string.dplan_need), Toast.LENGTH_SHORT).show();
+                    if (!tpflag.isEmpty() || !tpflag.equals("")) {
+ //                       if (mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0")) {
+                            if (tpflag.equals("2")) {
+                                if (tb_dwnloadSlides.getVisibility() != View.VISIBLE) {
+                                    Worktype();
+                                }
+                            }
+//                        } else {
+//                            if (tpflag.equals("1")) {
+//                                if (tb_dwnloadSlides.getVisibility() != View.VISIBLE) {
+//                                    Worktype();
+//                                }
+//                            }
+//                        }
+                    } else {
+                        if (tb_dwnloadSlides.getVisibility() != View.VISIBLE) {
+                            Worktype();
+                        }
+                    }
+                } else {
+                    if (!tpflag.isEmpty() || !tpflag.equals("")) {
+                            //                    if (mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0")) {
+                            if (tpflag.equals("2")) {
+                                if (tb_dwnloadSlides.getVisibility() != View.VISIBLE) {
+                                    Toast.makeText(HomeDashBoard.this, resources.getString(R.string.dplan_need), Toast.LENGTH_SHORT).show();
+                                    Worktype();
+
+                                }
+                            } else {
+                                if (sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("Field Work") || sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("CoronaWFH-With Drs")) {
+                                    CommonUtilsMethods.CommonIntentwithNEwTask(DCRCallSelectionActivity.class);
+                                } else {
+                                    Toast.makeText(this, getResources().getString(R.string.NonFieldcall), Toast.LENGTH_LONG).show();
+                                }
+                            }
+//                        } else {
+//                            if (tpflag.equals("1")) {
+//                                if (tb_dwnloadSlides.getVisibility() != View.VISIBLE) {
+//                                    Toast.makeText(HomeDashBoard.this, resources.getString(R.string.dplan_need), Toast.LENGTH_SHORT).show();
+//                                    Worktype();
+//                                }
+//                            }else
+//                            {
+//                                if (sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("Field Work") || sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("CoronaWFH-With Drs")) {
+//                                    CommonUtilsMethods.CommonIntentwithNEwTask(DCRCallSelectionActivity.class);
+//                                } else {
+//                                    Toast.makeText(this, getResources().getString(R.string.NonFieldcall), Toast.LENGTH_LONG).show();
+//                                }
+//                            }
+//                        }
+                        }
+                    else
+                    {
+                        if (tb_dwnloadSlides.getVisibility() != View.VISIBLE) {
+                            Worktype();
+                        }
+                    }
+                    }
+            }
 
 //            if(wttpeFlag.equals("0"))
 //            {
@@ -3453,6 +4534,69 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 //            }
 
 
+    }
+
+    private void getMissedDates() {
+        {
+            Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("SF", SF_Code);
+                Log.v("json_missed", jsonObject.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Call<ResponseBody> noti = apiService.getMissedDate(jsonObject.toString());
+            noti.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    arr.clear();
+                    InputStreamReader ip = null;
+                    StringBuilder is = new StringBuilder();
+                    String line = null;
+                    try {
+                        ip = new InputStreamReader(response.body().byteStream());
+                        BufferedReader bf = new BufferedReader(ip);
+
+                        while ((line = bf.readLine()) != null) {
+                            is.append(line);
+                        }
+                        Log.v("missed_printt", is.toString());
+                        JSONArray jj = new JSONArray(is.toString());
+                        for (int i = 0; i < jj.length(); i++) {
+                            JSONObject js = jj.getJSONObject(i);
+                            if(js.has("dstatus")) {
+                                dstatus = js.getString("dstatus");
+                            }else
+                            {
+                                dstatus =" ";
+                            }
+
+                            arr.add(new MissedDate(js.getString("DMon") + " " + js.getString("DYr"), js.getString("DDate"), js.getString("DDay"), js.getString("id"),dstatus));
+                        }
+                        Log.v("missed>>>", arr.toString());
+                        AdapterMissedDate adp = new AdapterMissedDate(HomeDashBoard.this, arr);
+                        missed_list.setAdapter(adp);
+                        adp.notifyDataSetChanged();
+
+                   /* ArrayList<String> msg=new ArrayList<>();
+
+                    JSONArray jsonArray=new JSONArray(is.toString());
+                    for(int i=0;i<jsonArray.length();i++){
+                        JSONObject jj=jsonArray.getJSONObject(i);
+                        msg.add(jj.getString("msg"));
+                    }
+                    alertDialoggg(msg);*/
+                    } catch (Exception e) {
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                }
+            });
+        }
     }
 
     public static void updateCallUI(UpdateUi ui) {
@@ -3472,10 +4616,9 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         mis_dialog.setContentView(R.layout.popup_missed_date);
         mis_dialog.setCanceledOnTouchOutside(false);
         mis_dialog.show();
-        final ListView missed_list = (ListView) mis_dialog.findViewById(R.id.missed_list);
+        missed_list = (ListView) mis_dialog.findViewById(R.id.missed_list);
         ImageView close_img = (ImageView) mis_dialog.findViewById(R.id.close_img);
 
-        arr = new ArrayList<>();
 
         close_img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -3483,68 +4626,10 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                 mis_dialog.dismiss();
             }
         });
-
+        getMissedDates();
         final AdapterMissedDate adp = new AdapterMissedDate(this, arr);
         missed_list.setAdapter(adp);
         adp.notifyDataSetChanged();
-
-        Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("SF", SF_Code);
-            Log.v("json_missed", jsonObject.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        Call<ResponseBody> noti = apiService.getMissedDate(jsonObject.toString());
-        noti.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                InputStreamReader ip = null;
-                StringBuilder is = new StringBuilder();
-                String line = null;
-                try {
-                    ip = new InputStreamReader(response.body().byteStream());
-                    BufferedReader bf = new BufferedReader(ip);
-
-                    while ((line = bf.readLine()) != null) {
-                        is.append(line);
-                    }
-                    Log.v("missed_printt", is.toString());
-                    JSONArray jj = new JSONArray(is.toString());
-                    for (int i = 0; i < jj.length(); i++) {
-                        JSONObject js = jj.getJSONObject(i);
-                        if(js.has("dstatus")) {
-                             dstatus = js.getString("dstatus");
-                        }else
-                        {
-                            dstatus =" ";
-                        }
-
-                        arr.add(new MissedDate(js.getString("DMon") + " " + js.getString("DYr"), js.getString("DDate"), js.getString("DDay"), js.getString("id"),dstatus));
-                    }
-                    Log.v("missed>>>", arr.toString());
-                    AdapterMissedDate adp = new AdapterMissedDate(HomeDashBoard.this, arr);
-                    missed_list.setAdapter(adp);
-                    adp.notifyDataSetChanged();
-
-                   /* ArrayList<String> msg=new ArrayList<>();
-
-                    JSONArray jsonArray=new JSONArray(is.toString());
-                    for(int i=0;i<jsonArray.length();i++){
-                        JSONObject jj=jsonArray.getJSONObject(i);
-                        msg.add(jj.getString("msg"));
-                    }
-                    alertDialoggg(msg);*/
-                } catch (Exception e) {
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-            }
-        });
     }
 
     public void svTrack(String lat, String lng, String acc, String date) {
@@ -3864,6 +4949,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     Log.v("current_datee_home2 ", currentDate + " preference_date " + mCommonSharedPreference.getValueFromPreference("tpdate"));
 
                     mCommonSharedPreference.setValueToPreference(CommonUtils.TAG_WORKTYPE_NAME, "");
+                    mCommonSharedPreference.setValueToPreference("tpskip","null");
                 }
             }
 
@@ -3975,33 +5061,114 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                 if (arrayNav.get(i).getText().equals(resources.getString(R.string.change_cluster))){
                     displayWrk = false;
                     setSharedPreference();
-                    Worktype();
+
+                    if (mCommonSharedPreference.getValueFromPreference("TP_Mandatory_Need").equalsIgnoreCase("0") &&
+                            !mCommonSharedPreference.getValueFromPreference("Tp_Start_Date").equalsIgnoreCase("0") &&
+                            !mCommonSharedPreference.getValueFromPreference("Tp_End_Date").equalsIgnoreCase("0")&&
+                            mCommonSharedPreference.getValueFromPreference("tpskip").equalsIgnoreCase("null")&&
+                            (!mCommonSharedPreference.getValueFromPreference("tpstatus").equalsIgnoreCase("3")
+                                    || !mCommonSharedPreference.getValueFromPreference("tpstatus_flag").equalsIgnoreCase("3"))) {
+
+                        getTpstatus(json);
+
+                    } else if (arr.size() > 0 && mCommonSharedPreference.getValueFromPreference("MissedDateMand").equalsIgnoreCase("0")) {
+                        missedDate();
+                    }
+
+                    else if(mCommonSharedPreference.getValueFromPreference("quiz_need_mandt").equalsIgnoreCase("0")
+                     && mCommonSharedPreference.getValueFromPreference("quizSuccess").equalsIgnoreCase("true"))
+                                {
+                                    popupQuiz("");
+                                }
+                    else
+                        {
+//                            if (!tpflag.equals("2")) {
+//                                getTodayTp(json);
+//                            }
+                                Worktype();
+
+
+                    }
+
 
                 }else if (arrayNav.get(i).getText().equals(resources.getString(R.string.calls))){
-                    String wrkNAm = sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, null);
-                    Log.v("testing", wrkNAm);
-                    String wrkcluNAm = sharedpreferences.getString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, null);
-                    if (TextUtils.isEmpty(wrkNAm) || wrkNAm.equalsIgnoreCase("null")) {
-                        Toast.makeText(HomeDashBoard.this, resources.getString(R.string.dplan_need), Toast.LENGTH_SHORT).show();
-                        Worktype();
+                    if (mCommonSharedPreference.getValueFromPreference("TP_Mandatory_Need").equalsIgnoreCase("0") &&
+                            !mCommonSharedPreference.getValueFromPreference("Tp_Start_Date").equalsIgnoreCase("0") &&
+                            !mCommonSharedPreference.getValueFromPreference("Tp_End_Date").equalsIgnoreCase("0")&&
+                            mCommonSharedPreference.getValueFromPreference("tpskip").equalsIgnoreCase("null")&&
+                            (!mCommonSharedPreference.getValueFromPreference("tpstatus").equalsIgnoreCase("3")
+                                    || !mCommonSharedPreference.getValueFromPreference("tpstatus_flag").equalsIgnoreCase("3"))) {
+
+                        getTpstatus(json);
+
+                    } else if(arr.size()>0 && mCommonSharedPreference.getValueFromPreference("MissedDateMand").equalsIgnoreCase("0")) {
+                        missedDate();
                     }
+                    else if(mCommonSharedPreference.getValueFromPreference("quiz_need_mandt").equalsIgnoreCase("0")
+                    && mCommonSharedPreference.getValueFromPreference("quizSuccess").equalsIgnoreCase("true"))
+                                {
+                                    popupQuiz("");
+                                }
+
+
+                        else
+                        {
+
+                                    String wrkNAm = sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, null);
+                                Log.v("testing", wrkNAm);
+                                String wrkcluNAm = sharedpreferences.getString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, null);
+                                if (TextUtils.isEmpty(wrkNAm) || wrkNAm.equalsIgnoreCase("null")) {
+                                    Toast.makeText(HomeDashBoard.this, resources.getString(R.string.dplan_need), Toast.LENGTH_SHORT).show();
+                                    Worktype();
+                                }
 /*
                 if(TextUtils.isEmpty(wrkcluNAm)|| TextUtils.isEmpty(wrkNAm) || wrkNAm.equalsIgnoreCase("null")){
                     Toast.makeText(HomeDashBoard.this," My Day plan is Needed ",Toast.LENGTH_SHORT).show();
                     Worktype();
                 }
 */
-                    else {
-                        if (sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("Field Work") ||sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("CoronaWFH-With Drs"))
-                        {
-                          //  if(NetworkReceiver.isAutotimeON(HomeDashBoard.this))
-                                CommonUtilsMethods.CommonIntentwithNEwTask(DCRCallSelectionActivity.class);
-                        }else
-                        {
-                            Toast.makeText(HomeDashBoard.this,getResources().getString(R.string.NonFieldcall),Toast.LENGTH_LONG).show();
-                        }
+                                else {
+                                    if (!tpflag.isEmpty() || !tpflag.equals("")) {
+ //                                       if (mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0")) {
+                                            if (tpflag.equals("2")) {
+                                                if (tb_dwnloadSlides.getVisibility() != View.VISIBLE) {
+                                                    Toast.makeText(HomeDashBoard.this, resources.getString(R.string.dplan_need), Toast.LENGTH_SHORT).show();
+                                                    Worktype();
 
-                    }
+                                                }
+                                            }else
+                                            {
+                                                if (sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("Field Work") || sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("CoronaWFH-With Drs")) {
+                                                    CommonUtilsMethods.CommonIntentwithNEwTask(DCRCallSelectionActivity.class);
+                                                } else {
+                                                    Toast.makeText(HomeDashBoard.this, getResources().getString(R.string.NonFieldcall), Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+//                                        } else {
+//                                            if (tpflag.equals("1")) {
+//                                                if (tb_dwnloadSlides.getVisibility() != View.VISIBLE) {
+//                                                    Toast.makeText(HomeDashBoard.this, resources.getString(R.string.dplan_need), Toast.LENGTH_SHORT).show();
+//                                                    Worktype();
+//                                                }
+//                                            }else
+//                                            {
+//                                                if (sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("Field Work") || sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("CoronaWFH-With Drs")) {
+//                                                    CommonUtilsMethods.CommonIntentwithNEwTask(DCRCallSelectionActivity.class);
+//                                                } else {
+//                                                    Toast.makeText(HomeDashBoard.this, getResources().getString(R.string.NonFieldcall), Toast.LENGTH_LONG).show();
+//                                                }
+//                                            }
+//                                        }
+                                    }else
+                                    {
+                                        if (tb_dwnloadSlides.getVisibility() != View.VISIBLE) {
+                                            Worktype();
+                                        }
+                                    }
+                                }
+                            }
+
+
 
                 }else if (arrayNav.get(i).getText().equals(resources.getString(R.string.create_presentation))){
 
@@ -4035,14 +5202,14 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
                 }else if (arrayNav.get(i).getText().equals(resources.getString(R.string.leave_application))){
 
-                    if (licence.equals("iil4420")) {
-                        CommonUtilsMethods.CommonIntentwithNEwTask(LeaveActivity1.class);
-                    } else {
+//                    if (licence.equals("iil4420")) {
+//                        CommonUtilsMethods.CommonIntentwithNEwTask(LeaveActivity1.class);
+//                    } else {
                         //CommonUtilsMethods.CommonIntentwithNEwTask(LeaveActivity.class);
                         Intent intent=new Intent(context, LeaveActivity.class);
                         intent.putExtra("Missed","1");
                         startActivity(intent);
-                    }
+        //            }
 
                 }else if (arrayNav.get(i).getText().equals(resources.getString(R.string.approvals))){
 
@@ -4101,6 +5268,13 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                             progressDialog.show();
                         }
                     getQuiz();
+                    if(mCommonSharedPreference.getValueFromPreference("quizSuccess").equalsIgnoreCase("true"))
+                    {
+                        popupQuiz("");
+                    }else
+                    {
+                        Toast.makeText(HomeDashBoard.this, quizSuccess, Toast.LENGTH_SHORT).show();
+                    }
                 }
 
 
@@ -4330,6 +5504,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     }
 
     public void saveOfflineMDP(String json) {
+        //btn_mydayplan_go.stopAnimation();
         if (sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_CODE, "").equalsIgnoreCase("null") ||
                 TextUtils.isEmpty(sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_CODE, ""))) {
             dbh.open();
@@ -4366,48 +5541,95 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     public String sendMDP(String jso, final String id) {
         Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
 
-        Call<ResponseBody> tdayTP = apiService.SVtodayTP(jso);
-        tdayTP.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                InputStreamReader ip = null;
-                StringBuilder is = new StringBuilder();
-                String line = null;
-                try {
-                    ip = new InputStreamReader(response.body().byteStream());
-                    BufferedReader bf = new BufferedReader(ip);
+        //if (mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0")) {
+            Call<ResponseBody> tdayTP = apiService.SVtodayTP1(jso);
+            tdayTP.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    InputStreamReader ip = null;
+                    StringBuilder is = new StringBuilder();
+                    String line = null;
+                    try {
+                        ip = new InputStreamReader(response.body().byteStream());
+                        BufferedReader bf = new BufferedReader(ip);
 
-                    while ((line = bf.readLine()) != null) {
-                        is.append(line);
-                    }
-
-                    Log.v("final_mdp_work", is.toString());
-                    dbh.open();
-                    dbh.delete_MDP(id);
-                    Cursor cur2 = dbh.select_MDP();
-                    if (cur2.getCount() > 0) {
-                        cur2.moveToFirst();
-                        sendMDP(cur2.getString(1), cur2.getString(0));
-                    } else {
-                        Cursor cur1 = dbh.select_json_list();
-                        if (cur1.getCount() > 0) {
-                            cur1.moveToFirst();
-                            if (cur1.getString(2).indexOf("_") != -1) {
-                                Log.v("printing_totla_val", cur1.getString(1) + " id_here " + cur1.getInt(0));
-                                finalSubmission(cur1.getString(1), cur1.getInt(0));
-                            }
-
+                        while ((line = bf.readLine()) != null) {
+                            is.append(line);
                         }
+
+                        Log.v("final_mdp_work", is.toString());
+                        dbh.open();
+                        dbh.delete_MDP(id);
+                        Cursor cur2 = dbh.select_MDP();
+                        if (cur2.getCount() > 0) {
+                            cur2.moveToFirst();
+                            sendMDP(cur2.getString(1), cur2.getString(0));
+                        } else {
+                            Cursor cur1 = dbh.select_json_list();
+                            if (cur1.getCount() > 0) {
+                                cur1.moveToFirst();
+                                if (cur1.getString(2).indexOf("_") != -1) {
+                                    Log.v("printing_totla_val", cur1.getString(1) + " id_here " + cur1.getInt(0));
+                                    finalSubmission(cur1.getString(1), cur1.getInt(0));
+                                }
+
+                            }
+                        }
+                    } catch (Exception e) {
                     }
-                } catch (Exception e) {
                 }
-            }
 
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
 
-            }
-        });
+                }
+            });
+   //     }
+//        else {
+//
+//            Call<ResponseBody> tdayTP = apiService.SVtodayTP(jso);
+//            tdayTP.enqueue(new Callback<ResponseBody>() {
+//                @Override
+//                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                    InputStreamReader ip = null;
+//                    StringBuilder is = new StringBuilder();
+//                    String line = null;
+//                    try {
+//                        ip = new InputStreamReader(response.body().byteStream());
+//                        BufferedReader bf = new BufferedReader(ip);
+//
+//                        while ((line = bf.readLine()) != null) {
+//                            is.append(line);
+//                        }
+//
+//                        Log.v("final_mdp_work", is.toString());
+//                        dbh.open();
+//                        dbh.delete_MDP(id);
+//                        Cursor cur2 = dbh.select_MDP();
+//                        if (cur2.getCount() > 0) {
+//                            cur2.moveToFirst();
+//                            sendMDP(cur2.getString(1), cur2.getString(0));
+//                        } else {
+//                            Cursor cur1 = dbh.select_json_list();
+//                            if (cur1.getCount() > 0) {
+//                                cur1.moveToFirst();
+//                                if (cur1.getString(2).indexOf("_") != -1) {
+//                                    Log.v("printing_totla_val", cur1.getString(1) + " id_here " + cur1.getInt(0));
+//                                    finalSubmission(cur1.getString(1), cur1.getInt(0));
+//                                }
+//
+//                            }
+//                        }
+//                    } catch (Exception e) {
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<ResponseBody> call, Throwable t) {
+//
+//                }
+//            });
+//        }
         return "";
     }
 
@@ -4429,7 +5651,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         mCursor = dbh.select_worktypeList(SF_Code);
     }
 
-    public void sendMissedDateCall(String wtname, String wcode, String hcode, String hname) {
+    public void sendMissedDateCall(String wtname, String wcode, String hcode, String hname,String remarks) {
         JSONObject json = new JSONObject();
         JSONArray jArray = new JSONArray();
         try {
@@ -4461,7 +5683,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             json.put("ModTime", CommonUtilsMethods.getCurrentInstance() + " " + CommonUtilsMethods.getCurrentTime());
             json.put("ReqDt", CommonUtilsMethods.getCurrentInstance() + " " + CommonUtilsMethods.getCurrentTime());
             json.put("vstTime", CommonUtilsMethods.getCurrentInstance() + " " + CommonUtilsMethods.getCurrentTime());
-            json.put("Remks", "");
+            json.put("Remks", remarks);
             json.put("Pl", mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_CLUSTER_CODE));
             json.put("amc", "");
             json.put("sign_path", "");
@@ -4545,10 +5767,12 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
 
                             JSONObject ja = new JSONObject(is.toString());
-                            if (ja.getString("success").equalsIgnoreCase("false"))
-                                Toast.makeText(HomeDashBoard.this, ja.getString("msg"), Toast.LENGTH_SHORT).show();
-                            else
-                                popupQuiz("");
+                            mCommonSharedPreference.setValueToPreference("quizSuccess",ja.getString("success"));
+                            quizSuccess=ja.getString("msg");
+//                            if (ja.getString("success").equalsIgnoreCase("false"))
+//                                Toast.makeText(HomeDashBoard.this, ja.getString("msg"), Toast.LENGTH_SHORT).show();
+//                            else
+//                                popupQuiz("");
 
 
                         } catch (Exception e) {
@@ -4577,6 +5801,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         TextView txt_time = dialog.findViewById(R.id.txt_time);
         TextView txt_ques = dialog.findViewById(R.id.txt_ques);
         TextView txt_result = dialog.findViewById(R.id.txt_result);
+        ImageView close_qz =   dialog.findViewById(R.id.close_qz);
 
         try {
             JSONObject jj = new JSONObject(mCommonSharedPreference.getValueFromPreference("quizdata").toString());
@@ -4607,6 +5832,12 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                 btn_start.setVisibility(View.GONE);
             }
         }
+        close_qz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
         // Log.v("print_true_false",fileExist("/storage/emulated/0/Quiz/survey.png")+"");
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -4859,7 +6090,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Profiling"*/resources.getString(R.string.profiling)));
         if(mCommonSharedPreference.getValueFromPreference("SurveyNd").equalsIgnoreCase("0"))
             arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Survey"*/resources.getString(R.string.survey)));
-        //arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Quiz"*/resources.getString(R.string.quiz)));
+        if(mCommonSharedPreference.getValueFromPreference("quiz_need").equalsIgnoreCase("0"))
+        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Quiz"*/resources.getString(R.string.quiz)));
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Detailing Report"*/resources.getString(R.string.detailing_report)));
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_logout, /*"Logout"*/resources.getString(R.string.logout)));
         //arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Dashboard"*/resources.getString(R.string.Dashboard)));

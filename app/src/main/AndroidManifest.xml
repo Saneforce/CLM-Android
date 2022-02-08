@@ -142,6 +142,7 @@
             android:name=".activities.viewWebsite"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="stateHidden|adjustResize" />
+
         <activity
             android:name=".activities.DetailingFullScreenImageViewActivity"
             android:screenOrientation="landscape"
@@ -277,6 +278,9 @@
             android:name=".activities.DashActivity"
             android:screenOrientation="landscape" />
         <activity
+            android:name=".Sales_Report.Activity.Sales_report_new"
+            android:screenOrientation="landscape" />
+        <activity
             android:name=".activities.ProfilingActivity"
             android:screenOrientation="landscape" />
         <!--
@@ -304,6 +308,27 @@
         <activity android:name=".activities.SurveyActivity"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".Sales_Report.Activity.PSalesDetailsReport"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".Sales_Report.Activity.PSaleFFBasedBrandDetails"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".Sales_Report.Activity.PSaleHQBasedBrandDetails"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".Sales_Report.Activity.PSaleHQBasedProductDetails"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".Sales_Report.Activity.PSaleBrandBasedProductDetails"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".Sales_Report.Activity.PSaleFFBasedProductDetails"
+            android:screenOrientation="landscape"/>
     </application>
+    <queries>
+
+            <intent>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" />
+            </intent>
+
+    </queries>
 
 </manifest>

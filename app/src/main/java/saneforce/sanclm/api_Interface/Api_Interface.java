@@ -42,6 +42,7 @@ import saneforce.sanclm.Pojo_Class.SpecialityList;
 import saneforce.sanclm.Pojo_Class.Stockists;
 import saneforce.sanclm.Pojo_Class.TodayCalls;
 import saneforce.sanclm.Pojo_Class.TodayTp;
+import saneforce.sanclm.Pojo_Class.TodayTpNew;
 import saneforce.sanclm.Pojo_Class.UnListedDoctorList;
 import saneforce.sanclm.Pojo_Class.WorkType;
 
@@ -159,8 +160,8 @@ public interface Api_Interface {
     Call<List<TodayTp>> todayTP(@Field("data") String sf);
 
     @FormUrlEncoded
-    @POST("db_test.php?axn=get/todaytp")
-    Call<List<TodayTp>> todayTPNew(@Field("data") String sf);
+    @POST("db.php?axn=get/todaytpnew")
+    Call<List<TodayTpNew>> todayTPNew(@Field("data") String sf);
 
     @FormUrlEncoded
     @POST("db.php?axn=get/geotag")
@@ -197,6 +198,11 @@ public interface Api_Interface {
     @FormUrlEncoded
     @POST("db.php?axn=save/mytp")
     Call<ResponseBody> SVtodayTP(@Field("data") String sfc);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=save/mytpnew")
+    Call<ResponseBody> SVtodayTP1(@Field("data") String sfc);
+
 
     @FormUrlEncoded
     @POST("db.php?axn=get/tpdetail")
@@ -471,6 +477,36 @@ public interface Api_Interface {
     @POST("db.php?axn=getdivision_speciality")
     Call<JsonArray> getdivSpecDataAsJArray(@QueryMap Map<String, String> params);
 
+    @POST("db.php?axn=get/primary_ss_dashboard")
+    Call<JsonArray> getSalesDataAsJArray(@QueryMap Map<String, String> params);
+
+    @POST("db.php?axn=get/primary_hq")
+    Call<JsonArray> getHqwiseDataAsJArray(@QueryMap Map<String, String> params);
+
+    @POST("db.php?axn=get/primary_hq_detail")
+    Call<JsonArray> getHqBrandDataAsJArray(@QueryMap Map<String, String> params);
+
+    @POST("db.php?axn=get/primary_hq_brand_product")
+    Call<JsonArray> getHqProductDataAsJArray(@QueryMap Map<String, String> params);
+
+    @POST("db.php?axn=get/primary_brand")
+    Call<JsonArray> getBrandwiseDataAsJArray(@QueryMap Map<String, String> params);
+
+    @POST("db.php?axn=get/primary_brand_product")
+    Call<JsonArray> getBrandProductDataAsJArray(@QueryMap Map<String, String> params);
+
+    @POST("db.php?axn=get/primary_fieldforce")
+    Call<JsonArray> getFieldwiseDataAsJArray(@QueryMap Map<String, String> params);
+
+    @POST("db.php?axn=get/primary_fieldforce_brand")
+    Call<JsonArray> getFFBrandDataAsJArray(@QueryMap Map<String, String> params);
+
+    @POST("db.php?axn=get/primary_fieldforce_brand_product")
+    Call<JsonArray> getFFProductDataAsJArray(@QueryMap Map<String, String> params);
+
+    @POST("db.php?axn=get/mvd_coverage")
+    Call<JsonArray> getMVDDataAsJArray(@QueryMap Map<String, String> params);
+
     @FormUrlEncoded
     @POST("db.php?axn=get/drcovdet")
     Call<ResponseBody>getDoctorCoverage(@Field("data") String sf);
@@ -542,4 +578,11 @@ public interface Api_Interface {
     @POST("db.php?axn=save/survey")
     Call<ResponseBody> saveSurveylist(@Field("data") String sf);
 
+    @FormUrlEncoded
+    @POST("db.php?axn=get/tpstatus")
+    Call<ResponseBody> getTpStatus(@Field("data") String sf);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=get/vwchktpstatus")
+    Call<ResponseBody> checkTpStatus(@Field("data") String sf);
 }

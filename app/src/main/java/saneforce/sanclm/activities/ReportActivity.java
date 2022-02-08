@@ -29,6 +29,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import saneforce.sanclm.R;
+import saneforce.sanclm.Sales_Report.Activity.Sales_report_new;
 import saneforce.sanclm.activities.Model.LoadBitmap;
 import saneforce.sanclm.adapter_class.ReportAdapter;
 import saneforce.sanclm.api_Interface.Api_Interface;
@@ -117,7 +118,11 @@ public class ReportActivity extends AppCompatActivity {
                     if (mm.getTiming().equalsIgnoreCase("sales")) {
                         Intent ii = new Intent(ReportActivity.this, DashActivity.class);
                         startActivity(ii);
-                    } else {
+                    }else if (mm.getTiming().equalsIgnoreCase("report")) {
+                        Intent ii = new Intent(ReportActivity.this, Sales_report_new.class);
+                        startActivity(ii);
+                    }
+                    else {
                         Intent ii = new Intent(ReportActivity.this, DayReportsActivity.class);
                         if (mm.getTiming().equalsIgnoreCase("visit"))
                             ii.putExtra("value", "2");
@@ -159,6 +164,8 @@ public class ReportActivity extends AppCompatActivity {
                         reportdata.add(new LoadBitmap(resources.getString(R.string.missedreport),"miss"));
                         if(mCommonSharedPreference.getValueFromPreference("Target_sales").equalsIgnoreCase("1"))
                         reportdata.add(new LoadBitmap("Target Vs Sales","sales"));
+                        if(mCommonSharedPreference.getValueFromPreference("Target_report_Nd").equalsIgnoreCase("0"))
+                        reportdata.add(new LoadBitmap("Sales Report","report"));
                         JSONArray json=new JSONArray(is.toString());
                         for(int i=0;i<json.length();i++){
                             JSONObject jsonObject1=json.getJSONObject(i);

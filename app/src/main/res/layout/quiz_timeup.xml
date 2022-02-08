@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="500dp"
+    android:id="@+id/dd"
+    android:layout_height="wrap_content"
+    android:background="@drawable/round_rect_white">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Time's Up"
+        android:textColor="@color/red"
+        android:textSize="28sp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"
+        android:id="@+id/wel"/>
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/wel"
+        android:padding="12dp"
+        android:id="@+id/close_qz"
+        android:src="@drawable/back_close"
+        tools:ignore="VectorDrawableCompat">
+
+    </ImageView>
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Quiz Session Closed"
+        android:textColor="#0B519C"
+        android:textSize="25sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textStyle="italic"
+        android:id="@+id/gud"
+        android:layout_below="@+id/wel"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Please Submit the Quiz"
+        android:textColor="#000"
+        android:layout_marginLeft="20dp"
+        android:textSize="16sp"
+        android:layout_marginTop="10dp"
+        android:textStyle="italic"
+        android:gravity="center"
+        android:id="@+id/txt_ques"
+        android:layout_below="@+id/gud"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="#DA1111"
+        android:layout_marginRight="20dp"
+        android:textSize="16sp"
+        android:layout_marginTop="10dp"
+        android:textStyle="italic"
+        android:id="@+id/txt_result"
+        android:layout_below="@+id/gud"
+        android:layout_alignParentEnd="true"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Attempt:1"
+        android:layout_marginLeft="20dp"
+        android:textColor="#000"
+        android:textSize="16sp"
+        android:id="@+id/txt_atmpt"
+        android:layout_marginTop="10dp"
+        android:textStyle="italic"
+        android:visibility="gone"
+        android:layout_below="@+id/txt_ques"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time limit:9.15"
+        android:visibility="gone"
+        android:layout_marginLeft="20dp"
+        android:textColor="#000"
+        android:textSize="16sp"
+        android:id="@+id/txt_time"
+        android:layout_marginTop="10dp"
+        android:textStyle="italic"
+        android:layout_below="@+id/txt_atmpt"/>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_time"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/submit"
+            android:textColor="#fff"
+            android:layout_toRightOf="@+id/btn_dwn"
+            android:layout_marginTop="20dp"
+            android:padding="15dp"
+            android:id="@+id/btn_start"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/map_blue_shape"
+            />
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>

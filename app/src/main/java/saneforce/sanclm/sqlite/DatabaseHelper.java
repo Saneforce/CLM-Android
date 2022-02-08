@@ -8,7 +8,7 @@ import saneforce.sanclm.sqlite.DataBaseHandler.*;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
 
-    public static final int DATABASE_VERSION = 11;
+    public static final int DATABASE_VERSION = 12;
     public static final String DATABASE_NAME = "eghjjhEdetailing.db";
     private static final String TEXT_TYPE = " TEXT";
     private static final String COMMA_SEP = ",";
@@ -495,6 +495,97 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             TableEntry.COLUMN_Tcount3+ TEXT_TYPE +
             ")";
 
+    private static final String SQL_CREATE_BRAND_BRAND_DETAILS_MTD = "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.BrandBasedBrand_MTD_Data +" ("+
+            TableEntry.BrandBasedBrand_MTD_Key+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.BrandBasedBrand_MTD_Value+ TEXT_TYPE +
+            ")";
+
+    private static final String SQL_CREATE_BRAND_BRAND_DETAILS_QTD = "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.BrandBasedBrand_QTD_Data +" ("+
+            TableEntry.BrandBasedBrand_QTD_Key+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.BrandBasedBrand_QTD_Value+ TEXT_TYPE +
+            ")";
+
+    private static final String SQL_CREATE_BRAND_BRAND_DETAILS_YTD = "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.BrandBasedBrand_YTD_Data +" ("+
+            TableEntry.BrandBasedBrand_YTD_Key+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.BrandBasedBrand_YTD_Value+ TEXT_TYPE +
+            ")";
+
+    private static final String SQL_CREATE_HQ_BRAND_DETAILS_MTD = "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.HQBasedBrand_MTD_Data +" ("+
+            TableEntry.HQBasedBrand_MTD_Key+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.HQBasedBrand_MTD_Value+ TEXT_TYPE +
+            ")";
+
+    private static final String SQL_CREATE_HQ_BRAND_DETAILS_QTD = "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.HQBasedBrand_QTD_Data +" ("+
+            TableEntry.HQBasedBrand_QTD_Key+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.HQBasedBrand_QTD_Value+ TEXT_TYPE +
+            ")";
+
+    private static final String SQL_CREATE_HQ_BRAND_DETAILS_YTD = "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.HQBasedBrand_YTD_Data +" ("+
+            TableEntry.HQBasedBrand_YTD_Key+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.HQBasedBrand_YTD_Value+ TEXT_TYPE +
+            ")";
+
+
+    private static final String SQL_CREATE_HQ_PRODUCT_DETAILS_MTD = "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.HQBasedProd_MTD_Data +" ("+
+            TableEntry.HQBasedProd_MTD_Key+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.HQBasedProd_MTD_Value+ TEXT_TYPE +
+            ")";
+
+    private static final String SQL_CREATE_HQ_PRODUCT_DETAILS_QTD = "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.HQBasedProd_QTD_Data +" ("+
+            TableEntry.HQBasedProd_QTD_Key+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.HQBasedProd_QTD_Value+ TEXT_TYPE +
+            ")";
+
+    private static final String SQL_CREATE_HQ_PRODUCT_DETAILS_YTD = "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.HQBasedProd_YTD_Data +" ("+
+            TableEntry.HQBasedProd_YTD_Key+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.HQBasedProd_YTD_Value+ TEXT_TYPE +
+            ")";
+
+    private static final String SQL_CREATE_FIELD_BRAND_DETAILS_MTD = "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.FFBasedBrand_MTD_Data +" ("+
+            TableEntry.FFBasedBrand_MTD_Key+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.FFBasedBrand_MTD_Value+ TEXT_TYPE +
+            ")";
+
+    private static final String SQL_CREATE_FIELD_BRAND_DETAILS_QTD = "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.FFBasedBrand_QTD_Data +" ("+
+            TableEntry.FFBasedBrand_QTD_Key+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.FFBasedBrand_QTD_Value+ TEXT_TYPE +
+            ")";
+
+    private static final String SQL_CREATE_FIELD_BRAND_DETAILS_YTD = "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.FFBasedBrand_YTD_Data +" ("+
+            TableEntry.FFBasedBrand_YTD_Key+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.FFBasedBrand_YTD_Value+ TEXT_TYPE +
+            ")";
+
+
+    private static final String SQL_CREATE_FIELD_PRODUCT_DETAILS_MTD = "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.FFBasedProd_MTD_Data +" ("+
+            TableEntry.FFBasedProd_MTD_Key+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.FFBasedProd_MTD_Value+ TEXT_TYPE +
+            ")";
+
+    private static final String SQL_CREATE_FIELD_PRODUCT_DETAILS_QTD = "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.FFBasedProd_QTD_Data +" ("+
+            TableEntry.FFBasedProd_QTD_Key+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.FFBasedBrand_QTD_Value+ TEXT_TYPE +
+            ")";
+
+    private static final String SQL_CREATE_FIELD_PRODUCT_DETAILS_YTD = "CREATE TABLE IF NOT EXISTS "+
+            TableEntry.FFBasedProd_YTD_Data +" ("+
+            TableEntry.FFBasedProd_YTD_Key+ TEXT_TYPE +COMMA_SEP +
+            TableEntry.FFBasedProd_YTD_Value+ TEXT_TYPE +
+            ")";
     public DatabaseHelper(Context context)
     {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -554,6 +645,26 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL(SQL_CREATE_BRAND_EXPOSURE);
         db.execSQL(SQL_CREATE_TOTAL_CALLS);
         db.execSQL(SQL_CREATE_TABLE_TPNEW);
+
+        db.execSQL(SQL_CREATE_BRAND_BRAND_DETAILS_MTD);
+        db.execSQL(SQL_CREATE_BRAND_BRAND_DETAILS_QTD);
+        db.execSQL(SQL_CREATE_BRAND_BRAND_DETAILS_YTD);
+
+        db.execSQL(SQL_CREATE_HQ_BRAND_DETAILS_MTD);
+        db.execSQL(SQL_CREATE_HQ_BRAND_DETAILS_QTD);
+        db.execSQL(SQL_CREATE_HQ_BRAND_DETAILS_YTD);
+
+        db.execSQL(SQL_CREATE_HQ_PRODUCT_DETAILS_MTD);
+        db.execSQL(SQL_CREATE_HQ_PRODUCT_DETAILS_QTD);
+        db.execSQL(SQL_CREATE_HQ_PRODUCT_DETAILS_YTD);
+
+        db.execSQL(SQL_CREATE_FIELD_BRAND_DETAILS_MTD);
+        db.execSQL(SQL_CREATE_FIELD_BRAND_DETAILS_QTD);
+        db.execSQL(SQL_CREATE_FIELD_BRAND_DETAILS_YTD);
+
+        db.execSQL(SQL_CREATE_FIELD_PRODUCT_DETAILS_MTD);
+        db.execSQL(SQL_CREATE_FIELD_PRODUCT_DETAILS_QTD);
+        db.execSQL(SQL_CREATE_FIELD_PRODUCT_DETAILS_YTD);
 
     }
 

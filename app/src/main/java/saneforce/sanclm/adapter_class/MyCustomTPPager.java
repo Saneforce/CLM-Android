@@ -449,11 +449,11 @@ public class MyCustomTPPager extends PagerAdapter {
                 tp.setJoint("");
                 tp.setHosp("");
             }
-            if(mCommonSharedPreference.getValueFromPreference("sf_type").equalsIgnoreCase("2") && mCommonSharedPreference.getValueFromPreference("approve").equalsIgnoreCase("null")) {
-                lay_hq.setEnabled(true);
-                lay_hq.setAlpha(1f);
-                txt_hq.setAlpha(1f);
-            }
+//            if(mCommonSharedPreference.getValueFromPreference("sf_type").equalsIgnoreCase("2") && mCommonSharedPreference.getValueFromPreference("approve").equalsIgnoreCase("null")) {
+//                lay_hq.setEnabled(true);
+//                lay_hq.setAlpha(1f);
+//                txt_hq.setAlpha(1f);
+//            }
         }
         else
             Log.v("printing_else_part",position+"empty"+tp.getWrk());

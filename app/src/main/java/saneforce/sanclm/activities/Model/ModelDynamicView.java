@@ -63,6 +63,10 @@ public class ModelDynamicView {
         this.lngValue=lngValue;
     }
 
+    public ModelDynamicView(String viewid, String value) {
+        this.viewid = viewid;
+        this.value = value;
+    }
 
 
     public String getLatValue() {

@@ -132,25 +132,39 @@
         android:layout_height="wrap_content"
         android:id="@+id/sub_btn"
         android:text="@string/submit"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="10dp"
         android:textColor="#fff"
         android:layout_marginRight="40dp"
-        android:background="@drawable/green_border_quiz1"
+
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btn"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="10dp"
         android:padding="5dp"
         android:text="@string/quiz_nxt"
         android:layout_marginRight="10dp"
-        android:textColor="#03DAC5"
+        android:textColor="#ffffff"
         android:layout_toLeftOf="@+id/sub_btn"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/green_border_quiz"
+
         />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/prevbtn"
+        android:layout_marginBottom="10dp"
+        android:padding="5dp"
+        android:text="PREV"
+        android:layout_marginRight="10dp"
+        android:textColor="#ffffff"
+        android:layout_toLeftOf="@+id/btn"
+        android:layout_alignParentBottom="true"
+
+        />
+
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
