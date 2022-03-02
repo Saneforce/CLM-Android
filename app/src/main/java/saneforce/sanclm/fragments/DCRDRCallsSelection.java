@@ -276,6 +276,10 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
 
         FullScreencall();
 
+        if(mCommonSharedPreference.getValueFromPreference("DlyCtrl").equalsIgnoreCase("0") &&( !mCommonSharedPreference.getValueFromPreference("choosedEditDate").contains("Today")&&!mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("")&&!mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("null"))) {
+          ibtn_skip.setVisibility(View.INVISIBLE);
+        }
+
 
         if(SF_Type.equalsIgnoreCase("2")){
             spinner.setVisibility(View.VISIBLE);
@@ -292,7 +296,7 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
             SharedPreferences shares=getActivity().getSharedPreferences("location",0);
             laty= Double.parseDouble(shares.getString("lat","0.0"));
             lngy= Double.parseDouble(shares.getString("lng","0.0"));
-            Log.v("Dr_selection_key",laty+" lngy "+lngy);
+            Log.v("Dr_selection_key_local",laty+" lngy "+lngy);
             if(String.valueOf(laty).equals("0.0") && String.valueOf(lngy).equals("0.0"))
             {
                 if(CurrentLoc())
@@ -1006,9 +1010,15 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
                     Toast.makeText(getActivity().getApplicationContext(),getResources().getString(R.string.invalid_cus_sclt),Toast.LENGTH_LONG).show();
                     return ;
                 }else {
+                    if(mCommonSharedPreference.getValueFromPreference("DlyCtrl").equalsIgnoreCase("0") &&( !mCommonSharedPreference.getValueFromPreference("choosedEditDate").contains("Today")&&!mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("")&&!mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("null"))) {
 
-                    commonUtilsMethods.CommonIntentwithNEwTask(DetailingCreationActivity.class);
-                    mCommonSharedPreference.setValueToPreference("detail_", "dr");
+                        Intent i = new Intent(getActivity(), FeedbackActivity.class);
+                        i.putExtra("feedpage", "dr");
+                        startActivity(i);
+                    }else {
+                        commonUtilsMethods.CommonIntentwithNEwTask(DetailingCreationActivity.class);
+                        mCommonSharedPreference.setValueToPreference("detail_", "dr");
+                    }
                 }
                 break;
 

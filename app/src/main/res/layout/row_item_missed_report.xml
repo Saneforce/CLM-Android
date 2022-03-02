@@ -29,18 +29,18 @@
             android:id="@+id/txt_name_miss"
             android:textStyle="bold"
             />
+
         <TextView
+            android:id="@+id/txt_date_miss"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mar-2020"
-            android:textSize="14sp"
-            android:textColor="@color/red"
-            android:layout_marginTop="5dp"
-            android:id="@+id/txt_date_miss"
-            android:textStyle="bold"
             android:layout_alignParentEnd="true"
+            android:layout_marginTop="5dp"
             android:layout_marginRight="15dp"
-            />
+            android:text="MONTH-YEAR"
+            android:textColor="@color/red"
+            android:textSize="14sp"
+            android:textStyle="bold" />
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

@@ -37,8 +37,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
+//import com.google.firebase.iid.FirebaseInstanceId;
+//import com.google.firebase.iid.InstanceIdResult;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -291,15 +291,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         SharedPreferences.Editor edit=slide.edit();
         edit.putString("slide_download","0");
         edit.commit();
-        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( this,  new OnSuccessListener<InstanceIdResult>() {
-            @Override
-            public void onSuccess(InstanceIdResult instanceIdResult) {
-                String updatedToken = instanceIdResult.getToken();
-                Log.e("Updated_Token",updatedToken);
-                token_val=updatedToken;
-
-            }
-        });
+//        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( this,  new OnSuccessListener<InstanceIdResult>() {
+//            @Override
+//            public void onSuccess(InstanceIdResult instanceIdResult) {
+//                String updatedToken = instanceIdResult.getToken();
+//                Log.e("Updated_Token",updatedToken);
+//                token_val=updatedToken;
+//
+//            }
+//        });
     }
 
     public boolean startLocationButtonClick() {
@@ -383,7 +383,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         JSONObject map=new JSONObject();
                         map.put("name", userName);
                         map.put("password", passWord);
-                        map.put("Appver", "V1.9.7");
+                        map.put("Appver", "V1.9.8");
                         map.put("Mod", "Edet");
                         map.put("dev_id", token_val);
                          Log.v("database_url",db_pathUrl.substring(0,db_pathUrl.lastIndexOf("/")+1));

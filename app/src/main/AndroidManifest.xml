@@ -40,8 +40,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         android:windowSoftInputMode="stateHidden"
-        tools:node="replace"
-        tools:replace="android:icon">
+        tools:replace="android:allowBackup">
         <activity android:name=".activities.BlockActivity"></activity>
         <activity
             android:name=".activities.ImageActivity"
@@ -167,7 +166,8 @@
         <receiver
             android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
             android:exported="false"
-            android:permission="com.google.android.c2dm.permission.SEND">
+            android:permission="com.google.android.c2dm.permission.SEND"
+            tools:replace="android:exported">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
@@ -190,7 +190,8 @@
                 android:resource="@xml/filepaths" />
         </provider>
 
-        <receiver android:name=".activities.DummyActivity$MyBroadcastReceiver" />
+        <receiver android:name=".activities.DummyActivity$MyBroadcastReceiver"
+            tools:ignore="Instantiatable" />
 
         <service android:name=".util.MyFirebaseMessagingService">
             <intent-filter>
@@ -202,6 +203,7 @@
         <service android:name=".applicationCommonFiles.LocationTrack" />
         <service android:name=".applicationCommonFiles.Autotimezone" />
         <service android:name=".applicationCommonFiles.DcrBlock" />
+        <service android:name=".applicationCommonFiles.Location_sevice" />
         <!--
         <receiver android:name=".util.NetworkReceiver">
             <intent-filter>
@@ -252,10 +254,12 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".Order_Report.Activity.Target_details"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            tools:ignore="DuplicateActivity" />
         <activity
             android:name=".Order_Report.Activity.Target_Vs_Secondary"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            tools:ignore="DuplicateActivity" />
         <activity
             android:name=".Order_Report.Activity.Web_Activity"
             android:screenOrientation="landscape" />
@@ -276,7 +280,8 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".activities.DashActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            tools:ignore="DuplicateActivity" />
         <activity
             android:name=".Sales_Report.Activity.Sales_report_new"
             android:screenOrientation="landscape" />

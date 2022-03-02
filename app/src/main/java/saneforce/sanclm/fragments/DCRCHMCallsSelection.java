@@ -234,6 +234,9 @@ public class DCRCHMCallsSelection extends Fragment implements AdapterView.OnItem
         btn_Skip.setVisibility(View.VISIBLE);
         else
             btn_Skip.setVisibility(View.INVISIBLE);
+        if(mCommonSharedPreference.getValueFromPreference("DlyCtrl").equalsIgnoreCase("0") &&( !mCommonSharedPreference.getValueFromPreference("choosedEditDate").contains("Today")&&!mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("")&&!mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("null"))) {
+            btn_Skip.setVisibility(View.INVISIBLE);
+        }
         if(mCommonSharedPreference.getValueFromPreference("hosp_filter").equalsIgnoreCase("0"))
             rlay_spin.setVisibility(View.VISIBLE);
         if(mCommonSharedPreference.getValueFromPreference("geo_tag").equalsIgnoreCase("1")){

@@ -289,16 +289,21 @@ public class NearMe extends Fragment {
         switch_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences shares=getActivity().getSharedPreferences("location",0);
-                String lat=shares.getString("lat","");
-                String lng=shares.getString("lng","");
-                if(TextUtils.isEmpty(lat)){
-                    laty=0.0;
-                    lngy=0.0;
-                }
-                else {
-                    laty = Double.parseDouble(lat);
-                    lngy = Double.parseDouble(lng);
+//                SharedPreferences shares=getActivity().getSharedPreferences("location",0);
+//                String lat=shares.getString("lat","");
+//                String lng=shares.getString("lng","");
+//                if(TextUtils.isEmpty(lat)){
+//                    laty=0.0;
+//                    lngy=0.0;
+//                }
+//                else {
+//                    laty = Double.parseDouble(lat);
+//                    lngy = Double.parseDouble(lng);
+//                }
+                if (CurrentLoc()) {
+                    laty = mGPSTrack.getLatitude();
+                    lngy = mGPSTrack.getLongitude();
+
                 }
                 mMap.clear();
                 getAllLatLng();
@@ -412,8 +417,8 @@ public class NearMe extends Fragment {
         mMap.clear();
         for (int i = 0; i < NearTagActivity.list.size(); i++) {
             ViewTagModel mm = NearTagActivity.list.get(i);
-
-                if (distance(laty, lngy, Double.parseDouble(mm.getLat()), Double.parseDouble(mm.getLng())) < limitKm) {
+            Log.v("map_camerar", mm.getLat()+" name "+mm.getName());
+                if (distance(laty, lngy, Double.parseDouble(mm.getLat()), Double.parseDouble(mm.getLng())) < (limitKm)) {
                     LatLng latLng = new LatLng(Double.parseDouble(mm.getLat()), Double.parseDouble(mm.getLng()));
 
                     marker = mMap.addMarker(new MarkerOptions().position(latLng)
@@ -434,7 +439,18 @@ public class NearMe extends Fragment {
         addCircle();
         drDetail();
     }
-
+//    public double distance(double lat1, double lon1, double lat2, double lon2) {
+//        double earthRadius = 6371000; //meters
+//        double dLat = Math.toRadians(lat2 - lat1);
+//        double dLng = Math.toRadians(lon2 - lon1);
+//        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+//                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+//                        Math.sin(dLng / 2) * Math.sin(dLng / 2);
+//        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+//        double dist = ( float ) (earthRadius * c);
+//        Log.d("Distance", String.valueOf(dist));
+//        return dist;
+//    }
 
     public double distance(double lat1, double lon1, double lat2, double lon2) {
         double theta = lon1 - lon2;
@@ -446,6 +462,7 @@ public class NearMe extends Fragment {
         dist = Math.acos(dist);
         dist = rad2deg(dist);
         dist = dist * 60 * 1.1515;
+        Log.v("distance",String.valueOf(dist));
         return (dist);
     }
 
@@ -508,7 +525,7 @@ public class NearMe extends Fragment {
         LatLng latLng = new LatLng(laty,lngy);
         CircleOptions circle = new CircleOptions()
                 .center(latLng)
-                .radius(1000.0)
+                .radius(limitKm*1000.0)
                 .strokeColor(Color.RED)
                 .fillColor(transparentBlue)
                 .clickable(true);
@@ -575,6 +592,7 @@ public class NearMe extends Fragment {
                                 }
                                 else {
                                     Log.v("printing_tagged_che2233",jsony.getString("lat"));
+                                    Log.v("printing_tagged_doc",jsony.getString("name"));
                                     NearTagActivity.list.add(new ViewTagModel(jsony.getString("Cust_Code"), jsony.getString("name"),
                                             jsony.getString("lat"), jsony.getString("long"),jsony.getString("addr")));
 

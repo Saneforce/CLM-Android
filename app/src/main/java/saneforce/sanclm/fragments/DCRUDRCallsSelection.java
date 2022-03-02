@@ -212,7 +212,7 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
         txt_tool_header=v.findViewById(R.id.txt_tool_header);
         et_companyurl=(EditText)v.findViewById(R.id.et_companyurl);
         et_companyurl.setText("");
-        et_companyurl.requestFocus();
+        //et_companyurl.requestFocus();
         ibtn_btn_go=(ImageButton)v.findViewById(R.id.btn_go);
         ibtn_skip=(ImageButton)v.findViewById(R.id.btn_skip);
         btn_act = (Button)  v.findViewById(R.id.btn_act) ;
@@ -232,6 +232,9 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
             ibtn_skip.setVisibility(View.VISIBLE);
         else
             ibtn_skip.setVisibility(View.INVISIBLE);
+        if(mCommonSharedPreference.getValueFromPreference("DlyCtrl").equalsIgnoreCase("0") &&( !mCommonSharedPreference.getValueFromPreference("choosedEditDate").contains("Today")&&!mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("")&&!mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("null"))) {
+            ibtn_skip.setVisibility(View.INVISIBLE);
+        }
         spinner = (Spinner) v.findViewById(R.id.spinner);
         tv_pdt_promoted.setMovementMethod(new ScrollingMovementMethod());
         dcr_drselection_gridview.setVisibility(View.VISIBLE);
@@ -294,7 +297,7 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
             }
         }
 
-         gridView = (GridView) v.findViewById(R.id.gridview_dcrselect);
+        gridView = (GridView) v.findViewById(R.id.gridview_dcrselect);
         _DCR_GV_Selection_adapter = new DCR_GV_Selection_adapter(getContext(),drList,"U");
         gridView.setAdapter(_DCR_GV_Selection_adapter);
         categories.clear();
@@ -328,7 +331,7 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
         ibtn_btn_go.setOnClickListener(this);
         fab_btn.setOnClickListener(this);
         ibtn_skip.setOnClickListener(this);
-       // ibtn_skip.setVisibility(View.INVISIBLE);
+        // ibtn_skip.setVisibility(View.INVISIBLE);
         btn_act.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -564,7 +567,7 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
                         _DCR_GV_Selection_adapter = new DCR_GV_Selection_adapter(getContext(),drList,"U");
                         gridView.setAdapter(_DCR_GV_Selection_adapter);
                         if(progressDialog!=null)
-                        progressDialog.dismiss();
+                            progressDialog.dismiss();
                         dbh.close();
                         /*dbh.open();
                         drList = new ArrayList<Custom_DCR_GV_Dr_Contents>();
@@ -664,7 +667,7 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
 
         rl_drPrecallanalysis.setVisibility(View.VISIBLE);
         rl_chmPrecallanalysis.setVisibility(View.GONE);
-        et_companyurl.requestFocus();
+        // et_companyurl.requestFocus();
         rl_dcr_precall_analysisMain.setVisibility(View.VISIBLE);
         dcr_drselection_gridview.setVisibility(View.INVISIBLE);
         if(mCommonSharedPreference.getValueFromPreference("undr_hs_nd").equalsIgnoreCase("0"))
@@ -716,7 +719,7 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
                 }*/
                 /*et_companyurl.setActivated(true);
                 et_companyurl.setPressed(true);*/
-               // getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.map, new DCRCHMCallsSelection()).commit();
+                // getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.map, new DCRCHMCallsSelection()).commit();
 
 
                 /* et_companyurl.setInputType(InputType.TYPE_NULL);
@@ -730,33 +733,33 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
                 et_companyurl.setPressed(true);
                 et_companyurl.requestFocus();*/
 
-               // showSoftKeyboard(et_companyurl);
-                Log.v("Printing_edt_text",et_companyurl.isEnabled()+"value"+et_companyurl.isFocused()+" focus "+et_companyurl.requestFocus());
+                // showSoftKeyboard(et_companyurl);
+                //   Log.v("Printing_edt_text",et_companyurl.isEnabled()+"value"+et_companyurl.isFocused()+" focus "+et_companyurl.requestFocus());
 
                 break;
 
-                case R.id.btn_go:
+            case R.id.btn_go:
+                if(tv_drName.getText().toString().equalsIgnoreCase("DocName")) {
+                    Log.v("DocName",tv_drName.toString());
+                    Toast.makeText(getActivity().getApplicationContext(),getResources().getString(R.string.invalid_cus_sclt),Toast.LENGTH_LONG).show();
+                    return ;
+                }else if(mCommonSharedPreference.getValueFromPreference("Detailing_undr").equalsIgnoreCase("0")){
+                    commonUtilsMethods.CommonIntentwithNEwTask(DetailingCreationActivity.class);
+                    mCommonSharedPreference.setValueToPreference("detail_","undr");
+                }
+                else {
                     if(tv_drName.getText().toString().equalsIgnoreCase("DocName")) {
                         Log.v("DocName",tv_drName.toString());
                         Toast.makeText(getActivity().getApplicationContext(),getResources().getString(R.string.invalid_cus_sclt),Toast.LENGTH_LONG).show();
                         return ;
-                    }else if(mCommonSharedPreference.getValueFromPreference("Detailing_undr").equalsIgnoreCase("0")){
-                        commonUtilsMethods.CommonIntentwithNEwTask(DetailingCreationActivity.class);
-                        mCommonSharedPreference.setValueToPreference("detail_","undr");
+                    }else {
+                        Intent i = new Intent(getActivity(), FeedbackActivity.class);
+                        i.putExtra("feedpage", "undr");
+                        i.putExtra("customer", tv_drName.getText().toString());
+                        startActivity(i);
                     }
-                    else {
-                        if(tv_drName.getText().toString().equalsIgnoreCase("DocName")) {
-                            Log.v("DocName",tv_drName.toString());
-                            Toast.makeText(getActivity().getApplicationContext(),getResources().getString(R.string.invalid_cus_sclt),Toast.LENGTH_LONG).show();
-                            return ;
-                        }else {
-                            Intent i = new Intent(getActivity(), FeedbackActivity.class);
-                            i.putExtra("feedpage", "undr");
-                            i.putExtra("customer", tv_drName.getText().toString());
-                            startActivity(i);
-                        }
-                    }
-                    break;
+                }
+                break;
 
             case R.id.fab_btn:
                 popupAddDoctr();
@@ -1088,7 +1091,7 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
             public void onClick(View v) {
                 if(!txt_select_qua.getText().toString().isEmpty() && !txt_select_category.getText().toString().isEmpty()
                         && !txt_select_class.getText().toString().isEmpty() && !txt_select_spec.getText().toString().isEmpty()
-                            && !txt_select_terr.getText().toString().isEmpty() && !edt_dr.getText().toString().isEmpty() ){
+                        && !txt_select_terr.getText().toString().isEmpty() && !edt_dr.getText().toString().isEmpty() ){
                     Log.v("qualification_txt","arent_empty");
 
 
@@ -1096,9 +1099,9 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
                     JSONObject json=new JSONObject();
                     try{
                         if(SF_Type.equalsIgnoreCase("2"))
-                        json.put("SF", SF_coding.get(spinnerpostion));
+                            json.put("SF", SF_coding.get(spinnerpostion));
                         else
-                        json.put("SF", SF_Code);
+                            json.put("SF", SF_Code);
                         json.put("DivCode", div_codee);
                         json.put("DrName", edt_dr.getText().toString());
                         json.put("DrQCd", txt_qua.substring(txt_qua.indexOf(",")+1));
@@ -1197,7 +1200,7 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
         dbh.open();
         Cursor cur=null;
         if(x==1)
-        cur=dbh.select_quality_list();
+            cur=dbh.select_quality_list();
         else if(x==2)
             cur=dbh.select_category_list();
         else if(x==3)
@@ -1325,7 +1328,7 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
                                     if(SF_Type.equalsIgnoreCase("2"))
                                         mCursor = dbh.select_unListeddoctors_bySf(SF_coding.get(spinnerpostion),mMydayWtypeCd);
                                     else
-                                    mCursor = dbh.select_unListeddoctors_bySf(SF_Code,mMydayWtypeCd);
+                                        mCursor = dbh.select_unListeddoctors_bySf(SF_Code,mMydayWtypeCd);
 
                                     while (mCursor.moveToNext()) {
                                         _custom_DCR_GV_Dr_Contents = new Custom_DCR_GV_Dr_Contents(mCursor.getString(2),mCursor.getString(1),mCursor.getString(10),mCursor.getString(9),mCursor.getString(6),mCursor.getString(5),mCursor.getString(16),mCursor.getString(17));
@@ -1369,9 +1372,9 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
         });
     }
     public void showSoftKeyboard(View view) {
-       // getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        // getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
-        et_companyurl.requestFocus();
+     //   et_companyurl.requestFocus();
         inputMethodManager.showSoftInput(et_companyurl ,
                 InputMethodManager.SHOW_IMPLICIT);
 

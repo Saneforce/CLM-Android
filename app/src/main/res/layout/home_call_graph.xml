@@ -720,7 +720,8 @@
                         android:layout_alignParentTop="true"
                         android:background="#666666"
                         android:padding="5dp"
-                        android:src="@mipmap/sync" />
+                        android:src="@mipmap/sync"
+                        android:visibility="invisible"/>
 
 
                 </RelativeLayout>

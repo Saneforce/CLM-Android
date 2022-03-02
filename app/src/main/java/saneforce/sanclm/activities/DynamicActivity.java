@@ -1008,9 +1008,15 @@ public class DynamicActivity extends AppCompatActivity {
                     js = new JSONObject();
                     js.put("SF", mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_CODE));
                     js.put("div", mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DIVISION));
-                    js.put("act_date", CommonUtilsMethods.getCurrentInstance() + " " + CommonUtilsMethods.getCurrentTime());
-                    js.put("dcr_date", CommonUtilsMethods.getCurrentInstance() + " " + "00:00:00");
-                    js.put("update_time", CommonUtilsMethods.getCurrentInstance() + " " + CommonUtilsMethods.getCurrentTime());
+                    if(mCommonSharedPreference.getValueFromPreference("DlyCtrl").equalsIgnoreCase("0") &&( !mCommonSharedPreference.getValueFromPreference("choosedEditDate").contains("Today")&&!mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("")&&!mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("null"))) {
+                        js.put("act_date", mCommonSharedPreference.getValueFromPreference("choosedEditDate")+ " " + "00:00:00");
+                        js.put("dcr_date", mCommonSharedPreference.getValueFromPreference("choosedEditDate")+ " " + "00:00:00");
+                        js.put("update_time", mCommonSharedPreference.getValueFromPreference("choosedEditDate")+ " " +  "00:00:00");
+                    }else {
+                        js.put("act_date", CommonUtilsMethods.getCurrentInstance() + " " + CommonUtilsMethods.getCurrentTime());
+                        js.put("dcr_date", CommonUtilsMethods.getCurrentInstance() + " " + "00:00:00");
+                        js.put("update_time", CommonUtilsMethods.getCurrentInstance() + " " + CommonUtilsMethods.getCurrentTime());
+                    }
                     js.put("slno", mm.getSlno());
                     js.put("ctrl_id", mm.getViewid());
                     js.put("creat_id", mm.getCreation_id());

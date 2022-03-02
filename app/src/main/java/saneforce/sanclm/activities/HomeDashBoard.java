@@ -89,6 +89,7 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.JsonObject;
 import com.shockwave.pdfium.PdfDocument;
 import com.shockwave.pdfium.PdfiumCore;
 
@@ -114,9 +115,13 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -143,6 +148,7 @@ import saneforce.sanclm.Pojo_Class.TodayCalls;
 import saneforce.sanclm.Pojo_Class.TodayTp;
 import saneforce.sanclm.Pojo_Class.TodayTpNew;
 import saneforce.sanclm.R;
+import saneforce.sanclm.activities.Model.EDitDates;
 import saneforce.sanclm.activities.Model.MissedDate;
 import saneforce.sanclm.activities.Model.ModelNavDrawer;
 import saneforce.sanclm.activities.Model.ModelWorkType;
@@ -164,8 +170,10 @@ import saneforce.sanclm.applicationCommonFiles.DcrBlock;
 import saneforce.sanclm.applicationCommonFiles.Decompress;
 import saneforce.sanclm.applicationCommonFiles.DownloadMasters;
 import saneforce.sanclm.applicationCommonFiles.LocationTrack;
+import saneforce.sanclm.applicationCommonFiles.Location_sevice;
 import saneforce.sanclm.fragments.AppConfiguration;
 import saneforce.sanclm.fragments.CallFragment;
+import saneforce.sanclm.fragments.DCRDRCallsSelection;
 import saneforce.sanclm.fragments.DownloadMasterData;
 import saneforce.sanclm.fragments.LocaleHelper;
 import saneforce.sanclm.sqlite.DataBaseHandler;
@@ -196,7 +204,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     TextView tv_reload, tv_logout;
     static DataBaseHandler dbh;
     RecyclerView rv_worktype, rv_todayCalls;
-    List<String> worktype_arr = new ArrayList<String>();
+    List<String> call_arr = new ArrayList<String>();
     HashMap<String, String> mWorktype = new HashMap<String, String>();
     PopupWindow popupWindow;
     private static RecyclerView.Adapter adapter;
@@ -220,7 +228,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     ArrayList<String> hqNm = new ArrayList<String>();
     HashMap<String, String> mClusterListID = new HashMap<String, String>();
     HashMap<String, String> mHQListID = new HashMap<String, String>();
-    String mydaywTypCd, mydayclustrCd, currentDate,todayDate;
+    String mydaywTypCd, mydayclustrCd, currentDate,todayDate,choosedDate="";
     Dialog dialog;
     static String mydayhqCd, mydayhqname;
     CommonSharedPreference mCommonSharedPreference;
@@ -314,6 +322,9 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     EditText et_remark;
     Switch deviate;
     TextView tv_worktype1,tv_headquater1;
+    Button addCall,addActivity,btn_editSubmit;
+    private static ArrayList<EDitDates> datesInRange=new ArrayList<>();
+    LinearLayout linearLayout;
 
     @Override
     protected void onPause() {
@@ -383,12 +394,21 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
         mainDashbrd.setVisibility(View.VISIBLE);
         menuDashbrd.setVisibility(View.VISIBLE);
+        if(mCommonSharedPreference.getValueFromPreference("DlyCtrl").equalsIgnoreCase("0") && !mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("")) {
+              if(mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("null"))
+                  tv_todaycall_head.setText(resources.getString(R.string.todaycall));
+              else
+                tv_todaycall_head.setText(mCommonSharedPreference.getValueFromPreference("choosedEditDate"));
+            Log.v("fg",mCommonSharedPreference.getValueFromPreference("choosedEditDate"));
 
-        tv_todaycall_head.setText(resources.getString(R.string.todaycall));
-//        tv_calls.setVisibility(View.INVISIBLE);
-//        tv_calls.setText(resources.getString(R.string.calls));
-//        tv_presentation.setText(resources.getString(R.string.presentation));
-//        tv_reports.setText(resources.getString(R.string.report));
+        }else{
+            Log.v("fg","fsd");
+                tv_todaycall_head.setText(resources.getString(R.string.todaycall));
+        }
+        tv_calls.setVisibility(View.INVISIBLE);
+        tv_calls.setText(resources.getString(R.string.calls));
+        tv_presentation.setText(resources.getString(R.string.presentation));
+        tv_reports.setText(resources.getString(R.string.report));
 
         digital=mCommonSharedPreference.getValueFromPreference("Digital_offline");
               Intent intent=getIntent();
@@ -571,7 +591,23 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
     }
 
-    private void getTodayTp(JSONObject json) {
+    public void EditCalls(String editDate) {
+        apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
+        editDate = editDate + " 00:00:00";
+        try {
+            json.put("SF", SF_Code);
+            json.put("ReqDt", editDate);
+
+            Call<List<TodayCalls>> editdaycalls = apiService.editdaycalls(String.valueOf(json));
+            editdaycalls.enqueue(Editcalls);
+            Log.v("printing_request", json.toString());
+        } catch (Exception e) {
+
+        }
+    }
+
+
+        private void getTodayTp(JSONObject json) {
         Call<List<TodayTpNew>> tdaytp = apiService.todayTPNew(String.valueOf(json));
         tdaytp.enqueue(TodayTpNew);
     }
@@ -599,7 +635,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
                 Log.v("todaycalllist__print", String.valueOf(TodayCallList.size()));
                 todayCalls_recyclerviewAdapter = new TodayCalls_recyclerviewAdapter(getApplicationContext(), TodayCallList);
-                tv_todaycall_count.setText(resources.getString(R.string.total)+" " + TodayCallList.size() + " "+resources.getString(R.string.calls));
+                tv_todaycall_count.setText(TodayCallList.size() + " "+resources.getString(R.string.calls));
                 rv_todayCalls.setHasFixedSize(true);
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
                 rv_todayCalls.setLayoutManager(mLayoutManager);
@@ -629,7 +665,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     }
                     Log.v("todaycalllist__print_in", String.valueOf(TodayCallList.size()));
                     todayCalls_recyclerviewAdapter = new TodayCalls_recyclerviewAdapter(getApplicationContext(), TodayCallList);
-                    tv_todaycall_count.setText(resources.getString(R.string.total)+" " + todayCalls.size() + " "+resources.getString(R.string.calls));
+                    tv_todaycall_count.setText(todayCalls.size() + " "+resources.getString(R.string.calls));
                     rv_todayCalls.setHasFixedSize(true);
                     RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
                     rv_todayCalls.setLayoutManager(mLayoutManager);
@@ -656,7 +692,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                 } catch (Exception e) {
                 }
             }
-            tv_todaycall_count.setText(resources.getString(R.string.total)+" " + TodayCallList.size() + " "+resources.getString(R.string.calls));
+            tv_todaycall_count.setText(TodayCallList.size() + " "+resources.getString(R.string.calls));
             dbh.close();
         }
 
@@ -668,6 +704,97 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         }
     };
 
+
+    public Callback<List<TodayCalls>> Editcalls = new Callback<List<TodayCalls>>() {
+        @Override
+        public void onResponse(Call<List<TodayCalls>> call, Response<List<TodayCalls>> response) {
+            System.out.println("checkUser is sucessfuld :+editcalls" + response.isSuccessful());
+            tv_worktype.setText(resources.getString(R.string.worktype) + " : ");
+            tv_cluster.setText(resources.getString(R.string.cluster) + " : ");
+            TodayCallList = new ArrayList<Custom_Todaycalls_contents>();
+            TodayCallList.clear();
+//            dbh.open();
+//            Cursor cur1 = dbh.select_json_list();
+//            if (cur1.getCount() > 0) {
+//                while (cur1.moveToNext()) {
+//                    Log.v("Cursor_today_Cal", cur1.getString(1));
+//                    _custom_todaycalls_contents = new Custom_Todaycalls_contents(cur1.getString(4), cur1.getString(2), cur1.getString(1), cur1.getString(3), String.valueOf(cur1.getInt(0)), 0, cur1.getString(5), cur1.getString(6), true);
+//
+//                    TodayCallList.add(_custom_todaycalls_contents);
+//
+//                }
+//
+//                Log.v("todaycalllist__print", String.valueOf(TodayCallList.size()));
+//                todayCalls_recyclerviewAdapter = new TodayCalls_recyclerviewAdapter(getApplicationContext(), TodayCallList);
+//                tv_todaycall_count.setText(TodayCallList.size() + " "+resources.getString(R.string.calls));
+//                rv_todayCalls.setHasFixedSize(true);
+//                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+//                rv_todayCalls.setLayoutManager(mLayoutManager);
+//                rv_todayCalls.setItemAnimator(new DefaultItemAnimator());
+//                rv_todayCalls.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
+//                rv_todayCalls.setAdapter(todayCalls_recyclerviewAdapter);
+//
+//            }
+            if (response.isSuccessful()) {
+                JSONObject jsonObject = null;
+                String jsonData = null;
+
+                try {
+
+
+                    Log.v("Today_Check_response", response.body() + "");
+
+                    List<TodayCalls> todayCalls = response.body();
+                    Log.v("printing_getting", String.valueOf(todayCalls.size()) + response.body());
+                   // progressDialog.dismiss();
+                    for (int i = 0; i < todayCalls.size(); i++) {
+                        Log.v("printing_getting_sd", todayCalls.get(i).getADetSLNo());
+                        _custom_todaycalls_contents = new Custom_Todaycalls_contents(todayCalls.get(i).getCustCode(), todayCalls.get(i).getCustName(), todayCalls.get(i).getADetSLNo(), todayCalls.get(i).getVstTime(), todayCalls.get(i).getCustType(), todayCalls.get(i).getSynced(), "", "", false);
+
+                        if( !todayCalls.get(i).getADetSLNo().equalsIgnoreCase("NF"))
+                        TodayCallList.add(_custom_todaycalls_contents);
+
+                    }
+                    Log.v("todaycalllist__print_in", String.valueOf(TodayCallList.size()));
+                    todayCalls_recyclerviewAdapter = new TodayCalls_recyclerviewAdapter(getApplicationContext(), TodayCallList);
+                    tv_todaycall_count.setText(todayCalls.size() + " "+resources.getString(R.string.calls));
+                    rv_todayCalls.setHasFixedSize(true);
+                    RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                    rv_todayCalls.setLayoutManager(mLayoutManager);
+                    rv_todayCalls.setItemAnimator(new DefaultItemAnimator());
+                    rv_todayCalls.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
+                    rv_todayCalls.setAdapter(todayCalls_recyclerviewAdapter);
+
+                    if (!submitoffline) {
+                        callFragmentUi.updatingui();
+                        Log.v("call_fragment_1", "are_called");
+                    }
+                    //catVisitDetail();
+
+
+                } catch (Exception e) {
+
+                }
+
+            } else {
+                callFragmentUi.updatingui();
+                Log.v("call_fragment_12", "are_called");
+                try {
+                    JSONObject jObjError = new JSONObject(response.toString());
+                } catch (Exception e) {
+                }
+            }
+            tv_todaycall_count.setText(TodayCallList.size() + " "+resources.getString(R.string.calls));
+            //dbh.close();
+        }
+
+        @Override
+        public void onFailure(Call<List<TodayCalls>> call, Throwable t) {
+            //catVisitDetail();
+            Log.v("call_fragment_123", "are_called");
+            callFragmentUi.updatingui();
+        }
+    };
 //    public Callback<List<TodayTp>> TodayTp = new Callback<List<TodayTp>>() {
 //        @Override
 //        public void onResponse(Call<List<TodayTp>> call, Response<List<TodayTp>> response) {
@@ -988,6 +1115,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                 popupQuiz("");
             }
 //                        if (progressDialog == null) {
+
 //                            CommonUtilsMethods commonUtilsMethods = new CommonUtilsMethods(HomeDashBoard.this);
 //                            progressDialog = commonUtilsMethods.createProgressDialog(HomeDashBoard.this);
 //                            progressDialog.show();
@@ -1313,7 +1441,17 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                 CheckLocation();
                 else*/
                 //if(NetworkReceiver.isAutotimeON(HomeDashBoard.this))
-                callDCR();
+                if(mCommonSharedPreference.getValueFromPreference("DlyCtrl").equalsIgnoreCase("0")
+                        &&( !mCommonSharedPreference.getValueFromPreference("choosedEditDate").contains("Today")
+                        &&!mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("")
+                        &&!mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("null"))) {
+                   Log.v("checkon",""+mCommonSharedPreference.getValueFromPreference("choosedEditDate"));
+                    ImageView iv_calls=(ImageView)findViewById(R.id.iv_calls);
+                   iv_calls.setAlpha(0.5f);
+                    }else{
+                        LocationTrack tt = new LocationTrack(HomeDashBoard.this, SF_Code);
+                        callDCR();
+                    }
                 break;
 
             case R.id.rl_presentation:
@@ -3875,12 +4013,14 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                         if (GpsNeed.equalsIgnoreCase("0") &&
                                 mCommonSharedPreference.getValueFromPreference("track_loc").equalsIgnoreCase("1")) {
                             LocationTrack tt = new LocationTrack(HomeDashBoard.this, SF_Code);
-//                            if (isMyServiceRunning(LocationTrack.class)) {
-//
-//                                stopService(new Intent(HomeDashBoard.this, LocationTrack.class));
-//                            } else {
-//                                startService(new Intent(HomeDashBoard.this, LocationTrack.class));
-//                            }
+                            if (!isMyServiceRunning(Location_sevice.class)) {
+                                Intent service=new Intent(HomeDashBoard.this, Location_sevice.class);
+                                service.setAction("startLocationService");
+                                startService(service);
+                                //stopService(new Intent(HomeDashBoard.this, LocationTrack.class));
+                            } else {
+                                startService(new Intent(HomeDashBoard.this, LocationTrack.class));
+                            }
                             /*callLocation();
                              */
 
@@ -3994,10 +4134,67 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                             mCommonSharedPreference.setValueToPreference("DcrLockDays" , "");
 
 
+                        if(mCommonSharedPreference.getValueFromPreference("DlyCtrl").equalsIgnoreCase("0")){
 
+                            String sdf=tv_todaycall_head.getText().toString();
+                            if(sdf.contains("Today"))
+                                linearLayout.setVisibility(View.GONE);
+                            else
+                                linearLayout.setVisibility(View.VISIBLE);
 
+                            tv_todaycall_head.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_baseline_arrow_drop_down_24,0);
 
-                        getTodayCalls();
+                            if(mCommonSharedPreference.getValueFromPreference("confirmEditdate").equalsIgnoreCase("3"))
+                                btn_editSubmit.setVisibility(View.VISIBLE);
+
+                            else
+                                btn_editSubmit.setVisibility(View.GONE);
+
+                            if (mCommonSharedPreference.getValueFromPreference("addAct").equalsIgnoreCase("0")) {
+                                addActivity.setVisibility(View.VISIBLE);
+                            }
+                            else
+                                addActivity.setVisibility(View.GONE);
+
+                            tv_todaycall_head.setEnabled(true);
+
+                        }else
+                        {
+
+                            tv_todaycall_head.setEnabled(false);
+                        }
+
+//                        if(mCommonSharedPreference.getValueFromPreference("DlyCtrl").equalsIgnoreCase("0") && !mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("")) {
+//                            if(mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("null"))
+//                                tv_todaycall_head.setText(resources.getString(R.string.todaycall));
+//                            else
+//                                tv_todaycall_head.setText(mCommonSharedPreference.getValueFromPreference("choosedEditDate"));
+//                            Log.v("fg",mCommonSharedPreference.getValueFromPreference("choosedEditDate"));
+//
+//                        }else{
+//                            Log.v("fg","fsd");
+//                            tv_todaycall_head.setText(resources.getString(R.string.todaycall));
+//                        }
+
+                        if(mCommonSharedPreference.getValueFromPreference("choosedEditDate").contains("Today"))
+                        {
+                            choosedDate=mCommonSharedPreference.getValueFromPreference("choosedEditDate").replace(" (Today)","");
+                        }else{
+                            choosedDate=mCommonSharedPreference.getValueFromPreference("choosedEditDate");
+                        }
+                        Log.v("choosedDate",""+choosedDate);
+                        if (TextUtils.isEmpty(choosedDate) || choosedDate.equalsIgnoreCase("null") || choosedDate.equalsIgnoreCase("")
+                        ||choosedDate.equalsIgnoreCase(todayDate))
+//                        String sdf=tv_todaycall_head.getText().toString();
+//                        if(sdf.contains("Today"))
+                       {
+
+                            getTodayCalls();
+                        }else
+                        {
+                            if(mCommonSharedPreference.getValueFromPreference("DlyCtrl").equalsIgnoreCase("0"))
+                            EditCalls(choosedDate);
+                        }
                     } catch (Exception e) {
                     }
                 } else {
@@ -4297,7 +4494,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
                 Log.v("todaycalllist__print", String.valueOf(TodayCallList.size()));
                 todayCalls_recyclerviewAdapter = new TodayCalls_recyclerviewAdapter(getApplicationContext(), TodayCallList);
-                tv_todaycall_count.setText(resources.getString(R.string.total)+" "+ TodayCallList.size() + " "+resources.getString(R.string.calls));
+                tv_todaycall_count.setText(TodayCallList.size() + " "+resources.getString(R.string.calls));
+               // tv_todaycall_count.setText(resources.getString(R.string.total)+" "+ TodayCallList.size() + " "+resources.getString(R.string.calls));
                 rv_todayCalls.setHasFixedSize(true);
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
                 rv_todayCalls.setLayoutManager(mLayoutManager);
@@ -4325,6 +4523,38 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             }
 
     }
+
+//    public void getEditCalls(String editDate) {
+//        if (!CommonUtilsMethods.isOnline(HomeDashBoard.this)) {
+//            TodayCallList = new ArrayList<Custom_Todaycalls_contents>();
+//            TodayCallList.clear();
+//            setMDPValue();
+//            dbh.open();
+//            Cursor cur1 = dbh.select_json_list();
+//            if (cur1.getCount() > 0) {
+//                while (cur1.moveToNext()) {
+//                    Log.v("Cursor_today_Cal", cur1.getString(1));
+//                    _custom_todaycalls_contents = new Custom_Todaycalls_contents(cur1.getString(4), cur1.getString(2), cur1.getString(1), cur1.getString(3), String.valueOf(cur1.getInt(0)), 0, cur1.getString(5), cur1.getString(6), true);
+//
+//                    if (!cur1.getString(2).equals("DocName")) {
+//                        TodayCallList.add(_custom_todaycalls_contents);
+//                    }
+//                }
+//
+//                Log.v("todaycalllist__print", String.valueOf(TodayCallList.size()));
+//                todayCalls_recyclerviewAdapter = new TodayCalls_recyclerviewAdapter(getApplicationContext(), TodayCallList);
+//                tv_todaycall_count.setText(TodayCallList.size() + " " + resources.getString(R.string.calls));
+//                // tv_todaycall_count.setText(resources.getString(R.string.total)+" "+ TodayCallList.size() + " "+resources.getString(R.string.calls));
+//                rv_todayCalls.setHasFixedSize(true);
+//                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+//                rv_todayCalls.setLayoutManager(mLayoutManager);
+//                rv_todayCalls.setItemAnimator(new DefaultItemAnimator());
+//                rv_todayCalls.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
+//                rv_todayCalls.setAdapter(todayCalls_recyclerviewAdapter);
+//            }
+//        } else
+//            EditCalls(editDate);
+//    }
 
     public void alertDialoggg(ArrayList<String> list) {
         LayoutInflater lInflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -4518,8 +4748,17 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                         }
                     else
                     {
-                        if (tb_dwnloadSlides.getVisibility() != View.VISIBLE) {
-                            Worktype();
+                        if(CommonUtilsMethods.isOnline(HomeDashBoard.this)) {
+                            if (tb_dwnloadSlides.getVisibility() != View.VISIBLE) {
+                                Worktype();
+                            }
+                        }else
+                        {
+                            if (sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("Field Work") || sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("CoronaWFH-With Drs")) {
+                                    CommonUtilsMethods.CommonIntentwithNEwTask(DCRCallSelectionActivity.class);
+                                } else {
+                                    Toast.makeText(this, getResources().getString(R.string.NonFieldcall), Toast.LENGTH_LONG).show();
+                                }
                         }
                     }
                     }
@@ -4818,6 +5057,10 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         tv_calls=findViewById(R.id.tv_calls);
         tv_presentation=findViewById(R.id.tv_presentation);
         tv_reports=findViewById(R.id.tv_reports);
+        linearLayout=(LinearLayout)findViewById(R.id.lnDelay_ctrls);
+        addCall=(Button)findViewById(R.id.add_call);
+        addActivity=(Button)findViewById(R.id.add_activity);
+        btn_editSubmit=(Button)findViewById(R.id.edit_final_submit);
 
 //        tv_calls.setText(resources.getString(R.string.calls));
 //        tv_presentation.setText(resources.getString(R.string.presentation));
@@ -4939,6 +5182,41 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
             Log.v("current_datee_home ", currentDate + " preference_date " + mCommonSharedPreference.getValueFromPreference("tpdate"));
 
+
+
+//            // Getting the previous day and formatting into 'YYYY-MM-DD'
+//            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//
+//            // Get a Date object from the date string
+//            Date myDate = null;
+//            try {
+//                myDate = dateFormat.parse(todayDate);
+//                Log.v("jjj",""+myDate);
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//
+//            Calendar calendar = Calendar.getInstance();
+//            calendar.setTime(myDate);
+//            calendar.add(Calendar.DAY_OF_MONTH, -3);
+//
+//
+//            // this calculation may skip a day (Standard-to-Daylight switch)...
+//            //oneDayBefore = new Date(myDate.getTime() - (24 * 3600000));
+//
+//            // if the Date->time xform always places the time as YYYYMMDD 00:00:00
+//            //   this will be safer.
+//            Date oneDayBefore = calendar.getTime();
+//
+//            String result = dateFormat.format(oneDayBefore);
+//
+//            Log.v("jfj",""+result);
+//
+//            datesInRange.clear();
+//            getDatesBetween(oneDayBefore,myDate);
+
+
+
             if (mCommonSharedPreference.getValueFromPreference("tpdate").equals("null") || mCommonSharedPreference.getValueFromPreference("tpdate").isEmpty()) {
 
             } else {
@@ -4950,10 +5228,14 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
                     mCommonSharedPreference.setValueToPreference(CommonUtils.TAG_WORKTYPE_NAME, "");
                     mCommonSharedPreference.setValueToPreference("tpskip","null");
+                    mCommonSharedPreference.setValueToPreference("choosedEditDate","");
                 }
             }
 
             currentDate = currentDate + " 00:00:00";
+
+            if(mCommonSharedPreference.getValueFromPreference("DlyCtrl").equalsIgnoreCase("0"))
+            editDates();
 
             //navigationView.setNavigationItemSelectedListener(this);
             mCommonSharedPreference.setValueToPreference("geo_tag", "0");
@@ -5054,6 +5336,182 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             }
         });
 
+        tv_todaycall_head.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              String[]  dates=new String[datesInRange.size()];
+              if(datesInRange.size()>0)
+              {
+               for(int i=0;i<datesInRange.size();i++){
+                           dates[i]=(datesInRange.get(i).getDate());
+               }
+              //  CharSequence[]  dates= (CharSequence[]) datesInRange.toArray(new CharSequence[datesInRange.size()]);
+
+              Log.v("hgklh",""+dates);
+
+
+              new AlertDialog.Builder(HomeDashBoard.this)
+                        .setTitle("Select Date")
+                        .setSingleChoiceItems(dates, -1, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+//                                if(!dates[i].toString().equalsIgnoreCase("Today")) {
+
+                                    if(CommonUtilsMethods.isOnline(HomeDashBoard.this)) {
+                                        tv_todaycall_head.setText(dates[i].toString());
+//                                        if (progressDialog == null) {
+//                                            CommonUtilsMethods commonUtilsMethods = new CommonUtilsMethods(HomeDashBoard.this);
+//                                            progressDialog = commonUtilsMethods.createProgressDialog(HomeDashBoard.this);
+//                                            progressDialog.show();
+//                                        } else {
+//                                            progressDialog.show();
+//                                        }
+                                        String sdf=tv_todaycall_head.getText().toString();
+                                        mCommonSharedPreference.setValueToPreference("choosedEditDate",sdf);
+                                        if(sdf.contains("Today"))
+                                            linearLayout.setVisibility(View.GONE);
+                                        else
+                                            linearLayout.setVisibility(View.VISIBLE);
+
+                                        if(dates[i].toString().contains("Today"))
+                                            TodayCalls();
+                                           // EditCalls(dates[i].toString().replace(" (Today)",""));
+
+                                        else
+                                        EditCalls(dates[i].toString());
+                                        //getEditCalls(dates[i].toString());
+
+                                        for(int j=0;j<datesInRange.size();j++){
+                                            if(datesInRange.get(j).getDate().equalsIgnoreCase(dates[i])){
+                                                if(datesInRange.get(j).getConfirmed().equalsIgnoreCase("3"))
+                                                    btn_editSubmit.setVisibility(View.VISIBLE);
+                                                else
+                                                    btn_editSubmit.setVisibility(View.GONE);
+
+                                                mCommonSharedPreference.setValueToPreference("confirmEditdate", datesInRange.get(j).getConfirmed());
+                                            }
+                                        }
+                                    }else
+                                    {
+                                        Toast.makeText(getApplicationContext(), resources.getString(R.string.offline), Toast.LENGTH_SHORT).show();
+                                    }
+
+//                                }else
+//                                {
+//                                    TodayCalls();
+//                                }
+
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.dismiss();
+                            }
+                        })
+               .create()
+               .show();
+            }
+            }
+        });
+
+
+
+        addCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(CommonUtilsMethods.isOnline(HomeDashBoard.this))
+                CommonUtilsMethods.CommonIntentwithNEwTask(DCRCallSelectionActivity.class);
+                else
+                    Toast.makeText(HomeDashBoard.this, getResources().getString(R.string.offline), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        addActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(CommonUtilsMethods.isOnline(HomeDashBoard.this)) {
+                    Intent i = new Intent(HomeDashBoard.this, DynamicActivity.class);
+                    startActivity(i);
+                }else
+                {
+                    Toast.makeText(HomeDashBoard.this, getResources().getString(R.string.offline), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        btn_editSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                JSONObject paramObject = new JSONObject();
+                    try {
+                        paramObject.put("SF", SF_Code);
+                        paramObject.put("ReqDt", tv_todaycall_head.getText().toString());
+
+                        Log.v("json_object_custom", paramObject.toString());
+                        Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
+                        Call<ResponseBody> reports = apiService.saveEditdateStatus(paramObject.toString());
+                        reports.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                if (response.isSuccessful()) {
+                                    JSONObject jsonObject = null;
+                                    String jsonData = null;
+
+                                    InputStreamReader ip = null;
+                                    StringBuilder is = new StringBuilder();
+                                    String line = null;
+                                    try {
+                                        ip = new InputStreamReader(response.body().byteStream());
+                                        BufferedReader bf = new BufferedReader(ip);
+
+                                        while ((line = bf.readLine()) != null) {
+                                            is.append(line);
+                                        }
+                                        Log.v("json_object_edit", is.toString());
+
+
+                                        JSONArray ja = new JSONArray(is.toString());
+                                        for(int i=0;i<ja.length();i++){
+                                            JSONObject jsonObject1=ja.getJSONObject(i);
+                                            if (jsonObject1.getString("success").equalsIgnoreCase("true")) {
+                                                Toast.makeText(HomeDashBoard.this, getResources().getString(R.string.data_success), Toast.LENGTH_SHORT).show();
+                                                tv_todaycall_head.setText(resources.getString(R.string.todaycall));
+                                                mCommonSharedPreference.setValueToPreference("choosedEditDate","");
+                                                mCommonSharedPreference.setValueToPreference("confirmEditdate","");
+                                                btn_editSubmit.setVisibility(View.GONE);
+                                                linearLayout.setVisibility(View.GONE);
+                                                Intent intent=new Intent(getApplicationContext(),HomeDashBoard.class);
+                                                startActivity(intent);
+                                            }
+
+                                            else
+                                                Toast.makeText(HomeDashBoard.this, ""+jsonObject1.getString("success"), Toast.LENGTH_SHORT).show();
+
+                                        }
+
+
+
+                                    } catch (Exception e) {
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                            }
+                        });
+                    } catch (Exception e) {
+                    }
+
+
+            }
+        });
+
+
+
         nav_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -5092,58 +5550,54 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
 
                 }else if (arrayNav.get(i).getText().equals(resources.getString(R.string.calls))){
-                    if (mCommonSharedPreference.getValueFromPreference("TP_Mandatory_Need").equalsIgnoreCase("0") &&
-                            !mCommonSharedPreference.getValueFromPreference("Tp_Start_Date").equalsIgnoreCase("0") &&
-                            !mCommonSharedPreference.getValueFromPreference("Tp_End_Date").equalsIgnoreCase("0")&&
-                            mCommonSharedPreference.getValueFromPreference("tpskip").equalsIgnoreCase("null")&&
-                            (!mCommonSharedPreference.getValueFromPreference("tpstatus").equalsIgnoreCase("3")
-                                    || !mCommonSharedPreference.getValueFromPreference("tpstatus_flag").equalsIgnoreCase("3"))) {
+                    if(mCommonSharedPreference.getValueFromPreference("DlyCtrl").equalsIgnoreCase("0") &&( !mCommonSharedPreference.getValueFromPreference("choosedEditDate").contains("Today")&&!mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("")&&!mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("null"))) {
+                    }else {
 
-                        getTpstatus(json);
+                        if (mCommonSharedPreference.getValueFromPreference("TP_Mandatory_Need").equalsIgnoreCase("0") &&
+                                !mCommonSharedPreference.getValueFromPreference("Tp_Start_Date").equalsIgnoreCase("0") &&
+                                !mCommonSharedPreference.getValueFromPreference("Tp_End_Date").equalsIgnoreCase("0") &&
+                                mCommonSharedPreference.getValueFromPreference("tpskip").equalsIgnoreCase("null") &&
+                                (!mCommonSharedPreference.getValueFromPreference("tpstatus").equalsIgnoreCase("3")
+                                        || !mCommonSharedPreference.getValueFromPreference("tpstatus_flag").equalsIgnoreCase("3"))) {
 
-                    } else if(arr.size()>0 && mCommonSharedPreference.getValueFromPreference("MissedDateMand").equalsIgnoreCase("0")) {
-                        missedDate();
-                    }
-                    else if(mCommonSharedPreference.getValueFromPreference("quiz_need_mandt").equalsIgnoreCase("0")
-                    && mCommonSharedPreference.getValueFromPreference("quizSuccess").equalsIgnoreCase("true"))
-                                {
-                                    popupQuiz("");
-                                }
+                            getTpstatus(json);
 
+                        } else if (arr.size() > 0 && mCommonSharedPreference.getValueFromPreference("MissedDateMand").equalsIgnoreCase("0")) {
+                            missedDate();
+                        } else if (mCommonSharedPreference.getValueFromPreference("quiz_need_mandt").equalsIgnoreCase("0")
+                                && mCommonSharedPreference.getValueFromPreference("quizSuccess").equalsIgnoreCase("true")) {
+                            popupQuiz("");
+                        } else {
 
-                        else
-                        {
-
-                                    String wrkNAm = sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, null);
-                                Log.v("testing", wrkNAm);
-                                String wrkcluNAm = sharedpreferences.getString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, null);
-                                if (TextUtils.isEmpty(wrkNAm) || wrkNAm.equalsIgnoreCase("null")) {
-                                    Toast.makeText(HomeDashBoard.this, resources.getString(R.string.dplan_need), Toast.LENGTH_SHORT).show();
-                                    Worktype();
-                                }
+                            String wrkNAm = sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, null);
+                            Log.v("testing", wrkNAm);
+                            String wrkcluNAm = sharedpreferences.getString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, null);
+                            if (TextUtils.isEmpty(wrkNAm) || wrkNAm.equalsIgnoreCase("null")) {
+                                Toast.makeText(HomeDashBoard.this, resources.getString(R.string.dplan_need), Toast.LENGTH_SHORT).show();
+                                Worktype();
+                            }
 /*
                 if(TextUtils.isEmpty(wrkcluNAm)|| TextUtils.isEmpty(wrkNAm) || wrkNAm.equalsIgnoreCase("null")){
                     Toast.makeText(HomeDashBoard.this," My Day plan is Needed ",Toast.LENGTH_SHORT).show();
                     Worktype();
                 }
 */
-                                else {
-                                    if (!tpflag.isEmpty() || !tpflag.equals("")) {
- //                                       if (mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0")) {
-                                            if (tpflag.equals("2")) {
-                                                if (tb_dwnloadSlides.getVisibility() != View.VISIBLE) {
-                                                    Toast.makeText(HomeDashBoard.this, resources.getString(R.string.dplan_need), Toast.LENGTH_SHORT).show();
-                                                    Worktype();
+                            else {
+                                if (!tpflag.isEmpty() || !tpflag.equals("")) {
+                                    //                                       if (mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0")) {
+                                    if (tpflag.equals("2")) {
+                                        if (tb_dwnloadSlides.getVisibility() != View.VISIBLE) {
+                                            Toast.makeText(HomeDashBoard.this, resources.getString(R.string.dplan_need), Toast.LENGTH_SHORT).show();
+                                            Worktype();
 
-                                                }
-                                            }else
-                                            {
-                                                if (sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("Field Work") || sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("CoronaWFH-With Drs")) {
-                                                    CommonUtilsMethods.CommonIntentwithNEwTask(DCRCallSelectionActivity.class);
-                                                } else {
-                                                    Toast.makeText(HomeDashBoard.this, getResources().getString(R.string.NonFieldcall), Toast.LENGTH_LONG).show();
-                                                }
-                                            }
+                                        }
+                                    } else {
+                                        if (sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("Field Work") || sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("CoronaWFH-With Drs")) {
+                                            CommonUtilsMethods.CommonIntentwithNEwTask(DCRCallSelectionActivity.class);
+                                        } else {
+                                            Toast.makeText(HomeDashBoard.this, getResources().getString(R.string.NonFieldcall), Toast.LENGTH_LONG).show();
+                                        }
+                                    }
 //                                        } else {
 //                                            if (tpflag.equals("1")) {
 //                                                if (tb_dwnloadSlides.getVisibility() != View.VISIBLE) {
@@ -5159,16 +5613,15 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 //                                                }
 //                                            }
 //                                        }
-                                    }else
-                                    {
-                                        if (tb_dwnloadSlides.getVisibility() != View.VISIBLE) {
-                                            Worktype();
-                                        }
+                                } else {
+                                    if (tb_dwnloadSlides.getVisibility() != View.VISIBLE) {
+                                        Worktype();
                                     }
                                 }
                             }
+                        }
 
-
+                    }
 
                 }else if (arrayNav.get(i).getText().equals(resources.getString(R.string.create_presentation))){
 
@@ -5400,9 +5853,13 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         rl_act.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent i = new Intent(HomeDashBoard.this, DynamicActivity.class);
-                startActivity(i);
+                if(mCommonSharedPreference.getValueFromPreference("DlyCtrl").equalsIgnoreCase("0") &&( !mCommonSharedPreference.getValueFromPreference("choosedEditDate").contains("Today")&&!mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("")&&!mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("null"))) {
+                  ImageView  iv_act=(ImageView)findViewById(R.id.iv_act);
+                  iv_act.setAlpha(0.5f);
+                }else{
+                    Intent i = new Intent(HomeDashBoard.this, DynamicActivity.class);
+                    startActivity(i);
+                }
             }
         });
 
@@ -5503,6 +5960,74 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
     }
 
+    private void editDates() {
+        JSONObject paramObject = new JSONObject();
+        try {
+            paramObject.put("SF", SF_Code);
+            paramObject.put("ReqDt",currentDate);
+        } catch (Exception e) {
+
+        }
+        Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
+        Call<ResponseBody> editDates = apiService.getEditdates(paramObject.toString());
+        editDates.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    JSONObject jsonObject = null;
+                    String jsonData = null;
+                    datesInRange.clear();
+                    InputStreamReader ip = null;
+                    StringBuilder is = new StringBuilder();
+                    String line = null;
+                    try {
+                        ip = new InputStreamReader(response.body().byteStream());
+                        BufferedReader bf = new BufferedReader(ip);
+
+                        while ((line = bf.readLine()) != null) {
+                            is.append(line);
+                        }
+                        Log.v("printing_editdates", is.toString());
+                        JSONArray jsonArray = new JSONArray(is.toString());
+                        for(int i=0;i<jsonArray.length();i++)
+                        {
+                            JSONObject jsonObject1=jsonArray.getJSONObject(i);
+
+                            Log.v("currentDate",""+currentDate);
+                            if(currentDate.equalsIgnoreCase(jsonObject1.getJSONObject("Activity_Date").getString("date")))
+                                datesInRange.add(new EDitDates(jsonObject1.getJSONObject("Activity_Date").getString("date").replace("00:00:00"," (Today)"),jsonObject1.getString("Confirmed")));
+
+                            else
+                            datesInRange.add(new EDitDates(jsonObject1.getJSONObject("Activity_Date").getString("date").replace("00:00:00",""),jsonObject1.getString("Confirmed")));
+                        }
+                        //Log.v("previousDate",""+previousDate);
+                        Collections.sort(datesInRange, new Comparator<EDitDates>() {
+                            public int compare(EDitDates o1, EDitDates o2) {
+                                if (o1.getDate() == null || o2.getDate() == null)
+                                    return 0;
+                                return o1.getDate().compareTo(o2.getDate());
+                            }
+                        });
+
+                    } catch (Exception e) {
+
+                    }
+                }else
+                {
+                    try {
+                        JSONObject jObjError = new JSONObject(response.toString());
+                    } catch (Exception e) {
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+
+    }
     public void saveOfflineMDP(String json) {
         //btn_mydayplan_go.stopAnimation();
         if (sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_CODE, "").equalsIgnoreCase("null") ||
@@ -6495,4 +7020,34 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         return yy;
     }
 
+    public static List getDatesBetween(Date startDate, Date endDate) {
+        Calendar calendar = getCalendarWithoutTime(startDate);
+        Calendar endCalendar = getCalendarWithoutTime(endDate);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        while (calendar.before(endCalendar)) {
+            Date result = calendar.getTime();
+            String date=sdf.format(result);
+          //  datesInRange.add(date);
+            calendar.add(Calendar.DATE, 1);
+        }
+     //   datesInRange.add("Today");
+        Log.v("datesss",""+datesInRange.toString());
+        return datesInRange;
+    }
+
+    private static Calendar getCalendarWithoutTime(Date date) {
+        Log.v("start>>",""+date.toString());
+
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar;
+    }
 }
+
+

@@ -223,6 +223,9 @@ public class DCRSTKCallsSelection extends Fragment implements AdapterView.OnItem
             btn_Skip.setVisibility(View.VISIBLE);
         else
             btn_Skip.setVisibility(View.INVISIBLE);
+        if(mCommonSharedPreference.getValueFromPreference("DlyCtrl").equalsIgnoreCase("0") &&( !mCommonSharedPreference.getValueFromPreference("choosedEditDate").contains("Today")&&!mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("")&&!mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("null"))) {
+            btn_Skip.setVisibility(View.INVISIBLE);
+        }
         SF_Code= mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_CODE);
         mMydayWtypeCd = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_CLUSTER_CODE);
         subSfCode=mCommonSharedPreference.getValueFromPreference("sub_sf_code");

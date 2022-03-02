@@ -937,7 +937,8 @@ public class FeedbackActivity extends AppCompatActivity {
                         finalSubmission(finalValue);
 
                     } else {
-                        if (mCommonSharedPreference.getValueFromPreference("yetrdy_call_del_Nd").equalsIgnoreCase("0")) {
+                        if (mCommonSharedPreference.getValueFromPreference("yetrdy_call_del_Nd").equalsIgnoreCase("0") ||
+                                mCommonSharedPreference.getValueFromPreference("DlyCtrl").equalsIgnoreCase("0") &&( !mCommonSharedPreference.getValueFromPreference("choosedEditDate").contains("Today")&&!mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("")&&!mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("null"))) {
                             Toast.makeText(getApplicationContext(), getResources().getString(R.string.offline), Toast.LENGTH_SHORT).show();
                         } else {
                             Calendar calander = Calendar.getInstance();
@@ -1223,7 +1224,10 @@ public class FeedbackActivity extends AppCompatActivity {
         LinearLayout cancel = (LinearLayout) dialog.findViewById(R.id.cancel);
         TextView txt_save = (TextView) dialog.findViewById(R.id.txt_save);
 
-        if (colId == -1) {
+        if (colId == -1 || mCommonSharedPreference.getValueFromPreference("DlyCtrl").equalsIgnoreCase("0")
+                &&( !mCommonSharedPreference.getValueFromPreference("choosedEditDate").contains("Today")
+                &&!mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("")
+                &&!mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("null")) ) {
             txt_save.setTextColor(Color.argb(40, 255, 0, 0));
             save.setEnabled(false);
         }
@@ -1712,7 +1716,7 @@ public class FeedbackActivity extends AppCompatActivity {
                                     json_date.put("sTm", listFeedPrd.get(i).getDate() + " " + listFeedPrd.get(i).getSt_end_time().substring(0, (listFeedPrd.get(i).getSt_end_time().indexOf(" "))));
                                     json_date.put("eTm", listFeedPrd.get(i).getDate() + " " + listFeedPrd.get(i).getSt_end_time().substring((listFeedPrd.get(i).getSt_end_time().indexOf(" ")) + 1));
                                     json_joint.put("Timesline", json_date);
-                                    json_joint.put("Appver","V1.9.7");
+                                    json_joint.put("Appver","V1.9.8");
                                     json_joint.put("Mod", "Edet");
                                     json_joint.put("SmpQty", listFeedPrd.get(i).getSample());
                                     if (val_pob.contains(peopleType))
@@ -1851,12 +1855,22 @@ public class FeedbackActivity extends AppCompatActivity {
                 jointObj.put("mode", "Edet");
                 jointObj.put("WT", mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_CODE));
                 jointObj.put("WTNm", mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_NAME));
-                jointObj.put("ModTime", subDate + " " + mCommonUtilsMethod.getCurrentTime());
-                jointObj.put("ReqDt", subDate + " " + mCommonUtilsMethod.getCurrentTime());
+                if(mCommonSharedPreference.getValueFromPreference("DlyCtrl").equalsIgnoreCase("0") &&( !mCommonSharedPreference.getValueFromPreference("choosedEditDate").contains("Today")&&!mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("")&&!mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("null"))) {
+                    jointObj.put("ModTime", mCommonSharedPreference.getValueFromPreference("choosedEditDate") + " " + "00:00:00");
+                    jointObj.put("ReqDt", mCommonSharedPreference.getValueFromPreference("choosedEditDate") + " " + "00:00:00");
+                }else {
+                    jointObj.put("ModTime", subDate + " " + mCommonUtilsMethod.getCurrentTime());
+                    jointObj.put("ReqDt", subDate + " " + mCommonUtilsMethod.getCurrentTime());
+                }
                 if (colId == -1)
                     jointObj.put("vstTime", mCommonSharedPreference.getValueFromPreference("visit"));
-                else
-                    jointObj.put("vstTime", subDate + " " + mCommonUtilsMethod.getCurrentTime());
+                else {
+                    if(mCommonSharedPreference.getValueFromPreference("DlyCtrl").equalsIgnoreCase("0") &&( !mCommonSharedPreference.getValueFromPreference("choosedEditDate").contains("Today")&&!mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("")&&!mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("null"))) {
+                        jointObj.put("vstTime", mCommonSharedPreference.getValueFromPreference("choosedEditDate") + " " + "00:00:00");
+                    }else {
+                        jointObj.put("vstTime", subDate + " " + mCommonUtilsMethod.getCurrentTime());
+                    }
+                }
                 jointObj.put("Remks", edt_report.getText().toString());
                 jointObj.put("Pl", mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_CLUSTER_CODE));
                 if (colId == -1)
@@ -1900,12 +1914,22 @@ public class FeedbackActivity extends AppCompatActivity {
                         jointObj.put("WT", mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_CODE));
                         jointObj.put("WTNm", mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_NAME));
                         jointObj.put("Pl", mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_CLUSTER_CODE));
-                        jointObj.put("ModTime", subDate + " " + mCommonUtilsMethod.getCurrentTime());
-                        jointObj.put("ReqDt", subDate + " " + mCommonUtilsMethod.getCurrentTime());
+                        if(mCommonSharedPreference.getValueFromPreference("DlyCtrl").equalsIgnoreCase("0") &&( !mCommonSharedPreference.getValueFromPreference("choosedEditDate").contains("Today")&&!mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("")&&!mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("null"))) {
+                            jointObj.put("ModTime", mCommonSharedPreference.getValueFromPreference("choosedEditDate") + " " + "00:00:00");
+                            jointObj.put("ReqDt", mCommonSharedPreference.getValueFromPreference("choosedEditDate") + " " + "00:00:00");
+                        }else {
+                            jointObj.put("ModTime", subDate + " " + mCommonUtilsMethod.getCurrentTime());
+                            jointObj.put("ReqDt", subDate + " " + mCommonUtilsMethod.getCurrentTime());
+                        }
                         if (colId == -1)
                             jointObj.put("vstTime", mCommonSharedPreference.getValueFromPreference("visit"));
-                        else
-                            jointObj.put("vstTime", subDate + " " + mCommonUtilsMethod.getCurrentTime());
+                        else {
+                            if(mCommonSharedPreference.getValueFromPreference("DlyCtrl").equalsIgnoreCase("0") &&( !mCommonSharedPreference.getValueFromPreference("choosedEditDate").contains("Today")&&!mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("")&&!mCommonSharedPreference.getValueFromPreference("choosedEditDate").equalsIgnoreCase("null"))) {
+                                jointObj.put("vstTime", mCommonSharedPreference.getValueFromPreference("choosedEditDate") + " " + "00:00:00");
+                            }else {
+                                jointObj.put("vstTime", subDate + " " + mCommonUtilsMethod.getCurrentTime());
+                            }
+                        }
                         jointObj.put("Remks", edt_report.getText().toString());
                         if (colId == -1)
                             jointObj.put("amc", mCommonSharedPreference.getValueFromPreference("detno"));

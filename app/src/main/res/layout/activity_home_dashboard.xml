@@ -200,10 +200,9 @@
                         <TextView
                             android:id="@+id/tv_todaycall_head"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="50dp"
                             android:fontFamily="@font/poppins_medium"
-                            android:gravity="center|left"
-                            android:padding="13dp"
+                            android:gravity="center"
                             android:text="Today Calls"
                             android:textColor="#ffffff"
                             android:textSize="18sp"
@@ -215,15 +214,17 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_regular"
-                            android:gravity="center|right"
-                            android:text="Total 0 calls"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:text="0 calls"
                             android:textColor="#ffffff"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
                             android:textSize="18sp"
                             android:textStyle="normal"
-                            android:typeface="serif" />
+                            android:typeface="serif"
+                          />
                     </RelativeLayout>
                     <RelativeLayout
                         android:layout_height="wrap_content"
@@ -237,7 +238,81 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginEnd="0dp"
-                            android:background="#ffffff" />
+                            android:background="#ffffff"
+                            android:layout_above="@+id/blv_buttons"
+                            />
+
+                        <LinearLayout
+                            android:id="@+id/blv_buttons"
+                            android:background="#f2f4f9"
+                            android:visibility="visible"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:layout_alignParentBottom="true">
+
+                        <LinearLayout
+                            android:id="@+id/lnDelay_ctrls"
+                            android:background="#f2f4f9"
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:weightSum="2"
+                           >
+
+                            <Button
+                                android:id="@+id/add_call"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/color_white"
+                                android:textSize="14sp"
+                                android:background="@drawable/shape_default"
+                                android:backgroundTint="#EA665C"
+                                android:layout_weight="1"
+                                android:layout_marginTop="6dp"
+                                android:layout_marginBottom="5dp"
+                                android:text="Add Call"
+                                android:visibility="visible"
+                                />
+
+                            <Button
+                                android:id="@+id/add_activity"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/color_white"
+                                android:textSize="14sp"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginTop="6dp"
+                                android:layout_marginBottom="5dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/shape_default"
+                                android:backgroundTint="#EA665C"
+                                android:text="Activity"
+                                android:visibility="gone"
+                                />
+
+                        </LinearLayout>
+                            <Button
+                                android:id="@+id/edit_final_submit"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/color_white"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:textSize="14sp"
+                                android:layout_marginBottom="5dp"
+                                android:background="@drawable/shape_default"
+                                android:backgroundTint="#EA665C"
+                                android:text="Submit"
+                                android:visibility="gone"
+                                />
+
+                        </LinearLayout>
+
+
 
                     </RelativeLayout>
 

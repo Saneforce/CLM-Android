@@ -226,6 +226,7 @@
             android:fontFamily="@font/poppins"
             android:visibility="visible"
             android:text="@string/go"
+            android:backgroundTint="#EA665C"
             android:textColor="#ffffff"
             android:textSize="14sp" />
 

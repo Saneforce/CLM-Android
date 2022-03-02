@@ -585,4 +585,22 @@ public interface Api_Interface {
     @FormUrlEncoded
     @POST("db.php?axn=get/vwchktpstatus")
     Call<ResponseBody> checkTpStatus(@Field("data") String sf);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=get/editdaycalls")
+    Call<List<TodayCalls>> editdaycalls(@Field("data") String sf);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=get/editdates")
+    Call<ResponseBody> getEditdates(@Field("data") String sf);
+
+    @FormUrlEncoded
+    @POST("db.php?axn=save/editdatestatus")
+    Call<ResponseBody> saveEditdateStatus(@Field("data") String sf);
+
+    @Multipart
+    @POST("db.php?axn=save/missentry")
+    Call<ResponseBody> uploadMsdData(@PartMap() HashMap<String, RequestBody> values, @Part MultipartBody.Part file);
+
+
 }

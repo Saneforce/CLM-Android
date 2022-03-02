@@ -18,6 +18,9 @@ public class Dcrdatas {
     public static String FFBrandHQName="";
     public static String primarysalesbrandselecteddivcode="";
     public static int primarysalesbrandselecteddivtag=0;
+    public static String dcr_latitude;
+    public static String dcr_longitute;
+    public static String IsFakeLocation="0";
     private static Dcrdatas dcrdata;
 
     public static int custlist = 0;

@@ -2,7 +2,6 @@ package saneforce.sanclm.util;
 
 //import com.google.firebase.iid.FirebaseInstanceIdService;
 
-import com.google.firebase.iid.FirebaseInstanceId;
 
 public class MyFirebaseInstanceIdService{ /*extends  FirebaseInstanceIdService {
 

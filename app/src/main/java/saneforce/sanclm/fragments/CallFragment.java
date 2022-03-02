@@ -10,6 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -25,12 +28,15 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -67,11 +73,12 @@ public class CallFragment extends Fragment {
             jan_txt,feb_txt,mar_txt,apr_txt,may_txt,jun_txt,jul_txt,aug_txt,sep_txt,oct_txt,nov_txt,dec_txt;
     DataBaseHandler dbh;
     static UpdateUi updateUi;
-    ImageButton call_visit_detailsReload;
+    ImageButton call_visit_detailsReload,iv_monthly_summary_reload;
     String language;
     Context context;
     Resources resources;
     TextView tv_monthly_summary_head,tv_call_visit_details,categorycap,overallcap;
+    RotateAnimation rotateAnimation;
 
     @Nullable
     @Override
@@ -103,23 +110,31 @@ public class CallFragment extends Fragment {
         overallcap.setText(resources.getString(R.string.overall));
 
         call_visit_detailsReload=(ImageButton) vv.findViewById(R.id.call_visit_detailsReload);
+        iv_monthly_summary_reload=(ImageButton) vv.findViewById(R.id.iv_monthly_summary_reload);
+        mCommonSharedPreference=new CommonSharedPreference(getActivity());
+        rotateAnimation = new RotateAnimation(0f, 350f, 15f, 15f);
+        rotateAnimation.setInterpolator(new LinearInterpolator());
+        rotateAnimation.setRepeatCount(Animation.INFINITE);
+        rotateAnimation.setDuration(700);
 
         HomeDashBoard.updateCallUI(new UpdateUi() {
             @Override
             public void updatingui() {
                 Log.v("call_visit_fragment","are_called_her");
-               // if(mCommonSharedPreference.getValueFromPreference("cat_visit_detail").equalsIgnoreCase("")) {
+                if(mCommonSharedPreference.getValueFromPreference("cat_visit_detail").isEmpty() ||
+                        mCommonSharedPreference.getValueFromPreference("cat_visit_detail").equalsIgnoreCase("") ||
+                        mCommonSharedPreference.getValueFromPreference("cat_visit_detail").equalsIgnoreCase("null") ) {
                     catVisitDetail();
-//                }else
-//                {
-//                    LoadcatVisitDetail();
-//                }
-              //  call_visit_detailsReload.setImageResource(R.mipmap.sync);
+                }else
+                {
+                    LoadcatVisitDetail();
+                }
+                call_visit_detailsReload.setImageResource(R.mipmap.sync);
 
             }
         });
         
-        mCommonSharedPreference=new CommonSharedPreference(getActivity());
+
         db_connPath =  mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DB_URL);
         SF_Code =  mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_SF_CODE);
         mCommonUtilsMethods=new CommonUtilsMethods(getActivity());
@@ -165,20 +180,221 @@ public class CallFragment extends Fragment {
         pb_nov=(ProgressBar)vv.findViewById(R.id.pb_nov);
         pb_dec=(ProgressBar)vv.findViewById(R.id.pb_dec);
 
-//        call_visit_detailsReload.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                call_visit_detailsReload.setImageResource(R.drawable.back_close);
-//                catVisitDetail();
-//            }
-//        });
+        iv_monthly_summary_reload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              //  iv_monthly_summary_reload.setImageResource(R.drawable.home_sync);
+                iv_monthly_summary_reload.startAnimation(rotateAnimation);
+                catVisitDetail();
+            }
+        });
         
         return vv;
     }
 
-//    public void LoadcatVisitDetail() {
-//        String klerhjglerh=mCommonSharedPreference.getValueFromPreference("cat_visit_detail");
-//    }
+    public void LoadcatVisitDetail() {
+        String visitDetails=mCommonSharedPreference.getValueFromPreference("cat_visit_detail");
+     try{
+         ArrayList<Entry> entries1 = new ArrayList<>();
+        ArrayList<String> labels1 = new ArrayList<>();
+        ArrayList<PieEntry> entries = new ArrayList<>();
+        float totalSum=100;
+        float sumVal = 0;
+        JSONArray jas=new JSONArray(visitDetails);
+        Log.v("load_json_printing", String.valueOf(jas)+" leng"+jas.length());
+        for(int i=0;i<jas.length();i++){
+            JSONObject js=jas.getJSONObject(i);
+            Log.v("categoryName",js.getString("cnt"));
+
+            sumVal+= Float.parseFloat(js.getString("cnt"));
+
+
+        }
+
+        for(int i=0;i<jas.length();i++){
+            JSONObject js=jas.getJSONObject(i);
+            float forOne=totalSum/sumVal;
+            float kk=forOne*Float.parseFloat(js.getString("cnt"));
+            int jj= Math.round(kk);
+
+            entries.add(new PieEntry(jj,js.getString("Category"),
+                    i));
+        }
+        if(jas.length()==0){
+            entries1.add(new Entry(0, 0));
+            labels1.add(" ");
+            entries.add(new PieEntry(0," ", 0));
+        }
+        Log.v("printing_load_val",entries.size()+" checking");
+        PieDataSet dataSet = new PieDataSet(entries, "Election Results");
+        Log.v("printing_load_val12",entries.size()+" checking");
+        dataSet.setDrawIcons(false);
+
+        dataSet.setSliceSpace(3f);
+        dataSet.setIconsOffset(new MPPointF(0, 40));
+        dataSet.setSelectionShift(5f);
+        Log.v("printing_load_val",entries.size()+" checking");
+        // add a lot of colors
+
+        ArrayList<Integer> colors = new ArrayList<>();
+
+        for (int c : ColorTemplate.COLORFUL_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.COLORFUL_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.COLORFUL_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.LIBERTY_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.PASTEL_COLORS)
+            colors.add(c);
+
+        colors.add(ColorTemplate.getHoloBlue());
+
+        dataSet.setColors(colors);
+        //dataSet.setSelectionShift(0f);
+        Log.v("printing_load_val12",entries.size()+" checking");
+        pie.getDescription().setEnabled(false);
+        pie.getLegend().setEnabled(false);
+        pie.getDescription().setEnabled(false);
+        pie.getLegend().setEnabled(false);
+        PieData data = new PieData(dataSet);
+        // data.setValueFormatter(new PercentFormatter(pieChart));
+        data.setValueTextSize(11f);
+        data.setValueTextColor(Color.WHITE);
+
+        pie.setData(data);
+        pie.animateXY(1400, 1400);
+        Log.v("printing_load_val1",entries.size()+" checking");
+        // undo all highlights
+        pie.highlightValues(null);
+        pie.notifyDataSetChanged();
+        pie.invalidate();
+        Log.v("printing_load_val1",entries.size()+" checking");
+
+        LoadOverAllVisit();
+    }catch (Exception e) {
+    }
+    }
+
+    private void LoadOverAllVisit() {
+        String overallVisit=mCommonSharedPreference.getValueFromPreference("overall_visit");
+        try {
+            JSONArray jsonObject1=new JSONArray(overallVisit);
+            Log.v("load_overall_visit", String.valueOf(jsonObject1));
+            for(int i=0;i<jsonObject1.length();i++){
+                JSONObject js=jsonObject1.getJSONObject(i);
+                Log.v("total_cnt",js.getString("totcnt"));
+                pBar.setMax(Integer.parseInt(js.getString("totcnt")));
+                pbar_percentage.setText(js.getString("cnt")+"%");
+                progressBarAnimation(Integer.parseInt(js.getString("cnt")));
+            }
+            LoadmonthlyVisitDetail();
+        }catch (Exception e){
+        }
+    }
+
+    private void LoadmonthlyVisitDetail() {
+
+        String monthly_details= mCommonSharedPreference.getValueFromPreference("monthly_detail");
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<MontlyVistDetail>>(){}.getType();
+        List<MontlyVistDetail> details=gson.fromJson(monthly_details,type);
+        Log.v("details_size", String.valueOf(details.size()));
+
+        int maxVal=0;
+
+        for(int i=0;i<details.size();i++){
+            if(maxVal>=Integer.parseInt(details.get(i).getCnt())){
+
+            }
+            else
+                maxVal=Integer.parseInt(details.get(i).getCnt());
+        }
+
+        for(int i=0;i<details.size();i++){
+            switch (i){
+                case 0:
+                    pb_jan.setMax(maxVal);
+                    pb_jan.setProgress(Integer.parseInt(details.get(i).getCnt()));
+                    txt_count_jan.setText(details.get(i).getCnt());
+                    jan_txt.setText(details.get(i).getMon()+"-"+details.get(i).getYr());
+                    break;
+                case 1:
+                    pb_feb.setMax(maxVal);
+                    pb_feb.setProgress(Integer.parseInt(details.get(i).getCnt()));
+                    txt_count_feb.setText(details.get(i).getCnt());
+                    feb_txt.setText(details.get(i).getMon()+"-"+details.get(i).getYr());
+                    break;
+                case 2:
+                    pb_mar.setMax(maxVal);
+                    pb_mar.setProgress(Integer.parseInt(details.get(i).getCnt()));
+                    txt_count_mar.setText(details.get(i).getCnt());
+                    mar_txt.setText(details.get(i).getMon()+"-"+details.get(i).getYr());
+                    break;
+                case 3:
+                    pb_apr.setMax(maxVal);
+                    pb_apr.setProgress(Integer.parseInt(details.get(i).getCnt()));
+                    txt_count_apr.setText(details.get(i).getCnt());
+                    apr_txt.setText(details.get(i).getMon()+"-"+details.get(i).getYr());
+                    break;
+                case 4:
+                    pb_may.setMax(maxVal);
+                    pb_may.setProgress(Integer.parseInt(details.get(i).getCnt()));
+                    txt_count_may.setText(details.get(i).getCnt());
+                    may_txt.setText(details.get(i).getMon()+"-"+details.get(i).getYr());
+                    break;
+                case 5:
+                    pb_jun.setMax(maxVal);
+                    pb_jun.setProgress(Integer.parseInt(details.get(i).getCnt()));
+                    txt_count_jun.setText(details.get(i).getCnt());
+                    jun_txt.setText(details.get(i).getMon()+"-"+details.get(i).getYr());
+                    break;
+                case 6:
+                    pb_jul.setMax(maxVal);
+                    pb_jul.setProgress(Integer.parseInt(details.get(i).getCnt()));
+                    txt_count_jul.setText(details.get(i).getCnt());
+                    jul_txt.setText(details.get(i).getMon()+"-"+details.get(i).getYr());
+                    break;
+                case 7:
+                    pb_aug.setMax(maxVal);
+                    pb_aug.setProgress(Integer.parseInt(details.get(i).getCnt()));
+                    txt_count_aug.setText(details.get(i).getCnt());
+                    aug_txt.setText(details.get(i).getMon()+"-"+details.get(i).getYr());
+                    break;
+                case 8:
+                    pb_sep.setMax(maxVal);
+                    pb_sep.setProgress(Integer.parseInt(details.get(i).getCnt()));
+                    txt_count_sep.setText(details.get(i).getCnt());
+                    sep_txt.setText(details.get(i).getMon()+"-"+details.get(i).getYr());
+                    break;
+                case 9:
+                    pb_oct.setMax(maxVal);
+                    pb_oct.setProgress(Integer.parseInt(details.get(i).getCnt()));
+                    txt_count_oct.setText(details.get(i).getCnt());
+                    oct_txt.setText(details.get(i).getMon()+"-"+details.get(i).getYr());
+                    break;
+                case 10:
+                    pb_nov.setMax(maxVal);
+                    pb_nov.setProgress(Integer.parseInt(details.get(i).getCnt()));
+                    txt_count_nov.setText(details.get(i).getCnt());
+                    nov_txt.setText(details.get(i).getMon()+"-"+details.get(i).getYr());
+                    break;
+                case 11:
+                    pb_dec.setMax(maxVal);
+                    pb_dec.setProgress(Integer.parseInt(details.get(i).getCnt()));
+                    txt_count_dec.setText(details.get(i).getCnt());
+                    dec_txt.setText(details.get(i).getMon()+"-"+details.get(i).getYr());
+                    break;
+            }
+        }
+        getCustomSupport();
+    }
+
 
 
     public void catVisitDetail(){
@@ -207,7 +423,7 @@ public class CallFragment extends Fragment {
                     StringBuilder is=new StringBuilder();
                     String line=null;
                     try{
-                    //    mCommonSharedPreference.setValueToPreference("cat_visit_detail","");
+                        mCommonSharedPreference.setValueToPreference("cat_visit_detail","");
                         ip=new InputStreamReader(response.body().byteStream());
                         BufferedReader bf=new BufferedReader(ip);
 
@@ -221,7 +437,7 @@ public class CallFragment extends Fragment {
                         float totalSum=100;
                         float sumVal = 0;
                         JSONArray jas=new JSONArray(is.toString());
-                  //      mCommonSharedPreference.setValueToPreference("cat_visit_detail",is.toString());
+                       mCommonSharedPreference.setValueToPreference("cat_visit_detail",is.toString());
                         Log.v("json_object_printing", String.valueOf(jas)+" leng"+jas.length());
                         for(int i=0;i<jas.length();i++){
                             JSONObject js=jas.getJSONObject(i);
@@ -396,7 +612,7 @@ public class CallFragment extends Fragment {
                     StringBuilder is=new StringBuilder();
                     String line=null;
                     try {
-          //              mCommonSharedPreference.setValueToPreference("overall_visit","");
+                        mCommonSharedPreference.setValueToPreference("overall_visit","");
                         ip = new InputStreamReader(response.body().byteStream());
                         BufferedReader bf = new BufferedReader(ip);
 
@@ -405,7 +621,7 @@ public class CallFragment extends Fragment {
                         }
 
                         JSONArray jsonObject1=new JSONArray(is.toString());
-                 //       mCommonSharedPreference.setValueToPreference("overall_visit",is.toString());
+                        mCommonSharedPreference.setValueToPreference("overall_visit",is.toString());
                         Log.v("overall_visit", String.valueOf(jsonObject1));
                         for(int i=0;i<jsonObject1.length();i++){
                             JSONObject js=jsonObject1.getJSONObject(i);
@@ -462,10 +678,12 @@ public class CallFragment extends Fragment {
                 public void onResponse(Call<List<MontlyVistDetail>> call, Response<List<MontlyVistDetail>> response) {
 
                     if(response.isSuccessful()){
-                    //    mCommonSharedPreference.setValueToPreference("monthly_detail","");
+                        mCommonSharedPreference.setValueToPreference("monthly_detail","");
                         List<MontlyVistDetail> details=response.body();
                         Log.v("details_length", String.valueOf(details.size()));
-                     //   mCommonSharedPreference.setValueToPreference("monthly_detail",response.body().toString());
+                        Gson gson = new Gson();
+                        String json = gson.toJson(response.body());
+                        mCommonSharedPreference.setValueToPreference("monthly_detail",json);
                         int maxVal=0;
 //                        for(int i=0;i<details.size();i++) {
 //                            if(details.get(i).getCnt().equals("") || details.get(i).getCnt().equals(null))
@@ -556,6 +774,7 @@ public class CallFragment extends Fragment {
                                     break;
                             }
                         }
+                        iv_monthly_summary_reload.setAnimation(null);
                         getCustomSupport();
                     }
                     else

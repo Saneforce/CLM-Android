@@ -22,8 +22,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,7 +49,7 @@ public class DCRCallsSelectionTablayout  extends Fragment implements TabHost.OnT
     Button sub_btn;
     ProgressDialog progressDialog=null;
     Api_Interface apiService;
-    String baseurl,SF_Code,Div_code;
+    String baseurl,SF_Code,Div_code,signPath = "",filePath = "";
     CommonUtilsMethods commonUtilsMethods;
     public static UpdateUi updateUi;
     View decorView;
@@ -192,6 +196,16 @@ public class DCRCallsSelectionTablayout  extends Fragment implements TabHost.OnT
         } else {
             progressDialog.show();
         }
+//        Call<ResponseBody> query;
+//        if (signPath.trim().isEmpty() && filePath.isEmpty()) {
+//            query = apiService.savemisEntry(val);
+//        } else {
+//            Log.v("signature_pic", signPath);
+//            Log.v("datasave",val);
+//            HashMap<String, RequestBody> values = field(val);
+//            MultipartBody.Part fileNeed = convertimg("SignImg", signPath);
+//            query = apiService.uploadMsdData(values, fileNeed);
+//        }
 
         Call<ResponseBody> query = apiService.savemisEntry(val);
         query.enqueue(new Callback<ResponseBody>() {
@@ -361,5 +375,55 @@ public class DCRCallsSelectionTablayout  extends Fragment implements TabHost.OnT
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+    }
+
+    public void checkForValue(String val){
+        Log.v("prrrintitnt11","here");
+        try{
+            Log.v("prrrintitnt112","here");
+            JSONObject jsonCheck=new JSONObject();
+            JSONArray jsArr=new JSONArray();
+
+            JSONArray jsonn = new JSONArray(val);
+            if(jsonn.length()!=0) {
+
+                for (int i = 0; i < jsonn.length(); i++) {
+                    JSONObject js = jsonn.getJSONObject(i);
+                    Log.v("signPath",""+js.getString("sign_path"));
+
+                    signPath=js.getString("sign_path");
+                    filePath=js.getString("filepath");
+                }
+            }
+
+        }catch(Exception e){
+            Log.v("prrrintitnt112","here"+e.getMessage());
+        }
+    }
+
+    public HashMap<String, RequestBody> field(String val) {
+        HashMap<String, RequestBody> xx = new HashMap<String, RequestBody>();
+        xx.put("data", createFromString(val));
+
+        return xx;
+
+    }
+
+    private RequestBody createFromString(String txt) {
+        return RequestBody.create(MultipartBody.FORM, txt);
+    }
+
+
+    public MultipartBody.Part convertimg(String tag, String path) {
+        MultipartBody.Part yy = null;
+        //Log.v("full_profile",path);
+
+        if (!TextUtils.isEmpty(path)) {
+            File file = new File(path);
+            RequestBody requestBody = RequestBody.create(MultipartBody.FORM, file);
+            yy = MultipartBody.Part.createFormData(tag, file.getName(), requestBody);
+        }
+
+        return yy;
     }
 }

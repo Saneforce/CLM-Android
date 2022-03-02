@@ -434,6 +434,9 @@ public class AppConfiguration extends Fragment implements View.OnClickListener {
         CommonUtils.TAG_USERPWD="";*/
         mCommonSharedPreference.setValueToPreference(CommonUtils.TAG_USERNAME, "null");
         mCommonSharedPreference.setValueToPreference("pass", "");
+        mCommonSharedPreference.setValueToPreference("cat_visit_detail","");
+        mCommonSharedPreference.setValueToPreference("overall_visit","");
+        mCommonSharedPreference.setValueToPreference("monthly_detail","");
         dbh.open();
         dbh.delete_All_tableDatas();
 

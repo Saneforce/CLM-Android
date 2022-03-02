@@ -61,7 +61,13 @@ public class AdapterForReportClass extends RecyclerView.Adapter<AdapterForReport
         holder.txt_date.setText(mm.getDate());
         holder.txt_name.setText(mm.getName());
         holder.txt_wt.setText(mm.getWrktyp());
-        holder.txt_cluster.setText(" : "+mm.getCluster());
+        if(mm.getCluster().equalsIgnoreCase("null"))
+        {
+            holder.txt_cluster.setText(" : "+"");
+        }else
+        {
+            holder.txt_cluster.setText(" : "+mm.getCluster());
+        }
         holder.txt_hw_value.setText(" : "+mm.getHoliday());
         holder.txt_remark.setText(" : "+mm.getRem());
         holder.txt_count_dr.setText(mm.getDr());

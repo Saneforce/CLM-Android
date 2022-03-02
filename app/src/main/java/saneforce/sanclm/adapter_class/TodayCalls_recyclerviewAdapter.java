@@ -145,7 +145,7 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
                     dr_name=tdaycall.getDrName().substring(0,tdaycall.getDrName().indexOf("_"));
                     Log.v("printing_dr_name",dr_name);
                     holder.iv_edit.setVisibility(View.INVISIBLE);
-                    holder.iv_del.setVisibility(View.INVISIBLE);
+                    holder.iv_del.setVisibility(View.VISIBLE);
                     holder.iv_sync.setVisibility(View.VISIBLE);
                     visitTime+="  [Offline]";
                 }else if(tdaycall.isLocal()){

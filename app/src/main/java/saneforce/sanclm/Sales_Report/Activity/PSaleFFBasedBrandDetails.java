@@ -1,5 +1,6 @@
 package saneforce.sanclm.Sales_Report.Activity;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.Cursor;
@@ -67,6 +68,7 @@ public class PSaleFFBasedBrandDetails extends AppCompatActivity {
     CommonSharedPreference mCommonSharedPreference;
     public DataBaseHandler dbh;
 
+    @SuppressLint("Range")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
