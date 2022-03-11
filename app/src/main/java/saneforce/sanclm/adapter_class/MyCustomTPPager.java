@@ -556,14 +556,19 @@ public class MyCustomTPPager extends PagerAdapter {
         lay_cluster.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!TextUtils.isEmpty(getValueforField(tp.getHq())) && !TextUtils.isEmpty(getValueforField(tp.getWrk()))) {
-                    if(DemoActivity.hospNeed.equalsIgnoreCase("0")){
-                        selectorpos=6;
-                        selector.checkPosition(6);
+                if(!TextUtils.isEmpty(getValueforField(tp.getWrk()))) {
+                    if(!TextUtils.isEmpty(getValueforField(tp.getHq())))
+                    {
+                        if (DemoActivity.hospNeed.equalsIgnoreCase("0")) {
+                            selectorpos = 6;
+                            selector.checkPosition(6);
+                        } else {
+                            selectorpos = 2;
+                            selector.checkPosition(2);
+                        }
                     }
-                    else {
-                        selectorpos = 2;
-                        selector.checkPosition(2);
+                     else{
+                        Toast.makeText(context,context.getResources().getString(R.string.select_headquater),Toast.LENGTH_SHORT).show();
                     }
                 }
                 else{

@@ -412,6 +412,7 @@ public class DownloadMasterData extends Fragment implements View.OnTouchListener
             }
             if(mCommonSharedPreference.getValueFromPreference("cip_need").equals("0"))
             array.add(new ModelDownloadMaster("Cip",  String.valueOf(dbh.select_cip_sfcode(sfCoding).getCount()), false,"cip"));
+          //  array.add(new ModelDownloadMaster(resources.getString(R.string.setup),  pref.getString("setups", ""), false,"setups"));
         } else {
             array.add(new ModelDownloadMaster(resources.getString(R.string.wrk_types), pref.getString("work", "0"), false,"worktype"));
             array.add(new ModelDownloadMaster(resources.getString(R.string.hqs), pref.getString("hq", "0"), false,"hq"));
@@ -430,6 +431,7 @@ public class DownloadMasterData extends Fragment implements View.OnTouchListener
             array.add(new ModelDownloadMaster(resources.getString(R.string.feedbacks), "0", false,"feedback"));
             array.add(new ModelDownloadMaster(resources.getString(R.string.theraptic), pref.getString("theraptic", "0"), false,"theraptic"));
             array.add(new ModelDownloadMaster("Cip", pref.getString("cip", "0"), false,"cip"));
+          //  array.add(new ModelDownloadMaster(resources.getString(R.string.setup),  pref.getString("setups", ""), false,"setups"));
 
         }
 

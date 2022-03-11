@@ -1,6 +1,7 @@
 package saneforce.sanclm.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -121,15 +122,15 @@ public class CallFragment extends Fragment {
             @Override
             public void updatingui() {
                 Log.v("call_visit_fragment","are_called_her");
-                if(mCommonSharedPreference.getValueFromPreference("cat_visit_detail").isEmpty() ||
-                        mCommonSharedPreference.getValueFromPreference("cat_visit_detail").equalsIgnoreCase("") ||
-                        mCommonSharedPreference.getValueFromPreference("cat_visit_detail").equalsIgnoreCase("null") ) {
+//                if(mCommonSharedPreference.getValueFromPreference("cat_visit_detail").isEmpty() ||
+//                        mCommonSharedPreference.getValueFromPreference("cat_visit_detail").equalsIgnoreCase("") ||
+//                        mCommonSharedPreference.getValueFromPreference("cat_visit_detail").equalsIgnoreCase("null") ) {
                     catVisitDetail();
-                }else
-                {
-                    LoadcatVisitDetail();
-                }
-                call_visit_detailsReload.setImageResource(R.mipmap.sync);
+//                }else
+//                {
+//                    LoadcatVisitDetail();
+//                }
+              //  call_visit_detailsReload.setImageResource(R.mipmap.sync);
 
             }
         });
@@ -180,14 +181,16 @@ public class CallFragment extends Fragment {
         pb_nov=(ProgressBar)vv.findViewById(R.id.pb_nov);
         pb_dec=(ProgressBar)vv.findViewById(R.id.pb_dec);
 
-        iv_monthly_summary_reload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-              //  iv_monthly_summary_reload.setImageResource(R.drawable.home_sync);
-                iv_monthly_summary_reload.startAnimation(rotateAnimation);
-                catVisitDetail();
-            }
-        });
+//        iv_monthly_summary_reload.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//              //  iv_monthly_summary_reload.setImageResource(R.drawable.home_sync);
+//                Intent intent=new Intent(context,HomeDashBoard.class);
+//                context.startActivity(intent);
+//                iv_monthly_summary_reload.startAnimation(rotateAnimation);
+//                catVisitDetail();
+//            }
+//        });
         
         return vv;
     }

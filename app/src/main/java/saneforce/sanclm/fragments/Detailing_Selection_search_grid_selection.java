@@ -215,27 +215,38 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
             mCommonSharedPreference.setValueToPreference("display_brand", getResources().getString(R.string.brandmatrix));
         } else {
             if (brand_type.equalsIgnoreCase(getResources().getString(R.string.spclwise))) {
-                if (skipSpeciality.equalsIgnoreCase("0")) {
+//                if (skipSpeciality.equalsIgnoreCase("0")) {
                     ll_img.setVisibility(View.VISIBLE);
                     spec_img.setVisibility(View.VISIBLE);
-                }
+                //}
                 down_arrow.setVisibility(View.INVISIBLE);
-            } else {
+            }else if (brand_type.equalsIgnoreCase(getResources().getString(R.string.theraptic))) {
+//                if (skipSpeciality.equalsIgnoreCase("0")) {
+                ll_layoutCat.setVisibility(View.VISIBLE);
+                cat_img.setVisibility(View.VISIBLE);
+                // }
+                down_arrow.setVisibility(View.INVISIBLE);
+            }
+            else {
                 ll_img.setVisibility(View.GONE);
                 spec_img.setVisibility(View.GONE);
-            }
-
-
-            if (brand_type.equalsIgnoreCase(getResources().getString(R.string.theraptic))) {
-                if (skipSpeciality.equalsIgnoreCase("0")) {
-                    ll_layoutCat.setVisibility(View.VISIBLE);
-                    cat_img.setVisibility(View.VISIBLE);
-                }
-                down_arrow.setVisibility(View.INVISIBLE);
-            } else {
                 ll_layoutCat.setVisibility(View.GONE);
                 cat_img.setVisibility(View.GONE);
+                down_arrow.setVisibility(View.VISIBLE);
             }
+
+
+//            if (brand_type.equalsIgnoreCase(getResources().getString(R.string.theraptic))) {
+////                if (skipSpeciality.equalsIgnoreCase("0")) {
+//                    ll_layoutCat.setVisibility(View.VISIBLE);
+//                    cat_img.setVisibility(View.VISIBLE);
+//               // }
+//                down_arrow.setVisibility(View.INVISIBLE);
+//            } else {
+//                ll_layoutCat.setVisibility(View.GONE);
+//                cat_img.setVisibility(View.GONE);
+//                down_arrow.setVisibility(View.VISIBLE);
+//            }
 
 
             DisplayProductGridView(brand_type);
@@ -267,7 +278,7 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
             case R.id.ll_img:
                 lv_brdmatrix_list.setVisibility(View.GONE);
                 if (!checkActivity) {
-                    Detailing_right_grid_view.popupSpeciality();
+                    Detailing_right_grid_view.popupSpeciality("0");
                 } else {
                     DetailingFullScreenImageViewActivity.popupSpeciality();
                 }
@@ -343,6 +354,8 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
                     ll_img.setVisibility(View.VISIBLE);
                     spec_img.setVisibility(View.VISIBLE);
 
+                    down_arrow.setVisibility(View.INVISIBLE);
+
                     ll_layoutCat.setVisibility(View.GONE);
                     cat_img.setVisibility(View.GONE);
 
@@ -367,6 +380,8 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
                     ll_layoutCat.setVisibility(View.VISIBLE);
                     cat_img.setVisibility(View.VISIBLE);
 
+                    down_arrow.setVisibility(View.INVISIBLE);
+
                     ll_img.setVisibility(View.GONE);
                     spec_img.setVisibility(View.GONE);
 
@@ -380,6 +395,7 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
                     spec_img.setVisibility(View.GONE);
                     ll_layoutCat.setVisibility(View.GONE);
                     cat_img.setVisibility(View.GONE);
+                    down_arrow.setVisibility(View.VISIBLE);
                     CustomClick = false;
                     Log.v("first_prd_call_here222", "here_only");
                     DisplayProductGridView(parent.getItemAtPosition(position).toString());
@@ -562,6 +578,9 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
                 if (skipSpeciality.equalsIgnoreCase("0"))
                     mCursor = dbh.select_ProductBrdWiseSlide();
                 else
+                    if(CommonUtils.TAG_DR_SPEC.equalsIgnoreCase("ALL"))
+                        mCursor = dbh.select_ProductBrdWiseSlide();
+                    else
                     mCursor = dbh.select_ProductBrdWiseSlideSpec(CommonUtils.TAG_DR_SPEC);
                 Log.v("Log_total", mCursor.getCount() + "");
 
@@ -953,6 +972,9 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
                     Log.e("Brand_Name", BrdNameArray.get(j));
 
                     if (skipSpeciality.equalsIgnoreCase("0"))
+                        mCursor = dbh.select_AllSlides_brandwise(BrdCodeArray.get(j));
+                    else
+                    if(CommonUtils.TAG_DR_SPEC.equalsIgnoreCase("ALL"))
                         mCursor = dbh.select_AllSlides_brandwise(BrdCodeArray.get(j));
                     else
                         mCursor = dbh.select_AllSlides_brandwiseSpec(BrdCodeArray.get(j), CommonUtils.TAG_DR_SPEC);

@@ -504,4 +504,6 @@
     <string name="survey_list">Liste de sondage</string>
     <string name="network_issue">En raison de l\'appel de numéro de réseau sauvegardé localement synchronisé plus tard</string>
 
+    <string name="setup">Installer</string>
+
 </resources>

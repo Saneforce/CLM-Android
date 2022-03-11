@@ -504,4 +504,6 @@
     <string name="survey_list">စစ်တမ်းစာရင်</string>
     <string name="network_issue">ကွန်ယက်ပြ issue နာကြောင့်ဖုန်းခေါ်ဆိုမှုသည်ဒေသအလိုက်ထပ်တူထပ်မျှသိမ်းဆည်းထားခဲ့သည်</string>
 
+    <string name="setup">တည်ဆောက်သည်</string>
+
 </resources>

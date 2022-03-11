@@ -176,7 +176,7 @@ public class DetailingCreationActivity extends FragmentActivity implements View.
                         Log.v("DETAILG_DATA", txt_spinner.getText().toString());
                     }
                 });
-                Detailing_right_grid_view.popupSpeciality();
+                Detailing_right_grid_view.popupSpeciality("1");
             }
         });
 

@@ -236,7 +236,10 @@ public class Presentation_search_grid_selection extends Fragment implements Adap
             if(mCommonSharedPreference.getValueFromPreference("present").equalsIgnoreCase("yes") || skipSpeciality.equalsIgnoreCase("0"))
                 mCursor=dbh.select_ProductBrdWiseSlide();
             else
-                mCursor=dbh.select_ProductBrdWiseSlideSpec(CommonUtils.TAG_DR_SPEC);
+            if(CommonUtils.TAG_DR_SPEC.equalsIgnoreCase("ALL"))
+                mCursor = dbh.select_ProductBrdWiseSlide();
+            else
+                mCursor = dbh.select_ProductBrdWiseSlideSpec(CommonUtils.TAG_DR_SPEC);
             Log.v("in_presentation",mCursor.getCount()+" printing");
                 if(mCursor!=null)
                     if(mCursor.getCount()>0) {
@@ -385,7 +388,7 @@ public class Presentation_search_grid_selection extends Fragment implements Adap
     public void displayItems(){
         listViewItems.clear();
         listViewItems.add(getResources().getString(R.string.brandmatrix));
-        listViewItems.add(getResources().getString(R.string.speciality));
+        listViewItems.add(getResources().getString(R.string.spclwise));
         listViewItems.add(getResources().getString(R.string.allbrand));
         lv_brdmatrix_list.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.listview_items, listViewItems));
         lv_brdmatrix_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {

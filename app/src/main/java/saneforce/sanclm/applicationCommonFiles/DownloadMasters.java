@@ -1281,7 +1281,7 @@ public Callback<ResponseBody> NewComplist = new Callback<ResponseBody>() {
             if (response.isSuccessful()) {
                 try {
                     dbh.open();
-                    dbh.del_therap();
+                    dbh.del_brandslide();
                     InputStreamReader ip = null;
                     StringBuilder is = new StringBuilder();
                     String line = null;
@@ -1378,7 +1378,7 @@ public Callback<ResponseBody> NewComplist = new Callback<ResponseBody>() {
             if (response.isSuccessful()) {
                 try {
                     dbh.open();
-                    dbh.del_therap();
+                    dbh.del_slidespeciality();
                     InputStreamReader ip = null;
                     StringBuilder is = new StringBuilder();
                     String line = null;

@@ -502,4 +502,6 @@
     <string name="search_customer">Tìm kiếm khách hàng</string>
     <string name="survey_list">danh sách khảo sát</string>
     <string name="network_issue">Do cuộc gọi vấn đề mạng được thiết lập cục bộ được đồng bộ hóa tại địa phương</string>
+
+    <string name="setup">Cài đặt</string>
 </resources>

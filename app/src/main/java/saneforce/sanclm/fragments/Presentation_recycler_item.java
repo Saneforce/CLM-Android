@@ -419,6 +419,9 @@ public class Presentation_recycler_item extends Fragment {
                 if(mCommonSharedPreference.getValueFromPreference("present").equalsIgnoreCase("yes") || skipSpeciality.equalsIgnoreCase("0"))
                     mCursor = dbh.select_BrandwiseforPresentationWithoutSpec(mProductBrdCode);
                 else
+                if(CommonUtils.TAG_DR_SPEC.equalsIgnoreCase("ALL"))
+                    mCursor = dbh.select_BrandwiseforPresentationWithoutSpec(mProductBrdCode);
+                else
                     mCursor = dbh.select_BrandwiseforPresentation(mProductBrdCode,CommonUtils.TAG_DR_SPEC);
 
             if (mCursor.getCount() > 0) {

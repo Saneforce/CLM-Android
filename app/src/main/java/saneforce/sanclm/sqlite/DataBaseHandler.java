@@ -1437,7 +1437,12 @@ public class DataBaseHandler {
     public void del_therap(){
         db.execSQL("delete from " + TableEntry.TABLE_THERAPTIC +"  ");
     }
-
+    public void del_brandslide(){
+        db.execSQL("delete from " + TableEntry.TABLE_SLIDE_BRAND +"  ");
+    }
+    public void del_slidespeciality(){
+        db.execSQL("delete from " + TableEntry.TABLE_SLIDE_SPECIALITY +"  ");
+    }
     public void delete_MDP(String sfcode) {
         db.execSQL("delete from "+ TableEntry.TABLE_MYDAYPLAN +" WHERE "+TableEntry.COLUMN_ID+" = '"+ sfcode +"' "  ) ;
     }
@@ -1552,6 +1557,9 @@ public class DataBaseHandler {
             db.execSQL("delete from " + TableEntry.FFBasedProd_MTD_Data+ "  ");
             db.execSQL("delete from " + TableEntry.FFBasedProd_QTD_Data+ "  ");
             db.execSQL("delete from " + TableEntry.FFBasedProd_YTD_Data+ "  ");
+
+            db.execSQL("delete from " + TableEntry.TABLE_SLIDE_BRAND +"  ");
+            db.execSQL("delete from " + TableEntry.TABLE_SLIDE_SPECIALITY +"  ");
 
         }
 

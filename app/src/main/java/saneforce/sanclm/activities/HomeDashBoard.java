@@ -1751,7 +1751,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
        // final ArrayList<PopFeed> array_cluster = new ArrayList<>();
         tv_headquater1.setText(sharedpreferences.getString(CommonUtils.TAG_SF_HQ, ""));
 
-        Log.d("check_data", sharedpreferences.getString(CommonUtils.TAG_SF_HQ, ""));
+        Log.d("check_data", sharedpreferences.getString(CommonUtils.TAG_SF_HQ, "") + sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_CODE, ""));
 
         if (!TextUtils.isEmpty(sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "")) && !displayWrk) {
             dbh.open();
@@ -3881,6 +3881,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                         }
                         Log.v("printing_setup_response", is.toString());
                         JSONArray jsonArray = new JSONArray(is.toString());
+                        mCommonSharedPreference.setValueToPreference("setup", is.toString());
                         JSONObject jsonn = jsonArray.getJSONObject(0);
 
                         if (jsonn.has("LeaveStatus")) {
@@ -5278,8 +5279,14 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             }
         });
 
-
-        callSetUps();
+//        if(mCommonSharedPreference.getValueFromPreference("setup").isEmpty() ||
+//                mCommonSharedPreference.getValueFromPreference("setup").equalsIgnoreCase("")||
+//        mCommonSharedPreference.getValueFromPreference("setup").equalsIgnoreCase("null")) {
+            callSetUps();
+//        }else
+//        {
+//            setuplocal();
+//        }
         startService(new Intent(HomeDashBoard.this, Autotimezone.class));
 
         startService(new Intent(getBaseContext(), DcrBlock.class));
@@ -7048,6 +7055,320 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         calendar.set(Calendar.MILLISECOND, 0);
         return calendar;
     }
+
+    private void setuplocal() {
+      String setup=mCommonSharedPreference.getValueFromPreference("setup");
+                    try {
+
+                        Log.v("setup_response", setup);
+                        JSONArray jsonArray = new JSONArray(setup);
+                        JSONObject jsonn = jsonArray.getJSONObject(0);
+
+                        if (jsonn.has("LeaveStatus")) {
+                            mCommonSharedPreference.setValueToPreference("LeaveStatus", jsonn.getString("LeaveStatus"));
+                        } else
+                            mCommonSharedPreference.setValueToPreference("LeaveStatus", "1");
+
+
+                        Log.v("specFilter_json", jsonn.getString("SpecFilter"));
+                        mCommonSharedPreference.setValueToPreference("specFilter", jsonn.getString("SpecFilter"));
+                        Log.v("GpsFilter", jsonn.getString("GeoChk"));
+                        mCommonSharedPreference.setValueToPreference("GpsFilter", jsonn.getString("GeoChk"));
+                        if (jsonn.getString("DrRxNd").equalsIgnoreCase("1")) {
+                            mCommonSharedPreference.setValueToPreference("feed_pob", "D");
+                            mCommonSharedPreference.setValueToPreference("DrRxNd", jsonn.getString("DrRxNd"));
+                        }
+                        else {
+                            mCommonSharedPreference.setValueToPreference("feed_pob", " ");
+                            mCommonSharedPreference.setValueToPreference("DrRxNd", "");
+                        }
+                        if (jsonn.getString("ChmRxNd").equalsIgnoreCase("0")) {
+                            String chm = mCommonSharedPreference.getValueFromPreference("feed_pob");
+                            mCommonSharedPreference.setValueToPreference("feed_pob", chm + "C");
+                        }
+                        if (jsonn.has("Stk_Pob_Need") && jsonn.getString("Stk_Pob_Need").equalsIgnoreCase("0")) {
+                            String chm = mCommonSharedPreference.getValueFromPreference("feed_pob");
+                            mCommonSharedPreference.setValueToPreference("feed_pob", chm + "S");
+                        }
+                        if (jsonn.has("Ul_Pob_Need") && jsonn.getString("Ul_Pob_Need").equalsIgnoreCase("0")) {
+                            String chm = mCommonSharedPreference.getValueFromPreference("feed_pob");
+                            mCommonSharedPreference.setValueToPreference("feed_pob", chm + "U");
+                        }
+                       /* else
+                            mCommonSharedPreference.setValueToPreference("feed_pob"," ");*/
+                        if (jsonn.has("DrRxQCap"))
+                            mCommonSharedPreference.setValueToPreference("dpob", jsonn.getString("DrRxQCap"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("dpob", "");
+                        if (jsonn.has("ChmQCap"))
+                            mCommonSharedPreference.setValueToPreference("cpob", jsonn.getString("ChmQCap"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("cpob", "");
+                        if (jsonn.has("StkQCap"))
+                            mCommonSharedPreference.setValueToPreference("spob", jsonn.getString("StkQCap"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("spob", "");
+
+                        mCommonSharedPreference.setValueToPreference("chmcap", jsonn.getString("ChmCap"));
+                        mCommonSharedPreference.setValueToPreference("drcap", jsonn.getString("DrCap"));
+                        mCommonSharedPreference.setValueToPreference("stkcap", jsonn.getString("StkCap"));
+                        mCommonSharedPreference.setValueToPreference("ucap", jsonn.getString("NLCap"));
+
+                        if (jsonn.has("ChmNeed"))
+                            mCommonSharedPreference.setValueToPreference("chem_need", jsonn.getString("ChmNeed"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("chem_need", "");
+
+                        if (jsonn.has("StkNeed"))
+                            mCommonSharedPreference.setValueToPreference("stk_need", jsonn.getString("StkNeed"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("stk_need", "");
+
+                        if (jsonn.has("UNLNeed"))
+                            mCommonSharedPreference.setValueToPreference("unl_need", jsonn.getString("UNLNeed"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("unl_need", "");
+
+
+
+                        if (jsonn.has("DrRxQMd"))
+                            mCommonSharedPreference.setValueToPreference("DrRxQMd", jsonn.getString("DrRxQMd"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("DrRxQMd", "");
+
+                        if (jsonn.has("DrSmpQMd"))
+                            mCommonSharedPreference.setValueToPreference("DrSmpQMd", jsonn.getString("DrSmpQMd"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("DrSmpQMd", "");
+
+//                        if (jsonn.has("DrRxNd"))
+//                            mCommonSharedPreference.setValueToPreference("DrRxNd", jsonn.getString("DrRxNd"));
+//                        else
+//                            mCommonSharedPreference.setValueToPreference("DrRxNd", "");
+
+                        if (jsonn.has("RcpaMd"))
+                            mCommonSharedPreference.setValueToPreference("RcpaMd", jsonn.getString("RcpaMd"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("RcpaMd", "");
+
+                        if (jsonn.has("DrInpMd"))
+                            mCommonSharedPreference.setValueToPreference("DrInpMd", jsonn.getString("DrInpMd"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("DrInpMd", "");
+
+                        if (jsonn.has("cip_need")) {
+                            mCommonSharedPreference.setValueToPreference("cip_need", jsonn.getString("cip_need"));
+                            mCommonSharedPreference.setValueToPreference("cipcap", jsonn.getString("CIP_Caption"));
+                        }
+                        else
+                            mCommonSharedPreference.setValueToPreference("cip_need", "");
+
+                        if (jsonn.has("CIP_ENeed"))
+                            mCommonSharedPreference.setValueToPreference("cip_det", jsonn.getString("CIP_ENeed"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("cip_det", "");
+
+
+                        GpsNeed = jsonn.getString("GeoChk");
+
+                        //availableAdudit Needed
+                        if(jsonn.has("NActivityNeed")) {
+                            mCommonSharedPreference.setValueToPreference("ActivityNeeded", jsonn.getString("NActivityNeed"));
+                        }else {
+                            mCommonSharedPreference.setValueToPreference("ActivityNeeded", "");
+                        }
+                        //availableAdudit Needed
+                        if(jsonn.has("AvailableAduitNeeded")) {
+                            mCommonSharedPreference.setValueToPreference("AvailableAduitNeeded", jsonn.getString("AvailableAduitNeeded"));
+                        }else {
+                            mCommonSharedPreference.setValueToPreference("AvailableAduitNeeded", "");
+                        }
+                        //Rcpa Needed
+                        if(jsonn.has("RcpaNeeded")) {
+                            mCommonSharedPreference.setValueToPreference("RcpaNeeded", jsonn.getString("RcpaNeeded"));
+                        }else {
+                            mCommonSharedPreference.setValueToPreference("RcpaNeeded", "");
+                        }
+
+                        Log.v("specFilter_json", mCommonSharedPreference.getValueFromPreference("specFilter"));
+                        if (GpsNeed.equalsIgnoreCase("0") &&
+                                mCommonSharedPreference.getValueFromPreference("track_loc").equalsIgnoreCase("1")) {
+                            LocationTrack tt = new LocationTrack(HomeDashBoard.this, SF_Code);
+                            if (!isMyServiceRunning(Location_sevice.class)) {
+                                Intent service=new Intent(HomeDashBoard.this, Location_sevice.class);
+                                service.setAction("startLocationService");
+                                startService(service);
+                                //stopService(new Intent(HomeDashBoard.this, LocationTrack.class));
+                            } else {
+                                startService(new Intent(HomeDashBoard.this, LocationTrack.class));
+                            }
+                            /*callLocation();
+                             */
+
+                        }
+
+//                        if(jsonn.has("Detailing_chem")){
+//                            mCommonSharedPreference.setValueToPreference("Detailing_chem",jsonn.getString("Detailing_chem"));
+//                        }
+//                        else
+//                            mCommonSharedPreference.setValueToPreference("Detailing_chem","1");
+                        if (jsonn.has("tp_need"))
+                            mCommonSharedPreference.setValueToPreference("tp_need", jsonn.getString("tp_need"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("tp_need", "");
+
+                        if(jsonn.has("GEOTagNeed"))
+                            mCommonSharedPreference.setValueToPreference("geoneed",jsonn.getString("GEOTagNeed"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("geoneed","");
+
+                        if(jsonn.has("GEOTagNeedche"))
+                            mCommonSharedPreference.setValueToPreference("chmgeoneed",jsonn.getString("GEOTagNeedche"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("chmgeoneed" , "");
+
+                        if(jsonn.has("GEOTagNeedstock"))
+                            mCommonSharedPreference.setValueToPreference("stkgeoneed",jsonn.getString("GEOTagNeedstock"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("stkgeoneed" , "");
+
+                        if(jsonn.has("GeoTagNeedcip"))
+                            mCommonSharedPreference.setValueToPreference("cipgeoneed",jsonn.getString("GeoTagNeedcip"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("cipgeoneed" , "");
+
+                        if(jsonn.has("SFStat"))
+                            mCommonSharedPreference.setValueToPreference("SFStat",jsonn.getString("SFStat"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("SFStat" , "");
+
+                        Log.v("usractiveflg",jsonn.getString("SFStat"));
+
+                        if(jsonn.has("SurveyNd"))
+                            mCommonSharedPreference.setValueToPreference("SurveyNd",jsonn.getString("SurveyNd"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("SurveyNd" , "");
+
+                        if(jsonn.has("past_leave_post"))
+                            mCommonSharedPreference.setValueToPreference("past_leave_post",jsonn.getString("past_leave_post"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("past_leave_post" , "");
+
+                        if(jsonn.has("MCLDet"))
+                            mCommonSharedPreference.setValueToPreference("MCLDet",jsonn.getString("MCLDet"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("MCLDet" , "");
+
+                        if(jsonn.has("TPDCR_Deviation"))
+                            mCommonSharedPreference.setValueToPreference("TPDCR_Deviation",jsonn.getString("TPDCR_Deviation"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("TPDCR_Deviation" , "");
+
+                        if(jsonn.has("TPbasedDCR"))
+                            mCommonSharedPreference.setValueToPreference("TPbasedDCR",jsonn.getString("TPbasedDCR"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("TPbasedDCR" , "");
+
+                        if(jsonn.has("TP_Mandatory_Need"))
+                            mCommonSharedPreference.setValueToPreference("TP_Mandatory_Need",jsonn.getString("TP_Mandatory_Need"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("TP_Mandatory_Need" , "");
+
+                        if(jsonn.has("Tp_Start_Date"))
+                            mCommonSharedPreference.setValueToPreference("Tp_Start_Date",jsonn.getString("Tp_Start_Date"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("Tp_Start_Date" , "");
+
+                        if(jsonn.has("Tp_End_Date"))
+                            mCommonSharedPreference.setValueToPreference("Tp_End_Date",jsonn.getString("Tp_End_Date"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("Tp_End_Date" , "");
+
+                        if(jsonn.has("MissedDateMand"))
+                            mCommonSharedPreference.setValueToPreference("MissedDateMand",jsonn.getString("MissedDateMand"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("MissedDateMand" , "");
+
+                        if(jsonn.has("quiz_need_mandt"))
+                            mCommonSharedPreference.setValueToPreference("quiz_need_mandt",jsonn.getString("quiz_need_mandt"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("quiz_need_mandt" , "");
+
+                        if(jsonn.has("quiz_need"))
+                            mCommonSharedPreference.setValueToPreference("quiz_need",jsonn.getString("quiz_need"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("quiz_need" , "");
+
+                        if(jsonn.has("Target_report_Nd"))
+                            mCommonSharedPreference.setValueToPreference("Target_report_Nd",jsonn.getString("Target_report_Nd"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("Target_report_Nd" , "");
+
+                        if(jsonn.has("DlyCtrl"))
+                            mCommonSharedPreference.setValueToPreference("DlyCtrl",jsonn.getString("DlyCtrl"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("DlyCtrl" , "");
+
+                        if(jsonn.has("DcrLockDays"))
+                            mCommonSharedPreference.setValueToPreference("DcrLockDays",jsonn.getString("DcrLockDays"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("DcrLockDays" , "");
+
+
+                        if(mCommonSharedPreference.getValueFromPreference("DlyCtrl").equalsIgnoreCase("0")){
+
+                            String sdf=tv_todaycall_head.getText().toString();
+                            if(sdf.contains("Today"))
+                                linearLayout.setVisibility(View.GONE);
+                            else
+                                linearLayout.setVisibility(View.VISIBLE);
+
+                            tv_todaycall_head.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_baseline_arrow_drop_down_24,0);
+
+                            if(mCommonSharedPreference.getValueFromPreference("confirmEditdate").equalsIgnoreCase("3"))
+                                btn_editSubmit.setVisibility(View.VISIBLE);
+
+                            else
+                                btn_editSubmit.setVisibility(View.GONE);
+
+                            if (mCommonSharedPreference.getValueFromPreference("addAct").equalsIgnoreCase("0")) {
+                                addActivity.setVisibility(View.VISIBLE);
+                            }
+                            else
+                                addActivity.setVisibility(View.GONE);
+
+                            tv_todaycall_head.setEnabled(true);
+
+                        }else
+                        {
+
+                            tv_todaycall_head.setEnabled(false);
+                        }
+
+                        if(mCommonSharedPreference.getValueFromPreference("choosedEditDate").contains("Today"))
+                        {
+                            choosedDate=mCommonSharedPreference.getValueFromPreference("choosedEditDate").replace(" (Today)","");
+                        }else{
+                            choosedDate=mCommonSharedPreference.getValueFromPreference("choosedEditDate");
+                        }
+                        Log.v("choosedDate",""+choosedDate);
+                        if (TextUtils.isEmpty(choosedDate) || choosedDate.equalsIgnoreCase("null") || choosedDate.equalsIgnoreCase("")
+                                ||choosedDate.equalsIgnoreCase(todayDate))
+//                        String sdf=tv_todaycall_head.getText().toString();
+//                        if(sdf.contains("Today"))
+                        {
+
+                            getTodayCalls();
+                        }else
+                        {
+                            if(mCommonSharedPreference.getValueFromPreference("DlyCtrl").equalsIgnoreCase("0"))
+                                EditCalls(choosedDate);
+                        }
+                    } catch (Exception e) {
+                    }
+
+    }
+
 }
 
 

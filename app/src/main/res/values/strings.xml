@@ -502,5 +502,6 @@
     <string name="survey_list">Survey List</string>
     <string name="network_issue">Due to network issue Call saved locally Synced later</string>
 
+    <string name="setup">Setup</string>
 
 </resources>

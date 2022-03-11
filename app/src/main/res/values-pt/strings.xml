@@ -503,4 +503,6 @@
     <string name="search_customer">Customer de pesquisa</string>
     <string name="survey_list">Lista de Enquetes</string>
     <string name="network_issue">Devido à chamada de rede de rede salva localmente sincronizada mais tarde</string>
+
+    <string name="setup">Configuração</string>
 </resources>

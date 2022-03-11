@@ -503,4 +503,6 @@
     <string name="survey_list">Lista de encuestas</string>
     <string name="network_issue">Debido a la llamada de emisión de red guardada localmente sincronizada más tarde</string>
 
+    <string name="setup">Configuración</string>
+
 </resources>

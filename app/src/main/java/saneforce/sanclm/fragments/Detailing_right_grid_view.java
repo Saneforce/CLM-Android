@@ -167,6 +167,9 @@ public class Detailing_right_grid_view extends Fragment implements OnSelectGridV
                     Log.e("Tagme", mCursor.toString());
                 }
                 else { Log.e("Tagme1", mCursor.toString());
+                    if(CommonUtils.TAG_DR_SPEC.equalsIgnoreCase("ALL"))
+                        mCursor = dbh.select_AllSlides_brandwise(ProductBrdCode);
+                    else
                     mCursor = dbh.select_AllSlides_brandwiseSpec(ProductBrdCode, CommonUtils.TAG_DR_SPEC);
                 }
                /* else
@@ -185,6 +188,7 @@ public class Detailing_right_grid_view extends Fragment implements OnSelectGridV
             }
 
             if (mCursor.getCount() > 0) {
+                String slideName = "ee";
                 while (mCursor.moveToNext()) {
                     if (detailingTrackerPOJO.getmDetListview_Selection().equalsIgnoreCase(getResources().getString(R.string.brandmatrix))) { //"Brand Matrix"
                         String prdCode = mCursor.getString(8);
@@ -221,9 +225,15 @@ public class Detailing_right_grid_view extends Fragment implements OnSelectGridV
                                 bb = StringToBitMap(mCursor.getString(6));
                             Log.v("printing_ful899", "choosing");
                         }
-                        _products = new Custom_Products_GridView_Contents(mCursor.getString(2), mCursor.getString(0), mCursor.getString(1),
-                                mCursor.getString(4), selectionstatus, CommonUtils.PRODUCT_GRIDVIEW_ADAPTER_MODE_MAPPING_PRODUCTS, mCursor.getString(3), bb);
-                        mProducts_GridView_Contents.add(_products);
+                        if(slideName.contains(mCursor.getString(4)))
+                        {
+
+                        }else {
+                            _products = new Custom_Products_GridView_Contents(mCursor.getString(2), mCursor.getString(0), mCursor.getString(1),
+                                    mCursor.getString(4), selectionstatus, CommonUtils.PRODUCT_GRIDVIEW_ADAPTER_MODE_MAPPING_PRODUCTS, mCursor.getString(3), bb);
+                            mProducts_GridView_Contents.add(_products);
+                            slideName+=mCursor.getString(4);
+                        }
                     }
                 }
             }
@@ -306,10 +316,14 @@ public class Detailing_right_grid_view extends Fragment implements OnSelectGridV
         return resizedBitmap;
     }
 
-    public static String popupSpeciality() {
+    public static String popupSpeciality(String pos) {
         arr.clear();
         code.clear();
         dbh.open();
+        if(pos.equalsIgnoreCase("1")) {
+            arr.add("ALL");
+            code.add("ALL");
+        }
         Cursor mCursor = dbh.select_speciality_list();
         while (mCursor.moveToNext()) {
             Log.v("Cursor_databasee", mCursor.getString(1) + mCursor.getString(2));
