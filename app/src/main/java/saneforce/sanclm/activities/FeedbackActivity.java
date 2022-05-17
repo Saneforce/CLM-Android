@@ -1782,7 +1782,7 @@ public class FeedbackActivity extends AppCompatActivity {
                                     json_date.put("sTm", listFeedPrd.get(i).getDate() + " " + listFeedPrd.get(i).getSt_end_time().substring(0, (listFeedPrd.get(i).getSt_end_time().indexOf(" "))));
                                     json_date.put("eTm", listFeedPrd.get(i).getDate() + " " + listFeedPrd.get(i).getSt_end_time().substring((listFeedPrd.get(i).getSt_end_time().indexOf(" ")) + 1));
                                     json_joint.put("Timesline", json_date);
-                                    json_joint.put("Appver","V1.9.9");
+                                    json_joint.put("Appver","V1.9.8");
                                     json_joint.put("Mod", "Edet");
                                     json_joint.put("SmpQty", listFeedPrd.get(i).getSample());
                                     if (val_pob.contains(peopleType))
