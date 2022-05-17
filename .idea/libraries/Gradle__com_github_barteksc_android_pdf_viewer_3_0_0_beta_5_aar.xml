@@ -7,17 +7,15 @@
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/df63f6b0ccd72bcb35e5cf41086d3f8e/jetified-android-pdf-viewer-3.0.0-beta.5/AndroidManifest.xml" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/df63f6b0ccd72bcb35e5cf41086d3f8e/jetified-android-pdf-viewer-3.0.0-beta.5/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/df63f6b0ccd72bcb35e5cf41086d3f8e/jetified-android-pdf-viewer-3.0.0-beta.5/res" />
-      <root url="file://$USER_HOME$/Downloads/gradle-5.2.1/caches/transforms-2/files-2.1/b6b694b3ca95a1d11d75a9ab55b0fb8a/jetified-android-pdf-viewer-3.0.0-beta.5/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/Downloads/gradle-5.2.1/caches/transforms-2/files-2.1/b6b694b3ca95a1d11d75a9ab55b0fb8a/jetified-android-pdf-viewer-3.0.0-beta.5/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/Downloads/gradle-5.2.1/caches/transforms-2/files-2.1/b6b694b3ca95a1d11d75a9ab55b0fb8a/jetified-android-pdf-viewer-3.0.0-beta.5/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c7c6efa9bbc409c154e5e4b5fba1b6f7/jetified-android-pdf-viewer-3.0.0-beta.5/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c7c6efa9bbc409c154e5e4b5fba1b6f7/jetified-android-pdf-viewer-3.0.0-beta.5/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c7c6efa9bbc409c154e5e4b5fba1b6f7/jetified-android-pdf-viewer-3.0.0-beta.5/res" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.barteksc/android-pdf-viewer/3.0.0-beta.5/ab8fc4fe249da94a72ff836b86e715daadaa3163/android-pdf-viewer-3.0.0-beta.5-javadoc.jar!/" />
-      <root url="jar://$USER_HOME$/Downloads/gradle-5.2.1/caches/modules-2/files-2.1/com.github.barteksc/android-pdf-viewer/3.0.0-beta.5/ab8fc4fe249da94a72ff836b86e715daadaa3163/android-pdf-viewer-3.0.0-beta.5-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.barteksc/android-pdf-viewer/3.0.0-beta.5/5622c27efa28c4e82f1c218c4ef693c86265f9e5/android-pdf-viewer-3.0.0-beta.5-sources.jar!/" />
-      <root url="jar://$USER_HOME$/Downloads/gradle-5.2.1/caches/modules-2/files-2.1/com.github.barteksc/android-pdf-viewer/3.0.0-beta.5/5622c27efa28c4e82f1c218c4ef693c86265f9e5/android-pdf-viewer-3.0.0-beta.5-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

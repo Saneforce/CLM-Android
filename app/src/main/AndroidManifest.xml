@@ -106,6 +106,7 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".activities.SplashScreenActivity"
+            android:exported="true"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -193,7 +194,17 @@
         <receiver android:name=".activities.DummyActivity$MyBroadcastReceiver"
             tools:ignore="Instantiatable" />
 
-        <service android:name=".util.MyFirebaseMessagingService">
+        <receiver android:name=".util.MyyBroadcastReceiver"
+            android:exported="true"
+            tools:ignore="Instantiatable" >
+            <intent-filter>
+                <action android:name="kav.receiver.ui"/>
+            </intent-filter>
+
+        </receiver>
+
+        <service android:name=".util.MyFirebaseMessagingService"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

@@ -180,13 +180,18 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
         super.onStart();
         Log.v("hello_called_start","here");
         if(!TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("map_return_count"))){
-            int xx=mCommonSharedPreference.getValueFromPreference("dr_pos",0);
-            Custom_DCR_GV_Dr_Contents mm=drList.get(xx);
-            int yy= Integer.parseInt(mm.getTag())+1;
-            mm.setTag(String.valueOf(yy));
-            Log.v("hello_called_start","here"+xx+" tag_val "+yy);
-            _DCR_GV_Selection_adapter.notifyDataSetChanged();
-            mCommonSharedPreference.setValueToPreference("map_return_count","");
+            try {
+                int xx = mCommonSharedPreference.getValueFromPreference("dr_pos", 0);
+                Custom_DCR_GV_Dr_Contents mm = drList.get(xx);
+                int yy = Integer.parseInt(mm.getTag()) + 1;
+                mm.setTag(String.valueOf(yy));
+                Log.v("hello_called_start", "here" + xx + " tag_val " + yy);
+                _DCR_GV_Selection_adapter.notifyDataSetChanged();
+                mCommonSharedPreference.setValueToPreference("map_return_count", "");
+            }catch (Exception exception)
+            {
+
+            }
         }
        /* if(mCommonSharedPreference.getValueFromPreference("geo_tag").equalsIgnoreCase("1")){
             if(_DCR_GV_Selection_adapter!=null && dbh!=null){
@@ -306,6 +311,8 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
                     Log.v("Dr_selection_key",laty+" lngy "+lngy);
                 }
             }
+//            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+//                CheckLocation1();
         }
 
       /*  SharedPreferences shares=getActivity().getSharedPreferences("location",0);
@@ -1301,6 +1308,43 @@ public class DCRDRCallsSelection extends Fragment implements View.OnClickListene
                 alertDialog.setTitle(getResources().getString(R.string.enable_location));
                 alertDialog.setCancelable(false);
                 alertDialog.setMessage(getResources().getString(R.string.alert_location));
+                alertDialog.setPositiveButton(getResources().getString(R.string.location_setting), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), 1);
+                    }
+                });
+           /* alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });*/
+                AlertDialog alert = alertDialog.create();
+                alert.show();
+
+
+            }
+        }catch (Exception e){
+            Toast toast=Toast.makeText(getActivity(), getResources().getString(R.string.loction_detcted), Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER,0,0);
+            toast.show();
+        }
+
+    }
+
+    public void CheckLocation1(){
+        try {
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+                alertDialog.setTitle(getResources().getString(R.string.enable_location));
+                alertDialog.setCancelable(false);
+                alertDialog.setMessage("Please allow San Clm app to run in background.");
                 alertDialog.setPositiveButton(getResources().getString(R.string.location_setting), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), 1);

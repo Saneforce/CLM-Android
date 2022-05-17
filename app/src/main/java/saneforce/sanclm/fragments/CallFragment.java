@@ -117,19 +117,29 @@ public class CallFragment extends Fragment {
         rotateAnimation.setInterpolator(new LinearInterpolator());
         rotateAnimation.setRepeatCount(Animation.INFINITE);
         rotateAnimation.setDuration(700);
+        //call_visit_detailsReload.setVisibility(View.INVISIBLE);
 
         HomeDashBoard.updateCallUI(new UpdateUi() {
             @Override
             public void updatingui() {
                 Log.v("call_visit_fragment","are_called_her");
-//                if(mCommonSharedPreference.getValueFromPreference("cat_visit_detail").isEmpty() ||
-//                        mCommonSharedPreference.getValueFromPreference("cat_visit_detail").equalsIgnoreCase("") ||
-//                        mCommonSharedPreference.getValueFromPreference("cat_visit_detail").equalsIgnoreCase("null") ) {
+                if(mCommonSharedPreference.getValueFromPreference("cat_visit_detail").isEmpty() ||
+                        mCommonSharedPreference.getValueFromPreference("cat_visit_detail").equalsIgnoreCase("") ||
+                        mCommonSharedPreference.getValueFromPreference("cat_visit_detail").equalsIgnoreCase("null") ) {
                     catVisitDetail();
-//                }else
-//                {
-//                    LoadcatVisitDetail();
-//                }
+                }else
+                {
+                    LoadcatVisitDetail();
+                }
+                if(mCommonSharedPreference.getValueFromPreference("monthly_detail").isEmpty() ||
+                        mCommonSharedPreference.getValueFromPreference("monthly_detail").equalsIgnoreCase("") ||
+                        mCommonSharedPreference.getValueFromPreference("monthly_detail").equalsIgnoreCase("null") ) {
+                    monthlyVisitDetail();
+                }else
+                {
+                    LoadmonthlyVisitDetail();
+                }
+
               //  call_visit_detailsReload.setImageResource(R.mipmap.sync);
 
             }
@@ -181,17 +191,29 @@ public class CallFragment extends Fragment {
         pb_nov=(ProgressBar)vv.findViewById(R.id.pb_nov);
         pb_dec=(ProgressBar)vv.findViewById(R.id.pb_dec);
 
-//        iv_monthly_summary_reload.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//              //  iv_monthly_summary_reload.setImageResource(R.drawable.home_sync);
-//                Intent intent=new Intent(context,HomeDashBoard.class);
-//                context.startActivity(intent);
-//                iv_monthly_summary_reload.startAnimation(rotateAnimation);
-//                catVisitDetail();
-//            }
-//        });
-        
+        iv_monthly_summary_reload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCommonSharedPreference.setValueToPreference("setup","");
+              //  iv_monthly_summary_reload.setImageResource(R.drawable.home_sync);
+                //iv_monthly_summary_reload.startAnimation(rotateAnimation);
+                monthlyVisitDetail();
+                Intent intent=new Intent(context,HomeDashBoard.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        });
+
+        call_visit_detailsReload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               // call_visit_detailsReload.startAnimation(rotateAnimation);
+                catVisitDetail();
+                Intent intent=new Intent(context,HomeDashBoard.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        });
         return vv;
     }
 
@@ -395,7 +417,7 @@ public class CallFragment extends Fragment {
                     break;
             }
         }
-        getCustomSupport();
+        getCustomSupportlocal();
     }
 
 
@@ -426,7 +448,7 @@ public class CallFragment extends Fragment {
                     StringBuilder is=new StringBuilder();
                     String line=null;
                     try{
-                        mCommonSharedPreference.setValueToPreference("cat_visit_detail","");
+                        //mCommonSharedPreference.setValueToPreference("cat_visit_detail","");
                         ip=new InputStreamReader(response.body().byteStream());
                         BufferedReader bf=new BufferedReader(ip);
 
@@ -588,7 +610,7 @@ public class CallFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                setOverAllVisit();
+                getCustomSupport();
             }
         });
     }
@@ -615,7 +637,7 @@ public class CallFragment extends Fragment {
                     StringBuilder is=new StringBuilder();
                     String line=null;
                     try {
-                        mCommonSharedPreference.setValueToPreference("overall_visit","");
+                        //mCommonSharedPreference.setValueToPreference("overall_visit","");
                         ip = new InputStreamReader(response.body().byteStream());
                         BufferedReader bf = new BufferedReader(ip);
 
@@ -633,18 +655,21 @@ public class CallFragment extends Fragment {
                             pbar_percentage.setText(js.getString("cnt")+"%");
                             progressBarAnimation(Integer.parseInt(js.getString("cnt")));
                         }
-                        monthlyVisitDetail();
+                        //monthlyVisitDetail();
                     }catch (Exception e){
                     }
                 }
                 else
-                    monthlyVisitDetail();
+                {
+                    //monthlyVisitDetail();
+                }
+
             }
 
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                monthlyVisitDetail();
+               // monthlyVisitDetail();
             }
         });
     }
@@ -681,7 +706,7 @@ public class CallFragment extends Fragment {
                 public void onResponse(Call<List<MontlyVistDetail>> call, Response<List<MontlyVistDetail>> response) {
 
                     if(response.isSuccessful()){
-                        mCommonSharedPreference.setValueToPreference("monthly_detail","");
+                        //mCommonSharedPreference.setValueToPreference("monthly_detail","");
                         List<MontlyVistDetail> details=response.body();
                         Log.v("details_length", String.valueOf(details.size()));
                         Gson gson = new Gson();
@@ -873,6 +898,7 @@ public class CallFragment extends Fragment {
                                 is.append(line);
                             }
                             Log.v("json_object_custom", is.toString());
+                            mCommonSharedPreference.setValueToPreference("custom_setup", is.toString());
                             JSONArray   ja=new JSONArray(is.toString());
                             JSONObject  js=ja.getJSONObject(0);
                             if(js.has("addDr")){
@@ -1000,6 +1026,134 @@ public class CallFragment extends Fragment {
                 }
             });
         }catch (Exception e){}
+    }
+
+    public void getCustomSupportlocal(){
+
+       String custom_setup= mCommonSharedPreference.getValueFromPreference("custom_setup");
+        try {
+
+                            Log.v("local_custom", custom_setup);
+                            JSONArray   ja=new JSONArray(custom_setup);
+                            JSONObject  js=ja.getJSONObject(0);
+                            if(js.has("addDr")){
+                                mCommonSharedPreference.setValueToPreference("addDr",js.getString("addDr"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("addDr","1");
+                            if(js.has("showDelete")){
+                                mCommonSharedPreference.setValueToPreference("showDelete",js.getString("showDelete"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("showDelete","1");
+                            if(js.has("Detailing_chem")){
+                                mCommonSharedPreference.setValueToPreference("Detailing_chem",js.getString("Detailing_chem"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("Detailing_chem","1");
+                            if(js.has("Detailing_stk")){
+                                mCommonSharedPreference.setValueToPreference("Detailing_stk",js.getString("Detailing_stk"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("Detailing_stk","1");
+                            if(js.has("Detailing_undr")){
+                                mCommonSharedPreference.setValueToPreference("Detailing_undr",js.getString("Detailing_undr"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("Detailing_undr","1");
+                            if(js.has("addChm")){
+                                mCommonSharedPreference.setValueToPreference("addChm",js.getString("addChm"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("addChm","1");
+                            if(js.has("addAct")) {
+                                mCommonSharedPreference.setValueToPreference("addAct", js.getString("addAct"));
+                                //updateUi.updatingui();
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("addAct","1");
+                            if(js.has("hosp_filter"))
+                                mCommonSharedPreference.setValueToPreference("hosp_filter",js.getString("hosp_filter"));
+
+                            if(js.has("pobMax")){
+                                mCommonSharedPreference.setValueToPreference("pobMax",js.getString("pobMax"));
+                                Log.e("PROBMax",js.getString("pobMax"));
+
+                                //mCommonSharedPreference.setValueToPreference("sampleMax",js.getString("sampleMax"));
+                            }
+                            else {
+                                mCommonSharedPreference.setValueToPreference("pobMax", "");
+                                mCommonSharedPreference.setValueToPreference("sampleMax", "");
+                            }
+                            if(js.has("productFB")){
+                                mCommonSharedPreference.setValueToPreference("productFB", js.getString("productFB"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("productFB", "");
+                            if(js.has("theraptic")){
+                                mCommonSharedPreference.setValueToPreference("theraptic", js.getString("theraptic"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("theraptic", "");
+
+                            if(js.has("Target_sales")){
+                                mCommonSharedPreference.setValueToPreference("Target_sales", js.getString("Target_sales"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("Target_sales", "");
+
+                            if(js.has("DrProfile")){
+                                mCommonSharedPreference.setValueToPreference("DrProfile", js.getString("DrProfile"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("DrProfile", "");
+
+                            if(js.has("Product_Stockist")){
+                                mCommonSharedPreference.setValueToPreference("Product_Stockist", js.getString("Product_Stockist"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("Product_Stockist", "");
+
+                            if(js.has("undr_hs_nd")){
+                                mCommonSharedPreference.setValueToPreference("undr_hs_nd", js.getString("undr_hs_nd"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("undr_hs_nd", "");
+
+                            if(js.has("PresentNd")){
+                                mCommonSharedPreference.setValueToPreference("PresentNd", js.getString("PresentNd"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("PresentNd", "");
+
+                            if(js.has("CustNd")){
+                                mCommonSharedPreference.setValueToPreference("CustNd", js.getString("CustNd"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("CustNd", "");
+
+                            if(js.has("yetrdy_call_del_Nd")){
+                                mCommonSharedPreference.setValueToPreference("yetrdy_call_del_Nd", js.getString("yetrdy_call_del_Nd"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("yetrdy_call_del_Nd", "");
+
+                            if(js.has("DcrapprvNd")){
+                                mCommonSharedPreference.setValueToPreference("DcrapprvNd", js.getString("DcrapprvNd"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("DcrapprvNd", "");
+
+                            if(js.has("Missed_leave")){
+                                mCommonSharedPreference.setValueToPreference("Missed_leave", js.getString("Missed_leave"));
+                            }
+                            else
+                                mCommonSharedPreference.setValueToPreference("Missed_leave", "");
+
+                        } catch (Exception e) {
+
+        }
+
     }
 
     public static void bindUpdateViewList(UpdateUi uu){

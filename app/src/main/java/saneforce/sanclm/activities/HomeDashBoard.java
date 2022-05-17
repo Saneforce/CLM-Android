@@ -45,6 +45,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import androidx.core.view.GravityCompat;
@@ -89,6 +90,7 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.FirebaseApp;
 import com.google.gson.JsonObject;
 import com.shockwave.pdfium.PdfDocument;
 import com.shockwave.pdfium.PdfiumCore;
@@ -144,6 +146,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import saneforce.sanclm.Common_Class.Dcrdatas;
 import saneforce.sanclm.Pojo_Class.TodayCalls;
 import saneforce.sanclm.Pojo_Class.TodayTp;
 import saneforce.sanclm.Pojo_Class.TodayTpNew;
@@ -187,8 +190,13 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 
+import static android.Manifest.permission.ACCESS_BACKGROUND_LOCATION;
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.MANAGE_EXTERNAL_STORAGE;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static saneforce.sanclm.fragments.AppConfiguration.MyPREFERENCES;
 import static saneforce.sanclm.fragments.AppConfiguration.language_string;
 import static saneforce.sanclm.fragments.AppConfiguration.licenceKey;
@@ -228,7 +236,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     ArrayList<String> hqNm = new ArrayList<String>();
     HashMap<String, String> mClusterListID = new HashMap<String, String>();
     HashMap<String, String> mHQListID = new HashMap<String, String>();
-    String mydaywTypCd, mydayclustrCd, currentDate,todayDate,choosedDate="";
+    String mydaywTypCd, mydayclustrCd, currentDate,todayDate,choosedDate="",mydaywTypFg;
     Dialog dialog;
     static String mydayhqCd, mydayhqname;
     CommonSharedPreference mCommonSharedPreference;
@@ -337,6 +345,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         SharedPreferences sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         language = sharedPreferences.getString(language_string, "");
+        Dcrdatas.IsFakeLocation = "0";
         if (!language.equals("")){
             Log.d("homelang",language);
             selected(language);
@@ -350,7 +359,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
         setContentView(R.layout.activity_new_homepage);
 
-            pDialog=new ProgressDialog(this);
+        pDialog=new ProgressDialog(this);
         CommonUtilsMethods = new CommonUtilsMethods(this);
         dbh = new DataBaseHandler(this);
         dialog = new Dialog(HomeDashBoard.this);
@@ -363,6 +372,10 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         menuDashbrd=findViewById(R.id.menuDashbrd);
         layoutBottomSheet=findViewById(R.id.bottom_sheet);
 
+//        if(mCommonSharedPreference.getValueFromPreference("location_permissions").equalsIgnoreCase("null") ||
+//                mCommonSharedPreference.getValueFromPreference("location_permissions").equalsIgnoreCase("1"))
+//            showAlert();
+
 //        Button crashButton = new Button(this);
 //        crashButton.setText("Test Crash");
 //        crashButton.setOnClickListener(new View.OnClickListener() {
@@ -374,6 +387,24 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 //        addContentView(crashButton, new ViewGroup.LayoutParams(
 //                ViewGroup.LayoutParams.MATCH_PARENT,
 //                ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        try {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+
+                if (!getApplicationContext().getPackageManager().isAutoRevokeWhitelisted()) {
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package", getPackageName(), null);
+                    intent.setData(uri);
+                    startActivity(intent);
+                    Toast.makeText(HomeDashBoard.this,"Please Disable Remove permissions if app isn't used",Toast.LENGTH_LONG).show();
+                    Log.d("msgg",""+getApplicationContext().getPackageManager().isAutoRevokeWhitelisted());
+                }
+            }
+
+        }catch (Exception e){
+            Log.d("bnb",""+e.getMessage());
+        }
 
         l1_app_config=findViewById(R.id.l1_app_config);
 
@@ -497,6 +528,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     public void onResume() {
         SharedPreferences sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         language = sharedPreferences.getString(language_string, "");
+        Dcrdatas.IsFakeLocation = "0";
         if (!language.equals("")){
             Log.d("homelang",language);
             selected(language);
@@ -508,6 +540,14 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             resources = context.getResources();
         }
         CommonUtilsMethods.FullScreencall(this);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+//            if (ContextCompat.checkSelfPermission(HomeDashBoard.this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED)
+//                showAlert();
+//        }else
+//        {
+//            LocationTrack tt = new LocationTrack(HomeDashBoard.this, SF_Code);
+//        }
+
         super.onResume();
         registerReceiver(receiver, intentFilter);
     }
@@ -1035,7 +1075,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     } else
                         // editor.putString(CommonUtils.TAG_WORKTYPE_NAME, "");
                         editor.putString(CommonUtils.TAG_WORKTYPE_NAME, todaytpnew.get(0).getWTNm());
-
+                    editor.putString(CommonUtils.TAG_WORKTYPE_FLAG, todaytpnew.get(0).getFWFlg());
                     editor.putString(CommonUtils.TAG_WORKTYPE_CODE, todaytpnew.get(0).getWT());
                     editor.putString(CommonUtils.TAG_WORKTYPE_CLUSTER_CODE, todaytpnew.get(0).getPl());
                     editor.putString(CommonUtils.TAG_SF_CODE, todaytpnew.get(0).getSFCode());
@@ -1078,6 +1118,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     mCommonSharedPreference.setValueToPreference("tpflag", tpflag);
                     editor.putString(CommonUtils.TAG_WORKTYPE_NAME, "");
                     editor.putString(CommonUtils.TAG_WORKTYPE_CODE, "");
+                    editor.putString(CommonUtils.TAG_WORKTYPE_FLAG,"");
                     editor.putString(CommonUtils.TAG_WORKTYPE_CLUSTER_CODE, "");
                     editor.putString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, "");
                     editor.putString("remrk", "");
@@ -1566,6 +1607,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     dbh.open();
                     dbh.insert_mydayplan(jso.toString());
                     dbh.close();
+                  //  tpflag="0";
                 } else {
                     Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
                    // if (mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0")) {
@@ -1598,6 +1640,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     dbh.open();
                     dbh.insert_mydayplan(jso.toString());
                     dbh.close();
+                  //  tpflag="0";
                 } else {
                     Api_Interface apiService = RetroClient.getClient(db_connPath).create(Api_Interface.class);
                     //if (mCommonSharedPreference.getValueFromPreference("TPbasedDCR").equals("0")) {
@@ -1768,7 +1811,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             tv_worktype1.setText(sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, ""));
             tv_clusterView.setText(sharedpreferences.getString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, ""));
 
-
+            mydaywTypFg = sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_FLAG, "");
             mydaywTypCd = sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_CODE, "");
             mydayclustrCd = sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_CLUSTER_CODE, "");
             et_remark.setText(sharedpreferences.getString("remrk", ""));
@@ -1835,6 +1878,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                         ModelWorkType kk = mWrktypelist.get(k);
                         if (kk.getName().equalsIgnoreCase(parent.getItemAtPosition(position).toString())) {
                             mydaywTypCd = kk.getCode();
+                            mydaywTypFg=kk.getFlag();
+
                             if (kk.getFlag().equalsIgnoreCase("Y")) {
                                 tv_clusterView.setEnabled(true);
                                 tv_clusterView.setAlpha(1f);
@@ -2064,7 +2109,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                         Toast.makeText(getApplicationContext(), "Put Tourplan and Submit", Toast.LENGTH_SHORT).show();
                     }else if(tpstatus.equals("1"))
                     {
-                        Toast.makeText(getApplicationContext(), "Approval pending contact Line manager", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Tourplan Approval pending contact Line manager", Toast.LENGTH_SHORT).show();
                     }else if(tpstatus.equals("2"))
                     {
                         Toast.makeText(getApplicationContext(), "Tourplan Rejected", Toast.LENGTH_SHORT).show();
@@ -2109,8 +2154,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     tpflag="0";
                     tpdcrdeviation();
                     tv_worktype1.setEnabled(true);
-                    tv_headquater1.setEnabled(true);
-                    tv_clusterView.setEnabled(true);
+//                    tv_headquater1.setEnabled(true);
+//                    tv_clusterView.setEnabled(true);
                     et_remark.setEnabled(true);
                     //tpflag = "1";
                 }else
@@ -2409,6 +2454,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
         } else {
             editor.putString(CommonUtils.TAG_WORKTYPE_NAME, tv_worktype1.getText().toString());
+            editor.putString(CommonUtils.TAG_WORKTYPE_FLAG, mydaywTypFg);
             editor.putString(CommonUtils.TAG_WORKTYPE_CODE, mydaywTypCd);
             editor.putString(CommonUtils.TAG_WORKTYPE_CLUSTER_CODE, mydayclustrCd);
             editor.putString(CommonUtils.TAG_SF_CODE, SF_Code);
@@ -2429,6 +2475,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                 editor.putString(CommonUtils.TAG_MYDAY_WORKTYPE_CLUSTER_NAME, tv_clusterView.getText().toString());
             editor.putString("remrk", et_remark.getText().toString());
             editor.putString(CommonUtils.TAG_TMP_WORKTYPE_NAME, tv_worktype1.getText().toString());
+            editor.putString(CommonUtils.TAG_TMP_WORKTYPE_FLAG, mydaywTypFg);
             editor.putString(CommonUtils.TAG_TMP_WORKTYPE_CODE, mydaywTypCd);
             editor.putString(CommonUtils.TAG_TMP_WORKTYPE_CLUSTER_CODE, mydayclustrCd);
             editor.putString(CommonUtils.TAG_TMP_SF_CODE, SF_Code);
@@ -3771,13 +3818,30 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
     private void hideItem() {
         /*Menu nav_Menu = navigationView.getMenu();
         nav_Menu.findItem(R.id.nav_approvals).setVisible(false);*/
-        arrayNav.remove(6);
+        if (mCommonSharedPreference.getValueFromPreference("PresentNd").equalsIgnoreCase("1") && mCommonSharedPreference.getValueFromPreference("tp_need").equalsIgnoreCase("1"))
+        {
+            arrayNav.remove(4);
+        } else if (mCommonSharedPreference.getValueFromPreference("PresentNd").equalsIgnoreCase("1") || mCommonSharedPreference.getValueFromPreference("tp_need").equalsIgnoreCase("1"))
+        {
+            arrayNav.remove(5);
+        }else {
+
+            arrayNav.remove(6);
+        }
     }
 
     private void hideNearMe() {
         /*Menu nav_Menu = navigationView.getMenu();
         nav_Menu.findItem(R.id.nav_nearme).setVisible(false);*/
-        arrayNav.remove(8);
+        if (mCommonSharedPreference.getValueFromPreference("PresentNd").equalsIgnoreCase("1") && mCommonSharedPreference.getValueFromPreference("tp_need").equalsIgnoreCase("1"))
+        {
+            arrayNav.remove(6);
+        } else if (mCommonSharedPreference.getValueFromPreference("PresentNd").equalsIgnoreCase("1") || mCommonSharedPreference.getValueFromPreference("tp_need").equalsIgnoreCase("1"))
+        {
+            arrayNav.remove(7);
+        }else {
+            arrayNav.remove(8);
+        }
 
     }
 
@@ -3905,6 +3969,10 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                         if (jsonn.getString("ChmRxNd").equalsIgnoreCase("0")) {
                             String chm = mCommonSharedPreference.getValueFromPreference("feed_pob");
                             mCommonSharedPreference.setValueToPreference("feed_pob", chm + "C");
+                            mCommonSharedPreference.setValueToPreference("ChmRxNd", jsonn.getString("ChmRxNd"));
+                        } else {
+                            mCommonSharedPreference.setValueToPreference("feed_pob", " ");
+                            mCommonSharedPreference.setValueToPreference("ChmRxNd", "");
                         }
                         if (jsonn.has("Stk_Pob_Need") && jsonn.getString("Stk_Pob_Need").equalsIgnoreCase("0")) {
                             String chm = mCommonSharedPreference.getValueFromPreference("feed_pob");
@@ -3961,10 +4029,10 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                         else
                             mCommonSharedPreference.setValueToPreference("DrSmpQMd", "");
 
-//                        if (jsonn.has("DrRxNd"))
-//                            mCommonSharedPreference.setValueToPreference("DrRxNd", jsonn.getString("DrRxNd"));
-//                        else
-//                            mCommonSharedPreference.setValueToPreference("DrRxNd", "");
+                        if (jsonn.has("DrPrdMd"))
+                            mCommonSharedPreference.setValueToPreference("DrPrdMd", jsonn.getString("DrPrdMd"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("DrPrdMd", "");
 
                         if (jsonn.has("RcpaMd"))
                             mCommonSharedPreference.setValueToPreference("RcpaMd", jsonn.getString("RcpaMd"));
@@ -4128,6 +4196,31 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                             mCommonSharedPreference.setValueToPreference("DlyCtrl",jsonn.getString("DlyCtrl"));
                         else
                             mCommonSharedPreference.setValueToPreference("DlyCtrl" , "");
+
+                        if(jsonn.has("chmsamQty_need"))
+                            mCommonSharedPreference.setValueToPreference("chmsamQty_need",jsonn.getString("chmsamQty_need"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("chmsamQty_need" , "");
+
+                        if(jsonn.has("Doc_jointwork_Mandatory_Need"))
+                            mCommonSharedPreference.setValueToPreference("Doc_jointwork_Mandatory_Need",jsonn.getString("Doc_jointwork_Mandatory_Need"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("Doc_jointwork_Mandatory_Need" , "");
+
+                        if(jsonn.has("Chm_jointwork_Mandatory_Need"))
+                            mCommonSharedPreference.setValueToPreference("Chm_jointwork_Mandatory_Need",jsonn.getString("Chm_jointwork_Mandatory_Need"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("Chm_jointwork_Mandatory_Need" , "");
+
+                        if(jsonn.has("stk_jointwork_Mandatory_Need"))
+                            mCommonSharedPreference.setValueToPreference("stk_jointwork_Mandatory_Need",jsonn.getString("stk_jointwork_Mandatory_Need"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("stk_jointwork_Mandatory_Need" , "");
+
+                        if(jsonn.has("Ul_jointwork_Mandatory_Need"))
+                            mCommonSharedPreference.setValueToPreference("Ul_jointwork_Mandatory_Need",jsonn.getString("Ul_jointwork_Mandatory_Need"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("Ul_jointwork_Mandatory_Need" , "");
 
                         if(jsonn.has("DcrLockDays"))
                             mCommonSharedPreference.setValueToPreference("DcrLockDays",jsonn.getString("DcrLockDays"));
@@ -4725,7 +4818,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
                                 }
                             } else {
-                                if (sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("Field Work") || sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("CoronaWFH-With Drs")) {
+                                if (sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("Field Work") || sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("CoronaWFH-With Drs")
+                                        ||sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_FLAG, "").equalsIgnoreCase("F")||sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_FLAG, "").equalsIgnoreCase("Y")) {
                                     CommonUtilsMethods.CommonIntentwithNEwTask(DCRCallSelectionActivity.class);
                                 } else {
                                     Toast.makeText(this, getResources().getString(R.string.NonFieldcall), Toast.LENGTH_LONG).show();
@@ -4755,7 +4849,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                             }
                         }else
                         {
-                            if (sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("Field Work") || sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("CoronaWFH-With Drs")) {
+                            if (sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("Field Work") || sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_NAME, "").equalsIgnoreCase("CoronaWFH-With Drs")
+                                    ||sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_FLAG, "").equalsIgnoreCase("F")||sharedpreferences.getString(CommonUtils.TAG_WORKTYPE_FLAG, "").equalsIgnoreCase("Y")) {
                                     CommonUtilsMethods.CommonIntentwithNEwTask(DCRCallSelectionActivity.class);
                                 } else {
                                     Toast.makeText(this, getResources().getString(R.string.NonFieldcall), Toast.LENGTH_LONG).show();
@@ -4953,6 +5048,14 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     }
                 }
 
+//                if(grantResults.length>0)
+//                {
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+//                        if(grantResults[2]!=PackageManager.PERMISSION_GRANTED)
+//                       showAlert();
+//                    }
+//                }
+
                 if (permissionsRejected.size() > 0) {
 
 
@@ -5086,6 +5189,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
         permissions.add(ACCESS_FINE_LOCATION);
         permissions.add(ACCESS_COARSE_LOCATION);
+//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+//        permissions.add(ACCESS_BACKGROUND_LOCATION);
 
         submitoffline = false;
         sharedpreferences = getSharedPreferences(getResources().getString(R.string.preference_name), Context.MODE_PRIVATE);
@@ -5148,8 +5253,9 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     LocationTrack tt = new LocationTrack(HomeDashBoard.this, SF_Code);
                 }
             }
-        } else
-            hideNearMe();
+        }
+//        else
+//            hideNearMe();
        /* Menu nav_Menu = navigationView.getMenu();
         nav_Menu.findItem(R.id.nav_quiz).setVisible(false);*/
 
@@ -5235,8 +5341,8 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
             currentDate = currentDate + " 00:00:00";
 
-            if(mCommonSharedPreference.getValueFromPreference("DlyCtrl").equalsIgnoreCase("0"))
-            editDates();
+//            if(mCommonSharedPreference.getValueFromPreference("DlyCtrl").equalsIgnoreCase("0"))
+//            editDates();
 
             //navigationView.setNavigationItemSelectedListener(this);
             mCommonSharedPreference.setValueToPreference("geo_tag", "0");
@@ -5279,17 +5385,17 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             }
         });
 
-//        if(mCommonSharedPreference.getValueFromPreference("setup").isEmpty() ||
-//                mCommonSharedPreference.getValueFromPreference("setup").equalsIgnoreCase("")||
-//        mCommonSharedPreference.getValueFromPreference("setup").equalsIgnoreCase("null")) {
+        if(mCommonSharedPreference.getValueFromPreference("setup").isEmpty() ||
+                mCommonSharedPreference.getValueFromPreference("setup").equalsIgnoreCase("")||
+        mCommonSharedPreference.getValueFromPreference("setup").equalsIgnoreCase("null")) {
             callSetUps();
-//        }else
-//        {
-//            setuplocal();
-//        }
+        }else
+        {
+            setuplocal();
+        }
         startService(new Intent(HomeDashBoard.this, Autotimezone.class));
 
-        startService(new Intent(getBaseContext(), DcrBlock.class));
+        //startService(new Intent(getBaseContext(), DcrBlock.class));
 
         if(mCommonSharedPreference.getValueFromPreference("SFStat").equalsIgnoreCase("1"))
         {
@@ -5346,7 +5452,12 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         tv_todaycall_head.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              String[]  dates=new String[datesInRange.size()];
+                if(mCommonSharedPreference.getValueFromPreference("DlyCtrl").equalsIgnoreCase("0"))
+                    editDates();
+
+                Log.v("datessize",""+datesInRange.size());
+
+                String[]  dates=new String[datesInRange.size()];
               if(datesInRange.size()>0)
               {
                for(int i=0;i<datesInRange.size();i++){
@@ -5523,7 +5634,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                if (arrayNav.get(i).getText().equals(resources.getString(R.string.change_cluster))){
+                if (arrayNav.get(i).getText().equals(resources.getString(R.string.tdy_pln))){
                     displayWrk = false;
                     setSharedPreference();
 
@@ -6255,6 +6366,7 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
         if (MissedClicked) {
 
             mCommonSharedPreference.setValueToPreference(CommonUtils.TAG_WORKTYPE_NAME, mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_TMP_WORKTYPE_NAME));
+            mCommonSharedPreference.setValueToPreference(CommonUtils.TAG_WORKTYPE_FLAG, mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_TMP_WORKTYPE_FLAG));
             mCommonSharedPreference.setValueToPreference(CommonUtils.TAG_WORKTYPE_CODE, mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_TMP_WORKTYPE_CODE));
             mCommonSharedPreference.setValueToPreference(CommonUtils.TAG_WORKTYPE_CLUSTER_CODE, mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_TMP_WORKTYPE_CLUSTER_CODE));
             mCommonSharedPreference.setValueToPreference(CommonUtils.TAG_SF_CODE, mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_TMP_SF_CODE));
@@ -6607,16 +6719,18 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
 
         arrayNav.clear();
 
-        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_clu_mnu, /*"Change Cluster"*/resources.getString(R.string.change_cluster)));
+        arrayNav.add(new ModelNavDrawer(R.mipmap.nav_clu_mnu, /*"Change Cluster"*/resources.getString(R.string.tdy_pln)));
         arrayNav.add(new ModelNavDrawer(R.mipmap.calls, /*"Calls"*/resources.getString(R.string.calls)));
+        if(mCommonSharedPreference.getValueFromPreference("PresentNd").equalsIgnoreCase("0"))
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_presentation, /*"Create Presentation"*/resources.getString(R.string.create_presentation)));
-       // if(mCommonSharedPreference.getValueFromPreference("tp_need").equalsIgnoreCase("0"))
+        if(mCommonSharedPreference.getValueFromPreference("tp_need").equalsIgnoreCase("0"))
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_tourplan, /*"Tour Plan"*/resources.getString(R.string.tour_plan)));
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_tourplan, /*"Missed Date Entry"*/resources.getString(R.string.missed_date_entry)));
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_leaveappln, /*"Leave Application"*/resources.getString(R.string.leave_application)));
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_tourplan, /*"Approvals"*/resources.getString(R.string.approvals)));
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Reports"*/resources.getString(R.string.report)));
         // arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports,"Quiz"));
+        if (mCommonSharedPreference.getValueFromPreference("GpsFilter").equalsIgnoreCase("0"))
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Near Me"*/resources.getString(R.string.near_me)));
         if(mCommonSharedPreference.getValueFromPreference("MCLDet").equalsIgnoreCase("0"))
         arrayNav.add(new ModelNavDrawer(R.mipmap.nav_reports, /*"Profiling"*/resources.getString(R.string.profiling)));
@@ -7085,6 +7199,10 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                         if (jsonn.getString("ChmRxNd").equalsIgnoreCase("0")) {
                             String chm = mCommonSharedPreference.getValueFromPreference("feed_pob");
                             mCommonSharedPreference.setValueToPreference("feed_pob", chm + "C");
+                            mCommonSharedPreference.setValueToPreference("ChmRxNd", jsonn.getString("ChmRxNd"));
+                        } else {
+                            mCommonSharedPreference.setValueToPreference("feed_pob", " ");
+                            mCommonSharedPreference.setValueToPreference("ChmRxNd", "");
                         }
                         if (jsonn.has("Stk_Pob_Need") && jsonn.getString("Stk_Pob_Need").equalsIgnoreCase("0")) {
                             String chm = mCommonSharedPreference.getValueFromPreference("feed_pob");
@@ -7141,10 +7259,10 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                         else
                             mCommonSharedPreference.setValueToPreference("DrSmpQMd", "");
 
-//                        if (jsonn.has("DrRxNd"))
-//                            mCommonSharedPreference.setValueToPreference("DrRxNd", jsonn.getString("DrRxNd"));
-//                        else
-//                            mCommonSharedPreference.setValueToPreference("DrRxNd", "");
+                        if (jsonn.has("DrPrdMd"))
+                            mCommonSharedPreference.setValueToPreference("DrPrdMd", jsonn.getString("DrPrdMd"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("DrPrdMd", "");
 
                         if (jsonn.has("RcpaMd"))
                             mCommonSharedPreference.setValueToPreference("RcpaMd", jsonn.getString("RcpaMd"));
@@ -7314,6 +7432,31 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                         else
                             mCommonSharedPreference.setValueToPreference("DcrLockDays" , "");
 
+                        if(jsonn.has("chmsamQty_need"))
+                            mCommonSharedPreference.setValueToPreference("chmsamQty_need",jsonn.getString("chmsamQty_need"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("chmsamQty_need" , "");
+
+                        if(jsonn.has("Doc_jointwork_Mandatory_Need"))
+                            mCommonSharedPreference.setValueToPreference("Doc_jointwork_Mandatory_Need",jsonn.getString("Doc_jointwork_Mandatory_Need"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("Doc_jointwork_Mandatory_Need" , "");
+
+                        if(jsonn.has("Chm_jointwork_Mandatory_Need"))
+                            mCommonSharedPreference.setValueToPreference("Chm_jointwork_Mandatory_Need",jsonn.getString("Chm_jointwork_Mandatory_Need"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("Chm_jointwork_Mandatory_Need" , "");
+
+                        if(jsonn.has("stk_jointwork_Mandatory_Need"))
+                            mCommonSharedPreference.setValueToPreference("stk_jointwork_Mandatory_Need",jsonn.getString("stk_jointwork_Mandatory_Need"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("stk_jointwork_Mandatory_Need" , "");
+
+                        if(jsonn.has("Ul_jointwork_Mandatory_Need"))
+                            mCommonSharedPreference.setValueToPreference("Ul_jointwork_Mandatory_Need",jsonn.getString("Ul_jointwork_Mandatory_Need"));
+                        else
+                            mCommonSharedPreference.setValueToPreference("Ul_jointwork_Mandatory_Need" , "");
+
 
                         if(mCommonSharedPreference.getValueFromPreference("DlyCtrl").equalsIgnoreCase("0")){
 
@@ -7368,6 +7511,102 @@ public class HomeDashBoard extends AppCompatActivity implements View.OnClickList
                     }
 
     }
+
+    public void showAlert() {
+        Dialog dialogBuilder = new Dialog(HomeDashBoard.this);
+        LayoutInflater inflater = HomeDashBoard.this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_plan1, null);
+        dialogBuilder.setContentView(dialogView);
+        dialogBuilder.setCancelable(false);
+        TextView txt_content = ( TextView ) dialogView.findViewById(R.id.tv_textentry1);
+        TextView tv_mge1 = ( TextView ) dialogView.findViewById(R.id.tv_mge1);
+        TextView tv_mge2 = ( TextView ) dialogView.findViewById(R.id.tv_mge2);
+        Button btn_edit = ( Button ) dialogView.findViewById(R.id.btn_tpyes);
+        Button btn_cancl = ( Button ) dialogView.findViewById(R.id.btn_tpno);
+        LinearLayout ok = ( LinearLayout ) dialogView.findViewById(R.id.ok);
+
+        btn_cancl.setText("Allow");
+        btn_edit.setText("Deny");
+        txt_content.setText("Let Sanclm app always run in background");
+        tv_mge1.setText("Allowing sanclm to always run in the background may reduce battery life.");
+        tv_mge2.setText("You can change this later from Settings -> Apps & notifications.");
+
+        tv_mge1.setVisibility(View.VISIBLE);
+        tv_mge2.setVisibility(View.VISIBLE);
+
+        btn_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogBuilder.dismiss();
+                ShowWarning();
+            }
+        });
+        btn_cancl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogBuilder.dismiss();
+                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                intent.setData(uri);
+                startActivity(intent);
+            }
+        });
+
+//        ok.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mCommonSharedPreference.setValueToPreference("location_permissions","0");
+//                permissions.add(ACCESS_FINE_LOCATION);
+//                permissions.add(ACCESS_COARSE_LOCATION);
+//
+//                if (mCommonSharedPreference.getValueFromPreference("GpsFilter").equalsIgnoreCase("0")) {
+//                    permissionsToRequest = findUnAskedPermissions(permissions);
+//                    //get the permissions we have asked for before but are not granted..
+//                    //we will store this in a global list to access later.
+//
+//                    if (permissionsToRequest.size() > 0) {
+//                    }
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//
+//                        if (permissionsToRequest.size() > 0) {
+//                            requestPermissions((String[]) permissionsToRequest.toArray(new String[permissionsToRequest.size()]), ALL_PERMISSIONS_RESULT);
+//                        }
+//                    } else {
+//                        //startLocationButtonClick();
+//                        if (mCommonSharedPreference.getValueFromPreference("track_loc").equalsIgnoreCase("0")) {
+//                            LocationTrack tt = new LocationTrack(HomeDashBoard.this, SF_Code);
+//                        }
+//                    }
+//                }
+//
+//                dialogBuilder.dismiss();
+//                ShowWarning();
+//            }
+//        });
+        dialogBuilder.show();
+    }
+
+    public void ShowWarning() {
+        final androidx.appcompat.app.AlertDialog.Builder alertDialog = new androidx.appcompat.app.AlertDialog.Builder(
+                HomeDashBoard.this);
+        alertDialog.setCancelable(false);
+        alertDialog.setTitle("Need Permission");
+        alertDialog.setMessage("Please allow San Clm app to run in background.");
+
+        alertDialog.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Uri uri = Uri.fromParts("package",getPackageName(), null);
+                intent.setData(uri);
+                startActivity(intent);
+            }
+        });
+        alertDialog.show();
+    }
+
 
 }
 

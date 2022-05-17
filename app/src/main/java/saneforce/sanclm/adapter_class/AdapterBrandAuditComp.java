@@ -45,14 +45,19 @@ public class AdapterBrandAuditComp extends BaseAdapter {
     CommonUtilsMethods commonUtilsMethods;
     static UpdateUi updateUi;
     DataInterface dataInterface;
+    String ourprod="";
+    String opqty="22";
 
 
-    public AdapterBrandAuditComp(ArrayList<CompNameProduct> list, Activity context, ArrayList<CompNameProduct> list_prd, DataInterface dataInterface) {
+    public AdapterBrandAuditComp(ArrayList<CompNameProduct> list, Activity context, ArrayList<CompNameProduct> list_prd, DataInterface dataInterface,String ourprod,String opqty) {
         this.full_list_prd = list;
         this.context = context;
         this.list_prd=list_prd;
         this.dataInterface=dataInterface;
         commonUtilsMethods=new CommonUtilsMethods(this.context);
+        this.ourprod =ourprod;
+        this.opqty=opqty;
+
     }
 
     @Override
@@ -88,7 +93,6 @@ public class AdapterBrandAuditComp extends BaseAdapter {
             txt_comp_name.setVisibility(View.VISIBLE);
             txt_comp_name.setText(mm.getCompName());
 
-
         }else{
             txt_comp_name.setVisibility(View.INVISIBLE);
 
@@ -118,17 +122,27 @@ public class AdapterBrandAuditComp extends BaseAdapter {
 //            }
 //        }
 
-       dataInterface.competitordetails(mm.getCompName(),mm.getChoosenPrdName(), mm.getQty());
+        dataInterface.competitordetails(mm.getCompName(),mm.getChoosenPrdName(), mm.getQty());
         comp_name_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!TextUtils.isEmpty(mm.getCompName())){
-                    mm.setChoosenPrdName("");
+                Log.d("sds","----"+opqty);
+                if((ourprod.equalsIgnoreCase(""))){
+                    Log.v("arrayss_as_list", "clicked_here111");
+                }else {
+
+                    if(TextUtils.isEmpty(opqty)){
+                        Log.v("arrayss_as_list", "clicked_here11111");
+                    }else {
+                        if (!TextUtils.isEmpty(mm.getCompName())) {
+                            mm.setChoosenPrdName("");
+                        }
+                        detectPrdClick = false;
+                        Log.v("arrayss_as_list", "clicked_here");
+                        popUpAlert(list_prd, "n", i);
+                        notifyDataSetChanged();
+                    }
                 }
-                detectPrdClick=false;
-                Log.v("arrayss_as_list","clicked_here");
-                popUpAlert(list_prd,"n",i);
-                notifyDataSetChanged();
             }
         });
         comp_prd_list.setOnClickListener(new View.OnClickListener() {
@@ -154,7 +168,10 @@ public class AdapterBrandAuditComp extends BaseAdapter {
             @Override
             public void afterTextChanged(Editable editable) {
                 String val= String.valueOf(editable);
-                int qtyVal= Integer.parseInt(val);
+                int qtyVal=0;
+                if(!val.equalsIgnoreCase("")) {
+                    qtyVal = Integer.parseInt(val);
+                }
 
                 Log.v("qtyValPring", String.valueOf(qtyVal));
                 if(!TextUtils.isEmpty(edt_qty.getText().toString())){
@@ -167,6 +184,13 @@ public class AdapterBrandAuditComp extends BaseAdapter {
                     txt_rate.setText(String.valueOf(BrandAuditActivity.prd_rate));
                     txt_value.setText(String.valueOf(cal));
 
+                }
+                else{
+                    mm.setQty("");
+                    mm.setRate("");
+                    mm.setValue("");
+                    txt_rate.setText("");
+                    txt_value.setText("");
                 }
             }
         });
@@ -226,24 +250,26 @@ public class AdapterBrandAuditComp extends BaseAdapter {
         if(c.equals("n")){
             for(int i=0;i<list.size();i++){
                 arraylist.add(list.get(i).getCompName());
-
             }
         }
-
         else{
             CompNameProduct mm=full_list_prd.get(pos);
             String s1=mm.getCompPrd();
+            Log.d("ff",s1);
             String[] words=s1.split("/");
             ArrayList<String> stringArrayList=new ArrayList<>(Arrays.asList(words));
-           // arraylist=new ArrayList<>(Arrays.asList(words));
+            // arraylist=new ArrayList<>(Arrays.asList(words));
 
             for(int i=0;i<stringArrayList.size();i++){
 
                 System.out.println("stringArrayList"+stringArrayList.get(i));
+                //if(!arraylist.contains(stringArrayList.get(i))) {
                 arraylist.add(stringArrayList.get(i));
+                // }
 
             }
         }
+
         close_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -267,10 +293,21 @@ public class AdapterBrandAuditComp extends BaseAdapter {
                     mm1.setCompCode(mm.getCompCode());
                     mm1.setCompPCode(mm.getCompPCode());
                     notifyDataSetChanged();
+                    Log.v("sdsd",mm.getCompName()+"---"+mm.getCompPrd());
                 }
                 else{
                     CompNameProduct mm1 = full_list_prd.get(pos);
-                    mm1.setChoosenPrdName(arraylist.get(i));
+
+                    int vn=0;
+                    for(int bb=0;bb<full_list_prd.size();bb++) {
+                        if (full_list_prd.get(bb).getChoosenPrdName().equalsIgnoreCase(arraylist.get(i))) {
+                            vn+=1;
+                        }
+                    }
+                    if(vn==0){
+                        mm1.setChoosenPrdName(arraylist.get(i));
+                    }
+
                     notifyDataSetChanged();
                 }
                 dialog.dismiss();

@@ -15,6 +15,7 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -69,8 +70,10 @@ public class Location_sevice extends Service {
                 boolean isMock = false;
                 if (Build.VERSION.SDK_INT >= 18) {
                    isMock = location.isFromMockProvider();
+                    Log.v("mock", String.valueOf(isMock));
                 } else {
                     isMock = !Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ALLOW_MOCK_LOCATION).equals("0");
+                    Log.v("mock", String.valueOf(isMock));
                 }
                 if (isMock == true) {
                     if (Dcrdatas.IsFakeLocation.equals("0")) {
@@ -78,6 +81,7 @@ public class Location_sevice extends Service {
                         Intent hh = new Intent(getApplicationContext(), LoginActivity.class);
                         hh.putExtra("Warning", "Your Using Fake Location please Turn Off");
                         hh.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Toast.makeText(getApplicationContext(),"Your Using Fake Location please Turn Off",Toast.LENGTH_LONG).show();
                         startActivity(hh);
                     }
                 }
@@ -96,7 +100,14 @@ public class Location_sevice extends Service {
         String channelid = "Location_notification_channel";
         NotificationManager notificationManager = ( NotificationManager ) getSystemService(Context.NOTIFICATION_SERVICE);
         Intent resultintent = new Intent();
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, resultintent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, resultintent, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_UPDATE_CURRENT );
+        }
+        else {
+            pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, resultintent, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channelid);
         builder.setSmallIcon(R.drawable.san_clm_logo);

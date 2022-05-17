@@ -459,38 +459,39 @@ public class LeaveActivity extends AppCompatActivity {
                                         if (TextUtils.isEmpty(jo.getString("Msg"))) {
 
                                             if (!TextUtils.isEmpty(txt_day.getText().toString())) {
-                                                Call<ResponseBody> dateVal = apiService.saveLeave(svjson.toString());
-                                                dateVal.enqueue(new Callback<ResponseBody>() {
-                                                    @Override
-                                                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                                if (!TextUtils.isEmpty(edt_reason.getText().toString())) {
+                                                    Call<ResponseBody> dateVal = apiService.saveLeave(svjson.toString());
+                                                    dateVal.enqueue(new Callback<ResponseBody>() {
+                                                        @Override
+                                                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
-                                                        InputStreamReader ip = null;
-                                                        StringBuilder is = new StringBuilder();
-                                                        String line = null;
-                                                        try {
-                                                            ip = new InputStreamReader(response.body().byteStream());
-                                                            BufferedReader bf = new BufferedReader(ip);
+                                                            InputStreamReader ip = null;
+                                                            StringBuilder is = new StringBuilder();
+                                                            String line = null;
+                                                            try {
+                                                                ip = new InputStreamReader(response.body().byteStream());
+                                                                BufferedReader bf = new BufferedReader(ip);
 
-                                                            while ((line = bf.readLine()) != null) {
-                                                                is.append(line);
-                                                            }
-                                                            Log.v("printing_date_save", is.toString());
-                                                            JSONObject jj = new JSONObject(is.toString());
-                                                            if (jj.getString("success").equalsIgnoreCase("true")) {
+                                                                while ((line = bf.readLine()) != null) {
+                                                                    is.append(line);
+                                                                }
+                                                                Log.v("printing_date_save", is.toString());
+                                                                JSONObject jj = new JSONObject(is.toString());
+                                                                if (jj.getString("success").equalsIgnoreCase("true")) {
 
-                                                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.leave_success), Toast.LENGTH_LONG).show();
-                                                                txt_day.setText("");
-                                                                edt_from.setText("");
-                                                                edt_to.setText("");
-                                                                edt_add.setText("");
-                                                                edt_reason.setText("");
-                                                                Intent intent=new Intent(LeaveActivity.this, HomeDashBoard.class);
-                                                                startActivity(intent);
-                                                                // selectedLeave.clear();
-                                                                // arrayAdapter.notifyDataSetChanged();
-                                                            } else {
-                                                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.leave_already), Toast.LENGTH_LONG).show();
-                                                            }
+                                                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.leave_success), Toast.LENGTH_LONG).show();
+                                                                    txt_day.setText("");
+                                                                    edt_from.setText("");
+                                                                    edt_to.setText("");
+                                                                    edt_add.setText("");
+                                                                    edt_reason.setText("");
+                                                                    Intent intent = new Intent(LeaveActivity.this, HomeDashBoard.class);
+                                                                    startActivity(intent);
+                                                                    // selectedLeave.clear();
+                                                                    // arrayAdapter.notifyDataSetChanged();
+                                                                } else {
+                                                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.leave_already), Toast.LENGTH_LONG).show();
+                                                                }
 
                                     /* JSONArray js=new JSONArray(is.toString());
                                      for(int i=0;i<js.length();i++){
@@ -505,19 +506,24 @@ public class LeaveActivity extends AppCompatActivity {
                                              //Toast.makeText(LeaveActivity.this,jo.getString("Msg"),Toast.LENGTH_SHORT).show();
                                          }
                                      }*/
-                                                        } catch (Exception e) {
+                                                            } catch (Exception e) {
 
+                                                            }
                                                         }
-                                                    }
 
-                                                    @Override
-                                                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
-                                                    }
-                                                });
-                                            } else {
-                                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.choose_date), Toast.LENGTH_SHORT).show();
+                                                        @Override
+                                                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
+                                                } else {
+                                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.choose_date), Toast.LENGTH_SHORT).show();
 
+                                                }
+                                            }
+                                                else
+                                            {
+                                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.ent_lvreason), Toast.LENGTH_SHORT).show();
                                             }
 
 

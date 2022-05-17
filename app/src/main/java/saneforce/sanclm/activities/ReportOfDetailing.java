@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import saneforce.sanclm.R;
+import saneforce.sanclm.applicationCommonFiles.CommonUtilsMethods;
 import saneforce.sanclm.fragments.BrandDetailing;
 import saneforce.sanclm.fragments.CustomerDetailing;
 
@@ -24,6 +25,7 @@ public class ReportOfDetailing extends AppCompatActivity {
         brand=(RelativeLayout)findViewById(R.id.brand);
         customer=(RelativeLayout)findViewById(R.id.customer);
         backbtn=findViewById(R.id.iv_dwnldmaster_back);
+        CommonUtilsMethods.FullScreencall(this);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.maps, new CustomerDetailing()).commit();
         backbtn.setOnClickListener(new View.OnClickListener() {
@@ -53,6 +55,9 @@ public class ReportOfDetailing extends AppCompatActivity {
 
     }
 
-
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        CommonUtilsMethods.FullScreencall(this);
+    }
 }

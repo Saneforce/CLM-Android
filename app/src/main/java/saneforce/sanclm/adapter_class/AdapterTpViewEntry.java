@@ -53,10 +53,10 @@ public class AdapterTpViewEntry extends BaseAdapter {
         txt_hq.setText(extractValues(tp.getHq()));
         if(DemoActivity.hospNeed.equalsIgnoreCase("0")) {
             txt_head_c.setText(/*"Hospital"*/ context.getResources().getString(R.string.hospital));
-            txt_cluster.setText(extractValues(tp.getHosp()));
+            txt_cluster.setText(extractValues1(tp.getHosp()));
         }
         else
-        txt_cluster.setText(extractValues(tp.getCluster()));
+        txt_cluster.setText(extractValues1(tp.getCluster()));
         return view;
     }
 
@@ -67,5 +67,19 @@ public class AdapterTpViewEntry extends BaseAdapter {
         String ss="";
         ss=s.substring(0,s.indexOf("$"));
         return ss;
+    }
+
+    public String extractValues1(String s){
+        if(TextUtils.isEmpty(s))
+            return "";
+        Log.v("printing_str_adpt",s+" value "+s.indexOf("$")+"");
+        String[] clstarrray = s.split("#");
+        String ss = "";
+        for (String value : clstarrray) {
+            ss += value.substring(0, value.indexOf("$")) + ",";
+        }
+        String cls="";
+        cls=ss.substring(0,ss.length()-1);
+        return cls;
     }
 }

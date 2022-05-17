@@ -28,6 +28,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -152,6 +153,7 @@ public class DynamicActivity extends AppCompatActivity {
 
 //        getLocation();
 
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         gpsTrack = new GPSTrack(this);
         latitude=String.valueOf(gpsTrack.getLatitude());

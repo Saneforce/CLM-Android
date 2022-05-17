@@ -18,12 +18,14 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.os.CountDownTimer;
 import android.os.StrictMode;
 
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -38,6 +40,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -67,6 +70,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import saneforce.sanclm.Common_Class.Dcrdatas;
 import saneforce.sanclm.R;
 import saneforce.sanclm.activities.HomeDashBoard;
 import saneforce.sanclm.activities.LoginActivity;
@@ -435,8 +439,9 @@ public class AppConfiguration extends Fragment implements View.OnClickListener {
         mCommonSharedPreference.setValueToPreference(CommonUtils.TAG_USERNAME, "null");
         mCommonSharedPreference.setValueToPreference("pass", "");
         mCommonSharedPreference.setValueToPreference("cat_visit_detail","");
-        mCommonSharedPreference.setValueToPreference("overall_visit","");
+        mCommonSharedPreference.setValueToPreference("setup","");
         mCommonSharedPreference.setValueToPreference("monthly_detail","");
+        Dcrdatas.IsFakeLocation = "0";
         dbh.open();
         dbh.delete_All_tableDatas();
 

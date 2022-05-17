@@ -63,7 +63,7 @@ public class AdapterBrandAuditList2 extends BaseAdapter {
             txt_rate.setText("PTP : " + mm.getRate());
             txt_value.setText("PTR : " + mm.getVal());
             txt_sw.setText("Avg.S/w : " + mm.getSw());
-             txt_rx.setText("Rx : " + mm.getRx());
+            txt_rx.setText("Rx : " + mm.getRx());
             prName=mm.getPrName();
         }
         else{

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SAN CLM</string>
-    <string name="app_version">Version 1.9.8</string>
+    <string name="app_version">Version 1.9.9</string>
 
     <string name="preference_name">saneforce.sanclm.preferencefile</string>
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
@@ -505,4 +505,7 @@
     <string name="network_issue">Devido à chamada de rede de rede salva localmente sincronizada mais tarde</string>
 
     <string name="setup">Configuração</string>
+    <string name="tdy_pln">Hoje plano de trabalho</string>
+    <string name="folder_perm">Este aplicativo criará a pasta para ler e escrever neste telefone. Permitir que todos os arquivos acessem permissões para esse fim</string>
+    <string name="loc_perm">Este aplicativo sempre será executado em segundo plano. Permitir essa permissão pode reduzir a vida útil da bateria.</string>
 </resources>

@@ -143,14 +143,18 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
     public void onStart() {
         super.onStart();
         Log.v("hello_called_start","here");
-        if(!TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("map_return_count"))){
-            Log.v("hello_called_start","here");
-            int xx=mCommonSharedPreference.getValueFromPreference("dr_pos",0);
-            Custom_DCR_GV_Dr_Contents mm=drList.get(xx);
-            int yy= Integer.parseInt(mm.getTag())+1;
-            mm.setTag(String.valueOf(yy));
-            _DCR_GV_Selection_adapter.notifyDataSetChanged();
-            mCommonSharedPreference.setValueToPreference("map_return_count","");
+        if(!TextUtils.isEmpty(mCommonSharedPreference.getValueFromPreference("map_return_count"))) {
+            try {
+                Log.v("hello_called_start", "here");
+                int xx = mCommonSharedPreference.getValueFromPreference("dr_pos", 0);
+                Custom_DCR_GV_Dr_Contents mm = drList.get(xx);
+                int yy = Integer.parseInt(mm.getTag()) + 1;
+                mm.setTag(String.valueOf(yy));
+                _DCR_GV_Selection_adapter.notifyDataSetChanged();
+                mCommonSharedPreference.setValueToPreference("map_return_count", "");
+            } catch (Exception exception) {
+
+            }
         }
        /* if(mCommonSharedPreference.getValueFromPreference("geo_tag").equalsIgnoreCase("1")){
             if(_DCR_GV_Selection_adapter!=null && dbh!=null){
@@ -816,6 +820,7 @@ public class DCRUDRCallsSelection extends Fragment implements AdapterView.OnItem
         rl_chmPrecallanalysis.setVisibility(View.GONE);
         rl_dcr_precall_analysisMain.setVisibility(View.VISIBLE);
         dcr_drselection_gridview.setVisibility(View.GONE);
+        spinner.setVisibility(View.GONE);
         if(mCommonSharedPreference.getValueFromPreference("undr_hs_nd").equalsIgnoreCase("0"))
             ln_hospital.setVisibility(View.VISIBLE);
         String sfMCode;

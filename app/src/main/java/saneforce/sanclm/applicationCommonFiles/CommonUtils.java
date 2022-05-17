@@ -26,7 +26,7 @@ public class CommonUtils {
     public static String TAG_SF_HQ = "sf_hq";
     public static String TAG_DIVISION_CODE = "divisionCode";
     public static String TAG_WORKTYPE_NAME= "workTypeName";
-    public static String TAG_MYDAY_WORKTYPE_NAME= "My_workTypeName";
+    public static String TAG_WORKTYPE_FLAG= "workTypeFlag";
     public static String TAG_WORKTYPE_CODE= "workTypeCode";
     public static String TAG_WORKTYPE_CLUSTER_CODE = "wtownCode";
     public static String TAG_MYDAY_WORKTYPE_CLUSTER_NAME = "my_worktyp_twnNm";
@@ -69,7 +69,7 @@ public class CommonUtils {
     public static String TAG_TMP_SF_HQ = "tempsf_hq";
     public static String TAG_TMP_DIVISION_CODE = "tempdivisionCode";
     public static String TAG_TMP_WORKTYPE_NAME= "tempworkTypeName";
-    public static String TAG_TMP_MYDAY_WORKTYPE_NAME= "tempMy_workTypeName";
+    public static String TAG_TMP_WORKTYPE_FLAG= "tempworkTypeFlag";
     public static String TAG_TMP_WORKTYPE_CODE= "tempworkTypeCode";
     public static String TAG_TMP_WORKTYPE_CLUSTER_CODE = "tempwtownCode";
     public static String TAG_TMP_MYDAY_WORKTYPE_CLUSTER_NAME = "tempmy_worktyp_twnNm";

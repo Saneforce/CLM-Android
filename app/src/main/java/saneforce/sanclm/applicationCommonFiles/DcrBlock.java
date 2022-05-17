@@ -137,7 +137,7 @@ public class DcrBlock extends Service {
                         while ((line = bf.readLine()) != null) {
                             is.append(line);
                         }
-                        Log.v("printing_setup_response", is.toString());
+                        Log.v("service_response", is.toString());
                         JSONArray jsonArray = new JSONArray(is.toString());
                         JSONObject jsonn = jsonArray.getJSONObject(0);
 

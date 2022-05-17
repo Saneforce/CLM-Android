@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SAN CLM</string>
-    <string name="app_version">Version 1.9.8</string>
+    <string name="app_version">Version 1.9.9</string>
 
     <string name="preference_name">saneforce.sanclm.preferencefile</string>
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
@@ -505,5 +505,8 @@
     <string name="network_issue">ကွန်ယက်ပြ issue နာကြောင့်ဖုန်းခေါ်ဆိုမှုသည်ဒေသအလိုက်ထပ်တူထပ်မျှသိမ်းဆည်းထားခဲ့သည်</string>
 
     <string name="setup">တည်ဆောက်သည်</string>
+    <string name="tdy_pln">ဒီနေ့အလုပ်အစီအစဉ်</string>
+    <string name="folder_perm">ဤအက်ပလီကေးရှင်းသည်ဤဖုန်းတွင်ဖတ်ရန်နှင့်ရေးရန်ဖိုင်တွဲကိုဖန်တီးလိမ့်မည်။ ဤရည်ရွယ်ချက်အတွက်ဖိုင်များအားလုံးကိုခွင့်ပြုချက်အားလုံးကိုခွင့်ပြုပါ</string>
+    <string name="loc_perm">ဒီအက်ပလီကေးရှင်းကအမြဲတမ်းနောက်ခံမှာအမြဲပြေးသွားမှာပါ။ ဤခွင့်ပြုချက်သည်ဘက်ထရီသက်တမ်းကိုလျော့နည်းစေနိုင်သည်။</string>
 
 </resources>

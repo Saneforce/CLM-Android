@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SAN CLM</string>
-    <string name="app_version">Version 1.9.8</string>
+    <string name="app_version">Version 1.9.9</string>
 
     <string name="preference_name">saneforce.sanclm.preferencefile</string>
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
@@ -503,5 +503,8 @@
     <string name="network_issue">Due to network issue Call saved locally Synced later</string>
 
     <string name="setup">Setup</string>
+    <string name="tdy_pln">Today Work Plan</string>
+    <string name="folder_perm">This app will create the folder to read and write in this phone. Allow All files access permissions for this purpose</string>
+    <string name="loc_perm">This app will always run in the background. Allow this permission may reduce battery life.</string>
 
 </resources>

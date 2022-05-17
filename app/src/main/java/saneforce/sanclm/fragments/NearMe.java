@@ -525,7 +525,7 @@ public class NearMe extends Fragment {
         LatLng latLng = new LatLng(laty,lngy);
         CircleOptions circle = new CircleOptions()
                 .center(latLng)
-                .radius(limitKm*1000.0)
+                .radius(1000.0)
                 .strokeColor(Color.RED)
                 .fillColor(transparentBlue)
                 .clickable(true);

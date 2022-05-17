@@ -17,11 +17,13 @@ import java.util.ArrayList;
 import saneforce.sanclm.R;
 import saneforce.sanclm.activities.DemoActivity;
 import saneforce.sanclm.activities.Model.PopFeed;
+import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
 
 public class AdapterForSelectionList extends BaseAdapter {
     Context context;
     ArrayList<PopFeed> array=new ArrayList<>();
     String selectcategory;
+    CommonSharedPreference commonSharedPreference;
 
     public AdapterForSelectionList(Context context, ArrayList<PopFeed> array,String selector){
         this.context=context;
@@ -50,7 +52,8 @@ public class AdapterForSelectionList extends BaseAdapter {
         TextView txt_name=(TextView)view.findViewById(R.id.txt_name);
         RelativeLayout lay_row=(RelativeLayout)view.findViewById(R.id.lay_row);
         final CheckBox check=(CheckBox)view.findViewById(R.id.check);
-        Log.v("selector_check",selectcategory+" txt"+array.get(i).getTxt());
+        Log.v("selector_check",selectcategory+" txt"+array.get(i).getTxt()+array.get(i).isClick());
+        commonSharedPreference=new CommonSharedPreference(context);
         txt_name.setText(array.get(i).getTxt());
        /* if(array.get(i).isClick()){
             AlphaAnimation animation1 = new AlphaAnimation(0.2f, 1.0f);
@@ -107,6 +110,7 @@ public class AdapterForSelectionList extends BaseAdapter {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(selectcategory.equalsIgnoreCase("w") || selectcategory.equalsIgnoreCase("h") ||  (DemoActivity.cltyp.equalsIgnoreCase("1") && selectcategory.equalsIgnoreCase("c"))){
+                    Log.v("selectcategory","cluster");
                     for(int k=0;k<array.size();k++){
                         if(i!=k){
                             array.get(k).setClick(false);
@@ -125,6 +129,7 @@ public class AdapterForSelectionList extends BaseAdapter {
                     notifyDataSetChanged();
                 }else {
                     if (b) {
+                        Log.v("selectcategory","hospital");
                         check.setChecked(true);
                         AlphaAnimation animation1 = new AlphaAnimation(0.2f, 1.0f);
                         animation1.setDuration(200);
@@ -133,6 +138,7 @@ public class AdapterForSelectionList extends BaseAdapter {
                         check.startAnimation(animation1);
                         array.get(i).setClick(true);
                     } else {
+                        Log.v("selectcategory1","hospital");
                         check.setChecked(false);
                         array.get(i).setClick(false);
                     }

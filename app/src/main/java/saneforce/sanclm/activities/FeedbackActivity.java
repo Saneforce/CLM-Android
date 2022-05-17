@@ -184,7 +184,7 @@ public class FeedbackActivity extends AppCompatActivity {
     ArrayList<StoreImageTypeUrl> arrayStore = new ArrayList<>();
     LinearLayout addcalllayout,availLayout,ll_stkname,ll_stkname1;
     String availability=null,custype="0";
-
+    public ArrayList<String> prd_rpt_chk = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -233,7 +233,7 @@ public class FeedbackActivity extends AppCompatActivity {
         sign_canva = (SignatureCanva) findViewById(R.id.sign_canva);
         ll_feed_prd2 = (LinearLayout) findViewById(R.id.ll_feed_prd2);
         ll_feed_prd = (LinearLayout) findViewById(R.id.ll_feed_prd);
-     //   txt_sign = (TextView) findViewById(R.id.txt_sign);
+        //   txt_sign = (TextView) findViewById(R.id.txt_sign);
         img_capture = findViewById(R.id.img_capture);
         addcalllayout=findViewById(R.id.addcallLayout);
         availLayout=findViewById(R.id.availLayout);
@@ -880,8 +880,14 @@ public class FeedbackActivity extends AppCompatActivity {
 
                             return;
                         }
-
-                        if (mCommonSharedPreference.getValueFromPreference("DrSmpQMd").equals("1") && peopleType.equalsIgnoreCase("D")) {
+                        if (mCommonSharedPreference.getValueFromPreference("DrPrdMd").equals("1")) {
+                            if (listFeedPrd.size() == 0) {
+                                Toast.makeText(getApplicationContext(),getResources().getString(R.string.noprdsclt), Toast.LENGTH_LONG).show();
+                                return;
+                            }
+                        }
+                        if (mCommonSharedPreference.getValueFromPreference("DrSmpQMd").equals("1") && peopleType.equalsIgnoreCase("D")||
+                                mCommonSharedPreference.getValueFromPreference("chmsamQty_need").equals("0") && peopleType.equalsIgnoreCase("C")) {
                             for (int jj = 0; jj < listFeedPrd.size(); jj++) {
                                 if (listFeedPrd.get(jj).getSt_end_time().equals("00:00:00 00:00:00")) {
                                     String rxqty = listFeedPrd.get(jj).getSample();
@@ -896,7 +902,8 @@ public class FeedbackActivity extends AppCompatActivity {
 
                         }
                         if (ll_feed_prd2.getVisibility() == View.VISIBLE) {
-                            if (mCommonSharedPreference.getValueFromPreference("DrRxNd").equals("1") && mCommonSharedPreference.getValueFromPreference("DrRxQMd").equals("1") && peopleType.equalsIgnoreCase("D")) {
+                            if (mCommonSharedPreference.getValueFromPreference("DrRxNd").equals("1") && mCommonSharedPreference.getValueFromPreference("DrRxQMd").equals("1") && peopleType.equalsIgnoreCase("D")
+                            ||mCommonSharedPreference.getValueFromPreference("ChmRxNd").equals("0") && peopleType.equalsIgnoreCase("C")) {
                                 for (int jj = 0; jj < listFeedPrd.size(); jj++) {
                                     if (listFeedPrd.get(jj).getSt_end_time().equals("00:00:00 00:00:00")) {
                                         String rxqty = listFeedPrd.get(jj).getRxQty();
@@ -926,6 +933,15 @@ public class FeedbackActivity extends AppCompatActivity {
                             }
 
                         }
+                        if (mCommonSharedPreference.getValueFromPreference("Doc_jointwork_Mandatory_Need").equals("0") && peopleType.equalsIgnoreCase("D")||
+                                mCommonSharedPreference.getValueFromPreference("Chm_jointwork_Mandatory_Need").equals("0") && peopleType.equalsIgnoreCase("C")||
+                                mCommonSharedPreference.getValueFromPreference("stk_jointwork_Mandatory_Need").equals("0") && peopleType.equalsIgnoreCase("S")||
+                                mCommonSharedPreference.getValueFromPreference("Ul_jointwork_Mandatory_Need").equals("0") && peopleType.equalsIgnoreCase("U")) {
+                            if (joint_array.size() == 0) {
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.sclt_jw), Toast.LENGTH_LONG).show();
+                                return;
+                            }
+                        }
                         if (mCommonSharedPreference.getValueFromPreference("RcpaMd").equals("0") && peopleType.equalsIgnoreCase("D") && workType.equalsIgnoreCase("Field Work")) {
                             String rcpa = mCommonSharedPreference.getValueFromPreference("jsonarray");
                             if (rcpa.equalsIgnoreCase("")) {
@@ -951,6 +967,42 @@ public class FeedbackActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
 
+                            if (mCommonSharedPreference.getValueFromPreference("DrPrdMd").equals("1")) {
+                                if (listFeedPrd.size() == 0) {
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.noprdsclt), Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                            }
+                            if (mCommonSharedPreference.getValueFromPreference("DrSmpQMd").equals("1") && peopleType.equalsIgnoreCase("D")) {
+                                for (int jj = 0; jj < listFeedPrd.size(); jj++) {
+                                    if (listFeedPrd.get(jj).getSt_end_time().equals("00:00:00 00:00:00")) {
+                                        String rxqty = listFeedPrd.get(jj).getSample();
+                                        if (rxqty.equalsIgnoreCase("")) {
+                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.entr_sample_val), Toast.LENGTH_LONG).show();
+                                            return;
+                                        }
+
+                                        Log.v("rxqty", rxqty);
+                                    }
+                                }
+
+                            }
+                            if (ll_feed_prd2.getVisibility() == View.VISIBLE) {
+                                if (mCommonSharedPreference.getValueFromPreference("DrRxNd").equals("1") && mCommonSharedPreference.getValueFromPreference("DrRxQMd").equals("1") && peopleType.equalsIgnoreCase("D")) {
+                                    for (int jj = 0; jj < listFeedPrd.size(); jj++) {
+                                        if (listFeedPrd.get(jj).getSt_end_time().equals("00:00:00 00:00:00")) {
+                                            String rxqty = listFeedPrd.get(jj).getRxQty();
+                                            if (rxqty.equalsIgnoreCase("")) {
+                                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.entr_rx_val), Toast.LENGTH_LONG).show();
+
+                                                return;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+
                             if (mCommonSharedPreference.getValueFromPreference("DrInpMd").equals("1") && peopleType.equalsIgnoreCase("D")) {
                                 if (input_array.size() < 1) {
 
@@ -968,6 +1020,17 @@ public class FeedbackActivity extends AppCompatActivity {
                                 }
 
                             }
+
+                            if (mCommonSharedPreference.getValueFromPreference("Doc_jointwork_Mandatory_Need").equals("0") && peopleType.equalsIgnoreCase("D")||
+                                    mCommonSharedPreference.getValueFromPreference("Chm_jointwork_Mandatory_Need").equals("0") && peopleType.equalsIgnoreCase("C")||
+                                    mCommonSharedPreference.getValueFromPreference("stk_jointwork_Mandatory_Need").equals("0") && peopleType.equalsIgnoreCase("S")||
+                                    mCommonSharedPreference.getValueFromPreference("Ul_jointwork_Mandatory_Need").equals("0") && peopleType.equalsIgnoreCase("U")) {
+                                if (joint_array.size() == 0) {
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.sclt_jw), Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                            }
+
                             if (mCommonSharedPreference.getValueFromPreference("RcpaMd").equals("0") && peopleType.equalsIgnoreCase("D") && workType.equalsIgnoreCase("Field Work")) {
                                 String rcpa = mCommonSharedPreference.getValueFromPreference("jsonarray");
                                 if (rcpa.equalsIgnoreCase("")) {
@@ -991,21 +1054,22 @@ public class FeedbackActivity extends AppCompatActivity {
                                 dbh.insertJson(String.valueOf(finalValue), txt_name.getText().toString() + "_s_ync", String.valueOf(d), peopleCode, peopleType, commonSFCode,signPath);
                                 Intent i = new Intent(FeedbackActivity.this, HomeDashBoard.class);
                                 startActivity(i);
+                                prd_rpt_chk.clear();
                             }
 
                         }
                     }
-                        //if(feedOption.equalsIgnoreCase("edit"))
-                        dbh.open();
-                        dbh.deleteFeed();
-                        dbh.delete_groupName("customised");
-                        dbh.delete_json(colId);
-                        dbh.close();
-                        mCommonSharedPreference.setValueToPreference("slide_feed", "[]");
+                    //if(feedOption.equalsIgnoreCase("edit"))
+                    dbh.open();
+                    dbh.deleteFeed();
+                    dbh.delete_groupName("customised");
+                    dbh.delete_json(colId);
+                    dbh.close();
+                    mCommonSharedPreference.setValueToPreference("slide_feed", "[]");
 
                 }else
                 {
-                    Toast.makeText(FeedbackActivity.this,"Location should be enabled",Toast.LENGTH_LONG).show();
+                    Toast.makeText(FeedbackActivity.this,getResources().getString(R.string.alert_location),Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -1014,44 +1078,44 @@ public class FeedbackActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                    product.clear();
-                    dbh.open();
-                    mCursor = dbh.select_product_content_master();
+                product.clear();
+                dbh.open();
+                mCursor = dbh.select_product_content_master();
 
-                    if (mCursor.getCount() != 0) {
-                        mCursor.moveToFirst();
-                        do {
-                           Log.v("product_name_feed", mCursor.getString(0));
-                            product.add(new PopFeed(mCursor.getString(0), false));
+                if (mCursor.getCount() != 0) {
+                    mCursor.moveToFirst();
+                    do {
+                        Log.v("product_name_feed", mCursor.getString(0));
+                        product.add(new PopFeed(mCursor.getString(0), false));
 
-                        } while (mCursor.moveToNext());
-                        popUpAlertFeed(product, "p");
-                    }
-                    mCursor.close();
-                    dbh.close();
+                    } while (mCursor.moveToNext());
+                    popUpAlertFeed(product, "p");
                 }
+                mCursor.close();
+                dbh.close();
+            }
 
         });
         prd_plus1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                    product1.clear();
-                    dbh.open();
-                    mCursor = dbh.select_product_content_master();
+                product1.clear();
+                dbh.open();
+                mCursor = dbh.select_product_content_master();
 
-                    if (mCursor.getCount() != 0) {
-                        mCursor.moveToFirst();
-                        do {
-                           Log.v("product_name_feed", mCursor.getString(0));
-                            product1.add(new PopFeed(mCursor.getString(0), false));
+                if (mCursor.getCount() != 0) {
+                    mCursor.moveToFirst();
+                    do {
+                        Log.v("product_name_feed", mCursor.getString(0));
+                        product1.add(new PopFeed(mCursor.getString(0), false));
 
-                        } while (mCursor.moveToNext());
-                        popUpAlertFeed(product1, "p");
-                    }
-                    mCursor.close();
-                    dbh.close();
+                    } while (mCursor.moveToNext());
+                    popUpAlertFeed(product1, "p");
                 }
+                mCursor.close();
+                dbh.close();
+            }
 
 
         });
@@ -1059,46 +1123,46 @@ public class FeedbackActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                    input.clear();
-                    dbh.open();
-                    mCursor = dbh.select_input_list();
+                input.clear();
+                dbh.open();
+                mCursor = dbh.select_input_list();
 
-                    if (mCursor.getCount() != 0) {
-                        mCursor.moveToFirst();
-                        do {
-                            Log.v("input_name_feed", mCursor.getString(0));
-                            input.add(new PopFeed(mCursor.getString(0), false));
-                        } while (mCursor.moveToNext());
-                        popUpAlertFeed(input, "i");
-                    } else {
-                        Toast.makeText(FeedbackActivity.this, getResources().getString(R.string.no_input), Toast.LENGTH_SHORT).show();
-                    }
-                    mCursor.close();
-                    dbh.close();
-
+                if (mCursor.getCount() != 0) {
+                    mCursor.moveToFirst();
+                    do {
+                        Log.v("input_name_feed", mCursor.getString(0));
+                        input.add(new PopFeed(mCursor.getString(0), false));
+                    } while (mCursor.moveToNext());
+                    popUpAlertFeed(input, "i");
+                } else {
+                    Toast.makeText(FeedbackActivity.this, getResources().getString(R.string.no_input), Toast.LENGTH_SHORT).show();
                 }
+                mCursor.close();
+                dbh.close();
+
+            }
 
         });
         call_plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                    addcall.clear();
+                addcall.clear();
 
-                    dbh.open();
-                    mCursor = dbh.select_doctor_list();
+                dbh.open();
+                mCursor = dbh.select_doctor_list();
 
-                    if (mCursor.getCount() != 0) {
-                        mCursor.moveToFirst();
-                        do {
-                            Log.v("plus_name_feed", mCursor.getString(0));
-                            addcall.add(new PopFeed(mCursor.getString(0), false));
-                        } while (mCursor.moveToNext());
-                        popUpAlertFeed(addcall, "a");
-                    }
-                    mCursor.close();
-                    dbh.close();
+                if (mCursor.getCount() != 0) {
+                    mCursor.moveToFirst();
+                    do {
+                        Log.v("plus_name_feed", mCursor.getString(0));
+                        addcall.add(new PopFeed(mCursor.getString(0), false));
+                    } while (mCursor.moveToNext());
+                    popUpAlertFeed(addcall, "a");
                 }
+                mCursor.close();
+                dbh.close();
+            }
 
         });
 
@@ -1107,29 +1171,29 @@ public class FeedbackActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                    xx.clear();
-                    dbh.open();
-                    mCursor = dbh.select_joint_list();
+                xx.clear();
+                dbh.open();
+                mCursor = dbh.select_joint_list();
 
 
-                    if (mCursor.getCount() != 0) {
-                        mCursor.moveToFirst();
-                        do {
-                            Log.v("plus_name_feed", mCursor.getString(0));
-                            if (!SFCode.equalsIgnoreCase(mCursor.getString(1))) {
-                                // xx.add(new PopFeed(mCursor.getString(0), false));
-                                PopFeed popFeed = new PopFeed();
-                                popFeed.setTxt(mCursor.getString(0));
-                                popFeed.setClick(false);
-                                xx.add(popFeed);
-                            }
-                        } while (mCursor.moveToNext());
-                        popUpAlertFeed(xx, "j");
-                    }
-                    mCursor.close();
-                    dbh.close();
-
+                if (mCursor.getCount() != 0) {
+                    mCursor.moveToFirst();
+                    do {
+                        Log.v("plus_name_feed", mCursor.getString(0));
+                        if (!SFCode.equalsIgnoreCase(mCursor.getString(1))) {
+                            // xx.add(new PopFeed(mCursor.getString(0), false));
+                            PopFeed popFeed = new PopFeed();
+                            popFeed.setTxt(mCursor.getString(0));
+                            popFeed.setClick(false);
+                            xx.add(popFeed);
+                        }
+                    } while (mCursor.moveToNext());
+                    popUpAlertFeed(xx, "j");
                 }
+                mCursor.close();
+                dbh.close();
+
+            }
 
         });
     }
@@ -1265,6 +1329,7 @@ public class FeedbackActivity extends AppCompatActivity {
                 mCommonSharedPreference.setValueToPreference("jsonarray", "");
                 Intent i = new Intent(FeedbackActivity.this, HomeDashBoard.class);
                 startActivity(i);
+                prd_rpt_chk.clear();
             }
         });
 
@@ -1284,6 +1349,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
                 Intent i = new Intent(FeedbackActivity.this, HomeDashBoard.class);
                 startActivity(i);
+                prd_rpt_chk.clear();
             }
         });
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -1716,7 +1782,7 @@ public class FeedbackActivity extends AppCompatActivity {
                                     json_date.put("sTm", listFeedPrd.get(i).getDate() + " " + listFeedPrd.get(i).getSt_end_time().substring(0, (listFeedPrd.get(i).getSt_end_time().indexOf(" "))));
                                     json_date.put("eTm", listFeedPrd.get(i).getDate() + " " + listFeedPrd.get(i).getSt_end_time().substring((listFeedPrd.get(i).getSt_end_time().indexOf(" ")) + 1));
                                     json_joint.put("Timesline", json_date);
-                                    json_joint.put("Appver","V1.9.8");
+                                    json_joint.put("Appver","V1.9.9");
                                     json_joint.put("Mod", "Edet");
                                     json_joint.put("SmpQty", listFeedPrd.get(i).getSample());
                                     if (val_pob.contains(peopleType))
@@ -2319,8 +2385,15 @@ public class FeedbackActivity extends AppCompatActivity {
                         Intent i = new Intent(FeedbackActivity.this, HomeDashBoard.class);
                         startActivity(i);
                         mCommonSharedPreference.setValueToPreference("availjson", "");
+                        prd_rpt_chk.clear();
 
-                    } else {
+                    }else  if (js.getString("success").equalsIgnoreCase("Call Already Exists")) {
+                        progressDialog.dismiss();
+                        Toast toast = Toast.makeText(FeedbackActivity.this, js.getString("success"), Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                        // prd_rpt_chk.clear();
+                    }else {
                         progressDialog.dismiss();
 
                         if (js.has("Msg")) {
@@ -2359,7 +2432,7 @@ public class FeedbackActivity extends AppCompatActivity {
                 dbh.insertJson(String.valueOf(val), txt_name.getText().toString() + "_s_ync", String.valueOf(d), peopleCode, peopleType, commonSFCode,signPath);
                 Intent i = new Intent(FeedbackActivity.this, HomeDashBoard.class);
                 startActivity(i);
-
+                prd_rpt_chk.clear();
                 Toast.makeText(FeedbackActivity.this,getResources().getString(R.string.network_issue),Toast.LENGTH_LONG).show();
                 progressDialog.dismiss();
 
@@ -2399,7 +2472,7 @@ public class FeedbackActivity extends AppCompatActivity {
     }
 
     public String captureCanvasScreen(View layBg) {
-      //  txt_sign.setText("");
+        //  txt_sign.setText("");
         View content = layBg;
         content.setDrawingCacheEnabled(true);
         content.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
@@ -2594,7 +2667,7 @@ public class FeedbackActivity extends AppCompatActivity {
         protected void onPostExecute(Bitmap result) {
             Drawable d = new BitmapDrawable(getResources(), result);
             //sign_lay.setBackground(d);
-              sign_laynew.setBackground(d);
+            sign_laynew.setBackground(d);
             Log.v("finally_we_update", "imagesss");
             //saveImage(getApplicationContext(), result, "my_image.png");
 

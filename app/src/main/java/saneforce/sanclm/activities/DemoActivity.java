@@ -2,6 +2,7 @@ package saneforce.sanclm.activities;
 
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -75,6 +76,7 @@ import saneforce.sanclm.applicationCommonFiles.DownloadMasters;
 import saneforce.sanclm.fragments.LocaleHelper;
 import saneforce.sanclm.sqlite.DataBaseHandler;
 import saneforce.sanclm.util.GridSelectionList;
+import saneforce.sanclm.util.MyyBroadcastReceiver;
 import saneforce.sanclm.util.NetworkChangeReceiver;
 import saneforce.sanclm.util.ProductChangeListener;
 import saneforce.sanclm.util.SpecialityListener;
@@ -96,6 +98,7 @@ public class DemoActivity extends AppCompatActivity {
     GridView grid_cal;
     DataBaseHandler dbh;
     NetworkChangeReceiver receiver;
+    BroadcastReceiver broadcastReceiver;
     String currentMn,currentMnthNum,currentyr;
     JSONArray jsonArray=new JSONArray();
     JSONObject jsonObject=new JSONObject();
@@ -161,6 +164,7 @@ public class DemoActivity extends AppCompatActivity {
     public static boolean val_drneed=true;
     public static boolean val_chneed=true;
     public static boolean val_jwneed=true;
+    public static boolean hqcheck=false;
 
     public static ArrayList<ModelTpSave> list_cluster=new ArrayList<>();
     public static ArrayList<ModelWorkType> list_wrk=new ArrayList<>();
@@ -180,7 +184,7 @@ public class DemoActivity extends AppCompatActivity {
     String language;
     Context context;
     Resources resources;
-    IntentFilter intentFilter;
+    IntentFilter intentFilter,intentFilter1;
     boolean curr_but = false;
     boolean nxt_but = false;
     public final static String CONNECTIVITY_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
@@ -196,6 +200,7 @@ public class DemoActivity extends AppCompatActivity {
         CommonUtilsMethods.FullScreencall(this);
         super.onResume();
         registerReceiver(receiver, intentFilter);
+        registerReceiver(broadcastReceiver,intentFilter1);
     }
 
     @Override
@@ -328,6 +333,34 @@ public class DemoActivity extends AppCompatActivity {
         receiver = new NetworkChangeReceiver();
         intentFilter = new IntentFilter();
         intentFilter.addAction(CONNECTIVITY_ACTION);
+
+        intentFilter1 = new IntentFilter("kav.receiver.ui");
+
+        broadcastReceiver=new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if(hqcheck)
+                {
+                    if(DemoActivity.hospNeed.equalsIgnoreCase("0")) {
+                        pagerAdapter.txt_cluster.setText(/*"Select Hospital"*/ context.getResources().getString(R.string.sclt_hosp));
+                        pagerAdapter.tp.setHosp("");
+                    }
+                    else {
+                        pagerAdapter.txt_cluster.setText(/*"Select Cluster"*/ context.getResources().getString(R.string.sclt_clst));
+                        pagerAdapter.tp.setCluster("");
+                    }
+                    pagerAdapter.txt_count_cluster.setText(" " + "0" + " ");
+                    pagerAdapter.txt_count_joint.setText(" "+ "0" + " ");
+                    pagerAdapter.txt_count_dr.setText(" "+ "0" + " ");
+                    pagerAdapter.txt_count_chem.setText(" "+ "0" + " ");
+                    pagerAdapter.tp.setDr("");
+                    pagerAdapter.tp.setChem("");
+                    pagerAdapter.tp.setJoint("");
+
+                }
+
+            }
+        };
 
         /*array.add("hello");
         array.add("hello");
@@ -636,7 +669,7 @@ public class DemoActivity extends AppCompatActivity {
                                 if (jsonArray != null)
                                     for (int j = 0; j < jsonArray.length(); j++) {
                                         JSONObject js = jsonArray.getJSONObject(j);
-                                        Log.v("prinatI_yyy", js.getString("code"));
+                                        Log.v("prinatI_yyy", js.getString("code")+"size"+nameOnly.size());
                                         if (nameOnly.size() != 0 && nameOnly.contains(js.getString("code")))
                                             nameCode.add(new PopFeed(js.getString("name"), true, js.getString("code")));
                                         else {
@@ -1100,6 +1133,7 @@ public class DemoActivity extends AppCompatActivity {
                                 Log.v("printing_Statuis11",cur2.getString(3));
                             }
                             else{
+                                Log.v("printing_Statuis11",cur2.getString(3));
                                 status="0";
                             }
                         } catch (JSONException e) {
@@ -2575,7 +2609,11 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
                     hq=s;
                     if(SF_Type.equalsIgnoreCase("2")) {
                        Log.v("printing_hq_code",s.substring(s.indexOf("$") + 1, s.indexOf("#")));
-                        Updatecluster(s.substring(s.indexOf("$") + 1, s.indexOf("#")));
+                       hqcheck=true;
+                       Intent intent=new Intent();
+                       intent.setAction("kav.receiver.ui");
+                       sendBroadcast(intent);
+                       Updatecluster(s.substring(s.indexOf("$") + 1, s.indexOf("#")));
                     }
                     break;
                 case "c":
@@ -3886,6 +3924,14 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
         }catch(Exception e){
             e.printStackTrace();
         }
+        try{
+            if(broadcastReceiver!=null)
+                unregisterReceiver(broadcastReceiver);
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
         super.onDestroy();
         mCommonSharedPreference.setValueToPreference("approve","null");
     }
@@ -3947,16 +3993,21 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
             case "d":
                 mCursor = dbh.select_dr_sfcode(sf);
                 if (mCursor.getCount() > 0) {
+                    String drcode="dc";
                     while (mCursor.moveToNext()) {
-                        JSONObject jsonObjectData=new JSONObject();
+                        if (!drcode.contains(mCursor.getString(1)))
+                        {
+                            JSONObject jsonObjectData = new JSONObject();
                         try {
-                            jsonObjectData.put("name",mCursor.getString(2));
-                            jsonObjectData.put("code",mCursor.getString(1));
-                            jsonObjectData.put("clcode",mCursor.getString(5));
-                            jsonObjectData.put("hcode",mCursor.getString(25));
+                            jsonObjectData.put("name", mCursor.getString(2));
+                            jsonObjectData.put("code", mCursor.getString(1));
+                            jsonObjectData.put("clcode", mCursor.getString(5));
+                            jsonObjectData.put("hcode", mCursor.getString(25));
                             jsonArrayData.put(jsonObjectData);
+                            drcode+=mCursor.getString(1);
                         } catch (JSONException e) {
                             e.printStackTrace();
+                        }
                         }
                     }
                 }
@@ -3968,16 +4019,21 @@ Log.v("showing_the_count",checkField+" categ "+selectCategory);
             case "ch":
                 mCursor = dbh.select_chem_sfcode(sf);
                 if (mCursor.getCount() > 0) {
+                    String chemcode="cc";
                     while (mCursor.moveToNext()) {
-                        JSONObject jsonObjectData=new JSONObject();
-                        try {
-                            jsonObjectData.put("name",mCursor.getString(2));
-                            jsonObjectData.put("code",mCursor.getString(1));
-                            jsonObjectData.put("clcode",mCursor.getString(4));
-                            jsonObjectData.put("hcode",mCursor.getString(13));
-                            jsonArrayData.put(jsonObjectData);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        JSONObject jsonObjectData = new JSONObject();
+                        if (!chemcode.contains(mCursor.getString(1)))
+                        {
+                            try {
+                                jsonObjectData.put("name", mCursor.getString(2));
+                                jsonObjectData.put("code", mCursor.getString(1));
+                                jsonObjectData.put("clcode", mCursor.getString(4));
+                                jsonObjectData.put("hcode", mCursor.getString(13));
+                                jsonArrayData.put(jsonObjectData);
+                                chemcode+=mCursor.getString(1);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }

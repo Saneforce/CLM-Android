@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -29,10 +30,13 @@ import androidx.core.content.ContextCompat;
 
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -84,7 +88,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     PackageManager PkgMgr;
     String PkgNm;
     PackageInfo pkgInfo;
-    String DataDir ,userName,passWord,divisionCode,deviceId;
+    String DataDir ,userName,passWord,divisionCode,deviceId,licenceKey;
     ProgressDialog progressDialog ;
     public static  String BASE_URL ="";
     private static Retrofit retrofit = null;
@@ -98,6 +102,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private final static int ALL_PERMISSIONS_RESULT = 101;
     static UpdateUi updateUi;
     String token_val="";
+    SharedPreferences sharedPreferences;
 
     String logincheck="";
     int x=0;
@@ -140,6 +145,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         PkgMgr = getPackageManager();
         PkgNm = getPackageName();
         //startLocationButtonClick();
+//        if(mCommonSharedPreference.getValueFromPreference("permissions").equalsIgnoreCase("null") ||
+//        mCommonSharedPreference.getValueFromPreference("permissions").equalsIgnoreCase("1"))
+//        showAlert();
 
        /* permissions.add(ACCESS_FINE_LOCATION);
         permissions.add(ACCESS_COARSE_LOCATION);*/
@@ -208,7 +216,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         et_login_username=(EditText)findViewById(R.id.et_login_username);
         et_login_password=(EditText)findViewById(R.id.et_login_password);
 
-       SharedPreferences sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+       sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         String language = sharedPreferences.getString(language_string, "");
         if (!language.equals("")){
             Log.d("stringlang",language);
@@ -372,6 +380,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     passWord = et_login_password.getText().toString().trim();
                     divisionCode = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DIVISION);
                     deviceId = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_DEVICEID);
+                    licenceKey=sharedPreferences.getString(licenceKey,"");
                     if(accessStorageAllowed){
 
                         if(validation()){
@@ -383,9 +392,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         JSONObject map=new JSONObject();
                         map.put("name", userName);
                         map.put("password", passWord);
-                        map.put("Appver", "V1.9.8");
+                        map.put("Appver", "V1.9.9");
                         map.put("Mod", "Edet");
                         map.put("dev_id", token_val);
+                       // map.put("licence",licenceKey);
                          Log.v("database_url",db_pathUrl.substring(0,db_pathUrl.lastIndexOf("/")+1));
                          Log.v("response_login",map.toString());
 
@@ -397,7 +407,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                          !(mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_USERNAME).equalsIgnoreCase(et_login_username.getText().toString()))) {
                                      Toast.makeText(LoginActivity.this, getResources().getString(R.string.check_us_ps), Toast.LENGTH_SHORT).show();
                                      progressDialog.dismiss();
-                                 } else {
+                                 } else if(!mCommonSharedPreference.getValueFromPreference("SFStat").equalsIgnoreCase("0"))
+                                 {
+                                     Intent intent=new Intent(this, BlockActivity.class);
+                                     intent.putExtra("dcrblock","2");
+                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                     startActivity(intent);
+                                     progressDialog.dismiss();
+                                 }
+                                     else {
                                      Api_Interface apiService = RetroClient.getClient(db_pathUrl).create(Api_Interface.class);
                                      Call<ResponseBody> Callto = apiService.Login(String.valueOf(map));
                                      //  Call<ResponseBody> Callto = apiService.Todaycalls(json);
@@ -800,6 +818,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
 
                 if (permissionsRejected.size() > 0) {
+                   // mCommonSharedPreference.setValueToPreference("permissions","1");
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         if (shouldShowRequestPermissionRationale((String) permissionsRejected.get(0))) {
                             showMessageOKCancel("These permissions are mandatory for the application. Please allow access.",
@@ -807,6 +826,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                          //      mCommonSharedPreference.setValueToPreference("permissions","0");
                                                 requestPermissions((String[]) permissionsRejected.toArray(new String[permissionsRejected.size()]), ALL_PERMISSIONS_RESULT);
                                             }
                                         }
@@ -832,5 +852,105 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mloginButton.setText(resources.getString(R.string.Login));
         et_login_username.setHint(resources.getString(R.string.username));
         et_login_password.setHint(resources.getString(R.string.password));
+    }
+
+    public void showAlert() {
+      Dialog dialogBuilder = new Dialog(LoginActivity.this);
+        LayoutInflater inflater = LoginActivity.this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_plan, null);
+        dialogBuilder.setContentView(dialogView);
+        dialogBuilder.setCancelable(false);
+        TextView txt_content = ( TextView ) dialogView.findViewById(R.id.txt_1);
+//        TextView tv_mge1 = ( TextView ) dialogView.findViewById(R.id.tv_mge1);
+//        TextView tv_mge2 = ( TextView ) dialogView.findViewById(R.id.tv_mge2);
+        LinearLayout ok = ( LinearLayout ) dialogView.findViewById(R.id.ok);
+
+         txt_content.setText(getResources().getString(R.string.folder_perm));
+//        tv_mge1.setText("Allowing sanclm to always run in the background may reduce battery life.");
+//        tv_mge2.setText("You can change this later from Settings -> Apps & notifications.");
+
+//        tv_mge1.setVisibility(View.VISIBLE);
+//        tv_mge2.setVisibility(View.VISIBLE);
+
+
+//        btn_cancl.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                alertDialog.cancel();
+//                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
+//                intent.setData(uri);
+//                startActivity(intent);
+//            }
+//        });
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCommonSharedPreference.setValueToPreference("permissions","0");
+                permissions.add(CAMERA);
+                permissions.add(READ_EXTERNAL_STORAGE);
+                permissions.add(WRITE_EXTERNAL_STORAGE);
+                if (Build.VERSION.SDK_INT >=Build.VERSION_CODES.R)
+                    permissions.add(MANAGE_EXTERNAL_STORAGE);
+                FirebaseApp.initializeApp(LoginActivity.this);
+                //permissions.add(READ_CONTACTS);
+
+                permissionsToRequest = findUnAskedPermissions(permissions);
+                //get the permissions we have asked for before but are not granted..
+                //we will store this in a global list to access later.
+
+                if(permissionsToRequest.size()>0){}
+                else accessStorageAllowed=true;
+
+                if (Build.VERSION.SDK_INT >=Build.VERSION_CODES.R){
+                    if(Environment.isExternalStorageManager()) {
+//todo when permission is granted
+                    } else {
+//request for the permission
+                        Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                        Uri uri = Uri.fromParts("package", getPackageName(), null);
+                        intent.setData(uri);
+                        startActivity(intent);
+                    }
+                }
+
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+                    if (permissionsToRequest.size() > 0) {
+                        requestPermissions((String[]) permissionsToRequest.toArray(new String[permissionsToRequest.size()]), ALL_PERMISSIONS_RESULT);
+                    }
+                }
+                else{
+                    //startLocationButtonClick();
+                }
+
+                dialogBuilder.dismiss();
+                //ShowWarning();
+            }
+        });
+        dialogBuilder.show();
+    }
+
+    public void ShowWarning() {
+        final androidx.appcompat.app.AlertDialog.Builder alertDialog = new androidx.appcompat.app.AlertDialog.Builder(
+                LoginActivity.this);
+        alertDialog.setCancelable(false);
+        alertDialog.setTitle("Need Permission");
+        alertDialog.setMessage("Please allow sanclm app to run in background.");
+
+        alertDialog.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Uri uri = Uri.fromParts("package",getPackageName(), null);
+                intent.setData(uri);
+                startActivity(intent);
+            }
+        });
+        alertDialog.show();
     }
 }

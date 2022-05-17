@@ -13,10 +13,24 @@
         android:typeface="serif"
         android:textSize="16sp"
         android:background="@drawable/audit_grey_background"
-        android:id="@+id/prd_title"
+        android:id="@+id/chm_title"
         android:textStyle="bold"
         android:gravity="center_vertical"
         android:paddingLeft="7dp"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="KLAR SEHEN"
+        android:layout_marginTop="2dp"
+        android:textColor="#000000"
+        android:fontFamily="@font/poppins_medium"
+        android:typeface="serif"
+        android:textSize="16sp"
+        android:layout_marginLeft="7dp"
+        android:layout_below="@+id/chm_title"
+        android:id="@+id/prd_title"
+        android:textStyle="bold"
         />
     <TextView
         android:layout_width="match_parent"

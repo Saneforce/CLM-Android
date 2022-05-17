@@ -83,37 +83,37 @@ public class DCR_GV_Selection_adapter extends BaseAdapter implements Filterable{
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+try {
+    final ViewHolder mViewHolder;
+    detailingTrackerPOJO = new DetailingTrackerPOJO();
+    mCommonSharedPreference = new CommonSharedPreference(mContext);
+    LayoutInflater mViewLayoutInflatar = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        final ViewHolder mViewHolder;
-        detailingTrackerPOJO= new DetailingTrackerPOJO();
-        mCommonSharedPreference = new CommonSharedPreference(mContext);
-            LayoutInflater mViewLayoutInflatar = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    convertView = mViewLayoutInflatar.inflate(R.layout.dcr_custom_gridview, null);
 
-            convertView = mViewLayoutInflatar.inflate(R.layout.dcr_custom_gridview, null);
+    mViewHolder = new ViewHolder();
+    mViewHolder.drName = (TextView) convertView.findViewById(R.id.tv_dcr_dr_name);
+    mViewHolder.drSpeciality = (TextView) convertView.findViewById(R.id.tv_dcr_speciality);
+    mViewHolder.drCategory = (TextView) convertView.findViewById(R.id.tv_dcr_category);
+    mViewHolder.drCluster = (TextView) convertView.findViewById(R.id.tv_dcr_drcluster);
+    mViewHolder.drSelCluster = (ImageView) convertView.findViewById(R.id.iv_dr_tdaycluster);
+    mViewHolder.drUnSelCluster = (ImageView) convertView.findViewById(R.id.iv_dr_cluster);
+    mViewHolder.img_tick = (ImageView) convertView.findViewById(R.id.img_tick);
+    mViewHolder.rl_dcr_gv = (RelativeLayout) convertView.findViewById(R.id.rl_dcr_gv);
+    mViewHolder.btn_detail = (Button) convertView.findViewById(R.id.btn_detail);
+    mViewHolder.tv_count = (TextView) convertView.findViewById(R.id.tv_count);
+    mViewHolder.rl_dcr_view = (RelativeLayout) convertView.findViewById(R.id.rl_dcr_view);
 
-            mViewHolder = new ViewHolder();
-            mViewHolder.drName=(TextView) convertView.findViewById(R.id.tv_dcr_dr_name);
-            mViewHolder.drSpeciality=(TextView) convertView.findViewById(R.id.tv_dcr_speciality);
-            mViewHolder.drCategory=(TextView) convertView.findViewById(R.id.tv_dcr_category);
-            mViewHolder.drCluster=(TextView) convertView.findViewById(R.id.tv_dcr_drcluster);
-            mViewHolder.drSelCluster  = (ImageView) convertView.findViewById(R.id.iv_dr_tdaycluster);
-            mViewHolder.drUnSelCluster  = (ImageView) convertView.findViewById(R.id.iv_dr_cluster);
-            mViewHolder.img_tick  = (ImageView) convertView.findViewById(R.id.img_tick);
-            mViewHolder.rl_dcr_gv  = (RelativeLayout) convertView.findViewById(R.id.rl_dcr_gv);
-            mViewHolder.btn_detail  = (Button) convertView.findViewById(R.id.btn_detail);
-            mViewHolder.tv_count  = (TextView) convertView.findViewById(R.id.tv_count);
-            mViewHolder.rl_dcr_view  = (RelativeLayout) convertView.findViewById(R.id.rl_dcr_view);
+    final Custom_DCR_GV_Dr_Contents row_pos = row.get(position);
+    mViewHolder.drName.setText(row_pos.getmDoctorName());
+    mViewHolder.drCluster.setText(row_pos.getmDoctorTown());
 
-            final Custom_DCR_GV_Dr_Contents row_pos = row.get(position);
-            mViewHolder.drName.setText(row_pos.getmDoctorName());
-            mViewHolder.drCluster.setText(row_pos.getmDoctorTown());
-
-            //           /* if(row_pos.getTag().equalsIgnoreCase("null"))
+    //           /* if(row_pos.getTag().equalsIgnoreCase("null"))
 //                row_pos.setTag("0");
 //            if(row_pos.getMax().equalsIgnoreCase("null"))
 //                row_pos.setMax("0");*/
 
-              mViewHolder.tv_count.setText(row_pos.getTag() + "/" + row_pos.getMax());
+    mViewHolder.tv_count.setText(row_pos.getTag() + "/" + row_pos.getMax());
 //           if(type.equals("D"))
 //           {
 //               mViewHolder.tv_count.setText(row_pos.getTag()+"/"+row_pos.getMax());
@@ -121,164 +121,164 @@ public class DCR_GV_Selection_adapter extends BaseAdapter implements Filterable{
 //               mViewHolder.tv_count.setText("");
 //           }
 
+    if (mCommonSharedPreference.getValueFromPreference("geo_tag").equalsIgnoreCase("1")) {
+        mViewHolder.drSelCluster.setImageResource(R.drawable.pin_small);
+        mViewHolder.drUnSelCluster.setImageResource(R.drawable.pin_small);
+        mViewHolder.tv_count.setVisibility(View.VISIBLE);
+
+    }
+
+    try {
+        JSONArray jsonn = new JSONArray(mCommonSharedPreference.getValueFromPreference("missed_array").toString());
+        if (jsonn.length() != 0) {
+            for (int i = 0; i < jsonn.length(); i++) {
+                JSONObject js = jsonn.getJSONObject(i);
+                if (row_pos.getmDoctorcode().equalsIgnoreCase(js.getString("code"))) {
+                    mViewHolder.btn_detail.setVisibility(View.VISIBLE);
+                    mViewHolder.img_tick.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+    } catch (Exception e) {
+    }
+
+    mViewHolder.rl_dcr_gv.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            // Log.v("row_pos_pos",row_pos.getmDoctorName());
             if (mCommonSharedPreference.getValueFromPreference("geo_tag").equalsIgnoreCase("1")) {
-                mViewHolder.drSelCluster.setImageResource(R.drawable.pin_small);
-                mViewHolder.drUnSelCluster.setImageResource(R.drawable.pin_small);
-                mViewHolder.tv_count.setVisibility(View.VISIBLE);
-
-            }
-
-            try {
-                JSONArray jsonn = new JSONArray(mCommonSharedPreference.getValueFromPreference("missed_array").toString());
-                if (jsonn.length() != 0) {
-                    for (int i = 0; i < jsonn.length(); i++) {
-                        JSONObject js = jsonn.getJSONObject(i);
-                        if (row_pos.getmDoctorcode().equalsIgnoreCase(js.getString("code"))) {
-                            mViewHolder.btn_detail.setVisibility(View.VISIBLE);
-                            mViewHolder.img_tick.setVisibility(View.VISIBLE);
-                        }
+                if (Integer.parseInt(row_pos.getMax()) > Integer.parseInt(row_pos.getTag())) {
+                    mCommonSharedPreference.setValueToPreference("dr_pos", position);
+                    dcrCallSelectionFilter.itemClick(row_pos.getmDoctorName(), row_pos.getmDoctorcode());
+                    String s = detailingTrackerPOJO.getTabSelection();
+                    switch (s) {
+                        case "0":
+                        case "4":
+                            Log.v("pritning_spec_code", row_pos.getSpecCode() + " printing");
+                            mCommonSharedPreference.setValueToPreference("specCode", row_pos.getSpecCode());
+                            mCommonSharedPreference.setValueToPreference("specName", row_pos.getmDocotrSpeciality());
+                            break;
+                        default:
+                            mCommonSharedPreference.setValueToPreference("specCode", "");
+                            mCommonSharedPreference.setValueToPreference("specName", "");
+                            break;
                     }
-                }
-            } catch (Exception e) {
-            }
-
-            mViewHolder.rl_dcr_gv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // Log.v("row_pos_pos",row_pos.getmDoctorName());
-                    if (mCommonSharedPreference.getValueFromPreference("geo_tag").equalsIgnoreCase("1")) {
-                        if (Integer.parseInt(row_pos.getMax()) > Integer.parseInt(row_pos.getTag())) {
-                            mCommonSharedPreference.setValueToPreference("dr_pos", position);
-                            dcrCallSelectionFilter.itemClick(row_pos.getmDoctorName(), row_pos.getmDoctorcode());
-                            String s = detailingTrackerPOJO.getTabSelection();
-                            switch (s) {
-                                case "0":
-                                case "4":
-                                    Log.v("pritning_spec_code", row_pos.getSpecCode() + " printing");
-                                    mCommonSharedPreference.setValueToPreference("specCode", row_pos.getSpecCode());
-                                    mCommonSharedPreference.setValueToPreference("specName", row_pos.getmDocotrSpeciality());
-                                    break;
-                                default:
-                                    mCommonSharedPreference.setValueToPreference("specCode", "");
-                                    mCommonSharedPreference.setValueToPreference("specName", "");
-                                    break;
-                            }
-                        } else
-                            Toast.makeText(mContext, "Exceed the Tag limitation !!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        dcrCallSelectionFilter.itemClick(row_pos.getmDoctorName(), row_pos.getmDoctorcode());
-                        String s = detailingTrackerPOJO.getTabSelection();
-                        switch (s) {
-                            case "0":
-                            case "4":
-                                mCommonSharedPreference.setValueToPreference("specCode", row_pos.getSpecCode());
-                                mCommonSharedPreference.setValueToPreference("specName", row_pos.getmDocotrSpeciality());
-                                break;
-                            default:
-                                mCommonSharedPreference.setValueToPreference("specCode", "");
-                                mCommonSharedPreference.setValueToPreference("specName", "");
-                                break;
-                        }
-                    }
-
-                    if (mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true")) {
-
-                        if (mViewHolder.img_tick.getVisibility() == View.VISIBLE) {
-                            mViewHolder.btn_detail.setVisibility(View.INVISIBLE);
-                            mViewHolder.img_tick.setVisibility(View.INVISIBLE);
-                            removeJsonArray(row_pos.getmDoctorcode());
-                        } else {
-                            mViewHolder.btn_detail.setVisibility(View.VISIBLE);
-                            mViewHolder.img_tick.setVisibility(View.VISIBLE);
-                            addJsonArray(position);
-                        }
-
-                    }
-                }
-            });
-
-            mViewHolder.btn_detail.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    if (checkForEdit(position)) {
-                        forJsonExtract(position, row_pos.getmDoctorcode(), totalval);
-                        Intent i = new Intent(mContext, FeedbackActivity.class);
-                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        i.putExtra("feedpage", "edit");
-                        mContext.startActivity(i);
-                    } else {
-                        moveToFeedActivity(type, position);
-                    }
-                }
-            });
-            Log.v("selected_tab_are", detailingTrackerPOJO.getTabSelection());
-
-            switch (detailingTrackerPOJO.getTabSelection()) {
-
-                case "0":
-                    mViewHolder.drSpeciality.setText(row_pos.getmDocotrSpeciality());
-                    mViewHolder.drCategory.setText(row_pos.getmDocotrCategory());
-                    break;
-                case "1":
-                    mViewHolder.drSpeciality.setText("");
-                    mViewHolder.drCategory.setText("");
-                    break;
-                case "2":
-                    mViewHolder.drSpeciality.setText(row_pos.getmDocotrSpeciality());
-                    mViewHolder.drCategory.setText(row_pos.getmDocotrCategory());
-                    break;
-                case "3":
-                    mViewHolder.drSpeciality.setText("");
-                    mViewHolder.drCategory.setText("");
-                    break;
-                case "4":
-                    mViewHolder.drSpeciality.setText(row_pos.getmDocotrSpeciality());
-                    mViewHolder.drCategory.setText(row_pos.getmDocotrCategory());
-                    break;
-            }
-
-            switch (type) {
-
-                case "D":
-                    mViewHolder.drSpeciality.setText(row_pos.getmDocotrSpeciality());
-                    mViewHolder.drCategory.setText(row_pos.getmDocotrCategory());
-                    break;
-                case "C":
-                    mViewHolder.drSpeciality.setText(row_pos.getSpecCode());
-                    mViewHolder.drCategory.setText("");
-                    break;
-
-                case "S":
-                    mViewHolder.drSpeciality.setText("");
-                    mViewHolder.drCategory.setText("");
-                    break;
-
-                case "U":
-                    mViewHolder.drSpeciality.setText(row_pos.getmDocotrSpeciality());
-                    mViewHolder.drCategory.setText(row_pos.getmDocotrCategory());
-                    break;
-
-                case "H":
-                    mViewHolder.drSpeciality.setText("");
-                    mViewHolder.drCategory.setText("");
-                    break;
-            }
-
-            mydayclustrCd = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_CLUSTER_CODE);
-            if (row_pos.getmDoctorTownCd().equalsIgnoreCase(mydayclustrCd)) {
-                Log.v("Cluster_val_dis_", "" + " share_Cluster " + "");
-                Log.v("Cluster_val_dis_", row_pos.getmDoctorTownCd() + " share_Cluster " + mydayclustrCd);
-                mViewHolder.drSelCluster.setVisibility(View.INVISIBLE);
-                mViewHolder.drUnSelCluster.setVisibility(View.VISIBLE);
-
+                } else
+                    Toast.makeText(mContext, "Exceed the Tag limitation !!", Toast.LENGTH_SHORT).show();
             } else {
-                Log.v("Cluster_val_dis_11", "" + " share_Cluster " + "");
-                mViewHolder.drSelCluster.setVisibility(View.VISIBLE);
-                mViewHolder.drUnSelCluster.setVisibility(View.INVISIBLE);
+                dcrCallSelectionFilter.itemClick(row_pos.getmDoctorName(), row_pos.getmDoctorcode());
+                String s = detailingTrackerPOJO.getTabSelection();
+                switch (s) {
+                    case "0":
+                    case "4":
+                        mCommonSharedPreference.setValueToPreference("specCode", row_pos.getSpecCode());
+                        mCommonSharedPreference.setValueToPreference("specName", row_pos.getmDocotrSpeciality());
+                        break;
+                    default:
+                        mCommonSharedPreference.setValueToPreference("specCode", "");
+                        mCommonSharedPreference.setValueToPreference("specName", "");
+                        break;
+                }
             }
 
-            Log.v("hqselection", mCommonSharedPreference.getValueFromPreference("tmp_sub_sf_code") + "hqcodes" + mCommonSharedPreference.getValueFromPreference("hq_code"));
+            if (mCommonSharedPreference.getValueFromPreference("missed").equalsIgnoreCase("true")) {
+
+                if (mViewHolder.img_tick.getVisibility() == View.VISIBLE) {
+                    mViewHolder.btn_detail.setVisibility(View.INVISIBLE);
+                    mViewHolder.img_tick.setVisibility(View.INVISIBLE);
+                    removeJsonArray(row_pos.getmDoctorcode());
+                } else {
+                    mViewHolder.btn_detail.setVisibility(View.VISIBLE);
+                    mViewHolder.img_tick.setVisibility(View.VISIBLE);
+                    addJsonArray(position);
+                }
+
+            }
+        }
+    });
+
+    mViewHolder.btn_detail.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            if (checkForEdit(position)) {
+                forJsonExtract(position, row_pos.getmDoctorcode(), totalval);
+                Intent i = new Intent(mContext, FeedbackActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                i.putExtra("feedpage", "edit");
+                mContext.startActivity(i);
+            } else {
+                moveToFeedActivity(type, position);
+            }
+        }
+    });
+    Log.v("selected_tab_are", detailingTrackerPOJO.getTabSelection());
+
+    switch (detailingTrackerPOJO.getTabSelection()) {
+
+        case "0":
+            mViewHolder.drSpeciality.setText(row_pos.getmDocotrSpeciality());
+            mViewHolder.drCategory.setText(row_pos.getmDocotrCategory());
+            break;
+        case "1":
+            mViewHolder.drSpeciality.setText("");
+            mViewHolder.drCategory.setText("");
+            break;
+        case "2":
+            mViewHolder.drSpeciality.setText(row_pos.getmDocotrSpeciality());
+            mViewHolder.drCategory.setText(row_pos.getmDocotrCategory());
+            break;
+        case "3":
+            mViewHolder.drSpeciality.setText("");
+            mViewHolder.drCategory.setText("");
+            break;
+        case "4":
+            mViewHolder.drSpeciality.setText(row_pos.getmDocotrSpeciality());
+            mViewHolder.drCategory.setText(row_pos.getmDocotrCategory());
+            break;
+    }
+
+    switch (type) {
+
+        case "D":
+            mViewHolder.drSpeciality.setText(row_pos.getmDocotrSpeciality());
+            mViewHolder.drCategory.setText(row_pos.getmDocotrCategory());
+            break;
+        case "C":
+            mViewHolder.drSpeciality.setText(row_pos.getSpecCode());
+            mViewHolder.drCategory.setText("");
+            break;
+
+        case "S":
+            mViewHolder.drSpeciality.setText("");
+            mViewHolder.drCategory.setText("");
+            break;
+
+        case "U":
+            mViewHolder.drSpeciality.setText(row_pos.getmDocotrSpeciality());
+            mViewHolder.drCategory.setText(row_pos.getmDocotrCategory());
+            break;
+
+        case "H":
+            mViewHolder.drSpeciality.setText("");
+            mViewHolder.drCategory.setText("");
+            break;
+    }
+
+    mydayclustrCd = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_CLUSTER_CODE);
+    if (row_pos.getmDoctorTownCd().equalsIgnoreCase(mydayclustrCd)) {
+        Log.v("Cluster_val_dis_", "" + " share_Cluster " + "");
+        Log.v("Cluster_val_dis_", row_pos.getmDoctorTownCd() + " share_Cluster " + mydayclustrCd);
+        mViewHolder.drSelCluster.setVisibility(View.INVISIBLE);
+        mViewHolder.drUnSelCluster.setVisibility(View.VISIBLE);
+
+    } else {
+        Log.v("Cluster_val_dis_11", "" + " share_Cluster " + "");
+        mViewHolder.drSelCluster.setVisibility(View.VISIBLE);
+        mViewHolder.drUnSelCluster.setVisibility(View.INVISIBLE);
+    }
+
+    Log.v("hqselection", mCommonSharedPreference.getValueFromPreference("tmp_sub_sf_code") + "hqcodes" + mCommonSharedPreference.getValueFromPreference("hq_code"));
 //        if(mCommonSharedPreference.getValueFromPreference("tmp_sub_sf_code").equalsIgnoreCase(mCommonSharedPreference.getValueFromPreference("hq_code"))) {
 //           // if (type.equals("D") || type.equals("C")) {
 //                if (HomeDashBoard.tpflag.equals("1")) {
@@ -290,7 +290,10 @@ public class DCR_GV_Selection_adapter extends BaseAdapter implements Filterable{
 //           // }
 //        }
 
-            convertView.setTag(mViewHolder);
+    convertView.setTag(mViewHolder);
+}catch (Exception e){
+
+}
 
             return convertView;
 

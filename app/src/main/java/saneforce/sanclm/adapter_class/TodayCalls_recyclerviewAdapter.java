@@ -209,8 +209,8 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
             holder.iv_edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String clustername = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_NAME);
-                    if (!clustername.equalsIgnoreCase(resources.getString(R.string.field))) {
+                    String clustername = mCommonSharedPreference.getValueFromPreference(CommonUtils.TAG_WORKTYPE_FLAG);
+                    if (!clustername.equalsIgnoreCase("F")) {
                         Toast.makeText(context, resources.getString(R.string.NonFieldedit), Toast.LENGTH_SHORT).show();
                     } else {
                         SharedPreferences share = context.getSharedPreferences("feed_list", 0);
@@ -440,7 +440,7 @@ public class TodayCalls_recyclerviewAdapter extends RecyclerView.Adapter<TodayCa
                         // Toast.makeText(FeedbackActivity.this, "Data Submitted Successfully", Toast.LENGTH_LONG).show();
                     }
                     else{
-// Toast.makeText(FeedbackActivity.this, js.getString("Msg"), Toast.LENGTH_SHORT).show();
+                       Toast.makeText(context, js.getString("Msg"), Toast.LENGTH_SHORT).show();
 
                     }
                 }catch (Exception e){

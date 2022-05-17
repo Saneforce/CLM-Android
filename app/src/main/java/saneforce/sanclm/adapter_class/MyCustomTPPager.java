@@ -2,6 +2,7 @@ package saneforce.sanclm.adapter_class;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -13,6 +14,9 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -31,12 +35,15 @@ import saneforce.sanclm.activities.DemoActivity;
 import saneforce.sanclm.activities.Model.ModelTpSave;
 import saneforce.sanclm.activities.Model.ModelWorkType;
 import saneforce.sanclm.applicationCommonFiles.CommonSharedPreference;
+import saneforce.sanclm.applicationCommonFiles.CommonUtilsMethods;
 import saneforce.sanclm.sqlite.DataBaseHandler;
 import saneforce.sanclm.util.GridSelectionList;
 import saneforce.sanclm.util.ProductChangeListener;
 import saneforce.sanclm.util.SpecialityListener;
 import saneforce.sanclm.util.TwoTypeparameter;
 import saneforce.sanclm.util.UpdateUi;
+
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class MyCustomTPPager extends PagerAdapter {
     Context context;
@@ -45,7 +52,7 @@ public class MyCustomTPPager extends PagerAdapter {
     static ProductChangeListener selector;
     RelativeLayout lay_hq;
     RelativeLayout lay_cluster;
-    TextView txt_wrk,txt_hq,txt_cluster,txt_count_joint,txt_count_dr,txt_count_chem,
+    public static TextView txt_wrk,txt_hq,txt_cluster,txt_count_joint,txt_count_dr,txt_count_chem,
             txt_count_cluster,txt_count_hosp,txt_cluster_head;
     int selectorpos=-1;
     ImageView dr_img,joint_img,chem_img,hosp_img;
@@ -65,6 +72,9 @@ public class MyCustomTPPager extends PagerAdapter {
     DataBaseHandler dbh;
     String sss="";
     RelativeLayout  rlay_hosp;
+    CommonUtilsMethods mCommonUtilsMethods;
+    boolean keypadStatus=false;
+    public static ModelTpSave tp;
 
     public MyCustomTPPager(Context context, final ArrayList<ModelTpSave> array){
         this.context=context;
@@ -183,7 +193,7 @@ public class MyCustomTPPager extends PagerAdapter {
     @Override
     public Object instantiateItem(final ViewGroup container, final int position) {
          itemView = layoutInflater.inflate(R.layout.row_item_tp_pager, container, false);
-        final ModelTpSave tp=array.get(position);
+        tp=array.get(position);
 
         joint_img=(ImageView)itemView.findViewById(R.id.joint_img);
         dr_img=(ImageView)itemView.findViewById(R.id.dr_img);
@@ -208,6 +218,9 @@ public class MyCustomTPPager extends PagerAdapter {
         LinearLayout lay_session=(LinearLayout)itemView.findViewById(R.id.lay_session);
         rlay_hosp=(RelativeLayout) itemView.findViewById(R.id.rlay_hosp);
         mCommonSharedPreference=new CommonSharedPreference(context);
+        mCommonUtilsMethods=new CommonUtilsMethods(context);
+        String hqqcodes=mCommonSharedPreference.getValueFromPreference("hqqcodes");
+
 
         edt_rmrk.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -358,7 +371,8 @@ public class MyCustomTPPager extends PagerAdapter {
         if(!TextUtils.isEmpty(tp.getWrk())){
             ModelTpSave tpp1=DemoActivity.list_cluster.get(position);
             Log.v("printing_total_val",tp.getWrk()+"hq"+tp.getHq()+"cluster"+tp.getCluster()+"joint"+tp.getJoint()
-                                            +"dr "+tp.getDr()+"chem "+tp.getChem()+" DemoActivity.clusterneed "+DemoActivity.clusterneed+" tpwrk "+tp.getWrk().substring(tp.getWrk().indexOf("$")+1,tp.getWrk().length()-1));
+                                            +"dr "+tp.getDr()+"chem "+tp.getChem()+" DemoActivity.clusterneed "+DemoActivity.clusterneed+" tpwrk "+tp.getWrk().substring(tp.getWrk().indexOf("$")+1,tp.getWrk().length()-1)
+            +" hqcode "+tp.getHq().substring(tp.getHq().indexOf("$")+1).replace("#",""));
 
             for(int k=0;k<DemoActivity.list_wrk.size();k++){
                 ModelWorkType kk=DemoActivity.list_wrk.get(k);
@@ -399,7 +413,7 @@ public class MyCustomTPPager extends PagerAdapter {
                     getCountValueForField(tp.getCluster(),0);
                     //sss="";
                     //getDr(array.get(position_view).getDr(),0,position_view);
-                    Log.v("Printing_whole_dr123",sss);
+                    Log.v("Printing_whole_dr123",sss+tp.getCluster());
                     txt_count_cluster.setText(" " + String.valueOf(getCounts.size()) + " ");
                 }
                 getCounts.clear();
@@ -448,6 +462,7 @@ public class MyCustomTPPager extends PagerAdapter {
                 tp.setChem("");
                 tp.setJoint("");
                 tp.setHosp("");
+                txt_hq.setText(context.getResources().getString(R.string.sclt_head));
             }
 //            if(mCommonSharedPreference.getValueFromPreference("sf_type").equalsIgnoreCase("2") && mCommonSharedPreference.getValueFromPreference("approve").equalsIgnoreCase("null")) {
 //                lay_hq.setEnabled(true);
@@ -530,9 +545,33 @@ public class MyCustomTPPager extends PagerAdapter {
                     Toast.makeText(context,context.getResources().getString(R.string.sclt_clst),Toast.LENGTH_SHORT).show();
             }
         });
+
+//        lay_wrk.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                Rect r=new Rect();
+//                lay_wrk.getWindowVisibleDisplayFrame(r);
+//                int screenHeight = lay_wrk.getRootView().getHeight();
+//
+//                // r.bottom is the position above soft keypad or device button.
+//                // if keypad is shown, the r.bottom is smaller than that before.
+//                int keypadHeight = screenHeight - r.bottom;
+//
+//                Log.d("keypad_jk", "keypadHeight = " + keypadHeight);
+//
+//                if (keypadHeight > screenHeight * 0.15) {
+//                    Log.e("MyActivity", "keyboard opened");
+//                    keypadStatus = true;
+//                } else {
+//                    Log.e("MyActivity", "keyboard closed");
+//                    if (keypadStatus) hideSoftKeyboard();
+//                }
+//            }
+//        });
         lay_wrk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideSoftKeyboard();
                 Log.v("lay_wrk_op","are_clicked");
                 selectorpos=0;
                 selector.checkPosition(0);
@@ -542,9 +581,11 @@ public class MyCustomTPPager extends PagerAdapter {
         lay_hq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideSoftKeyboard();
                 if(!TextUtils.isEmpty(getValueforField(tp.getWrk()))) {
-                    txt_cluster.setText(/*"Select Cluster"*/ context.getResources().getString(R.string.sclt_clst));
-                    tp.setCluster("");
+                    Log.v("jkjk", String.valueOf(DemoActivity.hqcheck));
+                    txt_cluster.setText(getValueforField(tp.getCluster()));
+                    //tp.setCluster("");
                     selectorpos = 1;
                     selector.checkPosition(1);
                 }
@@ -556,6 +597,7 @@ public class MyCustomTPPager extends PagerAdapter {
         lay_cluster.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideSoftKeyboard();
                 if(!TextUtils.isEmpty(getValueforField(tp.getWrk()))) {
                     if(!TextUtils.isEmpty(getValueforField(tp.getHq())))
                     {
@@ -736,6 +778,14 @@ public class MyCustomTPPager extends PagerAdapter {
     }
 
     public void checkClusterDr(String cluster,String dr){
+
+    }
+
+    public void hideSoftKeyboard() {
+
+        InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(edt_rmrk.getWindowToken(), 0);
+        edt_rmrk.clearFocus();
 
     }
 

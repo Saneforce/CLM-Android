@@ -561,7 +561,7 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
             }else if (mSelectionList.equalsIgnoreCase(getResources().getString(R.string.spclwise))){
 
                 mCursor = dbh.select_DrSpecialityWisePdts(DetailingTrackerPOJO.getmDoctorSpeciality());
-                Log.v("specialityWise_", DetailingTrackerPOJO.getmDoctorSpeciality());
+                Log.v("specialityWise_",""+ DetailingTrackerPOJO.getmDoctorSpeciality());
                     /*while(mCursor.moveToNext()){
                         Log.v("prdCode_allbrand",mCursor.getString(3)+" SL "+mCursor.getString(8)+" brand_code "+mCursor.getString(0)+"prd_name "+mCursor.getString(5));
                     }
@@ -570,7 +570,7 @@ public class Detailing_Selection_search_grid_selection extends Fragment implemen
             }else if (mSelectionList.equalsIgnoreCase(getResources().getString(R.string.theraptic))){
 
                 mCursor = dbh.select_DrTherapticWisePdts(DetailingTrackerPOJO.getmDoctorTheraptic());
-                Log.v("Theraptic", DetailingTrackerPOJO.getmDoctorTheraptic());
+                Log.v("Theraptic",""+ DetailingTrackerPOJO.getmDoctorTheraptic());
 
             }else if (mSelectionList.equalsIgnoreCase(getResources().getString(R.string.allbrand))){
 

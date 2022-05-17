@@ -303,7 +303,7 @@ public class LocationTrack extends Service  {
                 BuildConfig.APPLICATION_ID, null);
         intent.setData(uri);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        context.startActivity(intent);
     }
     private void startLocationUpdates() {
         Log.i("printingggx", "All location settings are satisfied.");

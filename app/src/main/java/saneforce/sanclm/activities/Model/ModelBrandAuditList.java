@@ -8,6 +8,28 @@ public class ModelBrandAuditList {
     String comPrdName;
     String qty,rate,val,compCode,compPcode,sw,rx;
     String jsonChem;
+    String chem;
+    String chemcode;
+
+
+    public String getChemcode() {
+        return chemcode;
+    }
+
+    public void setChemcode(String chemcode) {
+        this.chemcode = chemcode;
+    }
+
+
+    public String getChem() {
+        return Chem;
+    }
+
+    public void setChem(String chem) {
+        Chem = chem;
+    }
+
+    String Chem;
 
     public JSONArray getFeedback() {
         return feedback;
@@ -63,6 +85,21 @@ public class ModelBrandAuditList {
         this.val = val;
         this.compCode=compCode;
         this.compPcode=compPcode;
+
+
+    }
+    public ModelBrandAuditList(String prName, String comName, String comPrdName, String qty, String rate, String val, String compCode, String compPcode,String Chem,String chemcode) {
+
+        this.prName = prName;
+        this.comName = comName;
+        this.comPrdName = comPrdName;
+        this.qty = qty;
+        this.rate = rate;
+        this.val = val;
+        this.compCode=compCode;
+        this.compPcode=compPcode;
+        this.Chem=Chem;
+        this.chemcode=chemcode;
 
     }
     public ModelBrandAuditList(String prName, String comName, String qty, String rate, String val, String compCode,String jsonChem) {
